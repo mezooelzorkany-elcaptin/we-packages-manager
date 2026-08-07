@@ -170,11 +170,66 @@
     line-height:1.7;
     font-size:15px;
 }
+/* ===== Navbar ===== */
+
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:999;
+    background:#fff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 25px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.logo{
+    font-size:22px;
+    font-weight:bold;
+    color:#5B2EFF;
+}
+
+.menu{
+    display:flex;
+    gap:20px;
+}
+
+.menu a{
+    text-decoration:none;
+    color:#333;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.menu a:hover{
+    color:#5B2EFF;
+}
+@media(max-width:700px){
+
+    .navbar{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .menu{
+        gap:15px;
+        flex-wrap:wrap;
+        justify-content:center;
+    }
     </style>
 </head>
 
 <body>
+<nav class="navbar">
+    <div class="logo">💜 WE Packages</div>
 
+    <div class="menu">
+        <a href="#">الرئيسية</a>
+        <a href="#packages">الباقات</a>
+        <a href="https://wa.me/201090532469?text=السلام عليكم، أريد الاستفسار عن الباقات.">تواصل معنا</a>
+    </div>
+</nav>
  <header>
   <h1>💜 WE Packages Manager</h1>
    <p>⚡ تفعيل فوري • 💎 أفضل الأسعار • 📱 دعم عبر واتساب</p>
