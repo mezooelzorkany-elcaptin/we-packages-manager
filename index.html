@@ -140,7 +140,37 @@
 .whatsapp-float:hover{
     transform: scale(1.1);
 }
-  </style>
+.features{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin:50px 0;
+}
+
+.feature{
+    background:#fff;
+    padding:30px;
+    text-align:center;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.feature:hover{
+    transform:translateY(-8px);
+}
+
+.feature h3{
+    margin:15px 0;
+    color:#5B2EFF;
+}
+
+.feature p{
+    color:#666;
+    line-height:1.7;
+    font-size:15px;
+}
+    </style>
 </head>
 
 <body>
@@ -209,11 +239,33 @@
         <div class="price">570 جنيه</div>
         <a class="btn" href="https://wa.me/201090532469">اشترك الآن</a>
       </div>
-
-    </div>
   </div>
 
-  <footer>
+<section class="features">
+
+    <div class="feature">
+        ⚡
+        <h3>تفعيل فوري</h3>
+        <p>يتم تفعيل الباقات في أسرع وقت.</p>
+    </div>
+
+    <div class="feature">
+        💜
+        <h3>أفضل الأسعار</h3>
+        <p>أسعار منافسة وخصومات مميزة.</p>
+    </div>
+
+    <div class="feature">
+        📞
+        <h3>دعم سريع</h3>
+        <p>متواجدين للرد على استفساراتك عبر واتساب.</p>
+    </div>
+
+</section>
+
+</div>
+
+<footer>
     جميع الحقوق محفوظة © باقات WE
   </footer>
 <a href="https://wa.me/201090532469" class="whatsapp-float">
