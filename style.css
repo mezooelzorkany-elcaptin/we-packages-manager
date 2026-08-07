@@ -383,3 +383,58 @@ footer {
     }
 
 }
+/* ================= FEATURED PACKAGE ================= */
+
+.package-card.featured {
+    border: 2px solid #5b2cff;
+    transform: translateY(-8px);
+    position: relative;
+}
+
+.package-card.featured:hover {
+    transform: translateY(-14px);
+}
+
+.popular {
+    display: inline-block;
+    background: #5b2cff;
+    color: white;
+    padding: 7px 15px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+
+/* ================= WHATSAPP ================= */
+
+.whatsapp-float {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+
+    width: 58px;
+    height: 58px;
+
+    background: #25D366;
+    color: white;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 28px;
+    text-decoration: none;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,.2);
+
+    z-index: 9999;
+
+    transition: .3s;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+}
