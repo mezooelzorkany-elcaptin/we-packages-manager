@@ -191,3 +191,55 @@ body {
     margin-top: -40px;
   }
 }
+/* إحصائيات الموقع */
+.stats {
+  max-width: 1000px;
+  margin: 50px auto;
+  padding: 0 20px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.stat {
+  background: white;
+  padding: 25px 15px;
+  border-radius: 18px;
+  text-align: center;
+
+  box-shadow: 0 8px 25px rgba(0,0,0,.06);
+}
+
+.stat strong {
+  display: block;
+  font-size: 30px;
+  color: #4f46e5;
+  margin-bottom: 8px;
+}
+
+.stat span {
+  color: #6b7280;
+  font-size: 16px;
+}
+
+/* الفوتر */
+footer {
+  text-align: center;
+  padding: 35px 20px;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+/* الموبايل */
+@media (max-width: 700px) {
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 35px;
+  }
+
+  .stat {
+    padding: 20px;
+  }
+}
