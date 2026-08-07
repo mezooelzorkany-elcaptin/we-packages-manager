@@ -19,13 +19,15 @@
       color: #222;
     }
 
-    header {
-      background: #111827;
-      color: white;
-      padding: 25px 20px;
-      text-align: center;
-    }
-
+    header{
+    background: linear-gradient(135deg,#5B2EFF,#7A3CFF);
+    color:#fff;
+    padding:50px 20px;
+    text-align:center;
+    border-bottom-left-radius:30px;
+    border-bottom-right-radius:30px;
+    box-shadow:0 10px 25px rgba(91,46,255,.25);
+}
     header h1 {
       font-size: 28px;
       margin-bottom: 8px;
@@ -51,19 +53,19 @@
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 18px;
     }
-
-    .package {
-      background: white;
-      border-radius: 18px;
-      padding: 22px;
-      text-align: center;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    }
-
-    .package h2 {
-      margin-bottom: 12px;
-    }
-
+    .package{
+    background:#fff;
+    border-radius:25px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+    transition:.3s;
+    border-top:6px solid #5B2EFF;
+}
+  .package:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 45px rgba(91,46,255,.2);
+}
     .package .gb {
       font-size: 30px;
       font-weight: bold;
@@ -81,19 +83,20 @@
       margin-bottom: 18px;
     }
 
-    .btn {
-      display: block;
-      background: #111827;
-      color: white;
-      text-decoration: none;
-      padding: 12px;
-      border-radius: 10px;
-    }
-
-    .btn:hover {
-      opacity: 0.9;
-    }
-
+  .btn{
+    display:block;
+    background:linear-gradient(135deg,#5B2EFF,#7A3CFF);
+    color:#fff;
+    text-decoration:none;
+    padding:14px;
+    border-radius:14px;
+    font-size:18px;
+    font-weight:bold;
+    transition:.3s;
+}
+ .btn:hover{
+    transform:scale(1.03);
+}
     footer {
       text-align: center;
       padding: 30px;
@@ -143,9 +146,8 @@
 <body>
 
  <header>
-    <h1>WE Packages Manager</h1>
-    <p>بيع وتفعيل باقات WE بأفضل الأسعار</p>
-
+  <h1>💜 WE Packages Manager</h1>
+   <p>⚡ تفعيل فوري • 💎 أفضل الأسعار • 📱 دعم عبر واتساب</p>
     <div style="margin-top:20px;">
         <a href="#packages" class="btn">📦 الباقات</a>
         <a href="https://wa.me/201090532469?text=السلام عليكم، أريد الاستفسار عن الباقات." class="btn">💬 تواصل معنا</a>
