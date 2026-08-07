@@ -248,3 +248,25 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+.hero-buttons a {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none !important;
+    border-radius: 14px;
+    padding: 16px 30px;
+    font-size: 17px;
+    font-weight: 800;
+    min-width: 170px;
+}
+
+.hero-buttons .primary-btn {
+    background: #ffffff !important;
+    color: #5b2cff !important;
+}
+
+.hero-buttons .secondary-btn {
+    background: rgba(255,255,255,0.15) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255,255,255,0.5);
+}
