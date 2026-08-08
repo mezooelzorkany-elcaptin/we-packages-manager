@@ -727,7 +727,65 @@ async function submitOrder(){
             return;
 
         }
+// ========================================
+// SEND ORDER NOTIFICATION TO TELEGRAM
+// ========================================
 
+try {
+
+    const telegramMessage = `
+🛒 طلب جديد - WE Packages
+
+📋 رقم الطلب: ${orderNumber}
+
+📱 رقم الهاتف: ${phone}
+
+📦 الباقة: ${packageGB} جيجا
+
+💰 السعر الأصلي: ${price} جنيه
+
+💵 السعر النهائي: ${price} جنيه
+
+🎟️ كود الخصم: ${promoCode || "لا يوجد"}
+
+💳 طريقة الدفع: لم يتم التحويل بعد
+
+📌 الحالة: Pending
+`;
+
+    const telegramResponse = await fetch(
+        SUPABASE_URL + "/functions/v1/telegram-notify",
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json",
+                "apikey": SUPABASE_KEY,
+                "Authorization": "Bearer " + SUPABASE_KEY
+            },
+
+            body: JSON.stringify({
+                text: telegramMessage
+            })
+        }
+    );
+
+    const telegramResult = await telegramResponse.json();
+
+    console.log(
+        "TELEGRAM NOTIFICATION:",
+        telegramResult
+    );
+
+} catch (telegramError) {
+
+    // Telegram failure must NOT cancel the order
+    console.error(
+        "TELEGRAM ERROR:",
+        telegramError
+    );
+
+}
 
         /* =================================================
            SUCCESS
