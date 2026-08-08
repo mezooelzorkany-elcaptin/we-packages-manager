@@ -950,22 +950,21 @@
     </footer>
 
 <script>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
 const SUPABASE_URL =
-    "https://pgvbynefhqmyzjtccttl.supabase.co";
+"https://pgvbynefhqmyzjtccttl.supabase.co";
 
-const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
+const SUPABASE_KEY =
+"sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 
 const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-    );
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 let activePromo = null;
 
@@ -1026,16 +1025,18 @@ async function applyPromo(){
 
     const result =
         Array.isArray(data)
-            ? data[0]
-            : data;
+        ? data[0]
+        : data;
 
 
     if(!result || result.valid !== true){
 
         message.innerHTML =
             "❌ " +
-            (result?.message ||
-            "كود الخصم غير صحيح أو منتهي الصلاحية");
+            (
+                result?.message ||
+                "كود الخصم غير صحيح أو منتهي الصلاحية"
+            );
 
         message.className =
             "promo-error";
@@ -1050,19 +1051,17 @@ async function applyPromo(){
 
     activePromo = {
 
-        type: result.discount_type,
+        type:
+            result.discount_type,
 
-        value: Number(result.discount_value)
+        value:
+            Number(result.discount_value)
 
     };
 
 
     message.innerHTML =
-        "✅ تم تطبيق خصم " +
-        result.discount_value +
-        (result.discount_type === "percent"
-            ? "%"
-            : " جنيه");
+        "🎉 تم تطبيق الخصم بنجاح";
 
 
     message.className =
@@ -1136,30 +1135,26 @@ function updatePrices(){
 
 
         newPrice =
-            Math.max(0, newPrice);
-
-
-        newPrice =
-            Math.round(newPrice);
+            Math.max(0, Math.round(newPrice));
 
 
         priceElement.innerHTML =
 
-            `<span style="
-                text-decoration:line-through;
-                opacity:.55;
-                font-size:18px;
-                margin-left:8px;
-            ">
-                ${originalPrice} جنيه
-            </span>
-            ${newPrice} جنيه`;
+        `<span style="
+            text-decoration:line-through;
+            opacity:.55;
+            font-size:18px;
+            margin-left:8px;
+        ">
+            ${originalPrice} جنيه
+        </span>
+
+        ${newPrice} جنيه`;
 
     });
 
 }
 
-</script>
 </script>
 </body>
 
