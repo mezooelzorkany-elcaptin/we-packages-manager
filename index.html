@@ -2,12 +2,19 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>WE Packages</title>
 
 <style>
+
+/* =========================
+   RESET
+========================= */
 
 *{
 box-sizing:border-box;
@@ -15,181 +22,326 @@ margin:0;
 padding:0;
 }
 
+
+/* =========================
+   BODY
+========================= */
+
 body{
-font-family:Arial,sans-serif;
+
+font-family:
+Arial,
+Tahoma,
+sans-serif;
+
 background:#f5f7fb;
+
 color:#111827;
+
 }
 
-/* العنوان العلوي */
+
+/* =========================
+   TOP BAR
+========================= */
 
 .top{
+
 height:85px;
+
 background:#101828;
+
 color:white;
+
 display:flex;
+
 align-items:center;
+
 justify-content:center;
+
 font-size:28px;
+
 font-weight:bold;
+
 }
 
-/* الواجهة الرئيسية */
+
+/* =========================
+   HERO
+========================= */
 
 .hero{
+
 min-height:650px;
+
 display:flex;
+
 align-items:center;
+
 justify-content:center;
+
 text-align:center;
+
 padding:60px 20px;
 
 background:
-radial-gradient(circle at top right,#7c3aed,transparent 45%),
-linear-gradient(135deg,#111827,#312e81,#6d28d9);
+
+radial-gradient(
+circle at top right,
+#7c3aed,
+transparent 45%
+),
+
+linear-gradient(
+135deg,
+#111827,
+#312e81,
+#6d28d9
+);
 
 color:white;
+
 }
+
 
 .hero-content{
+
 max-width:850px;
+
 }
+
 
 .badge{
+
 display:inline-block;
+
 padding:12px 25px;
-border:1px solid rgba(255,255,255,.35);
-background:rgba(255,255,255,.12);
+
+border:
+1px solid
+rgba(255,255,255,.35);
+
+background:
+rgba(255,255,255,.12);
+
 border-radius:50px;
+
 margin-bottom:28px;
+
 font-size:18px;
+
 }
+
 
 h1{
+
 font-size:55px;
+
 line-height:1.35;
+
 margin-bottom:22px;
+
 }
+
 
 h1 span{
+
 color:#c4b5fd;
+
 }
+
 
 .hero p{
+
 font-size:22px;
+
 line-height:1.8;
+
 color:#e5e7eb;
-margin-bottom:38px;
+
 }
 
-.btn{
-display:inline-block;
-padding:18px 45px;
-background:white;
-color:#5b21b6;
-text-decoration:none;
-border-radius:16px;
-font-size:20px;
-font-weight:bold;
-transition:.3s;
-}
 
-.btn:hover{
-transform:translateY(-4px);
-}
-
-/* المميزات الحالية */
+/* =========================
+   FEATURES
+========================= */
 
 .features{
+
 max-width:1050px;
-margin:-65px auto 70px;
+
+margin:-65px auto 60px;
+
 position:relative;
+
 display:grid;
-grid-template-columns:repeat(3,1fr);
+
+grid-template-columns:
+repeat(3,1fr);
+
 gap:22px;
+
 padding:0 20px;
+
 }
+
 
 .card{
+
 background:white;
+
 padding:40px 25px;
+
 text-align:center;
+
 border-radius:25px;
-box-shadow:0 15px 40px rgba(0,0,0,.08);
+
+box-shadow:
+0 15px 40px
+rgba(0,0,0,.08);
+
+transition:.25s;
+
 }
+
+
+.card:hover{
+
+transform:
+translateY(-5px);
+
+}
+
 
 .icon{
+
 font-size:45px;
+
 margin-bottom:18px;
+
 }
+
 
 .card h2{
+
 font-size:24px;
+
 margin-bottom:12px;
+
 }
+
 
 .card p{
+
 color:#6b7280;
+
 font-size:17px;
+
 line-height:1.7;
+
 }
 
-/* ================================= */
-/* معلومات مهمة للعملاء */
-/* ================================= */
 
-.important-info{
+/* =========================
+   IMPORTANT INFORMATION
+========================= */
+
+.important-section{
+
 max-width:1050px;
-margin:0 auto 70px;
-padding:0 20px;
+
+margin:0 auto;
+
+padding:
+0 20px
+20px;
+
 }
 
-.important-info-card{
+
+.important-card{
+
 background:
+
 linear-gradient(
 135deg,
 rgba(255,255,255,.96),
-rgba(245,240,255,.96)
+rgba(245,240,255,.98)
 );
 
-border:1px solid rgba(124,58,237,.12);
+border:
+1px solid
+rgba(124,58,237,.15);
 
 border-radius:32px;
 
 padding:35px 25px;
 
 box-shadow:
-0 20px 55px rgba(91,33,182,.12);
+0 20px 55px
+rgba(91,33,182,.13);
 
 text-align:center;
+
 }
+
+
+/* العنوان */
 
 .important-title{
+
 color:#5424b8;
+
 font-size:32px;
+
 font-weight:800;
+
 margin-bottom:10px;
+
 }
+
 
 .important-subtitle{
+
 color:#6b7280;
+
 font-size:17px;
+
 line-height:1.8;
+
 margin-bottom:28px;
+
 }
+
+
+/* =========================
+   INFO GRID
+========================= */
 
 .info-grid{
+
 display:grid;
-grid-template-columns:repeat(2,1fr);
+
+grid-template-columns:
+repeat(2,1fr);
+
 gap:16px;
+
 }
 
+
+/* كل معلومة */
+
 .info-box{
+
 background:white;
+
 border-radius:22px;
+
 padding:22px 18px;
 
 display:flex;
+
 align-items:center;
 
 gap:15px;
@@ -197,55 +349,100 @@ gap:15px;
 text-align:right;
 
 box-shadow:
-0 8px 25px rgba(0,0,0,.06);
+0 8px 25px
+rgba(0,0,0,.06);
 
-border:1px solid rgba(124,58,237,.08);
+border:
+1px solid
+rgba(124,58,237,.08);
 
 transition:.25s;
+
 }
+
 
 .info-box:hover{
-transform:translateY(-3px);
+
+transform:
+translateY(-3px);
+
 box-shadow:
-0 12px 30px rgba(91,33,182,.12);
+0 12px 30px
+rgba(91,33,182,.12);
+
 }
 
-.info-icon{
-width:55px;
-height:55px;
 
-min-width:55px;
+/* الأيقونة */
+
+.info-icon{
+
+width:58px;
+
+height:58px;
+
+min-width:58px;
 
 display:flex;
+
 align-items:center;
+
 justify-content:center;
 
-font-size:29px;
+font-size:30px;
 
 border-radius:18px;
 
 background:
+
 linear-gradient(
 135deg,
 #ede9fe,
 #ddd6fe
 );
+
 }
+
+
+/* النص */
+
+.info-content{
+
+flex:1;
+
+}
+
 
 .info-content strong{
+
 display:block;
+
 font-size:18px;
+
 color:#5424b8;
-margin-bottom:5px;
+
+margin-bottom:6px;
+
 }
+
 
 .info-content p{
+
 font-size:15px;
-line-height:1.6;
+
+line-height:1.7;
+
 color:#6b7280;
+
 }
 
+
+/* =========================
+   HIGHLIGHT
+========================= */
+
 .info-highlight{
+
 margin-top:22px;
 
 padding:18px 20px;
@@ -253,6 +450,7 @@ padding:18px 20px;
 border-radius:20px;
 
 background:
+
 linear-gradient(
 135deg,
 #5b21b6,
@@ -262,105 +460,307 @@ linear-gradient(
 color:white;
 
 font-size:18px;
+
 font-weight:bold;
 
+line-height:1.7;
+
 box-shadow:
-0 10px 30px rgba(91,33,182,.20);
+0 10px 30px
+rgba(91,33,182,.20);
+
 }
 
-.info-note{
-margin-top:14px;
+
+/* =========================
+   CTA AFTER INFORMATION
+========================= */
+
+.packages-action{
+
+text-align:center;
+
+padding:
+30px 20px
+55px;
+
+}
+
+
+.packages-action-title{
+
+font-size:22px;
+
+font-weight:bold;
+
+color:#5424b8;
+
+margin-bottom:10px;
+
+}
+
+
+.packages-action-text{
+
+font-size:16px;
+
+color:#6b7280;
+
+margin-bottom:22px;
+
+line-height:1.7;
+
+}
+
+
+/* زر استعرض الباقات */
+
+.packages-btn{
+
+display:block;
+
+width:100%;
+
+max-width:600px;
+
+margin:auto;
+
+padding:19px 25px;
+
+background:
+
+linear-gradient(
+135deg,
+#5b21b6,
+#9333ea
+);
+
+color:white;
+
+text-decoration:none;
+
+border-radius:20px;
+
+font-size:22px;
+
+font-weight:800;
+
+box-shadow:
+
+0 12px 35px
+rgba(91,33,182,.25);
+
+border:
+1px solid
+rgba(255,255,255,.35);
+
+transition:.25s;
+
+}
+
+
+.packages-btn:hover{
+
+transform:
+translateY(-4px);
+
+box-shadow:
+
+0 18px 40px
+rgba(91,33,182,.32);
+
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+
+text-align:center;
+
+padding:30px;
+
+color:#6b7280;
 
 font-size:14px;
 
-color:#777;
-
-line-height:1.7;
 }
 
-/* الفوتر */
 
-footer{
-text-align:center;
-padding:30px;
-color:#6b7280;
-}
-
-/* الموبايل */
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:700px){
 
+
 .top{
+
 height:75px;
+
 font-size:25px;
+
 }
+
 
 .hero{
-min-height:600px;
+
+min-height:560px;
+
+padding:
+50px 20px;
+
 }
+
 
 h1{
+
 font-size:40px;
+
 }
+
 
 .hero p{
+
 font-size:18px;
+
+line-height:1.8;
+
 }
 
-.btn{
-width:100%;
-}
 
 .features{
+
 grid-template-columns:1fr;
+
 margin-top:-40px;
-}
 
-.important-info{
-padding:0 15px;
 margin-bottom:45px;
+
+padding:
+0 15px;
+
 }
 
-.important-info-card{
-padding:28px 15px;
-border-radius:28px;
+
+.card{
+
+padding:32px 20px;
+
 }
+
+
+/* المعلومات */
+
+.important-section{
+
+padding:
+0 15px;
+
+}
+
+
+.important-card{
+
+padding:
+28px 15px;
+
+border-radius:28px;
+
+}
+
 
 .important-title{
+
 font-size:26px;
+
 }
+
 
 .important-subtitle{
+
 font-size:15px;
+
 }
+
 
 .info-grid{
+
 grid-template-columns:1fr;
+
 gap:12px;
+
 }
+
 
 .info-box{
-padding:17px 14px;
+
+padding:
+16px 13px;
+
 }
+
 
 .info-icon{
+
 width:50px;
+
 height:50px;
+
 min-width:50px;
+
 font-size:26px;
+
 }
+
 
 .info-content strong{
+
 font-size:17px;
+
 }
+
 
 .info-content p{
+
 font-size:14px;
+
 }
 
+
 .info-highlight{
+
 font-size:16px;
-line-height:1.7;
+
+}
+
+
+/* الزر */
+
+.packages-action{
+
+padding:
+25px 15px
+45px;
+
+}
+
+
+.packages-action-title{
+
+font-size:20px;
+
+}
+
+
+.packages-btn{
+
+font-size:20px;
+
+padding:18px;
+
 }
 
 }
@@ -369,117 +769,178 @@ line-height:1.7;
 
 </head>
 
+
 <body>
 
-<!-- العنوان -->
+
+<!-- =========================
+     TOP
+========================= -->
 
 <div class="top">
+
 💜 WE Packages
+
 </div>
 
 
-<!-- الواجهة الرئيسية -->
+
+<!-- =========================
+     HERO
+========================= -->
 
 <section class="hero">
 
 <div class="hero-content">
 
+
 <div class="badge">
+
 ⚡ تفعيل سريع وآمن
+
 </div>
 
+
 <h1>
-أفضل باقات <span>WE</span><br>
+
+أفضل باقات
+<span>WE</span>
+
+<br>
+
 بأفضل الأسعار
+
 </h1>
 
+
 <p>
-اختار الباقة المناسبة ليك واستمتع
+
+اختار الباقة المناسبة ليك
+واستمتع بتفعيل سريع
+ودعم متواصل
+
 <br>
-بتفعيل سريع ودعم متواصل عبر واتساب
+
+📱 التفعيل بيتم على رقم التليفون مباشرة
+
 </p>
 
-<a href="packages.html" class="btn">
-استعرض الباقات
-</a>
 
 </div>
 
 </section>
 
 
-<!-- المميزات الحالية - لم يتم حذفها -->
+
+<!-- =========================
+     FEATURES
+========================= -->
 
 <section class="features">
 
+
 <div class="card">
 
 <div class="icon">
+
 ⚡
+
 </div>
 
 <h2>
+
 تفعيل سريع
+
 </h2>
 
 <p>
-تفعيل الباقة خلال دقائق.
+
+تفعيل الباقة خلال دقائق
+بعد تأكيد الطلب.
+
 </p>
 
 </div>
 
 
+
 <div class="card">
 
 <div class="icon">
+
 💎
+
 </div>
 
 <h2>
+
 أفضل الأسعار
+
 </h2>
 
 <p>
-باقات متنوعة بأسعار مناسبة.
+
+باقات متنوعة
+بأسعار مناسبة.
+
 </p>
 
 </div>
+
 
 
 <div class="card">
 
 <div class="icon">
+
 💬
+
 </div>
 
 <h2>
+
 دعم سريع
+
 </h2>
 
 <p>
-تواصل معنا بسهولة عبر واتساب.
+
+تواصل معنا بسهولة
+في أي وقت.
+
 </p>
 
 </div>
+
 
 </section>
 
 
-<!-- ================================= -->
-<!-- معلومات مهمة للعملاء -->
-<!-- ================================= -->
 
-<section class="important-info">
+<!-- =========================
+     IMPORTANT INFORMATION
+========================= -->
 
-<div class="important-info-card">
+<section class="important-section">
+
+
+<div class="important-card">
+
 
 <h2 class="important-title">
+
 ✨ معلومات مهمة قبل الاشتراك
+
 </h2>
 
+
 <p class="important-subtitle">
-كل اللي محتاج تعرفه قبل ما تختار باقتك 💜
+
+قبل ما تختار باقتك،
+اتأكد إنك عارف كل التفاصيل 👇
+
 </p>
+
 
 
 <div class="info-grid">
@@ -490,22 +951,30 @@ line-height:1.7;
 <div class="info-box">
 
 <div class="info-icon">
+
 📅
+
 </div>
 
 <div class="info-content">
 
 <strong>
+
 مدة الباقة
+
 </strong>
 
 <p>
-جميع الباقات صالحة لمدة <b>30 يومًا</b>.
+
+جميع الباقات صالحة لمدة
+<strong>30 يومًا</strong>.
+
 </p>
 
 </div>
 
 </div>
+
 
 
 <!-- التفعيل -->
@@ -513,22 +982,30 @@ line-height:1.7;
 <div class="info-box">
 
 <div class="info-icon">
+
 📱
+
 </div>
 
 <div class="info-content">
 
 <strong>
+
 التفعيل برقم التليفون
+
 </strong>
 
 <p>
-يتم تفعيل الباقة مباشرة على رقم التليفون الخاص بك.
+
+يتم تفعيل الباقة مباشرة
+على رقم التليفون الخاص بك.
+
 </p>
 
 </div>
 
 </div>
+
 
 
 <!-- مواعيد التفعيل -->
@@ -536,17 +1013,25 @@ line-height:1.7;
 <div class="info-box">
 
 <div class="info-icon">
+
 🗓️
+
 </div>
 
 <div class="info-content">
 
 <strong>
+
 مواعيد التفعيل
+
 </strong>
 
 <p>
-التفعيل متاح يوم <b>1 أو 16</b> من كل شهر.
+
+التفعيل متاح يوم
+<strong>1 أو 16</strong>
+من كل شهر.
+
 </p>
 
 </div>
@@ -554,27 +1039,36 @@ line-height:1.7;
 </div>
 
 
-<!-- سرعة التفعيل -->
+
+<!-- سرعة التنفيذ -->
 
 <div class="info-box">
 
 <div class="info-icon">
+
 ⚡
+
 </div>
 
 <div class="info-content">
 
 <strong>
+
 تفعيل سريع
+
 </strong>
 
 <p>
-يتم تنفيذ طلبك بعد تأكيد البيانات وإتمام عملية الطلب.
+
+يتم تنفيذ طلبك
+بعد تأكيد البيانات وإتمام الطلب.
+
 </p>
 
 </div>
 
 </div>
+
 
 
 <!-- خدمة العملاء -->
@@ -582,17 +1076,24 @@ line-height:1.7;
 <div class="info-box">
 
 <div class="info-icon">
+
 🎧
+
 </div>
 
 <div class="info-content">
 
 <strong>
+
 خدمة العملاء 24 ساعة
+
 </strong>
 
 <p>
-متاحين لمساعدتك والرد على استفساراتك على مدار اليوم.
+
+متاحين لمساعدتك والرد
+على استفساراتك على مدار اليوم.
+
 </p>
 
 </div>
@@ -600,22 +1101,30 @@ line-height:1.7;
 </div>
 
 
-<!-- الدعم والمتابعة -->
+
+<!-- الدعم -->
 
 <div class="info-box">
 
 <div class="info-icon">
+
 💬
+
 </div>
 
 <div class="info-content">
 
 <strong>
+
 دعم ومتابعة
+
 </strong>
 
 <p>
-لو عندك أي استفسار أو مشكلة، تقدر تتواصل معنا بسهولة.
+
+في حالة وجود أي استفسار
+أو مشكلة، إحنا معاك.
+
 </p>
 
 </div>
@@ -626,26 +1135,67 @@ line-height:1.7;
 </div>
 
 
-<!-- جملة جذب -->
+
+<!-- جملة جذابة -->
 
 <div class="info-highlight">
-💜 اختار الباقة المناسبة ليك وإحنا نهتم بالباقي
+
+💜 خدمة سهلة — تفعيل مباشر — ودعم معاك دائمًا
+
 </div>
 
-
-<div class="info-note">
-📌 برجاء التأكد من صحة رقم التليفون وبيانات الطلب قبل التفعيل.
-</div>
 
 </div>
 
 </section>
 
 
-<!-- الفوتر -->
+
+<!-- =========================
+     CTA
+     بعد قراءة المعلومات
+========================= -->
+
+<section class="packages-action">
+
+
+<div class="packages-action-title">
+
+جاهز تختار باقتك؟ 💜
+
+</div>
+
+
+<div class="packages-action-text">
+
+بعد ما عرفت كل التفاصيل،
+اختار الباقة المناسبة ليك وشوف الأسعار.
+
+</div>
+
+
+<a
+href="packages.html"
+class="packages-btn"
+>
+
+📦 استعرض الباقات
+
+</a>
+
+
+</section>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
 
 <footer>
+
 WE Packages © 2026
+
 </footer>
 
 
