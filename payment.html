@@ -429,10 +429,43 @@ h1{
 </label>
 
 
+<input
+    type="file"
+    id="paymentScreenshot"
+    accept="image/*"
+    style="display:none"
+    onchange="handleScreenshot(event)"
+>
+
 <button
+    type="button"
+    class="submit"
+    id="uploadButton"
+    onclick="document.getElementById('paymentScreenshot').click()"
+>
+    📷 إرفاق صورة التحويل
+</button>
+
+<div
+    id="screenshotName"
+    style="
+        display:none;
+        margin-top:12px;
+        padding:12px;
+        border-radius:14px;
+        background:#eee6ff;
+        color:#5420b8;
+        text-align:center;
+        font-weight:bold;
+    "
+></div>
+
+<button
+    type="button"
     class="submit"
     id="submitButton"
     onclick="confirmPayment()"
+    disabled
 >
     ✅ تم التحويل
 </button>
