@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>إتمام الطلب | WE Packages</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+
+    font-family:Arial,Tahoma,sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            #a06cf0 0%,
+            transparent 38%
+        ),
+        linear-gradient(
+            135deg,
+            #f1eff9,
+            #ded5f0,
+            #d1c5e8
+        );
+
+    color:#19182d;
+}
+
+.container{
+    width:92%;
+    max-width:650px;
+
+    margin:auto;
+
+    padding:35px 0 70px;
+}
+
+.card{
+    background:rgba(255,255,255,.72);
+
+    border:1px solid rgba(255,255,255,.85);
+
+    border-radius:30px;
+
+    padding:30px 24px;
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    box-shadow:
+        0 20px 50px rgba(60,35,120,.14);
+}
+
+.logo{
+    text-align:center;
+
+    font-size:38px;
+
+    margin-bottom:10px;
+}
+
+.title{
+    text-align:center;
+
+    color:#5420b8;
+
+    font-size:30px;
+
+    font-weight:900;
+
+    margin-bottom:8px;
+}
+
+.subtitle{
+    text-align:center;
+
+    color:#6d6d80;
+
+    margin-bottom:28px;
+
+    line-height:1.7;
+}
+
+
+/* PACKAGE */
+
+.package-summary{
+
+    padding:22px;
+
+    border-radius:22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5420b8,
+            #9747ff
+        );
+
+    color:#fff;
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+}
+
+.package-summary h2{
+
+    margin:0 0 10px;
+
+    font-size:28px;
+
+}
+
+.package-summary .gb{
+
+    font-size:42px;
+
+    font-weight:900;
+
+}
+
+.package-summary .price{
+
+    font-size:27px;
+
+    font-weight:bold;
+
+    margin-top:8px;
+
+}
+
+.old-price{
+
+    text-decoration:line-through;
+
+    opacity:.55;
+
+    font-size:17px;
+
+    margin-left:8px;
+
+}
+
+
+/* FORM */
+
+.label{
+
+    display:block;
+
+    margin-bottom:9px;
+
+    font-weight:bold;
+
+    color:#353448;
+
+}
+
+input{
+
+    width:100%;
+
+    padding:17px;
+
+    border:1px solid #ddd;
+
+    border-radius:16px;
+
+    outline:none;
+
+    font-size:18px;
+
+    text-align:center;
+
+    background:#fff;
+
+}
+
+input:focus{
+
+    border-color:#7544cf;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(117,68,207,.12);
+
+}
+
+.hint{
+
+    font-size:13px;
+
+    color:#777;
+
+    margin-top:8px;
+
+    margin-bottom:25px;
+
+    text-align:center;
+
+}
+
+
+/* BUTTON */
+
+.submit{
+
+    width:100%;
+
+    padding:17px;
+
+    border:none;
+
+    border-radius:17px;
+
+    cursor:pointer;
+
+    color:#fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5420b8,
+            #9747ff
+        );
+
+    font-size:19px;
+
+    font-weight:bold;
+
+}
+
+.submit:disabled{
+
+    opacity:.6;
+
+    cursor:not-allowed;
+
+}
+
+
+/* ERROR */
+
+.error{
+
+    display:none;
+
+    margin-bottom:18px;
+
+    padding:13px;
+
+    border-radius:14px;
+
+    text-align:center;
+
+    background:#ffe2e2;
+
+    color:#a00000;
+
+    font-weight:bold;
+
+}
+
+
+/* SUCCESS */
+
+.success{
+
+    display:none;
+
+    text-align:center;
+
+    padding:20px;
+
+}
+
+.success-icon{
+
+    font-size:55px;
+
+    margin-bottom:10px;
+
+}
+
+.success h2{
+
+    color:#5420b8;
+
+    margin-bottom:10px;
+
+}
+
+.order-number{
+
+    display:inline-block;
+
+    margin-top:12px;
+
+    padding:10px 18px;
+
+    border-radius:50px;
+
+    background:#eee6ff;
+
+    color:#5420b8;
+
+    font-weight:bold;
+
+}
+
+
+/* BACK */
+
+.back{
+
+    display:block;
+
+    text-align:center;
+
+    margin-top:22px;
+
+    color:#5420b8;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+<div class="card">
+
+
+<div class="logo">
+    📦
+</div>
+
+
+<div class="title">
+    إتمام الطلب
+</div>
+
+
+<div class="subtitle">
+    أدخل رقم التليفون الذي تريد تفعيل الباقة عليه
+</div>
+
+
+<!-- PACKAGE -->
+
+<div class="package-summary">
+
+    <h2 id="packageName">
+        جاري تحميل الباقة...
+    </h2>
+
+    <div
+        class="gb"
+        id="packageGB"
+    >
+        --
+    </div>
+
+    <div
+        class="price"
+        id="packagePrice"
+    >
+        --
+    </div>
+
+</div>
+
+
+<!-- ERROR -->
+
+<div
+    class="error"
+    id="errorMessage"
+></div>
+
+
+<!-- FORM -->
+
+<div id="orderForm">
+
+    <label class="label">
+        📱 رقم التليفون
+    </label>
+
+    <input
+        type="tel"
+        id="phone"
+        inputmode="numeric"
+        maxlength="11"
+        placeholder="01xxxxxxxxx"
+        autocomplete="tel"
+    >
+
+    <div class="hint">
+        الرقم الذي سيتم تفعيل الباقة عليه
+    </div>
+
+
+    <button
+        class="submit"
+        id="submitButton"
+        onclick="submitOrder()"
+    >
+        إتمام الشراء
+    </button>
+
+</div>
+
+
+<!-- SUCCESS -->
+
+<div
+    class="success"
+    id="successBox"
+>
+
+    <div class="success-icon">
+        ✅
+    </div>
+
+    <h2>
+        تم إنشاء الطلب
+    </h2>
+
+    <p>
+        سيتم تحويلك إلى صفحة التحويل لإتمام الدفع.
+    </p>
+
+    <div
+        class="order-number"
+        id="orderNumber"
+    ></div>
+
+</div>
+
+
+<a
+    href="packages.html"
+    class="back"
+>
+    ← العودة إلى الباقات
+</a>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   SUPABASE
+========================= */
+
+const SUPABASE_URL =
+"https://pgvbynefhqmyzjtccttl.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
+
+
+/* =========================
+   GET PACKAGE DATA
+========================= */
+
+const params =
+new URLSearchParams(
+    window.location.search
+);
+
+
+const packageGB =
+params.get("package");
+
+const price =
+Number(
+    params.get("price")
+);
+
+const promoCode =
+params.get("promo") || "";
+
+
+/* =========================
+   CHECK DATA
+========================= */
+
+if(
+    !packageGB ||
+    !price
+){
+
+    document.getElementById(
+        "packageName"
+    ).textContent =
+        "لم يتم اختيار باقة";
+
+    document.getElementById(
+        "packageGB"
+    ).textContent =
+        "";
+
+    document.getElementById(
+        "packagePrice"
+    ).textContent =
+        "";
+
+}
+
+
+/* =========================
+   DISPLAY PACKAGE
+========================= */
+
+else{
+
+    document.getElementById(
+        "packageName"
+    ).textContent =
+        "باقة " +
+        packageGB +
+        " جيجا";
+
+
+    document.getElementById(
+        "packageGB"
+    ).textContent =
+        packageGB +
+        " GB";
+
+
+    document.getElementById(
+        "packagePrice"
+    ).textContent =
+        price +
+        " جنيه";
+
+}
+
+
+/* =========================
+   PHONE VALIDATION
+========================= */
+
+function validPhone(phone){
+
+    return /^01[0125][0-9]{8}$/.test(
+        phone
+    );
+
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+function showError(text){
+
+    const error =
+        document.getElementById(
+            "errorMessage"
+        );
+
+    error.textContent =
+        text;
+
+    error.style.display =
+        "block";
+
+}
+
+
+/* =========================
+   CREATE ORDER
+========================= */
+
+async function submitOrder(){
+
+    const phone =
+        document.getElementById(
+            "phone"
+        ).value.trim();
+
+
+    const button =
+        document.getElementById(
+            "submitButton"
+        );
+
+
+    document.getElementById(
+        "errorMessage"
+    ).style.display =
+        "none";
+
+
+    if(
+        !validPhone(phone)
+    ){
+
+        showError(
+            "❌ اكتب رقم تليفون مصري صحيح"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !packageGB ||
+        !price
+    ){
+
+        showError(
+            "❌ لم يتم اختيار باقة صحيحة"
+        );
+
+        return;
+
+    }
+
+
+    button.disabled =
+        true;
+
+    button.textContent =
+        "⏳ جاري إنشاء الطلب...";
+
+
+    const orderNumber =
+        createOrderNumber();
+
+
+    const {
+        error
+    } =
+    await fetch(
+        SUPABASE_URL +
+        "/rest/v1/orders",
+        {
+
+            method:"POST",
+
+            headers:{
+
+                "apikey":
+                    SUPABASE_KEY,
+
+                "Authorization":
+                    "Bearer " +
+                    SUPABASE_KEY,
+
+                "Content-Type":
+                    "application/json",
+
+                "Prefer":
+                    "return=minimal"
+
+            },
+
+            body:JSON.stringify({
+
+                order_number:
+                    orderNumber,
+
+                phone:
+                    phone,
+
+                package_name:
+                    "باقة " +
+                    packageGB +
+                    " جيجا",
+
+                package_gb:
+                    Number(packageGB),
+
+                original_price:
+                    price,
+
+                final_price:
+                    price,
+
+                promo_code:
+                    promoCode || null,
+
+                payment_method:
+                    null,
+
+                status:
+                    "pending"
+
+            })
+
+        }
+    )
+    .then(
+        async response => {
+
+            if(!response.ok){
+
+                const data =
+                    await response.json();
+
+                throw new Error(
+                    JSON.stringify(data)
+                );
+
+            }
+
+            return {
+                error:null
+            };
+
+        }
+    )
+    .catch(
+        error => {
+
+            return {
+                error:error
+            };
+
+        }
+    );
+
+
+    if(error){
+
+        console.error(
+            error
+        );
+
+        showError(
+            "❌ حصل خطأ أثناء إنشاء الطلب، حاول مرة أخرى"
+        );
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "إتمام الشراء";
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "orderForm"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "successBox"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "orderNumber"
+    ).textContent =
+        "رقم الطلب: " +
+        orderNumber;
+
+
+    setTimeout(
+        function(){
+
+            window.location.href =
+                "payment.html?order=" +
+                encodeURIComponent(
+                    orderNumber
+                );
+
+        },
+        1200
+    );
+
+}
+
+
+/* =========================
+   ORDER NUMBER
+========================= */
+
+function createOrderNumber(){
+
+    const random =
+        Math.floor(
+            1000 +
+            Math.random() *
+            9000
+        );
+
+
+    return "WE-" +
+        Date.now().toString().slice(-6) +
+        "-" +
+        random;
+
+}
+
+</script>
+
+
+</body>
+
+</html>
