@@ -55,6 +55,7 @@ body{
         0 18px 45px rgba(60,35,120,.12);
 }
 
+
 /* LOGIN */
 
 #loginBox{
@@ -227,6 +228,7 @@ button{
 
 .save-edit{
     flex:1;
+
     color:#fff;
 
     background:
@@ -260,13 +262,33 @@ button{
     font-weight:900;
 
     color:#5420b8;
-
     margin-bottom:12px;
 }
 
 .info{
     line-height:2;
     color:#555;
+}
+
+.usage{
+    display:inline-block;
+
+    margin-top:6px;
+
+    padding:6px 12px;
+
+    border-radius:12px;
+
+    background:#f0e7ff;
+
+    color:#5420b8;
+
+    font-weight:bold;
+}
+
+.usage.finished{
+    background:#ffe0e0;
+    color:#a00000;
 }
 
 .badge{
@@ -420,6 +442,7 @@ button{
 </div>
 
 
+
 <!-- ADMIN -->
 
 <div id="adminPanel">
@@ -438,6 +461,7 @@ button{
 </div>
 
 
+
 <div class="topbar glass">
 
     <h2>
@@ -454,6 +478,7 @@ button{
 </div>
 
 
+
 <!-- ADD CODE -->
 
 <div class="form-box glass">
@@ -462,11 +487,13 @@ button{
         ➕ إضافة كود جديد
     </h3>
 
+
     <input
         type="text"
         id="newCode"
         placeholder="مثال: MEZOO30"
     >
+
 
     <div class="row">
 
@@ -482,6 +509,7 @@ button{
 
         </select>
 
+
         <input
             type="number"
             id="newValue"
@@ -491,14 +519,33 @@ button{
 
     </div>
 
-    <label>
-        تاريخ انتهاء الكود
-    </label>
 
-    <input
-        type="datetime-local"
-        id="newExpiry"
-    >
+    <div class="row">
+
+        <input
+            type="number"
+            id="newMaxUses"
+            placeholder="عدد مرات الاستخدام"
+            min="1"
+            value="1"
+        >
+
+        <input
+            type="datetime-local"
+            id="newExpiry"
+        >
+
+    </div>
+
+
+    <small style="
+        display:block;
+        color:#777;
+        margin:-5px 0 15px;
+    ">
+        عدد مرات الاستخدام المسموح بها + تاريخ الانتهاء
+    </small>
+
 
     <button
         class="add-btn"
@@ -507,12 +554,14 @@ button{
         إضافة الكود
     </button>
 
+
     <div
         id="formMessage"
         class="message"
     ></div>
 
 </div>
+
 
 
 <!-- EDIT CODE -->
@@ -526,16 +575,19 @@ button{
         ✏️ تعديل الكود
     </h3>
 
+
     <input
         type="hidden"
         id="editId"
     >
+
 
     <input
         type="text"
         id="editCode"
         placeholder="اسم الكود"
     >
+
 
     <div class="row">
 
@@ -551,6 +603,7 @@ button{
 
         </select>
 
+
         <input
             type="number"
             id="editValue"
@@ -560,14 +613,41 @@ button{
 
     </div>
 
-    <label>
-        تاريخ انتهاء الكود
-    </label>
 
-    <input
-        type="datetime-local"
-        id="editExpiry"
-    >
+    <div class="row">
+
+        <input
+            type="number"
+            id="editMaxUses"
+            placeholder="عدد مرات الاستخدام"
+            min="1"
+        >
+
+        <input
+            type="datetime-local"
+            id="editExpiry"
+        >
+
+    </div>
+
+
+    <div style="
+        margin:5px 0 15px;
+        padding:12px;
+        border-radius:12px;
+        background:#f0e7ff;
+        color:#5420b8;
+        font-weight:bold;
+        text-align:center;
+    ">
+
+        📊 الاستخدام الحالي:
+        <span id="editUsedCount">
+            0
+        </span>
+
+    </div>
+
 
     <div class="edit-buttons">
 
@@ -578,6 +658,7 @@ button{
             حفظ التعديل
         </button>
 
+
         <button
             class="cancel-edit"
             onclick="cancelEdit()"
@@ -587,12 +668,14 @@ button{
 
     </div>
 
+
     <div
         id="editMessage"
         class="message"
     ></div>
 
 </div>
+
 
 
 <!-- CODES -->
@@ -606,6 +689,7 @@ button{
 </div>
 
 </div>
+
 
 
 <script>
@@ -633,6 +717,7 @@ const ADMIN_EMAIL =
 "mezooelzorkany@gmail.com";
 
 
+
 /* =========================
    LOGIN
 ========================= */
@@ -644,10 +729,12 @@ async function login(){
             "email"
         ).value.trim();
 
+
     const password =
         document.getElementById(
             "password"
         ).value;
+
 
     const message =
         document.getElementById(
@@ -657,6 +744,7 @@ async function login(){
 
     message.style.color =
         "#555";
+
 
     message.textContent =
         "⏳ جاري تسجيل الدخول...";
@@ -712,6 +800,7 @@ async function login(){
 }
 
 
+
 /* =========================
    CHECK SESSION
 ========================= */
@@ -742,6 +831,7 @@ async function checkSession(){
 }
 
 
+
 /* =========================
    SHOW ADMIN
 ========================= */
@@ -765,6 +855,7 @@ function showAdmin(){
 }
 
 
+
 /* =========================
    LOGOUT
 ========================= */
@@ -776,6 +867,7 @@ async function logout(){
     location.reload();
 
 }
+
 
 
 /* =========================
@@ -813,9 +905,13 @@ async function loadCodes(){
 
         list.innerHTML =
         `<div class="empty glass">
+
             ❌ حصل خطأ
+
             <br>
+
             ${escapeHtml(error.message)}
+
         </div>`;
 
         return;
@@ -830,7 +926,9 @@ async function loadCodes(){
 
         list.innerHTML =
         `<div class="empty glass">
+
             لا توجد أكواد حتى الآن 🎟️
+
         </div>`;
 
         return;
@@ -856,8 +954,29 @@ async function loadCodes(){
 
             const discount =
                 code.discount_type === "percent"
+
                 ? code.discount_value + "%"
+
                 : code.discount_value + " جنيه";
+
+
+            const maxUses =
+                Number(code.max_uses) || 1;
+
+
+            const usedCount =
+                Number(code.used_count) || 0;
+
+
+            const remaining =
+                Math.max(
+                    maxUses - usedCount,
+                    0
+                );
+
+
+            const usesFinished =
+                usedCount >= maxUses;
 
 
             let expiryText =
@@ -894,6 +1013,7 @@ async function loadCodes(){
 
 
             let statusText;
+
             let statusClass;
 
 
@@ -904,6 +1024,16 @@ async function loadCodes(){
 
                 statusClass =
                     "expired";
+
+            }
+
+            else if(usesFinished){
+
+                statusText =
+                    "🔴 انتهت الاستخدامات";
+
+                statusClass =
+                    "inactive";
 
             }
 
@@ -928,33 +1058,86 @@ async function loadCodes(){
             }
 
 
+            const usageClass =
+                usesFinished
+                ? "usage finished"
+                : "usage";
+
+
             card.innerHTML = `
 
                 <div class="code-name">
+
                     ${escapeHtml(code.code)}
+
                 </div>
+
 
                 <div class="info">
 
                     💰 الخصم:
+
                     <strong>
                         ${discount}
                     </strong>
 
+
                     <br>
 
+
+                    🔢 الاستخدامات:
+
+                    <strong>
+                        ${usedCount} / ${maxUses}
+                    </strong>
+
+
+                    <br>
+
+
+                    🟣 المتبقي:
+
+                    <strong>
+                        ${remaining}
+                    </strong>
+
+
+                    <div class="${usageClass}">
+
+                        ${usesFinished
+
+                            ? "❌ انتهت كل الاستخدامات"
+
+                            : "✅ متبقي " +
+                              remaining +
+                              " استخدام"
+
+                        }
+
+                    </div>
+
+
+                    <br>
+
+
                     📅 الانتهاء:
+
                     <strong>
                         ${expiryText}
                     </strong>
 
-                    <br>
 
-                    <span class="badge ${statusClass}">
+                    <br><br>
+
+
+                    <span
+                        class="badge ${statusClass}"
+                    >
                         ${statusText}
                     </span>
 
                 </div>
+
 
                 <div class="actions">
 
@@ -965,14 +1148,22 @@ async function loadCodes(){
                         ✏️ تعديل
                     </button>
 
+
                     <button
                         class="toggle"
-                        onclick="toggleCode(${code.id}, ${code.is_active})"
+                        onclick="toggleCode(
+                            ${code.id},
+                            ${code.is_active}
+                        )"
                     >
+
                         ${code.is_active
                             ? "⏸️ إيقاف"
-                            : "▶️ تفعيل"}
+                            : "▶️ تفعيل"
+                        }
+
                     </button>
+
 
                     <button
                         class="delete"
@@ -992,6 +1183,7 @@ async function loadCodes(){
     );
 
 }
+
 
 
 /* =========================
@@ -1018,6 +1210,14 @@ async function addCode(){
         Number(
             document.getElementById(
                 "newValue"
+            ).value
+        );
+
+
+    const maxUses =
+        Number(
+            document.getElementById(
+                "newMaxUses"
             ).value
         );
 
@@ -1079,15 +1279,50 @@ async function addCode(){
     }
 
 
+    if(
+        !maxUses ||
+        maxUses < 1
+    ){
+
+        message.style.color =
+            "#b00020";
+
+        message.textContent =
+            "❌ اكتب عدد استخدامات صحيح";
+
+        return;
+
+    }
+
+
     let expiresAt = null;
 
 
     if(expiry){
 
+        const expiryDate =
+            new Date(expiry);
+
+
+        if(
+            isNaN(
+                expiryDate.getTime()
+            )
+        ){
+
+            message.style.color =
+                "#b00020";
+
+            message.textContent =
+                "❌ تاريخ الانتهاء غير صحيح";
+
+            return;
+
+        }
+
+
         expiresAt =
-            new Date(
-                expiry
-            ).toISOString();
+            expiryDate.toISOString();
 
     }
 
@@ -1104,6 +1339,10 @@ async function addCode(){
             discount_type:type,
 
             discount_value:value,
+
+            max_uses:maxUses,
+
+            used_count:0,
 
             is_active:true,
 
@@ -1144,6 +1383,11 @@ async function addCode(){
 
 
     document.getElementById(
+        "newMaxUses"
+    ).value = "1";
+
+
+    document.getElementById(
         "newExpiry"
     ).value = "";
 
@@ -1151,6 +1395,7 @@ async function addCode(){
     loadCodes();
 
 }
+
 
 
 /* =========================
@@ -1209,6 +1454,18 @@ async function openEdit(id){
         data.discount_value;
 
 
+    document.getElementById(
+        "editMaxUses"
+    ).value =
+        data.max_uses || 1;
+
+
+    document.getElementById(
+        "editUsedCount"
+    ).textContent =
+        data.used_count || 0;
+
+
     if(data.expires_at){
 
         const date =
@@ -1265,6 +1522,7 @@ async function openEdit(id){
 }
 
 
+
 /* =========================
    SAVE EDIT
 ========================= */
@@ -1295,6 +1553,14 @@ async function saveEdit(){
         Number(
             document.getElementById(
                 "editValue"
+            ).value
+        );
+
+
+    const maxUses =
+        Number(
+            document.getElementById(
+                "editMaxUses"
             ).value
         );
 
@@ -1356,18 +1622,59 @@ async function saveEdit(){
     }
 
 
+    if(
+        !maxUses ||
+        maxUses < 1
+    ){
+
+        message.style.color =
+            "#b00020";
+
+        message.textContent =
+            "❌ عدد الاستخدامات غير صحيح";
+
+        return;
+
+    }
+
+
     let expiresAt = null;
 
 
     if(expiry){
 
+        const expiryDate =
+            new Date(expiry);
+
+
+        if(
+            isNaN(
+                expiryDate.getTime()
+            )
+        ){
+
+            message.style.color =
+                "#b00020";
+
+            message.textContent =
+                "❌ تاريخ الانتهاء غير صحيح";
+
+            return;
+
+        }
+
+
         expiresAt =
-            new Date(
-                expiry
-            ).toISOString();
+            expiryDate.toISOString();
 
     }
 
+
+    /*
+       مهم:
+       لا نعدل used_count هنا.
+       العدد المستخدم يفضل كما هو.
+    */
 
     const {
         error
@@ -1381,6 +1688,8 @@ async function saveEdit(){
             discount_type:type,
 
             discount_value:value,
+
+            max_uses:maxUses,
 
             expires_at:expiresAt
 
@@ -1426,6 +1735,7 @@ async function saveEdit(){
 }
 
 
+
 /* =========================
    CANCEL EDIT
 ========================= */
@@ -1444,6 +1754,7 @@ function cancelEdit(){
         "";
 
 }
+
 
 
 /* =========================
@@ -1487,6 +1798,7 @@ async function toggleCode(
     loadCodes();
 
 }
+
 
 
 /* =========================
@@ -1537,6 +1849,7 @@ async function deleteCode(id){
 }
 
 
+
 /* =========================
    SECURITY
 ========================= */
@@ -1573,6 +1886,7 @@ function escapeHtml(text){
 }
 
 
+
 /* =========================
    START
 ========================= */
@@ -1582,4 +1896,5 @@ checkSession();
 </script>
 
 </body>
+
 </html>
