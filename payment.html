@@ -38,9 +38,7 @@ body{
 .container{
     width:92%;
     max-width:650px;
-
     margin:auto;
-
     padding:35px 0 70px;
 }
 
@@ -80,10 +78,12 @@ h1{
     line-height:1.7;
 }
 
-/* ORDER */
+
+/* =========================
+   ORDER
+========================= */
 
 .order-box{
-
     background:
         linear-gradient(
             135deg,
@@ -120,7 +120,9 @@ h1{
 }
 
 
-/* PAYMENT */
+/* =========================
+   PAYMENT
+========================= */
 
 .payment-title{
     font-size:20px;
@@ -199,13 +201,93 @@ h1{
 }
 
 
-/* BUTTON */
+/* =========================
+   SCREENSHOT
+========================= */
+
+.screenshot-box{
+
+    margin-top:22px;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    background:#faf8ff;
+
+    border:2px dashed #7544cf;
+
+    text-align:center;
+}
+
+.screenshot-title{
+
+    color:#5420b8;
+
+    font-size:18px;
+
+    font-weight:900;
+
+    margin-bottom:12px;
+}
+
+.file-input{
+
+    width:100%;
+
+    padding:14px;
+
+    border:1px solid #ddd;
+
+    border-radius:15px;
+
+    background:#fff;
+
+    font-size:15px;
+
+    cursor:pointer;
+}
+
+.screenshot-hint{
+
+    font-size:13px;
+
+    color:#777;
+
+    margin-top:9px;
+
+    line-height:1.6;
+}
+
+.preview{
+
+    display:none;
+
+    width:100%;
+
+    max-height:300px;
+
+    object-fit:contain;
+
+    margin-top:15px;
+
+    border-radius:15px;
+
+    border:1px solid #ddd;
+
+    background:#fff;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
 
 .submit{
 
     width:100%;
 
-    margin-top:12px;
+    margin-top:15px;
 
     padding:17px;
 
@@ -237,7 +319,9 @@ h1{
 }
 
 
-/* MESSAGE */
+/* =========================
+   MESSAGE
+========================= */
 
 .message{
 
@@ -252,6 +336,8 @@ h1{
     text-align:center;
 
     font-weight:bold;
+
+    word-break:break-word;
 }
 
 .error{
@@ -261,15 +347,10 @@ h1{
     color:#a00000;
 }
 
-.success{
 
-    background:#dff8e7;
-
-    color:#08752d;
-}
-
-
-/* SUCCESS */
+/* =========================
+   SUCCESS
+========================= */
 
 .success-box{
 
@@ -316,7 +397,6 @@ h1{
 
 <body>
 
-
 <div class="container">
 
 <div class="card">
@@ -326,16 +406,20 @@ h1{
     💳
 </div>
 
+
 <h1>
     إتمام التحويل
 </h1>
+
 
 <div class="subtitle">
     حوّل المبلغ المطلوب إلى إحدى طرق الدفع التالية
 </div>
 
 
-<!-- ORDER -->
+<!-- =========================
+     ORDER
+========================= -->
 
 <div class="order-box">
 
@@ -394,7 +478,7 @@ h1{
     </div>
 
     <div class="method-note">
-        حوّل المبلغ المطلوب ثم اضغط "تم التحويل"
+        حوّل المبلغ المطلوب ثم أرفق صورة التحويل
     </div>
 
 </label>
@@ -423,49 +507,53 @@ h1{
     </div>
 
     <div class="method-note">
-        حوّل المبلغ المطلوب ثم اضغط "تم التحويل"
+        حوّل المبلغ المطلوب ثم أرفق صورة التحويل
     </div>
 
 </label>
 
 
-<input
-    type="file"
-    id="paymentScreenshot"
-    accept="image/*"
-    style="display:none"
-    onchange="handleScreenshot(event)"
->
+<!-- =========================
+     SCREENSHOT
+========================= -->
+
+<div class="screenshot-box">
+
+    <div class="screenshot-title">
+        📸 صورة إثبات التحويل
+    </div>
+
+    <input
+        type="file"
+        id="paymentScreenshot"
+        class="file-input"
+        accept="image/*"
+        onchange="previewScreenshot()"
+    >
+
+    <div class="screenshot-hint">
+        لازم ترفق Screenshot واضحة للتحويل
+        <br>
+        الحد الأقصى لحجم الصورة 5 ميجا
+    </div>
+
+    <img
+        id="screenshotPreview"
+        class="preview"
+        alt="صورة التحويل"
+    >
+
+</div>
+
+
+<!-- =========================
+     BUTTON
+========================= -->
 
 <button
-    type="button"
-    class="submit"
-    id="uploadButton"
-    onclick="document.getElementById('paymentScreenshot').click()"
->
-    📷 إرفاق صورة التحويل
-</button>
-
-<div
-    id="screenshotName"
-    style="
-        display:none;
-        margin-top:12px;
-        padding:12px;
-        border-radius:14px;
-        background:#eee6ff;
-        color:#5420b8;
-        text-align:center;
-        font-weight:bold;
-    "
-></div>
-
-<button
-    type="button"
     class="submit"
     id="submitButton"
     onclick="confirmPayment()"
-    disabled
 >
     ✅ تم التحويل
 </button>
@@ -480,7 +568,9 @@ h1{
 </div>
 
 
-<!-- SUCCESS -->
+<!-- =========================
+     SUCCESS
+========================= -->
 
 <div
     class="success-box"
@@ -496,7 +586,8 @@ h1{
     </h2>
 
     <p>
-        تم تسجيل طلبك، وسيتم مراجعته وتنفيذ الباقة بعد التأكد من التحويل.
+        تم تسجيل التحويل وإرسال صورة الإثبات.
+        سيتم مراجعة الطلب وتنفيذ الباقة بعد التأكد من التحويل.
     </p>
 
     <div
@@ -556,8 +647,6 @@ params.get("order");
 let selectedPayment = null;
 
 let orderData = null;
-
-let paymentScreenshotUrl = null;
 
 
 /* =========================
@@ -694,7 +783,9 @@ function selectPayment(method){
     );
 
 
-    if(method === "vodafone"){
+    if(
+        method === "vodafone"
+    ){
 
         document.getElementById(
             "vodafoneMethod"
@@ -705,7 +796,9 @@ function selectPayment(method){
     }
 
 
-    if(method === "instapay"){
+    if(
+        method === "instapay"
+    ){
 
         document.getElementById(
             "instapayMethod"
@@ -717,73 +810,259 @@ function selectPayment(method){
 
 }
 
+
 /* =========================
-   PAYMENT SCREENSHOT
+   PREVIEW
 ========================= */
 
-async function handleScreenshot(event){
+function previewScreenshot(){
+
+    const input =
+        document.getElementById(
+            "paymentScreenshot"
+        );
+
+    const preview =
+        document.getElementById(
+            "screenshotPreview"
+        );
+
+
+    if(
+        !input.files ||
+        !input.files.length
+    ){
+
+        preview.style.display =
+            "none";
+
+        preview.src =
+            "";
+
+        return;
+
+    }
+
 
     const file =
-        event.target.files[0];
+        input.files[0];
 
-    if(!file){
+
+    if(
+        !file.type.startsWith(
+            "image/"
+        )
+    ){
+
+        showError(
+            "❌ لازم تختار صورة"
+        );
+
+        input.value =
+            "";
+
         return;
+
     }
+
+
+    if(
+        file.size >
+        5 * 1024 * 1024
+    ){
+
+        showError(
+            "❌ حجم الصورة لازم يكون أقل من 5 ميجا"
+        );
+
+        input.value =
+            "";
+
+        preview.style.display =
+            "none";
+
+        return;
+
+    }
+
 
     hideError();
 
-    /* التأكد أن الملف صورة */
-    if(!file.type.startsWith("image/")){
 
-        showError(
-            "❌ من فضلك اختر صورة صحيحة"
-        );
+    const reader =
+        new FileReader();
 
-        event.target.value = "";
-        return;
-    }
 
-    /* الحد الأقصى 5 ميجا */
-    if(file.size > 5 * 1024 * 1024){
+    reader.onload =
+        function(e){
 
-        showError(
-            "❌ حجم الصورة يجب ألا يتجاوز 5 ميجا"
-        );
+            preview.src =
+                e.target.result;
 
-        event.target.value = "";
-        return;
-    }
+            preview.style.display =
+                "block";
 
-    const uploadButton =
-        document.getElementById(
-            "uploadButton"
-        );
+        };
 
-    const screenshotName =
-        document.getElementById(
-            "screenshotName"
-        );
 
-    const submitButton =
+    reader.readAsDataURL(file);
+
+}
+
+
+/* =========================
+   CONFIRM PAYMENT
+========================= */
+
+async function confirmPayment(){
+
+    const button =
         document.getElementById(
             "submitButton"
         );
 
-    uploadButton.disabled = true;
 
-    uploadButton.textContent =
-        "⏳ جاري رفع الصورة...";
+    const screenshotInput =
+        document.getElementById(
+            "paymentScreenshot"
+        );
+
+
+    hideError();
+
+
+    /* PAYMENT METHOD */
+
+    if(!selectedPayment){
+
+        showError(
+            "❌ اختار طريقة التحويل أولاً"
+        );
+
+        return;
+
+    }
+
+
+    /* ORDER */
+
+    if(!orderData){
+
+        showError(
+            "❌ بيانات الطلب غير متاحة"
+        );
+
+        return;
+
+    }
+
+
+    /* SCREENSHOT */
+
+    if(
+        !screenshotInput.files ||
+        !screenshotInput.files.length
+    ){
+
+        showError(
+            "❌ لازم ترفق صورة إثبات التحويل"
+        );
+
+        return;
+
+    }
+
+
+    const file =
+        screenshotInput.files[0];
+
+
+    /* FILE TYPE */
+
+    if(
+        !file.type.startsWith(
+            "image/"
+        )
+    ){
+
+        showError(
+            "❌ الملف لازم يكون صورة"
+        );
+
+        return;
+
+    }
+
+
+    /* FILE SIZE */
+
+    if(
+        file.size >
+        5 * 1024 * 1024
+    ){
+
+        showError(
+            "❌ حجم الصورة لازم يكون أقل من 5 ميجا"
+        );
+
+        return;
+
+    }
+
+
+    button.disabled =
+        true;
+
+
+    button.textContent =
+        "⏳ جاري رفع صورة التحويل...";
+
 
     try{
 
-        /*
-         * اسم فريد للصورة
-         */
-        const extension =
-            file.name
-                .split(".")
-                .pop()
-                .toLowerCase();
+
+        /* =========================
+           FILE EXTENSION
+        ========================= */
+
+        let extension =
+            "jpg";
+
+
+        if(
+            file.type ===
+            "image/png"
+        ){
+
+            extension =
+                "png";
+
+        }
+
+        else if(
+            file.type ===
+            "image/webp"
+        ){
+
+            extension =
+                "webp";
+
+        }
+
+        else if(
+            file.type ===
+            "image/jpeg"
+        ){
+
+            extension =
+                "jpg";
+
+        }
+
+
+        /* =========================
+           FILE NAME
+        ========================= */
 
         const fileName =
             orderNumber +
@@ -792,21 +1071,38 @@ async function handleScreenshot(event){
             "." +
             extension;
 
+
         const filePath =
+            orderNumber +
+            "/" +
             fileName;
 
 
-        /*
-         * رفع الصورة إلى Supabase Storage
-         */
+        const encodedPath =
+            filePath
+                .split("/")
+                .map(
+                    part =>
+                        encodeURIComponent(
+                            part
+                        )
+                )
+                .join("/");
+
+
+        /* =========================
+           UPLOAD
+        ========================= */
+
         const uploadResponse =
             await fetch(
 
                 SUPABASE_URL +
                 "/storage/v1/object/payment-screenshots/" +
-                encodeURIComponent(filePath),
+                encodedPath,
 
                 {
+
                     method:"POST",
 
                     headers:{
@@ -833,150 +1129,59 @@ async function handleScreenshot(event){
             );
 
 
-        if(!uploadResponse.ok){
+        const uploadText =
+            await uploadResponse.text();
 
-            const errorText =
-                await uploadResponse.text();
+
+        console.log(
+            "UPLOAD STATUS:",
+            uploadResponse.status
+        );
+
+
+        console.log(
+            "UPLOAD RESPONSE:",
+            uploadText
+        );
+
+
+        if(
+            !uploadResponse.ok
+        ){
 
             throw new Error(
-                errorText
+                "فشل رفع الصورة: " +
+                uploadText
             );
 
         }
 
 
-        /*
-         * الرابط العام للصورة
-         */
-        paymentScreenshotUrl =
+        /* =========================
+           PUBLIC IMAGE URL
+        ========================= */
+
+        const screenshotUrl =
             SUPABASE_URL +
             "/storage/v1/object/public/payment-screenshots/" +
-            encodeURIComponent(filePath);
-
-
-        /*
-         * عرض اسم الصورة
-         */
-        screenshotName.textContent =
-            "📷 " +
-            file.name +
-            " ✅";
-
-        screenshotName.style.display =
-            "block";
-
-
-        /*
-         * تفعيل زر تم التحويل
-         */
-        submitButton.disabled =
-            false;
-
-
-        uploadButton.disabled =
-            false;
-
-        uploadButton.textContent =
-            "📷 تغيير صورة التحويل";
+            encodedPath;
 
 
         console.log(
-            "PAYMENT SCREENSHOT:",
-            paymentScreenshotUrl
+            "SCREENSHOT URL:",
+            screenshotUrl
         );
 
-    }
-    catch(error){
-
-        console.error(
-            "UPLOAD ERROR:",
-            error
-        );
-
-        paymentScreenshotUrl =
-            null;
-
-        showError(
-            "❌ فشل رفع صورة التحويل، حاول مرة أخرى"
-        );
-
-        uploadButton.disabled =
-            false;
-
-        uploadButton.textContent =
-            "📷 إرفاق صورة التحويل";
-
-        submitButton.disabled =
-            true;
-
-    }
-
-}
-/* =========================
-   CONFIRM PAYMENT
-========================= */
-async function confirmPayment(){
-
-    const button =
-        document.getElementById("submitButton");
-
-    hideError();
-
-    /* =========================
-       CHECK PAYMENT METHOD
-    ========================= */
-
-    if(!selectedPayment){
-
-        showError(
-            "❌ اختار طريقة التحويل أولاً"
-        );
-
-        return;
-    }
-
-
-    /* =========================
-       CHECK ORDER
-    ========================= */
-
-    if(!orderData){
-
-        showError(
-            "❌ بيانات الطلب غير متاحة"
-        );
-
-        return;
-    }
-
-
-    /* =========================
-       CHECK SCREENSHOT
-    ========================= */
-
-    if(!paymentScreenshotUrl){
-
-        showError(
-            "❌ لازم ترفق صورة التحويل أولاً"
-        );
-
-        return;
-    }
-
-
-    button.disabled = true;
-
-    button.textContent =
-        "⏳ جاري تأكيد التحويل...";
-
-
-    try{
 
         /* =========================
            UPDATE ORDER
         ========================= */
 
-        const response =
+        button.textContent =
+            "⏳ جاري تأكيد التحويل...";
+
+
+        const updateResponse =
             await fetch(
 
                 SUPABASE_URL +
@@ -987,6 +1192,7 @@ async function confirmPayment(){
                 ),
 
                 {
+
                     method:"PATCH",
 
                     headers:{
@@ -1010,10 +1216,15 @@ async function confirmPayment(){
                         JSON.stringify({
 
                             payment_method:
-                                selectedPayment,
+                                selectedPayment ===
+                                "vodafone"
+                                    ?
+                                    "Vodafone Cash"
+                                    :
+                                    "InstaPay",
 
                             payment_screenshot:
-                                paymentScreenshotUrl,
+                                screenshotUrl,
 
                             status:
                                 "payment_submitted"
@@ -1025,17 +1236,29 @@ async function confirmPayment(){
             );
 
 
-        /* =========================
-           CHECK DATABASE
-        ========================= */
+        const updateText =
+            await updateResponse.text();
 
-        if(!response.ok){
 
-            const errorText =
-                await response.text();
+        console.log(
+            "UPDATE STATUS:",
+            updateResponse.status
+        );
+
+
+        console.log(
+            "UPDATE RESPONSE:",
+            updateText
+        );
+
+
+        if(
+            !updateResponse.ok
+        ){
 
             throw new Error(
-                errorText
+                "فشل تحديث الطلب: " +
+                updateText
             );
 
         }
@@ -1045,11 +1268,15 @@ async function confirmPayment(){
            TELEGRAM
         ========================= */
 
+        button.textContent =
+            "⏳ جاري إرسال الإشعار...";
+
+
         try{
 
-            const telegramMessage =
+            const telegramMessage = `
 
-`🛒 تأكيد تحويل جديد
+💰 تحويل جديد - WE Packages
 
 📋 رقم الطلب:
 ${orderNumber}
@@ -1060,17 +1287,25 @@ ${orderData.phone}
 📦 الباقة:
 ${orderData.package_name}
 
-💰 السعر:
+💵 المبلغ:
 ${orderData.final_price} جنيه
 
 💳 طريقة الدفع:
-${selectedPayment}
+${
+    selectedPayment === "vodafone"
+        ?
+        "Vodafone Cash"
+        :
+        "InstaPay"
+}
+
+📸 صورة التحويل:
+مرفقة
 
 📌 الحالة:
-تم التحويل
+تم إرسال إثبات التحويل
 
-📷 صورة التحويل:
-${paymentScreenshotUrl}`;
+            `;
 
 
             const telegramResponse =
@@ -1103,8 +1338,8 @@ ${paymentScreenshotUrl}`;
                                 text:
                                     telegramMessage,
 
-                                photo:
-                                    paymentScreenshotUrl
+                                screenshot_url:
+                                    screenshotUrl
 
                             })
 
@@ -1113,18 +1348,27 @@ ${paymentScreenshotUrl}`;
                 );
 
 
-            const telegramResult =
-                await telegramResponse.json();
+            const telegramText =
+                await telegramResponse.text();
 
 
             console.log(
-                "TELEGRAM RESULT:",
-                telegramResult
+                "TELEGRAM STATUS:",
+                telegramResponse.status
+            );
+
+
+            console.log(
+                "TELEGRAM RESPONSE:",
+                telegramText
             );
 
 
         }
-        catch(telegramError){
+
+        catch(
+            telegramError
+        ){
 
             console.error(
                 "TELEGRAM ERROR:",
@@ -1158,158 +1402,24 @@ ${paymentScreenshotUrl}`;
 
 
     }
+
     catch(error){
 
         console.error(
-            "CONFIRM PAYMENT ERROR:",
+            "PAYMENT ERROR:",
             error
         );
 
 
         showError(
-            "❌ حصل خطأ أثناء تأكيد التحويل، حاول مرة أخرى"
+            "❌ " +
+            error.message
         );
 
 
         button.disabled =
             false;
 
-
-        button.textContent =
-            "✅ تم التحويل";
-
-    }
-
-}
-
-    const button =
-        document.getElementById(
-            "submitButton"
-        );
-
-
-    hideError();
-
-
-    if(!selectedPayment){
-
-        showError(
-            "❌ اختار طريقة التحويل أولاً"
-        );
-
-        return;
-
-    }
-
-
-    if(!orderData){
-
-        showError(
-            "❌ بيانات الطلب غير متاحة"
-        );
-
-        return;
-
-    }
-
-
-    button.disabled =
-        true;
-
-    button.textContent =
-        "⏳ جاري إرسال الطلب...";
-
-
-    try{
-
-        const response =
-            await fetch(
-
-                SUPABASE_URL +
-                "/rest/v1/orders" +
-                "?order_number=eq." +
-                encodeURIComponent(
-                    orderNumber
-                ),
-
-                {
-
-                    method:"PATCH",
-
-                    headers:{
-
-                        "apikey":
-                            SUPABASE_KEY,
-
-                        "Authorization":
-                            "Bearer " +
-                            SUPABASE_KEY,
-
-                        "Content-Type":
-                            "application/json",
-
-                        "Prefer":
-                            "return=minimal"
-
-                    },
-
-                    body:JSON.stringify({
-
-                        payment_method:
-                            selectedPayment,
-
-                        status:
-                            "payment_submitted"
-
-                    })
-
-                }
-
-            );
-
-
-        if(!response.ok){
-
-            const data =
-                await response.json();
-
-            throw new Error(
-                JSON.stringify(data)
-            );
-
-        }
-
-
-        document.getElementById(
-            "paymentContent"
-        ).style.display =
-            "none";
-
-
-        document.getElementById(
-            "successBox"
-        ).style.display =
-            "block";
-
-
-        document.getElementById(
-            "successOrder"
-        ).textContent =
-            "رقم الطلب: " +
-            orderNumber;
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        showError(
-            "❌ حصل خطأ، حاول مرة أخرى"
-        );
-
-        button.disabled =
-            false;
 
         button.textContent =
             "✅ تم التحويل";
@@ -1358,7 +1468,6 @@ function hideError(){
 loadOrder();
 
 </script>
-
 
 </body>
 
