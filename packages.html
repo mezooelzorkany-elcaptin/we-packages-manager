@@ -951,54 +951,94 @@
 
 <script>
 
-const promoCodes = {
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    MEZOO50: {
-        type: "percent",
-        value: 50
-    },
+<script>
 
-    MEZOO20: {
-        type: "percent",
-        value: 20
-    },
+const SUPABASE_URL =
+    "https://pgvbynefhqmyzjtccttl.supabase.co";
 
-    MEZOO100: {
-        type: "fixed",
-        value: 100
-    }
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 
-};
-
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
 
 let activePromo = null;
 
 
-function applyPromo(){
+async function applyPromo(){
 
-    const input = document.getElementById("promoCode");
+    const input =
+        document.getElementById("promoCode");
 
-    const message = document.getElementById("promoMessage");
+    const message =
+        document.getElementById("promoMessage");
 
-    const code = input.value.trim().toUpperCase();
+    const code =
+        input.value.trim().toUpperCase();
+
 
     if(!code){
 
         message.innerHTML =
             "⚠️ اكتب كود الخصم أولاً";
 
-        message.className = "promo-error";
+        message.className =
+            "promo-error";
 
         return;
     }
 
 
-    if(!promoCodes[code]){
+    message.innerHTML =
+        "⏳ جاري التحقق من الكود...";
+
+    message.className =
+        "promo-success";
+
+
+    const { data, error } =
+        await supabaseClient.rpc(
+            "check_promo_code",
+            {
+                input_code: code
+            }
+        );
+
+
+    if(error){
+
+        console.error(error);
 
         message.innerHTML =
-            "❌ كود الخصم غير صحيح";
+            "❌ حصل خطأ أثناء التحقق من الكود";
 
-        message.className = "promo-error";
+        message.className =
+            "promo-error";
+
+        return;
+    }
+
+
+    const result =
+        Array.isArray(data)
+            ? data[0]
+            : data;
+
+
+    if(!result || result.valid !== true){
+
+        message.innerHTML =
+            "❌ " +
+            (result?.message ||
+            "كود الخصم غير صحيح أو منتهي الصلاحية");
+
+        message.className =
+            "promo-error";
 
         activePromo = null;
 
@@ -1008,18 +1048,31 @@ function applyPromo(){
     }
 
 
-    activePromo = promoCodes[code];
+    activePromo = {
+
+        type: result.discount_type,
+
+        value: Number(result.discount_value)
+
+    };
 
 
     message.innerHTML =
-        "🎉 تم تطبيق كود الخصم بنجاح";
+        "✅ تم تطبيق خصم " +
+        result.discount_value +
+        (result.discount_type === "percent"
+            ? "%"
+            : " جنيه");
 
-    message.className = "promo-success";
+
+    message.className =
+        "promo-success";
 
 
     updatePrices();
 
 }
+
 
 
 function updatePrices(){
@@ -1039,7 +1092,7 @@ function updatePrices(){
         }
 
 
-        const originalPrice =
+        let originalPrice =
             Number(
                 priceElement.dataset.originalPrice ||
                 priceElement.innerText
@@ -1067,7 +1120,11 @@ function updatePrices(){
 
             newPrice =
                 originalPrice -
-                (originalPrice * activePromo.value / 100);
+                (
+                    originalPrice *
+                    activePromo.value /
+                    100
+                );
 
         }else{
 
@@ -1078,11 +1135,22 @@ function updatePrices(){
         }
 
 
-        newPrice = Math.max(0, newPrice);
+        newPrice =
+            Math.max(0, newPrice);
+
+
+        newPrice =
+            Math.round(newPrice);
 
 
         priceElement.innerHTML =
-            `<span style="text-decoration:line-through;opacity:.55;font-size:18px;margin-left:8px;">
+
+            `<span style="
+                text-decoration:line-through;
+                opacity:.55;
+                font-size:18px;
+                margin-left:8px;
+            ">
                 ${originalPrice} جنيه
             </span>
             ${newPrice} جنيه`;
@@ -1090,6 +1158,8 @@ function updatePrices(){
     });
 
 }
+
+</script>
 </script>
 </body>
 
