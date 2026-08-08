@@ -2,252 +2,427 @@
 <html lang="ar" dir="rtl">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>باقات WE | WE Packages</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+<title>باقات WE</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#f4f6fb;
+    color:#111827;
+}
+
+/* العنوان */
+
+.page-header{
+    text-align:center;
+    padding:55px 20px 35px;
+}
+
+.page-header .small{
+    color:#7c3aed;
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.page-header h1{
+    font-size:40px;
+    margin-bottom:12px;
+}
+
+.page-header p{
+    color:#6b7280;
+    font-size:18px;
+}
+
+/* الباقات */
+
+.packages{
+    max-width:900px;
+    margin:0 auto;
+    padding:20px;
+}
+
+.package{
+    background:white;
+    border-radius:28px;
+    padding:35px 25px;
+    margin-bottom:25px;
+    text-align:center;
+    box-shadow:0 12px 35px rgba(0,0,0,.08);
+    border:1px solid #eee;
+    transition:.3s;
+}
+
+.package:hover{
+    transform:translateY(-5px);
+}
+
+.package h2{
+    font-size:30px;
+    margin-bottom:18px;
+}
+
+.gb{
+    font-size:38px;
+    font-weight:bold;
+    color:#111827;
+    margin-bottom:12px;
+}
+
+.minutes{
+    font-size:20px;
+    color:#6b7280;
+    margin-bottom:15px;
+}
+
+.price{
+    font-size:32px;
+    font-weight:bold;
+    margin-bottom:25px;
+}
+
+.subscribe{
+    display:block;
+    width:100%;
+    background:#111827;
+    color:white;
+    text-decoration:none;
+    padding:17px;
+    border-radius:15px;
+    font-size:20px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.subscribe:hover{
+    background:#5b21b6;
+    transform:translateY(-2px);
+}
+
+/* الباقة المميزة */
+
+.package.featured{
+    border:2px solid #7c3aed;
+    position:relative;
+}
+
+.badge{
+    display:inline-block;
+    background:#7c3aed;
+    color:white;
+    padding:7px 18px;
+    border-radius:30px;
+    font-size:14px;
+    margin-bottom:15px;
+}
+
+/* الفوتر */
+
+footer{
+    text-align:center;
+    color:#6b7280;
+    padding:35px 20px 100px;
+    font-size:16px;
+}
+
+/* زر واتساب */
+
+.whatsapp{
+    position:fixed;
+    left:22px;
+    bottom:22px;
+
+    width:62px;
+    height:62px;
+
+    border-radius:50%;
+
+    background:#25D366;
+    color:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-decoration:none;
+
+    font-size:31px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.2);
+
+    z-index:999;
+
+    transition:.3s;
+}
+
+.whatsapp:hover{
+    transform:scale(1.1);
+}
+
+/* الموبايل */
+
+@media(max-width:600px){
+
+    .page-header{
+        padding-top:45px;
+    }
+
+    .page-header h1{
+        font-size:34px;
+    }
+
+    .page-header p{
+        font-size:16px;
+    }
+
+    .package{
+        padding:30px 20px;
+    }
+
+    .package h2{
+        font-size:27px;
+    }
+
+    .gb{
+        font-size:34px;
+    }
+
+    .price{
+        font-size:30px;
+    }
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
 
-        <div class="logo">
-            💜 WE Packages
+<!-- عنوان الصفحة -->
+
+<header class="page-header">
+
+    <div class="small">📦 عروض مميزة</div>
+
+    <h1>الباقات المتاحة</h1>
+
+    <p>
+        اختار الباقة المناسبة ليك واشترك الآن
+    </p>
+
+</header>
+
+
+<!-- الباقات -->
+
+<main class="packages">
+
+
+    <!-- 20 جيجا -->
+
+    <div class="package">
+
+        <h2>باقة 20 جيجا</h2>
+
+        <div class="gb">
+            20 GB
         </div>
 
-        <div class="menu">
-            <a href="index.html">الرئيسية</a>
-            <a href="packages.html" class="active">الباقات</a>
-            <a href="https://wa.me/201090532469">تواصل معنا</a>
+        <div class="minutes">
+            1500 دقيقة
         </div>
 
-    </nav>
-
-
-    <!-- Hero -->
-    <section class="packages-hero">
-
-        <span>⚡ تفعيل سريع وآمن</span>
-
-        <h1>باقات WE</h1>
-
-        <p>
-            اختر الباقة المناسبة لك واستمتع بأفضل الأسعار
-        </p>
-
-    </section>
-
-
-    <!-- Packages -->
-    <main class="packages-container">
-
-        <h2>📦 الباقات المتاحة</h2>
-
-        <div class="packages-grid">
-
-
-            <!-- 20 GB -->
-            <div class="package-card">
-
-                <div class="package-icon">📦</div>
-
-                <h3>باقة 20 جيجا</h3>
-
-                <div class="gb">
-                    20 GB
-                </div>
-
-                <div class="minutes">
-                    1500 دقيقة
-                </div>
-
-                <div class="price">
-                    250 جنيه
-                </div>
-
-                <a
-                    class="subscribe-btn"
-                    href="https://wa.me/201090532469?text=السلام%20عليكم،%20أريد%20الاشتراك%20في%20باقة%2020%20جيجا"
-                >
-                    اشترك الآن
-                </a>
-
-            </div>
-
-
-            <!-- 30 GB -->
-            <div class="package-card">
-
-                <div class="package-icon">📦</div>
-
-                <h3>باقة 30 جيجا</h3>
-
-                <div class="gb">
-                    30 GB
-                </div>
-
-                <div class="minutes">
-                    1500 دقيقة
-                </div>
-
-                <div class="price">
-                    340 جنيه
-                </div>
-
-                <a
-                    class="subscribe-btn"
-                    href="https://wa.me/201090532469?text=السلام%20عليكم،%20أريد%20الاشتراك%20في%20باقة%2030%20جيجا"
-                >
-                    اشترك الآن
-                </a>
-
-            </div>
-
-
-            <!-- 35 GB -->
-            <div class="package-card featured">
-
-                <div class="badge">
-                    الأكثر طلبًا
-                </div>
-
-                <div class="package-icon">💎</div>
-
-                <h3>باقة 35 جيجا</h3>
-
-                <div class="gb">
-                    35 GB
-                </div>
-
-                <div class="minutes">
-                    1500 دقيقة
-                </div>
-
-                <div class="price">
-                    380 جنيه
-                </div>
-
-                <a
-                    class="subscribe-btn"
-                    href="https://wa.me/201090532469?text=السلام%20عليكم،%20أريد%20الاشتراك%20في%20باقة%2035%20جيجا"
-                >
-                    اشترك الآن
-                </a>
-
-            </div>
-
-
-            <!-- 40 GB -->
-            <div class="package-card">
-
-                <div class="package-icon">📦</div>
-
-                <h3>باقة 40 جيجا</h3>
-
-                <div class="gb">
-                    40 GB
-                </div>
-
-                <div class="minutes">
-                    1500 دقيقة
-                </div>
-
-                <div class="price">
-                    430 جنيه
-                </div>
-
-                <a
-                    class="subscribe-btn"
-                    href="https://wa.me/201090532469?text=السلام%20عليكم،%20أريد%20الاشتراك%20في%20باقة%2040%20جيجا"
-                >
-                    اشترك الآن
-                </a>
-
-            </div>
-
-
-            <!-- 50 GB -->
-            <div class="package-card">
-
-                <div class="package-icon">📦</div>
-
-                <h3>باقة 50 جيجا</h3>
-
-                <div class="gb">
-                    50 GB
-                </div>
-
-                <div class="minutes">
-                    1500 دقيقة
-                </div>
-
-                <div class="price">
-                    480 جنيه
-                </div>
-
-                <a
-                    class="subscribe-btn"
-                    href="https://wa.me/201090532469?text=السلام%20عليكم،%20أريد%20الاشتراك%20في%20باقة%2050%20جيجا"
-                >
-                    اشترك الآن
-                </a>
-
-            </div>
-
-
-            <!-- 60 GB -->
-            <div class="package-card">
-
-                <div class="package-icon">📦</div>
-
-                <h3>باقة 60 جيجا</h3>
-
-                <div class="gb">
-                    60 GB
-                </div>
-
-                <div class="minutes">
-                    1500 دقيقة
-                </div>
-
-                <div class="price">
-                    570 جنيه
-                </div>
-
-                <a
-                    class="subscribe-btn"
-                    href="https://wa.me/201090532469?text=السلام%20عليكم،%20أريد%20الاشتراك%20في%20باقة%2060%20جيجا"
-                >
-                    اشترك الآن
-                </a>
-
-            </div>
-
-
+        <div class="price">
+            250 جنيه
         </div>
 
-    </main>
+        <a
+        class="subscribe"
+        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 20 جيجا"
+        >
+            اشترك الآن
+        </a>
+
+    </div>
 
 
-    <!-- WhatsApp -->
-    <a
-        href="https://wa.me/201090532469"
-        class="whatsapp-float"
-        aria-label="تواصل معنا على واتساب"
-    >
-        💬
-    </a>
+    <!-- 30 جيجا -->
+
+    <div class="package">
+
+        <h2>باقة 30 جيجا</h2>
+
+        <div class="gb">
+            30 GB
+        </div>
+
+        <div class="minutes">
+            1500 دقيقة
+        </div>
+
+        <div class="price">
+            340 جنيه
+        </div>
+
+        <a
+        class="subscribe"
+        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 30 جيجا"
+        >
+            اشترك الآن
+        </a>
+
+    </div>
 
 
-    <!-- Footer -->
-    <footer>
-        جميع الحقوق محفوظة © WE Packages 2026
-    </footer>
+    <!-- 35 جيجا -->
+
+    <div class="package featured">
+
+        <div class="badge">
+            ⭐ الأكثر طلبًا
+        </div>
+
+        <h2>باقة 35 جيجا</h2>
+
+        <div class="gb">
+            35 GB
+        </div>
+
+        <div class="minutes">
+            1500 دقيقة
+        </div>
+
+        <div class="price">
+            380 جنيه
+        </div>
+
+        <a
+        class="subscribe"
+        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 35 جيجا"
+        >
+            اشترك الآن
+        </a>
+
+    </div>
+
+
+    <!-- 40 جيجا -->
+
+    <div class="package">
+
+        <h2>باقة 40 جيجا</h2>
+
+        <div class="gb">
+            40 GB
+        </div>
+
+        <div class="minutes">
+            1500 دقيقة
+        </div>
+
+        <div class="price">
+            430 جنيه
+        </div>
+
+        <a
+        class="subscribe"
+        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 40 جيجا"
+        >
+            اشترك الآن
+        </a>
+
+    </div>
+
+
+    <!-- 50 جيجا -->
+
+    <div class="package">
+
+        <h2>باقة 50 جيجا</h2>
+
+        <div class="gb">
+            50 GB
+        </div>
+
+        <div class="minutes">
+            1500 دقيقة
+        </div>
+
+        <div class="price">
+            480 جنيه
+        </div>
+
+        <a
+        class="subscribe"
+        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 50 جيجا"
+        >
+            اشترك الآن
+        </a>
+
+    </div>
+
+
+    <!-- 60 جيجا -->
+
+    <div class="package">
+
+        <h2>باقة 60 جيجا</h2>
+
+        <div class="gb">
+            60 GB
+        </div>
+
+        <div class="minutes">
+            1500 دقيقة
+        </div>
+
+        <div class="price">
+            570 جنيه
+        </div>
+
+        <a
+        class="subscribe"
+        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 60 جيجا"
+        >
+            اشترك الآن
+        </a>
+
+    </div>
+
+
+</main>
+
+
+<footer>
+    WE Packages © 2026
+</footer>
+
+
+<!-- زر الشات -->
+
+<a
+class="whatsapp"
+href="https://wa.me/201090532469"
+aria-label="تواصل معنا عبر واتساب"
+>
+    💬
+</a>
+
 
 </body>
-
 </html>
