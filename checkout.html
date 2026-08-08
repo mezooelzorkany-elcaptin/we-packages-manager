@@ -511,7 +511,15 @@ document.getElementById(
     errorBox.style.display =
         "none";
 
+if(!subscriberName){
 
+    showError(
+        "❌ اكتب اسم المشترك أولاً"
+    );
+
+    return;
+
+}
     if(
         !validPhone(phone)
     ){
