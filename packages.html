@@ -9,72 +9,102 @@
 <title>باقات WE</title>
 
 <style>
+
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
+    box-sizing:border-box;
 }
 
 html{
-    min-height:100%;
+    scroll-behavior:smooth;
 }
 
 body{
-    font-family:Arial,"Tahoma",sans-serif;
+    font-family:Arial, Tahoma, sans-serif;
     direction:rtl;
-    color:#172033;
+    min-height:100vh;
+    color:#202124;
 
     background:
-        radial-gradient(circle at 15% 15%,rgba(255,255,255,.95),transparent 28%),
-        radial-gradient(circle at 85% 20%,rgba(190,225,255,.7),transparent 30%),
-        radial-gradient(circle at 50% 100%,rgba(220,240,255,.9),transparent 40%),
-        linear-gradient(135deg,#eaf5ff,#f8fcff,#dfefff);
-
-    min-height:100vh;
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(255,255,255,.95),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(225,218,255,.65),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(255,255,255,.9),
+            transparent 38%
+        ),
+        linear-gradient(
+            135deg,
+            #edf0f5,
+            #fafbfc,
+            #e9e8ef
+        );
 }
 
-/* ===== عنوان الصفحة ===== */
 
-.page-header{
+/* =========================
+   HEADER
+========================= */
+
+.header{
     text-align:center;
-    padding:65px 20px 45px;
+    padding:55px 20px 35px;
 }
 
-.page-header .small{
+.badge-top{
     display:inline-block;
 
     padding:9px 20px;
 
-    border-radius:30px;
+    border-radius:50px;
 
-    background:rgba(255,255,255,.45);
-    border:1px solid rgba(255,255,255,.8);
+    color:#665a92;
 
-    box-shadow:0 8px 25px rgba(90,140,180,.12);
+    background:rgba(255,255,255,.55);
 
-    color:#4b6b85;
+    border:1px solid rgba(255,255,255,.9);
 
-    font-size:16px;
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.06),
+        inset 0 1px 0 #fff;
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    font-size:15px;
     font-weight:bold;
 
-    backdrop-filter:blur(15px);
-    -webkit-backdrop-filter:blur(15px);
-
-    margin-bottom:18px;
+    margin-bottom:17px;
 }
 
-.page-header h1{
+.header h1{
     font-size:42px;
-    color:#24364b;
+    color:#25262a;
+
     margin-bottom:12px;
+
+    letter-spacing:-1px;
 }
 
-.page-header p{
-    color:#718398;
-    font-size:18px;
+.header p{
+    color:#777;
+    font-size:17px;
+    line-height:1.7;
 }
 
-/* ===== الباقات ===== */
+
+/* =========================
+   PACKAGES
+========================= */
 
 .packages{
     width:92%;
@@ -82,110 +112,141 @@ body{
 
     margin:0 auto;
 
-    padding:10px 0 60px;
+    padding:10px 0 50px;
 }
+
+
+/* =========================
+   PACKAGE CARD
+========================= */
 
 .package{
     position:relative;
 
-    background:rgba(255,255,255,.48);
+    overflow:hidden;
 
-    border:1px solid rgba(255,255,255,.85);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.78),
+            rgba(255,255,255,.38)
+        );
+
+    border:1px solid rgba(255,255,255,.95);
 
     border-radius:30px;
 
-    padding:35px 25px;
+    padding:34px 23px;
 
-    margin-bottom:25px;
+    margin-bottom:23px;
 
     text-align:center;
 
     box-shadow:
-        0 15px 45px rgba(80,120,150,.13),
-        inset 0 1px 0 rgba(255,255,255,.9);
+        0 18px 50px rgba(0,0,0,.07),
+        inset 0 1px 0 rgba(255,255,255,.95);
 
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
+    backdrop-filter:blur(25px);
+    -webkit-backdrop-filter:blur(25px);
 
     transition:.3s ease;
-
-    overflow:hidden;
 }
+
+
+/* انعكاس الزجاج */
 
 .package::before{
     content:"";
 
     position:absolute;
 
-    top:-80px;
-    left:-80px;
+    width:190px;
+    height:190px;
 
-    width:180px;
-    height:180px;
-
-    background:rgba(255,255,255,.55);
+    top:-115px;
+    right:-75px;
 
     border-radius:50%;
 
-    filter:blur(10px);
+    background:rgba(255,255,255,.7);
+
+    filter:blur(22px);
+
+    pointer-events:none;
 }
+
+
+/* Hover */
 
 .package:hover{
     transform:translateY(-6px);
 
     box-shadow:
-        0 20px 55px rgba(70,120,160,.18),
-        inset 0 1px 0 rgba(255,255,255,1);
+        0 25px 60px rgba(0,0,0,.1),
+        inset 0 1px 0 #fff;
 }
+
+
+/* =========================
+   PACKAGE CONTENT
+========================= */
 
 .package h2{
     position:relative;
+    z-index:2;
 
-    font-size:29px;
+    font-size:28px;
 
-    color:#24364b;
+    color:#292929;
 
-    margin-bottom:18px;
+    margin-bottom:17px;
 }
 
 .gb{
     position:relative;
+    z-index:2;
 
-    font-size:42px;
+    font-size:41px;
 
     font-weight:900;
 
-    color:#426b8c;
+    color:#6b5ba7;
 
-    margin-bottom:10px;
+    margin-bottom:9px;
 }
 
 .minutes{
     position:relative;
+    z-index:2;
 
-    font-size:19px;
+    color:#777;
 
-    color:#718398;
+    font-size:18px;
 
-    margin-bottom:16px;
+    margin-bottom:15px;
 }
 
 .price{
     position:relative;
+    z-index:2;
 
     font-size:31px;
 
     font-weight:900;
 
-    color:#263b50;
+    color:#242424;
 
-    margin-bottom:24px;
+    margin-bottom:23px;
 }
 
-/* ===== زر الاشتراك ===== */
+
+/* =========================
+   SUBSCRIBE BUTTON
+========================= */
 
 .subscribe{
     position:relative;
+    z-index:3;
 
     display:block;
 
@@ -197,77 +258,84 @@ body{
 
     text-decoration:none;
 
-    color:#fff;
+    color:white;
 
-    background:rgba(58,91,117,.88);
+    background:
+        linear-gradient(
+            135deg,
+            #7162aa,
+            #504477
+        );
 
     border:1px solid rgba(255,255,255,.5);
 
-    font-size:19px;
+    font-size:18px;
 
     font-weight:bold;
 
-    box-shadow:0 8px 20px rgba(60,90,110,.18);
+    box-shadow:
+        0 9px 24px rgba(80,68,119,.18);
 
     transition:.3s;
 }
 
 .subscribe:hover{
-    background:#2e526e;
-
     transform:translateY(-2px);
+
+    box-shadow:
+        0 13px 30px rgba(80,68,119,.28);
 }
 
-/* ===== الباقة المميزة ===== */
 
-.package.featured{
-    border:2px solid rgba(120,170,205,.65);
+/* =========================
+   FEATURED PACKAGE
+========================= */
 
-    background:rgba(255,255,255,.6);
+.featured{
+    border:2px solid rgba(119,100,170,.45);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.88),
+            rgba(246,243,255,.55)
+        );
 }
 
-.badge{
+.popular{
     position:relative;
+    z-index:4;
 
     display:inline-block;
 
-    background:rgba(88,137,169,.9);
+    padding:7px 17px;
+
+    border-radius:50px;
+
+    background:rgba(105,89,157,.92);
 
     color:white;
 
-    padding:8px 18px;
+    font-size:13px;
 
-    border-radius:30px;
-
-    font-size:14px;
+    font-weight:bold;
 
     margin-bottom:15px;
-
-    box-shadow:0 6px 18px rgba(60,100,130,.15);
 }
 
-/* ===== الفوتر ===== */
 
-footer{
-    text-align:center;
-
-    color:#718398;
-
-    padding:30px 20px 100px;
-
-    font-size:15px;
-}
-
-/* ===== واتساب ===== */
+/* =========================
+   WHATSAPP
+========================= */
 
 .whatsapp{
     position:fixed;
 
-    left:22px;
-    bottom:22px;
+    left:20px;
+    bottom:20px;
 
-    width:60px;
-    height:60px;
+    width:59px;
+    height:59px;
 
     border-radius:50%;
 
@@ -282,9 +350,10 @@ footer{
 
     text-decoration:none;
 
-    font-size:29px;
+    font-size:28px;
 
-    box-shadow:0 10px 30px rgba(0,0,0,.18);
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.18);
 
     z-index:999;
 
@@ -295,24 +364,46 @@ footer{
     transform:scale(1.1);
 }
 
-/* ===== الموبايل ===== */
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    text-align:center;
+
+    padding:25px 20px 100px;
+
+    color:#888;
+
+    font-size:14px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:600px){
 
-    .page-header{
-        padding:50px 20px 35px;
+    .header{
+        padding:48px 18px 32px;
     }
 
-    .page-header h1{
-        font-size:34px;
+    .header h1{
+        font-size:35px;
     }
 
-    .page-header p{
+    .header p{
         font-size:16px;
     }
 
+    .packages{
+        width:92%;
+    }
+
     .package{
-        padding:32px 20px;
+        padding:31px 19px;
         border-radius:27px;
     }
 
@@ -321,12 +412,21 @@ footer{
     }
 
     .gb{
-        font-size:37px;
+        font-size:38px;
+    }
+
+    .minutes{
+        font-size:17px;
     }
 
     .price{
         font-size:29px;
     }
+
+    .subscribe{
+        font-size:17px;
+    }
+
 }
 
 </style>
@@ -337,13 +437,19 @@ footer{
 <body>
 
 
-<!-- عنوان الصفحة -->
+<!-- =========================
+     PAGE HEADER
+========================= -->
 
-<header class="page-header">
+<header class="header">
 
-    <div class="small">📦 عروض مميزة</div>
+    <div class="badge-top">
+        ❄️ عروض مميزة
+    </div>
 
-    <h1>الباقات المتاحة</h1>
+    <h1>
+        الباقات المتاحة
+    </h1>
 
     <p>
         اختار الباقة المناسبة ليك واشترك الآن
@@ -352,16 +458,20 @@ footer{
 </header>
 
 
-<!-- الباقات -->
+<!-- =========================
+     PACKAGES
+========================= -->
 
 <main class="packages">
 
 
-    <!-- 20 جيجا -->
+    <!-- 20 GB -->
 
-    <div class="package">
+    <section class="package">
 
-        <h2>باقة 20 جيجا</h2>
+        <h2>
+            باقة 20 جيجا
+        </h2>
 
         <div class="gb">
             20 GB
@@ -376,20 +486,22 @@ footer{
         </div>
 
         <a
-        class="subscribe"
-        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 20 جيجا"
+            class="subscribe"
+            href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 20 جيجا"
         >
             اشترك الآن
         </a>
 
-    </div>
+    </section>
 
 
-    <!-- 30 جيجا -->
+    <!-- 30 GB -->
 
-    <div class="package">
+    <section class="package">
 
-        <h2>باقة 30 جيجا</h2>
+        <h2>
+            باقة 30 جيجا
+        </h2>
 
         <div class="gb">
             30 GB
@@ -404,24 +516,26 @@ footer{
         </div>
 
         <a
-        class="subscribe"
-        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 30 جيجا"
+            class="subscribe"
+            href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 30 جيجا"
         >
             اشترك الآن
         </a>
 
-    </div>
+    </section>
 
 
-    <!-- 35 جيجا -->
+    <!-- 35 GB -->
 
-    <div class="package featured">
+    <section class="package featured">
 
-        <div class="badge">
+        <div class="popular">
             ⭐ الأكثر طلبًا
         </div>
 
-        <h2>باقة 35 جيجا</h2>
+        <h2>
+            باقة 35 جيجا
+        </h2>
 
         <div class="gb">
             35 GB
@@ -436,20 +550,22 @@ footer{
         </div>
 
         <a
-        class="subscribe"
-        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 35 جيجا"
+            class="subscribe"
+            href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 35 جيجا"
         >
             اشترك الآن
         </a>
 
-    </div>
+    </section>
 
 
-    <!-- 40 جيجا -->
+    <!-- 40 GB -->
 
-    <div class="package">
+    <section class="package">
 
-        <h2>باقة 40 جيجا</h2>
+        <h2>
+            باقة 40 جيجا
+        </h2>
 
         <div class="gb">
             40 GB
@@ -464,20 +580,22 @@ footer{
         </div>
 
         <a
-        class="subscribe"
-        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 40 جيجا"
+            class="subscribe"
+            href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 40 جيجا"
         >
             اشترك الآن
         </a>
 
-    </div>
+    </section>
 
 
-    <!-- 50 جيجا -->
+    <!-- 50 GB -->
 
-    <div class="package">
+    <section class="package">
 
-        <h2>باقة 50 جيجا</h2>
+        <h2>
+            باقة 50 جيجا
+        </h2>
 
         <div class="gb">
             50 GB
@@ -492,20 +610,22 @@ footer{
         </div>
 
         <a
-        class="subscribe"
-        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 50 جيجا"
+            class="subscribe"
+            href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 50 جيجا"
         >
             اشترك الآن
         </a>
 
-    </div>
+    </section>
 
 
-    <!-- 60 جيجا -->
+    <!-- 60 GB -->
 
-    <div class="package">
+    <section class="package">
 
-        <h2>باقة 60 جيجا</h2>
+        <h2>
+            باقة 60 جيجا
+        </h2>
 
         <div class="gb">
             60 GB
@@ -520,16 +640,29 @@ footer{
         </div>
 
         <a
-        class="subscribe"
-        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 60 جيجا"
+            class="subscribe"
+            href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 60 جيجا"
         >
             اشترك الآن
         </a>
 
-    </div>
+    </section>
 
 
 </main>
+
+
+<!-- =========================
+     WHATSAPP
+========================= -->
+
+<a
+    class="whatsapp"
+    href="https://wa.me/201090532469"
+    aria-label="واتساب"
+>
+    💬
+</a>
 
 
 <footer>
@@ -537,16 +670,6 @@ footer{
 </footer>
 
 
-<!-- زر الشات -->
-
-<a
-class="whatsapp"
-href="https://wa.me/201090532469"
-aria-label="تواصل معنا عبر واتساب"
->
-    💬
-</a>
-
-
 </body>
+
 </html>
