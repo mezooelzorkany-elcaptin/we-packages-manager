@@ -561,7 +561,115 @@
             }
 
         }
+/* =========================
+   PROMO CODE
+========================= */
 
+.promo{
+    width:92%;
+    max-width:700px;
+
+    margin:10px auto 35px;
+
+    padding:28px 22px;
+
+    text-align:center;
+
+    background:rgba(255,255,255,.20);
+
+    border:1px solid rgba(255,255,255,.35);
+
+    border-radius:26px;
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    box-shadow:
+        0 15px 40px rgba(50,30,120,.12);
+}
+
+.promo-icon{
+    font-size:35px;
+    margin-bottom:8px;
+}
+
+.promo h2{
+    color:#fff;
+    font-size:24px;
+    margin-bottom:8px;
+}
+
+.promo p{
+    color:rgba(255,255,255,.8);
+    font-size:15px;
+    margin-bottom:18px;
+}
+
+.promo-box{
+    display:flex;
+    gap:10px;
+}
+
+.promo-box input{
+    flex:1;
+
+    min-width:0;
+
+    padding:15px;
+
+    border:none;
+    outline:none;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,.9);
+
+    color:#222;
+
+    font-size:16px;
+
+    text-align:center;
+}
+
+.promo-box button{
+    border:none;
+    cursor:pointer;
+
+    padding:0 20px;
+
+    border-radius:14px;
+
+    background:#fff;
+
+    color:#5b3aa5;
+
+    font-size:16px;
+    font-weight:bold;
+}
+
+.promo-success{
+    margin-top:14px;
+    color:#d9ffd9;
+    font-weight:bold;
+}
+
+.promo-error{
+    margin-top:14px;
+    color:#ffd1d1;
+    font-weight:bold;
+}
+
+@media(max-width:600px){
+
+    .promo-box{
+        flex-direction:column;
+    }
+
+    .promo-box button{
+        padding:14px;
+    }
+
+}
     </style>
 
 </head>
@@ -591,7 +699,40 @@
     </header>
 
 
+<!-- Promo Code -->
 
+<section class="promo">
+
+    <div class="promo-icon">
+        🎁
+    </div>
+
+    <h2>
+        عندك كود خصم؟
+    </h2>
+
+    <p>
+        اكتب كود الخصم واحصل على السعر الخاص بك
+    </p>
+
+    <div class="promo-box">
+
+        <input
+            type="text"
+            id="promoCode"
+            placeholder="اكتب كود الخصم"
+            autocomplete="off"
+        >
+
+        <button onclick="applyPromo()">
+            تطبيق الكود
+        </button>
+
+    </div>
+
+    <div id="promoMessage"></div>
+
+</section>
     <!-- الباقات -->
 
     <main class="packages">
@@ -808,7 +949,149 @@
         WE Packages © 2026
     </footer>
 
+<script>
 
+const promoCodes = {
+
+    MEZOO50: {
+        type: "percent",
+        value: 50
+    },
+
+    MEZOO20: {
+        type: "percent",
+        value: 20
+    },
+
+    MEZOO100: {
+        type: "fixed",
+        value: 100
+    }
+
+};
+
+
+let activePromo = null;
+
+
+function applyPromo(){
+
+    const input = document.getElementById("promoCode");
+
+    const message = document.getElementById("promoMessage");
+
+    const code = input.value.trim().toUpperCase();
+
+    if(!code){
+
+        message.innerHTML =
+            "⚠️ اكتب كود الخصم أولاً";
+
+        message.className = "promo-error";
+
+        return;
+    }
+
+
+    if(!promoCodes[code]){
+
+        message.innerHTML =
+            "❌ كود الخصم غير صحيح";
+
+        message.className = "promo-error";
+
+        activePromo = null;
+
+        updatePrices();
+
+        return;
+    }
+
+
+    activePromo = promoCodes[code];
+
+
+    message.innerHTML =
+        "🎉 تم تطبيق كود الخصم بنجاح";
+
+    message.className = "promo-success";
+
+
+    updatePrices();
+
+}
+
+
+function updatePrices(){
+
+    const packages =
+        document.querySelectorAll(".package");
+
+
+    packages.forEach(function(packageCard){
+
+        const priceElement =
+            packageCard.querySelector(".price");
+
+
+        if(!priceElement){
+            return;
+        }
+
+
+        const originalPrice =
+            Number(
+                priceElement.dataset.originalPrice ||
+                priceElement.innerText
+                    .replace(/[^\d]/g,"")
+            );
+
+
+        priceElement.dataset.originalPrice =
+            originalPrice;
+
+
+        if(!activePromo){
+
+            priceElement.innerHTML =
+                originalPrice + " جنيه";
+
+            return;
+        }
+
+
+        let newPrice;
+
+
+        if(activePromo.type === "percent"){
+
+            newPrice =
+                originalPrice -
+                (originalPrice * activePromo.value / 100);
+
+        }else{
+
+            newPrice =
+                originalPrice -
+                activePromo.value;
+
+        }
+
+
+        newPrice = Math.max(0, newPrice);
+
+
+        priceElement.innerHTML =
+            `<span style="text-decoration:line-through;opacity:.55;font-size:18px;margin-left:8px;">
+                ${originalPrice} جنيه
+            </span>
+            ${newPrice} جنيه`;
+
+    });
+
+}
+
+</script>
 </body>
 
 </html>
