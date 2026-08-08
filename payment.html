@@ -915,8 +915,272 @@ async function handleScreenshot(event){
 /* =========================
    CONFIRM PAYMENT
 ========================= */
-
 async function confirmPayment(){
+
+    const button =
+        document.getElementById("submitButton");
+
+    hideError();
+
+    /* =========================
+       CHECK PAYMENT METHOD
+    ========================= */
+
+    if(!selectedPayment){
+
+        showError(
+            "❌ اختار طريقة التحويل أولاً"
+        );
+
+        return;
+    }
+
+
+    /* =========================
+       CHECK ORDER
+    ========================= */
+
+    if(!orderData){
+
+        showError(
+            "❌ بيانات الطلب غير متاحة"
+        );
+
+        return;
+    }
+
+
+    /* =========================
+       CHECK SCREENSHOT
+    ========================= */
+
+    if(!paymentScreenshotUrl){
+
+        showError(
+            "❌ لازم ترفق صورة التحويل أولاً"
+        );
+
+        return;
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "⏳ جاري تأكيد التحويل...";
+
+
+    try{
+
+        /* =========================
+           UPDATE ORDER
+        ========================= */
+
+        const response =
+            await fetch(
+
+                SUPABASE_URL +
+                "/rest/v1/orders" +
+                "?order_number=eq." +
+                encodeURIComponent(
+                    orderNumber
+                ),
+
+                {
+                    method:"PATCH",
+
+                    headers:{
+
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            SUPABASE_KEY,
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Prefer":
+                            "return=minimal"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            payment_method:
+                                selectedPayment,
+
+                            payment_screenshot:
+                                paymentScreenshotUrl,
+
+                            status:
+                                "payment_submitted"
+
+                        })
+
+                }
+
+            );
+
+
+        /* =========================
+           CHECK DATABASE
+        ========================= */
+
+        if(!response.ok){
+
+            const errorText =
+                await response.text();
+
+            throw new Error(
+                errorText
+            );
+
+        }
+
+
+        /* =========================
+           TELEGRAM
+        ========================= */
+
+        try{
+
+            const telegramMessage =
+
+`🛒 تأكيد تحويل جديد
+
+📋 رقم الطلب:
+${orderNumber}
+
+📱 رقم الهاتف:
+${orderData.phone}
+
+📦 الباقة:
+${orderData.package_name}
+
+💰 السعر:
+${orderData.final_price} جنيه
+
+💳 طريقة الدفع:
+${selectedPayment}
+
+📌 الحالة:
+تم التحويل
+
+📷 صورة التحويل:
+${paymentScreenshotUrl}`;
+
+
+            const telegramResponse =
+                await fetch(
+
+                    SUPABASE_URL +
+                    "/functions/v1/telegram-notify",
+
+                    {
+
+                        method:"POST",
+
+                        headers:{
+
+                            "Content-Type":
+                                "application/json",
+
+                            "apikey":
+                                SUPABASE_KEY,
+
+                            "Authorization":
+                                "Bearer " +
+                                SUPABASE_KEY
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                text:
+                                    telegramMessage,
+
+                                photo:
+                                    paymentScreenshotUrl
+
+                            })
+
+                    }
+
+                );
+
+
+            const telegramResult =
+                await telegramResponse.json();
+
+
+            console.log(
+                "TELEGRAM RESULT:",
+                telegramResult
+            );
+
+
+        }
+        catch(telegramError){
+
+            console.error(
+                "TELEGRAM ERROR:",
+                telegramError
+            );
+
+        }
+
+
+        /* =========================
+           SUCCESS
+        ========================= */
+
+        document.getElementById(
+            "paymentContent"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "successBox"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "successOrder"
+        ).textContent =
+            "رقم الطلب: " +
+            orderNumber;
+
+
+    }
+    catch(error){
+
+        console.error(
+            "CONFIRM PAYMENT ERROR:",
+            error
+        );
+
+
+        showError(
+            "❌ حصل خطأ أثناء تأكيد التحويل، حاول مرة أخرى"
+        );
+
+
+        button.disabled =
+            false;
+
+
+        button.textContent =
+            "✅ تم التحويل";
+
+    }
+
+}
 
     const button =
         document.getElementById(
