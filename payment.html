@@ -5,266 +5,485 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>إتمام الدفع | WE Packages</title>
+<title>الدفع | WE Packages</title>
 
 <style>
-
 *{
     box-sizing:border-box;
+}
+
+:root{
+    --purple:#6827d8;
+    --purple2:#9146ff;
+    --dark:#21172f;
+    --muted:#777083;
+    --white:#ffffff;
 }
 
 body{
     margin:0;
     min-height:100vh;
-    font-family:Arial,Tahoma,sans-serif;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        Tahoma,
+        sans-serif;
 
     background:
-        radial-gradient(circle at 100% 0%,#a06cf0 0%,transparent 38%),
-        linear-gradient(135deg,#f1eff9,#ded5f0,#d1c5e8);
+        radial-gradient(
+            circle at 50% -10%,
+            rgba(147,76,255,.30),
+            transparent 38%
+        ),
+        linear-gradient(
+            180deg,
+            #f8f5ff 0%,
+            #eee8fb 100%
+        );
 
-    color:#19182d;
+    color:var(--dark);
 }
 
+
+/* =========================
+   MAIN
+========================= */
+
 .container{
-    width:92%;
-    max-width:650px;
+    width:100%;
+    max-width:620px;
     margin:auto;
-    padding:30px 0 70px;
+
+    padding:
+        30px 18px
+        70px;
 }
 
 .card{
-    background:rgba(255,255,255,.76);
-    border:1px solid rgba(255,255,255,.9);
-    border-radius:32px;
-    padding:28px 22px;
+    background:rgba(255,255,255,.78);
 
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.95);
 
-    box-shadow:0 20px 55px rgba(60,35,120,.16);
+    border-radius:34px;
+
+    padding:30px 22px;
+
+    box-shadow:
+        0 25px 70px rgba(77,39,130,.15);
+
+    backdrop-filter:blur(25px);
+    -webkit-backdrop-filter:blur(25px);
 }
 
+
+/* =========================
+   HEADER
+========================= */
+
 .logo{
-    text-align:center;
-    font-size:48px;
-    margin-bottom:5px;
+    width:72px;
+    height:72px;
+
+    margin:0 auto 16px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6827d8,
+            #9b50ff
+        );
+
+    color:white;
+
+    font-size:38px;
+
+    box-shadow:
+        0 14px 30px rgba(104,39,216,.25);
 }
 
 .title{
     text-align:center;
-    color:#5420b8;
-    font-size:31px;
+
+    font-size:32px;
     font-weight:900;
-    margin-bottom:8px;
+
+    color:#5420b8;
+
+    margin:0;
 }
 
 .subtitle{
     text-align:center;
-    color:#707080;
-    font-size:16px;
-    line-height:1.7;
-    margin-bottom:25px;
+
+    color:var(--muted);
+
+    font-size:15px;
+
+    line-height:1.8;
+
+    margin:
+        9px auto 25px;
+
+    max-width:430px;
 }
 
 
 /* =========================
-   ORDER SUMMARY
+   ORDER CARD
 ========================= */
 
-.summary{
-    background:linear-gradient(135deg,#5420b8,#9747ff);
-    color:white;
-    border-radius:25px;
-    padding:22px;
-    text-align:center;
-    margin-bottom:28px;
+.order-card{
+    position:relative;
 
-    box-shadow:0 12px 30px rgba(84,32,184,.22);
+    overflow:hidden;
+
+    padding:25px 20px;
+
+    border-radius:27px;
+
+    color:white;
+
+    text-align:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5420b8,
+            #8137ed 55%,
+            #a34cff
+        );
+
+    box-shadow:
+        0 18px 38px rgba(89,35,181,.25);
+
+    margin-bottom:28px;
 }
 
-.summary-top{
-    display:flex;
-    justify-content:center;
-    gap:7px;
-    font-size:15px;
-    opacity:.9;
+.order-card::before{
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.08);
+
+    top:-100px;
+    left:-70px;
+}
+
+.order-card::after{
+    content:"";
+
+    position:absolute;
+
+    width:150px;
+    height:150px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.06);
+
+    bottom:-90px;
+    right:-50px;
+}
+
+.order-number{
+    position:relative;
+
+    font-size:14px;
+
+    opacity:.88;
+
     margin-bottom:10px;
 }
 
-.summary-package{
-    font-size:29px;
+.package-name{
+    position:relative;
+
+    font-size:28px;
+
     font-weight:900;
 }
 
-.summary-price{
-    font-size:34px;
+.price{
+    position:relative;
+
+    font-size:38px;
+
     font-weight:900;
-    margin-top:7px;
+
+    margin-top:5px;
+}
+
+.currency{
+    font-size:18px;
+    font-weight:700;
 }
 
 
 /* =========================
-   SECTION TITLE
+   SECTION
 ========================= */
+
+.section{
+    text-align:center;
+
+    margin-top:25px;
+}
 
 .section-title{
-    color:#5420b8;
-    font-size:22px;
+    font-size:25px;
+
     font-weight:900;
-    margin:25px 0 15px;
+
+    color:#5420b8;
+
+    margin-bottom:7px;
+}
+
+.section-subtitle{
+    color:#85808d;
+
+    font-size:14px;
+
+    margin-bottom:18px;
 }
 
 
 /* =========================
-   PAYMENT CARDS
+   PAYMENT METHODS
 ========================= */
 
-.payment-grid{
-    display:grid;
-    gap:14px;
+.methods{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
 }
 
-.payment-card{
+
+/* PAYMENT CARD */
+
+.method{
     position:relative;
-    display:block;
 
-    padding:18px;
+    width:100%;
 
-    border-radius:24px;
+    padding:19px;
 
-    background:rgba(255,255,255,.88);
+    border-radius:25px;
 
-    border:2px solid #e4dcef;
+    background:#fff;
+
+    border:2px solid #eee8f7;
 
     cursor:pointer;
 
+    text-align:right;
+
     transition:
-        transform .2s ease,
-        border-color .2s ease,
-        box-shadow .2s ease,
-        background .2s ease;
-}
-
-.payment-card:hover{
-    transform:translateY(-2px);
-    border-color:#b996ed;
-}
-
-.payment-card.selected{
-    border-color:#6c2bd9;
-    background:linear-gradient(
-        135deg,
-        #faf7ff,
-        #f0e7ff
-    );
+        .25s ease;
 
     box-shadow:
-        0 12px 30px rgba(84,32,184,.18);
+        0 8px 25px rgba(48,28,80,.06);
 }
 
-.payment-card input{
-    position:absolute;
-    opacity:0;
-    pointer-events:none;
+.method:hover{
+    transform:translateY(-2px);
+
+    border-color:#c8a9f6;
 }
 
-.payment-head{
+.method.selected{
+    border-color:#7130dc;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #f8f2ff
+        );
+
+    box-shadow:
+        0 15px 35px rgba(104,39,216,.14);
+}
+
+.method input{
+    display:none;
+}
+
+.method-top{
     display:flex;
+
     align-items:center;
-    gap:14px;
+
+    gap:15px;
 }
 
-.payment-icon{
-    width:58px;
-    height:58px;
+
+/* LOGO */
+
+.brand-logo{
+    width:65px;
+    height:65px;
 
     flex-shrink:0;
 
-    border-radius:18px;
+    border-radius:19px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
-    font-size:30px;
+    overflow:hidden;
 
-    background:#f0e8ff;
+    box-shadow:
+        0 7px 18px rgba(0,0,0,.10);
 }
 
-.payment-name{
-    font-size:20px;
+
+/* Vodafone */
+
+.vodafone-logo{
+    background:#e60000;
+}
+
+.vodafone-logo svg{
+    width:48px;
+    height:48px;
+}
+
+
+/* InstaPay */
+
+.instapay-logo{
+    background:#fff;
+
+    border:1px solid #eee;
+
+    padding:8px;
+}
+
+.instapay-logo svg{
+    width:100%;
+    height:100%;
+}
+
+
+/* TEXT */
+
+.method-info{
+    flex:1;
+}
+
+.method-name{
+    font-size:21px;
+
     font-weight:900;
-    color:#29243a;
+
+    color:#241c31;
 }
 
-.payment-desc{
-    font-size:13px;
-    color:#777;
+.method-description{
     margin-top:4px;
+
+    font-size:13px;
+
+    color:#85808d;
 }
 
-.payment-check{
-    position:absolute;
-
-    left:16px;
-    top:18px;
-
+.selected-badge{
     width:27px;
     height:27px;
 
     border-radius:50%;
 
-    border:2px solid #d5c7e9;
+    border:2px solid #ddd3eb;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
     color:transparent;
-    font-size:15px;
-    font-weight:bold;
+
+    font-weight:900;
+
+    transition:.2s;
 }
 
-.payment-card.selected .payment-check{
-    background:#6c2bd9;
-    border-color:#6c2bd9;
+.method.selected .selected-badge{
+    background:#7130dc;
+
+    border-color:#7130dc;
+
     color:white;
 }
 
-.payment-number-box{
+
+/* NUMBER */
+
+.number-box{
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
+
     gap:10px;
 
     margin-top:16px;
 
-    padding:12px 14px;
+    padding:13px 15px;
 
-    border-radius:15px;
+    border-radius:17px;
 
     background:#f7f4fb;
-}
 
-.payment-number{
     direction:ltr;
-    font-size:20px;
-    font-weight:900;
-    color:#5420b8;
 }
 
-.copy-btn{
+.number{
+    font-size:20px;
+
+    font-weight:900;
+
+    color:#5420b8;
+
+    letter-spacing:.4px;
+}
+
+.copy{
     border:0;
-    border-radius:10px;
 
     padding:8px 13px;
 
-    background:#5420b8;
-    color:white;
+    border-radius:11px;
 
-    font-weight:bold;
+    background:#ece4fa;
+
+    color:#5420b8;
+
+    font-weight:800;
 
     cursor:pointer;
+
+    font-size:13px;
 }
 
 
@@ -272,58 +491,112 @@ body{
    UPLOAD
 ========================= */
 
-.upload{
-    margin-top:10px;
+.upload-card{
+    margin-top:25px;
 
-    padding:22px;
+    padding:24px 18px;
 
-    border-radius:25px;
+    border-radius:27px;
 
-    background:rgba(255,255,255,.85);
+    background:
+        linear-gradient(
+            145deg,
+            #fff,
+            #faf7ff
+        );
 
-    border:2px dashed #8250d7;
+    border:2px dashed #b48ae9;
 
     text-align:center;
 }
 
-.upload-icon{
-    font-size:42px;
-    margin-bottom:8px;
+.camera{
+    width:62px;
+    height:62px;
+
+    margin:0 auto 12px;
+
+    border-radius:20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:31px;
+
+    background:#f0e7ff;
 }
 
 .upload-title{
     color:#5420b8;
-    font-size:20px;
+
+    font-size:21px;
+
     font-weight:900;
 }
 
-.upload-desc{
-    color:#777;
+.upload-text{
+    color:#85808d;
+
     font-size:13px;
+
     line-height:1.7;
-    margin:8px 0 15px;
+
+    margin:
+        7px auto 17px;
 }
 
-.file{
+.file-wrap{
+    position:relative;
+
+    overflow:hidden;
+
     width:100%;
 
-    padding:14px;
+    padding:15px;
 
-    border:1px solid #ddd;
-    border-radius:15px;
+    border-radius:16px;
 
-    background:white;
+    background:#f6f2fb;
 
-    font-size:15px;
+    border:1px solid #e3d9ef;
+
+    color:#5420b8;
+
+    font-weight:800;
 
     cursor:pointer;
+}
+
+.file-wrap input{
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    opacity:0;
+
+    cursor:pointer;
+}
+
+.file-name{
+    font-size:14px;
+
+    color:#777;
+
+    margin-top:10px;
+
+    word-break:break-word;
 }
 
 .preview{
     display:none;
 
     width:100%;
-    max-height:320px;
+
+    max-height:300px;
 
     object-fit:contain;
 
@@ -331,7 +604,7 @@ body{
 
     border-radius:18px;
 
-    border:1px solid #ddd;
+    border:1px solid #e3d9ef;
 
     background:white;
 }
@@ -344,12 +617,13 @@ body{
 .submit{
     width:100%;
 
-    margin-top:18px;
+    border:0;
+
+    margin-top:20px;
 
     padding:18px;
 
-    border:0;
-    border-radius:18px;
+    border-radius:19px;
 
     color:white;
 
@@ -360,24 +634,28 @@ body{
             #9747ff
         );
 
-    font-size:19px;
+    font-size:18px;
+
     font-weight:900;
 
     cursor:pointer;
 
     box-shadow:
-        0 10px 25px rgba(84,32,184,.22);
+        0 13px 30px rgba(84,32,184,.23);
 
     transition:.2s;
 }
 
 .submit:hover{
-    transform:translateY(-1px);
+    transform:translateY(-2px);
 }
 
 .submit:disabled{
     opacity:.55;
+
     cursor:not-allowed;
+
+    transform:none;
 }
 
 
@@ -388,13 +666,14 @@ body{
 .error{
     display:none;
 
-    margin-top:16px;
+    margin-top:15px;
 
     padding:14px;
 
-    border-radius:15px;
+    border-radius:16px;
 
-    background:#ffe1e1;
+    background:#ffe5e5;
+
     color:#a00000;
 
     text-align:center;
@@ -414,7 +693,7 @@ body{
 
     text-align:center;
 
-    padding:20px 5px;
+    padding:25px 10px;
 }
 
 .success-icon{
@@ -423,18 +702,20 @@ body{
 
 .success h2{
     color:#5420b8;
-    margin:8px 0;
+
+    font-size:25px;
 }
 
 .success p{
-    color:#666;
+    color:#777;
+
     line-height:1.8;
 }
 
 .success-order{
     margin-top:18px;
 
-    padding:16px;
+    padding:15px;
 
     border-radius:18px;
 
@@ -443,7 +724,6 @@ body{
     color:#5420b8;
 
     font-weight:900;
-    font-size:20px;
 }
 
 .back{
@@ -451,13 +731,13 @@ body{
 
     text-align:center;
 
-    margin-top:22px;
+    margin-top:23px;
 
     color:#5420b8;
 
     text-decoration:none;
 
-    font-weight:bold;
+    font-weight:900;
 }
 
 
@@ -468,35 +748,45 @@ body{
 @media(max-width:480px){
 
     .container{
-        width:94%;
-        padding-top:18px;
+        padding:
+            18px 12px
+            50px;
     }
 
     .card{
-        padding:23px 17px;
-        border-radius:28px;
+        padding:25px 16px;
+
+        border-radius:30px;
     }
 
     .title{
-        font-size:28px;
+        font-size:29px;
     }
 
-    .summary-package{
-        font-size:26px;
+    .package-name{
+        font-size:25px;
     }
 
-    .summary-price{
-        font-size:31px;
+    .price{
+        font-size:35px;
     }
 
-    .payment-name{
+    .method{
+        padding:16px;
+    }
+
+    .brand-logo{
+        width:59px;
+        height:59px;
+    }
+
+    .method-name{
+        font-size:19px;
+    }
+
+    .number{
         font-size:18px;
     }
-
-    .payment-number{
-        font-size:18px;
-    }
-
 }
 
 </style>
@@ -509,39 +799,44 @@ body{
 
 <div class="card">
 
+
+<!-- HEADER -->
+
 <div class="logo">
-💳
+    💳
 </div>
 
-<div class="title">
-إتمام الدفع
-</div>
+<h1 class="title">
+    إتمام الدفع
+</h1>
 
 <div class="subtitle">
-حوّل المبلغ المطلوب ثم أرفق صورة التحويل لإرسال الطلب
+    اختار طريقة الدفع المناسبة ليك
+    <br>
+    وبعد التحويل ارفع صورة إثبات الدفع
 </div>
 
 
-<!-- =========================
-     ORDER
-========================= -->
+<!-- ORDER -->
 
-<div class="summary">
+<div class="order-card">
 
-    <div class="summary-top">
-        <span>رقم الطلب:</span>
-        <span id="orderNumber">جاري التحميل...</span>
+    <div class="order-number">
+        رقم الطلب:
+        <span id="orderNumber">
+            جاري التحميل...
+        </span>
     </div>
 
     <div
-        class="summary-package"
+        class="package-name"
         id="packageName"
     >
         جاري التحميل...
     </div>
 
     <div
-        class="summary-price"
+        class="price"
         id="price"
     >
         --
@@ -553,21 +848,28 @@ body{
 <div id="paymentContent">
 
 
-<!-- =========================
-     PAYMENT METHODS
-========================= -->
+<!-- METHODS -->
 
-<div class="section-title">
-💰 اختر طريقة الدفع
+<div class="section">
+
+    <div class="section-title">
+        اختر طريقة الدفع
+    </div>
+
+    <div class="section-subtitle">
+        اضغط على الطريقة التي ستقوم بالتحويل من خلالها
+    </div>
+
 </div>
 
-<div class="payment-grid">
+
+<div class="methods">
 
 
 <!-- VODAFONE CASH -->
 
 <label
-    class="payment-card"
+    class="method"
     id="vodafoneCard"
 >
 
@@ -578,46 +880,80 @@ body{
     onchange="selectPayment('Vodafone Cash')"
 >
 
-<div class="payment-head">
+<div class="method-top">
 
-    <div class="payment-icon">
-        📱
+    <div class="brand-logo vodafone-logo">
+
+        <!-- Vodafone Cash style logo -->
+
+        <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+
+            <circle
+                cx="50"
+                cy="50"
+                r="42"
+                fill="white"
+            />
+
+            <path
+                d="M31 39
+                   C31 27 43 20 55 24
+                   C67 28 73 40 68 51
+                   C64 60 54 66 45 64
+                   C36 62 31 54 31 46
+                   C31 43 31 41 31 39Z"
+                fill="#e60000"
+            />
+
+            <path
+                d="M43 39
+                   C48 35 57 36 60 42
+                   C63 48 60 55 54 58
+                   C48 61 41 57 40 51
+                   C39 46 40 42 43 39Z"
+                fill="white"
+            />
+
+        </svg>
+
     </div>
 
-    <div>
+    <div class="method-info">
 
-        <div class="payment-name">
+        <div class="method-name">
             Vodafone Cash
         </div>
 
-        <div class="payment-desc">
-            تحويل عن طريق فودافون كاش
+        <div class="method-description">
+            تحويل من محفظة فودافون كاش
         </div>
 
+    </div>
+
+    <div class="selected-badge">
+        ✓
     </div>
 
 </div>
 
 
-<div class="payment-number-box">
+<div class="number-box">
 
-    <span class="payment-number">
+    <span class="number">
         01101234791
     </span>
 
     <button
         type="button"
-        class="copy-btn"
+        class="copy"
         onclick="copyNumber('01101234791',event)"
     >
-        نسخ
+        نسخ الرقم
     </button>
 
-</div>
-
-
-<div class="payment-check">
-    ✓
 </div>
 
 </label>
@@ -626,7 +962,7 @@ body{
 <!-- INSTAPAY -->
 
 <label
-    class="payment-card"
+    class="method"
     id="instapayCard"
 >
 
@@ -637,46 +973,105 @@ body{
     onchange="selectPayment('InstaPay')"
 >
 
-<div class="payment-head">
+<div class="method-top">
 
-    <div class="payment-icon">
-        🏦
+    <div class="brand-logo instapay-logo">
+
+        <!-- InstaPay style logo -->
+
+        <svg
+            viewBox="0 0 180 70"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+
+            <defs>
+
+                <linearGradient
+                    id="ipGradient"
+                    x1="0"
+                    x2="1"
+                >
+
+                    <stop
+                        offset="0"
+                        stop-color="#6d2bd8"
+                    />
+
+                    <stop
+                        offset="1"
+                        stop-color="#b04cff"
+                    />
+
+                </linearGradient>
+
+            </defs>
+
+            <path
+                d="M22 35
+                   C22 18 38 8 55 13
+                   C69 17 77 30 73 43
+                   C69 56 55 63 42 59
+                   C30 56 22 47 22 35Z"
+                fill="url(#ipGradient)"
+            />
+
+            <path
+                d="M42 35
+                   L55 22
+                   L67 35
+                   L55 48Z"
+                fill="white"
+                opacity=".95"
+            />
+
+            <text
+                x="82"
+                y="43"
+                font-size="27"
+                font-family="Arial"
+                font-weight="700"
+                fill="#5420b8"
+            >
+                InstaPay
+            </text>
+
+        </svg>
+
     </div>
 
-    <div>
+    <div class="method-info">
 
-        <div class="payment-name">
+        <div class="method-name">
             InstaPay
         </div>
 
-        <div class="payment-desc">
-            تحويل عن طريق إنستا باي
+        <div class="method-description">
+            تحويل سريع عن طريق إنستا باي
         </div>
 
+    </div>
+
+    <div class="selected-badge">
+        ✓
     </div>
 
 </div>
 
 
-<div class="payment-number-box">
+<div class="number-box">
 
-    <span class="payment-number">
+    <span class="number">
         01090532469
     </span>
 
     <button
         type="button"
-        class="copy-btn"
+        class="copy"
         onclick="copyNumber('01090532469',event)"
     >
-        نسخ
+        نسخ الرقم
     </button>
 
-</div>
-
-
-<div class="payment-check">
-    ✓
 </div>
 
 </label>
@@ -684,38 +1079,46 @@ body{
 </div>
 
 
-<!-- =========================
-     SCREENSHOT
-========================= -->
+<!-- UPLOAD -->
 
-<div class="section-title">
-📸 إثبات التحويل
-</div>
+<div class="upload-card">
 
-
-<div class="upload">
-
-    <div class="upload-icon">
-        📷
+    <div class="camera">
+        📸
     </div>
 
     <div class="upload-title">
-        أرفق صورة التحويل
+        صورة إثبات التحويل
     </div>
 
-    <div class="upload-desc">
-        اختار Screenshot واضحة لعملية التحويل
+    <div class="upload-text">
+        لازم ترفق Screenshot واضحة للتحويل
         <br>
         الحد الأقصى لحجم الصورة 5 ميجا
     </div>
 
-    <input
-        class="file"
-        type="file"
-        id="paymentScreenshot"
-        accept="image/jpeg,image/png,image/webp"
-        onchange="previewImage()"
+
+    <label class="file-wrap">
+
+        📁 اختيار صورة التحويل
+
+        <input
+            type="file"
+            id="paymentScreenshot"
+            accept="image/jpeg,image/png,image/webp"
+            onchange="previewImage()"
+        >
+
+    </label>
+
+
+    <div
+        class="file-name"
+        id="fileName"
     >
+        لم يتم اختيار صورة
+    </div>
+
 
     <img
         class="preview"
@@ -726,16 +1129,14 @@ body{
 </div>
 
 
-<!-- =========================
-     SUBMIT
-========================= -->
+<!-- BUTTON -->
 
 <button
     class="submit"
     id="submitButton"
     onclick="confirmPayment()"
 >
-    ✅ تم التحويل وإرسال الطلب
+    تم التحويل وإرسال الطلب ✓
 </button>
 
 
@@ -747,9 +1148,7 @@ body{
 </div>
 
 
-<!-- =========================
-     SUCCESS
-========================= -->
+<!-- SUCCESS -->
 
 <div
     class="success"
@@ -782,11 +1181,11 @@ body{
     href="packages.html"
     class="back"
 >
-    ← العودة للباقات
+    ← العودة إلى الباقات
 </a>
 
-</div>
 
+</div>
 </div>
 
 
@@ -801,6 +1200,7 @@ const SUPABASE_URL =
 
 const SUPABASE_KEY =
 "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
+
 
 const STORAGE_BUCKET =
 "payment-screenshots";
@@ -832,11 +1232,10 @@ async function loadOrder(){
     if(!orderNumber){
 
         showError(
-            "❌ رقم الطلب غير موجود"
+            "رقم الطلب غير موجود"
         );
 
         return;
-
     }
 
     try{
@@ -847,9 +1246,7 @@ async function loadOrder(){
             SUPABASE_URL +
             "/rest/v1/orders" +
             "?order_number=eq." +
-            encodeURIComponent(
-                orderNumber
-            ) +
+            encodeURIComponent(orderNumber) +
             "&select=*",
 
             {
@@ -876,11 +1273,10 @@ async function loadOrder(){
         ){
 
             showError(
-                "❌ لم يتم العثور على الطلب"
+                "لم يتم العثور على الطلب"
             );
 
             return;
-
         }
 
 
@@ -902,11 +1298,9 @@ async function loadOrder(){
 
         document.getElementById(
             "price"
-        ).textContent =
-            Number(
-                orderData.final_price
-            ) +
-            " جنيه";
+        ).innerHTML =
+            Number(orderData.final_price) +
+            ' <span class="currency">جنيه</span>';
 
     }
 
@@ -915,7 +1309,7 @@ async function loadOrder(){
         console.error(error);
 
         showError(
-            "❌ تعذر تحميل بيانات الطلب"
+            "تعذر تحميل بيانات الطلب"
         );
 
     }
@@ -933,18 +1327,14 @@ function selectPayment(method){
         method;
 
 
-    document.getElementById(
-        "vodafoneCard"
-    ).classList.remove(
-        "selected"
-    );
+    document
+        .getElementById("vodafoneCard")
+        .classList.remove("selected");
 
 
-    document.getElementById(
-        "instapayCard"
-    ).classList.remove(
-        "selected"
-    );
+    document
+        .getElementById("instapayCard")
+        .classList.remove("selected");
 
 
     if(
@@ -952,11 +1342,9 @@ function selectPayment(method){
         "Vodafone Cash"
     ){
 
-        document.getElementById(
-            "vodafoneCard"
-        ).classList.add(
-            "selected"
-        );
+        document
+            .getElementById("vodafoneCard")
+            .classList.add("selected");
 
     }
 
@@ -966,11 +1354,9 @@ function selectPayment(method){
         "InstaPay"
     ){
 
-        document.getElementById(
-            "instapayCard"
-        ).classList.add(
-            "selected"
-        );
+        document
+            .getElementById("instapayCard")
+            .classList.add("selected");
 
     }
 
@@ -978,7 +1364,7 @@ function selectPayment(method){
 
 
 /* =========================
-   COPY NUMBER
+   COPY
 ========================= */
 
 async function copyNumber(
@@ -995,16 +1381,16 @@ async function copyNumber(
             number
         );
 
-        event.target.textContent =
+        const button =
+            event.currentTarget;
+
+        button.textContent =
             "تم النسخ ✓";
 
-
         setTimeout(
-            function(){
-
-                event.target.textContent =
-                    "نسخ";
-
+            ()=>{
+                button.textContent =
+                    "نسخ الرقم";
             },
             1500
         );
@@ -1014,7 +1400,7 @@ async function copyNumber(
     catch(error){
 
         alert(
-            "انسخ الرقم يدويًا: " +
+            "انسخ الرقم: " +
             number
         );
 
@@ -1024,7 +1410,7 @@ async function copyNumber(
 
 
 /* =========================
-   PREVIEW IMAGE
+   PREVIEW
 ========================= */
 
 function previewImage(){
@@ -1039,16 +1425,21 @@ function previewImage(){
             "preview"
         );
 
+    const fileName =
+        document.getElementById(
+            "fileName"
+        );
 
-    if(
-        !input.files.length
-    ){
+
+    if(!input.files.length){
+
+        fileName.textContent =
+            "لم يتم اختيار صورة";
 
         preview.style.display =
             "none";
 
         return;
-
     }
 
 
@@ -1062,16 +1453,12 @@ function previewImage(){
     ){
 
         showError(
-            "❌ حجم الصورة أكبر من 5 ميجا"
+            "حجم الصورة أكبر من 5 ميجا"
         );
 
         input.value = "";
 
-        preview.style.display =
-            "none";
-
         return;
-
     }
 
 
@@ -1080,23 +1467,24 @@ function previewImage(){
             "image/jpeg",
             "image/png",
             "image/webp"
-        ].includes(
-            file.type
-        )
+        ].includes(file.type)
     ){
 
         showError(
-            "❌ اختار صورة JPG أو PNG أو WEBP"
+            "اختار صورة JPG أو PNG أو WEBP"
         );
 
         input.value = "";
 
         return;
-
     }
 
 
     hideError();
+
+
+    fileName.textContent =
+        file.name;
 
 
     const reader =
@@ -1115,26 +1503,22 @@ function previewImage(){
         };
 
 
-    reader.readAsDataURL(
-        file
-    );
+    reader.readAsDataURL(file);
 
 }
 
 
 /* =========================
-   UPLOAD SCREENSHOT
+   UPLOAD
 ========================= */
 
-async function uploadScreenshot(
-    file
-){
+async function uploadScreenshot(file){
 
     const extension =
         file.name
-            .split(".")
-            .pop()
-            .toLowerCase();
+        .split(".")
+        .pop()
+        .toLowerCase();
 
 
     const safeExtension =
@@ -1143,9 +1527,7 @@ async function uploadScreenshot(
             "jpeg",
             "png",
             "webp"
-        ].includes(
-            extension
-        )
+        ].includes(extension)
         ?
         extension
         :
@@ -1162,77 +1544,67 @@ async function uploadScreenshot(
 
     const encodedPath =
         filePath
-            .split("/")
-            .map(
-                part =>
-                    encodeURIComponent(
-                        part
-                    )
-            )
-            .join("/");
+        .split("/")
+        .map(
+            part =>
+                encodeURIComponent(part)
+        )
+        .join("/");
 
 
     const response =
-        await fetch(
+    await fetch(
 
-            SUPABASE_URL +
-            "/storage/v1/object/" +
-            STORAGE_BUCKET +
-            "/" +
-            encodedPath,
+        SUPABASE_URL +
+        "/storage/v1/object/" +
+        STORAGE_BUCKET +
+        "/" +
+        encodedPath,
 
-            {
+        {
+            method:"POST",
 
-                method:"POST",
+            headers:{
 
-                headers:{
+                "apikey":
+                    SUPABASE_KEY,
 
-                    "apikey":
-                        SUPABASE_KEY,
+                "Authorization":
+                    "Bearer " +
+                    SUPABASE_KEY,
 
-                    "Authorization":
-                        "Bearer " +
-                        SUPABASE_KEY,
+                "Content-Type":
+                    file.type,
 
-                    "Content-Type":
-                        file.type,
+                "x-upsert":
+                    "false"
+            },
 
-                    "x-upsert":
-                        "false"
+            body:file
+        }
 
-                },
-
-                body:file
-
-            }
-
-        );
+    );
 
 
     const text =
         await response.text();
 
 
-    if(
-        !response.ok
-    ){
+    if(!response.ok){
 
         throw new Error(
             "فشل رفع الصورة: " +
             text
         );
-
     }
 
 
     return (
-
         SUPABASE_URL +
         "/storage/v1/object/public/" +
         STORAGE_BUCKET +
         "/" +
         encodedPath
-
     );
 
 }
@@ -1265,50 +1637,48 @@ ${orderData.final_price} جنيه
 💳 طريقة الدفع:
 ${selectedPayment}
 
-📸 صورة إثبات التحويل مرفقة
+📸 صورة إثبات التحويل:
+${screenshotUrl}
 
 📌 الحالة:
 تم التحويل - في انتظار المراجعة`;
 
 
     const response =
-        await fetch(
+    await fetch(
 
-            SUPABASE_URL +
-            "/functions/v1/telegram-notify",
+        SUPABASE_URL +
+        "/functions/v1/telegram-notify",
 
-            {
+        {
 
-                method:"POST",
+            method:"POST",
 
-                headers:{
+            headers:{
 
-                    "Content-Type":
-                        "application/json",
+                "Content-Type":
+                    "application/json",
 
-                    "apikey":
-                        SUPABASE_KEY,
+                "apikey":
+                    SUPABASE_KEY,
 
-                    "Authorization":
-                        "Bearer " +
-                        SUPABASE_KEY
+                "Authorization":
+                    "Bearer " +
+                    SUPABASE_KEY
+            },
 
-                },
+            body:
+                JSON.stringify({
 
-                body:
-                    JSON.stringify({
+                    text:
+                        message,
 
-                        text:
-                            message,
+                    photo_url:
+                        screenshotUrl
+                })
+        }
 
-                        photo_url:
-                            screenshotUrl
-
-                    })
-
-            }
-
-        );
+    );
 
 
     const text =
@@ -1325,7 +1695,7 @@ ${selectedPayment}
 
 
 /* =========================
-   CONFIRM PAYMENT
+   CONFIRM
 ========================= */
 
 async function confirmPayment(){
@@ -1334,7 +1704,6 @@ async function confirmPayment(){
         document.getElementById(
             "submitButton"
         );
-
 
     const input =
         document.getElementById(
@@ -1348,53 +1717,30 @@ async function confirmPayment(){
     if(!selectedPayment){
 
         showError(
-            "❌ اختار طريقة الدفع أولاً"
+            "اختار طريقة الدفع أولاً"
         );
 
         return;
-
     }
 
 
     if(!orderData){
 
         showError(
-            "❌ بيانات الطلب غير موجودة"
+            "بيانات الطلب غير موجودة"
         );
 
         return;
-
     }
 
 
-    if(
-        !input.files.length
-    ){
+    if(!input.files.length){
 
         showError(
-            "❌ لازم ترفق صورة التحويل"
+            "لازم ترفق صورة التحويل"
         );
 
         return;
-
-    }
-
-
-    const file =
-        input.files[0];
-
-
-    if(
-        file.size >
-        5 * 1024 * 1024
-    ){
-
-        showError(
-            "❌ حجم الصورة أكبر من 5 ميجا"
-        );
-
-        return;
-
     }
 
 
@@ -1410,7 +1756,7 @@ async function confirmPayment(){
 
         const screenshotUrl =
             await uploadScreenshot(
-                file
+                input.files[0]
             );
 
 
@@ -1419,77 +1765,62 @@ async function confirmPayment(){
 
 
         const updateResponse =
-            await fetch(
+        await fetch(
 
-                SUPABASE_URL +
-                "/rest/v1/orders" +
-                "?order_number=eq." +
-                encodeURIComponent(
-                    orderNumber
-                ),
+            SUPABASE_URL +
+            "/rest/v1/orders" +
+            "?order_number=eq." +
+            encodeURIComponent(orderNumber),
 
-                {
+            {
 
-                    method:"PATCH",
+                method:"PATCH",
 
-                    headers:{
+                headers:{
 
-                        "apikey":
-                            SUPABASE_KEY,
+                    "apikey":
+                        SUPABASE_KEY,
 
-                        "Authorization":
-                            "Bearer " +
-                            SUPABASE_KEY,
+                    "Authorization":
+                        "Bearer " +
+                        SUPABASE_KEY,
 
-                        "Content-Type":
-                            "application/json",
+                    "Content-Type":
+                        "application/json",
 
-                        "Prefer":
-                            "return=minimal"
+                    "Prefer":
+                        "return=minimal"
+                },
 
-                    },
+                body:
+                    JSON.stringify({
 
-                    body:
-                        JSON.stringify({
+                        payment_method:
+                            selectedPayment,
 
-                            payment_method:
-                                selectedPayment,
+                        payment_screenshot:
+                            screenshotUrl,
 
-                            payment_screenshot:
-                                screenshotUrl,
+                        status:
+                            "payment_submitted"
 
-                            status:
-                                "payment_submitted"
+                    })
+            }
 
-                        })
-
-                }
-
-            );
+        );
 
 
-        if(
-            !updateResponse.ok
-        ){
-
-            const error =
-                await updateResponse.text();
+        if(!updateResponse.ok){
 
             throw new Error(
-                "فشل تسجيل التحويل: " +
-                error
+                await updateResponse.text()
             );
-
         }
 
 
         button.textContent =
-            "⏳ جاري إرسال الطلب...";
+            "⏳ جاري إرسال الإشعار...";
 
-
-        /*
-         * إرسال الرسالة الوحيدة بعد التحويل
-         */
 
         try{
 
@@ -1499,13 +1830,11 @@ async function confirmPayment(){
 
         }
 
-        catch(
-            telegramError
-        ){
+        catch(error){
 
             console.error(
                 "Telegram error:",
-                telegramError
+                error
             );
 
         }
@@ -1531,13 +1860,9 @@ async function confirmPayment(){
 
     }
 
-
     catch(error){
 
-        console.error(
-            error
-        );
-
+        console.error(error);
 
         showError(
             "❌ " +
@@ -1550,7 +1875,7 @@ async function confirmPayment(){
 
 
         button.textContent =
-            "✅ تم التحويل وإرسال الطلب";
+            "تم التحويل وإرسال الطلب ✓";
 
     }
 
@@ -1569,11 +1894,10 @@ function showError(text){
         );
 
     box.textContent =
-        text;
+        "❌ " + text;
 
     box.style.display =
         "block";
-
 }
 
 
