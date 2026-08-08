@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>إتمام الدفع | WE Packages</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+
+    font-family:Arial,Tahoma,sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            #a06cf0 0%,
+            transparent 38%
+        ),
+        linear-gradient(
+            135deg,
+            #f1eff9,
+            #ded5f0,
+            #d1c5e8
+        );
+
+    color:#19182d;
+}
+
+.container{
+    width:92%;
+    max-width:650px;
+
+    margin:auto;
+
+    padding:35px 0 70px;
+}
+
+.card{
+    background:rgba(255,255,255,.74);
+
+    border:1px solid rgba(255,255,255,.85);
+
+    border-radius:30px;
+
+    padding:30px 23px;
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    box-shadow:
+        0 20px 50px rgba(60,35,120,.14);
+}
+
+.icon{
+    text-align:center;
+    font-size:45px;
+    margin-bottom:8px;
+}
+
+h1{
+    text-align:center;
+    color:#5420b8;
+    font-size:29px;
+    margin:0 0 8px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#6d6d80;
+    margin-bottom:25px;
+    line-height:1.7;
+}
+
+/* ORDER */
+
+.order-box{
+
+    background:
+        linear-gradient(
+            135deg,
+            #5420b8,
+            #9747ff
+        );
+
+    color:#fff;
+
+    padding:22px;
+
+    border-radius:22px;
+
+    margin-bottom:22px;
+
+    text-align:center;
+}
+
+.order-number{
+    font-size:15px;
+    opacity:.85;
+    margin-bottom:8px;
+}
+
+.package-name{
+    font-size:25px;
+    font-weight:900;
+}
+
+.price{
+    font-size:30px;
+    font-weight:900;
+    margin-top:7px;
+}
+
+
+/* PAYMENT */
+
+.payment-title{
+    font-size:20px;
+    font-weight:bold;
+    color:#5420b8;
+    margin:25px 0 15px;
+}
+
+.payment-method{
+
+    position:relative;
+
+    padding:20px;
+
+    margin-bottom:15px;
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,.8);
+
+    border:2px solid #e5def3;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.payment-method.selected{
+
+    border-color:#7544cf;
+
+    background:#f5efff;
+
+    box-shadow:
+        0 8px 25px rgba(84,32,184,.12);
+}
+
+.payment-method input{
+
+    position:absolute;
+
+    opacity:0;
+}
+
+.method-name{
+
+    font-size:20px;
+
+    font-weight:900;
+
+    color:#29243a;
+
+    margin-bottom:8px;
+}
+
+.method-number{
+
+    font-size:21px;
+
+    font-weight:bold;
+
+    color:#5420b8;
+
+    direction:ltr;
+
+    text-align:right;
+}
+
+.method-note{
+
+    font-size:13px;
+
+    color:#777;
+
+    margin-top:8px;
+}
+
+
+/* BUTTON */
+
+.submit{
+
+    width:100%;
+
+    margin-top:12px;
+
+    padding:17px;
+
+    border:0;
+
+    border-radius:17px;
+
+    cursor:pointer;
+
+    color:#fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5420b8,
+            #9747ff
+        );
+
+    font-size:18px;
+
+    font-weight:bold;
+}
+
+.submit:disabled{
+
+    opacity:.6;
+
+    cursor:not-allowed;
+}
+
+
+/* MESSAGE */
+
+.message{
+
+    display:none;
+
+    margin-top:17px;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    font-weight:bold;
+}
+
+.error{
+
+    background:#ffe2e2;
+
+    color:#a00000;
+}
+
+.success{
+
+    background:#dff8e7;
+
+    color:#08752d;
+}
+
+
+/* SUCCESS */
+
+.success-box{
+
+    display:none;
+
+    text-align:center;
+
+    padding:15px 0;
+}
+
+.success-icon{
+
+    font-size:60px;
+
+    margin-bottom:10px;
+}
+
+.success-box h2{
+
+    color:#5420b8;
+
+    margin-bottom:10px;
+}
+
+.back{
+
+    display:block;
+
+    text-align:center;
+
+    margin-top:22px;
+
+    color:#5420b8;
+
+    text-decoration:none;
+
+    font-weight:bold;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+<div class="card">
+
+
+<div class="icon">
+    💳
+</div>
+
+<h1>
+    إتمام التحويل
+</h1>
+
+<div class="subtitle">
+    حوّل المبلغ المطلوب إلى إحدى طرق الدفع التالية
+</div>
+
+
+<!-- ORDER -->
+
+<div class="order-box">
+
+    <div
+        class="order-number"
+        id="orderNumber"
+    >
+        رقم الطلب: جاري التحميل...
+    </div>
+
+    <div
+        class="package-name"
+        id="packageName"
+    >
+        جاري التحميل...
+    </div>
+
+    <div
+        class="price"
+        id="price"
+    >
+        --
+    </div>
+
+</div>
+
+
+<div id="paymentContent">
+
+
+<div class="payment-title">
+    اختر طريقة التحويل
+</div>
+
+
+<!-- VODAFONE -->
+
+<label
+    class="payment-method"
+    id="vodafoneMethod"
+>
+
+    <input
+        type="radio"
+        name="payment"
+        value="Vodafone Cash"
+        onchange="selectPayment('vodafone')"
+    >
+
+    <div class="method-name">
+        📱 فودافون كاش
+    </div>
+
+    <div class="method-number">
+        01101234791
+    </div>
+
+    <div class="method-note">
+        حوّل المبلغ المطلوب ثم اضغط "تم التحويل"
+    </div>
+
+</label>
+
+
+<!-- INSTAPAY -->
+
+<label
+    class="payment-method"
+    id="instapayMethod"
+>
+
+    <input
+        type="radio"
+        name="payment"
+        value="InstaPay"
+        onchange="selectPayment('instapay')"
+    >
+
+    <div class="method-name">
+        🏦 إنستا باي
+    </div>
+
+    <div class="method-number">
+        01090532469
+    </div>
+
+    <div class="method-note">
+        حوّل المبلغ المطلوب ثم اضغط "تم التحويل"
+    </div>
+
+</label>
+
+
+<button
+    class="submit"
+    id="submitButton"
+    onclick="confirmPayment()"
+>
+    ✅ تم التحويل
+</button>
+
+
+<div
+    class="message error"
+    id="errorMessage"
+></div>
+
+
+</div>
+
+
+<!-- SUCCESS -->
+
+<div
+    class="success-box"
+    id="successBox"
+>
+
+    <div class="success-icon">
+        🎉
+    </div>
+
+    <h2>
+        تم إرسال الطلب بنجاح
+    </h2>
+
+    <p>
+        تم تسجيل طلبك، وسيتم مراجعته وتنفيذ الباقة بعد التأكد من التحويل.
+    </p>
+
+    <div
+        class="order-box"
+        style="margin-top:20px;"
+    >
+
+        <div
+            class="order-number"
+            id="successOrder"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<a
+    href="packages.html"
+    class="back"
+>
+    ← العودة إلى الباقات
+</a>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   SUPABASE
+========================= */
+
+const SUPABASE_URL =
+"https://pgvbynefhqmyzjtccttl.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
+
+
+/* =========================
+   ORDER
+========================= */
+
+const params =
+new URLSearchParams(
+    window.location.search
+);
+
+const orderNumber =
+params.get("order");
+
+
+let selectedPayment = null;
+
+let orderData = null;
+
+
+/* =========================
+   LOAD ORDER
+========================= */
+
+async function loadOrder(){
+
+    if(!orderNumber){
+
+        showError(
+            "❌ رقم الطلب غير موجود"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+
+                SUPABASE_URL +
+                "/rest/v1/orders" +
+                "?order_number=eq." +
+                encodeURIComponent(
+                    orderNumber
+                ) +
+                "&select=*",
+
+                {
+
+                    method:"GET",
+
+                    headers:{
+
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            SUPABASE_KEY
+
+                    }
+
+                }
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(
+            !response.ok ||
+            !data ||
+            !data.length
+        ){
+
+            showError(
+                "❌ لم يتم العثور على الطلب"
+            );
+
+            return;
+
+        }
+
+
+        orderData =
+            data[0];
+
+
+        document.getElementById(
+            "orderNumber"
+        ).textContent =
+            "رقم الطلب: " +
+            orderData.order_number;
+
+
+        document.getElementById(
+            "packageName"
+        ).textContent =
+            orderData.package_name;
+
+
+        document.getElementById(
+            "price"
+        ).textContent =
+            Number(
+                orderData.final_price
+            ) +
+            " جنيه";
+
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        showError(
+            "❌ حصل خطأ أثناء تحميل الطلب"
+        );
+
+    }
+
+}
+
+
+/* =========================
+   SELECT PAYMENT
+========================= */
+
+function selectPayment(method){
+
+    selectedPayment =
+        method;
+
+
+    document.getElementById(
+        "vodafoneMethod"
+    ).classList.remove(
+        "selected"
+    );
+
+
+    document.getElementById(
+        "instapayMethod"
+    ).classList.remove(
+        "selected"
+    );
+
+
+    if(method === "vodafone"){
+
+        document.getElementById(
+            "vodafoneMethod"
+        ).classList.add(
+            "selected"
+        );
+
+    }
+
+
+    if(method === "instapay"){
+
+        document.getElementById(
+            "instapayMethod"
+        ).classList.add(
+            "selected"
+        );
+
+    }
+
+}
+
+
+/* =========================
+   CONFIRM PAYMENT
+========================= */
+
+async function confirmPayment(){
+
+    const button =
+        document.getElementById(
+            "submitButton"
+        );
+
+
+    hideError();
+
+
+    if(!selectedPayment){
+
+        showError(
+            "❌ اختار طريقة التحويل أولاً"
+        );
+
+        return;
+
+    }
+
+
+    if(!orderData){
+
+        showError(
+            "❌ بيانات الطلب غير متاحة"
+        );
+
+        return;
+
+    }
+
+
+    button.disabled =
+        true;
+
+    button.textContent =
+        "⏳ جاري إرسال الطلب...";
+
+
+    try{
+
+        const response =
+            await fetch(
+
+                SUPABASE_URL +
+                "/rest/v1/orders" +
+                "?order_number=eq." +
+                encodeURIComponent(
+                    orderNumber
+                ),
+
+                {
+
+                    method:"PATCH",
+
+                    headers:{
+
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            SUPABASE_KEY,
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Prefer":
+                            "return=minimal"
+
+                    },
+
+                    body:JSON.stringify({
+
+                        payment_method:
+                            selectedPayment,
+
+                        status:
+                            "payment_submitted"
+
+                    })
+
+                }
+
+            );
+
+
+        if(!response.ok){
+
+            const data =
+                await response.json();
+
+            throw new Error(
+                JSON.stringify(data)
+            );
+
+        }
+
+
+        document.getElementById(
+            "paymentContent"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "successBox"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "successOrder"
+        ).textContent =
+            "رقم الطلب: " +
+            orderNumber;
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        showError(
+            "❌ حصل خطأ، حاول مرة أخرى"
+        );
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "✅ تم التحويل";
+
+    }
+
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+function showError(text){
+
+    const error =
+        document.getElementById(
+            "errorMessage"
+        );
+
+
+    error.textContent =
+        text;
+
+
+    error.style.display =
+        "block";
+
+}
+
+
+function hideError(){
+
+    document.getElementById(
+        "errorMessage"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadOrder();
+
+</script>
+
+
+</body>
+
+</html>
