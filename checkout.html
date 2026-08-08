@@ -16,21 +16,11 @@
 body{
     margin:0;
     min-height:100vh;
-
     font-family:Arial,Tahoma,sans-serif;
 
     background:
-        radial-gradient(
-            circle at 100% 0%,
-            #a06cf0 0%,
-            transparent 38%
-        ),
-        linear-gradient(
-            135deg,
-            #f1eff9,
-            #ded5f0,
-            #d1c5e8
-        );
+        radial-gradient(circle at 100% 0%,#a06cf0 0%,transparent 38%),
+        linear-gradient(135deg,#f1eff9,#ded5f0,#d1c5e8);
 
     color:#19182d;
 }
@@ -43,7 +33,7 @@ body{
 }
 
 .card{
-    background:rgba(255,255,255,.72);
+    background:rgba(255,255,255,.75);
     border:1px solid rgba(255,255,255,.85);
     border-radius:30px;
     padding:30px 24px;
@@ -51,14 +41,13 @@ body{
     backdrop-filter:blur(20px);
     -webkit-backdrop-filter:blur(20px);
 
-    box-shadow:
-        0 20px 50px rgba(60,35,120,.14);
+    box-shadow:0 20px 50px rgba(60,35,120,.14);
 }
 
 .logo{
     text-align:center;
-    font-size:38px;
-    margin-bottom:10px;
+    font-size:42px;
+    margin-bottom:8px;
 }
 
 .title{
@@ -80,21 +69,18 @@ body{
     padding:22px;
     border-radius:22px;
 
-    background:
-        linear-gradient(
-            135deg,
-            #5420b8,
-            #9747ff
-        );
+    background:linear-gradient(135deg,#5420b8,#9747ff);
 
     color:#fff;
     text-align:center;
     margin-bottom:25px;
+
+    box-shadow:0 12px 30px rgba(84,32,184,.2);
 }
 
 .package-summary h2{
     margin:0 0 10px;
-    font-size:28px;
+    font-size:26px;
 }
 
 .package-summary .gb{
@@ -106,13 +92,6 @@ body{
     font-size:27px;
     font-weight:bold;
     margin-top:8px;
-}
-
-.old-price{
-    text-decoration:line-through;
-    opacity:.55;
-    font-size:17px;
-    margin-left:8px;
 }
 
 .label{
@@ -140,8 +119,7 @@ input:focus{
     border-color:#7544cf;
 
     box-shadow:
-        0 0 0 3px
-        rgba(117,68,207,.12);
+        0 0 0 3px rgba(117,68,207,.12);
 }
 
 .hint{
@@ -163,15 +141,12 @@ input:focus{
 
     color:#fff;
 
-    background:
-        linear-gradient(
-            135deg,
-            #5420b8,
-            #9747ff
-        );
+    background:linear-gradient(135deg,#5420b8,#9747ff);
 
     font-size:19px;
     font-weight:bold;
+
+    box-shadow:0 10px 25px rgba(84,32,184,.2);
 }
 
 .submit:disabled{
@@ -240,7 +215,6 @@ input:focus{
 </style>
 </head>
 
-
 <body>
 
 <div class="container">
@@ -258,7 +232,6 @@ input:focus{
 <div class="subtitle">
     أدخل رقم التليفون الذي تريد تفعيل الباقة عليه
 </div>
-
 
 <div class="package-summary">
 
@@ -282,12 +255,10 @@ input:focus{
 
 </div>
 
-
 <div
     class="error"
     id="errorMessage"
 ></div>
-
 
 <div id="orderForm">
 
@@ -313,11 +284,10 @@ input:focus{
         id="submitButton"
         onclick="submitOrder()"
     >
-        إتمام الشراء
+        متابعة للدفع
     </button>
 
 </div>
-
 
 <div
     class="success"
@@ -329,11 +299,11 @@ input:focus{
     </div>
 
     <h2>
-        تم إنشاء الطلب
+        جاري تحويلك للدفع
     </h2>
 
     <p>
-        سيتم تحويلك إلى صفحة التحويل لإتمام الدفع.
+        لحظة واحدة...
     </p>
 
     <div
@@ -343,14 +313,12 @@ input:focus{
 
 </div>
 
-
 <a
     href="packages.html"
     class="back"
 >
     ← العودة إلى الباقات
 </a>
-
 
 </div>
 
@@ -359,9 +327,9 @@ input:focus{
 
 <script>
 
-/* =====================================================
+/* =========================
    SUPABASE
-===================================================== */
+========================= */
 
 const SUPABASE_URL =
 "https://pgvbynefhqmyzjtccttl.supabase.co";
@@ -370,9 +338,9 @@ const SUPABASE_KEY =
 "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 
 
-/* =====================================================
-   GET DATA FROM URL
-===================================================== */
+/* =========================
+   URL DATA
+========================= */
 
 const params =
 new URLSearchParams(
@@ -391,9 +359,9 @@ const promoCode =
 params.get("promo") || "";
 
 
-/* =====================================================
-   DISPLAY PACKAGE
-===================================================== */
+/* =========================
+   DISPLAY
+========================= */
 
 if(
     !packageGB ||
@@ -425,13 +393,11 @@ else{
         packageGB +
         " جيجا";
 
-
     document.getElementById(
         "packageGB"
     ).textContent =
         packageGB +
         " GB";
-
 
     document.getElementById(
         "packagePrice"
@@ -442,9 +408,9 @@ else{
 }
 
 
-/* =====================================================
-   PHONE VALIDATION
-===================================================== */
+/* =========================
+   PHONE
+========================= */
 
 function validPhone(phone){
 
@@ -455,9 +421,9 @@ function validPhone(phone){
 }
 
 
-/* =====================================================
-   SHOW ERROR
-===================================================== */
+/* =========================
+   ERROR
+========================= */
 
 function showError(text){
 
@@ -475,9 +441,9 @@ function showError(text){
 }
 
 
-/* =====================================================
-   CREATE ORDER NUMBER
-===================================================== */
+/* =========================
+   ORDER NUMBER
+========================= */
 
 function createOrderNumber(){
 
@@ -500,9 +466,9 @@ function createOrderNumber(){
 }
 
 
-/* =====================================================
+/* =========================
    CREATE ORDER
-===================================================== */
+========================= */
 
 async function submitOrder(){
 
@@ -511,24 +477,19 @@ async function submitOrder(){
             "phone"
         ).value.trim();
 
-
     const button =
         document.getElementById(
             "submitButton"
         );
-
 
     const errorBox =
         document.getElementById(
             "errorMessage"
         );
 
-
     errorBox.style.display =
         "none";
 
-
-    /* PHONE */
 
     if(
         !validPhone(phone)
@@ -542,8 +503,6 @@ async function submitOrder(){
 
     }
 
-
-    /* PACKAGE */
 
     if(
         !packageGB ||
@@ -564,16 +523,12 @@ async function submitOrder(){
         true;
 
     button.textContent =
-        "⏳ جاري إنشاء الطلب...";
+        "⏳ جاري تجهيز الطلب...";
 
 
     const orderNumber =
         createOrderNumber();
 
-
-    /* =================================================
-       DATA SENT TO SUPABASE
-    ================================================= */
 
     const orderData = {
 
@@ -600,11 +555,6 @@ async function submitOrder(){
         promo_code:
             promoCode,
 
-        /*
-          مهم:
-          مش هنبعت null هنا
-        */
-
         payment_method:
             "لم يتم التحويل بعد",
 
@@ -612,12 +562,6 @@ async function submitOrder(){
             "pending"
 
     };
-
-
-    console.log(
-        "ORDER DATA:",
-        orderData
-    );
 
 
     try{
@@ -630,8 +574,7 @@ async function submitOrder(){
 
             {
 
-                method:
-                    "POST",
+                method:"POST",
 
                 headers:{
 
@@ -660,28 +603,9 @@ async function submitOrder(){
         );
 
 
-        /* =================================================
-           READ RESPONSE
-        ================================================= */
-
         const responseText =
             await response.text();
 
-
-        console.log(
-            "SUPABASE STATUS:",
-            response.status
-        );
-
-        console.log(
-            "SUPABASE RESPONSE:",
-            responseText
-        );
-
-
-        /* =================================================
-           ERROR FROM SUPABASE
-        ================================================= */
 
         if(
             !response.ok
@@ -689,7 +613,6 @@ async function submitOrder(){
 
             let message =
                 responseText;
-
 
             try{
 
@@ -706,9 +629,7 @@ async function submitOrder(){
                     responseText;
 
             }
-            catch(e){
-                /* response isn't JSON */
-            }
+            catch(e){}
 
 
             showError(
@@ -716,97 +637,31 @@ async function submitOrder(){
                 message
             );
 
-
             button.disabled =
                 false;
 
             button.textContent =
-                "إتمام الشراء";
-
+                "متابعة للدفع";
 
             return;
 
         }
-// ========================================
-// SEND ORDER NOTIFICATION TO TELEGRAM
-// ========================================
 
-try {
 
-    const telegramMessage = `
-🛒 طلب جديد - WE Packages
-
-📋 رقم الطلب: ${orderNumber}
-
-📱 رقم الهاتف: ${phone}
-
-📦 الباقة: ${packageGB} جيجا
-
-💰 السعر الأصلي: ${price} جنيه
-
-💵 السعر النهائي: ${price} جنيه
-
-🎟️ كود الخصم: ${promoCode || "لا يوجد"}
-
-💳 طريقة الدفع: لم يتم التحويل بعد
-
-📌 الحالة: Pending
-`;
-
-    const telegramResponse = await fetch(
-        SUPABASE_URL + "/functions/v1/telegram-notify",
-        {
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json",
-                "apikey": SUPABASE_KEY,
-                "Authorization": "Bearer " + SUPABASE_KEY
-            },
-
-            body: JSON.stringify({
-                text: telegramMessage
-            })
-        }
-    );
-
-    const telegramResult = await telegramResponse.json();
-
-    console.log(
-        "TELEGRAM NOTIFICATION:",
-        telegramResult
-    );
-
-} catch (telegramError) {
-
-    // Telegram failure must NOT cancel the order
-    console.error(
-        "TELEGRAM ERROR:",
-        telegramError
-    );
-
-}
-
-        /* =================================================
+        /* =========================
            SUCCESS
-        ================================================= */
-
-        console.log(
-            "ORDER CREATED SUCCESSFULLY"
-        );
-
+           NO TELEGRAM HERE
+        ========================= */
 
         document.getElementById(
             "orderForm"
         ).style.display =
             "none";
 
-
         document.getElementById(
             "successBox"
         ).style.display =
             "block";
-
 
         document.getElementById(
             "orderNumber"
@@ -814,10 +669,6 @@ try {
             "رقم الطلب: " +
             orderNumber;
 
-
-        /* =================================================
-           GO TO PAYMENT PAGE
-        ================================================= */
 
         setTimeout(
 
@@ -831,32 +682,28 @@ try {
 
             },
 
-            1200
+            700
 
         );
 
     }
 
-
     catch(error){
 
         console.error(
-            "FETCH ERROR:",
             error
         );
-
 
         showError(
             "❌ تعذر الاتصال بقاعدة البيانات: " +
             error.message
         );
 
-
         button.disabled =
             false;
 
         button.textContent =
-            "إتمام الشراء";
+            "متابعة للدفع";
 
     }
 
