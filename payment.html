@@ -557,6 +557,8 @@ let selectedPayment = null;
 
 let orderData = null;
 
+let paymentScreenshotUrl = null;
+
 
 /* =========================
    LOAD ORDER
@@ -715,7 +717,201 @@ function selectPayment(method){
 
 }
 
+/* =========================
+   PAYMENT SCREENSHOT
+========================= */
 
+async function handleScreenshot(event){
+
+    const file =
+        event.target.files[0];
+
+    if(!file){
+        return;
+    }
+
+    hideError();
+
+    /* التأكد أن الملف صورة */
+    if(!file.type.startsWith("image/")){
+
+        showError(
+            "❌ من فضلك اختر صورة صحيحة"
+        );
+
+        event.target.value = "";
+        return;
+    }
+
+    /* الحد الأقصى 5 ميجا */
+    if(file.size > 5 * 1024 * 1024){
+
+        showError(
+            "❌ حجم الصورة يجب ألا يتجاوز 5 ميجا"
+        );
+
+        event.target.value = "";
+        return;
+    }
+
+    const uploadButton =
+        document.getElementById(
+            "uploadButton"
+        );
+
+    const screenshotName =
+        document.getElementById(
+            "screenshotName"
+        );
+
+    const submitButton =
+        document.getElementById(
+            "submitButton"
+        );
+
+    uploadButton.disabled = true;
+
+    uploadButton.textContent =
+        "⏳ جاري رفع الصورة...";
+
+    try{
+
+        /*
+         * اسم فريد للصورة
+         */
+        const extension =
+            file.name
+                .split(".")
+                .pop()
+                .toLowerCase();
+
+        const fileName =
+            orderNumber +
+            "-" +
+            Date.now() +
+            "." +
+            extension;
+
+        const filePath =
+            fileName;
+
+
+        /*
+         * رفع الصورة إلى Supabase Storage
+         */
+        const uploadResponse =
+            await fetch(
+
+                SUPABASE_URL +
+                "/storage/v1/object/payment-screenshots/" +
+                encodeURIComponent(filePath),
+
+                {
+                    method:"POST",
+
+                    headers:{
+
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            SUPABASE_KEY,
+
+                        "Content-Type":
+                            file.type,
+
+                        "x-upsert":
+                            "true"
+
+                    },
+
+                    body:file
+
+                }
+
+            );
+
+
+        if(!uploadResponse.ok){
+
+            const errorText =
+                await uploadResponse.text();
+
+            throw new Error(
+                errorText
+            );
+
+        }
+
+
+        /*
+         * الرابط العام للصورة
+         */
+        paymentScreenshotUrl =
+            SUPABASE_URL +
+            "/storage/v1/object/public/payment-screenshots/" +
+            encodeURIComponent(filePath);
+
+
+        /*
+         * عرض اسم الصورة
+         */
+        screenshotName.textContent =
+            "📷 " +
+            file.name +
+            " ✅";
+
+        screenshotName.style.display =
+            "block";
+
+
+        /*
+         * تفعيل زر تم التحويل
+         */
+        submitButton.disabled =
+            false;
+
+
+        uploadButton.disabled =
+            false;
+
+        uploadButton.textContent =
+            "📷 تغيير صورة التحويل";
+
+
+        console.log(
+            "PAYMENT SCREENSHOT:",
+            paymentScreenshotUrl
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "UPLOAD ERROR:",
+            error
+        );
+
+        paymentScreenshotUrl =
+            null;
+
+        showError(
+            "❌ فشل رفع صورة التحويل، حاول مرة أخرى"
+        );
+
+        uploadButton.disabled =
+            false;
+
+        uploadButton.textContent =
+            "📷 إرفاق صورة التحويل";
+
+        submitButton.disabled =
+            true;
+
+    }
+
+}
 /* =========================
    CONFIRM PAYMENT
 ========================= */
