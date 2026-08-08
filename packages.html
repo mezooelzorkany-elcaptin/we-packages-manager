@@ -2,538 +2,567 @@
 <html lang="ar" dir="rtl">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>باقات WE</title>
 
-<title>باقات WE</title>
+    <style>
 
-<style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+        html{
+            scroll-behavior:smooth;
+        }
 
-html{
-    scroll-behavior:smooth;
-}
+        body{
+            font-family:Arial, Tahoma, sans-serif;
+            direction:rtl;
+            min-height:100vh;
 
-body{
-    font-family:Arial, Tahoma, sans-serif;
-    direction:rtl;
-    min-height:100vh;
+            background:
+                radial-gradient(
+                    circle at 100% 0%,
+                    #a06cf0 0%,
+                    #8554d9 25%,
+                    transparent 60%
+                ),
+                linear-gradient(
+                    135deg,
+                    #eeeff8 0%,
+                    #e4def3 40%,
+                    #d8cdef 70%,
+                    #cec1e8 100%
+                );
 
-    background:
-        radial-gradient(
-            circle at 100% 0%,
-            #a56cff 0%,
-            #7441d9 30%,
-            transparent 65%
-        ),
-        linear-gradient(
-            135deg,
-            #eef0ff 0%,
-            #e6ddff 35%,
-            #d9c8ff 70%,
-            #cbb5ff 100%
-        );
+            background-attachment:fixed;
 
-    background-attachment:fixed;
+            color:#171b35;
+        }
 
-    color:#171b35;
-}
 
+        /* =========================
+           عنوان الصفحة
+        ========================= */
 
-/* =========================
-   HEADER
-========================= */
+        .header{
+            text-align:center;
+            padding:55px 20px 35px;
+        }
 
-.header{
-    text-align:center;
-    padding:55px 20px 35px;
-}
+        .badge-top{
+            display:inline-block;
 
-.badge-top{
-    display:inline-block;
+            padding:10px 22px;
 
-    padding:9px 20px;
+            border-radius:50px;
 
-    border-radius:50px;
+            color:#6337b8;
 
-    color:#6e3cd9;
+            background:rgba(255,255,255,.65);
 
-    background:rgba(255,255,255,.65);
+            border:1px solid rgba(255,255,255,.95);
 
-    border:1px solid rgba(255,255,255,.9);
+            box-shadow:
+                0 8px 25px rgba(60,35,120,.10);
 
-    box-shadow:
-        0 8px 25px rgba(0,0,0,.06);
+            backdrop-filter:blur(15px);
+            -webkit-backdrop-filter:blur(15px);
 
-    backdrop-filter:blur(15px);
-    -webkit-backdrop-filter:blur(15px);
+            font-size:16px;
+            font-weight:bold;
 
-    font-size:15px;
-    font-weight:bold;
+            margin-bottom:20px;
+        }
 
-    margin-bottom:17px;
-}
 
-.header h1{
-    font-size:40px;
-    color:#202124;
+        .header h1{
+            font-size:40px;
 
-    margin-bottom:12px;
-}
+            color:#171b35;
 
-.header p{
-    color:#777;
-    font-size:17px;
-    line-height:1.7;
-}
+            margin-bottom:15px;
 
+            font-weight:900;
+        }
 
-/* =========================
-   PACKAGES
-========================= */
 
-.packages{
-    width:92%;
-    max-width:900px;
+        .header p{
+            color:#343451;
 
-    margin:0 auto;
+            font-size:18px;
 
-    padding:10px 0 60px;
-}
+            line-height:1.8;
 
+            font-weight:500;
+        }
 
-/* =========================
-   PACKAGE CARD
-========================= */
 
-.package{
+        /* =========================
+           منطقة الباقات
+        ========================= */
 
-    position:relative;
+        .packages{
+            width:92%;
+            max-width:700px;
 
-    overflow:hidden;
+            margin:0 auto;
 
-    background:
+            padding:10px 0 60px;
+        }
 
-        radial-gradient(
-            circle at 100% 0%,
-            #7838e8 0%,
-            rgba(120,56,232,.65) 25%,
-            transparent 55%
-        ),
 
-        linear-gradient(
-            135deg,
-            #14192c 0%,
-            #24265b 30%,
-            #432b9b 60%,
-            #6e3cd9 100%
-        );
+        /* =========================
+           كارت الباقة
+        ========================= */
 
-    border:1px solid rgba(255,255,255,.25);
+        .package{
 
-    border-radius:30px;
+            position:relative;
 
-    padding:36px 23px;
+            overflow:hidden;
 
-    margin-bottom:25px;
+            background:
 
-    text-align:center;
+                radial-gradient(
+                    circle at 100% 0%,
+                    #925bea 0%,
+                    #7544cf 28%,
+                    transparent 68%
+                ),
 
-    color:white;
+                linear-gradient(
+                    135deg,
+                    #292d52 0%,
+                    #3c347c 40%,
+                    #6841c4 72%,
+                    #7948d6 100%
+                );
 
-    box-shadow:
+            border:
 
-        0 18px 45px rgba(30,20,80,.25),
+                1px solid
+                rgba(255,255,255,.35);
 
-        inset 0 1px 0
-        rgba(255,255,255,.18);
+            border-radius:30px;
 
-    transition:.3s ease;
-}
+            padding:36px 23px;
 
+            margin-bottom:25px;
 
-/* =========================
-   GLASS LIGHT
-========================= */
+            text-align:center;
 
-.package::before{
+            color:#fff;
 
-    content:"";
+            box-shadow:
 
-    position:absolute;
+                0 18px 45px
+                rgba(60,40,120,.20),
 
-    width:220px;
-    height:220px;
+                inset 0 1px 0
+                rgba(255,255,255,.22);
 
-    top:-130px;
-    right:-90px;
+            transition:
+                transform .3s ease,
+                box-shadow .3s ease;
+        }
 
-    border-radius:50%;
 
-    background:
-        rgba(255,255,255,.13);
+        .package:hover{
 
-    filter:blur(20px);
+            transform:translateY(-5px);
 
-    pointer-events:none;
-}
+            box-shadow:
 
+                0 25px 55px
+                rgba(60,40,120,.28),
 
-/* =========================
-   HOVER
-========================= */
+                inset 0 1px 0
+                rgba(255,255,255,.28);
+        }
 
-.package:hover{
 
-    transform:translateY(-6px);
+        /* لمعة زجاجية */
 
-    box-shadow:
+        .package::before{
 
-        0 25px 60px
-        rgba(45,25,110,.35),
+            content:"";
 
-        inset 0 1px 0
-        rgba(255,255,255,.25);
-}
+            position:absolute;
 
+            width:260px;
+            height:260px;
 
-/* =========================
-   PACKAGE TITLE
-========================= */
+            top:-160px;
+            right:-100px;
 
-.package h2{
+            border-radius:50%;
 
-    position:relative;
+            background:
+                rgba(255,255,255,.13);
 
-    z-index:2;
+            filter:blur(20px);
 
-    font-size:29px;
+            pointer-events:none;
+        }
 
-    color:#fff;
 
-    margin-bottom:18px;
-}
+        /* =========================
+           الأكثر طلباً
+        ========================= */
 
+        .popular{
 
-/* =========================
-   GB
-========================= */
+            position:relative;
 
-.gb{
+            z-index:2;
 
-    position:relative;
+            display:inline-block;
 
-    z-index:2;
+            padding:8px 18px;
 
-    font-size:42px;
+            margin-bottom:15px;
 
-    font-weight:900;
+            border-radius:50px;
 
-    color:#fff;
+            background:
+                rgba(255,255,255,.16);
 
-    margin-bottom:10px;
-}
+            border:
+                1px solid
+                rgba(255,255,255,.42);
 
+            backdrop-filter:blur(12px);
+            -webkit-backdrop-filter:blur(12px);
 
-/* =========================
-   MINUTES
-========================= */
+            color:#fff;
 
-.minutes{
+            font-size:14px;
 
-    position:relative;
+            font-weight:bold;
+        }
 
-    z-index:2;
 
-    font-size:18px;
+        /* =========================
+           عنوان الباقة
+        ========================= */
 
-    color:rgba(255,255,255,.75);
+        .package h2{
 
-    margin-bottom:17px;
-}
+            position:relative;
 
+            z-index:2;
 
-/* =========================
-   PRICE
-========================= */
+            color:#fff;
 
-.price{
+            font-size:30px;
 
-    position:relative;
+            font-weight:900;
 
-    z-index:2;
+            margin-bottom:18px;
+        }
 
-    font-size:32px;
 
-    font-weight:900;
+        /* =========================
+           الجيجا
+        ========================= */
 
-    color:#fff;
+        .gb{
 
-    margin-bottom:25px;
-}
+            position:relative;
 
+            z-index:2;
 
-/* =========================
-   SUBSCRIBE BUTTON
-========================= */
+            color:#fff;
 
-.subscribe{
+            font-size:43px;
 
-    position:relative;
+            font-weight:900;
 
-    z-index:3;
+            margin-bottom:10px;
+        }
 
-    display:block;
 
-    width:100%;
+        /* =========================
+           الدقائق
+        ========================= */
 
-    padding:16px;
+        .minutes{
 
-    border-radius:17px;
+            position:relative;
 
-    text-decoration:none;
+            z-index:2;
 
-    color:#fff;
+            color:
+                rgba(255,255,255,.78);
 
-    background:
-        rgba(255,255,255,.14);
+            font-size:18px;
 
-    border:
-        1px solid
-        rgba(255,255,255,.42);
+            margin-bottom:18px;
+        }
 
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
 
-    font-size:18px;
+        /* =========================
+           السعر
+        ========================= */
 
-    font-weight:bold;
+        .price{
 
-    box-shadow:
+            position:relative;
 
-        inset 0 1px 0
-        rgba(255,255,255,.3),
+            z-index:2;
 
-        0 8px 20px
-        rgba(0,0,0,.12);
+            color:#fff;
 
-    transition:.3s;
-}
+            font-size:33px;
 
-.subscribe:hover{
+            font-weight:900;
 
-    background:
-        rgba(255,255,255,.25);
+            margin-bottom:25px;
+        }
 
-    transform:translateY(-2px);
 
-}
+        /* =========================
+           زر الاشتراك
+        ========================= */
 
+        .subscribe{
 
-/* =========================
-   FEATURED PACKAGE
-========================= */
+            position:relative;
 
-.featured{
+            z-index:3;
 
-    background:
+            display:block;
 
-        radial-gradient(
-            circle at 100% 0%,
-            #8b4cff 0%,
-            rgba(139,76,255,.7) 28%,
-            transparent 55%
-        ),
+            width:100%;
 
-        linear-gradient(
-            135deg,
-            #171b35 0%,
-            #30256f 35%,
-            #5830bb 65%,
-            #8145ed 100%
-        );
+            padding:16px;
 
-    border:
-        2px solid
-        rgba(255,255,255,.4);
+            border-radius:17px;
 
-}
+            text-decoration:none;
 
+            color:#fff;
 
-/* =========================
-   POPULAR BADGE
-========================= */
+            background:
+                rgba(255,255,255,.14);
 
-.popular{
+            border:
+                1px solid
+                rgba(255,255,255,.48);
 
-    position:relative;
+            backdrop-filter:blur(14px);
+            -webkit-backdrop-filter:blur(14px);
 
-    z-index:4;
+            font-size:18px;
 
-    display:inline-block;
+            font-weight:bold;
 
-    padding:8px 18px;
+            box-shadow:
 
-    border-radius:50px;
+                inset 0 1px 0
+                rgba(255,255,255,.30),
 
-    background:
-        rgba(255,255,255,.18);
+                0 8px 20px
+                rgba(0,0,0,.10);
 
-    border:
-        1px solid
-        rgba(255,255,255,.4);
+            transition:.3s ease;
+        }
 
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
 
-    color:#fff;
+        .subscribe:hover{
 
-    font-size:14px;
+            background:
+                rgba(255,255,255,.25);
 
-    font-weight:bold;
+            transform:translateY(-2px);
+        }
 
-    margin-bottom:16px;
-}
 
+        /* =========================
+           الباقة المميزة
+        ========================= */
 
-/* =========================
-   WHATSAPP
-========================= */
+        .featured{
 
-.whatsapp{
+            background:
 
-    position:fixed;
+                radial-gradient(
+                    circle at 100% 0%,
+                    #a06aff 0%,
+                    #814ad9 30%,
+                    transparent 68%
+                ),
 
-    left:20px;
-    bottom:20px;
+                linear-gradient(
+                    135deg,
+                    #30345c 0%,
+                    #493b91 38%,
+                    #7145ce 70%,
+                    #8951e5 100%
+                );
 
-    width:60px;
-    height:60px;
+            border:
+                2px solid
+                rgba(255,255,255,.45);
 
-    border-radius:50%;
+            box-shadow:
 
-    background:#25D366;
+                0 20px 50px
+                rgba(75,40,150,.25),
 
-    color:white;
+                inset 0 1px 0
+                rgba(255,255,255,.30);
+        }
 
-    display:flex;
 
-    align-items:center;
-    justify-content:center;
+        /* =========================
+           واتساب
+        ========================= */
 
-    text-decoration:none;
+        .whatsapp{
 
-    font-size:28px;
+            position:fixed;
 
-    box-shadow:
-        0 10px 30px
-        rgba(0,0,0,.2);
+            left:20px;
+            bottom:20px;
 
-    z-index:999;
+            width:60px;
+            height:60px;
 
-    transition:.3s;
-}
+            border-radius:50%;
 
-.whatsapp:hover{
+            background:#25D366;
 
-    transform:scale(1.1);
+            color:white;
 
-}
+            display:flex;
 
+            align-items:center;
+            justify-content:center;
 
-/* =========================
-   FOOTER
-========================= */
+            text-decoration:none;
 
-footer{
+            font-size:27px;
 
-    text-align:center;
+            box-shadow:
+                0 10px 30px
+                rgba(0,0,0,.22);
 
-    padding:
-        25px
-        20px
-        100px;
+            z-index:999;
 
-    color:#888;
+            transition:.3s ease;
+        }
 
-    font-size:14px;
-}
 
+        .whatsapp:hover{
 
-/* =========================
-   MOBILE
-========================= */
+            transform:scale(1.1);
+        }
 
-@media(max-width:600px){
 
-    .header{
+        /* =========================
+           الفوتر
+        ========================= */
 
-        padding:
-            48px
-            18px
-            32px;
-    }
+        footer{
 
-    .header h1{
+            text-align:center;
 
-        font-size:35px;
-    }
+            padding:
+                25px
+                20px
+                100px;
 
-    .header p{
+            color:#666b7d;
 
-        font-size:16px;
-    }
+            font-size:14px;
+        }
 
-    .packages{
 
-        width:92%;
-    }
+        /* =========================
+           الموبايل
+        ========================= */
 
-    .package{
+        @media(max-width:600px){
 
-        padding:
-            32px
-            19px;
+            .header{
 
-        border-radius:28px;
-    }
+                padding:
+                    45px
+                    18px
+                    30px;
+            }
 
-    .package h2{
 
-        font-size:27px;
-    }
+            .header h1{
 
-    .gb{
+                font-size:35px;
+            }
 
-        font-size:39px;
-    }
 
-    .minutes{
+            .header p{
 
-        font-size:17px;
-    }
+                font-size:16px;
 
-    .price{
+                line-height:1.8;
+            }
 
-        font-size:30px;
-    }
 
-    .subscribe{
+            .packages{
 
-        font-size:17px;
+                width:92%;
+            }
 
-        padding:16px;
-    }
 
-}
+            .package{
 
-</style>
+                padding:
+                    34px
+                    20px;
+
+                border-radius:29px;
+            }
+
+
+            .package h2{
+
+                font-size:28px;
+            }
+
+
+            .gb{
+
+                font-size:40px;
+            }
+
+
+            .minutes{
+
+                font-size:17px;
+            }
+
+
+            .price{
+
+                font-size:31px;
+            }
+
+
+            .subscribe{
+
+                font-size:17px;
+
+                padding:16px;
+            }
+
+        }
+
+    </style>
 
 </head>
 
@@ -541,235 +570,243 @@ footer{
 <body>
 
 
-<!-- HEADER -->
+    <!-- عنوان الصفحة -->
 
-<header class="header">
+    <header class="header">
 
-    <div class="badge-top">
-        ⚡ تفعيل سريع وآمن
-    </div>
-
-    <h1>
-        أفضل باقات WE
-    </h1>
-
-    <p>
-        اختار الباقة المناسبة ليك واستمتع بتفعيل سريع
-        <br>
-        ودعم متواصل عبر واتساب
-    </p>
-
-</header>
-
-
-<!-- PACKAGES -->
-
-<main class="packages">
-
-
-    <!-- 20 GB -->
-
-    <section class="package">
-
-        <h2>
-            باقة 20 جيجا
-        </h2>
-
-        <div class="gb">
-            20 GB
+        <div class="badge-top">
+            ⚡ تفعيل سريع وآمن
         </div>
 
-        <div class="minutes">
-            1500 دقيقة
-        </div>
+        <h1>
+            أفضل باقات WE
+        </h1>
 
-        <div class="price">
-            250 جنيه
-        </div>
+        <p>
+            اختار الباقة المناسبة ليك واستمتع بتفعيل سريع
+            <br>
+            ودعم متواصل عبر واتساب
+        </p>
 
-        <a
-            class="subscribe"
-            href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 20 جيجا"
-        >
-            اشترك الآن
-        </a>
-
-    </section>
+    </header>
 
 
-    <!-- 30 GB -->
 
-    <section class="package">
+    <!-- الباقات -->
 
-        <h2>
-            باقة 30 جيجا
-        </h2>
-
-        <div class="gb">
-            30 GB
-        </div>
-
-        <div class="minutes">
-            1500 دقيقة
-        </div>
-
-        <div class="price">
-            340 جنيه
-        </div>
-
-        <a
-            class="subscribe"
-            href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 30 جيجا"
-        >
-            اشترك الآن
-        </a>
-
-    </section>
+    <main class="packages">
 
 
-    <!-- 35 GB -->
+        <!-- 20 جيجا -->
 
-    <section class="package featured">
+        <section class="package">
 
-        <div class="popular">
-            ⭐ الأكثر طلبًا
-        </div>
+            <h2>
+                باقة 20 جيجا
+            </h2>
 
-        <h2>
-            باقة 35 جيجا
-        </h2>
+            <div class="gb">
+                20 GB
+            </div>
 
-        <div class="gb">
-            35 GB
-        </div>
+            <div class="minutes">
+                1500 دقيقة
+            </div>
 
-        <div class="minutes">
-            1500 دقيقة
-        </div>
+            <div class="price">
+                250 جنيه
+            </div>
 
-        <div class="price">
-            380 جنيه
-        </div>
+            <a
+                class="subscribe"
+                href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 20 جيجا"
+            >
+                اشترك الآن
+            </a>
 
-        <a
-            class="subscribe"
-            href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 35 جيجا"
-        >
-            اشترك الآن
-        </a>
-
-    </section>
+        </section>
 
 
-    <!-- 40 GB -->
 
-    <section class="package">
+        <!-- 30 جيجا -->
 
-        <h2>
-            باقة 40 جيجا
-        </h2>
+        <section class="package">
 
-        <div class="gb">
-            40 GB
-        </div>
+            <h2>
+                باقة 30 جيجا
+            </h2>
 
-        <div class="minutes">
-            1500 دقيقة
-        </div>
+            <div class="gb">
+                30 GB
+            </div>
 
-        <div class="price">
-            430 جنيه
-        </div>
+            <div class="minutes">
+                1500 دقيقة
+            </div>
 
-        <a
-            class="subscribe"
-            href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 40 جيجا"
-        >
-            اشترك الآن
-        </a>
+            <div class="price">
+                340 جنيه
+            </div>
 
-    </section>
+            <a
+                class="subscribe"
+                href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 30 جيجا"
+            >
+                اشترك الآن
+            </a>
 
-
-    <!-- 50 GB -->
-
-    <section class="package">
-
-        <h2>
-            باقة 50 جيجا
-        </h2>
-
-        <div class="gb">
-            50 GB
-        </div>
-
-        <div class="minutes">
-            1500 دقيقة
-        </div>
-
-        <div class="price">
-            480 جنيه
-        </div>
-
-        <a
-            class="subscribe"
-            href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 50 جيجا"
-        >
-            اشترك الآن
-        </a>
-
-    </section>
+        </section>
 
 
-    <!-- 60 GB -->
 
-    <section class="package">
+        <!-- 35 جيجا -->
 
-        <h2>
-            باقة 60 جيجا
-        </h2>
+        <section class="package featured">
 
-        <div class="gb">
-            60 GB
-        </div>
+            <div class="popular">
+                ⭐ الأكثر طلبًا
+            </div>
 
-        <div class="minutes">
-            1500 دقيقة
-        </div>
+            <h2>
+                باقة 35 جيجا
+            </h2>
 
-        <div class="price">
-            570 جنيه
-        </div>
+            <div class="gb">
+                35 GB
+            </div>
 
-        <a
-            class="subscribe"
-            href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 60 جيجا"
-        >
-            اشترك الآن
-        </a>
+            <div class="minutes">
+                1500 دقيقة
+            </div>
 
-    </section>
+            <div class="price">
+                380 جنيه
+            </div>
 
+            <a
+                class="subscribe"
+                href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 35 جيجا"
+            >
+                اشترك الآن
+            </a>
 
-</main>
-
-
-<!-- WHATSAPP -->
-
-<a
-    class="whatsapp"
-    href="https://wa.me/201090532469"
-    aria-label="واتساب"
->
-    💬
-</a>
+        </section>
 
 
-<!-- FOOTER -->
 
-<footer>
-    WE Packages © 2026
-</footer>
+        <!-- 40 جيجا -->
+
+        <section class="package">
+
+            <h2>
+                باقة 40 جيجا
+            </h2>
+
+            <div class="gb">
+                40 GB
+            </div>
+
+            <div class="minutes">
+                1500 دقيقة
+            </div>
+
+            <div class="price">
+                430 جنيه
+            </div>
+
+            <a
+                class="subscribe"
+                href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 40 جيجا"
+            >
+                اشترك الآن
+            </a>
+
+        </section>
+
+
+
+        <!-- 50 جيجا -->
+
+        <section class="package">
+
+            <h2>
+                باقة 50 جيجا
+            </h2>
+
+            <div class="gb">
+                50 GB
+            </div>
+
+            <div class="minutes">
+                1500 دقيقة
+            </div>
+
+            <div class="price">
+                480 جنيه
+            </div>
+
+            <a
+                class="subscribe"
+                href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 50 جيجا"
+            >
+                اشترك الآن
+            </a>
+
+        </section>
+
+
+
+        <!-- 60 جيجا -->
+
+        <section class="package">
+
+            <h2>
+                باقة 60 جيجا
+            </h2>
+
+            <div class="gb">
+                60 GB
+            </div>
+
+            <div class="minutes">
+                1500 دقيقة
+            </div>
+
+            <div class="price">
+                570 جنيه
+            </div>
+
+            <a
+                class="subscribe"
+                href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 60 جيجا"
+            >
+                اشترك الآن
+            </a>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- زر واتساب -->
+
+    <a
+        class="whatsapp"
+        href="https://wa.me/201090532469"
+        aria-label="واتساب"
+    >
+        💬
+    </a>
+
+
+
+    <!-- الفوتر -->
+
+    <footer>
+        WE Packages © 2026
+    </footer>
 
 
 </body>
