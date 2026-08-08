@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>إدارة أكواد الخصم | WE Packages</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at top right, #9b5cff 0%, transparent 35%),
+        linear-gradient(135deg, #eef2ff, #f8f9ff);
+      min-height: 100vh;
+      color: #17172b;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 900px;
+      margin: auto;
+      padding: 30px 0 60px;
+    }
+
+    .glass {
+      background: rgba(255,255,255,0.78);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.8);
+      box-shadow: 0 20px 50px rgba(65,35,130,0.12);
+      border-radius: 25px;
+    }
+
+    header {
+      text-align: center;
+      padding: 28px 20px;
+      margin-bottom: 25px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 30px;
+      color: #5420b8;
+    }
+
+    header p {
+      color: #6d6d80;
+      margin-bottom: 0;
+    }
+
+    /* LOGIN */
+
+    #loginBox {
+      max-width: 500px;
+      margin: 60px auto;
+      padding: 35px 25px;
+    }
+
+    .login-title {
+      text-align: center;
+      font-size: 27px;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 14px;
+      margin-bottom: 15px;
+      font-size: 16px;
+      outline: none;
+      background: white;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #7b3ff2;
+      box-shadow: 0 0 0 3px rgba(123,63,242,.12);
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      border-radius: 14px;
+      padding: 14px 20px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .primary {
+      width: 100%;
+      color: white;
+      background: linear-gradient(135deg,#5420b8,#9747ff);
+    }
+
+    .primary:active {
+      transform: scale(.98);
+    }
+
+    .logout {
+      background: #eee;
+      color: #333;
+    }
+
+    /* ADMIN */
+
+    #adminPanel {
+      display: none;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .topbar h2 {
+      margin: 0;
+      color: #5420b8;
+    }
+
+    .form-box {
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    .form-box h3 {
+      margin-top: 0;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .add-btn {
+      width: 100%;
+      color: white;
+      background: linear-gradient(135deg,#5420b8,#9747ff);
+    }
+
+    .codes {
+      display: grid;
+      gap: 18px;
+    }
+
+    .code-card {
+      padding: 22px;
+      position: relative;
+    }
+
+    .code-name {
+      font-size: 25px;
+      font-weight: bold;
+      color: #5420b8;
+      margin-bottom: 12px;
+    }
+
+    .info {
+      color: #555;
+      line-height: 1.9;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .active {
+      background: #d9fbe5;
+      color: #08752d;
+    }
+
+    .inactive {
+      background: #ffe0e0;
+      color: #a00000;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .edit {
+      background: #e8ddff;
+      color: #5420b8;
+    }
+
+    .toggle {
+      background: #e5f5ff;
+      color: #126c9e;
+    }
+
+    .delete {
+      background: #ffe2e2;
+      color: #a00000;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: #777;
+    }
+
+    .message {
+      margin-top: 12px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    @media(max-width:600px) {
+
+      .row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .topbar {
+        flex-direction: column;
+      }
+
+      .topbar button {
+        width: 100%;
+      }
+
+      header h1 {
+        font-size: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- LOGIN -->
+
+  <div id="loginBox" class="glass">
+
+    <div class="login-title">
+      🔐 لوحة إدارة الأكواد
+    </div>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="البريد الإلكتروني"
+      value="mezooelzorkany@gmail.com"
+    >
+
+    <input
+      type="password"
+      id="password"
+      placeholder="كلمة المرور"
+    >
+
+    <button class="primary" onclick="login()">
+      تسجيل الدخول
+    </button>
+
+    <div id="loginMessage" class="message"></div>
+
+  </div>
+
+
+  <!-- ADMIN PANEL -->
+
+  <div id="adminPanel">
+
+    <header class="glass">
+      <h1>WE Packages 💜</h1>
+      <p>لوحة إدارة أكواد الخصم</p>
+    </header>
+
+
+    <div class="topbar glass">
+
+      <h2>🎟️ أكواد الخصم</h2>
+
+      <button class="logout" onclick="logout()">
+        تسجيل الخروج
+      </button>
+
+    </div>
+
+
+    <!-- ADD CODE -->
+
+    <div class="form-box glass">
+
+      <h3>➕ إضافة كود جديد</h3>
+
+      <input
+        type="text"
+        id="code"
+        placeholder="مثال: MEZOO20"
+      >
+
+      <div class="row">
+
+        <div>
+
+          <select id="discountType">
+
+            <option value="percent">
+              نسبة مئوية %
+            </option>
+
+            <option value="fixed">
+              مبلغ ثابت جنيه
+            </option>
+
+          </select>
+
+        </div>
+
+        <div>
+
+          <input
+            type="number"
+            id="discountValue"
+            placeholder="قيمة الخصم"
+            min="1"
+          >
+
+        </div>
+
+      </div>
+
+      <input
+        type="datetime-local"
+        id="expiresAt"
+      >
+
+      <button class="add-btn" onclick="addCode()">
+        إضافة الكود
+      </button>
+
+      <div id="formMessage" class="message"></div>
+
+    </div>
+
+
+    <!-- CODES -->
+
+    <div id="codesList" class="codes"></div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  /* =========================
+     SUPABASE
+  ========================= */
+
+const SUPABASE_URL =
+  "https://pgvbynefhqmyzjtccttl.supabase.co";
+
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+  const ADMIN_EMAIL =
+    "mezooelzorkany@gmail.com";
+
+
+  /* =========================
+     LOGIN
+  ========================= */
+
+  async function login() {
+
+    const email =
+      document.getElementById("email").value.trim();
+
+    const password =
+      document.getElementById("password").value;
+
+    const message =
+      document.getElementById("loginMessage");
+
+    message.textContent = "جاري تسجيل الدخول...";
+
+    const { data, error } =
+      await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+    if (error) {
+
+      message.textContent =
+        "❌ البريد الإلكتروني أو كلمة المرور غير صحيحة";
+
+      return;
+    }
+
+    if (data.user.email !== ADMIN_EMAIL) {
+
+      await supabaseClient.auth.signOut();
+
+      message.textContent =
+        "❌ غير مسموح لهذا الحساب بالدخول";
+
+      return;
+    }
+
+    showAdmin();
+
+  }
+
+
+  /* =========================
+     CHECK SESSION
+  ========================= */
+
+  async function checkSession() {
+
+    const {
+      data: { session }
+    } = await supabaseClient.auth.getSession();
+
+    if (
+      session &&
+      session.user &&
+      session.user.email === ADMIN_EMAIL
+    ) {
+
+      showAdmin();
+
+    }
+
+  }
+
+
+  /* =========================
+     SHOW ADMIN
+  ========================= */
+
+  function showAdmin() {
+
+    document.getElementById("loginBox").style.display =
+      "none";
+
+    document.getElementById("adminPanel").style.display =
+      "block";
+
+    loadCodes();
+
+  }
+
+
+  /* =========================
+     LOGOUT
+  ========================= */
+
+  async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    location.reload();
+
+  }
+
+
+  /* =========================
+     LOAD CODES
+  ========================= */
+
+  async function loadCodes() {
+
+    const list =
+      document.getElementById("codesList");
+
+    list.innerHTML =
+      '<div class="empty glass">جاري تحميل الأكواد...</div>';
+
+
+    const { data, error } =
+      await supabaseClient
+        .from("promo_codes")
+        .select("*")
+        .order("id", { ascending: false });
+
+
+    if (error) {
+
+      list.innerHTML =
+        `<div class="empty glass">
+          ❌ حصل خطأ في تحميل الأكواد
+          <br>
+          ${escapeHtml(error.message)}
+        </div>`;
+
+      return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+      list.innerHTML =
+        '<div class="empty glass">لا توجد أكواد حتى الآن 🎟️</div>';
+
+      return;
+    }
+
+
+    list.innerHTML = "";
+
+
+    data.forEach(code => {
+
+      const card =
+        document.createElement("div");
+
+      card.className =
+        "code-card glass";
+
+
+      const discount =
+        code.discount_type === "percent"
+          ? `${code.discount_value}%`
+          : `${code.discount_value} جنيه`;
+
+
+      let expiry = "بدون انتهاء";
+
+      if (code.expires_at) {
+
+        expiry =
+          new Date(code.expires_at)
+            .toLocaleString("ar-EG");
+
+      }
+
+
+      const statusClass =
+        code.is_active
+          ? "active"
+          : "inactive";
+
+
+      const statusText =
+        code.is_active
+          ? "🟢 فعال"
+          : "🔴 متوقف";
+
+
+      card.innerHTML = `
+
+        <div class="code-name">
+          ${escapeHtml(code.code)}
+        </div>
+
+        <div class="info">
+
+          💰 الخصم:
+          <strong>${discount}</strong>
+
+          <br>
+
+          📅 الانتهاء:
+          <strong>${expiry}</strong>
+
+          <br>
+
+          <span class="badge ${statusClass}">
+            ${statusText}
+          </span>
+
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="toggle"
+            onclick="toggleCode(${code.id}, ${code.is_active})"
+          >
+            ${code.is_active ? "إيقاف" : "تفعيل"}
+          </button>
+
+          <button
+            class="edit"
+            onclick="editCode(
+              ${code.id},
+              '${escapeJs(code.code)}',
+              '${code.discount_type}',
+              ${code.discount_value}
+            )"
+          >
+            تعديل
+          </button>
+
+          <button
+            class="delete"
+            onclick="deleteCode(${code.id})"
+          >
+            حذف
+          </button>
+
+        </div>
+      `;
+
+
+      list.appendChild(card);
+
+    });
+
+  }
+
+
+  /* =========================
+     ADD CODE
+  ========================= */
+
+  async function addCode() {
+
+    const code =
+      document.getElementById("code")
+        .value
+        .trim()
+        .toUpperCase();
+
+    const type =
+      document.getElementById("discountType")
+        .value;
+
+    const value =
+      Number(
+        document.getElementById("discountValue")
+          .value
+      );
+
+    const expiryInput =
+      document.getElementById("expiresAt")
+        .value;
+
+    const message =
+      document.getElementById("formMessage");
+
+
+    if (!code) {
+
+      message.textContent =
+        "❌ اكتب الكود أولًا";
+
+      return;
+    }
+
+
+    if (!value || value <= 0) {
+
+      message.textContent =
+        "❌ اكتب قيمة خصم صحيحة";
+
+      return;
+    }
+
+
+    if (type === "percent" && value > 100) {
+
+      message.textContent =
+        "❌ نسبة الخصم لا يمكن أن تتجاوز 100%";
+
+      return;
+    }
+
+
+    let expiresAt = null;
+
+    if (expiryInput) {
+
+      expiresAt =
+        new Date(expiryInput)
+          .toISOString();
+
+    }
+
+
+    const { error } =
+      await supabaseClient
+        .from("promo_codes")
+        .insert({
+
+          code: code,
+
+          discount_type: type,
+
+          discount_value: value,
+
+          is_active: true,
+
+          expires_at: expiresAt
+
+        });
+
+
+    if (error) {
+
+      message.textContent =
+        "❌ " + error.message;
+
+      return;
+    }
+
+
+    message.textContent =
+      "✅ تم إضافة الكود بنجاح";
+
+
+    document.getElementById("code").value = "";
+
+    document.getElementById("discountValue").value = "";
+
+    document.getElementById("expiresAt").value = "";
+
+
+    loadCodes();
+
+  }
+
+
+  /* =========================
+     TOGGLE
+  ========================= */
+
+  async function toggleCode(id, currentStatus) {
+
+    const { error } =
+      await supabaseClient
+        .from("promo_codes")
+        .update({
+          is_active: !currentStatus
+        })
+        .eq("id", id);
+
+
+    if (error) {
+
+      alert("حصل خطأ: " + error.message);
+
+      return;
+    }
+
+
+    loadCodes();
+
+  }
+
+
+  /* =========================
+     DELETE
+  ========================= */
+
+  async function deleteCode(id) {
+
+    const confirmed =
+      confirm("هل أنت متأكد من حذف هذا الكود؟");
+
+
+    if (!confirmed) return;
+
+
+    const { error } =
+      await supabaseClient
+        .from("promo_codes")
+        .delete()
+        .eq("id", id);
+
+
+    if (error) {
+
+      alert("حصل خطأ: " + error.message);
+
+      return;
+    }
+
+
+    loadCodes();
+
+  }
+
+
+  /* =========================
+     EDIT
+  ========================= */
+
+  async function editCode(
+    id,
+    oldCode,
+    oldType,
+    oldValue
+  ) {
+
+    const newCode =
+      prompt(
+        "اسم الكود:",
+        oldCode
+      );
+
+
+    if (!newCode) return;
+
+
+    const newValue =
+      prompt(
+        "قيمة الخصم:",
+        oldValue
+      );
+
+
+    if (!newValue) return;
+
+
+    const typeText =
+      oldType === "percent"
+        ? "نسبة مئوية"
+        : "مبلغ ثابت";
+
+
+    const changeType =
+      confirm(
+        `نوع الخصم الحالي: ${typeText}
+
+اضغط موافق = نسبة مئوية %
+اضغط إلغاء = مبلغ ثابت`
+      );
+
+
+    const newType =
+      changeType
+        ? "percent"
+        : "fixed";
+
+
+    const numericValue =
+      Number(newValue);
+
+
+    if (!numericValue || numericValue <= 0) {
+
+      alert("قيمة الخصم غير صحيحة");
+
+      return;
+    }
+
+
+    if (
+      newType === "percent" &&
+      numericValue > 100
+    ) {
+
+      alert("النسبة لا يمكن أن تتجاوز 100%");
+
+      return;
+    }
+
+
+    const { error } =
+      await supabaseClient
+        .from("promo_codes")
+        .update({
+
+          code:
+            newCode
+              .trim()
+              .toUpperCase(),
+
+          discount_type:
+            newType,
+
+          discount_value:
+            numericValue
+
+        })
+        .eq("id", id);
+
+
+    if (error) {
+
+      alert("حصل خطأ: " + error.message);
+
+      return;
+    }
+
+
+    loadCodes();
+
+  }
+
+
+  /* =========================
+     SECURITY HELPERS
+  ========================= */
+
+  function escapeHtml(text) {
+
+    return String(text)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+  }
+
+
+  function escapeJs(text) {
+
+    return String(text)
+      .replaceAll("\\", "\\\\")
+      .replaceAll("'", "\\'")
+      .replaceAll("\n", "\\n")
+      .replaceAll("\r", "\\r");
+
+  }
+
+
+  /* =========================
+     START
+  ========================= */
+
+  checkSession();
+
+</script>
+
+</body>
+</html>
