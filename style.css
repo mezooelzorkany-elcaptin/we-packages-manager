@@ -104,20 +104,19 @@ body {
 }
 
 /* Package Card */
-.package-card {
-  position: relative;
+.package{
+    background:rgba(255,255,255,0.78);
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
 
-  background: white;
+    border:1px solid rgba(255,255,255,0.9);
 
-  padding: 35px 25px;
+    border-radius:28px;
 
-  border-radius: 25px;
+    box-shadow:
+        0 15px 40px rgba(70,40,130,0.12);
 
-  text-align: center;
-
-  box-shadow: 0 10px 35px rgba(0,0,0,0.08);
-
-  transition: 0.3s;
+    color:#171b35;
 }
 
 .package-card:hover {
