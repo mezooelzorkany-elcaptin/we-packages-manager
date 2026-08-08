@@ -1,957 +1,1583 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>إدارة أكواد الخصم | WE Packages</title>
+<title>إدارة أكواد الخصم | WE Packages</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <style>
-    * {
-      box-sizing: border-box;
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Tahoma,sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            #9b63ed 0%,
+            transparent 38%
+        ),
+        linear-gradient(
+            135deg,
+            #f0eef9,
+            #ded5f0,
+            #d1c5e8
+        );
+
+    min-height:100vh;
+    color:#19182d;
+}
+
+.container{
+    width:92%;
+    max-width:900px;
+    margin:auto;
+    padding:30px 0 70px;
+}
+
+.glass{
+    background:rgba(255,255,255,.72);
+    border:1px solid rgba(255,255,255,.85);
+    border-radius:26px;
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    box-shadow:
+        0 18px 45px rgba(60,35,120,.12);
+}
+
+/* LOGIN */
+
+#loginBox{
+    max-width:500px;
+    margin:70px auto;
+    padding:35px 25px;
+}
+
+.login-title{
+    text-align:center;
+    font-size:28px;
+    font-weight:900;
+    color:#5420b8;
+    margin-bottom:25px;
+}
+
+input,
+select{
+    width:100%;
+    padding:15px;
+    margin-bottom:14px;
+
+    border:1px solid #ddd;
+    border-radius:15px;
+
+    outline:none;
+    background:#fff;
+
+    font-size:16px;
+}
+
+input:focus,
+select:focus{
+    border-color:#7544cf;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(117,68,207,.12);
+}
+
+button{
+    border:none;
+    cursor:pointer;
+
+    border-radius:14px;
+
+    padding:14px 18px;
+
+    font-size:16px;
+    font-weight:bold;
+}
+
+.primary{
+    width:100%;
+    color:#fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5420b8,
+            #9747ff
+        );
+}
+
+.message{
+    text-align:center;
+    margin-top:14px;
+    font-weight:bold;
+}
+
+
+/* ADMIN */
+
+#adminPanel{
+    display:none;
+}
+
+.header{
+    text-align:center;
+    padding:28px;
+    margin-bottom:22px;
+}
+
+.header h1{
+    margin:0 0 8px;
+    color:#5420b8;
+    font-size:32px;
+}
+
+.header p{
+    margin:0;
+    color:#707080;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    gap:15px;
+
+    padding:20px;
+    margin-bottom:22px;
+}
+
+.topbar h2{
+    margin:0;
+    color:#5420b8;
+}
+
+.logout{
+    background:#eee;
+    color:#333;
+}
+
+
+/* ADD FORM */
+
+.form-box{
+    padding:25px;
+    margin-bottom:25px;
+}
+
+.form-box h3{
+    margin-top:0;
+    color:#5420b8;
+}
+
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.add-btn{
+    width:100%;
+
+    color:#fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5420b8,
+            #9747ff
+        );
+}
+
+
+/* EDIT */
+
+.edit-box{
+    display:none;
+
+    padding:25px;
+    margin-bottom:25px;
+
+    border:2px solid
+        rgba(117,68,207,.2);
+}
+
+.edit-box h3{
+    margin-top:0;
+    color:#5420b8;
+}
+
+.edit-buttons{
+    display:flex;
+    gap:10px;
+}
+
+.save-edit{
+    flex:1;
+    color:#fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5420b8,
+            #9747ff
+        );
+}
+
+.cancel-edit{
+    flex:1;
+    background:#eee;
+    color:#333;
+}
+
+
+/* CODES */
+
+.codes{
+    display:grid;
+    gap:18px;
+}
+
+.code-card{
+    padding:23px;
+}
+
+.code-name{
+    font-size:26px;
+    font-weight:900;
+
+    color:#5420b8;
+
+    margin-bottom:12px;
+}
+
+.info{
+    line-height:2;
+    color:#555;
+}
+
+.badge{
+    display:inline-block;
+
+    padding:6px 13px;
+
+    border-radius:50px;
+
+    font-size:13px;
+    font-weight:bold;
+}
+
+.active{
+    background:#d9fbe5;
+    color:#08752d;
+}
+
+.inactive{
+    background:#ffe0e0;
+    color:#a00000;
+}
+
+.expired{
+    background:#fff0d5;
+    color:#9a5a00;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+
+    margin-top:18px;
+
+    flex-wrap:wrap;
+}
+
+.actions button{
+    flex:1;
+    min-width:110px;
+}
+
+.edit{
+    background:#e8ddff;
+    color:#5420b8;
+}
+
+.toggle{
+    background:#e5f5ff;
+    color:#126c9e;
+}
+
+.delete{
+    background:#ffe2e2;
+    color:#a00000;
+}
+
+.empty{
+    text-align:center;
+    padding:40px;
+    color:#777;
+}
+
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .container{
+        width:94%;
     }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background:
-        radial-gradient(circle at top right, #9b5cff 0%, transparent 35%),
-        linear-gradient(135deg, #eef2ff, #f8f9ff);
-      min-height: 100vh;
-      color: #17172b;
+    .row{
+        grid-template-columns:1fr;
+        gap:0;
     }
 
-    .container {
-      width: 92%;
-      max-width: 900px;
-      margin: auto;
-      padding: 30px 0 60px;
+    .topbar{
+        flex-direction:column;
     }
 
-    .glass {
-      background: rgba(255,255,255,0.78);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(255,255,255,0.8);
-      box-shadow: 0 20px 50px rgba(65,35,130,0.12);
-      border-radius: 25px;
+    .topbar button{
+        width:100%;
     }
 
-    header {
-      text-align: center;
-      padding: 28px 20px;
-      margin-bottom: 25px;
+    .header h1{
+        font-size:27px;
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 30px;
-      color: #5420b8;
+    .actions{
+        flex-direction:column;
     }
 
-    header p {
-      color: #6d6d80;
-      margin-bottom: 0;
+    .actions button{
+        width:100%;
     }
 
-    /* LOGIN */
-
-    #loginBox {
-      max-width: 500px;
-      margin: 60px auto;
-      padding: 35px 25px;
+    .edit-buttons{
+        flex-direction:column;
     }
 
-    .login-title {
-      text-align: center;
-      font-size: 27px;
-      font-weight: bold;
-      margin-bottom: 25px;
-    }
+}
 
-    input,
-    select {
-      width: 100%;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 14px;
-      margin-bottom: 15px;
-      font-size: 16px;
-      outline: none;
-      background: white;
-    }
+</style>
 
-    input:focus,
-    select:focus {
-      border-color: #7b3ff2;
-      box-shadow: 0 0 0 3px rgba(123,63,242,.12);
-    }
-
-    button {
-      border: none;
-      cursor: pointer;
-      border-radius: 14px;
-      padding: 14px 20px;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    .primary {
-      width: 100%;
-      color: white;
-      background: linear-gradient(135deg,#5420b8,#9747ff);
-    }
-
-    .primary:active {
-      transform: scale(.98);
-    }
-
-    .logout {
-      background: #eee;
-      color: #333;
-    }
-
-    /* ADMIN */
-
-    #adminPanel {
-      display: none;
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .topbar h2 {
-      margin: 0;
-      color: #5420b8;
-    }
-
-    .form-box {
-      padding: 25px;
-      margin-bottom: 25px;
-    }
-
-    .form-box h3 {
-      margin-top: 0;
-    }
-
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-
-    .add-btn {
-      width: 100%;
-      color: white;
-      background: linear-gradient(135deg,#5420b8,#9747ff);
-    }
-
-    .codes {
-      display: grid;
-      gap: 18px;
-    }
-
-    .code-card {
-      padding: 22px;
-      position: relative;
-    }
-
-    .code-name {
-      font-size: 25px;
-      font-weight: bold;
-      color: #5420b8;
-      margin-bottom: 12px;
-    }
-
-    .info {
-      color: #555;
-      line-height: 1.9;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 6px 12px;
-      border-radius: 50px;
-      font-size: 13px;
-      font-weight: bold;
-      margin-top: 8px;
-    }
-
-    .active {
-      background: #d9fbe5;
-      color: #08752d;
-    }
-
-    .inactive {
-      background: #ffe0e0;
-      color: #a00000;
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 18px;
-      flex-wrap: wrap;
-    }
-
-    .edit {
-      background: #e8ddff;
-      color: #5420b8;
-    }
-
-    .toggle {
-      background: #e5f5ff;
-      color: #126c9e;
-    }
-
-    .delete {
-      background: #ffe2e2;
-      color: #a00000;
-    }
-
-    .empty {
-      text-align: center;
-      padding: 40px 20px;
-      color: #777;
-    }
-
-    .message {
-      margin-top: 12px;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    @media(max-width:600px) {
-
-      .row {
-        grid-template-columns: 1fr;
-        gap: 0;
-      }
-
-      .topbar {
-        flex-direction: column;
-      }
-
-      .topbar button {
-        width: 100%;
-      }
-
-      header h1 {
-        font-size: 25px;
-      }
-    }
-  </style>
 </head>
+
 
 <body>
 
+
 <div class="container">
 
-  <!-- LOGIN -->
 
-  <div id="loginBox" class="glass">
+<!-- LOGIN -->
+
+<div
+    id="loginBox"
+    class="glass"
+>
 
     <div class="login-title">
-      🔐 لوحة إدارة الأكواد
+        🔐 لوحة إدارة الأكواد
     </div>
 
     <input
-      type="email"
-      id="email"
-      placeholder="البريد الإلكتروني"
-      value="mezooelzorkany@gmail.com"
+        type="email"
+        id="email"
+        placeholder="البريد الإلكتروني"
+        value="mezooelzorkany@gmail.com"
     >
 
     <input
-      type="password"
-      id="password"
-      placeholder="كلمة المرور"
+        type="password"
+        id="password"
+        placeholder="كلمة المرور"
     >
 
-    <button class="primary" onclick="login()">
-      تسجيل الدخول
+    <button
+        class="primary"
+        onclick="login()"
+    >
+        تسجيل الدخول
     </button>
 
-    <div id="loginMessage" class="message"></div>
+    <div
+        id="loginMessage"
+        class="message"
+    ></div>
 
-  </div>
-
-
-  <!-- ADMIN PANEL -->
-
-  <div id="adminPanel">
-
-    <header class="glass">
-      <h1>WE Packages 💜</h1>
-      <p>لوحة إدارة أكواد الخصم</p>
-    </header>
+</div>
 
 
-    <div class="topbar glass">
+<!-- ADMIN -->
 
-      <h2>🎟️ أكواد الخصم</h2>
+<div id="adminPanel">
 
-      <button class="logout" onclick="logout()">
+
+<div class="header glass">
+
+    <h1>
+        WE Packages 💜
+    </h1>
+
+    <p>
+        إدارة أكواد الخصم
+    </p>
+
+</div>
+
+
+<div class="topbar glass">
+
+    <h2>
+        🎟️ الأكواد
+    </h2>
+
+    <button
+        class="logout"
+        onclick="logout()"
+    >
         تسجيل الخروج
-      </button>
+    </button>
 
-    </div>
+</div>
 
 
-    <!-- ADD CODE -->
+<!-- ADD CODE -->
 
-    <div class="form-box glass">
+<div class="form-box glass">
 
-      <h3>➕ إضافة كود جديد</h3>
+    <h3>
+        ➕ إضافة كود جديد
+    </h3>
 
-      <input
+    <input
         type="text"
-        id="code"
-        placeholder="مثال: MEZOO20"
-      >
+        id="newCode"
+        placeholder="مثال: MEZOO30"
+    >
 
-      <div class="row">
+    <div class="row">
 
-        <div>
-
-          <select id="discountType">
+        <select id="newType">
 
             <option value="percent">
-              نسبة مئوية %
+                نسبة مئوية %
             </option>
 
             <option value="fixed">
-              مبلغ ثابت جنيه
+                مبلغ ثابت جنيه
             </option>
 
-          </select>
+        </select>
 
-        </div>
-
-        <div>
-
-          <input
+        <input
             type="number"
-            id="discountValue"
+            id="newValue"
             placeholder="قيمة الخصم"
             min="1"
-          >
-
-        </div>
-
-      </div>
-
-      <input
-        type="datetime-local"
-        id="expiresAt"
-      >
-
-      <button class="add-btn" onclick="addCode()">
-        إضافة الكود
-      </button>
-
-      <div id="formMessage" class="message"></div>
+        >
 
     </div>
 
+    <label>
+        تاريخ انتهاء الكود
+    </label>
 
-    <!-- CODES -->
+    <input
+        type="datetime-local"
+        id="newExpiry"
+    >
 
-    <div id="codesList" class="codes"></div>
+    <button
+        class="add-btn"
+        onclick="addCode()"
+    >
+        إضافة الكود
+    </button>
 
-  </div>
+    <div
+        id="formMessage"
+        class="message"
+    ></div>
+
+</div>
+
+
+<!-- EDIT CODE -->
+
+<div
+    id="editBox"
+    class="edit-box glass"
+>
+
+    <h3>
+        ✏️ تعديل الكود
+    </h3>
+
+    <input
+        type="hidden"
+        id="editId"
+    >
+
+    <input
+        type="text"
+        id="editCode"
+        placeholder="اسم الكود"
+    >
+
+    <div class="row">
+
+        <select id="editType">
+
+            <option value="percent">
+                نسبة مئوية %
+            </option>
+
+            <option value="fixed">
+                مبلغ ثابت جنيه
+            </option>
+
+        </select>
+
+        <input
+            type="number"
+            id="editValue"
+            placeholder="قيمة الخصم"
+            min="1"
+        >
+
+    </div>
+
+    <label>
+        تاريخ انتهاء الكود
+    </label>
+
+    <input
+        type="datetime-local"
+        id="editExpiry"
+    >
+
+    <div class="edit-buttons">
+
+        <button
+            class="save-edit"
+            onclick="saveEdit()"
+        >
+            حفظ التعديل
+        </button>
+
+        <button
+            class="cancel-edit"
+            onclick="cancelEdit()"
+        >
+            إلغاء
+        </button>
+
+    </div>
+
+    <div
+        id="editMessage"
+        class="message"
+    ></div>
+
+</div>
+
+
+<!-- CODES -->
+
+<div
+    id="codesList"
+    class="codes"
+></div>
+
+
+</div>
 
 </div>
 
 
 <script>
 
-  /* =========================
-     SUPABASE
-  ========================= */
+/* =========================
+   SUPABASE
+========================= */
 
 const SUPABASE_URL =
-  "https://pgvbynefhqmyzjtccttl.supabase.co";
-
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
-
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
+"https://pgvbynefhqmyzjtccttl.supabase.co";
 
 
-  const ADMIN_EMAIL =
-    "mezooelzorkany@gmail.com";
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 
 
-  /* =========================
-     LOGIN
-  ========================= */
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
 
-  async function login() {
+
+const ADMIN_EMAIL =
+"mezooelzorkany@gmail.com";
+
+
+/* =========================
+   LOGIN
+========================= */
+
+async function login(){
 
     const email =
-      document.getElementById("email").value.trim();
+        document.getElementById(
+            "email"
+        ).value.trim();
 
     const password =
-      document.getElementById("password").value;
+        document.getElementById(
+            "password"
+        ).value;
 
     const message =
-      document.getElementById("loginMessage");
+        document.getElementById(
+            "loginMessage"
+        );
 
-    message.textContent = "جاري تسجيل الدخول...";
 
-    const { data, error } =
-      await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
+    message.style.color =
+        "#555";
 
-    if (error) {
+    message.textContent =
+        "⏳ جاري تسجيل الدخول...";
 
-      message.textContent =
-        "❌ البريد الإلكتروني أو كلمة المرور غير صحيحة";
 
-      return;
+    const {
+        data,
+        error
+    } =
+    await supabaseClient.auth
+        .signInWithPassword({
+
+            email:email,
+
+            password:password
+
+        });
+
+
+    if(error){
+
+        message.style.color =
+            "#b00020";
+
+        message.textContent =
+            "❌ البريد أو كلمة المرور غير صحيحة";
+
+        return;
+
     }
 
-    if (data.user.email !== ADMIN_EMAIL) {
 
-      await supabaseClient.auth.signOut();
+    if(
+        !data.user ||
+        data.user.email !== ADMIN_EMAIL
+    ){
 
-      message.textContent =
-        "❌ غير مسموح لهذا الحساب بالدخول";
+        await supabaseClient.auth.signOut();
 
-      return;
+        message.style.color =
+            "#b00020";
+
+        message.textContent =
+            "❌ غير مسموح بهذا الحساب";
+
+        return;
+
     }
+
 
     showAdmin();
 
-  }
+}
 
 
-  /* =========================
-     CHECK SESSION
-  ========================= */
+/* =========================
+   CHECK SESSION
+========================= */
 
-  async function checkSession() {
+async function checkSession(){
 
     const {
-      data: { session }
-    } = await supabaseClient.auth.getSession();
+        data
+    } =
+    await supabaseClient.auth
+        .getSession();
 
-    if (
-      session &&
-      session.user &&
-      session.user.email === ADMIN_EMAIL
-    ) {
 
-      showAdmin();
+    const session =
+        data.session;
+
+
+    if(
+        session &&
+        session.user &&
+        session.user.email === ADMIN_EMAIL
+    ){
+
+        showAdmin();
 
     }
 
-  }
+}
 
 
-  /* =========================
-     SHOW ADMIN
-  ========================= */
+/* =========================
+   SHOW ADMIN
+========================= */
 
-  function showAdmin() {
+function showAdmin(){
 
-    document.getElementById("loginBox").style.display =
-      "none";
+    document.getElementById(
+        "loginBox"
+    ).style.display =
+        "none";
 
-    document.getElementById("adminPanel").style.display =
-      "block";
+
+    document.getElementById(
+        "adminPanel"
+    ).style.display =
+        "block";
+
 
     loadCodes();
 
-  }
+}
 
 
-  /* =========================
-     LOGOUT
-  ========================= */
+/* =========================
+   LOGOUT
+========================= */
 
-  async function logout() {
+async function logout(){
 
     await supabaseClient.auth.signOut();
 
     location.reload();
 
-  }
+}
 
 
-  /* =========================
-     LOAD CODES
-  ========================= */
+/* =========================
+   LOAD CODES
+========================= */
 
-  async function loadCodes() {
+async function loadCodes(){
 
     const list =
-      document.getElementById("codesList");
+        document.getElementById(
+            "codesList"
+        );
+
 
     list.innerHTML =
-      '<div class="empty glass">جاري تحميل الأكواد...</div>';
+        '<div class="empty glass">⏳ جاري تحميل الأكواد...</div>';
 
 
-    const { data, error } =
-      await supabaseClient
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
         .from("promo_codes")
         .select("*")
-        .order("id", { ascending: false });
+        .order(
+            "id",
+            {
+                ascending:false
+            }
+        );
 
 
-    if (error) {
+    if(error){
 
-      list.innerHTML =
+        list.innerHTML =
         `<div class="empty glass">
-          ❌ حصل خطأ في تحميل الأكواد
-          <br>
-          ${escapeHtml(error.message)}
+            ❌ حصل خطأ
+            <br>
+            ${escapeHtml(error.message)}
         </div>`;
 
-      return;
+        return;
+
     }
 
 
-    if (!data || data.length === 0) {
+    if(
+        !data ||
+        data.length === 0
+    ){
 
-      list.innerHTML =
-        '<div class="empty glass">لا توجد أكواد حتى الآن 🎟️</div>';
+        list.innerHTML =
+        `<div class="empty glass">
+            لا توجد أكواد حتى الآن 🎟️
+        </div>`;
 
-      return;
+        return;
+
     }
 
 
     list.innerHTML = "";
 
 
-    data.forEach(code => {
+    data.forEach(
+        function(code){
 
-      const card =
-        document.createElement("div");
-
-      card.className =
-        "code-card glass";
-
-
-      const discount =
-        code.discount_type === "percent"
-          ? `${code.discount_value}%`
-          : `${code.discount_value} جنيه`;
+            const card =
+                document.createElement(
+                    "div"
+                );
 
 
-      let expiry = "بدون انتهاء";
-
-      if (code.expires_at) {
-
-        expiry =
-          new Date(code.expires_at)
-            .toLocaleString("ar-EG");
-
-      }
+            card.className =
+                "code-card glass";
 
 
-      const statusClass =
-        code.is_active
-          ? "active"
-          : "inactive";
+            const discount =
+                code.discount_type === "percent"
+                ? code.discount_value + "%"
+                : code.discount_value + " جنيه";
 
 
-      const statusText =
-        code.is_active
-          ? "🟢 فعال"
-          : "🔴 متوقف";
+            let expiryText =
+                "بدون تاريخ انتهاء";
 
 
-      card.innerHTML = `
-
-        <div class="code-name">
-          ${escapeHtml(code.code)}
-        </div>
-
-        <div class="info">
-
-          💰 الخصم:
-          <strong>${discount}</strong>
-
-          <br>
-
-          📅 الانتهاء:
-          <strong>${expiry}</strong>
-
-          <br>
-
-          <span class="badge ${statusClass}">
-            ${statusText}
-          </span>
-
-        </div>
-
-        <div class="actions">
-
-          <button
-            class="toggle"
-            onclick="toggleCode(${code.id}, ${code.is_active})"
-          >
-            ${code.is_active ? "إيقاف" : "تفعيل"}
-          </button>
-
-          <button
-            class="edit"
-            onclick="editCode(
-              ${code.id},
-              '${escapeJs(code.code)}',
-              '${code.discount_type}',
-              ${code.discount_value}
-            )"
-          >
-            تعديل
-          </button>
-
-          <button
-            class="delete"
-            onclick="deleteCode(${code.id})"
-          >
-            حذف
-          </button>
-
-        </div>
-      `;
+            let expired =
+                false;
 
 
-      list.appendChild(card);
+            if(code.expires_at){
 
-    });
+                const expiry =
+                    new Date(
+                        code.expires_at
+                    );
 
-  }
+
+                expiryText =
+                    expiry.toLocaleString(
+                        "ar-EG"
+                    );
 
 
-  /* =========================
-     ADD CODE
-  ========================= */
+                if(
+                    expiry <= new Date()
+                ){
 
-  async function addCode() {
+                    expired = true;
+
+                }
+
+            }
+
+
+            let statusText;
+            let statusClass;
+
+
+            if(expired){
+
+                statusText =
+                    "🟠 منتهي";
+
+                statusClass =
+                    "expired";
+
+            }
+
+            else if(code.is_active){
+
+                statusText =
+                    "🟢 فعال";
+
+                statusClass =
+                    "active";
+
+            }
+
+            else{
+
+                statusText =
+                    "🔴 متوقف";
+
+                statusClass =
+                    "inactive";
+
+            }
+
+
+            card.innerHTML = `
+
+                <div class="code-name">
+                    ${escapeHtml(code.code)}
+                </div>
+
+                <div class="info">
+
+                    💰 الخصم:
+                    <strong>
+                        ${discount}
+                    </strong>
+
+                    <br>
+
+                    📅 الانتهاء:
+                    <strong>
+                        ${expiryText}
+                    </strong>
+
+                    <br>
+
+                    <span class="badge ${statusClass}">
+                        ${statusText}
+                    </span>
+
+                </div>
+
+                <div class="actions">
+
+                    <button
+                        class="edit"
+                        onclick="openEdit(${code.id})"
+                    >
+                        ✏️ تعديل
+                    </button>
+
+                    <button
+                        class="toggle"
+                        onclick="toggleCode(${code.id}, ${code.is_active})"
+                    >
+                        ${code.is_active
+                            ? "⏸️ إيقاف"
+                            : "▶️ تفعيل"}
+                    </button>
+
+                    <button
+                        class="delete"
+                        onclick="deleteCode(${code.id})"
+                    >
+                        🗑️ حذف
+                    </button>
+
+                </div>
+
+            `;
+
+
+            list.appendChild(card);
+
+        }
+    );
+
+}
+
+
+/* =========================
+   ADD CODE
+========================= */
+
+async function addCode(){
 
     const code =
-      document.getElementById("code")
-        .value
+        document.getElementById(
+            "newCode"
+        ).value
         .trim()
         .toUpperCase();
 
+
     const type =
-      document.getElementById("discountType")
-        .value;
+        document.getElementById(
+            "newType"
+        ).value;
+
 
     const value =
-      Number(
-        document.getElementById("discountValue")
-          .value
-      );
+        Number(
+            document.getElementById(
+                "newValue"
+            ).value
+        );
 
-    const expiryInput =
-      document.getElementById("expiresAt")
-        .value;
+
+    const expiry =
+        document.getElementById(
+            "newExpiry"
+        ).value;
+
 
     const message =
-      document.getElementById("formMessage");
+        document.getElementById(
+            "formMessage"
+        );
 
 
-    if (!code) {
+    if(!code){
 
-      message.textContent =
-        "❌ اكتب الكود أولًا";
+        message.style.color =
+            "#b00020";
 
-      return;
+        message.textContent =
+            "❌ اكتب الكود";
+
+        return;
+
     }
 
 
-    if (!value || value <= 0) {
+    if(
+        !value ||
+        value <= 0
+    ){
 
-      message.textContent =
-        "❌ اكتب قيمة خصم صحيحة";
+        message.style.color =
+            "#b00020";
 
-      return;
+        message.textContent =
+            "❌ اكتب قيمة خصم صحيحة";
+
+        return;
+
     }
 
 
-    if (type === "percent" && value > 100) {
+    if(
+        type === "percent" &&
+        value > 100
+    ){
 
-      message.textContent =
-        "❌ نسبة الخصم لا يمكن أن تتجاوز 100%";
+        message.style.color =
+            "#b00020";
 
-      return;
+        message.textContent =
+            "❌ النسبة لا يمكن أن تتجاوز 100%";
+
+        return;
+
     }
 
 
     let expiresAt = null;
 
-    if (expiryInput) {
 
-      expiresAt =
-        new Date(expiryInput)
-          .toISOString();
+    if(expiry){
+
+        expiresAt =
+            new Date(
+                expiry
+            ).toISOString();
 
     }
 
 
-    const { error } =
-      await supabaseClient
+    const {
+        error
+    } =
+    await supabaseClient
         .from("promo_codes")
         .insert({
 
-          code: code,
+            code:code,
 
-          discount_type: type,
+            discount_type:type,
 
-          discount_value: value,
+            discount_value:value,
 
-          is_active: true,
+            is_active:true,
 
-          expires_at: expiresAt
+            expires_at:expiresAt
 
         });
 
 
-    if (error) {
+    if(error){
 
-      message.textContent =
-        "❌ " + error.message;
+        message.style.color =
+            "#b00020";
 
-      return;
+        message.textContent =
+            "❌ " +
+            error.message;
+
+        return;
+
     }
 
+
+    message.style.color =
+        "#08752d";
 
     message.textContent =
-      "✅ تم إضافة الكود بنجاح";
+        "✅ تم إضافة الكود";
 
 
-    document.getElementById("code").value = "";
+    document.getElementById(
+        "newCode"
+    ).value = "";
 
-    document.getElementById("discountValue").value = "";
 
-    document.getElementById("expiresAt").value = "";
+    document.getElementById(
+        "newValue"
+    ).value = "";
+
+
+    document.getElementById(
+        "newExpiry"
+    ).value = "";
 
 
     loadCodes();
 
-  }
+}
 
 
-  /* =========================
-     TOGGLE
-  ========================= */
+/* =========================
+   OPEN EDIT
+========================= */
 
-  async function toggleCode(id, currentStatus) {
+async function openEdit(id){
 
-    const { error } =
-      await supabaseClient
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from("promo_codes")
+        .select("*")
+        .eq(
+            "id",
+            id
+        )
+        .single();
+
+
+    if(error){
+
+        alert(
+            "❌ حصل خطأ: " +
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "editId"
+    ).value =
+        data.id;
+
+
+    document.getElementById(
+        "editCode"
+    ).value =
+        data.code;
+
+
+    document.getElementById(
+        "editType"
+    ).value =
+        data.discount_type;
+
+
+    document.getElementById(
+        "editValue"
+    ).value =
+        data.discount_value;
+
+
+    if(data.expires_at){
+
+        const date =
+            new Date(
+                data.expires_at
+            );
+
+
+        const localDate =
+            new Date(
+                date.getTime() -
+                date.getTimezoneOffset() *
+                60000
+            )
+            .toISOString()
+            .slice(
+                0,
+                16
+            );
+
+
+        document.getElementById(
+            "editExpiry"
+        ).value =
+            localDate;
+
+    }
+
+    else{
+
+        document.getElementById(
+            "editExpiry"
+        ).value = "";
+
+    }
+
+
+    document.getElementById(
+        "editBox"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "editBox"
+    ).scrollIntoView({
+
+        behavior:"smooth",
+
+        block:"center"
+
+    });
+
+}
+
+
+/* =========================
+   SAVE EDIT
+========================= */
+
+async function saveEdit(){
+
+    const id =
+        document.getElementById(
+            "editId"
+        ).value;
+
+
+    const code =
+        document.getElementById(
+            "editCode"
+        ).value
+        .trim()
+        .toUpperCase();
+
+
+    const type =
+        document.getElementById(
+            "editType"
+        ).value;
+
+
+    const value =
+        Number(
+            document.getElementById(
+                "editValue"
+            ).value
+        );
+
+
+    const expiry =
+        document.getElementById(
+            "editExpiry"
+        ).value;
+
+
+    const message =
+        document.getElementById(
+            "editMessage"
+        );
+
+
+    if(!code){
+
+        message.style.color =
+            "#b00020";
+
+        message.textContent =
+            "❌ اكتب الكود";
+
+        return;
+
+    }
+
+
+    if(
+        !value ||
+        value <= 0
+    ){
+
+        message.style.color =
+            "#b00020";
+
+        message.textContent =
+            "❌ قيمة الخصم غير صحيحة";
+
+        return;
+
+    }
+
+
+    if(
+        type === "percent" &&
+        value > 100
+    ){
+
+        message.style.color =
+            "#b00020";
+
+        message.textContent =
+            "❌ النسبة لا يمكن أن تتجاوز 100%";
+
+        return;
+
+    }
+
+
+    let expiresAt = null;
+
+
+    if(expiry){
+
+        expiresAt =
+            new Date(
+                expiry
+            ).toISOString();
+
+    }
+
+
+    const {
+        error
+    } =
+    await supabaseClient
         .from("promo_codes")
         .update({
-          is_active: !currentStatus
+
+            code:code,
+
+            discount_type:type,
+
+            discount_value:value,
+
+            expires_at:expiresAt
+
         })
-        .eq("id", id);
+        .eq(
+            "id",
+            id
+        );
 
 
-    if (error) {
+    if(error){
 
-      alert("حصل خطأ: " + error.message);
+        message.style.color =
+            "#b00020";
 
-      return;
+        message.textContent =
+            "❌ " +
+            error.message;
+
+        return;
+
+    }
+
+
+    message.style.color =
+        "#08752d";
+
+    message.textContent =
+        "✅ تم حفظ التعديل";
+
+
+    setTimeout(
+        function(){
+
+            cancelEdit();
+
+            loadCodes();
+
+        },
+        700
+    );
+
+}
+
+
+/* =========================
+   CANCEL EDIT
+========================= */
+
+function cancelEdit(){
+
+    document.getElementById(
+        "editBox"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "editMessage"
+    ).textContent =
+        "";
+
+}
+
+
+/* =========================
+   TOGGLE
+========================= */
+
+async function toggleCode(
+    id,
+    currentStatus
+){
+
+    const {
+        error
+    } =
+    await supabaseClient
+        .from("promo_codes")
+        .update({
+
+            is_active:
+                !currentStatus
+
+        })
+        .eq(
+            "id",
+            id
+        );
+
+
+    if(error){
+
+        alert(
+            "❌ " +
+            error.message
+        );
+
+        return;
+
     }
 
 
     loadCodes();
 
-  }
+}
 
 
-  /* =========================
-     DELETE
-  ========================= */
+/* =========================
+   DELETE
+========================= */
 
-  async function deleteCode(id) {
+async function deleteCode(id){
 
     const confirmed =
-      confirm("هل أنت متأكد من حذف هذا الكود؟");
+        confirm(
+            "هل أنت متأكد من حذف هذا الكود؟"
+        );
 
 
-    if (!confirmed) return;
+    if(!confirmed){
+
+        return;
+
+    }
 
 
-    const { error } =
-      await supabaseClient
+    const {
+        error
+    } =
+    await supabaseClient
         .from("promo_codes")
         .delete()
-        .eq("id", id);
+        .eq(
+            "id",
+            id
+        );
 
 
-    if (error) {
+    if(error){
 
-      alert("حصل خطأ: " + error.message);
+        alert(
+            "❌ " +
+            error.message
+        );
 
-      return;
+        return;
+
     }
 
 
     loadCodes();
 
-  }
+}
 
 
-  /* =========================
-     EDIT
-  ========================= */
+/* =========================
+   SECURITY
+========================= */
 
-  async function editCode(
-    id,
-    oldCode,
-    oldType,
-    oldValue
-  ) {
-
-    const newCode =
-      prompt(
-        "اسم الكود:",
-        oldCode
-      );
-
-
-    if (!newCode) return;
-
-
-    const newValue =
-      prompt(
-        "قيمة الخصم:",
-        oldValue
-      );
-
-
-    if (!newValue) return;
-
-
-    const typeText =
-      oldType === "percent"
-        ? "نسبة مئوية"
-        : "مبلغ ثابت";
-
-
-    const changeType =
-      confirm(
-        `نوع الخصم الحالي: ${typeText}
-
-اضغط موافق = نسبة مئوية %
-اضغط إلغاء = مبلغ ثابت`
-      );
-
-
-    const newType =
-      changeType
-        ? "percent"
-        : "fixed";
-
-
-    const numericValue =
-      Number(newValue);
-
-
-    if (!numericValue || numericValue <= 0) {
-
-      alert("قيمة الخصم غير صحيحة");
-
-      return;
-    }
-
-
-    if (
-      newType === "percent" &&
-      numericValue > 100
-    ) {
-
-      alert("النسبة لا يمكن أن تتجاوز 100%");
-
-      return;
-    }
-
-
-    const { error } =
-      await supabaseClient
-        .from("promo_codes")
-        .update({
-
-          code:
-            newCode
-              .trim()
-              .toUpperCase(),
-
-          discount_type:
-            newType,
-
-          discount_value:
-            numericValue
-
-        })
-        .eq("id", id);
-
-
-    if (error) {
-
-      alert("حصل خطأ: " + error.message);
-
-      return;
-    }
-
-
-    loadCodes();
-
-  }
-
-
-  /* =========================
-     SECURITY HELPERS
-  ========================= */
-
-  function escapeHtml(text) {
+function escapeHtml(text){
 
     return String(text)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
 
-  }
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
 
 
-  function escapeJs(text) {
+/* =========================
+   START
+========================= */
 
-    return String(text)
-      .replaceAll("\\", "\\\\")
-      .replaceAll("'", "\\'")
-      .replaceAll("\n", "\\n")
-      .replaceAll("\r", "\\r");
-
-  }
-
-
-  /* =========================
-     START
-  ========================= */
-
-  checkSession();
+checkSession();
 
 </script>
 
