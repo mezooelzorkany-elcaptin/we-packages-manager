@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>إتمام الدفع | WE Packages</title>
+<title>إتمام التحويل | WE Packages</title>
 
 <style>
 
@@ -78,10 +78,7 @@ h1{
     line-height:1.7;
 }
 
-
-/* =========================
-   ORDER
-========================= */
+/* ORDER */
 
 .order-box{
     background:
@@ -104,7 +101,7 @@ h1{
 
 .order-number{
     font-size:15px;
-    opacity:.85;
+    opacity:.9;
     margin-bottom:8px;
 }
 
@@ -119,10 +116,7 @@ h1{
     margin-top:7px;
 }
 
-
-/* =========================
-   PAYMENT
-========================= */
+/* PAYMENT */
 
 .payment-title{
     font-size:20px;
@@ -161,9 +155,7 @@ h1{
 }
 
 .payment-method input{
-
     position:absolute;
-
     opacity:0;
 }
 
@@ -200,12 +192,9 @@ h1{
     margin-top:8px;
 }
 
+/* SCREENSHOT */
 
-/* =========================
-   SCREENSHOT
-========================= */
-
-.screenshot-box{
+.upload-box{
 
     margin-top:22px;
 
@@ -213,22 +202,33 @@ h1{
 
     border-radius:20px;
 
-    background:#faf8ff;
+    background:rgba(255,255,255,.8);
 
-    border:2px dashed #7544cf;
+    border:2px dashed #8b55d9;
 
     text-align:center;
 }
 
-.screenshot-title{
+.upload-title{
 
     color:#5420b8;
 
-    font-size:18px;
+    font-size:19px;
 
-    font-weight:900;
+    font-weight:bold;
 
-    margin-bottom:12px;
+    margin-bottom:10px;
+}
+
+.upload-note{
+
+    color:#777;
+
+    font-size:13px;
+
+    line-height:1.7;
+
+    margin-bottom:15px;
 }
 
 .file-input{
@@ -239,24 +239,11 @@ h1{
 
     border:1px solid #ddd;
 
-    border-radius:15px;
+    border-radius:14px;
 
     background:#fff;
 
     font-size:15px;
-
-    cursor:pointer;
-}
-
-.screenshot-hint{
-
-    font-size:13px;
-
-    color:#777;
-
-    margin-top:9px;
-
-    line-height:1.6;
 }
 
 .preview{
@@ -265,7 +252,7 @@ h1{
 
     width:100%;
 
-    max-height:300px;
+    max-height:280px;
 
     object-fit:contain;
 
@@ -275,19 +262,15 @@ h1{
 
     border:1px solid #ddd;
 
-    background:#fff;
 }
 
-
-/* =========================
-   BUTTON
-========================= */
+/* BUTTON */
 
 .submit{
 
     width:100%;
 
-    margin-top:15px;
+    margin-top:18px;
 
     padding:17px;
 
@@ -318,10 +301,7 @@ h1{
     cursor:not-allowed;
 }
 
-
-/* =========================
-   MESSAGE
-========================= */
+/* MESSAGE */
 
 .message{
 
@@ -347,10 +327,14 @@ h1{
     color:#a00000;
 }
 
+.success{
 
-/* =========================
-   SUCCESS
-========================= */
+    background:#dff8e7;
+
+    color:#08752d;
+}
+
+/* SUCCESS */
 
 .success-box{
 
@@ -394,32 +378,26 @@ h1{
 
 </head>
 
-
 <body>
 
 <div class="container">
 
 <div class="card">
 
-
 <div class="icon">
     💳
 </div>
 
-
 <h1>
     إتمام التحويل
 </h1>
-
 
 <div class="subtitle">
     حوّل المبلغ المطلوب إلى إحدى طرق الدفع التالية
 </div>
 
 
-<!-- =========================
-     ORDER
-========================= -->
+<!-- ORDER -->
 
 <div class="order-box">
 
@@ -449,7 +427,6 @@ h1{
 
 <div id="paymentContent">
 
-
 <div class="payment-title">
     اختر طريقة التحويل
 </div>
@@ -466,7 +443,7 @@ h1{
         type="radio"
         name="payment"
         value="Vodafone Cash"
-        onchange="selectPayment('vodafone')"
+        onchange="selectPayment('Vodafone Cash')"
     >
 
     <div class="method-name">
@@ -478,7 +455,7 @@ h1{
     </div>
 
     <div class="method-note">
-        حوّل المبلغ المطلوب ثم أرفق صورة التحويل
+        حوّل المبلغ المطلوب إلى الرقم ثم اختر الصورة
     </div>
 
 </label>
@@ -495,7 +472,7 @@ h1{
         type="radio"
         name="payment"
         value="InstaPay"
-        onchange="selectPayment('instapay')"
+        onchange="selectPayment('InstaPay')"
     >
 
     <div class="method-name">
@@ -507,48 +484,42 @@ h1{
     </div>
 
     <div class="method-note">
-        حوّل المبلغ المطلوب ثم أرفق صورة التحويل
+        حوّل المبلغ المطلوب ثم اختر صورة التحويل
     </div>
 
 </label>
 
 
-<!-- =========================
-     SCREENSHOT
-========================= -->
+<!-- SCREENSHOT -->
 
-<div class="screenshot-box">
+<div class="upload-box">
 
-    <div class="screenshot-title">
+    <div class="upload-title">
         📸 صورة إثبات التحويل
     </div>
 
-    <input
-        type="file"
-        id="paymentScreenshot"
-        class="file-input"
-        accept="image/*"
-        onchange="previewScreenshot()"
-    >
-
-    <div class="screenshot-hint">
+    <div class="upload-note">
         لازم ترفق Screenshot واضحة للتحويل
         <br>
         الحد الأقصى لحجم الصورة 5 ميجا
     </div>
 
+    <input
+        class="file-input"
+        type="file"
+        id="paymentScreenshot"
+        accept="image/jpeg,image/png,image/webp"
+        onchange="previewImage()"
+    >
+
     <img
-        id="screenshotPreview"
+        id="preview"
         class="preview"
-        alt="صورة التحويل"
+        alt="معاينة صورة التحويل"
     >
 
 </div>
 
-
-<!-- =========================
-     BUTTON
-========================= -->
 
 <button
     class="submit"
@@ -564,13 +535,10 @@ h1{
     id="errorMessage"
 ></div>
 
-
 </div>
 
 
-<!-- =========================
-     SUCCESS
-========================= -->
+<!-- SUCCESS -->
 
 <div
     class="success-box"
@@ -587,6 +555,7 @@ h1{
 
     <p>
         تم تسجيل التحويل وإرسال صورة الإثبات.
+        <br>
         سيتم مراجعة الطلب وتنفيذ الباقة بعد التأكد من التحويل.
     </p>
 
@@ -620,9 +589,9 @@ h1{
 
 <script>
 
-/* =========================
+/* =====================================================
    SUPABASE
-========================= */
+===================================================== */
 
 const SUPABASE_URL =
 "https://pgvbynefhqmyzjtccttl.supabase.co";
@@ -631,9 +600,17 @@ const SUPABASE_KEY =
 "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 
 
-/* =========================
+/* =====================================================
+   STORAGE
+===================================================== */
+
+const STORAGE_BUCKET =
+"payment-screenshots";
+
+
+/* =====================================================
    ORDER
-========================= */
+===================================================== */
 
 const params =
 new URLSearchParams(
@@ -644,14 +621,16 @@ const orderNumber =
 params.get("order");
 
 
-let selectedPayment = null;
+let selectedPayment =
+null;
 
-let orderData = null;
+let orderData =
+null;
 
 
-/* =========================
+/* =====================================================
    LOAD ORDER
-========================= */
+===================================================== */
 
 async function loadOrder(){
 
@@ -662,7 +641,6 @@ async function loadOrder(){
         );
 
         return;
-
     }
 
 
@@ -748,7 +726,9 @@ async function loadOrder(){
 
     catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         showError(
             "❌ حصل خطأ أثناء تحميل الطلب"
@@ -759,9 +739,9 @@ async function loadOrder(){
 }
 
 
-/* =========================
+/* =====================================================
    SELECT PAYMENT
-========================= */
+===================================================== */
 
 function selectPayment(method){
 
@@ -784,7 +764,7 @@ function selectPayment(method){
 
 
     if(
-        method === "vodafone"
+        method === "Vodafone Cash"
     ){
 
         document.getElementById(
@@ -797,7 +777,7 @@ function selectPayment(method){
 
 
     if(
-        method === "instapay"
+        method === "InstaPay"
     ){
 
         document.getElementById(
@@ -811,11 +791,11 @@ function selectPayment(method){
 }
 
 
-/* =========================
-   PREVIEW
-========================= */
+/* =====================================================
+   PREVIEW IMAGE
+===================================================== */
 
-function previewScreenshot(){
+function previewImage(){
 
     const input =
         document.getElementById(
@@ -824,7 +804,7 @@ function previewScreenshot(){
 
     const preview =
         document.getElementById(
-            "screenshotPreview"
+            "preview"
         );
 
 
@@ -855,7 +835,7 @@ function previewScreenshot(){
     ){
 
         showError(
-            "❌ لازم تختار صورة"
+            "❌ اختار صورة فقط"
         );
 
         input.value =
@@ -872,7 +852,7 @@ function previewScreenshot(){
     ){
 
         showError(
-            "❌ حجم الصورة لازم يكون أقل من 5 ميجا"
+            "❌ حجم الصورة أكبر من 5 ميجا"
         );
 
         input.value =
@@ -886,18 +866,15 @@ function previewScreenshot(){
     }
 
 
-    hideError();
-
-
     const reader =
         new FileReader();
 
 
     reader.onload =
-        function(e){
+        function(event){
 
             preview.src =
-                e.target.result;
+                event.target.result;
 
             preview.style.display =
                 "block";
@@ -905,14 +882,238 @@ function previewScreenshot(){
         };
 
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(
+        file
+    );
 
 }
 
 
-/* =========================
+/* =====================================================
+   UPLOAD SCREENSHOT
+===================================================== */
+
+async function uploadScreenshot(file){
+
+    const extension =
+        file.name
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+
+    const safeExtension =
+        ["jpg","jpeg","png","webp"]
+            .includes(extension)
+            ? extension
+            : "jpg";
+
+
+    const filePath =
+        orderNumber +
+        "/" +
+        Date.now() +
+        "." +
+        safeExtension;
+
+
+    const uploadResponse =
+        await fetch(
+
+            SUPABASE_URL +
+            "/storage/v1/object/" +
+            STORAGE_BUCKET +
+            "/" +
+            encodeURIComponent(
+                filePath
+            ),
+
+            {
+
+                method:"POST",
+
+                headers:{
+
+                    "apikey":
+                        SUPABASE_KEY,
+
+                    "Authorization":
+                        "Bearer " +
+                        SUPABASE_KEY,
+
+                    "Content-Type":
+                        file.type,
+
+                    "x-upsert":
+                        "false"
+
+                },
+
+                body:
+                    file
+
+            }
+
+        );
+
+
+    const uploadText =
+        await uploadResponse.text();
+
+
+    if(
+        !uploadResponse.ok
+    ){
+
+        let message =
+            uploadText;
+
+
+        try{
+
+            const json =
+                JSON.parse(
+                    uploadText
+                );
+
+            message =
+                json.message ||
+                json.error ||
+                json.statusCode ||
+                uploadText;
+
+        }
+
+        catch(e){}
+
+
+        throw new Error(
+            "فشل رفع الصورة: " +
+            message
+        );
+
+    }
+
+
+    const publicUrl =
+        SUPABASE_URL +
+        "/storage/v1/object/public/" +
+        STORAGE_BUCKET +
+        "/" +
+        filePath;
+
+
+    return publicUrl;
+
+}
+
+
+/* =====================================================
+   SEND TELEGRAM
+===================================================== */
+
+async function sendTelegramNotification(
+    screenshotUrl
+){
+
+    const telegramMessage =
+
+`💰 تم استلام تحويل جديد
+
+📋 رقم الطلب:
+${orderData.order_number}
+
+📱 رقم الهاتف:
+${orderData.phone}
+
+📦 الباقة:
+${orderData.package_name}
+
+💵 المبلغ:
+${orderData.final_price} جنيه
+
+💳 طريقة الدفع:
+${selectedPayment}
+
+📌 الحالة:
+تم التحويل - في انتظار المراجعة`;
+
+
+    const response =
+        await fetch(
+
+            SUPABASE_URL +
+            "/functions/v1/telegram-notify",
+
+            {
+
+                method:"POST",
+
+                headers:{
+
+                    "Content-Type":
+                        "application/json",
+
+                    "apikey":
+                        SUPABASE_KEY,
+
+                    "Authorization":
+                        "Bearer " +
+                        SUPABASE_KEY
+
+                },
+
+                body:
+                    JSON.stringify({
+
+                        text:
+                            telegramMessage,
+
+                        photo_url:
+                            screenshotUrl
+
+                    })
+
+            }
+
+        );
+
+
+    const text =
+        await response.text();
+
+
+    console.log(
+        "TELEGRAM STATUS:",
+        response.status
+    );
+
+
+    console.log(
+        "TELEGRAM RESPONSE:",
+        text
+    );
+
+
+    if(
+        !response.ok
+    ){
+
+        throw new Error(
+            "تعذر إرسال إشعار Telegram"
+        );
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =====================================================
    CONFIRM PAYMENT
-========================= */
+===================================================== */
 
 async function confirmPayment(){
 
@@ -922,7 +1123,7 @@ async function confirmPayment(){
         );
 
 
-    const screenshotInput =
+    const fileInput =
         document.getElementById(
             "paymentScreenshot"
         );
@@ -933,7 +1134,9 @@ async function confirmPayment(){
 
     /* PAYMENT METHOD */
 
-    if(!selectedPayment){
+    if(
+        !selectedPayment
+    ){
 
         showError(
             "❌ اختار طريقة التحويل أولاً"
@@ -946,7 +1149,9 @@ async function confirmPayment(){
 
     /* ORDER */
 
-    if(!orderData){
+    if(
+        !orderData
+    ){
 
         showError(
             "❌ بيانات الطلب غير متاحة"
@@ -960,12 +1165,12 @@ async function confirmPayment(){
     /* SCREENSHOT */
 
     if(
-        !screenshotInput.files ||
-        !screenshotInput.files.length
+        !fileInput.files ||
+        !fileInput.files.length
     ){
 
         showError(
-            "❌ لازم ترفق صورة إثبات التحويل"
+            "❌ لازم ترفق صورة Screenshot للتحويل"
         );
 
         return;
@@ -974,24 +1179,7 @@ async function confirmPayment(){
 
 
     const file =
-        screenshotInput.files[0];
-
-
-    /* FILE TYPE */
-
-    if(
-        !file.type.startsWith(
-            "image/"
-        )
-    ){
-
-        showError(
-            "❌ الملف لازم يكون صورة"
-        );
-
-        return;
-
-    }
+        fileInput.files[0];
 
 
     /* FILE SIZE */
@@ -1002,7 +1190,28 @@ async function confirmPayment(){
     ){
 
         showError(
-            "❌ حجم الصورة لازم يكون أقل من 5 ميجا"
+            "❌ حجم الصورة أكبر من 5 ميجا"
+        );
+
+        return;
+
+    }
+
+
+    /* FILE TYPE */
+
+    if(
+        ![
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+        ].includes(
+            file.type
+        )
+    ){
+
+        showError(
+            "❌ نوع الصورة غير مدعوم"
         );
 
         return;
@@ -1014,157 +1223,21 @@ async function confirmPayment(){
         true;
 
 
-    button.textContent =
-        "⏳ جاري رفع صورة التحويل...";
-
-
     try{
 
+        /* =========================================
+           STEP 1
+           UPLOAD IMAGE
+        ========================================= */
 
-        /* =========================
-           FILE EXTENSION
-        ========================= */
+        button.textContent =
+            "⏳ جاري رفع صورة التحويل...";
 
-        let extension =
-            "jpg";
-
-
-        if(
-            file.type ===
-            "image/png"
-        ){
-
-            extension =
-                "png";
-
-        }
-
-        else if(
-            file.type ===
-            "image/webp"
-        ){
-
-            extension =
-                "webp";
-
-        }
-
-        else if(
-            file.type ===
-            "image/jpeg"
-        ){
-
-            extension =
-                "jpg";
-
-        }
-
-
-        /* =========================
-           FILE NAME
-        ========================= */
-
-        const fileName =
-            orderNumber +
-            "-" +
-            Date.now() +
-            "." +
-            extension;
-
-
-        const filePath =
-            orderNumber +
-            "/" +
-            fileName;
-
-
-        const encodedPath =
-            filePath
-                .split("/")
-                .map(
-                    part =>
-                        encodeURIComponent(
-                            part
-                        )
-                )
-                .join("/");
-
-
-        /* =========================
-           UPLOAD
-        ========================= */
-
-        const uploadResponse =
-            await fetch(
-
-                SUPABASE_URL +
-                "/storage/v1/object/payment-screenshots/" +
-                encodedPath,
-
-                {
-
-                    method:"POST",
-
-                    headers:{
-
-                        "apikey":
-                            SUPABASE_KEY,
-
-                        "Authorization":
-                            "Bearer " +
-                            SUPABASE_KEY,
-
-                        "Content-Type":
-                            file.type,
-
-                        "x-upsert":
-                            "true"
-
-                    },
-
-                    body:file
-
-                }
-
-            );
-
-
-        const uploadText =
-            await uploadResponse.text();
-
-
-        console.log(
-            "UPLOAD STATUS:",
-            uploadResponse.status
-        );
-
-
-        console.log(
-            "UPLOAD RESPONSE:",
-            uploadText
-        );
-
-
-        if(
-            !uploadResponse.ok
-        ){
-
-            throw new Error(
-                "فشل رفع الصورة: " +
-                uploadText
-            );
-
-        }
-
-
-        /* =========================
-           PUBLIC IMAGE URL
-        ========================= */
 
         const screenshotUrl =
-            SUPABASE_URL +
-            "/storage/v1/object/public/payment-screenshots/" +
-            encodedPath;
+            await uploadScreenshot(
+                file
+            );
 
 
         console.log(
@@ -1173,12 +1246,13 @@ async function confirmPayment(){
         );
 
 
-        /* =========================
+        /* =========================================
+           STEP 2
            UPDATE ORDER
-        ========================= */
+        ========================================= */
 
         button.textContent =
-            "⏳ جاري تأكيد التحويل...";
+            "⏳ جاري تسجيل التحويل...";
 
 
         const updateResponse =
@@ -1216,12 +1290,7 @@ async function confirmPayment(){
                         JSON.stringify({
 
                             payment_method:
-                                selectedPayment ===
-                                "vodafone"
-                                    ?
-                                    "Vodafone Cash"
-                                    :
-                                    "InstaPay",
+                                selectedPayment,
 
                             payment_screenshot:
                                 screenshotUrl,
@@ -1241,13 +1310,7 @@ async function confirmPayment(){
 
 
         console.log(
-            "UPDATE STATUS:",
-            updateResponse.status
-        );
-
-
-        console.log(
-            "UPDATE RESPONSE:",
+            "ORDER UPDATE:",
             updateText
         );
 
@@ -1264,9 +1327,10 @@ async function confirmPayment(){
         }
 
 
-        /* =========================
+        /* =========================================
+           STEP 3
            TELEGRAM
-        ========================= */
+        ========================================= */
 
         button.textContent =
             "⏳ جاري إرسال الإشعار...";
@@ -1274,101 +1338,20 @@ async function confirmPayment(){
 
         try{
 
-            const telegramMessage = `
-
-💰 تحويل جديد - WE Packages
-
-📋 رقم الطلب:
-${orderNumber}
-
-📱 رقم الهاتف:
-${orderData.phone}
-
-📦 الباقة:
-${orderData.package_name}
-
-💵 المبلغ:
-${orderData.final_price} جنيه
-
-💳 طريقة الدفع:
-${
-    selectedPayment === "vodafone"
-        ?
-        "Vodafone Cash"
-        :
-        "InstaPay"
-}
-
-📸 صورة التحويل:
-مرفقة
-
-📌 الحالة:
-تم إرسال إثبات التحويل
-
-            `;
-
-
-            const telegramResponse =
-                await fetch(
-
-                    SUPABASE_URL +
-                    "/functions/v1/telegram-notify",
-
-                    {
-
-                        method:"POST",
-
-                        headers:{
-
-                            "Content-Type":
-                                "application/json",
-
-                            "apikey":
-                                SUPABASE_KEY,
-
-                            "Authorization":
-                                "Bearer " +
-                                SUPABASE_KEY
-
-                        },
-
-                        body:
-                            JSON.stringify({
-
-                                text:
-                                    telegramMessage,
-
-                                screenshot_url:
-                                    screenshotUrl
-
-                            })
-
-                    }
-
-                );
-
-
-            const telegramText =
-                await telegramResponse.text();
-
-
-            console.log(
-                "TELEGRAM STATUS:",
-                telegramResponse.status
+            await sendTelegramNotification(
+                screenshotUrl
             );
-
-
-            console.log(
-                "TELEGRAM RESPONSE:",
-                telegramText
-            );
-
 
         }
 
         catch(
             telegramError
         ){
+
+            /*
+              لا نلغي الطلب لو Telegram
+              حصل فيه خطأ
+            */
 
             console.error(
                 "TELEGRAM ERROR:",
@@ -1378,9 +1361,9 @@ ${
         }
 
 
-        /* =========================
+        /* =========================================
            SUCCESS
-        ========================= */
+        ========================================= */
 
         document.getElementById(
             "paymentContent"
@@ -1406,7 +1389,6 @@ ${
     catch(error){
 
         console.error(
-            "PAYMENT ERROR:",
             error
         );
 
@@ -1429,9 +1411,9 @@ ${
 }
 
 
-/* =========================
+/* =====================================================
    ERROR
-========================= */
+===================================================== */
 
 function showError(text){
 
@@ -1461,9 +1443,9 @@ function hideError(){
 }
 
 
-/* =========================
+/* =====================================================
    START
-========================= */
+===================================================== */
 
 loadOrder();
 
