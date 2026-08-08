@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>WE Packages</title>
 
 <style>
@@ -19,39 +18,19 @@ body{
     color:#111827;
 }
 
-/* Navbar */
-.navbar{
-    height:75px;
+/* العنوان العلوي */
+.top{
+    height:85px;
     background:#101828;
     color:white;
     display:flex;
     align-items:center;
-    justify-content:space-between;
-    padding:0 7%;
-}
-
-.logo{
-    font-size:25px;
+    justify-content:center;
+    font-size:28px;
     font-weight:bold;
 }
 
-.menu{
-    display:flex;
-    gap:30px;
-}
-
-.menu a{
-    color:white;
-    text-decoration:none;
-    font-size:17px;
-    transition:.3s;
-}
-
-.menu a:hover{
-    color:#a78bfa;
-}
-
-/* Hero */
+/* الواجهة الرئيسية */
 .hero{
     min-height:650px;
     display:flex;
@@ -59,9 +38,11 @@ body{
     justify-content:center;
     text-align:center;
     padding:60px 20px;
+
     background:
     radial-gradient(circle at top right,#7c3aed,transparent 45%),
     linear-gradient(135deg,#111827,#312e81,#6d28d9);
+
     color:white;
 }
 
@@ -75,18 +56,17 @@ body{
     border:1px solid rgba(255,255,255,.35);
     background:rgba(255,255,255,.12);
     border-radius:50px;
-    margin-bottom:25px;
-    font-size:17px;
-    backdrop-filter:blur(10px);
+    margin-bottom:28px;
+    font-size:18px;
 }
 
-.hero h1{
+h1{
     font-size:55px;
-    line-height:1.3;
-    margin-bottom:20px;
+    line-height:1.35;
+    margin-bottom:22px;
 }
 
-.hero h1 span{
+h1 span{
     color:#c4b5fd;
 }
 
@@ -94,45 +74,29 @@ body{
     font-size:22px;
     line-height:1.8;
     color:#e5e7eb;
-    margin-bottom:35px;
-}
-
-.buttons{
-    display:flex;
-    justify-content:center;
-    gap:18px;
-    flex-wrap:wrap;
+    margin-bottom:38px;
 }
 
 .btn{
     display:inline-block;
-    padding:17px 40px;
-    border-radius:15px;
-    text-decoration:none;
-    font-size:19px;
-    font-weight:bold;
-    transition:.3s;
-}
-
-.btn-primary{
+    padding:18px 45px;
     background:white;
     color:#5b21b6;
-}
-
-.btn-secondary{
-    color:white;
-    border:1px solid rgba(255,255,255,.5);
-    background:rgba(255,255,255,.08);
+    text-decoration:none;
+    border-radius:16px;
+    font-size:20px;
+    font-weight:bold;
+    transition:.3s;
 }
 
 .btn:hover{
     transform:translateY(-4px);
 }
 
-/* Features */
+/* المميزات */
 .features{
-    max-width:1100px;
-    margin:-70px auto 70px;
+    max-width:1050px;
+    margin:-65px auto 70px;
     position:relative;
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -155,7 +119,7 @@ body{
 
 .card h2{
     font-size:24px;
-    margin-bottom:10px;
+    margin-bottom:12px;
 }
 
 .card p{
@@ -164,37 +128,25 @@ body{
     line-height:1.7;
 }
 
-/* Footer */
 footer{
     text-align:center;
-    padding:35px 20px;
+    padding:30px;
     color:#6b7280;
-    background:#fff;
 }
 
-/* Mobile */
+/* الموبايل */
 @media(max-width:700px){
 
-    .navbar{
-        height:auto;
-        padding:20px;
-        flex-direction:column;
-        gap:15px;
-    }
-
-    .menu{
-        gap:20px;
-    }
-
-    .menu a{
-        font-size:15px;
+    .top{
+        height:75px;
+        font-size:25px;
     }
 
     .hero{
-        min-height:620px;
+        min-height:600px;
     }
 
-    .hero h1{
+    h1{
         font-size:40px;
     }
 
@@ -202,13 +154,13 @@ footer{
         font-size:18px;
     }
 
+    .btn{
+        width:100%;
+    }
+
     .features{
         grid-template-columns:1fr;
         margin-top:-40px;
-    }
-
-    .btn{
-        width:100%;
     }
 }
 </style>
@@ -216,20 +168,9 @@ footer{
 
 <body>
 
-<nav class="navbar">
-
-    <div class="logo">
-        💜 WE Packages
-    </div>
-
-    <div class="menu">
-        <a href="index.html">الرئيسية</a>
-        <a href="packages.html">الباقات</a>
-        <a href="https://wa.me/201090532469">تواصل معنا</a>
-    </div>
-
-</nav>
-
+<div class="top">
+    💜 WE Packages
+</div>
 
 <section class="hero">
 
@@ -245,55 +186,39 @@ footer{
         </h1>
 
         <p>
-            اختار باقتك المناسبة واستمتع بتفعيل سريع
-            ودعم متواصل عبر واتساب
+            اختار الباقة المناسبة ليك واستمتع
+            بتفعيل سريع ودعم متواصل عبر واتساب
         </p>
 
-        <div class="buttons">
-
-            <a href="packages.html" class="btn btn-primary">
-                استعرض الباقات
-            </a>
-
-            <a href="https://wa.me/201090532469" class="btn btn-secondary">
-                تواصل معنا 💬
-            </a>
-
-        </div>
+        <a href="packages.html" class="btn">
+            استعرض الباقات
+        </a>
 
     </div>
 
 </section>
-
 
 <section class="features">
 
     <div class="card">
         <div class="icon">⚡</div>
         <h2>تفعيل سريع</h2>
-        <p>
-            تفعيل الباقة خلال دقائق وبطريقة سهلة وآمنة.
-        </p>
+        <p>تفعيل الباقة خلال دقائق.</p>
     </div>
 
     <div class="card">
         <div class="icon">💎</div>
         <h2>أفضل الأسعار</h2>
-        <p>
-            باقات متنوعة بأسعار مناسبة تناسب احتياجاتك.
-        </p>
+        <p>باقات متنوعة بأسعار مناسبة.</p>
     </div>
 
     <div class="card">
         <div class="icon">💬</div>
         <h2>دعم سريع</h2>
-        <p>
-            تواصل معنا مباشرة عبر واتساب لأي استفسار.
-        </p>
+        <p>تواصل معنا بسهولة عبر واتساب.</p>
     </div>
 
 </section>
-
 
 <footer>
     WE Packages © 2026
