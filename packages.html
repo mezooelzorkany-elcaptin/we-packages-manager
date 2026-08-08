@@ -22,6 +22,7 @@ html{
 body{
     direction:rtl;
     min-height:100vh;
+
     font-family:Arial,Tahoma,sans-serif;
 
     background:
@@ -41,6 +42,7 @@ body{
 
     color:#171b35;
 }
+
 
 /* =========================
    HEADER
@@ -88,6 +90,7 @@ body{
 
     color:#403b55;
 }
+
 
 /* =========================
    PROMO
@@ -204,6 +207,7 @@ body{
 
     font-weight:bold;
 }
+
 
 /* =========================
    PACKAGES
@@ -357,6 +361,7 @@ body{
     transform:scale(.99);
 }
 
+
 /* =========================
    FEATURED
 ========================= */
@@ -407,10 +412,6 @@ body{
     font-weight:bold;
 }
 
-/* =========================
-   OLD PRICE
-========================= */
-
 .old-price{
     text-decoration:line-through;
 
@@ -421,53 +422,6 @@ body{
     margin-left:8px;
 }
 
-/* =========================
-   WHATSAPP
-========================= */
-
-.whatsapp{
-    position:fixed;
-
-    left:20px;
-    bottom:20px;
-
-    width:60px;
-    height:60px;
-
-    border-radius:50%;
-
-    background:#25D366;
-
-    color:#fff;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    text-decoration:none;
-
-    font-size:27px;
-
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.22);
-
-    z-index:999;
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-footer{
-    text-align:center;
-
-    padding:25px 20px 100px;
-
-    color:#666b7d;
-
-    font-size:14px;
-}
 
 /* =========================
    MOBILE
@@ -523,15 +477,14 @@ footer{
 }
 
 </style>
+
 </head>
 
 
 <body>
 
 
-<!-- =========================
-     HEADER
-========================= -->
+<!-- HEADER -->
 
 <header class="header">
 
@@ -546,15 +499,13 @@ footer{
     <p>
         اختار الباقة المناسبة ليك واستمتع بتفعيل سريع
         <br>
-        ودعم متواصل عبر واتساب
+        ودعم متواصل
     </p>
 
 </header>
 
 
-<!-- =========================
-     PROMO CODE
-========================= -->
+<!-- PROMO -->
 
 <section class="promo">
 
@@ -590,9 +541,7 @@ footer{
 </section>
 
 
-<!-- =========================
-     PACKAGES
-========================= -->
+<!-- PACKAGES -->
 
 <main class="packages">
 
@@ -621,8 +570,11 @@ footer{
     </div>
 
     <a
+        href="#"
         class="subscribe"
-        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 20 جيجا"
+        data-gb="20"
+        data-price="250"
+        onclick="buyPackage(event,this)"
     >
         اشترك الآن
     </a>
@@ -654,8 +606,11 @@ footer{
     </div>
 
     <a
+        href="#"
         class="subscribe"
-        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 30 جيجا"
+        data-gb="30"
+        data-price="340"
+        onclick="buyPackage(event,this)"
     >
         اشترك الآن
     </a>
@@ -691,8 +646,11 @@ footer{
     </div>
 
     <a
+        href="#"
         class="subscribe"
-        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 35 جيجا"
+        data-gb="35"
+        data-price="380"
+        onclick="buyPackage(event,this)"
     >
         اشترك الآن
     </a>
@@ -724,8 +682,11 @@ footer{
     </div>
 
     <a
+        href="#"
         class="subscribe"
-        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 40 جيجا"
+        data-gb="40"
+        data-price="430"
+        onclick="buyPackage(event,this)"
     >
         اشترك الآن
     </a>
@@ -757,8 +718,11 @@ footer{
     </div>
 
     <a
+        href="#"
         class="subscribe"
-        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 50 جيجا"
+        data-gb="50"
+        data-price="480"
+        onclick="buyPackage(event,this)"
     >
         اشترك الآن
     </a>
@@ -790,8 +754,11 @@ footer{
     </div>
 
     <a
+        href="#"
         class="subscribe"
-        href="https://wa.me/201090532469?text=السلام عليكم، أريد الاشتراك في باقة 60 جيجا"
+        data-gb="60"
+        data-price="570"
+        onclick="buyPackage(event,this)"
     >
         اشترك الآن
     </a>
@@ -802,29 +769,11 @@ footer{
 </main>
 
 
-<!-- WHATSAPP -->
-
-<a
-    class="whatsapp"
-    href="https://wa.me/201090532469"
-    aria-label="واتساب"
->
-    💬
-</a>
-
-
-<!-- FOOTER -->
-
-<footer>
-    WE Packages © 2026
-</footer>
-
-
-<!-- =========================
-     SUPABASE PROMO SYSTEM
-========================= -->
-
 <script>
+
+/* =========================
+   SUPABASE
+========================= */
 
 const SUPABASE_URL =
 "https://pgvbynefhqmyzjtccttl.supabase.co";
@@ -837,19 +786,25 @@ let activePromo = null;
 
 
 /* =========================
-   CHECK PROMO
+   APPLY PROMO
 ========================= */
 
 async function applyPromo(){
 
     const input =
-        document.getElementById("promoCode");
+        document.getElementById(
+            "promoCode"
+        );
 
     const message =
-        document.getElementById("promoMessage");
+        document.getElementById(
+            "promoMessage"
+        );
 
     const code =
-        input.value.trim().toUpperCase();
+        input.value
+        .trim()
+        .toUpperCase();
 
 
     if(!code){
@@ -861,6 +816,7 @@ async function applyPromo(){
             "promo-error";
 
         return;
+
     }
 
 
@@ -875,8 +831,10 @@ async function applyPromo(){
 
         const response =
             await fetch(
+
                 SUPABASE_URL +
                 "/rest/v1/rpc/check_promo_code",
+
                 {
 
                     method:"POST",
@@ -897,22 +855,18 @@ async function applyPromo(){
 
                     body:JSON.stringify({
 
-                        input_code:code
+                        input_code:
+                            code
 
                     })
 
                 }
+
             );
 
 
         const data =
             await response.json();
-
-
-        console.log(
-            "Promo response:",
-            data
-        );
 
 
         if(!response.ok){
@@ -935,6 +889,10 @@ async function applyPromo(){
             result.valid !== true
         ){
 
+            activePromo = null;
+
+            resetPrices();
+
             message.innerHTML =
                 "❌ " +
                 (
@@ -945,15 +903,14 @@ async function applyPromo(){
             message.className =
                 "promo-error";
 
-            activePromo = null;
-
-            resetPrices();
-
             return;
+
         }
 
 
         activePromo = {
+
+            code:result.code,
 
             type:
                 result.discount_type,
@@ -967,7 +924,13 @@ async function applyPromo(){
 
 
         message.innerHTML =
-            "✅ تم تطبيق الخصم بنجاح";
+            "✅ تم تطبيق الخصم " +
+            result.discount_value +
+            (
+                result.discount_type === "percent"
+                    ? "%"
+                    : " جنيه"
+            );
 
 
         message.className =
@@ -980,15 +943,14 @@ async function applyPromo(){
 
     catch(error){
 
-        console.error(
-            "Promo Error:",
-            error
-        );
+        console.error(error);
 
+        activePromo = null;
+
+        resetPrices();
 
         message.innerHTML =
-            "❌ تعذر التحقق من الكود، حاول مرة أخرى";
-
+            "❌ تعذر التحقق من الكود";
 
         message.className =
             "promo-error";
@@ -999,102 +961,185 @@ async function applyPromo(){
 
 
 /* =========================
-   APPLY DISCOUNT
+   UPDATE PRICES
 ========================= */
 
 function updatePrices(){
 
-    const packages =
-        document.querySelectorAll(
-            ".price"
-        );
+    document
+        .querySelectorAll(".price")
+        .forEach(
 
+            function(priceElement){
 
-    packages.forEach(
-        function(priceElement){
-
-            const originalPrice =
-                Number(
-                    priceElement.dataset.price
-                );
-
-
-            let newPrice;
-
-
-            if(
-                activePromo.type ===
-                "percent"
-            ){
-
-                newPrice =
-                    originalPrice -
-                    (
-                        originalPrice *
-                        activePromo.value /
-                        100
+                const original =
+                    Number(
+                        priceElement.dataset.price
                     );
 
-            }
 
-            else{
+                let newPrice;
+
+
+                if(
+                    activePromo.type ===
+                    "percent"
+                ){
+
+                    newPrice =
+                        original -
+                        (
+                            original *
+                            activePromo.value /
+                            100
+                        );
+
+                }
+
+                else{
+
+                    newPrice =
+                        original -
+                        activePromo.value;
+
+                }
+
 
                 newPrice =
-                    originalPrice -
-                    activePromo.value;
+                    Math.max(
+                        0,
+                        Math.round(newPrice)
+                    );
+
+
+                priceElement.innerHTML =
+
+                    '<span class="old-price">' +
+                    original +
+                    ' جنيه</span>' +
+
+                    newPrice +
+                    ' جنيه';
 
             }
 
-
-            newPrice =
-                Math.max(
-                    0,
-                    Math.round(newPrice)
-                );
-
-
-            priceElement.innerHTML =
-
-                '<span class="old-price">' +
-                originalPrice +
-                ' جنيه</span>' +
-
-                newPrice +
-                ' جنيه';
-
-        }
-    );
+        );
 
 }
 
 
 /* =========================
-   RESET PRICES
+   RESET
 ========================= */
 
 function resetPrices(){
 
-    const packages =
-        document.querySelectorAll(
-            ".price"
+    document
+        .querySelectorAll(".price")
+        .forEach(
+
+            function(priceElement){
+
+                const original =
+                    Number(
+                        priceElement.dataset.price
+                    );
+
+
+                priceElement.innerHTML =
+                    original +
+                    " جنيه";
+
+            }
+
+        );
+
+}
+
+
+/* =========================
+   BUY PACKAGE
+========================= */
+
+function buyPackage(event,button){
+
+    event.preventDefault();
+
+
+    const gb =
+        button.dataset.gb;
+
+
+    const originalPrice =
+        Number(
+            button.dataset.price
         );
 
 
-    packages.forEach(
-        function(priceElement){
+    let finalPrice =
+        originalPrice;
 
-            const originalPrice =
-                Number(
-                    priceElement.dataset.price
+
+    let promo = "";
+
+
+    if(activePromo){
+
+        promo =
+            activePromo.code;
+
+
+        if(
+            activePromo.type ===
+            "percent"
+        ){
+
+            finalPrice =
+                originalPrice -
+                (
+                    originalPrice *
+                    activePromo.value /
+                    100
                 );
 
+        }
 
-            priceElement.innerHTML =
-                originalPrice +
-                " جنيه";
+        else{
+
+            finalPrice =
+                originalPrice -
+                activePromo.value;
 
         }
-    );
+
+
+        finalPrice =
+            Math.max(
+                0,
+                Math.round(finalPrice)
+            );
+
+    }
+
+
+    const url =
+        "checkout.html" +
+
+        "?package=" +
+        encodeURIComponent(gb) +
+
+        "&price=" +
+        encodeURIComponent(finalPrice) +
+
+        "&original=" +
+        encodeURIComponent(originalPrice) +
+
+        "&promo=" +
+        encodeURIComponent(promo);
+
+
+    window.location.href =
+        url;
 
 }
 
@@ -1102,4 +1147,5 @@ function resetPrices(){
 
 
 </body>
+
 </html>
