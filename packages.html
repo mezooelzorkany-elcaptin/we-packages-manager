@@ -24,30 +24,16 @@ body{
     font-family:Arial, Tahoma, sans-serif;
     direction:rtl;
     min-height:100vh;
-    color:#202124;
 
     background:
-        radial-gradient(
-            circle at 10% 10%,
-            rgba(255,255,255,.95),
-            transparent 28%
-        ),
-        radial-gradient(
-            circle at 90% 15%,
-            rgba(225,218,255,.65),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 50% 100%,
-            rgba(255,255,255,.9),
-            transparent 38%
-        ),
         linear-gradient(
             135deg,
-            #edf0f5,
-            #fafbfc,
-            #e9e8ef
+            #eef0f5,
+            #fafafa,
+            #eeeeF5
         );
+
+    color:#202124;
 }
 
 
@@ -67,18 +53,17 @@ body{
 
     border-radius:50px;
 
-    color:#665a92;
+    color:#6e3cd9;
 
-    background:rgba(255,255,255,.55);
+    background:rgba(255,255,255,.65);
 
     border:1px solid rgba(255,255,255,.9);
 
     box-shadow:
-        0 8px 25px rgba(0,0,0,.06),
-        inset 0 1px 0 #fff;
+        0 8px 25px rgba(0,0,0,.06);
 
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
 
     font-size:15px;
     font-weight:bold;
@@ -87,12 +72,10 @@ body{
 }
 
 .header h1{
-    font-size:42px;
-    color:#25262a;
+    font-size:40px;
+    color:#202124;
 
     margin-bottom:12px;
-
-    letter-spacing:-1px;
 }
 
 .header p{
@@ -112,7 +95,7 @@ body{
 
     margin:0 auto;
 
-    padding:10px 0 50px;
+    padding:10px 0 60px;
 }
 
 
@@ -121,122 +104,169 @@ body{
 ========================= */
 
 .package{
+
     position:relative;
 
     overflow:hidden;
 
     background:
+
+        radial-gradient(
+            circle at 100% 0%,
+            #7838e8 0%,
+            rgba(120,56,232,.65) 25%,
+            transparent 55%
+        ),
+
         linear-gradient(
             135deg,
-            rgba(255,255,255,.78),
-            rgba(255,255,255,.38)
+            #14192c 0%,
+            #24265b 30%,
+            #432b9b 60%,
+            #6e3cd9 100%
         );
 
-    border:1px solid rgba(255,255,255,.95);
+    border:1px solid rgba(255,255,255,.25);
 
     border-radius:30px;
 
-    padding:34px 23px;
+    padding:36px 23px;
 
-    margin-bottom:23px;
+    margin-bottom:25px;
 
     text-align:center;
 
-    box-shadow:
-        0 18px 50px rgba(0,0,0,.07),
-        inset 0 1px 0 rgba(255,255,255,.95);
+    color:white;
 
-    backdrop-filter:blur(25px);
-    -webkit-backdrop-filter:blur(25px);
+    box-shadow:
+
+        0 18px 45px rgba(30,20,80,.25),
+
+        inset 0 1px 0
+        rgba(255,255,255,.18);
 
     transition:.3s ease;
 }
 
 
-/* انعكاس الزجاج */
+/* =========================
+   GLASS LIGHT
+========================= */
 
 .package::before{
+
     content:"";
 
     position:absolute;
 
-    width:190px;
-    height:190px;
+    width:220px;
+    height:220px;
 
-    top:-115px;
-    right:-75px;
+    top:-130px;
+    right:-90px;
 
     border-radius:50%;
 
-    background:rgba(255,255,255,.7);
+    background:
+        rgba(255,255,255,.13);
 
-    filter:blur(22px);
+    filter:blur(20px);
 
     pointer-events:none;
 }
 
 
-/* Hover */
+/* =========================
+   HOVER
+========================= */
 
 .package:hover{
+
     transform:translateY(-6px);
 
     box-shadow:
-        0 25px 60px rgba(0,0,0,.1),
-        inset 0 1px 0 #fff;
+
+        0 25px 60px
+        rgba(45,25,110,.35),
+
+        inset 0 1px 0
+        rgba(255,255,255,.25);
 }
 
 
 /* =========================
-   PACKAGE CONTENT
+   PACKAGE TITLE
 ========================= */
 
 .package h2{
+
     position:relative;
+
     z-index:2;
 
-    font-size:28px;
+    font-size:29px;
 
-    color:#292929;
+    color:#fff;
+
+    margin-bottom:18px;
+}
+
+
+/* =========================
+   GB
+========================= */
+
+.gb{
+
+    position:relative;
+
+    z-index:2;
+
+    font-size:42px;
+
+    font-weight:900;
+
+    color:#fff;
+
+    margin-bottom:10px;
+}
+
+
+/* =========================
+   MINUTES
+========================= */
+
+.minutes{
+
+    position:relative;
+
+    z-index:2;
+
+    font-size:18px;
+
+    color:rgba(255,255,255,.75);
 
     margin-bottom:17px;
 }
 
-.gb{
-    position:relative;
-    z-index:2;
 
-    font-size:41px;
-
-    font-weight:900;
-
-    color:#6b5ba7;
-
-    margin-bottom:9px;
-}
-
-.minutes{
-    position:relative;
-    z-index:2;
-
-    color:#777;
-
-    font-size:18px;
-
-    margin-bottom:15px;
-}
+/* =========================
+   PRICE
+========================= */
 
 .price{
+
     position:relative;
+
     z-index:2;
 
-    font-size:31px;
+    font-size:32px;
 
     font-weight:900;
 
-    color:#242424;
+    color:#fff;
 
-    margin-bottom:23px;
+    margin-bottom:25px;
 }
 
 
@@ -245,7 +275,9 @@ body{
 ========================= */
 
 .subscribe{
+
     position:relative;
+
     z-index:3;
 
     display:block;
@@ -254,36 +286,44 @@ body{
 
     padding:16px;
 
-    border-radius:16px;
+    border-radius:17px;
 
     text-decoration:none;
 
-    color:white;
+    color:#fff;
 
     background:
-        linear-gradient(
-            135deg,
-            #7162aa,
-            #504477
-        );
+        rgba(255,255,255,.14);
 
-    border:1px solid rgba(255,255,255,.5);
+    border:
+        1px solid
+        rgba(255,255,255,.42);
+
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
 
     font-size:18px;
 
     font-weight:bold;
 
     box-shadow:
-        0 9px 24px rgba(80,68,119,.18);
+
+        inset 0 1px 0
+        rgba(255,255,255,.3),
+
+        0 8px 20px
+        rgba(0,0,0,.12);
 
     transition:.3s;
 }
 
 .subscribe:hover{
+
+    background:
+        rgba(255,255,255,.25);
+
     transform:translateY(-2px);
 
-    box-shadow:
-        0 13px 30px rgba(80,68,119,.28);
 }
 
 
@@ -292,35 +332,64 @@ body{
 ========================= */
 
 .featured{
-    border:2px solid rgba(119,100,170,.45);
 
     background:
+
+        radial-gradient(
+            circle at 100% 0%,
+            #8b4cff 0%,
+            rgba(139,76,255,.7) 28%,
+            transparent 55%
+        ),
+
         linear-gradient(
             135deg,
-            rgba(255,255,255,.88),
-            rgba(246,243,255,.55)
+            #171b35 0%,
+            #30256f 35%,
+            #5830bb 65%,
+            #8145ed 100%
         );
+
+    border:
+        2px solid
+        rgba(255,255,255,.4);
+
 }
 
+
+/* =========================
+   POPULAR BADGE
+========================= */
+
 .popular{
+
     position:relative;
+
     z-index:4;
 
     display:inline-block;
 
-    padding:7px 17px;
+    padding:8px 18px;
 
     border-radius:50px;
 
-    background:rgba(105,89,157,.92);
+    background:
+        rgba(255,255,255,.18);
 
-    color:white;
+    border:
+        1px solid
+        rgba(255,255,255,.4);
 
-    font-size:13px;
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+
+    color:#fff;
+
+    font-size:14px;
 
     font-weight:bold;
 
-    margin-bottom:15px;
+    margin-bottom:16px;
 }
 
 
@@ -329,13 +398,14 @@ body{
 ========================= */
 
 .whatsapp{
+
     position:fixed;
 
     left:20px;
     bottom:20px;
 
-    width:59px;
-    height:59px;
+    width:60px;
+    height:60px;
 
     border-radius:50%;
 
@@ -353,7 +423,8 @@ body{
     font-size:28px;
 
     box-shadow:
-        0 10px 30px rgba(0,0,0,.18);
+        0 10px 30px
+        rgba(0,0,0,.2);
 
     z-index:999;
 
@@ -361,7 +432,9 @@ body{
 }
 
 .whatsapp:hover{
+
     transform:scale(1.1);
+
 }
 
 
@@ -370,9 +443,13 @@ body{
 ========================= */
 
 footer{
+
     text-align:center;
 
-    padding:25px 20px 100px;
+    padding:
+        25px
+        20px
+        100px;
 
     color:#888;
 
@@ -387,44 +464,62 @@ footer{
 @media(max-width:600px){
 
     .header{
-        padding:48px 18px 32px;
+
+        padding:
+            48px
+            18px
+            32px;
     }
 
     .header h1{
+
         font-size:35px;
     }
 
     .header p{
+
         font-size:16px;
     }
 
     .packages{
+
         width:92%;
     }
 
     .package{
-        padding:31px 19px;
-        border-radius:27px;
+
+        padding:
+            32px
+            19px;
+
+        border-radius:28px;
     }
 
     .package h2{
-        font-size:26px;
+
+        font-size:27px;
     }
 
     .gb{
-        font-size:38px;
+
+        font-size:39px;
     }
 
     .minutes{
+
         font-size:17px;
     }
 
     .price{
-        font-size:29px;
+
+        font-size:30px;
     }
 
     .subscribe{
+
         font-size:17px;
+
+        padding:16px;
     }
 
 }
@@ -437,30 +532,28 @@ footer{
 <body>
 
 
-<!-- =========================
-     PAGE HEADER
-========================= -->
+<!-- HEADER -->
 
 <header class="header">
 
     <div class="badge-top">
-        ❄️ عروض مميزة
+        ⚡ تفعيل سريع وآمن
     </div>
 
     <h1>
-        الباقات المتاحة
+        أفضل باقات WE
     </h1>
 
     <p>
-        اختار الباقة المناسبة ليك واشترك الآن
+        اختار الباقة المناسبة ليك واستمتع بتفعيل سريع
+        <br>
+        ودعم متواصل عبر واتساب
     </p>
 
 </header>
 
 
-<!-- =========================
-     PACKAGES
-========================= -->
+<!-- PACKAGES -->
 
 <main class="packages">
 
@@ -652,9 +745,7 @@ footer{
 </main>
 
 
-<!-- =========================
-     WHATSAPP
-========================= -->
+<!-- WHATSAPP -->
 
 <a
     class="whatsapp"
@@ -664,6 +755,8 @@ footer{
     💬
 </a>
 
+
+<!-- FOOTER -->
 
 <footer>
     WE Packages © 2026
