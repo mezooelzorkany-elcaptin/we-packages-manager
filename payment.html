@@ -1362,12 +1362,15 @@ async function sendTelegram(
     screenshotUrl
 ){
 
-    const message =
+  const message =
 
 `💰 تحويل جديد - WE Packages
 
 📋 رقم الطلب:
 ${orderData.order_number}
+
+👤 اسم المشترك:
+${orderData.subscriber_name || "غير مسجل"}
 
 📱 رقم الهاتف:
 ${orderData.phone}
@@ -1385,7 +1388,6 @@ ${selectedPayment}
 
 📌 الحالة:
 تم التحويل - في انتظار المراجعة`;
-
 
     const response =
         await fetch(
