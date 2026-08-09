@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>الأرقام الأساسية | WE Packages</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Tahoma,sans-serif;
+    background:
+        radial-gradient(circle at 100% 0%,#9b63ed 0%,transparent 38%),
+        linear-gradient(135deg,#f1eef9,#ded5f0,#d2c6e8);
+    min-height:100vh;
+    color:#19182d;
+}
+
+.container{
+    width:92%;
+    max-width:1100px;
+    margin:auto;
+    padding:25px 0 60px;
+}
+
+.glass{
+    background:rgba(255,255,255,.76);
+    border:1px solid rgba(255,255,255,.9);
+    border-radius:25px;
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    box-shadow:0 15px 40px rgba(60,35,120,.12);
+}
+
+/* العنوان */
+
+.header{
+    text-align:center;
+    padding:28px;
+    margin-bottom:18px;
+}
+
+.header h1{
+    margin:0 0 8px;
+    color:#5420b8;
+    font-size:30px;
+}
+
+.header p{
+    margin:0;
+    color:#707080;
+}
+
+/* زر العودة */
+
+.navigation{
+    display:flex;
+    justify-content:flex-start;
+    margin-bottom:14px;
+}
+
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:12px 20px;
+    border-radius:15px;
+    background:#e8ddff;
+    color:#5420b8;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:16px;
+}
+
+/* الإحصائيات */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-bottom:20px;
+}
+
+.stat{
+    padding:20px;
+}
+
+.stat-title{
+    color:#777;
+    font-size:14px;
+    margin-bottom:9px;
+}
+
+.stat-number{
+    color:#5420b8;
+    font-size:28px;
+    font-weight:900;
+}
+
+/* إضافة */
+
+.add-box{
+    padding:22px;
+    margin-bottom:20px;
+}
+
+.add-box h2{
+    margin-top:0;
+    color:#5420b8;
+}
+
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+input{
+    width:100%;
+    height:52px;
+    border:1px solid #ddd;
+    border-radius:15px;
+    padding:0 15px;
+    font-size:16px;
+    outline:none;
+    background:white;
+}
+
+input:focus{
+    border-color:#7544cf;
+    box-shadow:0 0 0 3px rgba(117,68,207,.12);
+}
+
+.add-btn{
+    width:100%;
+    height:52px;
+    border:0;
+    border-radius:15px;
+    background:linear-gradient(135deg,#5420b8,#9747ff);
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:12px;
+}
+
+/* القائمة */
+
+.list{
+    display:grid;
+    gap:18px;
+}
+
+.number-card{
+    padding:23px;
+}
+
+.number-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.number{
+    font-size:25px;
+    font-weight:900;
+    color:#5420b8;
+}
+
+.status{
+    padding:7px 13px;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.status.active{
+    background:#d9fbe5;
+    color:#08752d;
+}
+
+.status.empty{
+    background:#fff0d5;
+    color:#9a5a00;
+}
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-top:18px;
+}
+
+.box{
+    background:#f7f5fb;
+    border-radius:17px;
+    padding:15px;
+}
+
+.box-title{
+    color:#888;
+    font-size:12px;
+    margin-bottom:8px;
+}
+
+.box-value{
+    font-size:20px;
+    font-weight:900;
+    color:#25213b;
+}
+
+.progress{
+    height:11px;
+    background:#e8e4ef;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:18px;
+}
+
+.progress-bar{
+    height:100%;
+    background:linear-gradient(90deg,#5420b8,#9747ff);
+    border-radius:20px;
+    transition:.3s;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+    margin-top:18px;
+}
+
+.action{
+    flex:1;
+    height:45px;
+    border:0;
+    border-radius:13px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.edit{
+    background:#e8ddff;
+    color:#5420b8;
+}
+
+.delete{
+    background:#ffe1e1;
+    color:#a00000;
+}
+
+.empty-state{
+    padding:40px;
+    text-align:center;
+    color:#777;
+}
+
+.message{
+    text-align:center;
+    margin-top:10px;
+    font-weight:bold;
+}
+
+/* Modal */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+    z-index:999;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:500px;
+    padding:25px;
+}
+
+.modal-box h2{
+    margin-top:0;
+    color:#5420b8;
+}
+
+.modal-actions{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+}
+
+.modal-actions button{
+    flex:1;
+    height:48px;
+    border:0;
+    border-radius:14px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.save{
+    background:#5420b8;
+    color:white;
+}
+
+.cancel{
+    background:#eee;
+    color:#333;
+}
+
+/* موبايل */
+
+@media(max-width:800px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .stats-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:550px){
+
+    .container{
+        width:94%;
+    }
+
+    .row{
+        grid-template-columns:1fr;
+    }
+
+    .number-head{
+        display:block;
+    }
+
+    .status{
+        display:inline-block;
+        margin-top:10px;
+    }
+
+    .stats-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .actions{
+        flex-direction:column;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- العودة للعملاء -->
+
+    <div class="navigation">
+
+        <a
+            href="customers.html"
+            class="back-btn"
+        >
+            👥 العملاء
+        </a>
+
+    </div>
+
+
+    <!-- العنوان -->
+
+    <div class="header glass">
+
+        <h1>
+            📱 الأرقام الأساسية
+        </h1>
+
+        <p>
+            إدارة الباقات وتوزيع الجيجا على العملاء
+        </p>
+
+    </div>
+
+
+    <!-- الإحصائيات -->
+
+    <div class="stats">
+
+        <div class="stat glass">
+
+            <div class="stat-title">
+                عدد الأرقام
+            </div>
+
+            <div
+                class="stat-number"
+                id="totalNumbers"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat glass">
+
+            <div class="stat-title">
+                إجمالي الجيجا
+            </div>
+
+            <div
+                class="stat-number"
+                id="totalGB"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat glass">
+
+            <div class="stat-title">
+                الجيجا الموزعة
+            </div>
+
+            <div
+                class="stat-number"
+                id="usedGB"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat glass">
+
+            <div class="stat-title">
+                الجيجا المتبقية
+            </div>
+
+            <div
+                class="stat-number"
+                id="remainingGB"
+            >
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- إضافة رقم -->
+
+    <div class="add-box glass">
+
+        <h2>
+            ➕ إضافة رقم أساسي
+        </h2>
+
+        <div class="row">
+
+            <input
+                id="newPhone"
+                type="text"
+                inputmode="numeric"
+                placeholder="الرقم الأساسي"
+            >
+
+            <input
+                id="newGB"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="إجمالي الجيجا"
+            >
+
+        </div>
+
+
+        <input
+            id="newNotes"
+            type="text"
+            placeholder="ملاحظات - اختياري"
+            style="margin-top:0"
+        >
+
+
+        <button
+            class="add-btn"
+            onclick="addNumber()"
+        >
+            إضافة الرقم
+        </button>
+
+
+        <div
+            id="addMessage"
+            class="message"
+        ></div>
+
+    </div>
+
+
+    <!-- الأرقام -->
+
+    <div
+        id="numbersList"
+        class="list"
+    >
+
+        <div class="empty-state glass">
+            ⏳ جاري تحميل الأرقام...
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Modal تعديل -->
+
+<div
+    id="editModal"
+    class="modal"
+>
+
+    <div class="modal-box glass">
+
+        <h2>
+            ✏️ تعديل الرقم
+        </h2>
+
+
+        <input
+            type="hidden"
+            id="editId"
+        >
+
+
+        <input
+            id="editPhone"
+            type="text"
+            inputmode="numeric"
+            placeholder="الرقم الأساسي"
+        >
+
+
+        <input
+            id="editGB"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="إجمالي الجيجا"
+        >
+
+
+        <input
+            id="editNotes"
+            type="text"
+            placeholder="ملاحظات"
+        >
+
+
+        <div class="modal-actions">
+
+            <button
+                class="save"
+                onclick="saveEdit()"
+            >
+                💾 حفظ
+            </button>
+
+
+            <button
+                class="cancel"
+                onclick="closeEdit()"
+            >
+                إلغاء
+            </button>
+
+        </div>
+
+
+        <div
+            id="editMessage"
+            class="message"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================
+   SUPABASE
+========================================= */
+
+const SUPABASE_URL =
+"https://pgvbynefhqmyzjtccttl.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
+
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+/* =========================================
+   VARIABLES
+========================================= */
+
+let numbers = [];
+
+let customers = [];
+
+
+/* =========================================
+   تحميل البيانات
+========================================= */
+
+async function loadData(){
+
+    const list =
+        document.getElementById(
+            "numbersList"
+        );
+
+
+    list.innerHTML =
+    `
+        <div class="empty-state glass">
+            ⏳ جاري تحميل البيانات...
+        </div>
+    `;
+
+
+    try{
+
+        const numbersResult =
+            await supabaseClient
+                .from("primary_numbers")
+                .select("*")
+                .order(
+                    "id",
+                    {
+                        ascending:false
+                    }
+                );
+
+
+        if(numbersResult.error){
+
+            throw numbersResult.error;
+
+        }
+
+
+        numbers =
+            numbersResult.data || [];
+
+
+        /*
+         * نحاول قراءة العملاء
+         * عشان نحسب العدد والجيجات.
+         *
+         * في المرحلة دي الحساب يعتمد
+         * على الأعمدة الموجودة عندك.
+         */
+
+        const customersResult =
+            await supabaseClient
+                .from("customers")
+                .select("*")
+                .is(
+                    "deleted_at",
+                    null
+                );
+
+
+        if(customersResult.error){
+
+            console.warn(
+                "Customers:",
+                customersResult.error
+            );
+
+            customers = [];
+
+        }else{
+
+            customers =
+                customersResult.data || [];
+
+        }
+
+
+        renderNumbers();
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        list.innerHTML =
+        `
+            <div class="empty-state glass">
+
+                ❌ حصل خطأ في تحميل البيانات
+
+                <br><br>
+
+                ${escapeHtml(
+                    error.message
+                )}
+
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =========================================
+   حساب بيانات الرقم
+========================================= */
+
+function getNumberStats(number){
+
+    const phone =
+        String(
+            number.phone || ""
+        ).trim();
+
+
+    /*
+     * العملاء المرتبطين بالرقم الأساسي
+     */
+
+    const linkedCustomers =
+        customers.filter(
+            customer =>
+                String(
+                    customer.primary_number || ""
+                ).trim() === phone
+        );
+
+
+    let usedGB = 0;
+
+
+    linkedCustomers.forEach(
+        customer => {
+
+            /*
+             * في المرحلة الأولى نحاول
+             * قراءة أكثر من اسم محتمل
+             * لعمود الجيجا.
+             */
+
+            const gb =
+                Number(
+                    customer.gigabytes ??
+                    customer.giga ??
+                    customer.gb ??
+                    customer.package_gb ??
+                    customer.data_gb ??
+                    0
+                );
+
+
+            if(
+                Number.isFinite(gb)
+            ){
+
+                usedGB += gb;
+
+            }
+
+        }
+    );
+
+
+    const totalGB =
+        Number(
+            number.total_gb
+        ) || 0;
+
+
+    const remainingGB =
+        Math.max(
+            totalGB - usedGB,
+            0
+        );
+
+
+    return {
+
+        customers:
+            linkedCustomers.length,
+
+        usedGB,
+
+        totalGB,
+
+        remainingGB
+
+    };
+
+}
+
+
+/* =========================================
+   عرض الأرقام
+========================================= */
+
+function renderNumbers(){
+
+    const list =
+        document.getElementById(
+            "numbersList"
+        );
+
+
+    if(!numbers.length){
+
+        list.innerHTML =
+        `
+            <div class="empty-state glass">
+
+                📱 لا توجد أرقام أساسية حتى الآن.
+
+                <br><br>
+
+                أضف أول رقم من النموذج بالأعلى.
+
+            </div>
+        `;
+
+
+        updateTotals();
+
+        return;
+
+    }
+
+
+    list.innerHTML = "";
+
+
+    numbers.forEach(
+        number => {
+
+            const stats =
+                getNumberStats(
+                    number
+                );
+
+
+            const percentage =
+                stats.totalGB > 0
+                ? Math.min(
+                    (
+                        stats.usedGB /
+                        stats.totalGB
+                    ) * 100,
+                    100
+                )
+                : 0;
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "number-card glass";
+
+
+            const statusClass =
+                stats.remainingGB <= 0
+                ? "empty"
+                : "active";
+
+
+            const statusText =
+                stats.remainingGB <= 0
+                ? "⚠️ خلصت الجيجا"
+                : "🟢 متاح";
+
+
+            card.innerHTML =
+            `
+
+                <div class="number-head">
+
+                    <div class="number">
+
+                        📱
+                        ${escapeHtml(
+                            number.phone
+                        )}
+
+                    </div>
+
+
+                    <div
+                        class="status ${statusClass}"
+                    >
+
+                        ${statusText}
+
+                    </div>
+
+                </div>
+
+
+                <div class="stats-grid">
+
+
+                    <div class="box">
+
+                        <div class="box-title">
+                            إجمالي الجيجا
+                        </div>
+
+                        <div class="box-value">
+
+                            ${formatGB(
+                                stats.totalGB
+                            )}
+
+                            GB
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="box">
+
+                        <div class="box-title">
+                            الجيجا الموزعة
+                        </div>
+
+                        <div class="box-value">
+
+                            ${formatGB(
+                                stats.usedGB
+                            )}
+
+                            GB
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="box">
+
+                        <div class="box-title">
+                            المتبقي
+                        </div>
+
+                        <div class="box-value">
+
+                            ${formatGB(
+                                stats.remainingGB
+                            )}
+
+                            GB
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="box">
+
+                        <div class="box-title">
+                            عدد العملاء
+                        </div>
+
+                        <div class="box-value">
+
+                            ${stats.customers}
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="progress">
+
+                    <div
+                        class="progress-bar"
+                        style="width:${percentage}%"
+                    ></div>
+
+                </div>
+
+
+                ${
+                    number.notes
+                    ?
+                    `
+                    <div
+                        style="
+                            margin-top:14px;
+                            color:#777;
+                            font-size:14px;
+                        "
+                    >
+                        📝
+                        ${escapeHtml(
+                            number.notes
+                        )}
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+
+                <div class="actions">
+
+                    <button
+                        class="action edit"
+                        onclick="openEdit(${Number(number.id)})"
+                    >
+                        ✏️ تعديل
+                    </button>
+
+
+                    <button
+                        class="action delete"
+                        onclick="deleteNumber(${Number(number.id)})"
+                    >
+                        🗑️ حذف
+                    </button>
+
+                </div>
+
+            `;
+
+
+            list.appendChild(
+                card
+            );
+
+        }
+    );
+
+
+    updateTotals();
+
+}
+
+
+/* =========================================
+   الإحصائيات العامة
+========================================= */
+
+function updateTotals(){
+
+    let total =
+        0;
+
+    let used =
+        0;
+
+    let remaining =
+        0;
+
+
+    numbers.forEach(
+        number => {
+
+            const stats =
+                getNumberStats(
+                    number
+                );
+
+
+            total +=
+                stats.totalGB;
+
+            used +=
+                stats.usedGB;
+
+            remaining +=
+                stats.remainingGB;
+
+        }
+    );
+
+
+    document.getElementById(
+        "totalNumbers"
+    ).textContent =
+        numbers.length;
+
+
+    document.getElementById(
+        "totalGB"
+    ).textContent =
+        formatGB(total);
+
+
+    document.getElementById(
+        "usedGB"
+    ).textContent =
+        formatGB(used);
+
+
+    document.getElementById(
+        "remainingGB"
+    ).textContent =
+        formatGB(remaining);
+
+}
+
+
+/* =========================================
+   إضافة رقم
+========================================= */
+
+async function addNumber(){
+
+    const message =
+        document.getElementById(
+            "addMessage"
+        );
+
+
+    const phone =
+        document.getElementById(
+            "newPhone"
+        ).value
+        .trim();
+
+
+    const totalGB =
+        Number(
+            document.getElementById(
+                "newGB"
+            ).value
+        );
+
+
+    const notes =
+        document.getElementById(
+            "newNotes"
+        ).value
+        .trim();
+
+
+    if(!phone){
+
+        message.style.color =
+            "#a00000";
+
+        message.textContent =
+            "❌ اكتب الرقم الأساسي";
+
+        return;
+
+    }
+
+
+    if(
+        !Number.isFinite(totalGB) ||
+        totalGB < 0
+    ){
+
+        message.style.color =
+            "#a00000";
+
+        message.textContent =
+            "❌ اكتب عدد الجيجا بشكل صحيح";
+
+        return;
+
+    }
+
+
+    message.style.color =
+        "#555";
+
+    message.textContent =
+        "⏳ جاري إضافة الرقم...";
+
+
+    try{
+
+        const result =
+            await supabaseClient
+                .from(
+                    "primary_numbers"
+                )
+                .insert({
+
+                    phone,
+
+                    total_gb:
+                        totalGB,
+
+                    notes:
+                        notes || null,
+
+                    is_active:
+                        true
+
+                });
+
+
+        if(result.error){
+
+            if(
+                result.error.code ===
+                "23505"
+            ){
+
+                message.style.color =
+                    "#a00000";
+
+                message.textContent =
+                    "❌ الرقم موجود بالفعل";
+
+                return;
+
+            }
+
+
+            throw result.error;
+
+        }
+
+
+        message.style.color =
+            "#08752d";
+
+        message.textContent =
+            "✅ تم إضافة الرقم بنجاح";
+
+
+        document.getElementById(
+            "newPhone"
+        ).value = "";
+
+
+        document.getElementById(
+            "newGB"
+        ).value = "";
+
+
+        document.getElementById(
+            "newNotes"
+        ).value = "";
+
+
+        await loadData();
+
+
+    }catch(error){
+
+        message.style.color =
+            "#a00000";
+
+        message.textContent =
+            "❌ " +
+            error.message;
+
+    }
+
+}
+
+
+/* =========================================
+   تعديل
+========================================= */
+
+function openEdit(id){
+
+    const number =
+        numbers.find(
+            item =>
+                Number(item.id) ===
+                Number(id)
+        );
+
+
+    if(!number){
+
+        alert(
+            "❌ الرقم غير موجود"
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "editId"
+    ).value =
+        number.id;
+
+
+    document.getElementById(
+        "editPhone"
+    ).value =
+        number.phone || "";
+
+
+    document.getElementById(
+        "editGB"
+    ).value =
+        number.total_gb ?? "";
+
+
+    document.getElementById(
+        "editNotes"
+    ).value =
+        number.notes || "";
+
+
+    document.getElementById(
+        "editMessage"
+    ).textContent =
+        "";
+
+
+    document.getElementById(
+        "editModal"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+function closeEdit(){
+
+    document.getElementById(
+        "editModal"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+async function saveEdit(){
+
+    const message =
+        document.getElementById(
+            "editMessage"
+        );
+
+
+    const id =
+        document.getElementById(
+            "editId"
+        ).value;
+
+
+    const phone =
+        document.getElementById(
+            "editPhone"
+        ).value
+        .trim();
+
+
+    const totalGB =
+        Number(
+            document.getElementById(
+                "editGB"
+            ).value
+        );
+
+
+    const notes =
+        document.getElementById(
+            "editNotes"
+        ).value
+        .trim();
+
+
+    if(!phone){
+
+        message.style.color =
+            "#a00000";
+
+        message.textContent =
+            "❌ اكتب الرقم";
+
+        return;
+
+    }
+
+
+    if(
+        !Number.isFinite(totalGB) ||
+        totalGB < 0
+    ){
+
+        message.style.color =
+            "#a00000";
+
+        message.textContent =
+            "❌ اكتب عدد الجيجا بشكل صحيح";
+
+        return;
+
+    }
+
+
+    message.style.color =
+        "#555";
+
+    message.textContent =
+        "⏳ جاري الحفظ...";
+
+
+    try{
+
+        const result =
+            await supabaseClient
+                .from(
+                    "primary_numbers"
+                )
+                .update({
+
+                    phone,
+
+                    total_gb:
+                        totalGB,
+
+                    notes:
+                        notes || null,
+
+                    updated_at:
+                        new Date()
+                            .toISOString()
+
+                })
+                .eq(
+                    "id",
+                    id
+                );
+
+
+        if(result.error){
+
+            if(
+                result.error.code ===
+                "23505"
+            ){
+
+                message.style.color =
+                    "#a00000";
+
+                message.textContent =
+                    "❌ الرقم موجود بالفعل";
+
+                return;
+
+            }
+
+
+            throw result.error;
+
+        }
+
+
+        message.style.color =
+            "#08752d";
+
+        message.textContent =
+            "✅ تم الحفظ";
+
+
+        await loadData();
+
+
+        setTimeout(
+            closeEdit,
+            500
+        );
+
+
+    }catch(error){
+
+        message.style.color =
+            "#a00000";
+
+        message.textContent =
+            "❌ " +
+            error.message;
+
+    }
+
+}
+
+
+/* =========================================
+   حذف
+========================================= */
+
+async function deleteNumber(id){
+
+    const number =
+        numbers.find(
+            item =>
+                Number(item.id) ===
+                Number(id)
+        );
+
+
+    if(!number)
+        return;
+
+
+    const stats =
+        getNumberStats(
+            number
+        );
+
+
+    if(stats.customers > 0){
+
+        alert(
+            "⚠️ لا يمكن حذف الرقم الآن.\n\n" +
+            "الرقم مرتبط بـ " +
+            stats.customers +
+            " عميل.\n\n" +
+            "انقل العملاء لرقم آخر أولًا."
+        );
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            "هل أنت متأكد من حذف الرقم:\n\n" +
+            number.phone +
+            " ؟"
+        );
+
+
+    if(!confirmed)
+        return;
+
+
+    try{
+
+        const result =
+            await supabaseClient
+                .from(
+                    "primary_numbers"
+                )
+                .delete()
+                .eq(
+                    "id",
+                    id
+                );
+
+
+        if(result.error){
+
+            throw result.error;
+
+        }
+
+
+        await loadData();
+
+
+    }catch(error){
+
+        alert(
+            "❌ لم يتم حذف الرقم:\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   Helpers
+========================================= */
+
+function formatGB(value){
+
+    const n =
+        Number(value) || 0;
+
+
+    if(
+        Number.isInteger(n)
+    ){
+
+        return String(n);
+
+    }
+
+
+    return n.toFixed(2);
+
+}
+
+
+function escapeHtml(value){
+
+    return String(
+        value ?? ""
+    )
+    .replaceAll(
+        "&",
+        "&amp;"
+    )
+    .replaceAll(
+        "<",
+        "&lt;"
+    )
+    .replaceAll(
+        ">",
+        "&gt;"
+    )
+    .replaceAll(
+        '"',
+        "&quot;"
+    )
+    .replaceAll(
+        "'",
+        "&#039;"
+    );
+
+}
+
+
+/* =========================================
+   إغلاق الـ Modal
+========================================= */
+
+document
+    .getElementById(
+        "editModal"
+    )
+    .addEventListener(
+        "click",
+        function(event){
+
+            if(
+                event.target ===
+                this
+            ){
+
+                closeEdit();
+
+            }
+
+        }
+    );
+
+
+/* =========================================
+   تشغيل الصفحة
+========================================= */
+
+loadData();
+
+</script>
+
+</body>
+</html>
