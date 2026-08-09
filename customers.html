@@ -1,21 +1,12 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>العملاء | WE Packages</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-
 *{
 box-sizing:border-box;
 font-family:Arial,Tahoma,sans-serif
@@ -23,210 +14,217 @@ font-family:Arial,Tahoma,sans-serif
 
 body{
 margin:0;
-background:#f5f7fb;
+background:#f4f6fb;
 color:#172033
 }
 
 .header{
-background:linear-gradient(135deg,#151a35,#242b55);
-color:#fff;
-padding:24px 18px;
-border-radius:0 0 24px 24px
-}
-
-.header h1{
-margin:0 0 8px;
-font-size:25px
-}
-
-.header p{
-margin:0;
-opacity:.75;
-font-size:14px
+background:linear-gradient(135deg,#151a35,#292f62);
+color:white;
+padding:28px 20px 34px;
+border-radius:0 0 35px 35px
 }
 
 .container{
-max-width:1200px;
+max-width:1100px;
 margin:auto;
-padding:20px
+padding:18px
+}
+
+.header h1{
+margin:0;
+font-size:28px
+}
+
+.header p{
+margin:10px 0 0;
+opacity:.75
 }
 
 .stats{
 display:grid;
 grid-template-columns:repeat(4,1fr);
 gap:14px;
-margin-bottom:20px
+margin-top:20px
 }
 
 .stat{
-background:#fff;
-border-radius:18px;
-padding:18px;
-box-shadow:0 5px 20px rgba(0,0,0,.05)
+background:white;
+border-radius:20px;
+padding:20px;
+text-align:right;
+box-shadow:0 5px 25px rgba(0,0,0,.05)
 }
 
 .stat-title{
-color:#7a8194;
-font-size:13px;
-margin-bottom:8px
+color:#7b8395;
+font-size:14px;
+margin-bottom:10px
 }
 
 .stat-number{
-font-size:25px;
+font-size:30px;
 font-weight:bold
 }
 
-.topbar{
+.toolbar{
 display:flex;
 gap:10px;
 flex-wrap:wrap;
-margin-bottom:20px
+margin-top:20px
 }
 
 .search{
 flex:1;
 min-width:220px;
-padding:14px 16px;
-border:1px solid #e0e4ed;
-border-radius:14px;
-background:#fff;
-outline:0;
-font-size:15px
+height:55px;
+border:2px solid #e2e6ef;
+border-radius:18px;
+background:white;
+padding:0 18px;
+font-size:16px;
+outline:none
 }
 
-.filter,
-.topbtn{
-padding:13px 15px;
-border:1px solid #e0e4ed;
-border-radius:14px;
-background:#fff;
-font-size:14px
+.select{
+height:55px;
+border:2px solid #e2e6ef;
+border-radius:18px;
+background:white;
+padding:0 16px;
+font-size:15px;
+outline:none
 }
 
-.topbtn{
-background:#242b55;
-color:#fff;
+.add-btn{
+height:55px;
 border:0;
+border-radius:18px;
+background:#293160;
+color:white;
+font-size:17px;
 font-weight:bold;
+padding:0 25px;
 cursor:pointer
 }
 
-.topbtn:active{
+.add-btn:active{
 transform:scale(.98)
 }
 
-.customers{
+.list{
+margin-top:20px;
 display:grid;
-gap:14px
+gap:16px
 }
 
-.customer{
-background:#fff;
-border-radius:20px;
-padding:18px;
-box-shadow:0 5px 20px rgba(0,0,0,.05)
+.card{
+background:white;
+border-radius:25px;
+padding:20px;
+box-shadow:0 5px 25px rgba(0,0,0,.05)
 }
 
-.customer-head{
+.card-head{
 display:flex;
 justify-content:space-between;
-gap:15px;
-align-items:flex-start
+align-items:flex-start;
+gap:15px
 }
 
-.customer-name{
-font-size:18px;
-font-weight:bold;
-margin-bottom:6px
+.name{
+font-size:22px;
+font-weight:bold
 }
 
 .phone{
-color:#737b8e;
-font-size:14px
+color:#7b8395;
+margin-top:7px;
+font-size:16px
 }
 
 .badge{
-padding:7px 11px;
+padding:8px 13px;
 border-radius:20px;
-font-size:12px;
-white-space:nowrap
+font-size:13px;
+font-weight:bold
 }
 
-.active{
-background:#e8f8ef;
-color:#168448
+.badge.active{
+background:#e4f8ec;
+color:#159447
 }
 
-.inactive{
-background:#fdebec;
+.badge.inactive{
+background:#fde8ea;
 color:#c73542
 }
 
-.details{
+.grid{
 display:grid;
 grid-template-columns:repeat(4,1fr);
 gap:12px;
 margin-top:18px
 }
 
-.detail{
+.box{
 background:#f7f8fb;
-padding:12px;
-border-radius:13px
+border-radius:16px;
+padding:14px
 }
 
-.detail small{
+.box small{
 display:block;
-color:#858c9d;
-margin-bottom:5px;
-font-size:11px
+color:#8991a2;
+margin-bottom:7px;
+font-size:12px
 }
 
-.detail strong{
-font-size:14px
+.box strong{
+font-size:15px;
+word-break:break-word
 }
 
 .actions{
 display:flex;
-gap:8px;
-margin-top:15px;
-flex-wrap:wrap
+gap:9px;
+flex-wrap:wrap;
+margin-top:18px
 }
 
-button{
+.action{
 border:0;
-border-radius:12px;
-padding:11px 15px;
-cursor:pointer;
-font-size:13px
+border-radius:14px;
+padding:12px 18px;
+font-size:14px;
+font-weight:bold;
+cursor:pointer
 }
 
-.primary{
-background:#242b55;
-color:#fff
+.edit{
+background:#293160;
+color:white
 }
 
-.secondary{
-background:#eef1f7;
-color:#252b3c
+.renew{
+background:#edf0f7;
+color:#252b40
 }
 
-.danger{
-background:#fdebec;
+.delete{
+background:#fde8ea;
 color:#c73542
-}
-
-.danger:hover{
-background:#f8d7da
 }
 
 .loading,
 .empty,
 .error{
-background:#fff;
+background:white;
+border-radius:20px;
 padding:35px;
 text-align:center;
-border-radius:18px
+margin-top:20px;
+font-size:17px
 }
 
 .error{
@@ -234,32 +232,35 @@ color:#c73542
 }
 
 .modal{
+display:none;
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.55);
-display:none;
-align-items:center;
-justify-content:center;
-padding:18px;
-z-index:100
+background:rgba(0,0,0,.6);
+z-index:999;
+padding:15px;
+overflow:auto
 }
 
 .modal.show{
-display:flex
+display:flex;
+align-items:center;
+justify-content:center
 }
 
 .modal-box{
 width:100%;
-max-width:560px;
-max-height:92vh;
-overflow:auto;
-background:#fff;
-border-radius:22px;
-padding:22px
+max-width:600px;
+background:white;
+border-radius:25px;
+padding:22px;
+max-height:95vh;
+overflow:auto
 }
 
-.modal-box h2{
-margin-top:0
+.modal-title{
+font-size:22px;
+font-weight:bold;
+margin-bottom:20px
 }
 
 .field{
@@ -268,37 +269,56 @@ margin-bottom:14px
 
 .field label{
 display:block;
-margin-bottom:6px;
+font-weight:bold;
 font-size:13px;
-font-weight:bold
+margin-bottom:7px
 }
 
 .field input,
 .field select{
 width:100%;
-padding:13px;
+height:48px;
 border:1px solid #dfe3eb;
-border-radius:12px;
-outline:0;
-font-size:14px;
-background:#fff
+border-radius:13px;
+padding:0 13px;
+font-size:15px;
+outline:none;
+background:white
 }
 
 .modal-actions{
 display:flex;
 gap:10px;
-margin-top:18px
+margin-top:20px
 }
 
 .modal-actions button{
-flex:1
+flex:1;
+height:50px;
+border:0;
+border-radius:14px;
+font-size:15px;
+font-weight:bold;
+cursor:pointer
 }
 
-.close-modal{
+.cancel{
+background:#edf0f5;
+color:#252b40
+}
+
+.save{
+background:#293160;
+color:white
+}
+
+.close{
 float:left;
+border:0;
 background:#f1f2f5;
-color:#333;
-padding:8px 12px
+border-radius:10px;
+padding:8px 12px;
+cursor:pointer
 }
 
 @media(max-width:800px){
@@ -307,40 +327,56 @@ padding:8px 12px
 grid-template-columns:repeat(2,1fr)
 }
 
-.details{
+.grid{
 grid-template-columns:repeat(2,1fr)
 }
 
 }
 
-@media(max-width:500px){
+@media(max-width:550px){
 
 .container{
-padding:14px
+padding:13px
 }
 
-.customer-head{
-flex-direction:column
+.stats{
+gap:9px
 }
 
-.details{
-grid-template-columns:repeat(2,1fr)
+.stat{
+padding:15px
 }
 
-.topbar{
-flex-direction:column
+.stat-number{
+font-size:25px
+}
+
+.toolbar{
+display:block
 }
 
 .search,
-.filter,
-.topbtn{
-width:100%
+.select,
+.add-btn{
+width:100%;
+margin-bottom:9px
+}
+
+.card-head{
+display:block
+}
+
+.badge{
+display:inline-block;
+margin-top:12px
+}
+
+.grid{
+grid-template-columns:repeat(2,1fr)
 }
 
 }
-
 </style>
-
 </head>
 
 <body>
@@ -363,85 +399,40 @@ width:100%
 <main class="container">
 
 
-<section class="stats">
+<div class="stats">
 
 <div class="stat">
-
-<div class="stat-title">
-إجمالي العملاء
+<div class="stat-title">إجمالي العملاء</div>
+<div class="stat-number" id="total">0</div>
 </div>
-
-<div
-class="stat-number"
-id="total"
->
-0
-</div>
-
-</div>
-
 
 <div class="stat">
-
-<div class="stat-title">
-العملاء النشطين
+<div class="stat-title">العملاء النشطين</div>
+<div class="stat-number" id="active">0</div>
 </div>
-
-<div
-class="stat-number"
-id="active"
->
-0
-</div>
-
-</div>
-
 
 <div class="stat">
-
-<div class="stat-title">
-تجديد قريب
+<div class="stat-title">تجديد قريب</div>
+<div class="stat-number" id="soon">0</div>
 </div>
-
-<div
-class="stat-number"
-id="soon"
->
-0
-</div>
-
-</div>
-
 
 <div class="stat">
-
-<div class="stat-title">
-منتهية
-</div>
-
-<div
-class="stat-number"
-id="expired"
->
-0
+<div class="stat-title">منتهية</div>
+<div class="stat-number" id="expired">0</div>
 </div>
 
 </div>
 
-</section>
 
-
-<section class="topbar">
-
+<div class="toolbar">
 
 <button
+class="add-btn"
 type="button"
-class="topbtn"
-id="addCustomerBtn"
+onclick="openAdd()"
 >
 ➕ إضافة عميل
 </button>
-
 
 <input
 id="search"
@@ -450,11 +441,7 @@ type="search"
 placeholder="🔎 ابحث بالاسم أو رقم التليفون..."
 >
 
-
-<select
-id="renewalFilter"
-class="filter"
->
+<select id="renewalFilter" class="select">
 
 <option value="all">
 كل مواعيد التجديد
@@ -475,10 +462,7 @@ class="filter"
 </select>
 
 
-<select
-id="statusFilter"
-class="filter"
->
+<select id="statusFilter" class="select">
 
 <option value="all">
 كل الحالات
@@ -502,26 +486,21 @@ class="filter"
 
 </select>
 
+</div>
 
-</section>
 
-
-<section
-id="customers"
-class="customers"
->
+<div id="list" class="list">
 
 <div class="loading">
 ⏳ جاري تحميل العملاء...
 </div>
 
-</section>
-
+</div>
 
 </main>
 
 
-<!-- نافذة إضافة / تعديل -->
+<!-- MODAL -->
 
 <div
 id="modal"
@@ -530,19 +509,20 @@ class="modal"
 
 <div class="modal-box">
 
-
 <button
+class="close"
 type="button"
-class="close-modal"
-id="closeModalBtn"
+onclick="closeModal()"
 >
 ✕
 </button>
 
-
-<h2 id="modalTitle">
+<div
+id="modalTitle"
+class="modal-title"
+>
 ➕ إضافة عميل
-</h2>
+</div>
 
 
 <input
@@ -553,9 +533,7 @@ id="customerId"
 
 <div class="field">
 
-<label>
-اسم العميل *
-</label>
+<label>اسم العميل *</label>
 
 <input
 id="customerName"
@@ -567,9 +545,7 @@ placeholder="مثال: محمد"
 
 <div class="field">
 
-<label>
-رقم التليفون *
-</label>
+<label>رقم التليفون *</label>
 
 <input
 id="customerPhone"
@@ -582,12 +558,10 @@ placeholder="01xxxxxxxxx"
 
 <div class="field">
 
-<label>
-الباقة
-</label>
+<label>الباقة</label>
 
 <input
-id="customerPackage"
+id="packageName"
 placeholder="مثال: باقة 30 جيجا"
 >
 
@@ -596,15 +570,12 @@ placeholder="مثال: باقة 30 جيجا"
 
 <div class="field">
 
-<label>
-السعر
-</label>
+<label>السعر</label>
 
 <input
-id="customerPrice"
+id="lastPrice"
 type="number"
-min="0"
-placeholder="0"
+placeholder="170"
 >
 
 </div>
@@ -612,9 +583,7 @@ placeholder="0"
 
 <div class="field">
 
-<label>
-طريقة الدفع
-</label>
+<label>طريقة الدفع</label>
 
 <select id="paymentMethod">
 
@@ -638,12 +607,12 @@ WE Pay
 Orange Cash
 </option>
 
-<option value="تحويل بنكي">
-تحويل بنكي
-</option>
-
 <option value="كاش">
 كاش
+</option>
+
+<option value="تحويل بنكي">
+تحويل بنكي
 </option>
 
 </select>
@@ -653,11 +622,9 @@ Orange Cash
 
 <div class="field">
 
-<label>
-الحالة
-</label>
+<label>الحالة</label>
 
-<select id="customerStatus">
+<select id="status">
 
 <option value="active">
 🟢 نشط
@@ -674,11 +641,12 @@ Orange Cash
 
 <div class="field">
 
-<label>
-نظام التجديد
-</label>
+<label>نظام التجديد</label>
 
-<select id="renewalType">
+<select
+id="renewalType"
+onchange="changeRenewalType()"
+>
 
 <option value="day_1">
 يوم 1
@@ -699,15 +667,14 @@ Orange Cash
 
 <div class="field">
 
-<label>
-يوم التجديد
-</label>
+<label>يوم التجديد</label>
 
 <input
 id="renewalDay"
 type="number"
 min="1"
 max="31"
+value="1"
 >
 
 </div>
@@ -715,9 +682,7 @@ max="31"
 
 <div class="field">
 
-<label>
-التجديد القادم *
-</label>
+<label>التجديد القادم *</label>
 
 <input
 id="nextRenewal"
@@ -729,9 +694,7 @@ type="date"
 
 <div class="field">
 
-<label>
-عدد الطلبات السابقة
-</label>
+<label>عدد الطلبات</label>
 
 <input
 id="totalOrders"
@@ -743,40 +706,25 @@ value="0"
 </div>
 
 
-<div class="field">
-
-<label>
-تاريخ أول اشتراك
-</label>
-
-<input
-id="firstOrderAt"
-type="date"
->
-
-</div>
-
-
 <div class="modal-actions">
 
 <button
+class="cancel"
 type="button"
-class="secondary"
-id="cancelBtn"
+onclick="closeModal()"
 >
 إلغاء
 </button>
 
 <button
+class="save"
 type="button"
-class="primary"
-id="saveBtn"
+onclick="saveCustomer()"
 >
 💾 حفظ
 </button>
 
 </div>
-
 
 </div>
 
@@ -785,155 +733,243 @@ id="saveBtn"
 
 <script>
 
-
-/* =========================================
+/* ==========================================
    SUPABASE
-========================================= */
+========================================== */
 
 const SUPABASE_URL =
 "https://pgvbynefhqmyzjtccttl.supabase.co";
 
-
-const SUPABASE_ANON_KEY =
+const SUPABASE_KEY =
 "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 
 
-const supabase =
-window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_ANON_KEY
-);
-
-
-/* =========================================
+/* ==========================================
    VARIABLES
-========================================= */
+========================================== */
 
-let allCustomers = [];
+let customers = [];
 
 let editMode = false;
 
 
-/* =========================================
-   ELEMENTS
-========================================= */
+/* ==========================================
+   SUPABASE REQUEST
+========================================== */
 
-const customersContainer =
-document.getElementById("customers");
+async function supabaseRequest(
+path,
+options={}
+){
 
-const modal =
-document.getElementById("modal");
+const controller =
+new AbortController();
+
+const timer =
+setTimeout(
+() => controller.abort(),
+10000
+);
+
+try{
+
+const response =
+await fetch(
+SUPABASE_URL +
+"/rest/v1/" +
+path,
+{
+
+...options,
+
+signal:
+controller.signal,
+
+headers:{
+"apikey":
+SUPABASE_KEY,
+
+"Authorization":
+"Bearer " +
+SUPABASE_KEY,
+
+"Content-Type":
+"application/json",
+
+"Prefer":
+"return=representation",
+
+...(options.headers || {})
+}
+
+}
+);
 
 
-/* =========================================
-   LOAD CUSTOMERS
-========================================= */
+const text =
+await response.text();
+
+
+let data = null;
+
+try{
+
+data =
+text
+?
+JSON.parse(text)
+:
+null;
+
+}catch{
+
+data = text;
+
+}
+
+
+if(!response.ok){
+
+throw new Error(
+typeof data === "string"
+?
+data
+:
+(
+data?.message ||
+data?.error_description ||
+data?.hint ||
+"خطأ من Supabase"
+)
+);
+
+}
+
+
+return data;
+
+}
+
+catch(error){
+
+if(
+error.name === "AbortError"
+){
+
+throw new Error(
+"الاتصال بـ Supabase استغرق أكثر من 10 ثواني."
+);
+
+}
+
+throw error;
+
+}
+
+finally{
+
+clearTimeout(timer);
+
+}
+
+}
+
+
+/* ==========================================
+   LOAD
+========================================== */
 
 async function loadCustomers(){
 
-customersContainer.innerHTML =
-'<div class="loading">⏳ جاري تحميل العملاء...</div>';
+const list =
+document.getElementById("list");
 
 
-const {
-data,
-error
-} = await supabase
+list.innerHTML =
+`
+<div class="loading">
+⏳ جاري تحميل العملاء...
+</div>
+`;
 
-.from("customers")
 
-.select("*")
+try{
 
-.is("deleted_at", null)
-
-.order(
-"next_renewal_date",
-{
-ascending:true,
-nullsFirst:false
-}
+const data =
+await supabaseRequest(
+"customers?select=*&deleted_at=is.null&order=next_renewal_date.asc"
 );
 
 
-if(error){
+customers =
+Array.isArray(data)
+?
+data
+:
+[];
 
-customersContainer.innerHTML =
-'<div class="error">❌ حصل خطأ في تحميل العملاء<br><br>'
-+
-escapeHtml(error.message)
-+
-'</div>';
-
-return;
-
-}
-
-
-allCustomers = data || [];
 
 updateStats();
 
-renderCustomers();
+render();
+
+
+}
+
+catch(error){
+
+console.error(error);
+
+
+list.innerHTML =
+`
+<div class="error">
+
+❌ حصل خطأ في تحميل العملاء
+
+<br><br>
+
+${escapeHtml(error.message)}
+
+<br><br>
+
+<button
+class="action edit"
+onclick="loadCustomers()"
+>
+🔄 إعادة المحاولة
+</button>
+
+</div>
+`;
+
+}
 
 }
 
 
-/* =========================================
-   DAYS UNTIL RENEWAL
-========================================= */
-
-function daysUntil(date){
-
-if(!date){
-return null;
-}
-
-
-const today = new Date();
-
-today.setHours(
-0,
-0,
-0,
-0
-);
-
-
-const target =
-new Date(
-date + "T00:00:00"
-);
-
-
-return Math.ceil(
-(target - today) /
-86400000
-);
-
-}
-
-
-/* =========================================
-   STATISTICS
-========================================= */
+/* ==========================================
+   STATS
+========================================== */
 
 function updateStats(){
 
 document.getElementById("total")
 .textContent =
-allCustomers.length;
+customers.length;
 
 
 document.getElementById("active")
 .textContent =
-allCustomers.filter(
-c => c.status === "active"
+customers.filter(
+c =>
+c.status === "active"
 ).length;
 
 
 document.getElementById("soon")
 .textContent =
-allCustomers.filter(c => {
+customers.filter(c=>{
 
 const d =
 daysUntil(
@@ -951,7 +987,7 @@ d <= 7
 
 document.getElementById("expired")
 .textContent =
-allCustomers.filter(c => {
+customers.filter(c=>{
 
 const d =
 daysUntil(
@@ -968,17 +1004,56 @@ d < 0
 }
 
 
-/* =========================================
-   RENDER CUSTOMERS
-========================================= */
+/* ==========================================
+   DAYS
+========================================== */
 
-function renderCustomers(){
+function daysUntil(date){
+
+if(!date){
+
+return null;
+
+}
+
+
+const today =
+new Date();
+
+today.setHours(
+0,0,0,0
+);
+
+
+const target =
+new Date(
+date +
+"T00:00:00"
+);
+
+
+return Math.ceil(
+(
+target -
+today
+) /
+86400000
+);
+
+}
+
+
+/* ==========================================
+   RENDER
+========================================== */
+
+function render(){
 
 const search =
 document.getElementById("search")
 .value
-.toLowerCase()
-.trim();
+.trim()
+.toLowerCase();
 
 
 const renewal =
@@ -991,8 +1066,8 @@ document.getElementById("statusFilter")
 .value;
 
 
-const list =
-allCustomers.filter(c => {
+const filtered =
+customers.filter(c=>{
 
 
 const name =
@@ -1009,8 +1084,6 @@ c.phone || ""
 .toLowerCase();
 
 
-/* البحث */
-
 if(
 search &&
 !name.includes(search) &&
@@ -1022,8 +1095,6 @@ return false;
 }
 
 
-/* فلتر يوم 1 */
-
 if(
 renewal === "1" &&
 Number(c.renewal_day) !== 1
@@ -1034,8 +1105,6 @@ return false;
 }
 
 
-/* فلتر يوم 16 */
-
 if(
 renewal === "16" &&
 Number(c.renewal_day) !== 16
@@ -1045,8 +1114,6 @@ return false;
 
 }
 
-
-/* فلتر مخصص */
 
 if(
 renewal === "custom" &&
@@ -1064,8 +1131,6 @@ c.next_renewal_date
 );
 
 
-/* نشط */
-
 if(
 status === "active" &&
 c.status !== "active"
@@ -1076,8 +1141,6 @@ return false;
 }
 
 
-/* موقوف */
-
 if(
 status === "inactive" &&
 c.status !== "inactive"
@@ -1087,8 +1150,6 @@ return false;
 
 }
 
-
-/* قرب التجديد */
 
 if(
 status === "soon" &&
@@ -1103,8 +1164,6 @@ return false;
 
 }
 
-
-/* منتهي */
 
 if(
 status === "expired" &&
@@ -1124,27 +1183,37 @@ return true;
 });
 
 
-if(!list.length){
+const list =
+document.getElementById("list");
 
-customersContainer.innerHTML =
-'<div class="empty">📭 لا يوجد عملاء مطابقين للبحث.</div>';
+
+if(!filtered.length){
+
+list.innerHTML =
+`
+<div class="empty">
+📭 لا يوجد عملاء مطابقين.
+</div>
+`;
 
 return;
 
 }
 
 
-customersContainer.innerHTML =
-list
-.map(customerCard)
+list.innerHTML =
+filtered
+.map(
+customerCard
+)
 .join("");
 
 }
 
 
-/* =========================================
-   CUSTOMER CARD
-========================================= */
+/* ==========================================
+   CARD
+========================================== */
 
 function customerCard(c){
 
@@ -1158,12 +1227,14 @@ let renewalText =
 "غير محدد";
 
 
-if(c.next_renewal_date){
+if(
+c.next_renewal_date
+){
 
 if(d < 0){
 
 renewalText =
-`🔴 انتهى منذ ${Math.abs(d)} يوم`;
+"🔴 منتهي";
 
 }
 
@@ -1177,14 +1248,18 @@ renewalText =
 else if(d <= 7){
 
 renewalText =
-`🟠 متبقي ${d} يوم`;
+"🟠 متبقي " +
+d +
+" يوم";
 
 }
 
 else{
 
 renewalText =
-`🟢 متبقي ${d} يوم`;
+"🟢 متبقي " +
+d +
+" يوم";
 
 }
 
@@ -1196,32 +1271,42 @@ c.status === "inactive"
 
 ?
 
-'<span class="badge inactive">🔴 موقوف</span>'
+`
+<span class="badge inactive">
+🔴 موقوف
+</span>
+`
 
 :
 
-'<span class="badge active">🟢 نشط</span>';
+`
+<span class="badge active">
+🟢 نشط
+</span>
+`;
 
 
 return `
 
-<article class="customer">
+<div class="card">
 
-<div class="customer-head">
+<div class="card-head">
 
 <div>
 
-<div class="customer-name">
+<div class="name">
 
 ${escapeHtml(
-c.subscriber_name || "بدون اسم"
+c.subscriber_name ||
+"بدون اسم"
 )}
 
 </div>
 
 <div class="phone">
 
-📱 ${escapeHtml(
+📱
+${escapeHtml(
 c.phone || "-"
 )}
 
@@ -1234,14 +1319,11 @@ ${badge}
 </div>
 
 
-<div class="details">
+<div class="grid">
 
+<div class="box">
 
-<div class="detail">
-
-<small>
-الباقة
-</small>
+<small>الباقة</small>
 
 <strong>
 ${escapeHtml(
@@ -1252,11 +1334,9 @@ c.package_name || "-"
 </div>
 
 
-<div class="detail">
+<div class="box">
 
-<small>
-السعر
-</small>
+<small>السعر</small>
 
 <strong>
 ${c.last_price ?? "-"} جنيه
@@ -1265,33 +1345,9 @@ ${c.last_price ?? "-"} جنيه
 </div>
 
 
-<div class="detail">
+<div class="box">
 
-<small>
-يوم التجديد
-</small>
-
-<strong>
-
-${
-c.renewal_type === "custom"
-
-? "مخصص"
-
-: (c.renewal_day || "-")
-
-}
-
-</strong>
-
-</div>
-
-
-<div class="detail">
-
-<small>
-التجديد القادم
-</small>
+<small>موعد التجديد</small>
 
 <strong>
 ${c.next_renewal_date || "-"}
@@ -1300,17 +1356,69 @@ ${c.next_renewal_date || "-"}
 </div>
 
 
+<div class="box">
+
+<small>يوم التجديد</small>
+
+<strong>
+
+${
+c.renewal_type === "custom"
+
+?
+"مخصص"
+
+:
+(
+c.renewal_day ||
+"-"
+)
+
+}
+
+</strong>
+
 </div>
 
 
-<div class="details">
+<div class="box">
+
+<small>حالة التجديد</small>
+
+<strong>
+${renewalText}
+</strong>
+
+</div>
 
 
-<div class="detail">
+<div class="box">
 
-<small>
-آخر تجديد
-</small>
+<small>عدد الطلبات</small>
+
+<strong>
+${c.total_orders ?? 0}
+</strong>
+
+</div>
+
+
+<div class="box">
+
+<small>طريقة الدفع</small>
+
+<strong>
+${escapeHtml(
+c.payment_method || "-"
+)}
+</strong>
+
+</div>
+
+
+<div class="box">
+
+<small>آخر تجديد</small>
 
 <strong>
 
@@ -1336,98 +1444,51 @@ c.last_renewed_at
 
 </div>
 
-
-<div class="detail">
-
-<small>
-عدد الطلبات
-</small>
-
-<strong>
-${c.total_orders ?? 0}
-</strong>
-
-</div>
-
-
-<div class="detail">
-
-<small>
-حالة التجديد
-</small>
-
-<strong>
-${renewalText}
-</strong>
-
-</div>
-
-
-<div class="detail">
-
-<small>
-طريقة الدفع
-</small>
-
-<strong>
-${escapeHtml(
-c.payment_method || "-"
-)}
-</strong>
-
-</div>
-
-
 </div>
 
 
 <div class="actions">
 
-
 <button
-class="primary"
-type="button"
-onclick="openEdit(${c.id})"
+class="action edit"
+onclick="openEdit(${Number(c.id)})"
 >
 ✏️ تعديل
 </button>
 
 
 <button
-class="secondary"
-type="button"
-onclick="renewToday(${c.id})"
+class="action renew"
+onclick="renewCustomer(${Number(c.id)})"
 >
 🔄 تجديد الآن
 </button>
 
 
 <button
-class="danger"
-type="button"
-onclick="deleteCustomer(${c.id})"
+class="action delete"
+onclick="deleteCustomer(${Number(c.id)})"
 >
 🗑️ حذف
 </button>
 
-
 </div>
 
-
-</article>
+</div>
 
 `;
 
 }
 
 
-/* =========================================
-   OPEN ADD
-========================================= */
+/* ==========================================
+   ADD
+========================================== */
 
 function openAdd(){
 
-editMode = false;
+editMode =
+false;
 
 
 document.getElementById(
@@ -1455,7 +1516,7 @@ document.getElementById(
 
 
 document.getElementById(
-"customerStatus"
+"status"
 )
 .value =
 "active";
@@ -1468,31 +1529,41 @@ document.getElementById(
 0;
 
 
-modal.classList.add("show");
+document.getElementById(
+"modal"
+)
+.classList.add("show");
 
 }
 
 
-/* =========================================
-   OPEN EDIT
-========================================= */
+/* ==========================================
+   EDIT
+========================================== */
 
 function openEdit(id){
 
-const customer =
-allCustomers.find(
+const c =
+customers.find(
 x =>
 Number(x.id) ===
 Number(id)
 );
 
 
-if(!customer){
+if(!c){
+
+alert(
+"العميل غير موجود"
+);
+
 return;
+
 }
 
 
-editMode = true;
+editMode =
+true;
 
 
 document.getElementById(
@@ -1506,188 +1577,177 @@ document.getElementById(
 "customerId"
 )
 .value =
-customer.id;
+c.id;
 
 
 document.getElementById(
 "customerName"
 )
 .value =
-customer.subscriber_name || "";
+c.subscriber_name || "";
 
 
 document.getElementById(
 "customerPhone"
 )
 .value =
-customer.phone || "";
+c.phone || "";
 
 
 document.getElementById(
-"customerPackage"
+"packageName"
 )
 .value =
-customer.package_name || "";
+c.package_name || "";
 
 
 document.getElementById(
-"customerPrice"
+"lastPrice"
 )
 .value =
-customer.last_price ?? "";
+c.last_price ?? "";
 
 
 document.getElementById(
 "paymentMethod"
 )
 .value =
-customer.payment_method || "";
+c.payment_method || "";
 
 
 document.getElementById(
-"customerStatus"
+"status"
 )
 .value =
-customer.status || "active";
+c.status || "active";
 
 
 document.getElementById(
 "renewalType"
 )
 .value =
-customer.renewal_type || "day_1";
+c.renewal_type || "day_1";
 
 
 document.getElementById(
 "renewalDay"
 )
 .value =
-customer.renewal_day || "";
+c.renewal_day || "";
 
 
 document.getElementById(
 "nextRenewal"
 )
 .value =
-customer.next_renewal_date || "";
+c.next_renewal_date || "";
 
 
 document.getElementById(
 "totalOrders"
 )
 .value =
-customer.total_orders ?? 0;
+c.total_orders ?? 0;
 
 
 document.getElementById(
-"firstOrderAt"
+"modal"
 )
-.value =
-
-customer.first_order_at
-
-?
-
-String(
-customer.first_order_at
-)
-.slice(0,10)
-
-:
-
-"";
-
-
-modal.classList.add("show");
+.classList.add("show");
 
 }
 
 
-/* =========================================
-   CLEAR FORM
-========================================= */
+/* ==========================================
+   CLEAR
+========================================== */
 
 function clearForm(){
 
 document.getElementById(
 "customerId"
 )
-.value = "";
+.value =
+"";
 
 
 document.getElementById(
 "customerName"
 )
-.value = "";
+.value =
+"";
 
 
 document.getElementById(
 "customerPhone"
 )
-.value = "";
+.value =
+"";
 
 
 document.getElementById(
-"customerPackage"
+"packageName"
 )
-.value = "";
+.value =
+"";
 
 
 document.getElementById(
-"customerPrice"
+"lastPrice"
 )
-.value = "";
+.value =
+"";
 
 
 document.getElementById(
 "paymentMethod"
 )
-.value = "";
+.value =
+"";
 
 
 document.getElementById(
-"customerStatus"
+"status"
 )
-.value = "active";
+.value =
+"active";
 
 
 document.getElementById(
 "renewalType"
 )
-.value = "day_1";
+.value =
+"day_1";
 
 
 document.getElementById(
 "renewalDay"
 )
-.value = 1;
+.value =
+1;
 
 
 document.getElementById(
 "nextRenewal"
 )
-.value = "";
+.value =
+"";
 
 
 document.getElementById(
 "totalOrders"
 )
-.value = 0;
-
-
-document.getElementById(
-"firstOrderAt"
-)
-.value = "";
+.value =
+0;
 
 }
 
 
-/* =========================================
-   RENEWAL TYPE
-========================================= */
+/* ==========================================
+   RENEW TYPE
+========================================== */
 
-function renewalTypeChanged(){
+function changeRenewalType(){
 
 const type =
 document.getElementById(
@@ -1696,60 +1756,66 @@ document.getElementById(
 .value;
 
 
-if(type === "day_1"){
+if(
+type === "day_1"
+){
 
 document.getElementById(
 "renewalDay"
 )
-.value = 1;
+.value =
+1;
 
 }
 
-else if(type === "day_16"){
+
+else if(
+type === "day_16"
+){
 
 document.getElementById(
 "renewalDay"
 )
-.value = 16;
+.value =
+16;
 
 }
+
 
 else{
 
 document.getElementById(
 "renewalDay"
 )
-.value = "";
+.value =
+"";
 
 }
 
 }
 
 
-/* =========================================
-   CLOSE MODAL
-========================================= */
+/* ==========================================
+   CLOSE
+========================================== */
 
 function closeModal(){
 
-modal.classList.remove(
+document.getElementById(
+"modal"
+)
+.classList.remove(
 "show"
 );
 
 }
 
 
-/* =========================================
-   SAVE CUSTOMER
-========================================= */
+/* ==========================================
+   SAVE
+========================================== */
 
 async function saveCustomer(){
-
-const saveBtn =
-document.getElementById(
-"saveBtn"
-);
-
 
 const name =
 document.getElementById(
@@ -1774,13 +1840,6 @@ document.getElementById(
 .value;
 
 
-const type =
-document.getElementById(
-"renewalType"
-)
-.value;
-
-
 if(
 !name ||
 !phone ||
@@ -1796,15 +1855,11 @@ return;
 }
 
 
-/* منع الضغط مرتين */
-
-saveBtn.disabled = true;
-
-saveBtn.textContent =
-"⏳ جاري الحفظ...";
-
-
-try{
+const type =
+document.getElementById(
+"renewalType"
+)
+.value;
 
 
 let day =
@@ -1813,28 +1868,26 @@ document.getElementById(
 "renewalDay"
 )
 .value
-) || null;
+)
+|| null;
 
 
-if(type === "day_1"){
+if(
+type === "day_1"
+){
 
 day = 1;
 
 }
 
 
-if(type === "day_16"){
+if(
+type === "day_16"
+){
 
 day = 16;
 
 }
-
-
-const firstDate =
-document.getElementById(
-"firstOrderAt"
-)
-.value;
 
 
 const now =
@@ -1851,33 +1904,29 @@ phone:
 phone,
 
 package_name:
-
 document.getElementById(
-"customerPackage"
+"packageName"
 )
 .value
 .trim() || null,
 
 last_price:
-
 Number(
 document.getElementById(
-"customerPrice"
+"lastPrice"
 )
 .value
 ) || 0,
 
 payment_method:
-
 document.getElementById(
 "paymentMethod"
 )
 .value || null,
 
 status:
-
 document.getElementById(
-"customerStatus"
+"status"
 )
 .value,
 
@@ -1891,7 +1940,6 @@ next_renewal_date:
 nextDate,
 
 total_orders:
-
 Number(
 document.getElementById(
 "totalOrders"
@@ -1905,20 +1953,14 @@ now
 };
 
 
-if(firstDate){
-
-payload.first_order_at =
-firstDate +
-"T00:00:00.000Z";
-
-}
+try{
 
 
-/* =========================================
-   EDIT
-========================================= */
+/* EDIT */
 
-if(editMode){
+if(
+editMode
+){
 
 const id =
 document.getElementById(
@@ -1927,81 +1969,45 @@ document.getElementById(
 .value;
 
 
-const {
-error
-} =
+await supabaseRequest(
+"customers?id=eq." +
+encodeURIComponent(id),
+{
 
-await supabase
+method:
+"PATCH",
 
-.from("customers")
+body:
+JSON.stringify(
+payload
+)
 
-.update(payload)
-
-.eq("id",id);
-
-
-if(error){
-
-alert(
-"❌ حصل خطأ في تعديل العميل:\n\n"
-+
-error.message
+}
 );
 
-return;
-
-}
-
 }
 
 
-/* =========================================
-   ADD
-========================================= */
+/* ADD */
 
 else{
 
 
-/* التأكد إن الرقم مش موجود */
-
-const {
-data: existing,
-error: findError
-} =
-
-await supabase
-
-.from("customers")
-
-.select("id")
-
-.eq("phone",phone)
-
-.is("deleted_at",null)
-
-.limit(1);
-
-
-if(findError){
-
-alert(
-"❌ حصل خطأ في البحث عن الرقم:\n\n"
-+
-findError.message
+const existing =
+await supabaseRequest(
+"customers?select=id&phone=eq." +
+encodeURIComponent(phone) +
+"&deleted_at=is.null&limit=1"
 );
-
-return;
-
-}
 
 
 if(
-existing &&
+Array.isArray(existing) &&
 existing.length
 ){
 
 alert(
-"⚠️ الرقم ده موجود بالفعل عندك.\n\nاستخدم تعديل بدل إضافة عميل جديد."
+"⚠️ الرقم ده موجود بالفعل."
 );
 
 return;
@@ -2009,197 +2015,68 @@ return;
 }
 
 
-if(!payload.first_order_at){
-
-payload.first_order_at =
+payload.created_at =
 now;
 
+
+await supabaseRequest(
+"customers",
+{
+
+method:
+"POST",
+
+body:
+JSON.stringify(
+payload
+)
+
 }
-
-
-const {
-error
-} =
-
-await supabase
-
-.from("customers")
-
-.insert(payload);
-
-
-if(error){
-
-alert(
-"❌ حصل خطأ في إضافة العميل:\n\n"
-+
-error.message
 );
 
-return;
-
 }
 
-}
-
-
-/* إغلاق */
 
 closeModal();
 
-
-/* إعادة تحميل */
 
 await loadCustomers();
 
 
 alert(
 editMode
-
 ?
-
 "✅ تم تعديل العميل بنجاح"
-
 :
-
 "✅ تم إضافة العميل بنجاح"
 );
 
 
 }
 
-finally{
+catch(error){
 
-saveBtn.disabled = false;
+console.error(error);
 
-saveBtn.textContent =
-"💾 حفظ";
+
+alert(
+"❌ حصل خطأ:\n\n" +
+error.message
+);
 
 }
 
 }
 
 
-/* =========================================
-   DELETE CUSTOMER
-========================================= */
+/* ==========================================
+   DELETE
+========================================== */
 
 async function deleteCustomer(id){
 
 const customer =
-allCustomers.find(
-c =>
-Number(c.id) ===
-Number(id)
-);
-
-
-if(!customer){
-
-alert(
-"❌ العميل غير موجود"
-);
-
-return;
-
-}
-
-
-const confirmed =
-confirm(
-
-`⚠️ تأكيد حذف العميل
-
-الاسم:
-${customer.subscriber_name}
-
-رقم التليفون:
-${customer.phone}
-
-هل أنت متأكد أنك تريد حذف العميل من القائمة؟`
-
-);
-
-
-if(!confirmed){
-
-return;
-
-}
-
-
-/* زر حذف لا يوجد أمامنا مباشرة
-لذلك نعتمد على التحديث */
-
-const now =
-new Date()
-.toISOString();
-
-
-const {
-error
-} =
-
-await supabase
-
-.from("customers")
-
-.update({
-
-deleted_at:
-now,
-
-updated_at:
-now
-
-})
-
-.eq("id",id);
-
-
-if(error){
-
-alert(
-"❌ لم يتم حذف العميل:\n\n"
-+
-error.message
-);
-
-return;
-
-}
-
-
-/* إزالة العميل من القائمة فورًا */
-
-allCustomers =
-allCustomers.filter(
-c =>
-Number(c.id) !==
-Number(id)
-);
-
-
-updateStats();
-
-renderCustomers();
-
-
-alert(
-"✅ تم حذف العميل من القائمة"
-);
-
-}
-
-
-/* =========================================
-   RENEW TODAY
-========================================= */
-
-async function renewToday(id){
-
-const customer =
-allCustomers.find(
+customers.find(
 x =>
 Number(x.id) ===
 Number(id)
@@ -2213,47 +2090,179 @@ return;
 }
 
 
-const confirmed =
+const ok =
 confirm(
 
-`تأكيد تجديد العميل:
+"⚠️ حذف العميل\n\n" +
 
-${customer.subscriber_name}
+"الاسم: " +
+customer.subscriber_name +
 
-هل تريد اعتبار اليوم تاريخ التجديد الجديد؟`
+"\nرقم التليفون: " +
+customer.phone +
+
+"\n\nهل أنت متأكد؟"
 
 );
 
 
-if(!confirmed){
+if(!ok){
 
 return;
 
 }
 
 
+try{
+
+
+await supabaseRequest(
+
+"customers?id=eq." +
+encodeURIComponent(id),
+
+{
+
+method:
+"PATCH",
+
+body:
+JSON.stringify({
+
+deleted_at:
+new Date()
+.toISOString(),
+
+updated_at:
+new Date()
+.toISOString()
+
+})
+
+}
+
+);
+
+
+customers =
+customers.filter(
+x =>
+Number(x.id) !==
+Number(id)
+);
+
+
+updateStats();
+
+render();
+
+
+alert(
+"✅ تم حذف العميل من القائمة"
+);
+
+
+}
+
+catch(error){
+
+alert(
+"❌ لم يتم حذف العميل:\n\n" +
+error.message
+);
+
+}
+
+}
+
+
+/* ==========================================
+   RENEW
+========================================== */
+
+async function renewCustomer(id){
+
+const customer =
+customers.find(
+x =>
+Number(x.id) ===
+Number(id)
+);
+
+
+if(!customer){
+
+return;
+
+}
+
+
+const ok =
+confirm(
+
+"🔄 تجديد العميل\n\n" +
+
+customer.subscriber_name +
+
+"\n\nهل تريد تسجيل التجديد اليوم؟"
+
+);
+
+
+if(!ok){
+
+return;
+
+}
+
+
+try{
+
+
 const now =
 new Date();
 
 
-const next =
+let next =
 new Date(now);
 
+
+if(
+customer.renewal_type === "day_1"
+){
 
 next.setMonth(
 next.getMonth() + 1
 );
 
+next.setDate(1);
 
-const {
-error
-} =
+}
 
-await supabase
 
-.from("customers")
+else if(
+customer.renewal_type === "day_16"
+){
 
-.update({
+next.setMonth(
+next.getMonth() + 1
+);
+
+next.setDate(16);
+
+}
+
+
+else{
+
+next.setMonth(
+next.getMonth() + 1
+);
+
+}
+
+
+const payload = {
 
 last_renewed_at:
 now.toISOString(),
@@ -2262,16 +2271,11 @@ last_order_at:
 now.toISOString(),
 
 next_renewal_date:
-
-next
-.toISOString()
+next.toISOString()
 .split("T")[0],
 
 total_orders:
-
-(Number(
-customer.total_orders
-) || 0) + 1,
+(Number(customer.total_orders) || 0) + 1,
 
 status:
 "active",
@@ -2279,22 +2283,27 @@ status:
 updated_at:
 now.toISOString()
 
-})
-
-.eq("id",id);
+};
 
 
-if(error){
+await supabaseRequest(
 
-alert(
-"❌ حصل خطأ في التجديد:\n\n"
-+
-error.message
-);
+"customers?id=eq." +
+encodeURIComponent(id),
 
-return;
+{
+
+method:
+"PATCH",
+
+body:
+JSON.stringify(
+payload
+)
 
 }
+
+);
 
 
 await loadCustomers();
@@ -2304,12 +2313,52 @@ alert(
 "✅ تم تجديد العميل بنجاح"
 );
 
+
+}
+
+catch(error){
+
+alert(
+"❌ حصل خطأ في التجديد:\n\n" +
+error.message
+);
+
+}
+
 }
 
 
-/* =========================================
-   ESCAPE HTML
-========================================= */
+/* ==========================================
+   SEARCH / FILTER
+========================================== */
+
+document
+.getElementById("search")
+.addEventListener(
+"input",
+render
+);
+
+
+document
+.getElementById("renewalFilter")
+.addEventListener(
+"change",
+render
+);
+
+
+document
+.getElementById("statusFilter")
+.addEventListener(
+"change",
+render
+);
+
+
+/* ==========================================
+   ESCAPE
+========================================== */
 
 function escapeHtml(value){
 
@@ -2345,183 +2394,13 @@ value ?? ""
 }
 
 
-/* =========================================
-   BUTTONS
-========================================= */
-
-
-/* إضافة عميل */
-
-document
-.getElementById(
-"addCustomerBtn"
-)
-.addEventListener(
-"click",
-function(){
-
-openAdd();
-
-}
-);
-
-
-/* إغلاق */
-
-document
-.getElementById(
-"closeModalBtn"
-)
-.addEventListener(
-"click",
-function(){
-
-closeModal();
-
-}
-);
-
-
-/* إلغاء */
-
-document
-.getElementById(
-"cancelBtn"
-)
-.addEventListener(
-"click",
-function(){
-
-closeModal();
-
-}
-);
-
-
-/* حفظ */
-
-document
-.getElementById(
-"saveBtn"
-)
-.addEventListener(
-"click",
-function(){
-
-saveCustomer();
-
-}
-);
-
-
-/* نوع التجديد */
-
-document
-.getElementById(
-"renewalType"
-)
-.addEventListener(
-"change",
-function(){
-
-renewalTypeChanged();
-
-}
-);
-
-
-/* البحث */
-
-document
-.getElementById(
-"search"
-)
-.addEventListener(
-"input",
-function(){
-
-renderCustomers();
-
-}
-);
-
-
-/* فلتر التجديد */
-
-document
-.getElementById(
-"renewalFilter"
-)
-.addEventListener(
-"change",
-function(){
-
-renderCustomers();
-
-}
-);
-
-
-/* فلتر الحالة */
-
-document
-.getElementById(
-"statusFilter"
-)
-.addEventListener(
-"change",
-function(){
-
-renderCustomers();
-
-}
-);
-
-
-/* الضغط خارج المودال */
-
-modal.addEventListener(
-"click",
-function(event){
-
-if(
-event.target === modal
-){
-
-closeModal();
-
-}
-
-}
-);
-
-
-/* زر ESC */
-
-document.addEventListener(
-"keydown",
-function(event){
-
-if(
-event.key === "Escape"
-){
-
-closeModal();
-
-}
-
-}
-);
-
-
-/* =========================================
+/* ==========================================
    START
-========================================= */
+========================================== */
 
 loadCustomers();
 
 </script>
 
 </body>
-
 </html>
