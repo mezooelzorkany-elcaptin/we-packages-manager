@@ -688,10 +688,21 @@ placeholder="مثال: 30"
 الباقة
 </label>
 
-<input
+<select
 id="packageName"
-placeholder="مثال: باقة 30 جيجا"
+onchange="updatePackageGB()"
 >
+<option value="">اختر الباقة</option>
+<option value="20 جيجا">20 جيجا</option>
+<option value="25 جيجا">25 جيجا</option>
+<option value="30 جيجا">30 جيجا</option>
+<option value="35 جيجا">35 جيجا</option>
+<option value="40 جيجا">40 جيجا</option>
+<option value="45 جيجا">45 جيجا</option>
+<option value="50 جيجا">50 جيجا</option>
+<option value="55 جيجا">55 جيجا</option>
+<option value="60 جيجا">60 جيجا</option>
+</select>
 
 </div>
 
@@ -2690,7 +2701,32 @@ START
 ========================================= */
 
 loadCustomers();
+function updatePackageGB(){
 
+    const packageSelect =
+        document.getElementById("packageName");
+
+    const gbInput =
+        document.getElementById("allocatedGB");
+
+    const selected =
+        packageSelect.value;
+
+    const match =
+        selected.match(/\d+/);
+
+    if(match){
+
+        gbInput.value =
+            Number(match[0]);
+
+    }else{
+
+        gbInput.value = 0;
+
+    }
+
+}
 </script>
 
 </body>
