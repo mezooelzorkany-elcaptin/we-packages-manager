@@ -129,9 +129,39 @@ button{
 
 /* ADMIN */
 
-#adminPanel{
-    display:none;
-}
+<div id="adminPanel">
+
+<a href="customers.html" class="customers-top-btn">
+    👥 العملاء
+</a>
+
+<div class="header glass">
+
+    <h1>
+        WE Packages 💜
+    </h1>
+
+    <p>
+        إدارة أكواد الخصم
+    </p>
+
+</div>
+
+
+<div class="topbar glass">
+
+    <h2>
+        🎟️ الأكواد
+    </h2>
+
+    <button
+        class="logout"
+        onclick="logout()"
+    >
+        تسجيل الخروج
+    </button>
+
+</div>
 
 .header{
     text-align:center;
@@ -370,6 +400,40 @@ button{
 
 .customers-btn:hover{
   opacity:.9;
+}
+.customers-top-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    width:fit-content;
+
+    padding:12px 20px;
+
+    margin-bottom:14px;
+
+    border-radius:15px;
+
+    background:#5420b8;
+
+    color:#fff;
+
+    text-decoration:none;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    box-shadow:
+        0 8px 20px
+        rgba(84,32,184,.18);
+
+    transition:.2s;
+}
+
+.customers-top-btn:hover{
+    transform:translateY(-2px);
+    opacity:.92;
 }
 @media(max-width:600px){
 
