@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
@@ -98,7 +99,8 @@ outline:none
 }
 
 .add-btn,
-.admin-btn{
+.admin-btn,
+.numbers-btn{
 height:55px;
 display:flex;
 align-items:center;
@@ -120,6 +122,10 @@ background:#293160
 
 .admin-btn{
 background:#151a35
+}
+
+.numbers-btn{
+background:#5420b8
 }
 
 .list{
@@ -356,7 +362,8 @@ display:block
 .search,
 .select,
 .add-btn,
-.admin-btn{
+.admin-btn,
+.numbers-btn{
 width:100%;
 margin-bottom:9px
 }
@@ -387,7 +394,9 @@ grid-template-columns:repeat(2,1fr)
 
 <div class="container">
 
-<h1>👥 العملاء</h1>
+<h1>
+👥 العملاء
+</h1>
 
 <p>
 إدارة العملاء والتجديدات والاشتراكات
@@ -479,6 +488,14 @@ href="admin.html"
 class="admin-btn"
 >
 🔢 الأكواد
+</a>
+
+
+<a
+href="numbers.html"
+class="numbers-btn"
+>
+📱 الأرقام الأساسية
 </a>
 
 
@@ -641,6 +658,25 @@ placeholder="01xxxxxxxxx"
 id="primaryNumber"
 inputmode="numeric"
 placeholder="الرقم اللي اتعملت منه الباقة"
+>
+
+</div>
+
+
+<!-- الجيجا الجديدة -->
+
+<div class="field">
+
+<label>
+📦 جيجات العميل
+</label>
+
+<input
+id="allocatedGB"
+type="number"
+min="0"
+step="0.01"
+placeholder="مثال: 30"
 >
 
 </div>
@@ -848,9 +884,12 @@ onclick="saveCustomer()"
 <script>
 
 
+/* =========================================
+SUPABASE
+========================================= */
+
 const SUPABASE_URL =
 "https://pgvbynefhqmyzjtccttl.supabase.co";
-
 
 const SUPABASE_KEY =
 "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
@@ -860,6 +899,10 @@ let customers = [];
 
 let editMode = false;
 
+
+/* =========================================
+SUPABASE REQUEST
+========================================= */
 
 async function supabaseRequest(
 path,
@@ -911,10 +954,13 @@ SUPABASE_KEY,
 }
 );
 
+
 const text =
 await response.text();
 
+
 let data=null;
+
 
 try{
 
@@ -932,6 +978,7 @@ catch{
 data=text;
 
 }
+
 
 if(!response.ok){
 
@@ -958,7 +1005,9 @@ data?.hint||
 
 }
 
+
 return data;
+
 
 }
 
@@ -974,6 +1023,7 @@ throw new Error(
 
 }
 
+
 throw error;
 
 }
@@ -987,10 +1037,17 @@ clearTimeout(timer);
 }
 
 
+/* =========================================
+LOAD CUSTOMERS
+========================================= */
+
 async function loadCustomers(){
 
 const list =
-document.getElementById("list");
+document.getElementById(
+"list"
+);
+
 
 list.innerHTML =
 `
@@ -999,12 +1056,14 @@ list.innerHTML =
 </div>
 `;
 
+
 try{
 
 const data =
 await supabaseRequest(
 "customers?select=*&deleted_at=is.null&order=next_renewal_date.asc"
 );
+
 
 customers =
 Array.isArray(data)
@@ -1013,15 +1072,18 @@ data
 :
 [];
 
+
 updateStats();
 
 render();
+
 
 }
 
 catch(error){
 
 console.error(error);
+
 
 list.innerHTML =
 `
@@ -1031,7 +1093,9 @@ list.innerHTML =
 
 <br><br>
 
-${escapeHtml(error.message)}
+${escapeHtml(
+error.message
+)}
 
 <br><br>
 
@@ -1050,26 +1114,41 @@ onclick="loadCustomers()"
 }
 
 
+/* =========================================
+STATS
+========================================= */
+
 function updateStats(){
 
-document.getElementById("total")
+document.getElementById(
+"total"
+)
 .textContent =
 customers.length;
 
-document.getElementById("active")
+
+document.getElementById(
+"active"
+)
 .textContent =
 customers.filter(
-c=>c.status==="active"
+c =>
+c.status==="active"
 ).length;
 
-document.getElementById("soon")
+
+document.getElementById(
+"soon"
+)
 .textContent =
-customers.filter(c=>{
+customers.filter(
+c=>{
 
 const d =
 daysUntil(
 c.next_renewal_date
 );
+
 
 return(
 d!==null&&
@@ -1077,44 +1156,59 @@ d>=0&&
 d<=7
 );
 
-}).length;
+}
+).length;
 
-document.getElementById("expired")
+
+document.getElementById(
+"expired"
+)
 .textContent =
-customers.filter(c=>{
+customers.filter(
+c=>{
 
 const d =
 daysUntil(
 c.next_renewal_date
 );
 
+
 return(
 d!==null&&
 d<0
 );
 
-}).length;
+}
+).length;
 
 }
 
+
+/* =========================================
+DAYS
+========================================= */
 
 function daysUntil(date){
 
 if(!date)
 return null;
 
+
 const today =
 new Date();
+
 
 today.setHours(
 0,0,0,0
 );
+
 
 const target =
 new Date(
 date+
 "T00:00:00"
 );
+
 
 return Math.ceil(
 (target-today)/
@@ -1124,42 +1218,60 @@ return Math.ceil(
 }
 
 
+/* =========================================
+RENDER
+========================================= */
+
 function render(){
 
 const search =
-document.getElementById("search")
+document.getElementById(
+"search"
+)
 .value
 .trim()
 .toLowerCase();
 
+
 const renewal =
-document.getElementById("renewalFilter")
-.value;
+document.getElementById(
+"renewalFilter"
+).value;
+
 
 const status =
-document.getElementById("statusFilter")
-.value;
+document.getElementById(
+"statusFilter"
+).value;
+
 
 const filtered =
-customers.filter(c=>{
+customers.filter(
+c=>{
 
 const name =
 String(
-c.subscriber_name||""
+c.subscriber_name||
+""
 )
 .toLowerCase();
+
 
 const phone =
 String(
-c.phone||""
+c.phone||
+""
 )
 .toLowerCase();
 
+
 const primary =
 String(
-c.primary_number||""
+c.primary_number||
+""
 )
 .toLowerCase();
+
 
 if(
 search&&
@@ -1172,6 +1284,7 @@ return false;
 
 }
 
+
 if(
 renewal==="1"&&
 Number(c.renewal_day)!==1
@@ -1180,6 +1293,7 @@ Number(c.renewal_day)!==1
 return false;
 
 }
+
 
 if(
 renewal==="16"&&
@@ -1190,6 +1304,7 @@ return false;
 
 }
 
+
 if(
 renewal==="custom"&&
 c.renewal_type!=="custom"
@@ -1199,10 +1314,12 @@ return false;
 
 }
 
+
 const d =
 daysUntil(
 c.next_renewal_date
 );
+
 
 if(
 status==="active"&&
@@ -1213,6 +1330,7 @@ return false;
 
 }
 
+
 if(
 status==="inactive"&&
 c.status!=="inactive"
@@ -1221,6 +1339,7 @@ c.status!=="inactive"
 return false;
 
 }
+
 
 if(
 status==="soon"&&
@@ -1235,6 +1354,7 @@ return false;
 
 }
 
+
 if(
 status==="expired"&&
 !(
@@ -1247,13 +1367,17 @@ return false;
 
 }
 
+
 return true;
 
-});
+}
+);
 
 
 const list =
-document.getElementById("list");
+document.getElementById(
+"list"
+);
 
 
 if(!filtered.length){
@@ -1278,12 +1402,17 @@ filtered
 }
 
 
+/* =========================================
+CUSTOMER CARD
+========================================= */
+
 function customerCard(c){
 
 const d =
 daysUntil(
 c.next_renewal_date
 );
+
 
 let renewalText =
 "غير محدد";
@@ -1324,13 +1453,22 @@ c.status==="inactive"
 '<span class="badge active">🟢 نشط</span>';
 
 
+const allocatedGB =
+Number(
+c.allocated_gb
+) || 0;
+
+
 return `
 
 <div class="card">
 
+
 <div class="card-head">
 
+
 <div>
+
 
 <div class="name">
 
@@ -1341,6 +1479,7 @@ c.subscriber_name||
 
 </div>
 
+
 <div class="phone">
 
 📱
@@ -1350,9 +1489,12 @@ c.phone||"-"
 
 </div>
 
+
 </div>
 
+
 ${badge}
+
 
 </div>
 
@@ -1371,6 +1513,24 @@ ${badge}
 ${escapeHtml(
 c.primary_number||"-"
 )}
+
+</strong>
+
+</div>
+
+
+<div class="box">
+
+<small>
+📦 جيجات العميل
+</small>
+
+<strong>
+
+${formatGB(
+allocatedGB
+)}
+GB
 
 </strong>
 
@@ -1533,9 +1693,14 @@ onclick="deleteCustomer(${Number(c.id)})"
 }
 
 
+/* =========================================
+ADD
+========================================= */
+
 function openAdd(){
 
 editMode=false;
+
 
 document.getElementById(
 "modalTitle"
@@ -1543,7 +1708,9 @@ document.getElementById(
 .textContent=
 "➕ إضافة عميل";
 
+
 clearForm();
+
 
 document.getElementById(
 "renewalType"
@@ -1551,11 +1718,13 @@ document.getElementById(
 .value=
 "day_1";
 
+
 document.getElementById(
 "renewalDay"
 )
 .value=
 1;
+
 
 document.getElementById(
 "status"
@@ -1563,11 +1732,20 @@ document.getElementById(
 .value=
 "active";
 
+
 document.getElementById(
 "totalOrders"
 )
 .value=
 0;
+
+
+document.getElementById(
+"allocatedGB"
+)
+.value=
+0;
+
 
 document.getElementById(
 "modal"
@@ -1579,6 +1757,10 @@ document.getElementById(
 }
 
 
+/* =========================================
+EDIT
+========================================= */
+
 function openEdit(id){
 
 const c =
@@ -1587,6 +1769,7 @@ x=>
 Number(x.id)===
 Number(id)
 );
+
 
 if(!c){
 
@@ -1598,7 +1781,9 @@ return;
 
 }
 
+
 editMode=true;
+
 
 document.getElementById(
 "modalTitle"
@@ -1606,11 +1791,13 @@ document.getElementById(
 .textContent=
 "✏️ تعديل بيانات العميل";
 
+
 document.getElementById(
 "customerId"
 )
 .value=
 c.id;
+
 
 document.getElementById(
 "customerName"
@@ -1618,11 +1805,13 @@ document.getElementById(
 .value=
 c.subscriber_name||"";
 
+
 document.getElementById(
 "customerPhone"
 )
 .value=
 c.phone||"";
+
 
 document.getElementById(
 "primaryNumber"
@@ -1630,11 +1819,22 @@ document.getElementById(
 .value=
 c.primary_number||"";
 
+
+/* الجيجا */
+
+document.getElementById(
+"allocatedGB"
+)
+.value=
+c.allocated_gb??0;
+
+
 document.getElementById(
 "packageName"
 )
 .value=
 c.package_name||"";
+
 
 document.getElementById(
 "lastPrice"
@@ -1642,11 +1842,13 @@ document.getElementById(
 .value=
 c.last_price??"";
 
+
 document.getElementById(
 "paymentMethod"
 )
 .value=
 c.payment_method||"";
+
 
 document.getElementById(
 "status"
@@ -1654,11 +1856,13 @@ document.getElementById(
 .value=
 c.status||"active";
 
+
 document.getElementById(
 "renewalType"
 )
 .value=
 c.renewal_type||"day_1";
+
 
 document.getElementById(
 "renewalDay"
@@ -1666,17 +1870,20 @@ document.getElementById(
 .value=
 c.renewal_day||"";
 
+
 document.getElementById(
 "nextRenewal"
 )
 .value=
 c.next_renewal_date||"";
 
+
 document.getElementById(
 "totalOrders"
 )
 .value=
 c.total_orders??0;
+
 
 document.getElementById(
 "modal"
@@ -1688,58 +1895,95 @@ document.getElementById(
 }
 
 
+/* =========================================
+CLEAR FORM
+========================================= */
+
 function clearForm(){
 
 document.getElementById(
 "customerId"
-).value="";
+)
+.value="";
+
 
 document.getElementById(
 "customerName"
-).value="";
+)
+.value="";
+
 
 document.getElementById(
 "customerPhone"
-).value="";
+)
+.value="";
+
 
 document.getElementById(
 "primaryNumber"
-).value="";
+)
+.value="";
+
+
+document.getElementById(
+"allocatedGB"
+)
+.value=0;
+
 
 document.getElementById(
 "packageName"
-).value="";
+)
+.value="";
+
 
 document.getElementById(
 "lastPrice"
-).value="";
+)
+.value="";
+
 
 document.getElementById(
 "paymentMethod"
-).value="";
+)
+.value="";
+
 
 document.getElementById(
 "status"
-).value="active";
+)
+.value="active";
+
 
 document.getElementById(
 "renewalType"
-).value="day_1";
+)
+.value="day_1";
+
 
 document.getElementById(
 "renewalDay"
-).value=1;
+)
+.value=1;
+
 
 document.getElementById(
 "nextRenewal"
-).value="";
+)
+.value="";
+
 
 document.getElementById(
 "totalOrders"
-).value=0;
+)
+.value=0;
 
 }
 
+
+/* =========================================
+RENEWAL TYPE
+========================================= */
 
 function changeRenewalType(){
 
@@ -1748,32 +1992,42 @@ document.getElementById(
 "renewalType"
 ).value;
 
+
 if(type==="day_1"){
 
 document.getElementById(
 "renewalDay"
-).value=1;
+)
+.value=1;
 
 }
+
 
 else if(type==="day_16"){
 
 document.getElementById(
 "renewalDay"
-).value=16;
+)
+.value=16;
 
 }
+
 
 else{
 
 document.getElementById(
 "renewalDay"
-).value="";
+)
+.value="";
 
 }
 
 }
 
+
+/* =========================================
+CLOSE
+========================================= */
 
 function closeModal(){
 
@@ -1787,6 +2041,10 @@ document.getElementById(
 }
 
 
+/* =========================================
+SAVE CUSTOMER
+========================================= */
+
 async function saveCustomer(){
 
 const name =
@@ -1796,12 +2054,14 @@ document.getElementById(
 .value
 .trim();
 
+
 const phone =
 document.getElementById(
 "customerPhone"
 )
 .value
 .trim();
+
 
 const primaryNumber =
 document.getElementById(
@@ -1810,11 +2070,24 @@ document.getElementById(
 .value
 .trim();
 
+
+/* الجيجا */
+
+const allocatedGB =
+Number(
+document.getElementById(
+"allocatedGB"
+)
+.value
+) || 0;
+
+
 const nextDate =
 document.getElementById(
 "nextRenewal"
 )
 .value;
+
 
 if(
 !name||
@@ -1831,20 +2104,36 @@ return;
 }
 
 
+if(
+allocatedGB<0
+){
+
+alert(
+"⚠️ عدد الجيجا لا يمكن أن يكون أقل من صفر"
+);
+
+return;
+
+}
+
+
 const type =
 document.getElementById(
 "renewalType"
 ).value;
+
 
 let day =
 Number(
 document.getElementById(
 "renewalDay"
 ).value
-)||null;
+) || null;
+
 
 if(type==="day_1")
 day=1;
+
 
 if(type==="day_16")
 day=16;
@@ -1857,12 +2146,24 @@ new Date()
 
 const payload={
 
-subscriber_name:name,
 
-phone:phone,
+subscriber_name:
+name,
+
+
+phone:
+phone,
+
 
 primary_number:
 primaryNumber||null,
+
+
+/* الجيجا */
+
+allocated_gb:
+allocatedGB,
+
 
 package_name:
 document.getElementById(
@@ -1871,6 +2172,7 @@ document.getElementById(
 .value
 .trim()||null,
 
+
 last_price:
 Number(
 document.getElementById(
@@ -1878,22 +2180,30 @@ document.getElementById(
 ).value
 )||0,
 
+
 payment_method:
 document.getElementById(
 "paymentMethod"
 ).value||null,
+
 
 status:
 document.getElementById(
 "status"
 ).value,
 
-renewal_type:type,
 
-renewal_day:day,
+renewal_type:
+type,
+
+
+renewal_day:
+day,
+
 
 next_renewal_date:
 nextDate,
+
 
 total_orders:
 Number(
@@ -1902,7 +2212,9 @@ document.getElementById(
 ).value
 )||0,
 
-updated_at:now
+
+updated_at:
+now
 
 };
 
@@ -1928,7 +2240,9 @@ encodeURIComponent(id),
 method:"PATCH",
 
 body:
-JSON.stringify(payload)
+JSON.stringify(
+payload
+)
 
 }
 
@@ -1964,7 +2278,8 @@ return;
 }
 
 
-payload.created_at=now;
+payload.created_at=
+now;
 
 
 await supabaseRequest(
@@ -1974,7 +2289,9 @@ await supabaseRequest(
 method:"POST",
 
 body:
-JSON.stringify(payload)
+JSON.stringify(
+payload
+)
 
 }
 );
@@ -1983,6 +2300,7 @@ JSON.stringify(payload)
 
 
 closeModal();
+
 
 await loadCustomers();
 
@@ -2002,6 +2320,7 @@ catch(error){
 
 console.error(error);
 
+
 alert(
 "❌ حصل خطأ:\n\n"+
 error.message
@@ -2012,6 +2331,10 @@ error.message
 }
 
 
+/* =========================================
+DELETE
+========================================= */
+
 async function deleteCustomer(id){
 
 const customer =
@@ -2020,6 +2343,7 @@ x=>
 Number(x.id)===
 Number(id)
 );
+
 
 if(!customer)
 return;
@@ -2061,9 +2385,11 @@ method:"PATCH",
 body:
 JSON.stringify({
 
-deleted_at:now,
+deleted_at:
+now,
 
-updated_at:now
+updated_at:
+now
 
 })
 
@@ -2104,6 +2430,10 @@ error.message
 }
 
 
+/* =========================================
+RENEW
+========================================= */
+
 async function renewCustomer(id){
 
 const customer =
@@ -2112,6 +2442,7 @@ x=>
 Number(x.id)===
 Number(id)
 );
+
 
 if(!customer)
 return;
@@ -2136,6 +2467,7 @@ try{
 const now =
 new Date();
 
+
 const next =
 new Date(now);
 
@@ -2153,6 +2485,7 @@ next.setDate(1);
 
 }
 
+
 else if(
 customer.renewal_type===
 "day_16"
@@ -2166,6 +2499,7 @@ next.setDate(16);
 
 }
 
+
 else{
 
 next.setMonth(
@@ -2177,23 +2511,30 @@ next.getMonth()+1
 
 const payload={
 
+
 last_renewed_at:
 now.toISOString(),
 
+
 last_order_at:
 now.toISOString(),
+
 
 next_renewal_date:
 next
 .toISOString()
 .split("T")[0],
 
+
 total_orders:
 (Number(
 customer.total_orders
 )||0)+1,
 
-status:"active",
+
+status:
+"active",
+
 
 updated_at:
 now.toISOString()
@@ -2211,7 +2552,9 @@ encodeURIComponent(id),
 method:"PATCH",
 
 body:
-JSON.stringify(payload)
+JSON.stringify(
+payload
+)
 
 }
 
@@ -2236,6 +2579,30 @@ error.message
 );
 
 }
+
+}
+
+
+/* =========================================
+HELPERS
+========================================= */
+
+function formatGB(value){
+
+const number =
+Number(value)||0;
+
+
+if(
+Number.isInteger(number)
+){
+
+return String(number);
+
+}
+
+
+return number.toFixed(2);
 
 }
 
@@ -2273,6 +2640,10 @@ value??""
 
 }
 
+
+/* =========================================
+EVENTS
+========================================= */
 
 document
 .getElementById("search")
@@ -2313,6 +2684,10 @@ closeModal();
 }
 );
 
+
+/* =========================================
+START
+========================================= */
 
 loadCustomers();
 
