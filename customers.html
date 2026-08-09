@@ -1,80 +1,447 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0"
+>
+
 <title>العملاء | WE Packages</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
-*{box-sizing:border-box;font-family:Arial,Tahoma,sans-serif}
-body{margin:0;background:#f5f7fb;color:#172033}
-.header{background:linear-gradient(135deg,#151a35,#242b55);color:#fff;padding:24px 18px;border-radius:0 0 24px 24px}
-.header h1{margin:0 0 8px;font-size:25px}.header p{margin:0;opacity:.75;font-size:14px}
-.container{max-width:1200px;margin:auto;padding:20px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
-.stat{background:#fff;border-radius:18px;padding:18px;box-shadow:0 5px 20px rgba(0,0,0,.05)}
-.stat-title{color:#7a8194;font-size:13px;margin-bottom:8px}.stat-number{font-size:25px;font-weight:bold}
-.topbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
-.search{flex:1;min-width:220px;padding:14px 16px;border:1px solid #e0e4ed;border-radius:14px;background:#fff;outline:0;font-size:15px}
-.filter,.topbtn{padding:13px 15px;border:1px solid #e0e4ed;border-radius:14px;background:#fff;font-size:14px}
-.topbtn{background:#242b55;color:#fff;border:0;font-weight:bold;cursor:pointer}
-.customers{display:grid;gap:14px}.customer{background:#fff;border-radius:20px;padding:18px;box-shadow:0 5px 20px rgba(0,0,0,.05)}
-.customer-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}
-.customer-name{font-size:18px;font-weight:bold;margin-bottom:6px}.phone{color:#737b8e;font-size:14px}
-.badge{padding:7px 11px;border-radius:20px;font-size:12px;white-space:nowrap}
-.active{background:#e8f8ef;color:#168448}.inactive{background:#fdebec;color:#c73542}
-.details{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
-.detail{background:#f7f8fb;padding:12px;border-radius:13px}.detail small{display:block;color:#858c9d;margin-bottom:5px;font-size:11px}.detail strong{font-size:14px}
-.actions{display:flex;gap:8px;margin-top:15px;flex-wrap:wrap}
-button{border:0;border-radius:12px;padding:11px 15px;cursor:pointer;font-size:13px}
-.primary{background:#242b55;color:#fff}.secondary{background:#eef1f7;color:#252b3c}
-.loading,.empty,.error{background:#fff;padding:35px;text-align:center;border-radius:18px}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}
-.modal.show{display:flex}.modal-box{width:100%;max-width:560px;max-height:92vh;overflow:auto;background:#fff;border-radius:22px;padding:22px}
-.modal-box h2{margin-top:0}.field{margin-bottom:14px}.field label{display:block;margin-bottom:6px;font-size:13px;font-weight:bold}
-.field input,.field select{width:100%;padding:13px;border:1px solid #dfe3eb;border-radius:12px;outline:0;font-size:14px;background:#fff}
-.modal-actions{display:flex;gap:10px;margin-top:18px}.modal-actions button{flex:1}
-@media(max-width:800px){.stats{grid-template-columns:repeat(2,1fr)}.details{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:500px){.container{padding:14px}.customer-head{flex-direction:column}}
+
+*{
+box-sizing:border-box;
+font-family:Arial,Tahoma,sans-serif
+}
+
+body{
+margin:0;
+background:#f5f7fb;
+color:#172033
+}
+
+.header{
+background:linear-gradient(135deg,#151a35,#242b55);
+color:#fff;
+padding:24px 18px;
+border-radius:0 0 24px 24px
+}
+
+.header h1{
+margin:0 0 8px;
+font-size:25px
+}
+
+.header p{
+margin:0;
+opacity:.75;
+font-size:14px
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:20px
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:14px;
+margin-bottom:20px
+}
+
+.stat{
+background:#fff;
+border-radius:18px;
+padding:18px;
+box-shadow:0 5px 20px rgba(0,0,0,.05)
+}
+
+.stat-title{
+color:#7a8194;
+font-size:13px;
+margin-bottom:8px
+}
+
+.stat-number{
+font-size:25px;
+font-weight:bold
+}
+
+.topbar{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:20px
+}
+
+.search{
+flex:1;
+min-width:220px;
+padding:14px 16px;
+border:1px solid #e0e4ed;
+border-radius:14px;
+background:#fff;
+outline:0;
+font-size:15px
+}
+
+.filter,
+.topbtn{
+padding:13px 15px;
+border:1px solid #e0e4ed;
+border-radius:14px;
+background:#fff;
+font-size:14px
+}
+
+.topbtn{
+background:#242b55;
+color:#fff;
+border:0;
+font-weight:bold;
+cursor:pointer
+}
+
+.topbtn:active{
+transform:scale(.98)
+}
+
+.customers{
+display:grid;
+gap:14px
+}
+
+.customer{
+background:#fff;
+border-radius:20px;
+padding:18px;
+box-shadow:0 5px 20px rgba(0,0,0,.05)
+}
+
+.customer-head{
+display:flex;
+justify-content:space-between;
+gap:15px;
+align-items:flex-start
+}
+
+.customer-name{
+font-size:18px;
+font-weight:bold;
+margin-bottom:6px
+}
+
+.phone{
+color:#737b8e;
+font-size:14px
+}
+
+.badge{
+padding:7px 11px;
+border-radius:20px;
+font-size:12px;
+white-space:nowrap
+}
+
+.active{
+background:#e8f8ef;
+color:#168448
+}
+
+.inactive{
+background:#fdebec;
+color:#c73542
+}
+
+.details{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+margin-top:18px
+}
+
+.detail{
+background:#f7f8fb;
+padding:12px;
+border-radius:13px
+}
+
+.detail small{
+display:block;
+color:#858c9d;
+margin-bottom:5px;
+font-size:11px
+}
+
+.detail strong{
+font-size:14px
+}
+
+.actions{
+display:flex;
+gap:8px;
+margin-top:15px;
+flex-wrap:wrap
+}
+
+button{
+border:0;
+border-radius:12px;
+padding:11px 15px;
+cursor:pointer;
+font-size:13px
+}
+
+.primary{
+background:#242b55;
+color:#fff
+}
+
+.secondary{
+background:#eef1f7;
+color:#252b3c
+}
+
+.danger{
+background:#fdebec;
+color:#c73542
+}
+
+.danger:hover{
+background:#f8d7da
+}
+
+.loading,
+.empty,
+.error{
+background:#fff;
+padding:35px;
+text-align:center;
+border-radius:18px
+}
+
+.error{
+color:#c73542
+}
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.55);
+display:none;
+align-items:center;
+justify-content:center;
+padding:18px;
+z-index:100
+}
+
+.modal.show{
+display:flex
+}
+
+.modal-box{
+width:100%;
+max-width:560px;
+max-height:92vh;
+overflow:auto;
+background:#fff;
+border-radius:22px;
+padding:22px
+}
+
+.modal-box h2{
+margin-top:0
+}
+
+.field{
+margin-bottom:14px
+}
+
+.field label{
+display:block;
+margin-bottom:6px;
+font-size:13px;
+font-weight:bold
+}
+
+.field input,
+.field select{
+width:100%;
+padding:13px;
+border:1px solid #dfe3eb;
+border-radius:12px;
+outline:0;
+font-size:14px;
+background:#fff
+}
+
+.modal-actions{
+display:flex;
+gap:10px;
+margin-top:18px
+}
+
+.modal-actions button{
+flex:1
+}
+
+.close-modal{
+float:left;
+background:#f1f2f5;
+color:#333;
+padding:8px 12px
+}
+
+@media(max-width:800px){
+
+.stats{
+grid-template-columns:repeat(2,1fr)
+}
+
+.details{
+grid-template-columns:repeat(2,1fr)
+}
+
+}
+
+@media(max-width:500px){
+
+.container{
+padding:14px
+}
+
+.customer-head{
+flex-direction:column
+}
+
+.details{
+grid-template-columns:repeat(2,1fr)
+}
+
+.topbar{
+flex-direction:column
+}
+
+.search,
+.filter,
+.topbtn{
+width:100%
+}
+
+}
+
 </style>
+
 </head>
 
 <body>
 
 <header class="header">
+
 <div class="container">
+
 <h1>👥 العملاء</h1>
-<p>إدارة العملاء والتجديدات والاشتراكات</p>
+
+<p>
+إدارة العملاء والتجديدات والاشتراكات
+</p>
+
 </div>
+
 </header>
+
 
 <main class="container">
 
+
 <section class="stats">
-<div class="stat">
-<div class="stat-title">إجمالي العملاء</div>
-<div class="stat-number" id="total">0</div>
-</div>
 
 <div class="stat">
-<div class="stat-title">العملاء النشطين</div>
-<div class="stat-number" id="active">0</div>
+
+<div class="stat-title">
+إجمالي العملاء
 </div>
 
-<div class="stat">
-<div class="stat-title">تجديد قريب</div>
-<div class="stat-number" id="soon">0</div>
+<div
+class="stat-number"
+id="total"
+>
+0
 </div>
 
-<div class="stat">
-<div class="stat-title">منتهية</div>
-<div class="stat-number" id="expired">0</div>
 </div>
+
+
+<div class="stat">
+
+<div class="stat-title">
+العملاء النشطين
+</div>
+
+<div
+class="stat-number"
+id="active"
+>
+0
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-title">
+تجديد قريب
+</div>
+
+<div
+class="stat-number"
+id="soon"
+>
+0
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-title">
+منتهية
+</div>
+
+<div
+class="stat-number"
+id="expired"
+>
+0
+</div>
+
+</div>
+
 </section>
+
 
 <section class="topbar">
 
-<button class="topbtn" onclick="openAdd()">➕ إضافة عميل</button>
+
+<button
+type="button"
+class="topbtn"
+id="addCustomerBtn"
+>
+➕ إضافة عميل
+</button>
+
 
 <input
 id="search"
@@ -83,128 +450,353 @@ type="search"
 placeholder="🔎 ابحث بالاسم أو رقم التليفون..."
 >
 
-<select id="renewalFilter" class="filter">
-<option value="all">كل مواعيد التجديد</option>
-<option value="1">تجديد يوم 1</option>
-<option value="16">تجديد يوم 16</option>
-<option value="custom">تاريخ مخصص</option>
+
+<select
+id="renewalFilter"
+class="filter"
+>
+
+<option value="all">
+كل مواعيد التجديد
+</option>
+
+<option value="1">
+تجديد يوم 1
+</option>
+
+<option value="16">
+تجديد يوم 16
+</option>
+
+<option value="custom">
+تاريخ مخصص
+</option>
+
 </select>
 
-<select id="statusFilter" class="filter">
-<option value="all">كل الحالات</option>
-<option value="active">🟢 نشط</option>
-<option value="inactive">🔴 موقوف</option>
-<option value="soon">🟠 قرب التجديد</option>
-<option value="expired">🔴 منتهي</option>
+
+<select
+id="statusFilter"
+class="filter"
+>
+
+<option value="all">
+كل الحالات
+</option>
+
+<option value="active">
+🟢 نشط
+</option>
+
+<option value="inactive">
+🔴 موقوف
+</option>
+
+<option value="soon">
+🟠 قرب التجديد
+</option>
+
+<option value="expired">
+🔴 منتهي
+</option>
+
 </select>
+
 
 </section>
 
-<section id="customers" class="customers">
-<div class="loading">⏳ جاري تحميل العملاء...</div>
+
+<section
+id="customers"
+class="customers"
+>
+
+<div class="loading">
+⏳ جاري تحميل العملاء...
+</div>
+
 </section>
+
 
 </main>
 
-<div id="modal" class="modal">
+
+<!-- نافذة إضافة / تعديل -->
+
+<div
+id="modal"
+class="modal"
+>
 
 <div class="modal-box">
 
-<h2 id="modalTitle">➕ إضافة عميل</h2>
 
-<input type="hidden" id="customerId">
+<button
+type="button"
+class="close-modal"
+id="closeModalBtn"
+>
+✕
+</button>
+
+
+<h2 id="modalTitle">
+➕ إضافة عميل
+</h2>
+
+
+<input
+type="hidden"
+id="customerId"
+>
+
 
 <div class="field">
-<label>اسم العميل *</label>
-<input id="customerName" placeholder="مثال: محمد">
+
+<label>
+اسم العميل *
+</label>
+
+<input
+id="customerName"
+placeholder="مثال: محمد"
+>
+
 </div>
 
-<div class="field">
-<label>رقم التليفون *</label>
-<input id="customerPhone" inputmode="numeric" placeholder="01xxxxxxxxx">
-</div>
 
 <div class="field">
-<label>الباقة</label>
-<input id="customerPackage" placeholder="مثال: باقة 30 جيجا">
+
+<label>
+رقم التليفون *
+</label>
+
+<input
+id="customerPhone"
+inputmode="numeric"
+placeholder="01xxxxxxxxx"
+>
+
 </div>
 
-<div class="field">
-<label>السعر</label>
-<input id="customerPrice" type="number" min="0" placeholder="0">
-</div>
 
 <div class="field">
-<label>طريقة الدفع</label>
+
+<label>
+الباقة
+</label>
+
+<input
+id="customerPackage"
+placeholder="مثال: باقة 30 جيجا"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+السعر
+</label>
+
+<input
+id="customerPrice"
+type="number"
+min="0"
+placeholder="0"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+طريقة الدفع
+</label>
 
 <select id="paymentMethod">
-<option value="">غير محدد</option>
-<option value="Vodafone Cash">Vodafone Cash</option>
-<option value="Etisalat Cash">Etisalat Cash</option>
-<option value="WE Pay">WE Pay</option>
-<option value="Orange Cash">Orange Cash</option>
-<option value="تحويل بنكي">تحويل بنكي</option>
-<option value="كاش">كاش</option>
+
+<option value="">
+غير محدد
+</option>
+
+<option value="Vodafone Cash">
+Vodafone Cash
+</option>
+
+<option value="Etisalat Cash">
+Etisalat Cash
+</option>
+
+<option value="WE Pay">
+WE Pay
+</option>
+
+<option value="Orange Cash">
+Orange Cash
+</option>
+
+<option value="تحويل بنكي">
+تحويل بنكي
+</option>
+
+<option value="كاش">
+كاش
+</option>
+
 </select>
 
 </div>
 
+
 <div class="field">
-<label>الحالة</label>
+
+<label>
+الحالة
+</label>
 
 <select id="customerStatus">
-<option value="active">🟢 نشط</option>
-<option value="inactive">🔴 موقوف</option>
+
+<option value="active">
+🟢 نشط
+</option>
+
+<option value="inactive">
+🔴 موقوف
+</option>
+
 </select>
 
 </div>
 
-<div class="field">
-<label>نظام التجديد</label>
 
-<select id="renewalType" onchange="renewalTypeChanged()">
-<option value="day_1">يوم 1</option>
-<option value="day_16">يوم 16</option>
-<option value="custom">تاريخ مخصص</option>
+<div class="field">
+
+<label>
+نظام التجديد
+</label>
+
+<select id="renewalType">
+
+<option value="day_1">
+يوم 1
+</option>
+
+<option value="day_16">
+يوم 16
+</option>
+
+<option value="custom">
+تاريخ مخصص
+</option>
+
 </select>
 
 </div>
 
-<div class="field">
-<label>يوم التجديد</label>
-<input id="renewalDay" type="number" min="1" max="31">
-</div>
 
 <div class="field">
-<label>التجديد القادم *</label>
-<input id="nextRenewal" type="date">
+
+<label>
+يوم التجديد
+</label>
+
+<input
+id="renewalDay"
+type="number"
+min="1"
+max="31"
+>
+
 </div>
 
-<div class="field">
-<label>عدد الطلبات السابقة</label>
-<input id="totalOrders" type="number" min="0" value="0">
-</div>
 
 <div class="field">
-<label>تاريخ أول اشتراك</label>
-<input id="firstOrderAt" type="date">
+
+<label>
+التجديد القادم *
+</label>
+
+<input
+id="nextRenewal"
+type="date"
+>
+
 </div>
+
+
+<div class="field">
+
+<label>
+عدد الطلبات السابقة
+</label>
+
+<input
+id="totalOrders"
+type="number"
+min="0"
+value="0"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+تاريخ أول اشتراك
+</label>
+
+<input
+id="firstOrderAt"
+type="date"
+>
+
+</div>
+
 
 <div class="modal-actions">
-<button class="secondary" onclick="closeModal()">إلغاء</button>
-<button class="primary" onclick="saveCustomer()">💾 حفظ</button>
+
+<button
+type="button"
+class="secondary"
+id="cancelBtn"
+>
+إلغاء
+</button>
+
+<button
+type="button"
+class="primary"
+id="saveBtn"
+>
+💾 حفظ
+</button>
+
+</div>
+
+
 </div>
 
 </div>
-</div>
+
 
 <script>
+
+
+/* =========================================
+   SUPABASE
+========================================= */
 
 const SUPABASE_URL =
 "https://pgvbynefhqmyzjtccttl.supabase.co";
 
+
 const SUPABASE_ANON_KEY =
 "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
+
 
 const supabase =
 window.supabase.createClient(
@@ -212,206 +804,404 @@ SUPABASE_URL,
 SUPABASE_ANON_KEY
 );
 
-let allCustomers=[];
-let editMode=false;
+
+/* =========================================
+   VARIABLES
+========================================= */
+
+let allCustomers = [];
+
+let editMode = false;
+
+
+/* =========================================
+   ELEMENTS
+========================================= */
+
+const customersContainer =
+document.getElementById("customers");
+
+const modal =
+document.getElementById("modal");
+
+
+/* =========================================
+   LOAD CUSTOMERS
+========================================= */
 
 async function loadCustomers(){
 
-const container=document.getElementById("customers");
-
-container.innerHTML=
+customersContainer.innerHTML =
 '<div class="loading">⏳ جاري تحميل العملاء...</div>';
 
-const {data,error}=await supabase
+
+const {
+data,
+error
+} = await supabase
+
 .from("customers")
+
 .select("*")
-.is("deleted_at",null)
-.order("next_renewal_date",
-{ascending:true,nullsFirst:false});
+
+.is("deleted_at", null)
+
+.order(
+"next_renewal_date",
+{
+ascending:true,
+nullsFirst:false
+}
+);
+
 
 if(error){
 
-container.innerHTML=
-'<div class="error">❌ حصل خطأ في تحميل العملاء<br><br>'+
-escapeHtml(error.message)+
+customersContainer.innerHTML =
+'<div class="error">❌ حصل خطأ في تحميل العملاء<br><br>'
++
+escapeHtml(error.message)
++
 '</div>';
 
 return;
+
 }
 
-allCustomers=data||[];
+
+allCustomers = data || [];
 
 updateStats();
+
 renderCustomers();
 
 }
 
+
+/* =========================================
+   DAYS UNTIL RENEWAL
+========================================= */
+
 function daysUntil(date){
 
-if(!date)return null;
+if(!date){
+return null;
+}
 
-const today=new Date();
 
-today.setHours(0,0,0,0);
+const today = new Date();
 
-const target=new Date(date+"T00:00:00");
+today.setHours(
+0,
+0,
+0,
+0
+);
+
+
+const target =
+new Date(
+date + "T00:00:00"
+);
+
 
 return Math.ceil(
-(target-today)/86400000
+(target - today) /
+86400000
 );
 
 }
 
+
+/* =========================================
+   STATISTICS
+========================================= */
+
 function updateStats(){
 
-document.getElementById("total").textContent=
+document.getElementById("total")
+.textContent =
 allCustomers.length;
 
-document.getElementById("active").textContent=
+
+document.getElementById("active")
+.textContent =
 allCustomers.filter(
-c=>c.status==="active"
+c => c.status === "active"
 ).length;
 
-document.getElementById("soon").textContent=
-allCustomers.filter(c=>{
 
-const d=daysUntil(c.next_renewal_date);
+document.getElementById("soon")
+.textContent =
+allCustomers.filter(c => {
 
-return d!==null&&d>=0&&d<=7;
+const d =
+daysUntil(
+c.next_renewal_date
+);
+
+return (
+d !== null &&
+d >= 0 &&
+d <= 7
+);
 
 }).length;
 
-document.getElementById("expired").textContent=
-allCustomers.filter(c=>{
 
-const d=daysUntil(c.next_renewal_date);
+document.getElementById("expired")
+.textContent =
+allCustomers.filter(c => {
 
-return d!==null&&d<0;
+const d =
+daysUntil(
+c.next_renewal_date
+);
+
+return (
+d !== null &&
+d < 0
+);
 
 }).length;
 
 }
 
+
+/* =========================================
+   RENDER CUSTOMERS
+========================================= */
+
 function renderCustomers(){
 
-const search=
+const search =
 document.getElementById("search")
-.value.toLowerCase().trim();
+.value
+.toLowerCase()
+.trim();
 
-const renewal=
-document.getElementById("renewalFilter").value;
 
-const status=
-document.getElementById("statusFilter").value;
+const renewal =
+document.getElementById("renewalFilter")
+.value;
 
-const list=allCustomers.filter(c=>{
 
-const name=
-String(c.subscriber_name||"")
+const status =
+document.getElementById("statusFilter")
+.value;
+
+
+const list =
+allCustomers.filter(c => {
+
+
+const name =
+String(
+c.subscriber_name || ""
+)
 .toLowerCase();
 
-const phone=
-String(c.phone||"")
+
+const phone =
+String(
+c.phone || ""
+)
 .toLowerCase();
+
+
+/* البحث */
 
 if(
 search &&
 !name.includes(search) &&
 !phone.includes(search)
-)return false;
+){
+
+return false;
+
+}
+
+
+/* فلتر يوم 1 */
 
 if(
-renewal==="1" &&
-Number(c.renewal_day)!==1
-)return false;
+renewal === "1" &&
+Number(c.renewal_day) !== 1
+){
+
+return false;
+
+}
+
+
+/* فلتر يوم 16 */
 
 if(
-renewal==="16" &&
-Number(c.renewal_day)!==16
-)return false;
+renewal === "16" &&
+Number(c.renewal_day) !== 16
+){
+
+return false;
+
+}
+
+
+/* فلتر مخصص */
 
 if(
-renewal==="custom" &&
-c.renewal_type!=="custom"
-)return false;
+renewal === "custom" &&
+c.renewal_type !== "custom"
+){
 
-const d=daysUntil(
+return false;
+
+}
+
+
+const d =
+daysUntil(
 c.next_renewal_date
 );
 
-if(
-status==="active" &&
-c.status!=="active"
-)return false;
+
+/* نشط */
 
 if(
-status==="inactive" &&
-c.status!=="inactive"
-)return false;
+status === "active" &&
+c.status !== "active"
+){
+
+return false;
+
+}
+
+
+/* موقوف */
 
 if(
-status==="soon" &&
-!(d!==null&&d>=0&&d<=7)
-)return false;
+status === "inactive" &&
+c.status !== "inactive"
+){
+
+return false;
+
+}
+
+
+/* قرب التجديد */
 
 if(
-status==="expired" &&
-!(d!==null&&d<0)
-)return false;
+status === "soon" &&
+!(
+d !== null &&
+d >= 0 &&
+d <= 7
+)
+){
+
+return false;
+
+}
+
+
+/* منتهي */
+
+if(
+status === "expired" &&
+!(
+d !== null &&
+d < 0
+)
+){
+
+return false;
+
+}
+
 
 return true;
 
 });
 
-const container=
-document.getElementById("customers");
 
 if(!list.length){
 
-container.innerHTML=
+customersContainer.innerHTML =
 '<div class="empty">📭 لا يوجد عملاء مطابقين للبحث.</div>';
 
 return;
 
 }
 
-container.innerHTML=
-list.map(customerCard).join("");
+
+customersContainer.innerHTML =
+list
+.map(customerCard)
+.join("");
 
 }
 
+
+/* =========================================
+   CUSTOMER CARD
+========================================= */
+
 function customerCard(c){
 
-const d=
-daysUntil(c.next_renewal_date);
+const d =
+daysUntil(
+c.next_renewal_date
+);
 
-let renewalText="غير محدد";
+
+let renewalText =
+"غير محدد";
+
 
 if(c.next_renewal_date){
 
-if(d<0)
-renewalText=
+if(d < 0){
+
+renewalText =
 `🔴 انتهى منذ ${Math.abs(d)} يوم`;
 
-else if(d===0)
-renewalText="🟠 التجديد اليوم";
+}
 
-else if(d<=7)
-renewalText=
+else if(d === 0){
+
+renewalText =
+"🟠 التجديد اليوم";
+
+}
+
+else if(d <= 7){
+
+renewalText =
 `🟠 متبقي ${d} يوم`;
 
-else
-renewalText=
+}
+
+else{
+
+renewalText =
 `🟢 متبقي ${d} يوم`;
 
 }
 
-const badge=
-c.status==="inactive"
+}
+
+
+const badge =
+c.status === "inactive"
+
 ?
+
 '<span class="badge inactive">🔴 موقوف</span>'
+
 :
+
 '<span class="badge active">🟢 نشط</span>';
+
 
 return `
 
@@ -422,11 +1212,19 @@ return `
 <div>
 
 <div class="customer-name">
-${escapeHtml(c.subscriber_name||"بدون اسم")}
+
+${escapeHtml(
+c.subscriber_name || "بدون اسم"
+)}
+
 </div>
 
 <div class="phone">
-📱 ${escapeHtml(c.phone||"-")}
+
+📱 ${escapeHtml(
+c.phone || "-"
+)}
+
 </div>
 
 </div>
@@ -435,90 +1233,186 @@ ${badge}
 
 </div>
 
-<div class="details">
-
-<div class="detail">
-<small>الباقة</small>
-<strong>
-${escapeHtml(c.package_name||"-")}
-</strong>
-</div>
-
-<div class="detail">
-<small>السعر</small>
-<strong>
-${c.last_price??"-"} جنيه
-</strong>
-</div>
-
-<div class="detail">
-<small>يوم التجديد</small>
-<strong>
-${c.renewal_type==="custom"
-?"مخصص"
-:(c.renewal_day||"-")}
-</strong>
-</div>
-
-<div class="detail">
-<small>التجديد القادم</small>
-<strong>
-${c.next_renewal_date||"-"}
-</strong>
-</div>
-
-</div>
 
 <div class="details">
 
-<div class="detail">
-<small>آخر تجديد</small>
-<strong>
-${c.last_renewed_at
-?new Date(c.last_renewed_at)
-.toLocaleDateString("ar-EG")
-:"-"}
-</strong>
-</div>
 
 <div class="detail">
-<small>عدد الطلبات</small>
+
+<small>
+الباقة
+</small>
+
 <strong>
-${c.total_orders??0}
+${escapeHtml(
+c.package_name || "-"
+)}
 </strong>
+
 </div>
 
+
 <div class="detail">
-<small>حالة التجديد</small>
+
+<small>
+السعر
+</small>
+
+<strong>
+${c.last_price ?? "-"} جنيه
+</strong>
+
+</div>
+
+
+<div class="detail">
+
+<small>
+يوم التجديد
+</small>
+
+<strong>
+
+${
+c.renewal_type === "custom"
+
+? "مخصص"
+
+: (c.renewal_day || "-")
+
+}
+
+</strong>
+
+</div>
+
+
+<div class="detail">
+
+<small>
+التجديد القادم
+</small>
+
+<strong>
+${c.next_renewal_date || "-"}
+</strong>
+
+</div>
+
+
+</div>
+
+
+<div class="details">
+
+
+<div class="detail">
+
+<small>
+آخر تجديد
+</small>
+
+<strong>
+
+${
+c.last_renewed_at
+
+?
+
+new Date(
+c.last_renewed_at
+)
+.toLocaleDateString(
+"ar-EG"
+)
+
+:
+
+"-"
+
+}
+
+</strong>
+
+</div>
+
+
+<div class="detail">
+
+<small>
+عدد الطلبات
+</small>
+
+<strong>
+${c.total_orders ?? 0}
+</strong>
+
+</div>
+
+
+<div class="detail">
+
+<small>
+حالة التجديد
+</small>
+
 <strong>
 ${renewalText}
 </strong>
+
 </div>
+
 
 <div class="detail">
-<small>طريقة الدفع</small>
+
+<small>
+طريقة الدفع
+</small>
+
 <strong>
-${escapeHtml(c.payment_method||"-")}
+${escapeHtml(
+c.payment_method || "-"
+)}
 </strong>
-</div>
 
 </div>
+
+
+</div>
+
 
 <div class="actions">
 
+
 <button
 class="primary"
-onclick="openEdit(${c.id})">
+type="button"
+onclick="openEdit(${c.id})"
+>
 ✏️ تعديل
 </button>
 
+
 <button
 class="secondary"
-onclick="renewToday(${c.id})">
+type="button"
+onclick="renewToday(${c.id})"
+>
 🔄 تجديد الآن
 </button>
 
+
+<button
+class="danger"
+type="button"
+onclick="deleteCustomer(${c.id})"
+>
+🗑️ حذف
+</button>
+
+
 </div>
+
 
 </article>
 
@@ -526,153 +1420,372 @@ onclick="renewToday(${c.id})">
 
 }
 
+
+/* =========================================
+   OPEN ADD
+========================================= */
+
 function openAdd(){
 
-editMode=false;
+editMode = false;
 
-document.getElementById("modalTitle")
-.textContent="➕ إضافة عميل";
+
+document.getElementById(
+"modalTitle"
+)
+.textContent =
+"➕ إضافة عميل";
+
 
 clearForm();
 
-document.getElementById("renewalType")
-.value="day_1";
 
-document.getElementById("renewalDay")
-.value=1;
+document.getElementById(
+"renewalType"
+)
+.value =
+"day_1";
 
-document.getElementById("customerStatus")
-.value="active";
 
-document.getElementById("totalOrders")
-.value=0;
+document.getElementById(
+"renewalDay"
+)
+.value =
+1;
 
-document.getElementById("modal")
-.classList.add("show");
+
+document.getElementById(
+"customerStatus"
+)
+.value =
+"active";
+
+
+document.getElementById(
+"totalOrders"
+)
+.value =
+0;
+
+
+modal.classList.add("show");
 
 }
+
+
+/* =========================================
+   OPEN EDIT
+========================================= */
 
 function openEdit(id){
 
-const c=
+const customer =
 allCustomers.find(
-x=>Number(x.id)===Number(id)
+x =>
+Number(x.id) ===
+Number(id)
 );
 
-if(!c)return;
 
-editMode=true;
+if(!customer){
+return;
+}
 
-document.getElementById("modalTitle")
-.textContent="✏️ تعديل بيانات العميل";
 
-document.getElementById("customerId")
-.value=c.id;
+editMode = true;
 
-document.getElementById("customerName")
-.value=c.subscriber_name||"";
 
-document.getElementById("customerPhone")
-.value=c.phone||"";
+document.getElementById(
+"modalTitle"
+)
+.textContent =
+"✏️ تعديل بيانات العميل";
 
-document.getElementById("customerPackage")
-.value=c.package_name||"";
 
-document.getElementById("customerPrice")
-.value=c.last_price??"";
+document.getElementById(
+"customerId"
+)
+.value =
+customer.id;
 
-document.getElementById("paymentMethod")
-.value=c.payment_method||"";
 
-document.getElementById("customerStatus")
-.value=c.status||"active";
+document.getElementById(
+"customerName"
+)
+.value =
+customer.subscriber_name || "";
 
-document.getElementById("renewalType")
-.value=c.renewal_type||"day_1";
 
-document.getElementById("renewalDay")
-.value=c.renewal_day||"";
+document.getElementById(
+"customerPhone"
+)
+.value =
+customer.phone || "";
 
-document.getElementById("nextRenewal")
-.value=c.next_renewal_date||"";
 
-document.getElementById("totalOrders")
-.value=c.total_orders??0;
+document.getElementById(
+"customerPackage"
+)
+.value =
+customer.package_name || "";
 
-document.getElementById("firstOrderAt")
-.value=
-c.first_order_at
-?String(c.first_order_at).slice(0,10)
-:"";
 
-document.getElementById("modal")
-.classList.add("show");
+document.getElementById(
+"customerPrice"
+)
+.value =
+customer.last_price ?? "";
+
+
+document.getElementById(
+"paymentMethod"
+)
+.value =
+customer.payment_method || "";
+
+
+document.getElementById(
+"customerStatus"
+)
+.value =
+customer.status || "active";
+
+
+document.getElementById(
+"renewalType"
+)
+.value =
+customer.renewal_type || "day_1";
+
+
+document.getElementById(
+"renewalDay"
+)
+.value =
+customer.renewal_day || "";
+
+
+document.getElementById(
+"nextRenewal"
+)
+.value =
+customer.next_renewal_date || "";
+
+
+document.getElementById(
+"totalOrders"
+)
+.value =
+customer.total_orders ?? 0;
+
+
+document.getElementById(
+"firstOrderAt"
+)
+.value =
+
+customer.first_order_at
+
+?
+
+String(
+customer.first_order_at
+)
+.slice(0,10)
+
+:
+
+"";
+
+
+modal.classList.add("show");
 
 }
+
+
+/* =========================================
+   CLEAR FORM
+========================================= */
 
 function clearForm(){
 
-[
-"customerId",
-"customerName",
-"customerPhone",
-"customerPackage",
-"customerPrice",
-"renewalDay",
-"nextRenewal",
-"firstOrderAt"
-]
-.forEach(
-id=>document.getElementById(id).value=""
-);
+document.getElementById(
+"customerId"
+)
+.value = "";
 
-document.getElementById("paymentMethod")
-.value="";
+
+document.getElementById(
+"customerName"
+)
+.value = "";
+
+
+document.getElementById(
+"customerPhone"
+)
+.value = "";
+
+
+document.getElementById(
+"customerPackage"
+)
+.value = "";
+
+
+document.getElementById(
+"customerPrice"
+)
+.value = "";
+
+
+document.getElementById(
+"paymentMethod"
+)
+.value = "";
+
+
+document.getElementById(
+"customerStatus"
+)
+.value = "active";
+
+
+document.getElementById(
+"renewalType"
+)
+.value = "day_1";
+
+
+document.getElementById(
+"renewalDay"
+)
+.value = 1;
+
+
+document.getElementById(
+"nextRenewal"
+)
+.value = "";
+
+
+document.getElementById(
+"totalOrders"
+)
+.value = 0;
+
+
+document.getElementById(
+"firstOrderAt"
+)
+.value = "";
 
 }
+
+
+/* =========================================
+   RENEWAL TYPE
+========================================= */
 
 function renewalTypeChanged(){
 
-const type=
-document.getElementById("renewalType").value;
+const type =
+document.getElementById(
+"renewalType"
+)
+.value;
 
-if(type==="day_1")
-document.getElementById("renewalDay").value=1;
 
-else if(type==="day_16")
-document.getElementById("renewalDay").value=16;
+if(type === "day_1"){
 
-else
-document.getElementById("renewalDay").value="";
+document.getElementById(
+"renewalDay"
+)
+.value = 1;
 
 }
+
+else if(type === "day_16"){
+
+document.getElementById(
+"renewalDay"
+)
+.value = 16;
+
+}
+
+else{
+
+document.getElementById(
+"renewalDay"
+)
+.value = "";
+
+}
+
+}
+
+
+/* =========================================
+   CLOSE MODAL
+========================================= */
 
 function closeModal(){
 
-document.getElementById("modal")
-.classList.remove("show");
+modal.classList.remove(
+"show"
+);
 
 }
 
+
+/* =========================================
+   SAVE CUSTOMER
+========================================= */
+
 async function saveCustomer(){
 
-const name=
-document.getElementById("customerName")
-.value.trim();
+const saveBtn =
+document.getElementById(
+"saveBtn"
+);
 
-const phone=
-document.getElementById("customerPhone")
-.value.trim();
 
-const nextDate=
-document.getElementById("nextRenewal")
+const name =
+document.getElementById(
+"customerName"
+)
+.value
+.trim();
+
+
+const phone =
+document.getElementById(
+"customerPhone"
+)
+.value
+.trim();
+
+
+const nextDate =
+document.getElementById(
+"nextRenewal"
+)
 .value;
 
-const type=
-document.getElementById("renewalType")
+
+const type =
+document.getElementById(
+"renewalType"
+)
 .value;
 
-if(!name||!phone||!nextDate){
+
+if(
+!name ||
+!phone ||
+!nextDate
+){
 
 alert(
 "⚠️ الاسم ورقم التليفون والتجديد القادم مطلوبين"
@@ -682,80 +1795,156 @@ return;
 
 }
 
-let day=
+
+/* منع الضغط مرتين */
+
+saveBtn.disabled = true;
+
+saveBtn.textContent =
+"⏳ جاري الحفظ...";
+
+
+try{
+
+
+let day =
 Number(
-document.getElementById("renewalDay").value
-)||null;
+document.getElementById(
+"renewalDay"
+)
+.value
+) || null;
 
-if(type==="day_1")day=1;
 
-if(type==="day_16")day=16;
+if(type === "day_1"){
 
-const firstDate=
-document.getElementById("firstOrderAt")
-.value;
-
-const now=
-new Date().toISOString();
-
-const payload={
-
-subscriber_name:name,
-
-phone:phone,
-
-package_name:
-document.getElementById("customerPackage")
-.value.trim()||null,
-
-last_price:
-Number(
-document.getElementById("customerPrice").value
-)||0,
-
-payment_method:
-document.getElementById("paymentMethod").value||null,
-
-status:
-document.getElementById("customerStatus").value,
-
-renewal_type:type,
-
-renewal_day:day,
-
-next_renewal_date:nextDate,
-
-total_orders:
-Number(
-document.getElementById("totalOrders").value
-)||0,
-
-updated_at:now
-
-};
-
-if(firstDate){
-
-payload.first_order_at=
-firstDate+"T00:00:00.000Z";
+day = 1;
 
 }
 
+
+if(type === "day_16"){
+
+day = 16;
+
+}
+
+
+const firstDate =
+document.getElementById(
+"firstOrderAt"
+)
+.value;
+
+
+const now =
+new Date()
+.toISOString();
+
+
+const payload = {
+
+subscriber_name:
+name,
+
+phone:
+phone,
+
+package_name:
+
+document.getElementById(
+"customerPackage"
+)
+.value
+.trim() || null,
+
+last_price:
+
+Number(
+document.getElementById(
+"customerPrice"
+)
+.value
+) || 0,
+
+payment_method:
+
+document.getElementById(
+"paymentMethod"
+)
+.value || null,
+
+status:
+
+document.getElementById(
+"customerStatus"
+)
+.value,
+
+renewal_type:
+type,
+
+renewal_day:
+day,
+
+next_renewal_date:
+nextDate,
+
+total_orders:
+
+Number(
+document.getElementById(
+"totalOrders"
+)
+.value
+) || 0,
+
+updated_at:
+now
+
+};
+
+
+if(firstDate){
+
+payload.first_order_at =
+firstDate +
+"T00:00:00.000Z";
+
+}
+
+
+/* =========================================
+   EDIT
+========================================= */
+
 if(editMode){
 
-const id=
-document.getElementById("customerId").value;
+const id =
+document.getElementById(
+"customerId"
+)
+.value;
 
-const {error}=
+
+const {
+error
+} =
+
 await supabase
+
 .from("customers")
+
 .update(payload)
+
 .eq("id",id);
+
 
 if(error){
 
 alert(
-"❌ حصل خطأ:\n"+
+"❌ حصل خطأ في تعديل العميل:\n\n"
++
 error.message
 );
 
@@ -763,23 +1952,41 @@ return;
 
 }
 
-}else{
+}
+
+
+/* =========================================
+   ADD
+========================================= */
+
+else{
+
+
+/* التأكد إن الرقم مش موجود */
 
 const {
-data:existing,
-error:findError
-}=
+data: existing,
+error: findError
+} =
+
 await supabase
+
 .from("customers")
+
 .select("id")
+
 .eq("phone",phone)
+
 .is("deleted_at",null)
+
 .limit(1);
+
 
 if(findError){
 
 alert(
-"❌ حصل خطأ في البحث عن الرقم:\n"+
+"❌ حصل خطأ في البحث عن الرقم:\n\n"
++
 findError.message
 );
 
@@ -787,28 +1994,45 @@ return;
 
 }
 
-if(existing&&existing.length){
+
+if(
+existing &&
+existing.length
+){
 
 alert(
-"⚠️ الرقم ده موجود بالفعل عندك. استخدم تعديل بدل إضافة عميل جديد."
+"⚠️ الرقم ده موجود بالفعل عندك.\n\nاستخدم تعديل بدل إضافة عميل جديد."
 );
 
 return;
 
 }
 
-if(!payload.first_order_at)
-payload.first_order_at=now;
 
-const {error}=
+if(!payload.first_order_at){
+
+payload.first_order_at =
+now;
+
+}
+
+
+const {
+error
+} =
+
 await supabase
+
 .from("customers")
+
 .insert(payload);
+
 
 if(error){
 
 alert(
-"❌ حصل خطأ في إضافة العميل:\n"+
+"❌ حصل خطأ في إضافة العميل:\n\n"
++
 error.message
 );
 
@@ -818,48 +2042,217 @@ return;
 
 }
 
+
+/* إغلاق */
+
 closeModal();
+
+
+/* إعادة تحميل */
 
 await loadCustomers();
 
+
 alert(
 editMode
-?"✅ تم تعديل العميل"
-:"✅ تم إضافة العميل بنجاح"
+
+?
+
+"✅ تم تعديل العميل بنجاح"
+
+:
+
+"✅ تم إضافة العميل بنجاح"
+);
+
+
+}
+
+finally{
+
+saveBtn.disabled = false;
+
+saveBtn.textContent =
+"💾 حفظ";
+
+}
+
+}
+
+
+/* =========================================
+   DELETE CUSTOMER
+========================================= */
+
+async function deleteCustomer(id){
+
+const customer =
+allCustomers.find(
+c =>
+Number(c.id) ===
+Number(id)
+);
+
+
+if(!customer){
+
+alert(
+"❌ العميل غير موجود"
+);
+
+return;
+
+}
+
+
+const confirmed =
+confirm(
+
+`⚠️ تأكيد حذف العميل
+
+الاسم:
+${customer.subscriber_name}
+
+رقم التليفون:
+${customer.phone}
+
+هل أنت متأكد أنك تريد حذف العميل من القائمة؟`
+
+);
+
+
+if(!confirmed){
+
+return;
+
+}
+
+
+/* زر حذف لا يوجد أمامنا مباشرة
+لذلك نعتمد على التحديث */
+
+const now =
+new Date()
+.toISOString();
+
+
+const {
+error
+} =
+
+await supabase
+
+.from("customers")
+
+.update({
+
+deleted_at:
+now,
+
+updated_at:
+now
+
+})
+
+.eq("id",id);
+
+
+if(error){
+
+alert(
+"❌ لم يتم حذف العميل:\n\n"
++
+error.message
+);
+
+return;
+
+}
+
+
+/* إزالة العميل من القائمة فورًا */
+
+allCustomers =
+allCustomers.filter(
+c =>
+Number(c.id) !==
+Number(id)
+);
+
+
+updateStats();
+
+renderCustomers();
+
+
+alert(
+"✅ تم حذف العميل من القائمة"
 );
 
 }
 
+
+/* =========================================
+   RENEW TODAY
+========================================= */
+
 async function renewToday(id){
 
-const c=
+const customer =
 allCustomers.find(
-x=>Number(x.id)===Number(id)
+x =>
+Number(x.id) ===
+Number(id)
 );
 
-if(!c)return;
 
-if(!confirm(
+if(!customer){
+
+return;
+
+}
+
+
+const confirmed =
+confirm(
+
 `تأكيد تجديد العميل:
 
-${c.subscriber_name}
+${customer.subscriber_name}
 
 هل تريد اعتبار اليوم تاريخ التجديد الجديد؟`
-))return;
 
-const now=
-new Date();
-
-const next=
-new Date(now);
-
-next.setMonth(
-next.getMonth()+1
 );
 
-const {error}=
+
+if(!confirmed){
+
+return;
+
+}
+
+
+const now =
+new Date();
+
+
+const next =
+new Date(now);
+
+
+next.setMonth(
+next.getMonth() + 1
+);
+
+
+const {
+error
+} =
+
 await supabase
+
 .from("customers")
+
 .update({
 
 last_renewed_at:
@@ -869,23 +2262,33 @@ last_order_at:
 now.toISOString(),
 
 next_renewal_date:
-next.toISOString().split("T")[0],
+
+next
+.toISOString()
+.split("T")[0],
 
 total_orders:
-(Number(c.total_orders)||0)+1,
 
-status:"active",
+(Number(
+customer.total_orders
+) || 0) + 1,
+
+status:
+"active",
 
 updated_at:
 now.toISOString()
 
 })
+
 .eq("id",id);
+
 
 if(error){
 
 alert(
-"❌ حصل خطأ:\n"+
+"❌ حصل خطأ في التجديد:\n\n"
++
 error.message
 );
 
@@ -893,42 +2296,232 @@ return;
 
 }
 
+
 await loadCustomers();
 
+
+alert(
+"✅ تم تجديد العميل بنجاح"
+);
+
 }
 
-document.getElementById("search")
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHtml(value){
+
+return String(
+value ?? ""
+)
+
+.replaceAll(
+"&",
+"&amp;"
+)
+
+.replaceAll(
+"<",
+"&lt;"
+)
+
+.replaceAll(
+">",
+"&gt;"
+)
+
+.replaceAll(
+'"',
+"&quot;"
+)
+
+.replaceAll(
+"'",
+"&#039;"
+);
+
+}
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+
+/* إضافة عميل */
+
+document
+.getElementById(
+"addCustomerBtn"
+)
+.addEventListener(
+"click",
+function(){
+
+openAdd();
+
+}
+);
+
+
+/* إغلاق */
+
+document
+.getElementById(
+"closeModalBtn"
+)
+.addEventListener(
+"click",
+function(){
+
+closeModal();
+
+}
+);
+
+
+/* إلغاء */
+
+document
+.getElementById(
+"cancelBtn"
+)
+.addEventListener(
+"click",
+function(){
+
+closeModal();
+
+}
+);
+
+
+/* حفظ */
+
+document
+.getElementById(
+"saveBtn"
+)
+.addEventListener(
+"click",
+function(){
+
+saveCustomer();
+
+}
+);
+
+
+/* نوع التجديد */
+
+document
+.getElementById(
+"renewalType"
+)
+.addEventListener(
+"change",
+function(){
+
+renewalTypeChanged();
+
+}
+);
+
+
+/* البحث */
+
+document
+.getElementById(
+"search"
+)
 .addEventListener(
 "input",
-renderCustomers
-);
+function(){
 
-document.getElementById("renewalFilter")
-.addEventListener(
-"change",
-renderCustomers
-);
-
-document.getElementById("statusFilter")
-.addEventListener(
-"change",
-renderCustomers
-);
-
-function escapeHtml(v){
-
-return String(v??"")
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
+renderCustomers();
 
 }
+);
+
+
+/* فلتر التجديد */
+
+document
+.getElementById(
+"renewalFilter"
+)
+.addEventListener(
+"change",
+function(){
+
+renderCustomers();
+
+}
+);
+
+
+/* فلتر الحالة */
+
+document
+.getElementById(
+"statusFilter"
+)
+.addEventListener(
+"change",
+function(){
+
+renderCustomers();
+
+}
+);
+
+
+/* الضغط خارج المودال */
+
+modal.addEventListener(
+"click",
+function(event){
+
+if(
+event.target === modal
+){
+
+closeModal();
+
+}
+
+}
+);
+
+
+/* زر ESC */
+
+document.addEventListener(
+"keydown",
+function(event){
+
+if(
+event.key === "Escape"
+){
+
+closeModal();
+
+}
+
+}
+);
+
+
+/* =========================================
+   START
+========================================= */
 
 loadCustomers();
 
 </script>
 
 </body>
+
 </html>
