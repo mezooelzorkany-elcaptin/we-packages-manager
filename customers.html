@@ -3,378 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
 <title>العملاء | WE Packages</title>
 
 <style>
-*{
-box-sizing:border-box;
-font-family:Arial,Tahoma,sans-serif
-}
-
-body{
-margin:0;
-background:#f4f6fb;
-color:#172033
-}
-
-.header{
-background:linear-gradient(135deg,#151a35,#292f62);
-color:white;
-padding:28px 20px 34px;
-border-radius:0 0 35px 35px
-}
-
-.container{
-max-width:1100px;
-margin:auto;
-padding:18px
-}
-
-.header h1{
-margin:0;
-font-size:28px
-}
-
-.header p{
-margin:10px 0 0;
-opacity:.75
-}
-
-.stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:14px;
-margin-top:20px
-}
-
-.stat{
-background:white;
-border-radius:20px;
-padding:20px;
-text-align:right;
-box-shadow:0 5px 25px rgba(0,0,0,.05)
-}
-
-.stat-title{
-color:#7b8395;
-font-size:14px;
-margin-bottom:10px
-}
-
-.stat-number{
-font-size:30px;
-font-weight:bold
-}
-
-.toolbar{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-top:20px
-}
-
-.search{
-flex:1;
-min-width:220px;
-height:55px;
-border:2px solid #e2e6ef;
-border-radius:18px;
-background:white;
-padding:0 18px;
-font-size:16px;
-outline:none
-}
-
-.select{
-height:55px;
-border:2px solid #e2e6ef;
-border-radius:18px;
-background:white;
-padding:0 16px;
-font-size:15px;
-outline:none
-}
-
-.add-btn{
-height:55px;
-border:0;
-border-radius:18px;
-background:#293160;
-color:white;
-font-size:17px;
-font-weight:bold;
-padding:0 25px;
-cursor:pointer
-}
-
-.add-btn:active{
-transform:scale(.98)
-}
-
-.list{
-margin-top:20px;
-display:grid;
-gap:16px
-}
-
-.card{
-background:white;
-border-radius:25px;
-padding:20px;
-box-shadow:0 5px 25px rgba(0,0,0,.05)
-}
-
-.card-head{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-gap:15px
-}
-
-.name{
-font-size:22px;
-font-weight:bold
-}
-
-.phone{
-color:#7b8395;
-margin-top:7px;
-font-size:16px
-}
-
-.badge{
-padding:8px 13px;
-border-radius:20px;
-font-size:13px;
-font-weight:bold
-}
-
-.badge.active{
-background:#e4f8ec;
-color:#159447
-}
-
-.badge.inactive{
-background:#fde8ea;
-color:#c73542
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:12px;
-margin-top:18px
-}
-
-.box{
-background:#f7f8fb;
-border-radius:16px;
-padding:14px
-}
-
-.box small{
-display:block;
-color:#8991a2;
-margin-bottom:7px;
-font-size:12px
-}
-
-.box strong{
-font-size:15px;
-word-break:break-word
-}
-
-.actions{
-display:flex;
-gap:9px;
-flex-wrap:wrap;
-margin-top:18px
-}
-
-.action{
-border:0;
-border-radius:14px;
-padding:12px 18px;
-font-size:14px;
-font-weight:bold;
-cursor:pointer
-}
-
-.edit{
-background:#293160;
-color:white
-}
-
-.renew{
-background:#edf0f7;
-color:#252b40
-}
-
-.delete{
-background:#fde8ea;
-color:#c73542
-}
-
-.loading,
-.empty,
-.error{
-background:white;
-border-radius:20px;
-padding:35px;
-text-align:center;
-margin-top:20px;
-font-size:17px
-}
-
-.error{
-color:#c73542
-}
-
-.modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.6);
-z-index:999;
-padding:15px;
-overflow:auto
-}
-
-.modal.show{
-display:flex;
-align-items:center;
-justify-content:center
-}
-
-.modal-box{
-width:100%;
-max-width:600px;
-background:white;
-border-radius:25px;
-padding:22px;
-max-height:95vh;
-overflow:auto
-}
-
-.modal-title{
-font-size:22px;
-font-weight:bold;
-margin-bottom:20px
-}
-
-.field{
-margin-bottom:14px
-}
-
-.field label{
-display:block;
-font-weight:bold;
-font-size:13px;
-margin-bottom:7px
-}
-
-.field input,
-.field select{
-width:100%;
-height:48px;
-border:1px solid #dfe3eb;
-border-radius:13px;
-padding:0 13px;
-font-size:15px;
-outline:none;
-background:white
-}
-
-.modal-actions{
-display:flex;
-gap:10px;
-margin-top:20px
-}
-
-.modal-actions button{
-flex:1;
-height:50px;
-border:0;
-border-radius:14px;
-font-size:15px;
-font-weight:bold;
-cursor:pointer
-}
-
-.cancel{
-background:#edf0f5;
-color:#252b40
-}
-
-.save{
-background:#293160;
-color:white
-}
-
-.close{
-float:left;
-border:0;
-background:#f1f2f5;
-border-radius:10px;
-padding:8px 12px;
-cursor:pointer
-}
+*{box-sizing:border-box;font-family:Arial,Tahoma,sans-serif}
+body{margin:0;background:#f4f6fb;color:#172033}
+.header{background:linear-gradient(135deg,#151a35,#292f62);color:white;padding:28px 20px 34px;border-radius:0 0 35px 35px}
+.container{max-width:1100px;margin:auto;padding:18px}
+.header h1{margin:0;font-size:28px}
+.header p{margin:10px 0 0;opacity:.75}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
+.stat{background:white;border-radius:20px;padding:20px;box-shadow:0 5px 25px rgba(0,0,0,.05)}
+.stat-title{color:#7b8395;font-size:14px;margin-bottom:10px}
+.stat-number{font-size:30px;font-weight:bold}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.search{flex:1;min-width:220px;height:55px;border:2px solid #e2e6ef;border-radius:18px;background:white;padding:0 18px;font-size:16px;outline:none}
+.select{height:55px;border:2px solid #e2e6ef;border-radius:18px;background:white;padding:0 16px;font-size:15px;outline:none}
+.add-btn{height:55px;border:0;border-radius:18px;background:#293160;color:white;font-size:17px;font-weight:bold;padding:0 25px;cursor:pointer}
+.list{margin-top:20px;display:grid;gap:16px}
+.card{background:white;border-radius:25px;padding:20px;box-shadow:0 5px 25px rgba(0,0,0,.05)}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:15px}
+.name{font-size:22px;font-weight:bold}
+.phone{color:#7b8395;margin-top:7px;font-size:16px}
+.badge{padding:8px 13px;border-radius:20px;font-size:13px;font-weight:bold}
+.badge.active{background:#e4f8ec;color:#159447}
+.badge.inactive{background:#fde8ea;color:#c73542}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+.box{background:#f7f8fb;border-radius:16px;padding:14px}
+.box small{display:block;color:#8991a2;margin-bottom:7px;font-size:12px}
+.box strong{font-size:15px;word-break:break-word}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+.action{border:0;border-radius:14px;padding:12px 18px;font-size:14px;font-weight:bold;cursor:pointer}
+.edit{background:#293160;color:white}
+.renew{background:#edf0f7;color:#252b40}
+.delete{background:#fde8ea;color:#c73542}
+.loading,.empty,.error{background:white;border-radius:20px;padding:35px;text-align:center;margin-top:20px;font-size:17px}
+.error{color:#c73542}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;padding:15px;overflow:auto}
+.modal.show{display:flex;align-items:center;justify-content:center}
+.modal-box{width:100%;max-width:600px;background:white;border-radius:25px;padding:22px;max-height:95vh;overflow:auto}
+.modal-title{font-size:22px;font-weight:bold;margin-bottom:20px}
+.field{margin-bottom:14px}
+.field label{display:block;font-weight:bold;font-size:13px;margin-bottom:7px}
+.field input,.field select{width:100%;height:48px;border:1px solid #dfe3eb;border-radius:13px;padding:0 13px;font-size:15px;outline:none;background:white}
+.modal-actions{display:flex;gap:10px;margin-top:20px}
+.modal-actions button{flex:1;height:50px;border:0;border-radius:14px;font-size:15px;font-weight:bold;cursor:pointer}
+.cancel{background:#edf0f5;color:#252b40}
+.save{background:#293160;color:white}
+.close{float:left;border:0;background:#f1f2f5;border-radius:10px;padding:8px 12px;cursor:pointer}
 
 @media(max-width:800px){
-
-.stats{
-grid-template-columns:repeat(2,1fr)
-}
-
-.grid{
-grid-template-columns:repeat(2,1fr)
-}
-
+.stats{grid-template-columns:repeat(2,1fr)}
+.grid{grid-template-columns:repeat(2,1fr)}
 }
 
 @media(max-width:550px){
-
-.container{
-padding:13px
-}
-
-.stats{
-gap:9px
-}
-
-.stat{
-padding:15px
-}
-
-.stat-number{
-font-size:25px
-}
-
-.toolbar{
-display:block
-}
-
-.search,
-.select,
-.add-btn{
-width:100%;
-margin-bottom:9px
-}
-
-.card-head{
-display:block
-}
-
-.badge{
-display:inline-block;
-margin-top:12px
-}
-
-.grid{
-grid-template-columns:repeat(2,1fr)
-}
-
+.container{padding:13px}
+.toolbar{display:block}
+.search,.select,.add-btn{width:100%;margin-bottom:9px}
+.card-head{display:block}
+.badge{display:inline-block;margin-top:12px}
+.grid{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
@@ -382,22 +71,13 @@ grid-template-columns:repeat(2,1fr)
 <body>
 
 <header class="header">
-
 <div class="container">
-
 <h1>👥 العملاء</h1>
-
-<p>
-إدارة العملاء والتجديدات والاشتراكات
-</p>
-
+<p>إدارة العملاء والتجديدات والاشتراكات</p>
 </div>
-
 </header>
 
-
 <main class="container">
-
 
 <div class="stats">
 
@@ -423,14 +103,9 @@ grid-template-columns:repeat(2,1fr)
 
 </div>
 
-
 <div class="toolbar">
 
-<button
-class="add-btn"
-type="button"
-onclick="openAdd()"
->
+<button class="add-btn" type="button" onclick="openAdd()">
 ➕ إضافة عميل
 </button>
 
@@ -442,285 +117,138 @@ placeholder="🔎 ابحث بالاسم أو رقم التليفون..."
 >
 
 <select id="renewalFilter" class="select">
-
-<option value="all">
-كل مواعيد التجديد
-</option>
-
-<option value="1">
-تجديد يوم 1
-</option>
-
-<option value="16">
-تجديد يوم 16
-</option>
-
-<option value="custom">
-تاريخ مخصص
-</option>
-
+<option value="all">كل مواعيد التجديد</option>
+<option value="1">تجديد يوم 1</option>
+<option value="16">تجديد يوم 16</option>
+<option value="custom">تاريخ مخصص</option>
 </select>
-
 
 <select id="statusFilter" class="select">
-
-<option value="all">
-كل الحالات
-</option>
-
-<option value="active">
-🟢 نشط
-</option>
-
-<option value="inactive">
-🔴 موقوف
-</option>
-
-<option value="soon">
-🟠 قرب التجديد
-</option>
-
-<option value="expired">
-🔴 منتهي
-</option>
-
+<option value="all">كل الحالات</option>
+<option value="active">🟢 نشط</option>
+<option value="inactive">🔴 موقوف</option>
+<option value="soon">🟠 قرب التجديد</option>
+<option value="expired">🔴 منتهي</option>
 </select>
 
 </div>
 
-
 <div id="list" class="list">
-
-<div class="loading">
-⏳ جاري تحميل العملاء...
-</div>
-
+<div class="loading">⏳ جاري تحميل العملاء...</div>
 </div>
 
 </main>
 
 
-<!-- MODAL -->
+<!-- إضافة / تعديل العميل -->
 
-<div
-id="modal"
-class="modal"
->
+<div id="modal" class="modal">
 
 <div class="modal-box">
 
-<button
-class="close"
-type="button"
-onclick="closeModal()"
->
-✕
-</button>
+<button class="close" type="button" onclick="closeModal()">✕</button>
 
-<div
-id="modalTitle"
-class="modal-title"
->
+<div id="modalTitle" class="modal-title">
 ➕ إضافة عميل
 </div>
 
-
-<input
-type="hidden"
-id="customerId"
->
+<input type="hidden" id="customerId">
 
 
 <div class="field">
-
 <label>اسم العميل *</label>
-
-<input
-id="customerName"
-placeholder="مثال: محمد"
->
-
+<input id="customerName" placeholder="مثال: محمد">
 </div>
 
 
 <div class="field">
-
-<label>رقم التليفون *</label>
-
-<input
-id="customerPhone"
-inputmode="numeric"
-placeholder="01xxxxxxxxx"
->
-
+<label>رقم العميل *</label>
+<input id="customerPhone" inputmode="numeric" placeholder="01xxxxxxxxx">
 </div>
 
 
 <div class="field">
+<label>الرقم الأساسي</label>
+<input id="primaryNumber" inputmode="numeric" placeholder="الرقم اللي اتعملت منه الباقة">
+</div>
 
+
+<div class="field">
 <label>الباقة</label>
-
-<input
-id="packageName"
-placeholder="مثال: باقة 30 جيجا"
->
-
+<input id="packageName" placeholder="مثال: باقة 30 جيجا">
 </div>
 
 
 <div class="field">
-
 <label>السعر</label>
-
-<input
-id="lastPrice"
-type="number"
-placeholder="170"
->
-
+<input id="lastPrice" type="number" placeholder="170">
 </div>
 
 
 <div class="field">
-
 <label>طريقة الدفع</label>
 
 <select id="paymentMethod">
-
-<option value="">
-غير محدد
-</option>
-
-<option value="Vodafone Cash">
-Vodafone Cash
-</option>
-
-<option value="Etisalat Cash">
-Etisalat Cash
-</option>
-
-<option value="WE Pay">
-WE Pay
-</option>
-
-<option value="Orange Cash">
-Orange Cash
-</option>
-
-<option value="كاش">
-كاش
-</option>
-
-<option value="تحويل بنكي">
-تحويل بنكي
-</option>
-
+<option value="">غير محدد</option>
+<option value="Vodafone Cash">Vodafone Cash</option>
+<option value="Etisalat Cash">Etisalat Cash</option>
+<option value="WE Pay">WE Pay</option>
+<option value="Orange Cash">Orange Cash</option>
+<option value="كاش">كاش</option>
+<option value="تحويل بنكي">تحويل بنكي</option>
 </select>
 
 </div>
 
 
 <div class="field">
-
 <label>الحالة</label>
 
 <select id="status">
-
-<option value="active">
-🟢 نشط
-</option>
-
-<option value="inactive">
-🔴 موقوف
-</option>
-
+<option value="active">🟢 نشط</option>
+<option value="inactive">🔴 موقوف</option>
 </select>
 
 </div>
 
 
 <div class="field">
-
 <label>نظام التجديد</label>
 
-<select
-id="renewalType"
-onchange="changeRenewalType()"
->
-
-<option value="day_1">
-يوم 1
-</option>
-
-<option value="day_16">
-يوم 16
-</option>
-
-<option value="custom">
-تاريخ مخصص
-</option>
-
+<select id="renewalType" onchange="changeRenewalType()">
+<option value="day_1">يوم 1</option>
+<option value="day_16">يوم 16</option>
+<option value="custom">تاريخ مخصص</option>
 </select>
 
 </div>
 
 
 <div class="field">
-
 <label>يوم التجديد</label>
-
-<input
-id="renewalDay"
-type="number"
-min="1"
-max="31"
-value="1"
->
-
+<input id="renewalDay" type="number" min="1" max="31" value="1">
 </div>
 
 
 <div class="field">
-
 <label>التجديد القادم *</label>
-
-<input
-id="nextRenewal"
-type="date"
->
-
+<input id="nextRenewal" type="date">
 </div>
 
 
 <div class="field">
-
 <label>عدد الطلبات</label>
-
-<input
-id="totalOrders"
-type="number"
-min="0"
-value="0"
->
-
+<input id="totalOrders" type="number" min="0" value="0">
 </div>
 
 
 <div class="modal-actions">
 
-<button
-class="cancel"
-type="button"
-onclick="closeModal()"
->
+<button class="cancel" type="button" onclick="closeModal()">
 إلغاء
 </button>
 
-<button
-class="save"
-type="button"
-onclick="saveCustomer()"
->
+<button class="save" type="button" onclick="saveCustomer()">
 💾 حفظ
 </button>
 
@@ -733,9 +261,9 @@ onclick="saveCustomer()"
 
 <script>
 
-/* ==========================================
-   SUPABASE
-========================================== */
+/* ==============================
+SUPABASE
+============================== */
 
 const SUPABASE_URL =
 "https://pgvbynefhqmyzjtccttl.supabase.co";
@@ -744,98 +272,58 @@ const SUPABASE_KEY =
 "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 
 
-/* ==========================================
-   VARIABLES
-========================================== */
-
 let customers = [];
-
 let editMode = false;
 
 
-/* ==========================================
-   SUPABASE REQUEST
-========================================== */
+/* ==============================
+REQUEST
+============================== */
 
-async function supabaseRequest(
-path,
-options={}
-){
+async function supabaseRequest(path,options={}){
 
-const controller =
-new AbortController();
+const controller = new AbortController();
 
-const timer =
-setTimeout(
-() => controller.abort(),
+const timer = setTimeout(
+()=>controller.abort(),
 10000
 );
 
 try{
 
-const response =
-await fetch(
-SUPABASE_URL +
-"/rest/v1/" +
-path,
+const response = await fetch(
+SUPABASE_URL + "/rest/v1/" + path,
 {
-
 ...options,
-
-signal:
-controller.signal,
+signal:controller.signal,
 
 headers:{
-"apikey":
-SUPABASE_KEY,
-
-"Authorization":
-"Bearer " +
-SUPABASE_KEY,
-
-"Content-Type":
-"application/json",
-
-"Prefer":
-"return=representation",
-
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY,
+"Content-Type":"application/json",
+"Prefer":"return=representation",
 ...(options.headers || {})
 }
 
 }
 );
 
-
-const text =
-await response.text();
-
+const text = await response.text();
 
 let data = null;
 
 try{
-
-data =
-text
-?
-JSON.parse(text)
-:
-null;
-
+data = text ? JSON.parse(text) : null;
 }catch{
-
 data = text;
-
 }
-
 
 if(!response.ok){
 
 throw new Error(
 typeof data === "string"
-?
-data
-:
-(
+? data
+: (
 data?.message ||
 data?.error_description ||
 data?.hint ||
@@ -845,21 +333,16 @@ data?.hint ||
 
 }
 
-
 return data;
 
 }
 
 catch(error){
 
-if(
-error.name === "AbortError"
-){
-
+if(error.name === "AbortError"){
 throw new Error(
 "الاتصال بـ Supabase استغرق أكثر من 10 ثواني."
 );
-
 }
 
 throw error;
@@ -867,31 +350,23 @@ throw error;
 }
 
 finally{
-
 clearTimeout(timer);
-
 }
 
 }
 
 
-/* ==========================================
-   LOAD
-========================================== */
+/* ==============================
+LOAD
+============================== */
 
 async function loadCustomers(){
 
 const list =
 document.getElementById("list");
 
-
 list.innerHTML =
-`
-<div class="loading">
-⏳ جاري تحميل العملاء...
-</div>
-`;
-
+'<div class="loading">⏳ جاري تحميل العملاء...</div>';
 
 try{
 
@@ -900,26 +375,17 @@ await supabaseRequest(
 "customers?select=*&deleted_at=is.null&order=next_renewal_date.asc"
 );
 
-
 customers =
-Array.isArray(data)
-?
-data
-:
-[];
-
+Array.isArray(data) ? data : [];
 
 updateStats();
-
 render();
-
 
 }
 
 catch(error){
 
 console.error(error);
-
 
 list.innerHTML =
 `
@@ -948,104 +414,68 @@ onclick="loadCustomers()"
 }
 
 
-/* ==========================================
-   STATS
-========================================== */
+/* ==============================
+STATS
+============================== */
 
 function updateStats(){
 
-document.getElementById("total")
-.textContent =
+document.getElementById("total").textContent =
 customers.length;
 
-
-document.getElementById("active")
-.textContent =
+document.getElementById("active").textContent =
 customers.filter(
-c =>
-c.status === "active"
+c=>c.status==="active"
 ).length;
 
-
-document.getElementById("soon")
-.textContent =
+document.getElementById("soon").textContent =
 customers.filter(c=>{
 
 const d =
-daysUntil(
-c.next_renewal_date
-);
+daysUntil(c.next_renewal_date);
 
-return (
-d !== null &&
-d >= 0 &&
-d <= 7
-);
+return d!==null && d>=0 && d<=7;
 
 }).length;
 
-
-document.getElementById("expired")
-.textContent =
+document.getElementById("expired").textContent =
 customers.filter(c=>{
 
 const d =
-daysUntil(
-c.next_renewal_date
-);
+daysUntil(c.next_renewal_date);
 
-return (
-d !== null &&
-d < 0
-);
+return d!==null && d<0;
 
 }).length;
 
 }
 
 
-/* ==========================================
-   DAYS
-========================================== */
+/* ==============================
+DAYS
+============================== */
 
 function daysUntil(date){
 
-if(!date){
+if(!date)return null;
 
-return null;
+const today = new Date();
 
-}
-
-
-const today =
-new Date();
-
-today.setHours(
-0,0,0,0
-);
-
+today.setHours(0,0,0,0);
 
 const target =
-new Date(
-date +
-"T00:00:00"
-);
-
+new Date(date+"T00:00:00");
 
 return Math.ceil(
-(
-target -
-today
-) /
-86400000
+(target-today)/86400000
 );
 
 }
 
 
-/* ==========================================
-   RENDER
-========================================== */
+/* ==============================
+RENDER
+============================== */
 
 function render(){
 
@@ -1055,128 +485,89 @@ document.getElementById("search")
 .trim()
 .toLowerCase();
 
-
 const renewal =
 document.getElementById("renewalFilter")
 .value;
-
 
 const status =
 document.getElementById("statusFilter")
 .value;
 
-
 const filtered =
 customers.filter(c=>{
 
-
 const name =
-String(
-c.subscriber_name || ""
-)
+String(c.subscriber_name||"")
 .toLowerCase();
-
 
 const phone =
-String(
-c.phone || ""
-)
+String(c.phone||"")
 .toLowerCase();
 
+const primary =
+String(c.primary_number||"")
+.toLowerCase();
 
 if(
 search &&
 !name.includes(search) &&
-!phone.includes(search)
+!phone.includes(search) &&
+!primary.includes(search)
 ){
-
 return false;
-
 }
-
 
 if(
-renewal === "1" &&
-Number(c.renewal_day) !== 1
+renewal==="1" &&
+Number(c.renewal_day)!==1
 ){
-
 return false;
-
 }
-
 
 if(
-renewal === "16" &&
-Number(c.renewal_day) !== 16
+renewal==="16" &&
+Number(c.renewal_day)!==16
 ){
-
 return false;
-
 }
-
 
 if(
-renewal === "custom" &&
-c.renewal_type !== "custom"
+renewal==="custom" &&
+c.renewal_type!=="custom"
 ){
-
 return false;
-
 }
-
 
 const d =
-daysUntil(
-c.next_renewal_date
-);
-
+daysUntil(c.next_renewal_date);
 
 if(
-status === "active" &&
-c.status !== "active"
+status==="active" &&
+c.status!=="active"
 ){
-
 return false;
-
 }
-
 
 if(
-status === "inactive" &&
-c.status !== "inactive"
+status==="inactive" &&
+c.status!=="inactive"
 ){
-
 return false;
-
 }
-
 
 if(
-status === "soon" &&
-!(
-d !== null &&
-d >= 0 &&
-d <= 7
-)
+status==="soon" &&
+!(d!==null&&d>=0&&d<=7)
 ){
-
 return false;
-
 }
-
 
 if(
-status === "expired" &&
-!(
-d !== null &&
-d < 0
-)
+status==="expired" &&
+!(d!==null&&d<0)
 ){
-
 return false;
-
 }
-
 
 return true;
 
@@ -1185,7 +576,6 @@ return true;
 
 const list =
 document.getElementById("list");
-
 
 if(!filtered.length){
 
@@ -1200,90 +590,48 @@ return;
 
 }
 
-
 list.innerHTML =
-filtered
-.map(
-customerCard
-)
-.join("");
+filtered.map(customerCard).join("");
 
 }
 
 
-/* ==========================================
-   CARD
-========================================== */
+/* ==============================
+CARD
+============================== */
 
 function customerCard(c){
 
 const d =
-daysUntil(
-c.next_renewal_date
-);
-
+daysUntil(c.next_renewal_date);
 
 let renewalText =
 "غير محدد";
 
+if(c.next_renewal_date){
 
-if(
-c.next_renewal_date
-){
+if(d<0)
+renewalText="🔴 منتهي";
 
-if(d < 0){
+else if(d===0)
+renewalText="🟠 التجديد اليوم";
 
-renewalText =
-"🔴 منتهي";
+else if(d<=7)
+renewalText="🟠 متبقي "+d+" يوم";
 
-}
-
-else if(d === 0){
-
-renewalText =
-"🟠 التجديد اليوم";
+else
+renewalText="🟢 متبقي "+d+" يوم";
 
 }
-
-else if(d <= 7){
-
-renewalText =
-"🟠 متبقي " +
-d +
-" يوم";
-
-}
-
-else{
-
-renewalText =
-"🟢 متبقي " +
-d +
-" يوم";
-
-}
-
-}
-
 
 const badge =
-c.status === "inactive"
+c.status==="inactive"
 
 ?
-
-`
-<span class="badge inactive">
-🔴 موقوف
-</span>
-`
+'<span class="badge inactive">🔴 موقوف</span>'
 
 :
-
-`
-<span class="badge active">
-🟢 نشط
-</span>
-`;
+'<span class="badge active">🟢 نشط</span>';
 
 
 return `
@@ -1295,21 +643,11 @@ return `
 <div>
 
 <div class="name">
-
-${escapeHtml(
-c.subscriber_name ||
-"بدون اسم"
-)}
-
+${escapeHtml(c.subscriber_name||"بدون اسم")}
 </div>
 
 <div class="phone">
-
-📱
-${escapeHtml(
-c.phone || "-"
-)}
-
+📱 ${escapeHtml(c.phone||"-")}
 </div>
 
 </div>
@@ -1322,126 +660,65 @@ ${badge}
 <div class="grid">
 
 <div class="box">
+<small>الرقم الأساسي</small>
+<strong>
+${escapeHtml(c.primary_number||"-")}
+</strong>
+</div>
 
+<div class="box">
 <small>الباقة</small>
-
 <strong>
-${escapeHtml(
-c.package_name || "-"
-)}
+${escapeHtml(c.package_name||"-")}
 </strong>
-
 </div>
 
-
 <div class="box">
-
 <small>السعر</small>
-
 <strong>
-${c.last_price ?? "-"} جنيه
+${c.last_price??"-"} جنيه
 </strong>
-
 </div>
 
-
 <div class="box">
-
 <small>موعد التجديد</small>
-
 <strong>
-${c.next_renewal_date || "-"}
+${c.next_renewal_date||"-"}
 </strong>
-
 </div>
 
-
 <div class="box">
-
 <small>يوم التجديد</small>
-
 <strong>
-
 ${
-c.renewal_type === "custom"
-
+c.renewal_type==="custom"
 ?
 "مخصص"
-
 :
-(
-c.renewal_day ||
-"-"
-)
-
+(c.renewal_day||"-")
 }
-
 </strong>
-
 </div>
 
-
 <div class="box">
-
 <small>حالة التجديد</small>
-
 <strong>
 ${renewalText}
 </strong>
-
 </div>
 
-
 <div class="box">
-
 <small>عدد الطلبات</small>
-
 <strong>
-${c.total_orders ?? 0}
+${c.total_orders??0}
 </strong>
-
 </div>
 
-
 <div class="box">
-
 <small>طريقة الدفع</small>
-
 <strong>
-${escapeHtml(
-c.payment_method || "-"
-)}
+${escapeHtml(c.payment_method||"-")}
 </strong>
-
-</div>
-
-
-<div class="box">
-
-<small>آخر تجديد</small>
-
-<strong>
-
-${
-c.last_renewed_at
-
-?
-
-new Date(
-c.last_renewed_at
-)
-.toLocaleDateString(
-"ar-EG"
-)
-
-:
-
-"-"
-
-}
-
-</strong>
-
 </div>
 
 </div>
@@ -1456,14 +733,12 @@ onclick="openEdit(${Number(c.id)})"
 ✏️ تعديل
 </button>
 
-
 <button
 class="action renew"
 onclick="renewCustomer(${Number(c.id)})"
 >
 🔄 تجديد الآن
 </button>
-
 
 <button
 class="action delete"
@@ -1481,528 +756,288 @@ onclick="deleteCustomer(${Number(c.id)})"
 }
 
 
-/* ==========================================
-   ADD
-========================================== */
+/* ==============================
+ADD
+============================== */
 
 function openAdd(){
 
-editMode =
-false;
+editMode=false;
 
-
-document.getElementById(
-"modalTitle"
-)
-.textContent =
-"➕ إضافة عميل";
-
+document.getElementById("modalTitle")
+.textContent="➕ إضافة عميل";
 
 clearForm();
 
+document.getElementById("renewalType")
+.value="day_1";
 
-document.getElementById(
-"renewalType"
-)
-.value =
-"day_1";
+document.getElementById("renewalDay")
+.value=1;
 
+document.getElementById("status")
+.value="active";
 
-document.getElementById(
-"renewalDay"
-)
-.value =
-1;
+document.getElementById("totalOrders")
+.value=0;
 
-
-document.getElementById(
-"status"
-)
-.value =
-"active";
-
-
-document.getElementById(
-"totalOrders"
-)
-.value =
-0;
-
-
-document.getElementById(
-"modal"
-)
+document.getElementById("modal")
 .classList.add("show");
 
 }
 
 
-/* ==========================================
-   EDIT
-========================================== */
+/* ==============================
+EDIT
+============================== */
 
 function openEdit(id){
 
 const c =
 customers.find(
-x =>
-Number(x.id) ===
-Number(id)
+x=>Number(x.id)===Number(id)
 );
-
 
 if(!c){
 
-alert(
-"العميل غير موجود"
-);
+alert("العميل غير موجود");
 
 return;
 
 }
 
+editMode=true;
 
-editMode =
-true;
+document.getElementById("modalTitle")
+.textContent="✏️ تعديل بيانات العميل";
 
+document.getElementById("customerId")
+.value=c.id;
 
-document.getElementById(
-"modalTitle"
-)
-.textContent =
-"✏️ تعديل بيانات العميل";
+document.getElementById("customerName")
+.value=c.subscriber_name||"";
 
+document.getElementById("customerPhone")
+.value=c.phone||"";
 
-document.getElementById(
-"customerId"
-)
-.value =
-c.id;
+document.getElementById("primaryNumber")
+.value=c.primary_number||"";
 
+document.getElementById("packageName")
+.value=c.package_name||"";
 
-document.getElementById(
-"customerName"
-)
-.value =
-c.subscriber_name || "";
+document.getElementById("lastPrice")
+.value=c.last_price??"";
 
+document.getElementById("paymentMethod")
+.value=c.payment_method||"";
 
-document.getElementById(
-"customerPhone"
-)
-.value =
-c.phone || "";
+document.getElementById("status")
+.value=c.status||"active";
 
+document.getElementById("renewalType")
+.value=c.renewal_type||"day_1";
 
-document.getElementById(
-"packageName"
-)
-.value =
-c.package_name || "";
+document.getElementById("renewalDay")
+.value=c.renewal_day||"";
 
+document.getElementById("nextRenewal")
+.value=c.next_renewal_date||"";
 
-document.getElementById(
-"lastPrice"
-)
-.value =
-c.last_price ?? "";
+document.getElementById("totalOrders")
+.value=c.total_orders??0;
 
-
-document.getElementById(
-"paymentMethod"
-)
-.value =
-c.payment_method || "";
-
-
-document.getElementById(
-"status"
-)
-.value =
-c.status || "active";
-
-
-document.getElementById(
-"renewalType"
-)
-.value =
-c.renewal_type || "day_1";
-
-
-document.getElementById(
-"renewalDay"
-)
-.value =
-c.renewal_day || "";
-
-
-document.getElementById(
-"nextRenewal"
-)
-.value =
-c.next_renewal_date || "";
-
-
-document.getElementById(
-"totalOrders"
-)
-.value =
-c.total_orders ?? 0;
-
-
-document.getElementById(
-"modal"
-)
+document.getElementById("modal")
 .classList.add("show");
 
 }
 
 
-/* ==========================================
-   CLEAR
-========================================== */
+/* ==============================
+CLEAR
+============================== */
 
 function clearForm(){
 
-document.getElementById(
-"customerId"
-)
-.value =
-"";
-
-
-document.getElementById(
-"customerName"
-)
-.value =
-"";
-
-
-document.getElementById(
-"customerPhone"
-)
-.value =
-"";
-
-
-document.getElementById(
-"packageName"
-)
-.value =
-"";
-
-
-document.getElementById(
-"lastPrice"
-)
-.value =
-"";
-
-
-document.getElementById(
-"paymentMethod"
-)
-.value =
-"";
-
-
-document.getElementById(
-"status"
-)
-.value =
-"active";
-
-
-document.getElementById(
-"renewalType"
-)
-.value =
-"day_1";
-
-
-document.getElementById(
-"renewalDay"
-)
-.value =
-1;
-
-
-document.getElementById(
-"nextRenewal"
-)
-.value =
-"";
-
-
-document.getElementById(
-"totalOrders"
-)
-.value =
-0;
+document.getElementById("customerId").value="";
+document.getElementById("customerName").value="";
+document.getElementById("customerPhone").value="";
+document.getElementById("primaryNumber").value="";
+document.getElementById("packageName").value="";
+document.getElementById("lastPrice").value="";
+document.getElementById("paymentMethod").value="";
+document.getElementById("status").value="active";
+document.getElementById("renewalType").value="day_1";
+document.getElementById("renewalDay").value=1;
+document.getElementById("nextRenewal").value="";
+document.getElementById("totalOrders").value=0;
 
 }
 
 
-/* ==========================================
-   RENEW TYPE
-========================================== */
+/* ==============================
+RENEWAL TYPE
+============================== */
 
 function changeRenewalType(){
 
 const type =
-document.getElementById(
-"renewalType"
-)
-.value;
+document.getElementById("renewalType").value;
 
+if(type==="day_1"){
 
-if(
-type === "day_1"
-){
-
-document.getElementById(
-"renewalDay"
-)
-.value =
-1;
+document.getElementById("renewalDay")
+.value=1;
 
 }
 
+else if(type==="day_16"){
 
-else if(
-type === "day_16"
-){
-
-document.getElementById(
-"renewalDay"
-)
-.value =
-16;
+document.getElementById("renewalDay")
+.value=16;
 
 }
-
 
 else{
 
-document.getElementById(
-"renewalDay"
-)
-.value =
-"";
+document.getElementById("renewalDay")
+.value="";
 
 }
 
 }
 
 
-/* ==========================================
-   CLOSE
-========================================== */
+/* ==============================
+CLOSE
+============================== */
 
 function closeModal(){
 
-document.getElementById(
-"modal"
-)
-.classList.remove(
-"show"
-);
+document.getElementById("modal")
+.classList.remove("show");
 
 }
 
 
-/* ==========================================
-   SAVE
-========================================== */
+/* ==============================
+SAVE
+============================== */
 
 async function saveCustomer(){
 
 const name =
-document.getElementById(
-"customerName"
-)
-.value
-.trim();
-
+document.getElementById("customerName")
+.value.trim();
 
 const phone =
-document.getElementById(
-"customerPhone"
-)
-.value
-.trim();
+document.getElementById("customerPhone")
+.value.trim();
 
+const primaryNumber =
+document.getElementById("primaryNumber")
+.value.trim();
 
 const nextDate =
-document.getElementById(
-"nextRenewal"
-)
+document.getElementById("nextRenewal")
 .value;
 
-
-if(
-!name ||
-!phone ||
-!nextDate
-){
+if(!name||!phone||!nextDate){
 
 alert(
-"⚠️ الاسم ورقم التليفون والتجديد القادم مطلوبين"
+"⚠️ الاسم ورقم العميل والتجديد القادم مطلوبين"
 );
 
 return;
 
 }
 
-
 const type =
-document.getElementById(
-"renewalType"
-)
+document.getElementById("renewalType")
 .value;
-
 
 let day =
 Number(
-document.getElementById(
-"renewalDay"
-)
-.value
-)
-|| null;
+document.getElementById("renewalDay").value
+)||null;
 
+if(type==="day_1")day=1;
 
-if(
-type === "day_1"
-){
-
-day = 1;
-
-}
-
-
-if(
-type === "day_16"
-){
-
-day = 16;
-
-}
-
+if(type==="day_16")day=16;
 
 const now =
-new Date()
-.toISOString();
+new Date().toISOString();
 
+const payload={
 
-const payload = {
+subscriber_name:name,
 
-subscriber_name:
-name,
+phone:phone,
 
-phone:
-phone,
+primary_number:
+primaryNumber||null,
 
 package_name:
-document.getElementById(
-"packageName"
-)
-.value
-.trim() || null,
+document.getElementById("packageName")
+.value.trim()||null,
 
 last_price:
 Number(
-document.getElementById(
-"lastPrice"
-)
-.value
-) || 0,
+document.getElementById("lastPrice").value
+)||0,
 
 payment_method:
-document.getElementById(
-"paymentMethod"
-)
-.value || null,
+document.getElementById("paymentMethod")
+.value||null,
 
 status:
-document.getElementById(
-"status"
-)
+document.getElementById("status")
 .value,
 
-renewal_type:
-type,
+renewal_type:type,
 
-renewal_day:
-day,
+renewal_day:day,
 
-next_renewal_date:
-nextDate,
+next_renewal_date:nextDate,
 
 total_orders:
 Number(
-document.getElementById(
-"totalOrders"
-)
-.value
-) || 0,
+document.getElementById("totalOrders").value
+)||0,
 
-updated_at:
-now
+updated_at:now
 
 };
 
 
 try{
 
-
-/* EDIT */
-
-if(
-editMode
-){
+if(editMode){
 
 const id =
-document.getElementById(
-"customerId"
-)
+document.getElementById("customerId")
 .value;
 
-
 await supabaseRequest(
-"customers?id=eq." +
+"customers?id=eq."+
 encodeURIComponent(id),
 {
-
-method:
-"PATCH",
-
-body:
-JSON.stringify(
-payload
-)
-
+method:"PATCH",
+body:JSON.stringify(payload)
 }
 );
 
-}
-
-
-/* ADD */
-
-else{
-
+}else{
 
 const existing =
 await supabaseRequest(
-"customers?select=id&phone=eq." +
-encodeURIComponent(phone) +
+"customers?select=id&phone=eq."+
+encodeURIComponent(phone)+
 "&deleted_at=is.null&limit=1"
 );
 
-
 if(
-Array.isArray(existing) &&
+Array.isArray(existing)&&
 existing.length
 ){
 
@@ -2014,34 +1049,21 @@ return;
 
 }
 
-
-payload.created_at =
-now;
-
+payload.created_at=now;
 
 await supabaseRequest(
 "customers",
 {
-
-method:
-"POST",
-
-body:
-JSON.stringify(
-payload
-)
-
+method:"POST",
+body:JSON.stringify(payload)
 }
 );
 
 }
 
-
 closeModal();
 
-
 await loadCustomers();
-
 
 alert(
 editMode
@@ -2051,16 +1073,14 @@ editMode
 "✅ تم إضافة العميل بنجاح"
 );
 
-
 }
 
 catch(error){
 
 console.error(error);
 
-
 alert(
-"❌ حصل خطأ:\n\n" +
+"❌ حصل خطأ:\n\n"+
 error.message
 );
 
@@ -2069,105 +1089,67 @@ error.message
 }
 
 
-/* ==========================================
-   DELETE
-========================================== */
+/* ==============================
+DELETE
+============================== */
 
 async function deleteCustomer(id){
 
 const customer =
 customers.find(
-x =>
-Number(x.id) ===
-Number(id)
+x=>Number(x.id)===Number(id)
 );
 
-
-if(!customer){
-
-return;
-
-}
-
+if(!customer)return;
 
 const ok =
 confirm(
-
-"⚠️ حذف العميل\n\n" +
-
-"الاسم: " +
-customer.subscriber_name +
-
-"\nرقم التليفون: " +
-customer.phone +
-
+"⚠️ حذف العميل\n\n"+
+"الاسم: "+
+customer.subscriber_name+
+"\nرقم العميل: "+
+customer.phone+
 "\n\nهل أنت متأكد؟"
-
 );
 
-
-if(!ok){
-
-return;
-
-}
-
+if(!ok)return;
 
 try{
 
+const now =
+new Date().toISOString();
 
 await supabaseRequest(
-
-"customers?id=eq." +
+"customers?id=eq."+
 encodeURIComponent(id),
-
 {
-
-method:
-"PATCH",
-
-body:
-JSON.stringify({
-
-deleted_at:
-new Date()
-.toISOString(),
-
-updated_at:
-new Date()
-.toISOString()
-
+method:"PATCH",
+body:JSON.stringify({
+deleted_at:now,
+updated_at:now
 })
-
 }
-
 );
-
 
 customers =
 customers.filter(
-x =>
-Number(x.id) !==
-Number(id)
+x=>Number(x.id)!==Number(id)
 );
-
 
 updateStats();
 
 render();
 
-
 alert(
 "✅ تم حذف العميل من القائمة"
 );
-
 
 }
 
 catch(error){
 
 alert(
-"❌ لم يتم حذف العميل:\n\n" +
+"❌ لم يتم حذف العميل:\n\n"+
 error.message
 );
 
@@ -2176,93 +1158,67 @@ error.message
 }
 
 
-/* ==========================================
-   RENEW
-========================================== */
+/* ==============================
+RENEW
+============================== */
 
 async function renewCustomer(id){
 
 const customer =
 customers.find(
-x =>
-Number(x.id) ===
-Number(id)
+x=>Number(x.id)===Number(id)
 );
 
-
-if(!customer){
-
-return;
-
-}
-
+if(!customer)return;
 
 const ok =
 confirm(
-
-"🔄 تجديد العميل\n\n" +
-
-customer.subscriber_name +
-
+"🔄 تجديد العميل\n\n"+
+customer.subscriber_name+
 "\n\nهل تريد تسجيل التجديد اليوم؟"
-
 );
 
-
-if(!ok){
-
-return;
-
-}
-
+if(!ok)return;
 
 try{
 
+const now=new Date();
 
-const now =
-new Date();
-
-
-let next =
-new Date(now);
-
+const next=new Date(now);
 
 if(
-customer.renewal_type === "day_1"
+customer.renewal_type==="day_1"
 ){
 
 next.setMonth(
-next.getMonth() + 1
+next.getMonth()+1
 );
 
 next.setDate(1);
 
 }
 
-
 else if(
-customer.renewal_type === "day_16"
+customer.renewal_type==="day_16"
 ){
 
 next.setMonth(
-next.getMonth() + 1
+next.getMonth()+1
 );
 
 next.setDate(16);
 
 }
 
-
 else{
 
 next.setMonth(
-next.getMonth() + 1
+next.getMonth()+1
 );
 
 }
 
-
-const payload = {
+const payload={
 
 last_renewed_at:
 now.toISOString(),
@@ -2271,55 +1227,39 @@ last_order_at:
 now.toISOString(),
 
 next_renewal_date:
-next.toISOString()
-.split("T")[0],
+next.toISOString().split("T")[0],
 
 total_orders:
-(Number(customer.total_orders) || 0) + 1,
+(Number(customer.total_orders)||0)+1,
 
-status:
-"active",
+status:"active",
 
 updated_at:
 now.toISOString()
 
 };
 
-
 await supabaseRequest(
-
-"customers?id=eq." +
+"customers?id=eq."+
 encodeURIComponent(id),
-
 {
-
-method:
-"PATCH",
-
-body:
-JSON.stringify(
-payload
-)
-
+method:"PATCH",
+body:JSON.stringify(payload)
 }
-
 );
 
-
 await loadCustomers();
-
 
 alert(
 "✅ تم تجديد العميل بنجاح"
 );
-
 
 }
 
 catch(error){
 
 alert(
-"❌ حصل خطأ في التجديد:\n\n" +
+"❌ حصل خطأ في التجديد:\n\n"+
 error.message
 );
 
@@ -2328,9 +1268,25 @@ error.message
 }
 
 
-/* ==========================================
-   SEARCH / FILTER
-========================================== */
+/* ==============================
+ESCAPE
+============================== */
+
+function escapeHtml(value){
+
+return String(value??"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+
+/* ==============================
+START
+============================== */
 
 document
 .getElementById("search")
@@ -2339,14 +1295,12 @@ document
 render
 );
 
-
 document
 .getElementById("renewalFilter")
 .addEventListener(
 "change",
 render
 );
-
 
 document
 .getElementById("statusFilter")
@@ -2355,48 +1309,18 @@ document
 render
 );
 
+document
+.getElementById("modal")
+.addEventListener(
+"click",
+function(e){
 
-/* ==========================================
-   ESCAPE
-========================================== */
-
-function escapeHtml(value){
-
-return String(
-value ?? ""
-)
-
-.replaceAll(
-"&",
-"&amp;"
-)
-
-.replaceAll(
-"<",
-"&lt;"
-)
-
-.replaceAll(
-">",
-"&gt;"
-)
-
-.replaceAll(
-'"',
-"&quot;"
-)
-
-.replaceAll(
-"'",
-"&#039;"
-);
-
+if(e.target===this){
+closeModal();
 }
 
-
-/* ==========================================
-   START
-========================================== */
+}
+);
 
 loadCustomers();
 
