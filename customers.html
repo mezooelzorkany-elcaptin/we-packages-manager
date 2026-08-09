@@ -690,18 +690,19 @@ placeholder="مثال: 30"
 
 <select
 id="packageName"
-onchange="updatePackageGB()"
+onchange="updatePackageData()"
 >
-<option value="">اختر الباقة</option>
-<option value="20 جيجا">20 جيجا</option>
-<option value="25 جيجا">25 جيجا</option>
-<option value="30 جيجا">30 جيجا</option>
-<option value="35 جيجا">35 جيجا</option>
-<option value="40 جيجا">40 جيجا</option>
-<option value="45 جيجا">45 جيجا</option>
-<option value="50 جيجا">50 جيجا</option>
-<option value="55 جيجا">55 جيجا</option>
-<option value="60 جيجا">60 جيجا</option>
+    <option value="">اختر الباقة</option>
+
+    <option value="20 جيجا">20 جيجا</option>
+    <option value="25 جيجا">25 جيجا</option>
+    <option value="30 جيجا">30 جيجا</option>
+    <option value="35 جيجا">35 جيجا</option>
+    <option value="40 جيجا">40 جيجا</option>
+    <option value="45 جيجا">45 جيجا</option>
+    <option value="50 جيجا">50 جيجا</option>
+    <option value="55 جيجا">55 جيجا</option>
+    <option value="60 جيجا">60 جيجا</option>
 </select>
 
 </div>
@@ -716,7 +717,8 @@ onchange="updatePackageGB()"
 <input
 id="lastPrice"
 type="number"
-placeholder="170"
+placeholder="السعر"
+readonly
 >
 
 </div>
@@ -2725,6 +2727,98 @@ function updatePackageGB(){
         gbInput.value = 0;
 
     }
+
+}
+function updatePackageData(){
+
+    const packageSelect =
+        document.getElementById("packageName");
+
+    const gbInput =
+        document.getElementById("allocatedGB");
+
+    const priceInput =
+        document.getElementById("lastPrice");
+
+    const selected =
+        packageSelect.value;
+
+
+    const packages = {
+
+        "20 جيجا": {
+            gb: 20,
+            price: 270
+        },
+
+        "25 جيجا": {
+            gb: 25,
+            price: 300
+        },
+
+        "30 جيجا": {
+            gb: 30,
+            price: 340
+        },
+
+        "35 جيجا": {
+            gb: 35,
+            price: 380
+        },
+
+        "40 جيجا": {
+            gb: 40,
+            price: 430
+        },
+
+        "45 جيجا": {
+            gb: 45,
+            price: 450
+        },
+
+        "50 جيجا": {
+            gb: 50,
+            price: 480
+        },
+
+        "55 جيجا": {
+            gb: 55,
+            price: 520
+        },
+
+        "60 جيجا": {
+            gb: 60,
+            price: 570
+        }
+
+    };
+
+
+    if(!selected){
+
+        gbInput.value = 0;
+
+        priceInput.value = "";
+
+        return;
+
+    }
+
+
+    const data =
+        packages[selected];
+
+
+    if(!data)
+        return;
+
+
+    gbInput.value =
+        data.gb;
+
+
+    priceInput.value =
+        data.price;
 
 }
 </script>
