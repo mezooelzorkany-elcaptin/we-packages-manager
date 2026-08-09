@@ -354,7 +354,23 @@ button{
 
 
 /* MOBILE */
+.customers-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:14px 20px;
+  border-radius:14px;
+  background:#e8ddff;
+  color:#5420b8;
+  text-decoration:none;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
 
+.customers-btn:hover{
+  opacity:.9;
+}
 @media(max-width:600px){
 
     .container{
@@ -464,20 +480,25 @@ button{
 
 <div class="topbar glass">
 
-    <h2>
-        🎟️ الأكواد
-    </h2>
+  <h2>🎟️ أكواد الخصم</h2>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;">
+
+    <a
+      href="customers.html"
+      class="customers-btn"
+    >
+      👥 العملاء
+    </a>
 
     <button
-        class="logout"
-        onclick="logout()"
+      class="logout"
+      onclick="logout()"
     >
-        تسجيل الخروج
+      تسجيل الخروج
     </button>
 
-</div>
-
-
+  </div
 
 <!-- ADD CODE -->
 
