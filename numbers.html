@@ -787,14 +787,15 @@ function getNumberStats(number){
              */
 
             const gb =
-                Number(
-                    customer.gigabytes ??
-                    customer.giga ??
-                    customer.gb ??
-                    customer.package_gb ??
-                    customer.data_gb ??
-                    0
-                );
+    Number(
+        customer.allocated_gb ??
+        customer.gigabytes ??
+        customer.giga ??
+        customer.gb ??
+        customer.package_gb ??
+        customer.data_gb ??
+        0
+    );
 
 
             if(
