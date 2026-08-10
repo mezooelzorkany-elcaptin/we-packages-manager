@@ -2449,149 +2449,272 @@ RENEW
 
 async function renewCustomer(id){
 
-const customer =
-customers.find(
-x=>
-Number(x.id)===
-Number(id)
-);
+    const customer =
+        customers.find(
+            x =>
+                Number(x.id) ===
+                Number(id)
+        );
 
 
-if(!customer)
-return;
+    if(!customer)
+        return;
 
 
-const ok =
-confirm(
-
-"🔄 تجديد العميل\n\n"+
-customer.subscriber_name+
-"\n\nهل تريد تسجيل التجديد اليوم؟"
-
-);
+    const amount =
+        Number(
+            customer.last_price
+        ) || 0;
 
 
-if(!ok)
-return;
+    const ok =
+        confirm(
+
+            "🔄 تجديد العميل\n\n" +
+
+            "العميل: " +
+            customer.subscriber_name +
+
+            "\nالباقة: " +
+            (customer.package_name || "-") +
+
+            "\nالمبلغ: " +
+            amount +
+            " جنيه" +
+
+            "\n\nهل تريد تسجيل التجديد؟"
+
+        );
 
 
-try{
-
-const now =
-new Date();
+    if(!ok)
+        return;
 
 
-const next =
-new Date(now);
+    try{
+
+        const now =
+            new Date();
 
 
-if(
-customer.renewal_type===
-"day_1"
-){
-
-next.setMonth(
-next.getMonth()+1
-);
-
-next.setDate(1);
-
-}
+        const next =
+            new Date(now);
 
 
-else if(
-customer.renewal_type===
-"day_16"
-){
+        /* =========================
+           تحديد التجديد القادم
+        ========================= */
 
-next.setMonth(
-next.getMonth()+1
-);
+        if(
+            customer.renewal_type ===
+            "day_1"
+        ){
 
-next.setDate(16);
+            next.setMonth(
+                next.getMonth() + 1
+            );
 
-}
+            next.setDate(1);
 
-
-else{
-
-next.setMonth(
-next.getMonth()+1
-);
-
-}
+        }
 
 
-const payload={
+        else if(
+            customer.renewal_type ===
+            "day_16"
+        ){
+
+            next.setMonth(
+                next.getMonth() + 1
+            );
+
+            next.setDate(16);
+
+        }
 
 
-last_renewed_at:
-now.toISOString(),
+        else{
+
+            next.setMonth(
+                next.getMonth() + 1
+            );
+
+        }
 
 
-last_order_at:
-now.toISOString(),
+        /* =========================
+           تحديث العميل
+        ========================= */
+
+        const customerPayload = {
+
+            last_renewed_at:
+                now.toISOString(),
+
+            last_order_at:
+                now.toISOString(),
+
+            next_renewal_date:
+                next
+                    .toISOString()
+                    .split("T")[0],
+
+            total_orders:
+                (
+                    Number(
+                        customer.total_orders
+                    ) || 0
+                ) + 1,
+
+            status:
+                "active",
+
+            updated_at:
+                now.toISOString()
+
+        };
 
 
-next_renewal_date:
-next
-.toISOString()
-.split("T")[0],
+        await supabaseRequest(
+
+            "customers?id=eq." +
+            encodeURIComponent(id),
+
+            {
+
+                method:"PATCH",
+
+                body:
+                    JSON.stringify(
+                        customerPayload
+                    )
+
+            }
+
+        );
 
 
-total_orders:
-(Number(
-customer.total_orders
-)||0)+1,
+        /* =========================
+           تسجيل العملية المالية
+        ========================= */
+
+        try{
+
+            await supabaseRequest(
+
+                "financial_transactions",
+
+                {
+
+                    method:"POST",
+
+                    body:
+                        JSON.stringify({
+
+                            customer_id:
+                                Number(
+                                    customer.id
+                                ),
+
+                            customer_name:
+                                customer.subscriber_name ||
+                                null,
+
+                            customer_phone:
+                                customer.phone ||
+                                null,
+
+                            primary_number:
+                                customer.primary_number ||
+                                null,
+
+                            package_name:
+                                customer.package_name ||
+                                null,
+
+                            amount:
+                                amount,
+
+                            transaction_type:
+                                "تجديد",
+
+                            transaction_date:
+                                now.toISOString(),
+
+                            notes:
+                                "تجديد تلقائي من صفحة العملاء"
+
+                        })
+
+                }
+
+            );
 
 
-status:
-"active",
+        }catch(financeError){
+
+            console.error(
+                "FINANCE ERROR:",
+                financeError
+            );
 
 
-updated_at:
-now.toISOString()
-
-};
+            await loadCustomers();
 
 
-await supabaseRequest(
+            alert(
 
-"customers?id=eq."+
-encodeURIComponent(id),
+                "⚠️ تم تجديد العميل بنجاح، " +
+                "لكن لم يتم تسجيل العملية المالية.\n\n" +
 
-{
+                "الخطأ:\n" +
 
-method:"PATCH",
+                financeError.message
 
-body:
-JSON.stringify(
-payload
-)
+            );
 
-}
+            return;
 
-);
+        }
 
 
-await loadCustomers();
+        /* =========================
+           تحديث الصفحة
+        ========================= */
+
+        await loadCustomers();
 
 
-alert(
-"✅ تم تجديد العميل بنجاح"
-);
+        alert(
+
+            "✅ تم التجديد بنجاح\n\n" +
+
+            "العميل: " +
+            customer.subscriber_name +
+
+            "\nالمبلغ المسجل: " +
+            amount +
+            " جنيه"
+
+        );
 
 
-}
+    }catch(error){
 
-catch(error){
+        console.error(
+            "RENEW ERROR:",
+            error
+        );
 
-alert(
-"❌ حصل خطأ في التجديد:\n\n"+
-error.message
-);
 
-}
+        alert(
+
+            "❌ حصل خطأ في التجديد:\n\n" +
+            error.message
+
+        );
+
+    }
 
 }
 
