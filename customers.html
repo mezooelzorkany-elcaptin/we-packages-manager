@@ -2266,84 +2266,119 @@ payload
 
 else{
 
+    const existing =
+        await supabaseRequest(
+            "customers?select=id&phone=eq."+
+            encodeURIComponent(phone)+
+            "&deleted_at=is.null&limit=1"
+        );
 
-const existing =
-await supabaseRequest(
+    if(
+        Array.isArray(existing)&&
+        existing.length
+    ){
 
-"customers?select=id&phone=eq."+
-encodeURIComponent(phone)+
-"&deleted_at=is.null&limit=1"
+        alert(
+            "⚠️ الرقم ده موجود بالفعل."
+        );
 
-);
+        return;
+
+    }
 
 
-if(
-Array.isArray(existing)&&
-existing.length
-){
+    payload.created_at =
+        now;
 
-alert(
-"⚠️ الرقم ده موجود بالفعل."
-);
 
-return;
+    const newCustomer =
+        await supabaseRequest(
+            "customers",
+            {
+                method:"POST",
+
+                body:
+                    JSON.stringify(
+                        payload
+                    )
+            }
+        );
+
+
+    /* تسجيل أول اشتراك في الماليات */
+
+    const amount =
+        Number(
+            payload.last_price
+        ) || 0;
+
+
+    if(amount > 0){
+
+        try{
+
+            await supabaseRequest(
+                "financial_transactions",
+                {
+                    method:"POST",
+
+                    body:
+                        JSON.stringify({
+
+                            customer_id:
+                                Number(
+                                    newCustomer?.[0]?.id
+                                ) || null,
+
+                            customer_name:
+                                payload.subscriber_name ||
+                                null,
+
+                            customer_phone:
+                                payload.phone ||
+                                null,
+
+                            primary_number:
+                                payload.primary_number ||
+                                null,
+
+                            package_name:
+                                payload.package_name ||
+                                null,
+
+                            amount:
+                                amount,
+
+                            transaction_type:
+                                "اشتراك جديد",
+
+                            transaction_date:
+                                now,
+
+                            notes:
+                                "أول اشتراك - إضافة عميل جديد"
+
+                        })
+                }
+            );
+
+        }catch(financeError){
+
+            console.error(
+                "FINANCE ERROR:",
+                financeError
+            );
+
+            alert(
+                "⚠️ العميل اتضاف، لكن العملية المالية لم تُسجل:\n\n"+
+                financeError.message
+            );
+
+        }
+
+    }
 
 }
-
-
-payload.created_at=
-now;
-
-
-await supabaseRequest(
-"customers",
-{
-
-method:"POST",
-
-body:
-JSON.stringify(
-payload
-)
-
-}
-);
-
-}
-
-
-closeModal();
-
-
-await loadCustomers();
-
-
-alert(
-editMode
-?
-"✅ تم تعديل العميل بنجاح"
-:
-"✅ تم إضافة العميل بنجاح"
-);
-
-
-}
-
-catch(error){
-
-console.error(error);
-
-
-alert(
-"❌ حصل خطأ:\n\n"+
-error.message
-);
-
-}
-
-}
-
-
 /* =========================================
 DELETE
 ========================================= */
