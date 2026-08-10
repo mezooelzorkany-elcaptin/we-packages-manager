@@ -1,323 +1,564 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>WE Packages | باقات الإنترنت</title>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WE Packages</title>
 
 <style>
+
 *{
-  box-sizing:border-box;
-  font-family:Arial,Tahoma,sans-serif;
+box-sizing:border-box;
+margin:0;
+padding:0;
 }
 
 body{
-  margin:0;
-  min-height:100vh;
-  color:#17152a;
-  background:
-    radial-gradient(circle at 90% 0%,#b277ff 0%,transparent 35%),
-    radial-gradient(circle at 0% 100%,#ddd0ff 0%,transparent 35%),
-    linear-gradient(135deg,#f7f4ff,#e8e0f7);
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+color:#111827;
 }
 
-.container{
-  width:92%;
-  max-width:1050px;
-  margin:auto;
+/* =========================
+   TOP
+========================= */
+
+.top{
+
+height:85px;
+
+background:#101828;
+
+color:white;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:28px;
+
+font-weight:bold;
+
 }
+
+/* =========================
+   HERO
+========================= */
 
 .hero{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  padding:35px 0;
+
+min-height:650px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+text-align:center;
+
+padding:60px 20px;
+
+background:
+
+radial-gradient(
+circle at top right,
+#7c3aed,
+transparent 45%
+),
+
+linear-gradient(
+135deg,
+#111827,
+#312e81,
+#6d28d9
+);
+
+color:white;
+
 }
 
-.hero-box{
-  width:100%;
-  text-align:center;
-  padding:45px 25px;
-  background:rgba(255,255,255,.72);
-  border:1px solid rgba(255,255,255,.9);
-  border-radius:35px;
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  box-shadow:0 25px 70px rgba(70,40,130,.15);
+.hero-content{
+
+max-width:850px;
+
 }
 
-.logo{
-  width:90px;
-  height:90px;
-  margin:0 auto 20px;
-  border-radius:28px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:48px;
-  background:linear-gradient(135deg,#5420b8,#a24cff);
-  box-shadow:0 15px 35px rgba(84,32,184,.3);
+.badge{
+
+display:inline-block;
+
+padding:12px 25px;
+
+border:1px solid rgba(255,255,255,.35);
+
+background:rgba(255,255,255,.12);
+
+border-radius:50px;
+
+margin-bottom:28px;
+
+font-size:18px;
+
 }
 
 h1{
-  margin:0;
-  color:#5420b8;
-  font-size:42px;
-  font-weight:900;
+
+font-size:55px;
+
+line-height:1.35;
+
+margin-bottom:22px;
+
 }
 
-.subtitle{
-  margin:15px auto 35px;
-  max-width:650px;
-  color:#6e6b7b;
-  font-size:18px;
-  line-height:1.8;
+h1 span{
+
+color:#c4b5fd;
+
 }
 
-.buttons{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
-  max-width:700px;
-  margin:auto;
+.hero p{
+
+font-size:22px;
+
+line-height:1.8;
+
+color:#e5e7eb;
+
+margin-bottom:32px;
+
 }
 
-.choice{
-  text-decoration:none;
-  padding:27px 20px;
-  border-radius:24px;
-  transition:.2s;
-  display:block;
+
+/* =========================
+   BUTTONS
+========================= */
+
+.main-btn{
+
+display:inline-block;
+
+padding:18px 45px;
+
+background:white;
+
+color:#5b21b6;
+
+text-decoration:none;
+
+border-radius:16px;
+
+font-size:20px;
+
+font-weight:bold;
+
+transition:.3s;
+
 }
 
-.choice:hover{
-  transform:translateY(-4px);
+.main-btn:hover{
+
+transform:translateY(-4px);
+
 }
 
-.current{
-  background:linear-gradient(135deg,#5420b8,#8f45ef);
-  color:white;
-  box-shadow:0 15px 30px rgba(84,32,184,.25);
+
+/* =========================
+   CUSTOMER BUTTONS
+========================= */
+
+.customer-actions{
+
+display:flex;
+
+justify-content:center;
+
+gap:15px;
+
+flex-wrap:wrap;
+
+margin-top:20px;
+
 }
 
-.new{
-  background:white;
-  color:#5420b8;
-  border:2px solid #e4d9ff;
-  box-shadow:0 10px 25px rgba(50,30,100,.08);
+.customer-btn{
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+padding:17px 28px;
+
+border-radius:16px;
+
+text-decoration:none;
+
+font-size:18px;
+
+font-weight:bold;
+
+transition:.3s;
+
+min-width:230px;
+
+}
+
+.customer-btn:hover{
+
+transform:translateY(-4px);
+
+}
+
+.current-btn{
+
+background:rgba(255,255,255,.15);
+
+color:white;
+
+border:1px solid rgba(255,255,255,.45);
+
+backdrop-filter:blur(10px);
+
+}
+
+.new-btn{
+
+background:white;
+
+color:#5b21b6;
+
+box-shadow:
+0 10px 30px rgba(0,0,0,.15);
+
+}
+
+
+/* =========================
+   FEATURES
+========================= */
+
+.features{
+
+max-width:1050px;
+
+margin:-65px auto 70px;
+
+position:relative;
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:22px;
+
+padding:0 20px;
+
+}
+
+.card{
+
+background:white;
+
+padding:40px 25px;
+
+text-align:center;
+
+border-radius:25px;
+
+box-shadow:
+0 15px 40px rgba(0,0,0,.08);
+
 }
 
 .icon{
-  font-size:38px;
-  margin-bottom:12px;
-}
 
-.choice-title{
-  font-size:22px;
-  font-weight:900;
-}
+font-size:45px;
 
-.choice-text{
-  margin-top:8px;
-  font-size:14px;
-  line-height:1.7;
-  opacity:.8;
-}
-
-.packages-preview{
-  margin-top:35px;
-  padding-top:25px;
-  border-top:1px solid rgba(84,32,184,.12);
-}
-
-.packages-preview h2{
-  color:#5420b8;
-  margin:0 0 8px;
-}
-
-.packages-preview p{
-  color:#777;
-  margin:0 0 18px;
-}
-
-.package-row{
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:10px;
-}
-
-.package{
-  padding:10px 16px;
-  border-radius:50px;
-  background:#f0e7ff;
-  color:#5420b8;
-  font-weight:bold;
-}
-
-.footer{
-  margin-top:25px;
-  color:#888;
-  font-size:13px;
-}
-
-@media(max-width:650px){
-
-  .hero{
-    padding:15px 0;
-  }
-
-  .hero-box{
-    padding:35px 18px;
-    border-radius:28px;
-  }
-
-  h1{
-    font-size:32px;
-  }
-
-  .subtitle{
-    font-size:16px;
-  }
-
-  .buttons{
-    grid-template-columns:1fr;
-  }
-
-  .choice{
-    padding:22px 18px;
-  }
+margin-bottom:18px;
 
 }
+
+.card h2{
+
+font-size:24px;
+
+margin-bottom:12px;
+
+}
+
+.card p{
+
+color:#6b7280;
+
+font-size:17px;
+
+line-height:1.7;
+
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+
+text-align:center;
+
+padding:30px;
+
+color:#6b7280;
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+.top{
+
+height:75px;
+
+font-size:25px;
+
+}
+
+.hero{
+
+min-height:650px;
+
+}
+
+h1{
+
+font-size:40px;
+
+}
+
+.hero p{
+
+font-size:18px;
+
+margin-bottom:28px;
+
+}
+
+.main-btn{
+
+width:100%;
+
+}
+
+.customer-actions{
+
+flex-direction:column;
+
+width:100%;
+
+}
+
+.customer-btn{
+
+width:100%;
+
+min-width:0;
+
+}
+
+.features{
+
+grid-template-columns:1fr;
+
+margin-top:-40px;
+
+}
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
-<div class="hero">
 
-<div class="container">
+<!-- =========================
+     TOP
+========================= -->
 
-<div class="hero-box">
+<div class="top">
 
-<div class="logo">
-💜
+💜 WE Packages
+
 </div>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+<div class="hero-content">
+
+
+<div class="badge">
+
+⚡ تفعيل سريع وآمن
+
+</div>
+
 
 <h1>
-WE Packages
+
+أفضل باقات <span>WE</span><br>
+
+بأفضل الأسعار
+
 </h1>
 
-<div class="subtitle">
-باقات الإنترنت والتجديد في مكان واحد
-<br>
-اختار نوع الخدمة وابدأ طلبك بسهولة.
-</div>
+
+<p>
+
+اختار الباقة المناسبة ليك واستمتع
+بتفعيل سريع ودعم متواصل عبر واتساب
+
+</p>
 
 
-<div class="buttons">
+<!-- =========================
+     NEW CUSTOMER
+========================= -->
+
+<a
+href="packages.html"
+class="main-btn"
+>
+
+📦 استعرض الباقات
+
+</a>
+
+
+<!-- =========================
+     CUSTOMER TYPE
+========================= -->
+
+<div class="customer-actions">
+
 
 <a
 href="renew.html"
-class="choice current"
+class="customer-btn current-btn"
 >
 
-<div class="icon">
-🔄
-</div>
-
-<div class="choice-title">
-أنا عميل حالي
-</div>
-
-<div class="choice-text">
-عايز أجدد باقتي الحالية
-<br>
-وأتابع بيانات اشتراكي.
-</div>
+👤 أنا عميل حالي
 
 </a>
 
 
 <a
 href="packages.html"
-class="choice new"
+class="customer-btn new-btn"
 >
 
-<div class="icon">
-🆕
-</div>
-
-<div class="choice-title">
-اشتراك جديد
-</div>
-
-<div class="choice-text">
-عايز أشوف الباقات المتاحة
-<br>
-وأقدم طلب اشتراك جديد.
-</div>
+🆕 أنا عميل جديد
 
 </a>
 
+
 </div>
 
 
-<div class="packages-preview">
+</div>
+
+</section>
+
+
+<!-- =========================
+     FEATURES
+========================= -->
+
+<section class="features">
+
+
+<div class="card">
+
+<div class="icon">
+⚡
+</div>
 
 <h2>
-📦 الباقات المتاحة
+تفعيل سريع
 </h2>
 
 <p>
-اختيارات مختلفة تناسب استخدامك
+تفعيل الباقة خلال دقائق.
 </p>
 
-<div class="package-row">
-
-<div class="package">
-20 جيجا
 </div>
 
-<div class="package">
-25 جيجا
+
+<div class="card">
+
+<div class="icon">
+💎
 </div>
 
-<div class="package">
-30 جيجا
-</div>
+<h2>
+أفضل الأسعار
+</h2>
 
-<div class="package">
-35 جيجا
-</div>
-
-<div class="package">
-40 جيجا
-</div>
-
-<div class="package">
-50 جيجا
-</div>
-
-<div class="package">
-60 جيجا
-</div>
-
-</div>
+<p>
+باقات متنوعة بأسعار مناسبة.
+</p>
 
 </div>
 
 
-<div class="footer">
-WE Packages 💜
+<div class="card">
+
+<div class="icon">
+💬
 </div>
+
+<h2>
+دعم سريع
+</h2>
+
+<p>
+تواصل معنا بسهولة عبر واتساب.
+</p>
 
 </div>
 
-</div>
 
-</div>
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+WE Packages © 2026
+
+</footer>
+
 
 </body>
+
 </html>
