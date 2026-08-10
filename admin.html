@@ -1,427 +1,51 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WE Packages - لوحة الإدارة</title>
-
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>WE Packages - الأكواد</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
 *{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Arial,Tahoma,sans-serif;
-  min-height:100vh;
-  background:
-    radial-gradient(circle at 100% 0%,#a568f0 0%,transparent 38%),
-    linear-gradient(135deg,#f2effb,#ded5f0,#d2c6e8);
-  color:#19182d;
-}
-
-.container{
-  width:92%;
-  max-width:900px;
-  margin:auto;
-  padding:30px 0 70px;
-}
-
-.glass{
-  background:rgba(255,255,255,.75);
-  border:1px solid rgba(255,255,255,.9);
-  border-radius:26px;
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  box-shadow:0 18px 45px rgba(60,35,120,.13);
-}
-
-/* LOGIN */
-
-#loginBox{
-  max-width:500px;
-  margin:70px auto;
-  padding:35px 25px;
-}
-
-.login-title{
-  text-align:center;
-  font-size:28px;
-  font-weight:900;
-  color:#5420b8;
-  margin-bottom:25px;
-}
-
-input,select{
-  width:100%;
-  padding:15px;
-  margin-bottom:14px;
-  border:1px solid #ddd;
-  border-radius:15px;
-  outline:none;
-  background:#fff;
-  font-size:16px;
-}
-
-input:focus,select:focus{
-  border-color:#7544cf;
-  box-shadow:0 0 0 3px rgba(117,68,207,.12);
-}
-
-button{
-  border:0;
-  cursor:pointer;
-  border-radius:14px;
-  padding:14px 18px;
-  font-size:16px;
-  font-weight:bold;
-}
-
-.primary,
-.add-btn,
-.save-edit{
-  width:100%;
-  color:white;
-  background:linear-gradient(135deg,#5420b8,#9747ff);
-}
-
-.message{
-  text-align:center;
-  margin-top:14px;
-  font-weight:bold;
-  line-height:1.7;
-}
-
-#adminPanel{
-  display:none;
-}
-
-/* العملاء فوق */
-
-.customers-navigation{
-  width:100%;
-  display:flex;
-  justify-content:flex-start;
-  margin-bottom:14px;
-}
-
-.customers-top-btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:13px 24px;
-  border-radius:15px;
-  background:#e8ddff;
-  color:#5420b8;
-  text-decoration:none;
-  font-size:17px;
-  font-weight:bold;
-  border:1px solid rgba(84,32,184,.12);
-  box-shadow:0 6px 18px rgba(84,32,184,.10);
-}
-
-/* HEADER */
-
-.header{
-  text-align:center;
-  padding:28px;
-  margin-bottom:22px;
-}
-
-.header h1{
-  margin:0 0 8px;
-  color:#5420b8;
-  font-size:32px;
-}
-
-.header p{
-  margin:0;
-  color:#707080;
-}
-
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  padding:20px;
-  margin-bottom:22px;
-}
-
-.topbar h2{
-  margin:0;
-  color:#5420b8;
-}
-
-.logout{
-  background:#eee;
-  color:#333;
-}
-
-/* ADD */
-
-.form-box,
-.edit-box{
-  padding:25px;
-  margin-bottom:25px;
-}
-
-.form-box h3,
-.edit-box h3{
-  margin-top:0;
-  color:#5420b8;
-}
-
-.row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
-
-.edit-box{
-  display:none;
-  border:2px solid rgba(117,68,207,.2);
-}
-
-.edit-buttons{
-  display:flex;
-  gap:10px;
-}
-
-.save-edit,
-.cancel-edit{
-  flex:1;
-}
-
-.cancel-edit{
-  background:#eee;
-  color:#333;
-}
-
-/* CODES */
-
-.codes{
-  display:grid;
-  gap:18px;
-}
-
-.code-card{
-  padding:23px;
-}
-
-.code-name{
-  font-size:26px;
-  font-weight:900;
-  color:#5420b8;
-  margin-bottom:12px;
-}
-
-.info{
-  line-height:2;
-  color:#555;
-}
-
-.usage{
-  display:inline-block;
-  margin-top:6px;
-  padding:6px 12px;
-  border-radius:12px;
-  background:#f0e7ff;
-  color:#5420b8;
-  font-weight:bold;
-}
-
-.usage.finished{
-  background:#ffe0e0;
-  color:#a00000;
-}
-
-.badge{
-  display:inline-block;
-  padding:6px 13px;
-  border-radius:50px;
-  font-size:13px;
-  font-weight:bold;
-}
-
-.active{
-  background:#d9fbe5;
-  color:#08752d;
-}
-
-.inactive{
-  background:#ffe0e0;
-  color:#a00000;
-}
-
-.expired{
-  background:#fff0d5;
-  color:#9a5a00;
-}
-
-.actions{
-  display:flex;
-  gap:10px;
-  margin-top:18px;
-  flex-wrap:wrap;
-}
-
-.actions button{
-  flex:1;
-  min-width:110px;
-}
-
-.edit{
-  background:#e8ddff;
-  color:#5420b8;
-}
-
-.toggle{
-  background:#e5f5ff;
-  color:#126c9e;
-}
-
-.delete{
-  background:#ffe2e2;
-  color:#a00000;
-}
-
-.empty{
-  text-align:center;
-  padding:40px;
-  color:#777;
-}
-/* =========================
-   ORDERS
-========================= */
-
-.orders-box{
-  padding:25px;
-  margin-bottom:25px;
-}
-
-.orders-box h3{
-  margin-top:0;
-  color:#5420b8;
-}
-
-.orders-list{
-  display:grid;
-  gap:18px;
-}
-
-.order-card{
-  padding:22px;
-  border-radius:22px;
-  background:rgba(255,255,255,.9);
-  border:1px solid rgba(84,32,184,.12);
-  box-shadow:0 8px 25px rgba(60,35,120,.08);
-}
-
-.order-number-title{
-  font-size:22px;
-  font-weight:900;
-  color:#5420b8;
-  margin-bottom:14px;
-}
-
-.order-info{
-  line-height:2;
-  color:#555;
-}
-
-.order-info strong{
-  color:#292735;
-}
-
-.payment-image{
-  width:100%;
-  max-width:320px;
-  max-height:400px;
-  object-fit:contain;
-  display:block;
-  margin:15px auto;
-  border-radius:16px;
-  border:1px solid #ddd;
-  background:#f7f7f7;
-}
-
-.order-actions{
-  display:flex;
-  gap:10px;
-  margin-top:18px;
-}
-
-.approve-btn{
-  flex:1;
-  background:#d9fbe5;
-  color:#08752d;
-}
-
-.reject-btn{
-  flex:1;
-  background:#ffe2e2;
-  color:#a00000;
-}
-
-.refresh-orders{
-  background:#e8ddff;
-  color:#5420b8;
-  margin-bottom:15px;
-}
-
-.order-status{
-  display:inline-block;
-  padding:6px 12px;
-  border-radius:50px;
-  font-size:13px;
-  font-weight:bold;
-  background:#fff0d5;
-  color:#9a5a00;
-}
-
+body{margin:0;font-family:Arial,Tahoma,sans-serif;min-height:100vh;background:radial-gradient(circle at 100% 0%,#a568f0 0%,transparent 38%),linear-gradient(135deg,#f2effb,#ded5f0,#d2c6e8);color:#19182d}
+.container{width:92%;max-width:900px;margin:auto;padding:30px 0 70px}
+.glass{background:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.9);border-radius:26px;backdrop-filter:blur(18px);box-shadow:0 18px 45px rgba(60,35,120,.13)}
+input,select{width:100%;padding:15px;margin-bottom:14px;border:1px solid #ddd;border-radius:15px;outline:none;background:#fff;font-size:16px}
+button{border:0;cursor:pointer;border-radius:14px;padding:14px 18px;font-size:16px;font-weight:bold}
+.add-btn,.save-edit{width:100%;color:#fff;background:linear-gradient(135deg,#5420b8,#9747ff)}
+.header{text-align:center;padding:28px;margin-bottom:22px}
+.header h1{margin:0 0 8px;color:#5420b8;font-size:32px}
+.header p{margin:0;color:#707080}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:20px;margin-bottom:22px}
+.topbar h2{margin:0;color:#5420b8}
+.customers-navigation{display:flex;justify-content:flex-start;margin-bottom:14px}
+.customers-top-btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 24px;border-radius:15px;background:#e8ddff;color:#5420b8;text-decoration:none;font-size:17px;font-weight:bold;border:1px solid rgba(84,32,184,.12)}
+.form-box,.edit-box{padding:25px;margin-bottom:25px}
+.form-box h3,.edit-box h3{margin-top:0;color:#5420b8}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.edit-box{display:none;border:2px solid rgba(117,68,207,.2)}
+.edit-buttons,.actions{display:flex;gap:10px;flex-wrap:wrap}
+.save-edit,.cancel-edit{flex:1}
+.cancel-edit{background:#eee;color:#333}
+.codes{display:grid;gap:18px}
+.code-card{padding:23px}
+.code-name{font-size:26px;font-weight:900;color:#5420b8;margin-bottom:12px}
+.info{line-height:2;color:#555}
+.usage{display:inline-block;margin-top:6px;padding:6px 12px;border-radius:12px;background:#f0e7ff;color:#5420b8;font-weight:bold}
+.usage.finished{background:#ffe0e0;color:#a00000}
+.badge{display:inline-block;padding:6px 13px;border-radius:50px;font-size:13px;font-weight:bold}
+.active{background:#d9fbe5;color:#08752d}
+.inactive{background:#ffe0e0;color:#a00000}
+.expired{background:#fff0d5;color:#9a5a00}
+.actions button{flex:1;min-width:110px}
+.edit{background:#e8ddff;color:#5420b8}
+.toggle{background:#e5f5ff;color:#126c9e}
+.delete{background:#ffe2e2;color:#a00000}
+.empty{text-align:center;padding:40px;color:#777}
+.message{text-align:center;margin-top:14px;font-weight:bold;line-height:1.7}
 @media(max-width:600px){
-  .order-actions{
-    flex-direction:column;
-  }
-
-  .order-actions button{
-    width:100%;
-  }
-}
-/* MOBILE */
-
-@media(max-width:600px){
-
-  .container{
-    width:94%;
-  }
-
-  .row{
-    grid-template-columns:1fr;
-    gap:0;
-  }
-
-  .topbar{
-    flex-direction:column;
-  }
-
-  .topbar button{
-    width:100%;
-  }
-
-  .header h1{
-    font-size:27px;
-  }
-
-  .actions,
-  .edit-buttons{
-    flex-direction:column;
-  }
-
-  .actions button{
-    width:100%;
-  }
+.row{grid-template-columns:1fr}
+.topbar{flex-direction:column}
+.topbar button{width:100%}
+.actions,.edit-buttons{flex-direction:column}
+.actions button{width:100%}
 }
 </style>
 </head>
@@ -430,324 +54,183 @@ button{
 
 <div class="container">
 
-<!-- ================= LOGIN ================= -->
+<div class="customers-navigation">
+<a href="customers.html" class="customers-top-btn">
+👥 العملاء
+</a>
+</div>
 
-<div id="loginBox" class="glass">
+<div class="header glass">
+<h1>WE Packages 💜</h1>
+<p>إدارة أكواد الخصم</p>
+</div>
 
-  <div class="login-title">
-    🔐 لوحة إدارة الأكواد
-  </div>
+<div class="topbar glass">
+<h2>🎟️ الأكواد</h2>
+</div>
 
-  <input
-    type="email"
-    id="email"
-    placeholder="البريد الإلكتروني"
-    value="mezooelzorkany@gmail.com"
-  >
+<div class="form-box glass">
 
-  <input
-    type="password"
-    id="password"
-    placeholder="كلمة المرور"
-  >
+<h3>➕ إضافة كود جديد</h3>
 
-  <button
-    class="primary"
-    onclick="login()"
-  >
-    تسجيل الدخول
-  </button>
+<input
+type="text"
+id="newCode"
+placeholder="مثال: MEZOO30"
+>
 
-  <div
-    id="loginMessage"
-    class="message"
-  ></div>
+<div class="row">
+
+<select id="newType">
+<option value="percent">نسبة مئوية %</option>
+<option value="fixed">مبلغ ثابت جنيه</option>
+</select>
+
+<input
+type="number"
+id="newValue"
+placeholder="قيمة الخصم"
+min="1"
+>
+
+</div>
+
+<div class="row">
+
+<input
+type="number"
+id="newMaxUses"
+placeholder="عدد مرات الاستخدام"
+min="1"
+value="1"
+>
+
+<input
+type="datetime-local"
+id="newExpiry"
+>
+
+</div>
+
+<small style="display:block;color:#777;margin:-5px 0 15px">
+عدد مرات الاستخدام + تاريخ الانتهاء
+</small>
+
+<button
+class="add-btn"
+onclick="addCode()"
+>
+إضافة الكود
+</button>
+
+<div
+id="formMessage"
+class="message"
+></div>
 
 </div>
 
 
-<!-- ================= ADMIN ================= -->
+<div
+id="editBox"
+class="edit-box glass"
+>
 
-<div id="adminPanel">
+<h3>✏️ تعديل الكود</h3>
 
-  <!-- العملاء فوق الأكواد -->
+<input
+type="hidden"
+id="editId"
+>
 
-  <div class="customers-navigation">
+<input
+type="text"
+id="editCode"
+placeholder="اسم الكود"
+>
 
-    <a
-      href="customers.html"
-      class="customers-top-btn"
-    >
-      👥 العملاء
-    </a>
+<div class="row">
 
-  </div>
+<select id="editType">
+<option value="percent">نسبة مئوية %</option>
+<option value="fixed">مبلغ ثابت جنيه</option>
+</select>
 
-
-  <div class="header glass">
-
-    <h1>
-      WE Packages 💜
-    </h1>
-
-    <p>
-      إدارة أكواد الخصم
-    </p>
-
-  </div>
-
-
-  <div class="topbar glass">
-
-    <h2>
-      🎟️ الأكواد
-    </h2>
-
-    <button
-      class="logout"
-      onclick="logout()"
-    >
-      تسجيل الخروج
-    </button>
-
-  </div>
-
-<!-- ================= PAYMENT ORDERS ================= -->
-
-<div class="orders-box glass">
-
-  <h3>
-    💳 طلبات الدفع
-  </h3>
-
-  <button
-    class="refresh-orders"
-    onclick="loadPaymentOrders()"
-  >
-    🔄 تحديث الطلبات
-  </button>
-
-  <div
-    id="ordersList"
-    class="orders-list"
-  >
-    <div class="empty">
-      ⏳ جاري تحميل طلبات الدفع...
-    </div>
-  </div>
+<input
+type="number"
+id="editValue"
+placeholder="قيمة الخصم"
+min="1"
+>
 
 </div>
-  <!-- ================= ADD CODE ================= -->
 
-  <div class="form-box glass">
+<div class="row">
 
-    <h3>
-      ➕ إضافة كود جديد
-    </h3>
+<input
+type="number"
+id="editMaxUses"
+placeholder="عدد مرات الاستخدام"
+min="1"
+>
 
-    <input
-      type="text"
-      id="newCode"
-      placeholder="مثال: MEZOO30"
-    >
-
-    <div class="row">
-
-      <select id="newType">
-
-        <option value="percent">
-          نسبة مئوية %
-        </option>
-
-        <option value="fixed">
-          مبلغ ثابت جنيه
-        </option>
-
-      </select>
-
-      <input
-        type="number"
-        id="newValue"
-        placeholder="قيمة الخصم"
-        min="1"
-      >
-
-    </div>
-
-
-    <div class="row">
-
-      <input
-        type="number"
-        id="newMaxUses"
-        placeholder="عدد مرات الاستخدام"
-        min="1"
-        value="1"
-      >
-
-      <input
-        type="datetime-local"
-        id="newExpiry"
-      >
-
-    </div>
-
-
-    <small style="display:block;color:#777;margin:-5px 0 15px">
-
-      عدد مرات الاستخدام + تاريخ الانتهاء
-
-    </small>
-
-
-    <button
-      class="add-btn"
-      onclick="addCode()"
-    >
-      إضافة الكود
-    </button>
-
-
-    <div
-      id="formMessage"
-      class="message"
-    ></div>
-
-  </div>
-
-
-  <!-- ================= EDIT ================= -->
-
-  <div
-    id="editBox"
-    class="edit-box glass"
-  >
-
-    <h3>
-      ✏️ تعديل الكود
-    </h3>
-
-
-    <input
-      type="hidden"
-      id="editId"
-    >
-
-
-    <input
-      type="text"
-      id="editCode"
-      placeholder="اسم الكود"
-    >
-
-
-    <div class="row">
-
-      <select id="editType">
-
-        <option value="percent">
-          نسبة مئوية %
-        </option>
-
-        <option value="fixed">
-          مبلغ ثابت جنيه
-        </option>
-
-      </select>
-
-
-      <input
-        type="number"
-        id="editValue"
-        placeholder="قيمة الخصم"
-        min="1"
-      >
-
-    </div>
-
-
-    <div class="row">
-
-      <input
-        type="number"
-        id="editMaxUses"
-        placeholder="عدد مرات الاستخدام"
-        min="1"
-      >
-
-      <input
-        type="datetime-local"
-        id="editExpiry"
-      >
-
-    </div>
-
-
-    <div
-      style="
-        margin:5px 0 15px;
-        padding:12px;
-        border-radius:12px;
-        background:#f0e7ff;
-        color:#5420b8;
-        font-weight:bold;
-        text-align:center;
-      "
-    >
-
-      📊 الاستخدام الحالي:
-
-      <span id="editUsedCount">
-        0
-      </span>
-
-    </div>
-
-
-    <div class="edit-buttons">
-
-      <button
-        class="save-edit"
-        onclick="saveEdit()"
-      >
-        حفظ التعديل
-      </button>
-
-      <button
-        class="cancel-edit"
-        onclick="cancelEdit()"
-      >
-        إلغاء
-      </button>
-
-    </div>
-
-
-    <div
-      id="editMessage"
-      class="message"
-    ></div>
-
-  </div>
-
-
-  <!-- ================= CODES ================= -->
-
-  <div
-    id="codesList"
-    class="codes"
-  ></div>
+<input
+type="datetime-local"
+id="editExpiry"
+>
 
 </div>
+
+<div
+style="
+margin:5px 0 15px;
+padding:12px;
+border-radius:12px;
+background:#f0e7ff;
+color:#5420b8;
+font-weight:bold;
+text-align:center;
+"
+>
+📊 الاستخدام الحالي:
+<span id="editUsedCount">0</span>
+</div>
+
+<div class="edit-buttons">
+
+<button
+class="save-edit"
+onclick="saveEdit()"
+>
+حفظ التعديل
+</button>
+
+<button
+class="cancel-edit"
+onclick="cancelEdit()"
+>
+إلغاء
+</button>
+
+</div>
+
+<div
+id="editMessage"
+class="message"
+></div>
+
+</div>
+
+
+<div
+id="codesList"
+class="codes"
+></div>
 
 </div>
 
 
 <script>
-
-/* =====================================================
-   SUPABASE
-===================================================== */
 
 const SUPABASE_URL =
 "https://pgvbynefhqmyzjtccttl.supabase.co";
@@ -755,1550 +238,763 @@ const SUPABASE_URL =
 const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 
-const ADMIN_EMAIL =
-"mezooelzorkany@gmail.com";
 
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_PUBLISHABLE_KEY
+);
 
-let supabaseClient;
-
-
-/* =====================================================
-   START
-===================================================== */
-
-try{
-
-  if(!window.supabase){
-
-    throw new Error(
-      "مكتبة Supabase لم يتم تحميلها"
-    );
-
-  }
-
-
-  supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
-
-
-}catch(error){
-
-  document.getElementById("loginMessage").style.color =
-    "#b00020";
-
-  document.getElementById("loginMessage").textContent =
-    "❌ خطأ في تشغيل Supabase: " +
-    error.message;
-
-}
-
-
-/* =====================================================
-   ESCAPE
-===================================================== */
 
 function escapeHtml(value){
 
-  return String(value ?? "")
-    .replace(
-      /[&<>"']/g,
-      function(c){
-
-        return {
-          "&":"&amp;",
-          "<":"&lt;",
-          ">":"&gt;",
-          '"':"&quot;",
-          "'":"&#039;"
-        }[c];
-
-      }
-    );
+return String(value??"")
+.replace(
+/[&<>"']/g,
+c =>
+({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+}[c])
+);
 
 }
 
-
-/* =====================================================
-   LOGIN
-===================================================== */
-
-async function login(){
-
-  const message =
-    document.getElementById(
-      "loginMessage"
-    );
-
-
-  const email =
-    document.getElementById(
-      "email"
-    ).value.trim();
-
-
-  const password =
-    document.getElementById(
-      "password"
-    ).value;
-
-
-  message.style.color =
-    "#555";
-
-  message.textContent =
-    "⏳ جاري تسجيل الدخول...";
-
-
-  if(!supabaseClient){
-
-    message.style.color =
-      "#b00020";
-
-    message.textContent =
-      "❌ Supabase لم يتم تشغيله";
-
-    return;
-
-  }
-
-
-  if(!email || !password){
-
-    message.style.color =
-      "#b00020";
-
-    message.textContent =
-      "❌ اكتب البريد الإلكتروني وكلمة المرور";
-
-    return;
-
-  }
-
-
-  try{
-
-    const result =
-      await supabaseClient.auth.signInWithPassword({
-
-        email:email,
-        password:password
-
-      });
-
-
-    const data =
-      result.data;
-
-    const error =
-      result.error;
-
-
-    if(error){
-
-      console.error(
-        "LOGIN ERROR:",
-        error
-      );
-
-
-      message.style.color =
-        "#b00020";
-
-      message.textContent =
-        "❌ " +
-        (error.message || "فشل تسجيل الدخول");
-
-      return;
-
-    }
-
-
-    if(
-      !data ||
-      !data.user
-    ){
-
-      message.style.color =
-        "#b00020";
-
-      message.textContent =
-        "❌ لم يتم العثور على حساب";
-
-      return;
-
-    }
-
-
-    if(
-      data.user.email !==
-      ADMIN_EMAIL
-    ){
-
-      await supabaseClient.auth.signOut();
-
-
-      message.style.color =
-        "#b00020";
-
-      message.textContent =
-        "❌ هذا الحساب غير مسموح له بالدخول";
-
-      return;
-
-    }
-
-
-    message.style.color =
-      "#08752d";
-
-    message.textContent =
-      "✅ تم تسجيل الدخول";
-
-
-    showAdmin();
-
-
-  }catch(error){
-
-    console.error(
-      "LOGIN EXCEPTION:",
-      error
-    );
-
-
-    message.style.color =
-      "#b00020";
-
-    message.textContent =
-      "❌ خطأ: " +
-      error.message;
-
-  }
-
-}
-
-
-/* =====================================================
-   CHECK SESSION
-===================================================== */
-
-async function checkSession(){
-
-  if(!supabaseClient)
-    return;
-
-
-  try{
-
-    const result =
-      await supabaseClient.auth.getSession();
-
-
-    const session =
-      result.data.session;
-
-
-    if(
-      session &&
-      session.user &&
-      session.user.email ===
-      ADMIN_EMAIL
-    ){
-
-      showAdmin();
-
-    }
-
-  }catch(error){
-
-    console.error(
-      "SESSION ERROR:",
-      error
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   SHOW ADMIN
-===================================================== */
-
-function showAdmin(){
-
-  document.getElementById(
-    "loginBox"
-  ).style.display =
-    "none";
-
-  document.getElementById(
-    "adminPanel"
-  ).style.display =
-    "block";
-
-  loadPaymentOrders();
-  loadCodes();
-
-}
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-async function logout(){
-
-  if(supabaseClient){
-
-    await supabaseClient.auth.signOut();
-
-  }
-
-  location.reload();
-
-}
-
-/* =====================================================
-   PAYMENT ORDERS
-===================================================== */
-
-async function loadPaymentOrders(){
-
-  const list =
-    document.getElementById(
-      "ordersList"
-    );
-
-  if(!list)
-    return;
-
-  list.innerHTML =
-    '<div class="empty glass">⏳ جاري تحميل طلبات الدفع...</div>';
-
-  try{
-
-    const result =
-      await supabaseClient
-        .from("orders")
-        .select("*")
-        .eq(
-          "status",
-          "payment_submitted"
-        )
-        .order(
-          "created_at",
-          {
-            ascending:false
-          }
-        );
-
-    const data =
-      result.data;
-
-    const error =
-      result.error;
-
-    if(error){
-
-      list.innerHTML =
-        '<div class="empty glass">' +
-        '❌ حصل خطأ في تحميل الطلبات<br><br>' +
-        escapeHtml(
-          error.message
-        ) +
-        '</div>';
-
-      return;
-
-    }
-
-    if(
-      !data ||
-      data.length === 0
-    ){
-
-      list.innerHTML =
-        '<div class="empty glass">' +
-        '📭 لا توجد طلبات دفع معلقة' +
-        '</div>';
-
-      return;
-
-    }
-
-    list.innerHTML = "";
-
-    data.forEach(
-      order => {
-
-        const card =
-          document.createElement(
-            "div"
-          );
-
-        card.className =
-          "order-card";
-
-        const created =
-          order.created_at
-            ? new Date(
-                order.created_at
-              ).toLocaleString(
-                "ar-EG"
-              )
-            : "-";
-
-        const screenshot =
-          order.payment_screenshot;
-
-        card.innerHTML = `
-
-          <div class="order-number-title">
-
-            📋 ${escapeHtml(
-              order.order_number
-            )}
-
-          </div>
-
-          <div class="order-info">
-
-            <div>
-              👤
-              <strong>الاسم:</strong>
-              ${escapeHtml(
-                order.subscriber_name ||
-                "-"
-              )}
-            </div>
-
-            <div>
-              📱
-              <strong>الرقم:</strong>
-              ${escapeHtml(
-                order.phone ||
-                "-"
-              )}
-            </div>
-
-            <div>
-              📦
-              <strong>الباقة:</strong>
-              ${escapeHtml(
-                order.package_name ||
-                "-"
-              )}
-            </div>
-
-            <div>
-              💵
-              <strong>المبلغ:</strong>
-              ${Number(
-                order.final_price
-              ) || 0}
-              جنيه
-            </div>
-
-            <div>
-              💳
-              <strong>طريقة الدفع:</strong>
-              ${escapeHtml(
-                order.payment_method ||
-                "-"
-              )}
-            </div>
-
-            <div>
-              🕐
-              <strong>وقت الطلب:</strong>
-              ${escapeHtml(
-                created
-              )}
-            </div>
-
-            <div style="margin-top:10px">
-              <span class="order-status">
-                ⏳ في انتظار المراجعة
-              </span>
-            </div>
-
-          </div>
-
-          ${
-            screenshot
-            ?
-            `
-              <a
-                href="${escapeHtml(
-                  screenshot
-                )}"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img
-                  src="${escapeHtml(
-                    screenshot
-                  )}"
-                  class="payment-image"
-                  alt="صورة التحويل"
-                >
-              </a>
-            `
-            :
-            `
-              <div
-                class="empty"
-                style="padding:20px"
-              >
-                ⚠️ لا توجد صورة تحويل
-              </div>
-            `
-          }
-
-          <div class="order-actions">
-
-            <button
-              class="approve-btn"
-              onclick="approvePayment(
-                '${escapeHtml(
-                  order.order_number
-                )}'
-              )"
-            >
-              ✅ تأكيد الدفع
-            </button>
-
-            <button
-              class="reject-btn"
-              onclick="rejectPayment(
-                '${escapeHtml(
-                  order.order_number
-                )}'
-              )"
-            >
-              ❌ رفض التحويل
-            </button>
-
-          </div>
-
-        `;
-
-        list.appendChild(
-          card
-        );
-
-      }
-    );
-
-  }
-  catch(error){
-
-    console.error(
-      "LOAD ORDERS ERROR:",
-      error
-    );
-
-    list.innerHTML =
-      '<div class="empty glass">' +
-      '❌ خطأ غير متوقع<br><br>' +
-      escapeHtml(
-        error.message
-      ) +
-      '</div>';
-
-  }
-
-}
-
-
-/* =====================================================
-   APPROVE PAYMENT
-===================================================== */
-
-async function approvePayment(
-  orderNumber
-){
-
-  if(
-    !confirm(
-      "هل أنت متأكد من تأكيد الدفع للطلب:\n\n" +
-      orderNumber +
-      "\n\nسيتم تسجيل المبلغ في الماليات."
-    )
-  ){
-    return;
-  }
-
-  try{
-
-    const result =
-      await supabaseClient
-        .rpc(
-          "approve_order_payment",
-          {
-            input_order_number:
-              orderNumber
-          }
-        );
-
-    if(result.error){
-
-      alert(
-        "❌ فشل تأكيد الدفع:\n\n" +
-        result.error.message
-      );
-
-      return;
-
-    }
-
-    alert(
-      "✅ تم تأكيد الدفع\n" +
-      "وتم تسجيل العملية في الماليات."
-    );
-
-    await loadPaymentOrders();
-
-  }
-  catch(error){
-
-    console.error(
-      "APPROVE ERROR:",
-      error
-    );
-
-    alert(
-      "❌ حصل خطأ:\n\n" +
-      error.message
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   REJECT PAYMENT
-===================================================== */
-
-async function rejectPayment(
-  orderNumber
-){
-
-  if(
-    !confirm(
-      "هل أنت متأكد من رفض التحويل للطلب:\n\n" +
-      orderNumber +
-      "\n\nلن يتم تسجيل أي مبلغ في الماليات."
-    )
-  ){
-    return;
-  }
-
-  try{
-
-    const result =
-      await supabaseClient
-        .rpc(
-          "reject_order_payment",
-          {
-            input_order_number:
-              orderNumber
-          }
-        );
-
-    if(result.error){
-
-      alert(
-        "❌ فشل رفض التحويل:\n\n" +
-        result.error.message
-      );
-
-      return;
-
-    }
-
-    alert(
-      "❌ تم رفض التحويل."
-    );
-
-    await loadPaymentOrders();
-
-  }
-  catch(error){
-
-    console.error(
-      "REJECT ERROR:",
-      error
-    );
-
-    alert(
-      "❌ حصل خطأ:\n\n" +
-      error.message
-    );
-
-  }
-
-}
-/* =====================================================
-   LOAD CODES
-===================================================== */
 
 async function loadCodes(){
 
-  const list =
-    document.getElementById(
-      "codesList"
-    );
+const list =
+document.getElementById(
+"codesList"
+);
 
+list.innerHTML =
+'<div class="empty glass">⏳ جاري تحميل الأكواد...</div>';
 
-  list.innerHTML =
-    '<div class="empty glass">⏳ جاري تحميل الأكواد...</div>';
+try{
 
+const result =
+await supabaseClient
+.from("promo_codes")
+.select("*")
+.order(
+"id",
+{ascending:false}
+);
 
-  try{
+if(result.error)
+throw result.error;
 
-    const result =
-      await supabaseClient
-        .from("promo_codes")
-        .select("*")
-        .order(
-          "id",
-          {ascending:false}
-        );
+const data =
+result.data || [];
 
+if(!data.length){
 
-    const data =
-      result.data;
+list.innerHTML =
+'<div class="empty glass">لا توجد أكواد حتى الآن 🎟️</div>';
 
-    const error =
-      result.error;
+return;
 
+}
 
-    if(error){
+list.innerHTML = "";
 
-      list.innerHTML =
-        '<div class="empty glass">' +
-        '❌ حصل خطأ في تحميل الأكواد<br><br>' +
-        escapeHtml(error.message) +
-        '</div>';
+data.forEach(
+code => {
 
-      return;
+const card =
+document.createElement(
+"div"
+);
 
-    }
+card.className =
+"code-card glass";
 
 
-    if(
-      !data ||
-      data.length === 0
-    ){
+const maxUses =
+Number(code.max_uses)||1;
 
-      list.innerHTML =
-        '<div class="empty glass">' +
-        'لا توجد أكواد حتى الآن 🎟️' +
-        '</div>';
+const usedCount =
+Number(code.used_count)||0;
 
-      return;
+const remaining =
+Math.max(
+maxUses-usedCount,
+0
+);
 
-    }
+const finished =
+usedCount>=maxUses;
 
 
-    list.innerHTML =
-      "";
+let expiryText =
+"بدون تاريخ انتهاء";
 
+let expired =
+false;
 
-    data.forEach(
-      code => {
 
-        const card =
-          document.createElement(
-            "div"
-          );
+if(code.expires_at){
 
+const expiry =
+new Date(
+code.expires_at
+);
 
-        card.className =
-          "code-card glass";
+expiryText =
+expiry.toLocaleString(
+"ar-EG"
+);
 
-
-        const discount =
-          code.discount_type ===
-          "percent"
-
-          ? Number(
-              code.discount_value
-            ) + "%"
-
-          : Number(
-              code.discount_value
-            ) + " جنيه";
-
-
-        const maxUses =
-          Number(
-            code.max_uses
-          ) || 1;
-
-
-        const usedCount =
-          Number(
-            code.used_count
-          ) || 0;
-
-
-        const remaining =
-          Math.max(
-            maxUses - usedCount,
-            0
-          );
-
-
-        const usesFinished =
-          usedCount >= maxUses;
-
-
-        let expiryText =
-          "بدون تاريخ انتهاء";
-
-
-        let expired =
-          false;
-
-
-        if(code.expires_at){
-
-          const expiry =
-            new Date(
-              code.expires_at
-            );
-
-
-          expiryText =
-            expiry.toLocaleString(
-              "ar-EG"
-            );
-
-
-          expired =
-            expiry <= new Date();
-
-        }
-
-
-        let statusText;
-        let statusClass;
-
-
-        if(expired){
-
-          statusText =
-            "🟠 منتهي";
-
-          statusClass =
-            "expired";
-
-        }else if(usesFinished){
-
-          statusText =
-            "🔴 انتهت الاستخدامات";
-
-          statusClass =
-            "inactive";
-
-        }else if(code.is_active){
-
-          statusText =
-            "🟢 فعال";
-
-          statusClass =
-            "active";
-
-        }else{
-
-          statusText =
-            "🔴 متوقف";
-
-          statusClass =
-            "inactive";
-
-        }
-
-
-        card.innerHTML = `
-
-          <div class="code-name">
-
-            ${escapeHtml(code.code)}
-
-          </div>
-
-
-          <div class="info">
-
-            💰 الخصم:
-
-            <strong>
-              ${escapeHtml(discount)}
-            </strong>
-
-            <br>
-
-
-            🔢 الاستخدامات:
-
-            <strong>
-              ${usedCount} / ${maxUses}
-            </strong>
-
-            <br>
-
-
-            🟣 المتبقي:
-
-            <strong>
-              ${remaining}
-            </strong>
-
-
-            <div class="${
-              usesFinished
-                ? "usage finished"
-                : "usage"
-            }">
-
-              ${
-                usesFinished
-                  ? "❌ انتهت كل الاستخدامات"
-                  : "✅ متبقي " +
-                    remaining +
-                    " استخدام"
-              }
-
-            </div>
-
-
-            <br>
-
-
-            📅 الانتهاء:
-
-            <strong>
-              ${escapeHtml(
-                expiryText
-              )}
-            </strong>
-
-
-            <br><br>
-
-
-            <span
-              class="badge ${statusClass}"
-            >
-              ${statusText}
-            </span>
-
-          </div>
-
-
-          <div class="actions">
-
-            <button
-              class="edit"
-              onclick="openEdit(${Number(code.id)})"
-            >
-              ✏️ تعديل
-            </button>
-
-
-            <button
-              class="toggle"
-              onclick="toggleCode(
-                ${Number(code.id)},
-                ${!!code.is_active}
-              )"
-            >
-
-              ${
-                code.is_active
-                  ? "⏸️ إيقاف"
-                  : "▶️ تفعيل"
-              }
-
-            </button>
-
-
-            <button
-              class="delete"
-              onclick="deleteCode(${Number(code.id)})"
-            >
-              🗑️ حذف
-            </button>
-
-          </div>
-
-        `;
-
-
-        list.appendChild(
-          card
-        );
-
-      }
-    );
-
-
-  }catch(error){
-
-    list.innerHTML =
-      '<div class="empty glass">' +
-      '❌ خطأ غير متوقع<br><br>' +
-      escapeHtml(error.message) +
-      '</div>';
-
-  }
+expired =
+expiry<=new Date();
 
 }
 
 
-/* =====================================================
-   ADD CODE
-===================================================== */
+let statusText;
+let statusClass;
+
+
+if(expired){
+
+statusText =
+"🟠 منتهي";
+
+statusClass =
+"expired";
+
+}
+else if(finished){
+
+statusText =
+"🔴 انتهت الاستخدامات";
+
+statusClass =
+"inactive";
+
+}
+else if(code.is_active){
+
+statusText =
+"🟢 فعال";
+
+statusClass =
+"active";
+
+}
+else{
+
+statusText =
+"🔴 متوقف";
+
+statusClass =
+"inactive";
+
+}
+
+
+const discount =
+code.discount_type==="percent"
+
+?
+Number(
+code.discount_value
+)+"%"
+
+:
+Number(
+code.discount_value
+)+" جنيه";
+
+
+card.innerHTML = `
+
+<div class="code-name">
+${escapeHtml(code.code)}
+</div>
+
+<div class="info">
+
+💰 الخصم:
+<strong>
+${escapeHtml(discount)}
+</strong>
+
+<br>
+
+🔢 الاستخدامات:
+<strong>
+${usedCount} / ${maxUses}
+</strong>
+
+<br>
+
+🟣 المتبقي:
+<strong>
+${remaining}
+</strong>
+
+<div class="${
+finished
+?
+"usage finished"
+:
+"usage"
+}">
+
+${
+finished
+?
+"❌ انتهت كل الاستخدامات"
+:
+"✅ متبقي "+remaining+" استخدام"
+}
+
+</div>
+
+<br>
+
+📅 الانتهاء:
+<strong>
+${escapeHtml(expiryText)}
+</strong>
+
+<br><br>
+
+<span
+class="badge ${statusClass}"
+>
+${statusText}
+</span>
+
+</div>
+
+<div class="actions">
+
+<button
+class="edit"
+onclick="openEdit(${Number(code.id)})"
+>
+✏️ تعديل
+</button>
+
+<button
+class="toggle"
+onclick="toggleCode(
+${Number(code.id)},
+${!!code.is_active}
+)"
+>
+${
+code.is_active
+?
+"⏸️ إيقاف"
+:
+"▶️ تفعيل"
+}
+</button>
+
+<button
+class="delete"
+onclick="deleteCode(${Number(code.id)})"
+>
+🗑️ حذف
+</button>
+
+</div>
+
+`;
+
+list.appendChild(card);
+
+});
+
+}
+catch(error){
+
+list.innerHTML =
+'<div class="empty glass">❌ حصل خطأ<br><br>'+
+escapeHtml(error.message)+
+'</div>';
+
+}
+
+}
+
 
 async function addCode(){
 
-  const message =
-    document.getElementById(
-      "formMessage"
-    );
+const message =
+document.getElementById(
+"formMessage"
+);
+
+const code =
+document.getElementById(
+"newCode"
+)
+.value
+.trim()
+.toUpperCase();
+
+const type =
+document.getElementById(
+"newType"
+).value;
+
+const value =
+Number(
+document.getElementById(
+"newValue"
+).value
+);
+
+const maxUses =
+Number(
+document.getElementById(
+"newMaxUses"
+).value
+);
+
+const expiry =
+document.getElementById(
+"newExpiry"
+).value;
 
 
-  const code =
-    document.getElementById(
-      "newCode"
-    ).value
-    .trim()
-    .toUpperCase();
+if(
+!code||
+!value||
+value<1||
+!maxUses||
+maxUses<1
+){
 
+message.style.color =
+"#b00020";
 
-  const type =
-    document.getElementById(
-      "newType"
-    ).value;
+message.textContent =
+"❌ اكتب كل البيانات المطلوبة";
 
-
-  const value =
-    Number(
-      document.getElementById(
-        "newValue"
-      ).value
-    );
-
-
-  const maxUses =
-    Number(
-      document.getElementById(
-        "newMaxUses"
-      ).value
-    );
-
-
-  const expiry =
-    document.getElementById(
-      "newExpiry"
-    ).value;
-
-
-  if(
-    !code ||
-    !value ||
-    value < 1 ||
-    !maxUses ||
-    maxUses < 1
-  ){
-
-    message.style.color =
-      "#b00020";
-
-    message.textContent =
-      "❌ اكتب كل البيانات المطلوبة";
-
-    return;
-
-  }
-
-
-  message.style.color =
-    "#555";
-
-  message.textContent =
-    "⏳ جاري إضافة الكود...";
-
-
-  try{
-
-    const result =
-      await supabaseClient
-        .from("promo_codes")
-        .insert({
-
-          code:code,
-
-          discount_type:type,
-
-          discount_value:value,
-
-          max_uses:maxUses,
-
-          used_count:0,
-
-          expires_at:
-            expiry
-              ? new Date(
-                  expiry
-                ).toISOString()
-              : null,
-
-          is_active:true
-
-        });
-
-
-    if(result.error){
-
-      message.style.color =
-        "#b00020";
-
-      message.textContent =
-        "❌ " +
-        result.error.message;
-
-      return;
-
-    }
-
-
-    message.style.color =
-      "#08752d";
-
-    message.textContent =
-      "✅ تم إضافة الكود";
-
-
-    document.getElementById(
-      "newCode"
-    ).value = "";
-
-
-    document.getElementById(
-      "newValue"
-    ).value = "";
-
-
-    document.getElementById(
-      "newMaxUses"
-    ).value = "1";
-
-
-    document.getElementById(
-      "newExpiry"
-    ).value = "";
-
-
-    loadCodes();
-
-
-  }catch(error){
-
-    message.style.color =
-      "#b00020";
-
-    message.textContent =
-      "❌ " +
-      error.message;
-
-  }
+return;
 
 }
 
 
-/* =====================================================
-   EDIT
-===================================================== */
+try{
+
+const result =
+await supabaseClient
+.from("promo_codes")
+.insert({
+
+code:code,
+
+discount_type:type,
+
+discount_value:value,
+
+max_uses:maxUses,
+
+used_count:0,
+
+expires_at:
+expiry
+?
+new Date(
+expiry
+).toISOString()
+:
+null,
+
+is_active:true
+
+});
+
+
+if(result.error)
+throw result.error;
+
+
+message.style.color =
+"#08752d";
+
+message.textContent =
+"✅ تم إضافة الكود";
+
+
+document.getElementById(
+"newCode"
+).value = "";
+
+document.getElementById(
+"newValue"
+).value = "";
+
+document.getElementById(
+"newMaxUses"
+).value = "1";
+
+document.getElementById(
+"newExpiry"
+).value = "";
+
+
+loadCodes();
+
+
+}
+catch(error){
+
+message.style.color =
+"#b00020";
+
+message.textContent =
+"❌ "+error.message;
+
+}
+
+}
+
 
 function toLocalInput(value){
 
-  if(!value)
-    return "";
+if(!value)
+return "";
 
+const d =
+new Date(value);
 
-  const d =
-    new Date(value);
+if(
+Number.isNaN(
+d.getTime()
+)
+)
+return "";
 
+const pad =
+n =>
+String(n)
+.padStart(2,"0");
 
-  if(
-    Number.isNaN(
-      d.getTime()
-    )
-  )
-    return "";
-
-
-  const pad =
-    n => String(n)
-      .padStart(2,"0");
-
-
-  return (
-    d.getFullYear() +
-    "-" +
-    pad(d.getMonth()+1) +
-    "-" +
-    pad(d.getDate()) +
-    "T" +
-    pad(d.getHours()) +
-    ":" +
-    pad(d.getMinutes())
-  );
+return (
+d.getFullYear()+
+"-"+
+pad(d.getMonth()+1)+
+"-"+
+pad(d.getDate())+
+"T"+
+pad(d.getHours())+
+":"+
+pad(d.getMinutes())
+);
 
 }
 
 
 async function openEdit(id){
 
-  const result =
-    await supabaseClient
-      .from("promo_codes")
-      .select("*")
-      .eq("id",id)
-      .single();
+const result =
+await supabaseClient
+.from("promo_codes")
+.select("*")
+.eq("id",id)
+.single();
 
 
-  if(
-    result.error ||
-    !result.data
-  ){
+if(
+result.error||
+!result.data
+){
 
-    alert(
-      "❌ تعذر تحميل الكود"
-    );
+alert(
+"❌ تعذر تحميل الكود"
+);
 
-    return;
+return;
 
-  }
-
-
-  const data =
-    result.data;
+}
 
 
-  document.getElementById(
-    "editId"
-  ).value =
-    data.id;
+const data =
+result.data;
 
 
-  document.getElementById(
-    "editCode"
-  ).value =
-    data.code || "";
+document.getElementById(
+"editId"
+).value =
+data.id;
+
+document.getElementById(
+"editCode"
+).value =
+data.code||"";
+
+document.getElementById(
+"editType"
+).value =
+data.discount_type||
+"percent";
+
+document.getElementById(
+"editValue"
+).value =
+data.discount_value??"";
+
+document.getElementById(
+"editMaxUses"
+).value =
+data.max_uses??1;
+
+document.getElementById(
+"editExpiry"
+).value =
+toLocalInput(
+data.expires_at
+);
+
+document.getElementById(
+"editUsedCount"
+).textContent =
+data.used_count||0;
+
+document.getElementById(
+"editMessage"
+).textContent =
+"";
 
 
-  document.getElementById(
-    "editType"
-  ).value =
-    data.discount_type ||
-    "percent";
+const box =
+document.getElementById(
+"editBox"
+);
 
+box.style.display =
+"block";
 
-  document.getElementById(
-    "editValue"
-  ).value =
-    data.discount_value ??
-    "";
-
-
-  document.getElementById(
-    "editMaxUses"
-  ).value =
-    data.max_uses ??
-    1;
-
-
-  document.getElementById(
-    "editExpiry"
-  ).value =
-    toLocalInput(
-      data.expires_at
-    );
-
-
-  document.getElementById(
-    "editUsedCount"
-  ).textContent =
-    data.used_count ||
-    0;
-
-
-  document.getElementById(
-    "editMessage"
-  ).textContent =
-    "";
-
-
-  const box =
-    document.getElementById(
-      "editBox"
-    );
-
-
-  box.style.display =
-    "block";
-
-
-  box.scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
+box.scrollIntoView({
+behavior:"smooth",
+block:"start"
+});
 
 }
 
 
 function cancelEdit(){
 
-  document.getElementById(
-    "editBox"
-  ).style.display =
-    "none";
+document.getElementById(
+"editBox"
+).style.display =
+"none";
 
-
-  document.getElementById(
-    "editMessage"
-  ).textContent =
-    "";
+document.getElementById(
+"editMessage"
+).textContent =
+"";
 
 }
 
 
 async function saveEdit(){
 
-  const message =
-    document.getElementById(
-      "editMessage"
-    );
+const message =
+document.getElementById(
+"editMessage"
+);
+
+const id =
+Number(
+document.getElementById(
+"editId"
+).value
+);
+
+const code =
+document.getElementById(
+"editCode"
+).value
+.trim()
+.toUpperCase();
+
+const type =
+document.getElementById(
+"editType"
+).value;
+
+const value =
+Number(
+document.getElementById(
+"editValue"
+).value
+);
+
+const maxUses =
+Number(
+document.getElementById(
+"editMaxUses"
+).value
+);
+
+const expiry =
+document.getElementById(
+"editExpiry"
+).value;
 
 
-  const id =
-    Number(
-      document.getElementById(
-        "editId"
-      ).value
-    );
-
-
-  const code =
-    document.getElementById(
-      "editCode"
-    ).value
-    .trim()
-    .toUpperCase();
-
-
-  const type =
-    document.getElementById(
-      "editType"
-    ).value;
-
-
-  const value =
-    Number(
-      document.getElementById(
-        "editValue"
-      ).value
-    );
-
-
-  const maxUses =
-    Number(
-      document.getElementById(
-        "editMaxUses"
-      ).value
-    );
-
-
-  const expiry =
-    document.getElementById(
-      "editExpiry"
-    ).value;
-
-
-  if(
-    !id ||
-    !code ||
-    !value ||
-    value < 1 ||
-    !maxUses ||
-    maxUses < 1
-  ){
-
-    message.style.color =
-      "#b00020";
-
-    message.textContent =
-      "❌ اكتب كل البيانات المطلوبة";
-
-    return;
-
-  }
-
-
-  message.style.color =
-    "#555";
-
-  message.textContent =
-    "⏳ جاري الحفظ...";
-
-
-  const result =
-    await supabaseClient
-      .from("promo_codes")
-      .update({
-
-        code:code,
-
-        discount_type:type,
-
-        discount_value:value,
-
-        max_uses:maxUses,
-
-        expires_at:
-          expiry
-            ? new Date(
-                expiry
-              ).toISOString()
-            : null
-
-      })
-      .eq("id",id);
-
-
-  if(result.error){
-
-    message.style.color =
-      "#b00020";
-
-    message.textContent =
-      "❌ " +
-      result.error.message;
-
-    return;
-
-  }
-
-
-  message.style.color =
-    "#08752d";
-
-  message.textContent =
-    "✅ تم حفظ التعديل";
-
-
-  await loadCodes();
-
-
-  setTimeout(
-    cancelEdit,
-    600
-  );
-
-}
-
-
-/* =====================================================
-   TOGGLE
-===================================================== */
-
-async function toggleCode(
-  id,
-  current
+if(
+!id||
+!code||
+!value||
+value<1||
+!maxUses||
+maxUses<1
 ){
 
-  const result =
-    await supabaseClient
-      .from("promo_codes")
-      .update({
-        is_active:!current
-      })
-      .eq("id",id);
+message.style.color =
+"#b00020";
 
+message.textContent =
+"❌ اكتب كل البيانات المطلوبة";
 
-  if(result.error){
-
-    alert(
-      "❌ " +
-      result.error.message
-    );
-
-    return;
-
-  }
-
-
-  loadCodes();
+return;
 
 }
 
 
-/* =====================================================
-   DELETE
-===================================================== */
+const result =
+await supabaseClient
+.from("promo_codes")
+.update({
+
+code:code,
+
+discount_type:type,
+
+discount_value:value,
+
+max_uses:maxUses,
+
+expires_at:
+expiry
+?
+new Date(
+expiry
+).toISOString()
+:
+null
+
+})
+.eq(
+"id",
+id
+);
+
+
+if(result.error){
+
+message.style.color =
+"#b00020";
+
+message.textContent =
+"❌ "+result.error.message;
+
+return;
+
+}
+
+
+message.style.color =
+"#08752d";
+
+message.textContent =
+"✅ تم حفظ التعديل";
+
+
+await loadCodes();
+
+
+setTimeout(
+cancelEdit,
+600
+);
+
+}
+
+
+async function toggleCode(
+id,
+current
+){
+
+const result =
+await supabaseClient
+.from("promo_codes")
+.update({
+is_active:!current
+})
+.eq(
+"id",
+id
+);
+
+
+if(result.error){
+
+alert(
+"❌ "+result.error.message
+);
+
+return;
+
+}
+
+
+loadCodes();
+
+}
+
 
 async function deleteCode(id){
 
-  if(
-    !confirm(
-      "هل أنت متأكد من حذف هذا الكود؟"
-    )
-  ){
-
-    return;
-
-  }
+if(
+!confirm(
+"هل أنت متأكد من حذف هذا الكود؟"
+)
+)
+return;
 
 
-  const result =
-    await supabaseClient
-      .from("promo_codes")
-      .delete()
-      .eq("id",id);
+const result =
+await supabaseClient
+.from("promo_codes")
+.delete()
+.eq(
+"id",
+id
+);
 
 
-  if(result.error){
+if(result.error){
 
-    alert(
-      "❌ " +
-      result.error.message
-    );
+alert(
+"❌ "+result.error.message
+);
 
-    return;
-
-  }
-
-
-  loadCodes();
+return;
 
 }
 
 
-/* =====================================================
-   RUN
-===================================================== */
+loadCodes();
 
-checkSession();
+}
+
+
+loadCodes();
 
 </script>
 
