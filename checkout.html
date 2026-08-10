@@ -2,296 +2,303 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>إتمام الطلب | WE Packages</title>
 
 <style>
 
 *{
-    box-sizing:border-box;
+box-sizing:border-box;
+font-family:Arial,Tahoma,sans-serif
 }
 
 body{
-    margin:0;
-    min-height:100vh;
+margin:0;
+min-height:100vh;
 
-    font-family:Arial,Tahoma,sans-serif;
+background:
+radial-gradient(
+circle at 100% 0%,
+#a06cf0 0%,
+transparent 38%
+),
 
-    background:
-        radial-gradient(
-            circle at 100% 0%,
-            #a06cf0 0%,
-            transparent 38%
-        ),
-        linear-gradient(
-            135deg,
-            #f1eff9,
-            #ded5f0,
-            #d1c5e8
-        );
+linear-gradient(
+135deg,
+#f1eff9,
+#ded5f0,
+#d1c5e8
+);
 
-    color:#19182d;
+color:#19182d
 }
 
 .container{
-    width:92%;
-    max-width:650px;
-    margin:auto;
-    padding:35px 0 70px;
+width:92%;
+max-width:650px;
+margin:auto;
+padding:30px 0 70px
 }
 
 .card{
-    background:rgba(255,255,255,.75);
+background:rgba(255,255,255,.82);
+border:1px solid rgba(255,255,255,.95);
+border-radius:30px;
+padding:28px 22px;
 
-    border:1px solid rgba(255,255,255,.85);
+backdrop-filter:blur(20px);
 
-    border-radius:30px;
-
-    padding:30px 24px;
-
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-
-    box-shadow:
-        0 20px 50px
-        rgba(60,35,120,.14);
+box-shadow:
+0 20px 50px
+rgba(60,35,120,.14)
 }
 
 .logo{
-    text-align:center;
-
-    font-size:42px;
-
-    margin-bottom:8px;
+text-align:center;
+font-size:45px;
+margin-bottom:8px
 }
 
 .title{
-    text-align:center;
-
-    color:#5420b8;
-
-    font-size:30px;
-
-    font-weight:900;
-
-    margin-bottom:8px;
+text-align:center;
+color:#5420b8;
+font-size:30px;
+font-weight:900;
+margin-bottom:7px
 }
 
 .subtitle{
-    text-align:center;
-
-    color:#6d6d80;
-
-    margin-bottom:28px;
-
-    line-height:1.7;
+text-align:center;
+color:#777;
+line-height:1.7;
+margin-bottom:22px
 }
 
+
+/* TYPE */
+
+.order-type{
+text-align:center;
+padding:12px;
+border-radius:15px;
+font-weight:900;
+margin-bottom:18px
+}
+
+.new-type{
+background:#e8ddff;
+color:#5420b8
+}
+
+.current-type{
+background:#dff8e8;
+color:#08752d
+}
+
+
+/* PACKAGE */
+
 .package-summary{
-    padding:22px;
+padding:22px;
+border-radius:22px;
 
-    border-radius:22px;
+background:
+linear-gradient(
+135deg,
+#5420b8,
+#9747ff
+);
 
-    background:
-        linear-gradient(
-            135deg,
-            #5420b8,
-            #9747ff
-        );
+color:white;
+text-align:center;
 
-    color:#fff;
-
-    text-align:center;
-
-    margin-bottom:25px;
-
-    box-shadow:
-        0 12px 30px
-        rgba(84,32,184,.2);
+margin-bottom:25px
 }
 
 .package-summary h2{
-    margin:0 0 10px;
-
-    font-size:26px;
+margin:0 0 10px;
+font-size:25px
 }
 
 .package-summary .gb{
-    font-size:42px;
-
-    font-weight:900;
+font-size:40px;
+font-weight:900
 }
 
 .package-summary .price{
-    font-size:27px;
-
-    font-weight:bold;
-
-    margin-top:8px;
+font-size:28px;
+font-weight:bold;
+margin-top:8px
 }
 
+.discount-line{
+margin-top:10px;
+font-size:15px;
+color:#e9ffe9
+}
+
+
+/* FORM */
+
 .label{
-    display:block;
-
-    margin-bottom:9px;
-
-    font-weight:bold;
-
-    color:#353448;
-
-    font-size:18px;
+display:block;
+margin-bottom:8px;
+font-weight:bold;
+font-size:17px
 }
 
 input{
-    width:100%;
+width:100%;
+padding:16px;
 
-    padding:17px;
+border:1px solid #ddd;
+border-radius:15px;
 
-    border:1px solid #ddd;
+outline:none;
 
-    border-radius:16px;
+font-size:17px;
+text-align:center;
 
-    outline:none;
+background:#fff;
 
-    font-size:18px;
-
-    text-align:center;
-
-    background:#fff;
+margin-bottom:8px
 }
 
 input:focus{
-    border-color:#7544cf;
+border-color:#7544cf;
 
-    box-shadow:
-        0 0 0 3px
-        rgba(117,68,207,.12);
+box-shadow:
+0 0 0 3px
+rgba(117,68,207,.12)
+}
+
+input:disabled{
+background:#f1f1f1;
+color:#666
 }
 
 .hint{
-    font-size:13px;
-
-    color:#777;
-
-    margin-top:8px;
-
-    margin-bottom:25px;
-
-    text-align:center;
+font-size:12px;
+color:#777;
+margin-bottom:20px;
+text-align:center
 }
 
+
+/* BUTTON */
+
 .submit{
-    width:100%;
+width:100%;
+padding:17px;
 
-    padding:17px;
+border:0;
+border-radius:17px;
 
-    border:none;
+cursor:pointer;
 
-    border-radius:17px;
+color:#fff;
 
-    cursor:pointer;
+background:
+linear-gradient(
+135deg,
+#5420b8,
+#9747ff
+);
 
-    color:#fff;
-
-    background:
-        linear-gradient(
-            135deg,
-            #5420b8,
-            #9747ff
-        );
-
-    font-size:19px;
-
-    font-weight:bold;
-
-    box-shadow:
-        0 10px 25px
-        rgba(84,32,184,.2);
+font-size:18px;
+font-weight:bold
 }
 
 .submit:disabled{
-    opacity:.6;
-
-    cursor:not-allowed;
+opacity:.6;
+cursor:not-allowed
 }
+
+
+/* ERROR */
 
 .error{
-    display:none;
+display:none;
 
-    margin-bottom:18px;
+margin-bottom:18px;
 
-    padding:13px;
+padding:13px;
 
-    border-radius:14px;
+border-radius:14px;
 
-    text-align:center;
+text-align:center;
 
-    background:#ffe2e2;
+background:#ffe2e2;
+color:#a00000;
 
-    color:#a00000;
+font-weight:bold;
 
-    font-weight:bold;
-
-    word-break:break-word;
+line-height:1.7
 }
 
+
+/* SUCCESS */
+
 .success{
-    display:none;
-
-    text-align:center;
-
-    padding:20px;
+display:none;
+text-align:center;
+padding:20px
 }
 
 .success-icon{
-    font-size:55px;
-
-    margin-bottom:10px;
+font-size:55px;
+margin-bottom:10px
 }
 
 .success h2{
-    color:#5420b8;
-
-    margin-bottom:10px;
+color:#5420b8
 }
 
 .order-number{
-    display:inline-block;
+display:inline-block;
 
-    margin-top:12px;
+margin-top:12px;
 
-    padding:10px 18px;
+padding:10px 18px;
 
-    border-radius:50px;
+border-radius:50px;
 
-    background:#eee6ff;
+background:#eee6ff;
+color:#5420b8;
 
-    color:#5420b8;
-
-    font-weight:bold;
+font-weight:bold
 }
 
 .back{
-    display:block;
+display:block;
+text-align:center;
+margin-top:20px;
+color:#5420b8;
+text-decoration:none;
+font-weight:bold
+}
 
-    text-align:center;
+@media(max-width:600px){
 
-    margin-top:22px;
+.container{
+width:94%
+}
 
-    color:#5420b8;
+.title{
+font-size:27px
+}
 
-    text-decoration:none;
-
-    font-weight:bold;
 }
 
 </style>
+
 </head>
 
-
 <body>
+
 
 <div class="container">
 
@@ -299,153 +306,144 @@ input:focus{
 
 
 <div class="logo">
-    📦
+📦
 </div>
 
 
 <div class="title">
-    إتمام الطلب
+إتمام الطلب
 </div>
 
 
 <div class="subtitle">
-    أدخل بيانات المشترك لإتمام الطلب
+راجع بيانات طلبك ثم تابع إلى الدفع
 </div>
 
 
-<!-- =========================
-     PACKAGE SUMMARY
-========================= -->
+<!-- TYPE -->
+
+<div
+id="orderType"
+class="order-type"
+>
+⏳ جاري تحديد نوع العميل...
+</div>
+
+
+<!-- PACKAGE -->
 
 <div class="package-summary">
 
-    <h2 id="packageName">
-        جاري تحميل الباقة...
-    </h2>
+<h2 id="packageName">
+جاري تحميل الباقة...
+</h2>
 
-    <div
-        class="gb"
-        id="packageGB"
-    >
-        --
-    </div>
+<div
+class="gb"
+id="packageGB"
+>
+--
+</div>
 
-    <div
-        class="price"
-        id="packagePrice"
-    >
-        --
-    </div>
+<div
+class="price"
+id="packagePrice"
+>
+--
+</div>
+
+<div
+id="discountLine"
+class="discount-line"
+></div>
 
 </div>
 
 
-<!-- =========================
-     ERROR
-========================= -->
-
 <div
-    class="error"
-    id="errorMessage"
+id="errorMessage"
+class="error"
 ></div>
 
-
-<!-- =========================
-     ORDER FORM
-========================= -->
 
 <div id="orderForm">
 
 
-    <!-- SUBSCRIBER NAME -->
+<label class="label">
+👤 اسم المشترك
+</label>
 
-    <label class="label">
-        👤 اسم المشترك
-    </label>
+<input
+type="text"
+id="subscriberName"
+placeholder="اكتب اسم المشترك"
+autocomplete="name"
+>
 
-    <input
-        type="text"
-        id="subscriberName"
-        placeholder="اكتب اسم المشترك"
-        autocomplete="name"
-    >
-
-    <div class="hint">
-        الاسم الذي سيتم تسجيل الطلب به
-    </div>
-
-
-    <!-- PHONE -->
-
-    <label class="label">
-        📱 رقم التليفون
-    </label>
-
-    <input
-        type="tel"
-        id="phone"
-        inputmode="numeric"
-        maxlength="11"
-        placeholder="01xxxxxxxxx"
-        autocomplete="tel"
-    >
-
-    <div class="hint">
-        الرقم الذي سيتم تفعيل الباقة عليه
-    </div>
-
-
-    <!-- SUBMIT -->
-
-    <button
-        class="submit"
-        id="submitButton"
-        onclick="submitOrder()"
-    >
-        متابعة للدفع
-    </button>
-
+<div class="hint">
+الاسم الذي سيتم تسجيل الطلب به
 </div>
 
 
-<!-- =========================
-     SUCCESS
-========================= -->
+<label class="label">
+📱 رقم التليفون
+</label>
+
+<input
+type="tel"
+id="phone"
+inputmode="numeric"
+maxlength="11"
+placeholder="01xxxxxxxxx"
+autocomplete="tel"
+>
+
+<div class="hint">
+الرقم الذي سيتم تفعيل الباقة عليه
+</div>
+
+
+<button
+class="submit"
+id="submitButton"
+onclick="submitOrder()"
+>
+متابعة للدفع
+</button>
+
+</div>
+
 
 <div
-    class="success"
-    id="successBox"
+class="success"
+id="successBox"
 >
 
-    <div class="success-icon">
-        ✅
-    </div>
+<div class="success-icon">
+✅
+</div>
 
-    <h2>
-        جاري تحويلك للدفع
-    </h2>
+<h2>
+تم إنشاء الطلب
+</h2>
 
-    <p>
-        لحظة واحدة...
-    </p>
+<p>
+جاري تحويلك إلى صفحة الدفع...
+</p>
 
-    <div
-        class="order-number"
-        id="orderNumber"
-    ></div>
+<div
+class="order-number"
+id="orderNumber"
+></div>
 
 </div>
 
 
-<!-- =========================
-     BACK
-========================= -->
-
 <a
-    href="packages.html"
-    class="back"
+href="index.html"
+class="back"
 >
-    ← العودة إلى الباقات
+← العودة للرئيسية
 </a>
 
 
@@ -469,515 +467,530 @@ const SUPABASE_KEY =
 
 
 /* =====================================================
-   GET DATA FROM URL
+   URL DATA
 ===================================================== */
 
 const params =
 new URLSearchParams(
-    window.location.search
+window.location.search
 );
 
 
-const packageGB =
-params.get("package");
+const type =
+params.get("type") || "new";
 
 
-const price =
+const customerId =
+params.get("customer_id") || "";
+
+
+const nameFromUrl =
+params.get("name") || "";
+
+
+const phoneFromUrl =
+params.get("phone") || "";
+
+
+const packageName =
+params.get("package") || "";
+
+
+const gb =
 Number(
-    params.get("price")
-);
+params.get("gb")
+) || 0;
 
 
-const promoCode =
-params.get("promo") || "";
+const originalPrice =
+Number(
+params.get("original_price")
+) ||
+
+Number(
+params.get("price")
+) ||
+
+0;
+
+
+const finalPrice =
+Number(
+params.get("price")
+) ||
+
+originalPrice;
+
+
+const discountCode =
+params.get("discount_code") || "";
+
+
+const discountAmount =
+Number(
+params.get("discount_amount")
+) || 0;
 
 
 /* =====================================================
-   DISPLAY PACKAGE
+   TYPE
 ===================================================== */
 
-if(
-    !packageGB ||
-    !price
-){
-
-    document.getElementById(
-        "packageName"
-    ).textContent =
-        "لم يتم اختيار باقة";
+const isCurrent =
+type === "renewal";
 
 
-    document.getElementById(
-        "packageGB"
-    ).textContent =
-        "";
+const typeBox =
+document.getElementById(
+"orderType"
+);
 
 
-    document.getElementById(
-        "packagePrice"
-    ).textContent =
-        "";
+if(isCurrent){
+
+typeBox.className =
+"order-type current-type";
+
+typeBox.textContent =
+"👤 عميل حالي — تجديد الباقة";
 
 }
 else{
 
-    document.getElementById(
-        "packageName"
-    ).textContent =
-        "باقة " +
-        packageGB +
-        " جيجا";
+typeBox.className =
+"order-type new-type";
 
-
-    document.getElementById(
-        "packageGB"
-    ).textContent =
-        packageGB +
-        " GB";
-
-
-    document.getElementById(
-        "packagePrice"
-    ).textContent =
-        price +
-        " جنيه";
+typeBox.textContent =
+"🆕 عميل جديد — اشتراك جديد";
 
 }
 
 
 /* =====================================================
-   PHONE VALIDATION
+   DISPLAY
+===================================================== */
+
+document.getElementById(
+"packageName"
+).textContent =
+packageName || "الباقة";
+
+
+document.getElementById(
+"packageGB"
+).textContent =
+gb
+?
+gb+" GB"
+:
+"--";
+
+
+document.getElementById(
+"packagePrice"
+).textContent =
+finalPrice
+?
+finalPrice+" جنيه"
+:
+"--";
+
+
+if(discountAmount>0){
+
+document.getElementById(
+"discountLine"
+).textContent =
+"🎟️ خصم "+
+discountAmount+
+" جنيه"+
+(
+discountCode
+?
+" — "+discountCode
+:
+""
+);
+
+}
+
+
+/* =====================================================
+   PREFILL
+===================================================== */
+
+if(nameFromUrl){
+
+document.getElementById(
+"subscriberName"
+).value =
+nameFromUrl;
+
+}
+
+
+if(phoneFromUrl){
+
+document.getElementById(
+"phone"
+).value =
+phoneFromUrl;
+
+}
+
+
+/*
+   العميل الحالي:
+   البيانات جاية من renew.html
+*/
+
+if(isCurrent){
+
+document.getElementById(
+"subscriberName"
+).readOnly =
+true;
+
+document.getElementById(
+"phone"
+).readOnly =
+true;
+
+}
+
+
+/* =====================================================
+   PHONE
 ===================================================== */
 
 function validPhone(phone){
 
-    return /^01[0125][0-9]{8}$/.test(
-        phone
-    );
+return /^01[0125][0-9]{8}$/.test(
+phone
+);
 
 }
 
 
 /* =====================================================
-   SHOW ERROR
+   ERROR
 ===================================================== */
 
 function showError(text){
 
-    const error =
-        document.getElementById(
-            "errorMessage"
-        );
+const box =
+document.getElementById(
+"errorMessage"
+);
 
+box.textContent =
+text;
 
-    error.textContent =
-        text;
-
-
-    error.style.display =
-        "block";
+box.style.display =
+"block";
 
 }
 
 
 /* =====================================================
-   CREATE ORDER NUMBER
+   ORDER NUMBER
 ===================================================== */
 
 function createOrderNumber(){
 
-    const random =
-        Math.floor(
-            1000 +
-            Math.random() *
-            9000
-        );
+const random =
+Math.floor(
+1000+
+Math.random()*9000
+);
 
+const prefix =
+isCurrent
+?
+"CURRENT"
+:
+"NEW";
 
-    return (
-        "WE-" +
-        Date.now()
-            .toString()
-            .slice(-6) +
-        "-" +
-        random
-    );
+return (
+prefix+
+"-"+
+Date.now()
+.toString()
+.slice(-6)+
+"-"+
+random
+);
 
 }
 
 
 /* =====================================================
-   CREATE ORDER
+   SUBMIT
 ===================================================== */
 
 async function submitOrder(){
 
+const name =
+document.getElementById(
+"subscriberName"
+)
+.value
+.trim();
 
-    /* =========================
-       GET NAME
-    ========================= */
 
-    const subscriberName =
-        document.getElementById(
-            "subscriberName"
-        ).value.trim();
+const phone =
+document.getElementById(
+"phone"
+)
+.value
+.trim();
 
 
-    /* =========================
-       GET PHONE
-    ========================= */
+const button =
+document.getElementById(
+"submitButton"
+);
 
-    const phone =
-        document.getElementById(
-            "phone"
-        ).value.trim();
 
+document.getElementById(
+"errorMessage"
+).style.display =
+"none";
 
-    /* =========================
-       BUTTON
-    ========================= */
 
-    const button =
-        document.getElementById(
-            "submitButton"
-        );
+if(!name){
 
+showError(
+"❌ اكتب اسم المشترك"
+);
 
-    /* =========================
-       ERROR BOX
-    ========================= */
+return;
 
-    const errorBox =
-        document.getElementById(
-            "errorMessage"
-        );
+}
 
 
-    errorBox.style.display =
-        "none";
+if(!validPhone(phone)){
 
+showError(
+"❌ اكتب رقم تليفون مصري صحيح"
+);
 
-    /* =========================
-       NAME VALIDATION
-    ========================= */
+return;
 
-    if(
-        !subscriberName
-    ){
+}
 
-        showError(
-            "❌ اكتب اسم المشترك أولاً"
-        );
 
-        return;
+if(!packageName || !finalPrice){
 
-    }
+showError(
+"❌ بيانات الباقة غير صحيحة"
+);
 
+return;
 
-    /* =========================
-       PHONE VALIDATION
-    ========================= */
+}
 
-    if(
-        !validPhone(phone)
-    ){
 
-        showError(
-            "❌ اكتب رقم تليفون مصري صحيح"
-        );
+button.disabled =
+true;
 
-        return;
+button.textContent =
+"⏳ جاري تجهيز الطلب...";
 
-    }
 
+const orderNumber =
+createOrderNumber();
 
-    /* =========================
-       PACKAGE VALIDATION
-    ========================= */
 
-    if(
-        !packageGB ||
-        !price ||
-        Number.isNaN(price)
-    ){
+/* =====================================================
+   ORDER DATA
+===================================================== */
 
-        showError(
-            "❌ بيانات الباقة غير صحيحة"
-        );
+const orderData = {
 
-        return;
+subscriber_name:
+name,
 
-    }
+order_number:
+orderNumber,
 
+phone:
+phone,
 
-    /* =========================
-       DISABLE BUTTON
-    ========================= */
+package_name:
+packageName,
 
-    button.disabled =
-        true;
+package_gb:
+gb,
 
+original_price:
+originalPrice,
 
-    button.textContent =
-        "⏳ جاري تجهيز الطلب...";
+final_price:
+finalPrice,
 
+promo_code:
+discountCode,
 
-    /* =========================
-       ORDER NUMBER
-    ========================= */
+payment_method:
+"لم يتم التحويل بعد",
 
-    const orderNumber =
-        createOrderNumber();
+status:
+"pending"
 
+};
 
-    /* =================================================
-       ORDER DATA
-    ================================================= */
 
-    const orderData = {
+/*
+   مهم:
+   العميل الحالي يتعرف من
+   CURRENT-
+   والجديد من
+   NEW-
+*/
 
-        subscriber_name:
-            subscriberName,
+try{
 
-        order_number:
-            orderNumber,
+const response =
+await fetch(
 
-        phone:
-            phone,
+SUPABASE_URL+
+"/rest/v1/orders",
 
-        package_name:
-            "باقة " +
-            packageGB +
-            " جيجا",
+{
 
-        package_gb:
-            Number(packageGB),
+method:"POST",
 
-        original_price:
-            Number(price),
+headers:{
 
-        final_price:
-            Number(price),
+"apikey":
+SUPABASE_KEY,
 
-        promo_code:
-            promoCode,
+"Authorization":
+"Bearer "+
+SUPABASE_KEY,
 
-        payment_method:
-            "لم يتم التحويل بعد",
+"Content-Type":
+"application/json",
 
-        status:
-            "pending"
+"Prefer":
+"return=representation"
 
-    };
+},
 
+body:
+JSON.stringify(
+orderData
+)
 
-    console.log(
-        "ORDER DATA:",
-        orderData
-    );
+}
 
+);
 
-    /* =================================================
-       SEND TO SUPABASE
-    ================================================= */
 
-    try{
+const text =
+await response.text();
 
-        const response =
-        await fetch(
 
-            SUPABASE_URL +
-            "/rest/v1/orders",
+if(!response.ok){
 
-            {
+let message =
+text;
 
-                method:
-                    "POST",
+try{
 
-                headers:{
+const json =
+JSON.parse(text);
 
-                    "apikey":
-                        SUPABASE_KEY,
+message =
+json.message||
+json.details||
+json.hint||
+json.error||
+text;
 
-                    "Authorization":
-                        "Bearer " +
-                        SUPABASE_KEY,
+}
+catch(e){}
 
-                    "Content-Type":
-                        "application/json",
 
-                    "Prefer":
-                        "return=representation"
+throw new Error(
+message
+);
 
-                },
+}
 
-                body:
-                    JSON.stringify(
-                        orderData
-                    )
 
-            }
+/* =====================================================
+   SUCCESS
+===================================================== */
 
-        );
+document.getElementById(
+"orderForm"
+).style.display =
+"none";
 
 
-        /* =================================================
-           RESPONSE
-        ================================================= */
+document.getElementById(
+"successBox"
+).style.display =
+"block";
 
-        const responseText =
-            await response.text();
 
+document.getElementById(
+"orderNumber"
+).textContent =
+"رقم الطلب: "+
+orderNumber;
 
-        console.log(
-            "SUPABASE STATUS:",
-            response.status
-        );
 
+/* =====================================================
+   PAYMENT
+===================================================== */
 
-        console.log(
-            "SUPABASE RESPONSE:",
-            responseText
-        );
+setTimeout(
 
+function(){
 
-        /* =================================================
-           SUPABASE ERROR
-        ================================================= */
+window.location.href =
+"payment.html?order="+
+encodeURIComponent(
+orderNumber
+);
 
-        if(
-            !response.ok
-        ){
+},
 
-            let message =
-                responseText;
+700
 
+);
 
-            try{
 
-                const json =
-                    JSON.parse(
-                        responseText
-                    );
+}
+catch(error){
 
+console.error(
+"ORDER ERROR:",
+error
+);
 
-                message =
-                    json.message ||
-                    json.details ||
-                    json.hint ||
-                    json.error ||
-                    responseText;
 
-            }
-            catch(e){
+showError(
+"❌ تعذر إنشاء الطلب:\n"+
+error.message
+);
 
-                console.error(
-                    "Response is not JSON"
-                );
 
-            }
+button.disabled =
+false;
 
+button.textContent =
+"متابعة للدفع";
 
-            showError(
-                "❌ خطأ قاعدة البيانات: " +
-                message
-            );
-
-
-            button.disabled =
-                false;
-
-
-            button.textContent =
-                "متابعة للدفع";
-
-
-            return;
-
-        }
-
-
-        /* =================================================
-           SUCCESS
-        ================================================= */
-
-        console.log(
-            "ORDER CREATED SUCCESSFULLY"
-        );
-
-
-        document.getElementById(
-            "orderForm"
-        ).style.display =
-            "none";
-
-
-        document.getElementById(
-            "successBox"
-        ).style.display =
-            "block";
-
-
-        document.getElementById(
-            "orderNumber"
-        ).textContent =
-            "رقم الطلب: " +
-            orderNumber;
-
-
-        /* =================================================
-           GO TO PAYMENT PAGE
-        ================================================= */
-
-        setTimeout(
-
-            function(){
-
-                window.location.href =
-                    "payment.html?order=" +
-                    encodeURIComponent(
-                        orderNumber
-                    );
-
-            },
-
-            700
-
-        );
-
-    }
-
-
-    /* =================================================
-       CONNECTION ERROR
-    ================================================= */
-
-    catch(error){
-
-        console.error(
-            "FETCH ERROR:",
-            error
-        );
-
-
-        showError(
-            "❌ تعذر الاتصال بقاعدة البيانات: " +
-            error.message
-        );
-
-
-        button.disabled =
-            false;
-
-
-        button.textContent =
-            "متابعة للدفع";
-
-    }
+}
 
 }
 
 </script>
 
 </body>
+
 </html>
