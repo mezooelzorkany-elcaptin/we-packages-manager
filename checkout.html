@@ -17,526 +17,575 @@ content="width=device-width,initial-scale=1.0"
 <style>
 
 *{
-box-sizing:border-box;
+    box-sizing:border-box;
 }
 
 body{
-margin:0;
-min-height:100vh;
+    margin:0;
+    min-height:100vh;
 
-font-family:
-Arial,
-Tahoma,
-sans-serif;
+    font-family:
+    Arial,
+    Tahoma,
+    sans-serif;
 
-background:
-radial-gradient(
-circle at 100% 0%,
-#a06cf0 0%,
-transparent 38%
-),
-linear-gradient(
-135deg,
-#f1eff9,
-#ded5f0,
-#d1c5e8
-);
+    color:#19182d;
 
-color:#19182d;
+    background:
+    radial-gradient(
+        circle at 100% 0%,
+        #a06cf0 0%,
+        transparent 38%
+    ),
+    linear-gradient(
+        135deg,
+        #f1eff9,
+        #ded5f0,
+        #d1c5e8
+    );
 }
 
 .container{
-width:92%;
-max-width:650px;
-margin:auto;
-padding:35px 0 70px;
+    width:92%;
+    max-width:650px;
+
+    margin:auto;
+
+    padding:
+    30px
+    0
+    70px;
 }
 
 .card{
-background:rgba(255,255,255,.75);
+    background:
+    rgba(255,255,255,.78);
 
-border:
-1px solid
-rgba(255,255,255,.85);
+    border:
+    1px solid
+    rgba(255,255,255,.9);
 
-border-radius:30px;
+    border-radius:30px;
 
-padding:30px 24px;
+    padding:
+    28px 22px;
 
-backdrop-filter:blur(20px);
--webkit-backdrop-filter:blur(20px);
+    backdrop-filter:
+    blur(20px);
 
-box-shadow:
-0 20px 50px
-rgba(60,35,120,.14);
+    -webkit-backdrop-filter:
+    blur(20px);
+
+    box-shadow:
+    0 20px 50px
+    rgba(60,35,120,.14);
 }
 
+
+/* ==============================
+   HEADER
+============================== */
+
 .logo{
-text-align:center;
-font-size:42px;
-margin-bottom:8px;
+    text-align:center;
+
+    font-size:42px;
+
+    margin-bottom:5px;
 }
 
 .title{
-text-align:center;
+    text-align:center;
 
-color:#5420b8;
+    color:#5420b8;
 
-font-size:30px;
-font-weight:900;
+    font-size:30px;
 
-margin-bottom:8px;
+    font-weight:900;
+
+    margin-bottom:7px;
 }
 
 .subtitle{
-text-align:center;
+    text-align:center;
 
-color:#6d6d80;
+    color:#707080;
 
-margin-bottom:28px;
+    margin-bottom:24px;
 
-line-height:1.7;
+    line-height:1.7;
 }
 
 
-/* =========================
+/* ==============================
    CUSTOMER TYPE
-========================= */
+============================== */
 
 .customer-type{
-display:none;
+    display:block;
 
-text-align:center;
+    text-align:center;
 
-margin-bottom:20px;
+    padding:13px 15px;
 
-padding:12px 15px;
+    margin-bottom:20px;
 
-border-radius:15px;
+    border-radius:17px;
 
-font-weight:bold;
+    font-size:18px;
 
-font-size:16px;
+    font-weight:900;
 }
 
 .customer-type.new{
-display:block;
+    background:#eee5ff;
 
-background:#eee6ff;
-
-color:#5420b8;
+    color:#5420b8;
 }
 
 .customer-type.renewal{
-display:block;
+    background:#e3f8eb;
 
-background:#e4f8ec;
-
-color:#08752d;
+    color:#08752d;
 }
 
 
-/* =========================
-   PACKAGE SUMMARY
-========================= */
+/* ==============================
+   PACKAGE
+============================== */
 
 .package-summary{
-padding:22px;
 
-border-radius:22px;
+    padding:23px 18px;
 
-background:
-linear-gradient(
-135deg,
-#5420b8,
-#9747ff
-);
+    border-radius:25px;
 
-color:#fff;
+    color:#fff;
 
-text-align:center;
+    text-align:center;
 
-margin-bottom:25px;
+    margin-bottom:22px;
 
-box-shadow:
-0 12px 30px
-rgba(84,32,184,.2);
+    background:
+    linear-gradient(
+        135deg,
+        #5420b8,
+        #9747ff
+    );
+
+    box-shadow:
+    0 15px 35px
+    rgba(84,32,184,.20);
 }
 
 .package-summary h2{
-margin:0 0 10px;
+    margin:0 0 9px;
 
-font-size:26px;
+    font-size:27px;
 }
 
 .package-summary .gb{
-font-size:42px;
-font-weight:900;
+    font-size:41px;
+
+    font-weight:900;
+
+    margin-bottom:5px;
 }
 
 .package-summary .price{
-font-size:27px;
+    font-size:29px;
 
-font-weight:bold;
+    font-weight:900;
 
-margin-top:8px;
-
-line-height:1.5;
+    line-height:1.6;
 }
 
 .old-price{
-text-decoration:line-through;
+    text-decoration:
+    line-through;
 
-opacity:.7;
+    opacity:.65;
 
-font-size:19px;
+    font-size:20px;
 
-margin-left:8px;
+    margin-left:8px;
 }
 
 .discount-line{
-font-size:15px;
+    font-size:16px;
 
-color:#eaffef;
+    color:#eaffef;
 
-margin-top:5px;
+    margin-top:2px;
 }
 
 
-/* =========================
+/* ==============================
+   ERROR
+============================== */
+
+.error{
+    display:none;
+
+    padding:15px;
+
+    margin-bottom:20px;
+
+    border-radius:17px;
+
+    background:#ffe1e1;
+
+    color:#a00000;
+
+    text-align:center;
+
+    font-weight:bold;
+
+    line-height:1.6;
+
+    word-break:break-word;
+}
+
+
+/* ==============================
    PROMO
-========================= */
+============================== */
 
 .promo{
-padding:22px;
+    padding:22px 18px;
 
-margin-bottom:25px;
+    margin-bottom:25px;
 
-border-radius:22px;
+    border-radius:24px;
 
-background:
-rgba(255,255,255,.65);
+    background:
+    rgba(255,255,255,.62);
 
-border:
-1px solid
-rgba(84,32,184,.14);
-
-text-align:center;
+    border:
+    1px solid
+    rgba(84,32,184,.15);
 }
 
 .promo-title{
-color:#5420b8;
 
-font-size:24px;
+    text-align:center;
 
-font-weight:900;
+    color:#5420b8;
 
-margin-bottom:15px;
+    font-size:25px;
+
+    font-weight:900;
+
+    margin-bottom:15px;
 }
 
 .promo-input{
-width:100%;
 
-height:55px;
+    width:100%;
 
-border:
-1px solid
-#ddd;
+    height:58px;
 
-border-radius:16px;
+    padding:
+    0
+    15px;
 
-outline:none;
+    border:
+    1px solid
+    #ddd;
 
-padding:0 15px;
+    border-radius:17px;
 
-font-size:18px;
+    background:#fff;
 
-text-align:center;
+    outline:none;
 
-background:#fff;
+    text-align:center;
+
+    font-size:19px;
+
+    direction:ltr;
 }
 
 .promo-input:focus{
-border-color:#7544cf;
 
-box-shadow:
-0 0 0 3px
-rgba(117,68,207,.12);
+    border-color:
+    #7544cf;
+
+    box-shadow:
+    0 0 0 3px
+    rgba(117,68,207,.12);
 }
 
 .promo-button{
-width:100%;
 
-height:55px;
+    width:100%;
 
-margin-top:12px;
+    height:58px;
 
-border:0;
+    margin-top:12px;
 
-border-radius:16px;
+    border:0;
 
-cursor:pointer;
+    border-radius:17px;
 
-color:#fff;
+    background:
+    linear-gradient(
+        135deg,
+        #5420b8,
+        #9747ff
+    );
 
-background:
-linear-gradient(
-135deg,
-#5420b8,
-#9747ff
-);
+    color:#fff;
 
-font-size:18px;
+    font-size:19px;
 
-font-weight:bold;
+    font-weight:bold;
+
+    cursor:pointer;
 }
 
 .promo-button:disabled{
-opacity:.6;
 
-cursor:not-allowed;
+    opacity:.6;
+
+    cursor:not-allowed;
 }
 
 .promo-message{
-display:none;
 
-margin-top:12px;
+    display:none;
 
-font-size:16px;
+    margin-top:13px;
 
-font-weight:bold;
+    text-align:center;
 
-line-height:1.7;
+    font-weight:bold;
+
+    line-height:1.7;
 }
 
 .promo-message.success{
-display:block;
 
-color:#08752d;
+    display:block;
+
+    color:#08752d;
 }
 
 .promo-message.error{
-display:block;
 
-color:#a00000;
+    display:block;
+
+    color:#a00000;
 }
 
 .promo-message.loading{
-display:block;
 
-color:#5420b8;
+    display:block;
+
+    color:#5420b8;
 }
 
 
-/* =========================
+/* ==============================
    FORM
-========================= */
+============================== */
 
 .label{
-display:block;
 
-margin-bottom:9px;
+    display:block;
 
-font-weight:bold;
+    margin-bottom:9px;
 
-color:#353448;
+    color:#353448;
 
-font-size:18px;
+    font-size:19px;
+
+    font-weight:bold;
 }
 
-input{
-width:100%;
+input:not(.promo-input){
 
-padding:17px;
+    width:100%;
 
-border:
-1px solid
-#ddd;
+    padding:17px;
 
-border-radius:16px;
+    border:
+    1px solid
+    #ddd;
 
-outline:none;
+    border-radius:17px;
 
-font-size:18px;
+    background:#fff;
 
-text-align:center;
+    outline:none;
 
-background:#fff;
+    font-size:18px;
+
+    text-align:center;
 }
 
-input:focus{
-border-color:#7544cf;
+input:not(.promo-input):focus{
 
-box-shadow:
-0 0 0 3px
-rgba(117,68,207,.12);
+    border-color:
+    #7544cf;
+
+    box-shadow:
+    0 0 0 3px
+    rgba(117,68,207,.12);
 }
 
 .hint{
-font-size:13px;
 
-color:#777;
+    margin-top:8px;
 
-margin-top:8px;
+    margin-bottom:25px;
 
-margin-bottom:25px;
+    color:#777;
 
-text-align:center;
+    text-align:center;
+
+    font-size:13px;
 }
 
 
-/* =========================
-   ERROR
-========================= */
-
-.error{
-display:none;
-
-margin-bottom:18px;
-
-padding:13px;
-
-border-radius:14px;
-
-text-align:center;
-
-background:#ffe2e2;
-
-color:#a00000;
-
-font-weight:bold;
-
-word-break:break-word;
-}
-
-
-/* =========================
+/* ==============================
    SUBMIT
-========================= */
+============================== */
 
 .submit{
-width:100%;
 
-padding:17px;
+    width:100%;
 
-border:none;
+    padding:18px;
 
-border-radius:17px;
+    border:0;
 
-cursor:pointer;
+    border-radius:18px;
 
-color:#fff;
+    background:
+    linear-gradient(
+        135deg,
+        #5420b8,
+        #9747ff
+    );
 
-background:
-linear-gradient(
-135deg,
-#5420b8,
-#9747ff
-);
+    color:#fff;
 
-font-size:19px;
+    font-size:20px;
 
-font-weight:bold;
+    font-weight:bold;
 
-box-shadow:
-0 10px 25px
-rgba(84,32,184,.2);
+    cursor:pointer;
+
+    box-shadow:
+    0 10px 25px
+    rgba(84,32,184,.20);
 }
 
 .submit:disabled{
-opacity:.6;
 
-cursor:not-allowed;
+    opacity:.6;
+
+    cursor:not-allowed;
 }
 
 
-/* =========================
+/* ==============================
    SUCCESS
-========================= */
+============================== */
 
 .success{
-display:none;
 
-text-align:center;
+    display:none;
 
-padding:20px;
+    text-align:center;
+
+    padding:25px 10px;
 }
 
 .success-icon{
-font-size:55px;
 
-margin-bottom:10px;
+    font-size:58px;
+
+    margin-bottom:10px;
 }
 
 .success h2{
-color:#5420b8;
 
-margin-bottom:10px;
+    color:#5420b8;
+
+    margin-bottom:10px;
 }
 
 .order-number{
-display:inline-block;
 
-margin-top:12px;
+    display:inline-block;
 
-padding:10px 18px;
+    margin-top:12px;
 
-border-radius:50px;
+    padding:
+    11px 20px;
 
-background:#eee6ff;
+    border-radius:50px;
 
-color:#5420b8;
+    background:#eee5ff;
 
-font-weight:bold;
+    color:#5420b8;
+
+    font-weight:bold;
+
+    direction:ltr;
 }
 
 
-/* =========================
+/* ==============================
    BACK
-========================= */
+============================== */
 
 .back{
-display:block;
 
-text-align:center;
+    display:block;
 
-margin-top:22px;
+    margin-top:22px;
 
-color:#5420b8;
+    text-align:center;
 
-text-decoration:none;
+    color:#5420b8;
 
-font-weight:bold;
+    text-decoration:none;
+
+    font-weight:bold;
 }
 
 
-/* =========================
+/* ==============================
    MOBILE
-========================= */
+============================== */
 
 @media(max-width:550px){
 
-.container{
-width:94%;
+    .container{
 
-padding-top:20px;
-}
+        width:94%;
 
-.card{
-padding:24px 18px;
-}
+        padding-top:18px;
+    }
 
-.title{
-font-size:27px;
-}
+    .card{
 
-.package-summary .gb{
-font-size:38px;
-}
+        padding:
+        24px 17px;
+    }
 
-.package-summary .price{
-font-size:24px;
-}
+    .title{
+
+        font-size:28px;
+    }
+
+    .package-summary .gb{
+
+        font-size:38px;
+    }
 
 }
 
@@ -568,9 +617,9 @@ font-size:24px;
 </div>
 
 
-<!-- =========================
+<!-- ==============================
      CUSTOMER TYPE
-========================= -->
+============================== -->
 
 <div
 id="customerType"
@@ -578,28 +627,28 @@ class="customer-type"
 ></div>
 
 
-<!-- =========================
+<!-- ==============================
      PACKAGE
-========================= -->
+============================== -->
 
 <div class="package-summary">
 
-<h2 id="packageName">
+<h2
+id="packageName"
+>
 جاري تحميل الباقة...
 </h2>
 
-
 <div
-class="gb"
 id="packageGB"
+class="gb"
 >
 --
 </div>
 
-
 <div
-class="price"
 id="packagePrice"
+class="price"
 >
 --
 </div>
@@ -607,33 +656,32 @@ id="packagePrice"
 </div>
 
 
-<!-- =========================
+<!-- ==============================
      ERROR
-========================= -->
+============================== -->
 
 <div
-class="error"
 id="errorMessage"
+class="error"
 ></div>
 
 
-<!-- =========================
-     ORDER FORM
-========================= -->
+<!-- ==============================
+     FORM
+============================== -->
 
 <div id="orderForm">
 
 
-<!-- =========================
+<!-- ==============================
      PROMO
-========================= -->
+============================== -->
 
 <div class="promo">
 
 <div class="promo-title">
 🎁 عندك كود خصم؟
 </div>
-
 
 <input
 id="promoInput"
@@ -642,7 +690,6 @@ type="text"
 placeholder="اكتب كود الخصم"
 autocomplete="off"
 >
-
 
 <button
 id="applyPromoButton"
@@ -653,7 +700,6 @@ onclick="applyPromoCode()"
 تطبيق الكود
 </button>
 
-
 <div
 id="promoMessage"
 class="promo-message"
@@ -662,59 +708,55 @@ class="promo-message"
 </div>
 
 
-<!-- =========================
+<!-- ==============================
      NAME
-========================= -->
+============================== -->
 
 <label class="label">
 👤 اسم المشترك
 </label>
 
-
 <input
-type="text"
 id="subscriberName"
+type="text"
 placeholder="اكتب اسم المشترك"
 autocomplete="name"
 >
-
 
 <div class="hint">
 الاسم الذي سيتم تسجيل الطلب به
 </div>
 
 
-<!-- =========================
+<!-- ==============================
      PHONE
-========================= -->
+============================== -->
 
 <label class="label">
 📱 رقم التليفون
 </label>
 
-
 <input
-type="tel"
 id="phone"
+type="tel"
 inputmode="numeric"
 maxlength="11"
 placeholder="01xxxxxxxxx"
 autocomplete="tel"
 >
 
-
 <div class="hint">
 الرقم الذي سيتم تفعيل الباقة عليه
 </div>
 
 
-<!-- =========================
+<!-- ==============================
      SUBMIT
-========================= -->
+============================== -->
 
 <button
-class="submit"
 id="submitButton"
+class="submit"
 type="button"
 onclick="submitOrder()"
 >
@@ -725,33 +767,30 @@ onclick="submitOrder()"
 </div>
 
 
-<!-- =========================
+<!-- ==============================
      SUCCESS
-========================= -->
+============================== -->
 
 <div
-class="success"
 id="successBox"
+class="success"
 >
 
 <div class="success-icon">
 ✅
 </div>
 
-
 <h2>
-تم تسجيل الطلب بنجاح
+تم إنشاء الطلب بنجاح
 </h2>
 
-
 <p>
-جاري تحويلك للدفع...
+جاري تحويلك لصفحة الدفع...
 </p>
 
-
 <div
-class="order-number"
 id="orderNumber"
+class="order-number"
 ></div>
 
 </div>
@@ -773,21 +812,20 @@ class="back"
 <script>
 
 
-/* =====================================================
+/* ==================================================
    SUPABASE
-===================================================== */
+================================================== */
 
 const SUPABASE_URL =
 "https://pgvbynefhqmyzjtccttl.supabase.co";
-
 
 const SUPABASE_KEY =
 "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 
 
-/* =====================================================
-   URL
-===================================================== */
+/* ==================================================
+   URL DATA
+================================================== */
 
 const params =
 new URLSearchParams(
@@ -795,12 +833,39 @@ window.location.search
 );
 
 
+const orderType =
+(
+params.get("type") ||
+"new"
+)
+.toLowerCase();
+
+
+const customerId =
+params.get("customer_id") ||
+"";
+
+
+const urlName =
+params.get("name") ||
+"";
+
+
+const urlPhone =
+params.get("phone") ||
+"";
+
+
 const packageGB =
-params.get("package") || "";
+params.get("gb") ||
+params.get("package") ||
+"";
 
 
 /*
-   السعر القادم من الرابط.
+   السعر القادم من packages.html
+   هو السعر النهائي بعد الخصم لو كان
+   فيه كود.
 */
 
 const urlPrice =
@@ -810,10 +875,7 @@ params.get("price")
 
 
 /*
-   original موجود عند الانتقال
-   من packages.html.
-
-   لو مش موجود نستخدم price.
+   السعر الأصلي قبل الخصم.
 */
 
 const urlOriginal =
@@ -821,6 +883,11 @@ Number(
 params.get("original")
 );
 
+
+/*
+   لو original موجود نستخدمه.
+   لو مش موجود نستخدم price.
+*/
 
 const originalPrice =
 (
@@ -833,41 +900,22 @@ urlOriginal
 urlPrice;
 
 
-/* =====================================================
-   CUSTOMER TYPE
-===================================================== */
-
-const orderType =
-params.get("type") || "new";
-
-
-const customerId =
-params.get("customer_id") || "";
-
-
-const urlName =
-params.get("name") || "";
-
-
-const urlPhone =
-params.get("phone") || "";
-
-
-/* =====================================================
-   PROMO FROM URL
-===================================================== */
+/*
+   الكود القادم من packages.html
+*/
 
 const promoFromUrl =
 (
-params.get("promo") || ""
+params.get("promo") ||
+""
 )
 .trim()
 .toUpperCase();
 
 
-/* =====================================================
+/* ==================================================
    PROMO STATE
-===================================================== */
+================================================== */
 
 let activePromo = null;
 
@@ -879,1117 +927,1120 @@ originalPrice;
 let promoApplied = false;
 
 
-/* =====================================================
+/* ==================================================
    CUSTOMER TYPE
-===================================================== */
+================================================== */
 
 function setupCustomerType(){
 
-const box =
-document.getElementById(
-"customerType"
-);
+    const box =
+        document.getElementById(
+            "customerType"
+        );
 
 
-if(orderType === "renewal"){
+    if(
+        orderType ===
+        "renewal"
+    ){
 
-box.className =
-"customer-type renewal";
+        box.className =
+            "customer-type renewal";
 
+        box.textContent =
+            "🔄 عميل حالي — تجديد الباقة";
 
-box.textContent =
-"🔄 عميل حالي — تجديد الباقة";
+    }
+
+    else{
+
+        box.className =
+            "customer-type new";
+
+        box.textContent =
+            "🆕 عميل جديد — اشتراك جديد";
+
+    }
 
 }
-else{
-
-box.className =
-"customer-type new";
 
 
-box.textContent =
-"🆕 عميل جديد — اشتراك جديد";
-
-}
-
-}
-
-
-/* =====================================================
-   DISPLAY CUSTOMER DATA
-===================================================== */
+/* ==================================================
+   FILL DATA
+================================================== */
 
 function fillCustomerData(){
 
-const nameInput =
-document.getElementById(
-"subscriberName"
-);
+    const name =
+        document.getElementById(
+            "subscriberName"
+        );
+
+    const phone =
+        document.getElementById(
+            "phone"
+        );
 
 
-const phoneInput =
-document.getElementById(
-"phone"
-);
+    if(urlName){
+
+        name.value =
+            urlName;
+
+    }
 
 
-if(urlName){
+    if(urlPhone){
 
-nameInput.value =
-urlName;
+        phone.value =
+            urlPhone;
+
+    }
 
 }
 
 
-if(urlPhone){
-
-phoneInput.value =
-urlPhone;
-
-}
-
-}
-
-
-/* =====================================================
-   DISPLAY PACKAGE
-===================================================== */
+/* ==================================================
+   PACKAGE DISPLAY
+================================================== */
 
 function displayPackage(){
 
-const packageName =
-document.getElementById(
-"packageName"
-);
+    const name =
+        document.getElementById(
+            "packageName"
+        );
+
+    const gb =
+        document.getElementById(
+            "packageGB"
+        );
 
 
-const packageGBElement =
-document.getElementById(
-"packageGB"
-);
+    if(
+        !packageGB ||
+        !originalPrice ||
+        Number.isNaN(
+            originalPrice
+        )
+    ){
+
+        name.textContent =
+            "لم يتم اختيار باقة";
+
+        gb.textContent =
+            "";
+
+        document.getElementById(
+            "packagePrice"
+        ).textContent =
+            "";
+
+        return;
+
+    }
 
 
-if(
-!packageGB ||
-!originalPrice ||
-Number.isNaN(
-originalPrice
-)
-){
+    /*
+       لو package جاي من الرابط
+       كـ "20 جيجا"
+       ننظفه للعرض.
+    */
 
-packageName.textContent =
-"لم يتم اختيار باقة";
+    let cleanGB =
+        String(packageGB)
+            .replace(
+                "جيجا",
+                ""
+            )
+            .trim();
 
 
-packageGBElement.textContent =
-"";
+    name.textContent =
+        "باقة " +
+        cleanGB +
+        " جيجا";
 
 
-document.getElementById(
-"packagePrice"
-).textContent =
-"";
+    gb.textContent =
+        cleanGB +
+        " GB";
 
-return;
+
+    updatePriceDisplay();
 
 }
 
 
-packageName.textContent =
-"باقة " +
-packageGB +
-" جيجا";
-
-
-packageGBElement.textContent =
-packageGB +
-" GB";
-
-
-updatePriceDisplay();
-
-}
-
-
-/* =====================================================
-   PRICE DISPLAY
-===================================================== */
+/* ==================================================
+   PRICE
+================================================== */
 
 function updatePriceDisplay(){
 
-const priceElement =
-document.getElementById(
-"packagePrice"
-);
+    const element =
+        document.getElementById(
+            "packagePrice"
+        );
 
 
-if(!priceElement)
-return;
+    if(
+        !element
+    )
+        return;
 
 
-if(
-promoApplied &&
-promoDiscount > 0
-){
+    if(
+        promoApplied &&
+        promoDiscount > 0
+    ){
 
-priceElement.innerHTML = `
+        element.innerHTML =
 
-<span class="old-price">
-${formatMoney(originalPrice)} جنيه
-</span>
+            '<span class="old-price">' +
 
-${formatMoney(finalPrice)}
-جنيه
+            formatMoney(
+                originalPrice
+            ) +
 
-<div class="discount-line">
-🎁 خصم ${formatMoney(promoDiscount)} جنيه
-</div>
+            ' جنيه</span>' +
 
-`;
+            formatMoney(
+                finalPrice
+            ) +
+
+            ' جنيه' +
+
+            '<div class="discount-line">' +
+
+            '🎁 خصم ' +
+
+            formatMoney(
+                promoDiscount
+            ) +
+
+            ' جنيه' +
+
+            '</div>';
+
+    }
+
+    else{
+
+        element.textContent =
+            formatMoney(
+                originalPrice
+            ) +
+            " جنيه";
+
+    }
 
 }
-else{
-
-priceElement.textContent =
-formatMoney(
-originalPrice
-) +
-" جنيه";
-
-}
-
-}
 
 
-/* =====================================================
-   SUPABASE RPC
-===================================================== */
+/* ==================================================
+   CHECK PROMO
+================================================== */
 
 async function checkPromoCode(
-code
+    code
 ){
 
-const response =
-await fetch(
+    const response =
+        await fetch(
 
-SUPABASE_URL +
-"/rest/v1/rpc/check_promo_code",
+            SUPABASE_URL +
+            "/rest/v1/rpc/check_promo_code",
 
-{
+            {
 
-method:"POST",
+                method:
+                    "POST",
 
-headers:{
+                headers:{
 
-"apikey":
-SUPABASE_KEY,
+                    "apikey":
+                        SUPABASE_KEY,
 
-"Authorization":
-"Bearer " +
-SUPABASE_KEY,
+                    "Authorization":
+                        "Bearer " +
+                        SUPABASE_KEY,
 
-"Content-Type":
-"application/json",
+                    "Content-Type":
+                        "application/json"
 
-"Accept":
-"application/json"
+                },
 
-},
+                body:
+                    JSON.stringify({
 
-body:
-JSON.stringify({
+                        input_code:
+                            code
 
-input_code:
-code
+                    })
 
-})
+            }
 
-}
-
-);
+        );
 
 
-const text =
-await response.text();
+    const text =
+        await response.text();
 
 
-let data = null;
+    let data = null;
 
 
-try{
+    try{
 
-data =
-text
-?
-JSON.parse(text)
-:
-null;
+        data =
+            text
+            ?
+            JSON.parse(text)
+            :
+            null;
 
-}
-catch{
+    }
 
-data = null;
+    catch{
 
-}
+        data = null;
 
-
-if(!response.ok){
-
-console.error(
-"PROMO RPC ERROR",
-response.status,
-text
-);
+    }
 
 
-throw new Error(
+    if(
+        !response.ok
+    ){
 
-data?.message ||
-data?.details ||
-data?.hint ||
-data?.error ||
-text ||
-"فشل التحقق من كود الخصم"
+        throw new Error(
 
-);
+            data?.message ||
+            data?.details ||
+            data?.hint ||
+            text ||
+            "فشل التحقق من الكود"
+
+        );
+
+    }
+
+
+    return data;
 
 }
 
 
-return data;
-
-}
-
-
-/* =====================================================
+/* ==================================================
    APPLY PROMO
-===================================================== */
+================================================== */
 
 async function applyPromoCode(){
 
-const input =
-document.getElementById(
-"promoInput"
-);
+    const input =
+        document.getElementById(
+            "promoInput"
+        );
+
+    const message =
+        document.getElementById(
+            "promoMessage"
+        );
+
+    const button =
+        document.getElementById(
+            "applyPromoButton"
+        );
 
 
-const message =
-document.getElementById(
-"promoMessage"
-);
+    const code =
+        input.value
+        .trim()
+        .toUpperCase();
 
 
-const button =
-document.getElementById(
-"applyPromoButton"
-);
+    if(!code){
+
+        message.className =
+            "promo-message error";
+
+        message.textContent =
+            "❌ اكتب كود الخصم أولاً";
+
+        return;
+
+    }
 
 
-const code =
-input.value
-.trim()
-.toUpperCase();
+    button.disabled =
+        true;
+
+    button.textContent =
+        "⏳ جاري التحقق...";
 
 
-if(!code){
+    message.className =
+        "promo-message loading";
 
-message.className =
-"promo-message error";
-
-
-message.textContent =
-"❌ اكتب كود الخصم أولاً";
+    message.textContent =
+        "⏳ جاري التحقق من كود الخصم...";
 
 
-return;
+    try{
+
+        const data =
+            await checkPromoCode(
+                code
+            );
+
+
+        const result =
+            Array.isArray(data)
+            ?
+            data[0]
+            :
+            data;
+
+
+        console.log(
+            "PROMO RESULT:",
+            result
+        );
+
+
+        /* ==========================
+           INVALID
+        ========================== */
+
+        if(
+            !result ||
+            result.valid !== true
+        ){
+
+            activePromo =
+                null;
+
+            promoApplied =
+                false;
+
+            promoDiscount =
+                0;
+
+            finalPrice =
+                originalPrice;
+
+            updatePriceDisplay();
+
+
+            message.className =
+                "promo-message error";
+
+            message.textContent =
+                "❌ " +
+                (
+                    result?.message ||
+                    "كود الخصم غير صحيح أو منتهي الصلاحية"
+                );
+
+            return;
+
+        }
+
+
+        /* ==========================
+           PROMO DATA
+        ========================== */
+
+        activePromo = {
+
+            code:
+                result.code ||
+                code,
+
+            type:
+                result.discount_type,
+
+            value:
+                Number(
+                    result.discount_value
+                ) || 0
+
+        };
+
+
+        /* ==========================
+           CALCULATE
+        ========================== */
+
+        let discount = 0;
+
+
+        if(
+            activePromo.type ===
+            "percent"
+        ){
+
+            discount =
+                originalPrice *
+                activePromo.value /
+                100;
+
+        }
+
+        else{
+
+            discount =
+                activePromo.value;
+
+        }
+
+
+        discount =
+            Math.max(
+                0,
+                Math.min(
+                    discount,
+                    originalPrice
+                )
+            );
+
+
+        promoDiscount =
+            Math.round(
+                discount
+            );
+
+
+        finalPrice =
+            Math.max(
+                0,
+                Math.round(
+                    originalPrice -
+                    promoDiscount
+                )
+            );
+
+
+        promoApplied =
+            true;
+
+
+        updatePriceDisplay();
+
+
+        message.className =
+            "promo-message success";
+
+
+        message.innerHTML =
+
+            "✅ تم تطبيق كود الخصم" +
+
+            "<br>" +
+
+            "🎁 الخصم: " +
+
+            formatMoney(
+                promoDiscount
+            ) +
+
+            " جنيه" +
+
+            "<br>" +
+
+            "💰 السعر النهائي: " +
+
+            formatMoney(
+                finalPrice
+            ) +
+
+            " جنيه";
+
+
+        /*
+        ==================================================
+        مهم:
+
+        هنا لا يتم زيادة used_count.
+
+        التطبيق = تحقق فقط.
+
+        الاستخدام الحقيقي يتم عند إرسال الدفع
+        من payment.html عن طريق redeem_promo_code.
+        ==================================================
+        */
+
+    }
+
+
+    catch(error){
+
+        console.error(
+            "PROMO ERROR:",
+            error
+        );
+
+
+        activePromo =
+            null;
+
+        promoApplied =
+            false;
+
+        promoDiscount =
+            0;
+
+        finalPrice =
+            originalPrice;
+
+
+        updatePriceDisplay();
+
+
+        message.className =
+            "promo-message error";
+
+
+        message.textContent =
+            "❌ تعذر التحقق من كود الخصم: " +
+            error.message;
+
+    }
+
+
+    finally{
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "تطبيق الكود";
+
+    }
 
 }
 
 
-button.disabled =
-true;
-
-
-button.textContent =
-"⏳ جاري التحقق...";
-
-
-message.className =
-"promo-message loading";
-
-
-message.textContent =
-"⏳ جاري التحقق من كود الخصم...";
-
-
-try{
-
-
-const data =
-await checkPromoCode(
-code
-);
-
-
-const result =
-Array.isArray(data)
-?
-data[0]
-:
-data;
-
-
-console.log(
-"PROMO RESULT:",
-result
-);
-
-
-/* =========================
-   INVALID
-========================= */
-
-if(
-!result ||
-result.valid !== true
-){
-
-activePromo =
-null;
-
-promoApplied =
-false;
-
-promoDiscount =
-0;
-
-finalPrice =
-originalPrice;
-
-updatePriceDisplay();
-
-
-message.className =
-"promo-message error";
-
-
-message.textContent =
-"❌ " +
-(
-result?.message ||
-"كود الخصم غير صحيح أو منتهي الصلاحية"
-);
-
-
-return;
-
-}
-
-
-/* =========================
-   SAVE PROMO
-========================= */
-
-activePromo = {
-
-code:
-result.code ||
-code,
-
-type:
-result.discount_type,
-
-value:
-Number(
-result.discount_value
-) || 0
-
-};
-
-
-/* =========================
-   CALCULATE
-========================= */
-
-let discount = 0;
-
-
-if(
-activePromo.type ===
-"percent"
-){
-
-discount =
-originalPrice *
-activePromo.value /
-100;
-
-}
-else{
-
-discount =
-activePromo.value;
-
-}
-
-
-discount =
-Math.max(
-0,
-Math.min(
-discount,
-originalPrice
-)
-);
-
-
-promoDiscount =
-Number(
-discount.toFixed(2)
-);
-
-
-finalPrice =
-Number(
-(
-originalPrice -
-promoDiscount
-)
-.toFixed(2)
-);
-
-
-promoApplied =
-true;
-
-
-updatePriceDisplay();
-
-
-message.className =
-"promo-message success";
-
-
-message.innerHTML = `
-
-✅ تم تطبيق كود الخصم
-
-<br>
-
-🎁 الخصم:
-${formatMoney(promoDiscount)}
-جنيه
-
-<br>
-
-💰 السعر النهائي:
-${formatMoney(finalPrice)}
-جنيه
-
-`;
-
-
-/*
-=====================================================
-مهم جدًا:
-
-لا يوجد هنا أي UPDATE
-ولا زيادة used_count.
-
-تطبيق الكود فقط = فحص الكود.
-
-الاستخدام لا يتحسب إلا بعد تأكيد الدفع.
-=====================================================
-*/
-
-
-}
-catch(error){
-
-console.error(
-"PROMO ERROR:",
-error
-);
-
-
-activePromo =
-null;
-
-promoApplied =
-false;
-
-promoDiscount =
-0;
-
-finalPrice =
-originalPrice;
-
-
-updatePriceDisplay();
-
-
-message.className =
-"promo-message error";
-
-
-message.innerHTML =
-
-"❌ تعذر التحقق من كود الخصم" +
-
-"<br><br>" +
-
-escapeHtml(
-error.message
-);
-
-}
-finally{
-
-button.disabled =
-false;
-
-button.textContent =
-"تطبيق الكود";
-
-}
-
-}
-
-
-/* =====================================================
-   AUTO PROMO FROM URL
-===================================================== */
+/* ==================================================
+   AUTO PROMO
+================================================== */
 
 async function applyPromoFromUrl(){
 
-if(!promoFromUrl)
-return;
+    if(
+        !promoFromUrl
+    )
+        return;
 
 
-/*
-   نحط الكود في الخانة.
-*/
-
-document.getElementById(
-"promoInput"
-).value =
-promoFromUrl;
+    const input =
+        document.getElementById(
+            "promoInput"
+        );
 
 
-/*
-   نتحقق منه من جديد.
+    input.value =
+        promoFromUrl;
 
-   لا نعتمد على السعر القادم
-   من الرابط وحده.
-*/
 
-await applyPromoCode();
+    await applyPromoCode();
 
 }
 
 
-/* =====================================================
-   PHONE
-===================================================== */
+/* ==================================================
+   PHONE VALIDATION
+================================================== */
 
 function validPhone(
-phone
+    phone
 ){
 
-return /^01[0125][0-9]{8}$/.test(
-phone
-);
+    return /^01[0125][0-9]{8}$/.test(
+        phone
+    );
 
 }
 
 
-/* =====================================================
+/* ==================================================
    ERROR
-===================================================== */
+================================================== */
 
 function showError(
-text
+    text
 ){
 
-const box =
-document.getElementById(
-"errorMessage"
-);
+    const box =
+        document.getElementById(
+            "errorMessage"
+        );
 
 
-box.textContent =
-text;
+    box.textContent =
+        text;
 
 
-box.style.display =
-"block";
+    box.style.display =
+        "block";
 
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
 
 }
 
 
-/* =====================================================
+/* ==================================================
    CREATE ORDER NUMBER
-===================================================== */
+================================================== */
 
 function createOrderNumber(){
 
-const random =
-Math.floor(
-1000 +
-Math.random() *
-9000
-);
+    const random =
+        Math.floor(
+            1000 +
+            Math.random() *
+            9000
+        );
 
 
-return (
-"WE-" +
-Date.now()
-.toString()
-.slice(-6) +
-"-" +
-random
-);
+    /*
+       REN = عميل حالي
+       NEW = عميل جديد
+
+       لا نحتاج customer_id
+       داخل جدول orders.
+    */
+
+    const prefix =
+        orderType ===
+        "renewal"
+        ?
+        "REN"
+        :
+        "NEW";
+
+
+    return (
+
+        prefix +
+        "-" +
+        Date.now()
+            .toString()
+            .slice(-7) +
+        "-" +
+        random
+
+    );
 
 }
 
 
-/* =====================================================
+/* ==================================================
    SUBMIT ORDER
-===================================================== */
+================================================== */
 
 async function submitOrder(){
 
-const nameInput =
-document.getElementById(
-"subscriberName"
-);
+    const nameInput =
+        document.getElementById(
+            "subscriberName"
+        );
 
 
-const phoneInput =
-document.getElementById(
-"phone"
-);
+    const phoneInput =
+        document.getElementById(
+            "phone"
+        );
 
 
-const button =
-document.getElementById(
-"submitButton"
-);
+    const button =
+        document.getElementById(
+            "submitButton"
+        );
 
 
-const errorBox =
-document.getElementById(
-"errorMessage"
-);
+    const errorBox =
+        document.getElementById(
+            "errorMessage"
+        );
 
 
-const name =
-nameInput.value.trim();
+    const name =
+        nameInput.value.trim();
 
 
-const phone =
-phoneInput.value.trim();
+    const phone =
+        phoneInput.value.trim();
 
 
-errorBox.style.display =
-"none";
+    errorBox.style.display =
+        "none";
 
 
-/* =========================
-   NAME
-========================= */
+    /* ==========================
+       NAME
+    ========================== */
 
-if(!name){
+    if(!name){
 
-showError(
-"⚠️ اكتب اسم المشترك"
-);
+        showError(
+            "❌ اكتب اسم المشترك أولاً"
+        );
 
-return;
+        return;
+
+    }
+
+
+    /* ==========================
+       PHONE
+    ========================== */
+
+    if(
+        !validPhone(phone)
+    ){
+
+        showError(
+            "❌ اكتب رقم تليفون مصري صحيح"
+        );
+
+        return;
+
+    }
+
+
+    /* ==========================
+       PACKAGE
+    ========================== */
+
+    if(
+        !packageGB ||
+        !originalPrice ||
+        Number.isNaN(
+            originalPrice
+        )
+    ){
+
+        showError(
+            "❌ بيانات الباقة غير صحيحة"
+        );
+
+        return;
+
+    }
+
+
+    /* ==========================
+       FINAL PRICE
+    ========================== */
+
+    const orderFinalPrice =
+        promoApplied
+        ?
+        finalPrice
+        :
+        originalPrice;
+
+
+    /* ==========================
+       ORDER NUMBER
+    ========================== */
+
+    const orderNumber =
+        createOrderNumber();
+
+
+    /* ==========================
+       CLEAN GB
+    ========================== */
+
+    const cleanGB =
+        String(packageGB)
+        .replace(
+            "جيجا",
+            ""
+        )
+        .trim();
+
+
+    /* ==================================================
+       ORDER DATA
+
+       مهم:
+       لا يوجد customer_id هنا.
+       لأن جدول orders عندك لا يحتوي هذا العمود.
+    ================================================== */
+
+    const orderData = {
+
+        subscriber_name:
+            name,
+
+        order_number:
+            orderNumber,
+
+        phone:
+            phone,
+
+        package_name:
+            "باقة " +
+            cleanGB +
+            " جيجا",
+
+        package_gb:
+            Number(
+                cleanGB
+            ),
+
+        original_price:
+            Number(
+                originalPrice
+            ),
+
+        final_price:
+            Number(
+                orderFinalPrice
+            ),
+
+        promo_code:
+            promoApplied &&
+            activePromo
+            ?
+            activePromo.code
+            :
+            "",
+
+        payment_method:
+            "لم يتم التحويل بعد",
+
+        status:
+            "pending"
+
+    };
+
+
+    console.log(
+        "ORDER DATA:",
+        orderData
+    );
+
+
+    button.disabled =
+        true;
+
+
+    button.textContent =
+        "⏳ جاري تجهيز الطلب...";
+
+
+    try{
+
+        const response =
+            await fetch(
+
+                SUPABASE_URL +
+                "/rest/v1/orders",
+
+                {
+
+                    method:
+                        "POST",
+
+                    headers:{
+
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            SUPABASE_KEY,
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Prefer":
+                            "return=representation"
+
+                    },
+
+                    body:
+                        JSON.stringify(
+                            orderData
+                        )
+
+                }
+
+            );
+
+
+        const responseText =
+            await response.text();
+
+
+        console.log(
+            "SUPABASE STATUS:",
+            response.status
+        );
+
+
+        console.log(
+            "SUPABASE RESPONSE:",
+            responseText
+        );
+
+
+        /* ==========================
+           DATABASE ERROR
+        ========================== */
+
+        if(
+            !response.ok
+        ){
+
+            let message =
+                responseText;
+
+
+            try{
+
+                const json =
+                    JSON.parse(
+                        responseText
+                    );
+
+
+                message =
+                    json.message ||
+                    json.details ||
+                    json.hint ||
+                    json.error ||
+                    responseText;
+
+            }
+
+            catch{
+
+                /* response not JSON */
+
+            }
+
+
+            throw new Error(
+                message
+            );
+
+        }
+
+
+        /* ==========================
+           SUCCESS
+        ========================== */
+
+        document.getElementById(
+            "orderForm"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "successBox"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "orderNumber"
+        ).textContent =
+            "رقم الطلب: " +
+            orderNumber;
+
+
+        /*
+        ==================================================
+        نرسل فقط رقم الطلب للدفع.
+
+        payment.html سيقرأ الطلب من orders
+        ويكمل عملية التحويل.
+
+        وكود الخصم لن يُحتسب استخدامه هنا.
+        ==================================================
+        */
+
+        setTimeout(
+
+            function(){
+
+                window.location.href =
+                    "payment.html?order=" +
+                    encodeURIComponent(
+                        orderNumber
+                    );
+
+            },
+
+            800
+
+        );
+
+    }
+
+
+    catch(error){
+
+        console.error(
+            "ORDER ERROR:",
+            error
+        );
+
+
+        showError(
+            "❌ لم يتم إنشاء الطلب: " +
+            error.message
+        );
+
+
+        button.disabled =
+            false;
+
+
+        button.textContent =
+            "متابعة للدفع";
+
+    }
 
 }
 
 
-/* =========================
-   PHONE
-========================= */
-
-if(
-!validPhone(phone)
-){
-
-showError(
-"⚠️ اكتب رقم تليفون مصري صحيح"
-);
-
-return;
-
-}
-
-
-/* =========================
-   PACKAGE
-========================= */
-
-if(
-!packageGB ||
-!originalPrice ||
-Number.isNaN(
-originalPrice
-)
-){
-
-showError(
-"⚠️ بيانات الباقة غير صحيحة"
-);
-
-return;
-
-}
-
-
-/* =========================
-   BUTTON
-========================= */
-
-button.disabled =
-true;
-
-
-button.textContent =
-"⏳ جاري تجهيز الطلب...";
-
-
-const orderNumber =
-createOrderNumber();
-
-
-/* =====================================================
-   FINAL PRICE
-===================================================== */
-
-const orderFinalPrice =
-promoApplied
-?
-finalPrice
-:
-originalPrice;
-
-
-/* =====================================================
-   ORDER
-===================================================== */
-
-const orderData = {
-
-subscriber_name:
-name,
-
-order_number:
-orderNumber,
-
-phone:
-phone,
-
-package_name:
-"باقة " +
-packageGB +
-" جيجا",
-
-package_gb:
-Number(
-packageGB
-),
-
-original_price:
-Number(
-originalPrice
-),
-
-final_price:
-Number(
-orderFinalPrice
-),
-
-promo_code:
-promoApplied
-?
-activePromo.code
-:
-null,
-
-payment_method:
-"لم يتم التحويل بعد",
-
-status:
-"pending"
-
-};
-
-
-/*
-   بيانات العميل الحالي.
-*/
-
-if(
-orderType === "renewal" &&
-customerId
-){
-
-orderData.customer_id =
-Number(customerId);
-
-}
-
-
-/* =====================================================
-   SEND ORDER
-===================================================== */
-
-try{
-
-const response =
-await fetch(
-
-SUPABASE_URL +
-"/rest/v1/orders",
-
-{
-
-method:"POST",
-
-headers:{
-
-"apikey":
-SUPABASE_KEY,
-
-"Authorization":
-"Bearer " +
-SUPABASE_KEY,
-
-"Content-Type":
-"application/json",
-
-"Prefer":
-"return=representation"
-
-},
-
-body:
-JSON.stringify(
-orderData
-)
-
-}
-
-);
-
-
-const text =
-await response.text();
-
-
-let data = null;
-
-
-try{
-
-data =
-text
-?
-JSON.parse(text)
-:
-null;
-
-}
-catch{
-
-data = null;
-
-}
-
-
-/* =========================
-   DATABASE ERROR
-========================= */
-
-if(
-!response.ok
-){
-
-console.error(
-"ORDER ERROR:",
-response.status,
-text
-);
-
-
-throw new Error(
-
-data?.message ||
-data?.details ||
-data?.hint ||
-data?.error ||
-text ||
-"فشل إنشاء الطلب"
-
-);
-
-}
-
-
-/* =========================
-   SUCCESS
-========================= */
-
-console.log(
-"ORDER CREATED:",
-data
-);
-
-
-document.getElementById(
-"orderForm"
-).style.display =
-"none";
-
-
-document.getElementById(
-"successBox"
-).style.display =
-"block";
-
-
-document.getElementById(
-"orderNumber"
-).textContent =
-"رقم الطلب: " +
-orderNumber;
-
-
-/*
-=====================================================
-مهم:
-
-هنا لا نزيد استخدام الكود.
-
-الكود أصبح محفوظًا داخل الطلب فقط.
-
-زيادة الاستخدام تكون بعد تأكيد الدفع.
-=====================================================
-*/
-
-
-setTimeout(
-function(){
-
-window.location.href =
-"payment.html?order=" +
-encodeURIComponent(
-orderNumber
-);
-
-},
-800
-);
-
-
-}
-catch(error){
-
-console.error(
-"SAVE ORDER ERROR:",
-error
-);
-
-
-showError(
-"❌ لم يتم إنشاء الطلب:\n\n" +
-error.message
-);
-
-
-button.disabled =
-false;
-
-
-button.textContent =
-"متابعة للدفع";
-
-}
-
-}
-
-
-/* =====================================================
+/* ==================================================
    FORMAT MONEY
-===================================================== */
+================================================== */
 
 function formatMoney(
-value
+    value
 ){
 
-return Number(
-value || 0
-).toLocaleString(
-"ar-EG",
-{
-maximumFractionDigits:2
-}
-);
+    return Number(
+        value || 0
+    ).toLocaleString(
+        "ar-EG",
+        {
+            maximumFractionDigits:0
+        }
+    );
 
 }
 
 
-/* =====================================================
-   ESCAPE
-===================================================== */
-
-function escapeHtml(
-value
-){
-
-return String(
-value ?? ""
-)
-
-.replaceAll(
-"&",
-"&amp;"
-)
-
-.replaceAll(
-"<",
-"&lt;"
-)
-
-.replaceAll(
-">",
-"&gt;"
-)
-
-.replaceAll(
-'"',
-"&quot;"
-)
-
-.replaceAll(
-"'",
-"&#039;"
-);
-
-}
-
-
-/* =====================================================
+/* ==================================================
    START
-===================================================== */
+================================================== */
 
 setupCustomerType();
 
@@ -1998,21 +2049,21 @@ fillCustomerData();
 displayPackage();
 
 
-/*
-   لو فيه promo في الرابط
-   نتحقق منه تلقائيًا.
-*/
+if(
+    promoFromUrl
+){
 
-if(promoFromUrl){
+    setTimeout(
 
-setTimeout(
-function(){
+        function(){
 
-applyPromoFromUrl();
+            applyPromoFromUrl();
 
-},
-200
-);
+        },
+
+        200
+
+    );
 
 }
 
