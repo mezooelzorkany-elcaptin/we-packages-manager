@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>الماليات | WE Packages</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+font-family:Arial,Tahoma,sans-serif
+}
+
+body{
+margin:0;
+background:
+radial-gradient(circle at 100% 0%,#9b63ed 0%,transparent 38%),
+linear-gradient(135deg,#f1eef9,#ded5f0,#d2c6e8);
+min-height:100vh;
+color:#19182d
+}
+
+.container{
+width:92%;
+max-width:1150px;
+margin:auto;
+padding:25px 0 60px
+}
+
+.glass{
+background:rgba(255,255,255,.76);
+border:1px solid rgba(255,255,255,.9);
+border-radius:25px;
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+box-shadow:0 15px 40px rgba(60,35,120,.12)
+}
+
+
+/* NAVIGATION */
+
+.navigation{
+display:flex;
+gap:10px;
+margin-bottom:15px;
+flex-wrap:wrap
+}
+
+.nav-btn{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+padding:12px 20px;
+border-radius:15px;
+text-decoration:none;
+font-weight:bold;
+background:#e8ddff;
+color:#5420b8
+}
+
+
+/* HEADER */
+
+.header{
+text-align:center;
+padding:28px;
+margin-bottom:20px
+}
+
+.header h1{
+margin:0 0 8px;
+font-size:31px;
+color:#5420b8
+}
+
+.header p{
+margin:0;
+color:#777
+}
+
+
+/* SUMMARY */
+
+.summary{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:14px;
+margin-bottom:20px
+}
+
+.summary-card{
+padding:22px
+}
+
+.summary-title{
+color:#777;
+font-size:14px;
+margin-bottom:9px
+}
+
+.summary-value{
+font-size:29px;
+font-weight:900;
+color:#5420b8
+}
+
+
+/* FILTERS */
+
+.filters{
+padding:20px;
+margin-bottom:20px
+}
+
+.filters h2{
+margin-top:0;
+color:#5420b8
+}
+
+.filter-row{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px
+}
+
+input,
+select{
+width:100%;
+height:50px;
+border:1px solid #ddd;
+border-radius:14px;
+padding:0 14px;
+background:white;
+font-size:15px;
+outline:none
+}
+
+input:focus,
+select:focus{
+border-color:#7544cf;
+box-shadow:0 0 0 3px rgba(117,68,207,.12)
+}
+
+.reset{
+height:50px;
+border:0;
+border-radius:14px;
+background:#eee;
+font-weight:bold;
+cursor:pointer
+}
+
+
+/* TABLE */
+
+.table-box{
+overflow:hidden;
+margin-bottom:20px
+}
+
+.table-title{
+padding:20px;
+font-size:20px;
+font-weight:bold;
+color:#5420b8
+}
+
+.table-wrapper{
+overflow-x:auto
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:850px
+}
+
+th,
+td{
+padding:15px 12px;
+text-align:right;
+border-bottom:1px solid #eee
+}
+
+th{
+background:#f6f3fb;
+color:#666;
+font-size:13px
+}
+
+td{
+font-size:14px
+}
+
+.amount{
+font-weight:900;
+color:#5420b8
+}
+
+.badge{
+display:inline-block;
+padding:6px 11px;
+border-radius:20px;
+background:#e4f8ec;
+color:#14863f;
+font-size:12px;
+font-weight:bold
+}
+
+.delete{
+border:0;
+background:#fde2e4;
+color:#b51f2c;
+border-radius:10px;
+padding:8px 11px;
+cursor:pointer;
+font-weight:bold
+}
+
+
+/* MANUAL TRANSACTION */
+
+.manual{
+padding:22px;
+margin-bottom:20px
+}
+
+.manual h2{
+margin-top:0;
+color:#5420b8
+}
+
+.manual-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px
+}
+
+.add{
+height:50px;
+border:0;
+border-radius:14px;
+background:linear-gradient(135deg,#5420b8,#9747ff);
+color:white;
+font-size:15px;
+font-weight:bold;
+cursor:pointer
+}
+
+
+/* EMPTY */
+
+.empty{
+padding:45px;
+text-align:center;
+color:#777
+}
+
+
+/* MOBILE */
+
+@media(max-width:850px){
+
+.summary{
+grid-template-columns:repeat(2,1fr)
+}
+
+.filter-row,
+.manual-grid{
+grid-template-columns:1fr
+}
+
+}
+
+@media(max-width:550px){
+
+.container{
+width:94%
+}
+
+.summary{
+grid-template-columns:1fr 1fr
+}
+
+.summary-value{
+font-size:24px
+}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+<!-- NAVIGATION -->
+
+<div class="navigation">
+
+<a
+href="customers.html"
+class="nav-btn"
+>
+👥 العملاء
+</a>
+
+<a
+href="numbers.html"
+class="nav-btn"
+>
+📱 الأرقام الأساسية
+</a>
+
+<a
+href="admin.html"
+class="nav-btn"
+>
+🔢 الأكواد
+</a>
+
+</div>
+
+
+<!-- HEADER -->
+
+<div class="header glass">
+
+<h1>
+💰 الماليات
+</h1>
+
+<p>
+متابعة دخل التجديدات والباقات
+</p>
+
+</div>
+
+
+<!-- SUMMARY -->
+
+<div class="summary">
+
+
+<div class="summary-card glass">
+
+<div class="summary-title">
+إجمالي الدخل
+</div>
+
+<div
+class="summary-value"
+id="totalIncome"
+>
+0 جنيه
+</div>
+
+</div>
+
+
+<div class="summary-card glass">
+
+<div class="summary-title">
+دخل اليوم
+</div>
+
+<div
+class="summary-value"
+id="todayIncome"
+>
+0 جنيه
+</div>
+
+</div>
+
+
+<div class="summary-card glass">
+
+<div class="summary-title">
+دخل الشهر
+</div>
+
+<div
+class="summary-value"
+id="monthIncome"
+>
+0 جنيه
+</div>
+
+</div>
+
+
+<div class="summary-card glass">
+
+<div class="summary-title">
+عدد العمليات
+</div>
+
+<div
+class="summary-value"
+id="transactionCount"
+>
+0
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- FILTERS -->
+
+<div class="filters glass">
+
+<h2>
+🔎 البحث والتصفية
+</h2>
+
+<div class="filter-row">
+
+
+<input
+id="search"
+placeholder="ابحث باسم العميل أو الرقم..."
+>
+
+
+<select id="period">
+
+<option value="all">
+كل العمليات
+</option>
+
+<option value="today">
+اليوم
+</option>
+
+<option value="month">
+هذا الشهر
+</option>
+
+<option value="year">
+هذه السنة
+</option>
+
+</select>
+
+
+<button
+class="reset"
+onclick="resetFilters()"
+>
+إعادة ضبط
+</button>
+
+
+</div>
+
+</div>
+
+
+<!-- MANUAL -->
+
+<div class="manual glass">
+
+<h2>
+➕ إضافة عملية مالية يدويًا
+</h2>
+
+<div class="manual-grid">
+
+
+<input
+id="manualCustomer"
+placeholder="اسم العميل"
+>
+
+
+<input
+id="manualPhone"
+placeholder="رقم العميل"
+>
+
+
+<input
+id="manualPrimary"
+placeholder="الرقم الأساسي"
+>
+
+
+<input
+id="manualPackage"
+placeholder="الباقة"
+>
+
+
+<input
+id="manualAmount"
+type="number"
+min="0"
+placeholder="المبلغ"
+>
+
+
+<button
+class="add"
+onclick="addManualTransaction()"
+>
+إضافة العملية
+</button>
+
+
+</div>
+
+</div>
+
+
+<!-- TABLE -->
+
+<div class="table-box glass">
+
+<div class="table-title">
+📋 سجل العمليات
+</div>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+التاريخ
+</th>
+
+<th>
+العميل
+</th>
+
+<th>
+رقم العميل
+</th>
+
+<th>
+الرقم الأساسي
+</th>
+
+<th>
+الباقة
+</th>
+
+<th>
+المبلغ
+</th>
+
+<th>
+النوع
+</th>
+
+<th>
+إجراء
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody
+id="transactions"
+>
+
+<tr>
+
+<td
+colspan="8"
+class="empty"
+>
+⏳ جاري التحميل...
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+/* =========================================
+SUPABASE
+========================================= */
+
+const SUPABASE_URL =
+"https://pgvbynefhqmyzjtccttl.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
+
+
+/* =========================================
+DATA
+========================================= */
+
+let transactions=[];
+
+
+/* =========================================
+SUPABASE REQUEST
+========================================= */
+
+async function supabaseRequest(
+path,
+options={}
+){
+
+const controller =
+new AbortController();
+
+const timer =
+setTimeout(
+()=>controller.abort(),
+10000
+);
+
+try{
+
+const response =
+await fetch(
+SUPABASE_URL+
+"/rest/v1/"+
+path,
+{
+
+...options,
+
+signal:
+controller.signal,
+
+headers:{
+
+"apikey":
+SUPABASE_KEY,
+
+"Authorization":
+"Bearer "+
+SUPABASE_KEY,
+
+"Content-Type":
+"application/json",
+
+"Prefer":
+"return=representation",
+
+...(options.headers||{})
+
+}
+
+}
+);
+
+
+const text =
+await response.text();
+
+
+let data=null;
+
+
+try{
+
+data=
+text
+?
+JSON.parse(text)
+:
+null;
+
+}
+
+catch{
+
+data=text;
+
+}
+
+
+if(!response.ok){
+
+throw new Error(
+
+typeof data==="string"
+
+?
+data
+
+:
+
+(
+data?.message||
+data?.hint||
+"خطأ من Supabase"
+)
+
+);
+
+}
+
+
+return data;
+
+}
+
+finally{
+
+clearTimeout(timer);
+
+}
+
+}
+
+
+/* =========================================
+LOAD
+========================================= */
+
+async function loadTransactions(){
+
+const tbody =
+document.getElementById(
+"transactions"
+);
+
+
+tbody.innerHTML=
+`
+<tr>
+<td colspan="8" class="empty">
+⏳ جاري تحميل العمليات...
+</td>
+</tr>
+`;
+
+
+try{
+
+const data =
+await supabaseRequest(
+"financial_transactions?select=*&order=transaction_date.desc"
+);
+
+
+transactions =
+Array.isArray(data)
+?
+data
+:
+[];
+
+
+render();
+
+}
+
+catch(error){
+
+console.error(error);
+
+
+tbody.innerHTML=
+`
+<tr>
+<td colspan="8" class="empty">
+
+❌ حصل خطأ في تحميل الماليات
+
+<br><br>
+
+${escapeHtml(
+error.message
+)}
+
+</td>
+</tr>
+`;
+
+}
+
+}
+
+
+/* =========================================
+FILTER
+========================================= */
+
+function getFiltered(){
+
+const search =
+document.getElementById(
+"search"
+)
+.value
+.trim()
+.toLowerCase();
+
+
+const period =
+document.getElementById(
+"period"
+).value;
+
+
+const now =
+new Date();
+
+
+return transactions.filter(
+t=>{
+
+const name =
+String(
+t.customer_name||
+""
+)
+.toLowerCase();
+
+
+const phone =
+String(
+t.customer_phone||
+""
+)
+.toLowerCase();
+
+
+const primary =
+String(
+t.primary_number||
+""
+)
+.toLowerCase();
+
+
+if(
+search&&
+!name.includes(search)&&
+!phone.includes(search)&&
+!primary.includes(search)
+){
+
+return false;
+
+}
+
+
+if(
+!t.transaction_date
+){
+
+return period==="all";
+
+}
+
+
+const date =
+new Date(
+t.transaction_date
+);
+
+
+if(period==="today"){
+
+return(
+date.getFullYear()===
+now.getFullYear()&&
+date.getMonth()===
+now.getMonth()&&
+date.getDate()===
+now.getDate()
+);
+
+}
+
+
+if(period==="month"){
+
+return(
+date.getFullYear()===
+now.getFullYear()&&
+date.getMonth()===
+now.getMonth()
+);
+
+}
+
+
+if(period==="year"){
+
+return(
+date.getFullYear()===
+now.getFullYear()
+);
+
+}
+
+
+return true;
+
+}
+);
+
+}
+
+
+/* =========================================
+RENDER
+========================================= */
+
+function render(){
+
+const filtered =
+getFiltered();
+
+
+const tbody =
+document.getElementById(
+"transactions"
+);
+
+
+if(!filtered.length){
+
+tbody.innerHTML=
+`
+<tr>
+
+<td
+colspan="8"
+class="empty"
+>
+📭 لا توجد عمليات مالية.
+</td>
+
+</tr>
+`;
+
+updateSummary(filtered);
+
+return;
+
+}
+
+
+tbody.innerHTML=
+filtered
+.map(
+t=>{
+
+const date =
+t.transaction_date
+?
+new Date(
+t.transaction_date
+).toLocaleString(
+"ar-EG"
+)
+:
+"-";
+
+
+const amount =
+Number(
+t.amount
+)||0;
+
+
+return `
+
+<tr>
+
+<td>
+${escapeHtml(date)}
+</td>
+
+<td>
+${escapeHtml(
+t.customer_name||"-"
+)}
+</td>
+
+<td>
+${escapeHtml(
+t.customer_phone||"-"
+)}
+</td>
+
+<td>
+${escapeHtml(
+t.primary_number||"-"
+)}
+</td>
+
+<td>
+${escapeHtml(
+t.package_name||"-"
+)}
+</td>
+
+<td class="amount">
+${formatMoney(amount)}
+ جنيه
+</td>
+
+<td>
+
+<span class="badge">
+
+${escapeHtml(
+t.transaction_type||
+"تجديد"
+)}
+
+</span>
+
+</td>
+
+<td>
+
+<button
+class="delete"
+onclick="deleteTransaction(${Number(t.id)})"
+>
+🗑️
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}
+)
+.join("");
+
+
+updateSummary(filtered);
+
+}
+
+
+/* =========================================
+SUMMARY
+========================================= */
+
+function updateSummary(data){
+
+let total=0;
+
+let today=0;
+
+let month=0;
+
+
+const now =
+new Date();
+
+
+data.forEach(
+t=>{
+
+const amount =
+Number(
+t.amount
+)||0;
+
+
+total+=amount;
+
+
+if(!t.transaction_date)
+return;
+
+
+const date =
+new Date(
+t.transaction_date
+);
+
+
+if(
+date.getFullYear()===
+now.getFullYear()&&
+date.getMonth()===
+now.getMonth()&&
+date.getDate()===
+now.getDate()
+){
+
+today+=amount;
+
+}
+
+
+if(
+date.getFullYear()===
+now.getFullYear()&&
+date.getMonth()===
+now.getMonth()
+){
+
+month+=amount;
+
+}
+
+}
+);
+
+
+document.getElementById(
+"totalIncome"
+)
+.textContent=
+formatMoney(total)+
+" جنيه";
+
+
+document.getElementById(
+"todayIncome"
+)
+.textContent=
+formatMoney(today)+
+" جنيه";
+
+
+document.getElementById(
+"monthIncome"
+)
+.textContent=
+formatMoney(month)+
+" جنيه";
+
+
+document.getElementById(
+"transactionCount"
+)
+.textContent=
+data.length;
+
+}
+
+
+/* =========================================
+MANUAL TRANSACTION
+========================================= */
+
+async function addManualTransaction(){
+
+const customer =
+document.getElementById(
+"manualCustomer"
+)
+.value
+.trim();
+
+
+const phone =
+document.getElementById(
+"manualPhone"
+)
+.value
+.trim();
+
+
+const primary =
+document.getElementById(
+"manualPrimary"
+)
+.value
+.trim();
+
+
+const packageName =
+document.getElementById(
+"manualPackage"
+)
+.value
+.trim();
+
+
+const amount =
+Number(
+document.getElementById(
+"manualAmount"
+).value
+);
+
+
+if(
+!amount||
+amount<0
+){
+
+alert(
+"❌ اكتب المبلغ"
+);
+
+return;
+
+}
+
+
+try{
+
+await supabaseRequest(
+"financial_transactions",
+{
+
+method:"POST",
+
+body:
+JSON.stringify({
+
+customer_name:
+customer||null,
+
+customer_phone:
+phone||null,
+
+primary_number:
+primary||null,
+
+package_name:
+packageName||null,
+
+amount:amount,
+
+transaction_type:
+"عملية يدوية",
+
+transaction_date:
+new Date()
+.toISOString()
+
+})
+
+}
+);
+
+
+document.getElementById(
+"manualCustomer"
+).value="";
+
+
+document.getElementById(
+"manualPhone"
+).value="";
+
+
+document.getElementById(
+"manualPrimary"
+).value="";
+
+
+document.getElementById(
+"manualPackage"
+).value="";
+
+
+document.getElementById(
+"manualAmount"
+).value="";
+
+
+await loadTransactions();
+
+
+alert(
+"✅ تمت إضافة العملية"
+);
+
+
+}
+
+catch(error){
+
+alert(
+"❌ لم تتم الإضافة:\n\n"+
+error.message
+);
+
+}
+
+}
+
+
+/* =========================================
+DELETE
+========================================= */
+
+async function deleteTransaction(id){
+
+const ok =
+confirm(
+"هل أنت متأكد من حذف العملية المالية؟"
+);
+
+
+if(!ok)
+return;
+
+
+try{
+
+await supabaseRequest(
+
+"financial_transactions?id=eq."+
+encodeURIComponent(id),
+
+{
+
+method:"DELETE"
+
+}
+
+);
+
+
+await loadTransactions();
+
+
+}
+
+catch(error){
+
+alert(
+"❌ لم يتم الحذف:\n\n"+
+error.message
+);
+
+}
+
+}
+
+
+/* =========================================
+RESET
+========================================= */
+
+function resetFilters(){
+
+document.getElementById(
+"search"
+).value="";
+
+
+document.getElementById(
+"period"
+).value="all";
+
+
+render();
+
+}
+
+
+/* =========================================
+HELPERS
+========================================= */
+
+function formatMoney(value){
+
+return Number(
+value||0
+)
+.toLocaleString(
+"ar-EG",
+{
+maximumFractionDigits:2
+}
+);
+
+}
+
+
+function escapeHtml(value){
+
+return String(
+value??""
+)
+
+.replaceAll(
+"&",
+"&amp;"
+)
+
+.replaceAll(
+"<",
+"&lt;"
+)
+
+.replaceAll(
+">",
+"&gt;"
+)
+
+.replaceAll(
+'"',
+"&quot;"
+)
+
+.replaceAll(
+"'",
+"&#039;"
+);
+
+}
+
+
+/* =========================================
+EVENTS
+========================================= */
+
+document
+.getElementById(
+"search"
+)
+.addEventListener(
+"input",
+render
+);
+
+
+document
+.getElementById(
+"period"
+)
+.addEventListener(
+"change",
+render
+);
+
+
+/* =========================================
+START
+========================================= */
+
+loadTransactions();
+
+</script>
+
+</body>
+</html>
