@@ -291,7 +291,104 @@ button{
   padding:40px;
   color:#777;
 }
+/* =========================
+   ORDERS
+========================= */
 
+.orders-box{
+  padding:25px;
+  margin-bottom:25px;
+}
+
+.orders-box h3{
+  margin-top:0;
+  color:#5420b8;
+}
+
+.orders-list{
+  display:grid;
+  gap:18px;
+}
+
+.order-card{
+  padding:22px;
+  border-radius:22px;
+  background:rgba(255,255,255,.9);
+  border:1px solid rgba(84,32,184,.12);
+  box-shadow:0 8px 25px rgba(60,35,120,.08);
+}
+
+.order-number-title{
+  font-size:22px;
+  font-weight:900;
+  color:#5420b8;
+  margin-bottom:14px;
+}
+
+.order-info{
+  line-height:2;
+  color:#555;
+}
+
+.order-info strong{
+  color:#292735;
+}
+
+.payment-image{
+  width:100%;
+  max-width:320px;
+  max-height:400px;
+  object-fit:contain;
+  display:block;
+  margin:15px auto;
+  border-radius:16px;
+  border:1px solid #ddd;
+  background:#f7f7f7;
+}
+
+.order-actions{
+  display:flex;
+  gap:10px;
+  margin-top:18px;
+}
+
+.approve-btn{
+  flex:1;
+  background:#d9fbe5;
+  color:#08752d;
+}
+
+.reject-btn{
+  flex:1;
+  background:#ffe2e2;
+  color:#a00000;
+}
+
+.refresh-orders{
+  background:#e8ddff;
+  color:#5420b8;
+  margin-bottom:15px;
+}
+
+.order-status{
+  display:inline-block;
+  padding:6px 12px;
+  border-radius:50px;
+  font-size:13px;
+  font-weight:bold;
+  background:#fff0d5;
+  color:#9a5a00;
+}
+
+@media(max-width:600px){
+  .order-actions{
+    flex-direction:column;
+  }
+
+  .order-actions button{
+    width:100%;
+  }
+}
 /* MOBILE */
 
 @media(max-width:600px){
@@ -415,7 +512,31 @@ button{
 
   </div>
 
+<!-- ================= PAYMENT ORDERS ================= -->
 
+<div class="orders-box glass">
+
+  <h3>
+    💳 طلبات الدفع
+  </h3>
+
+  <button
+    class="refresh-orders"
+    onclick="loadPaymentOrders()"
+  >
+    🔄 تحديث الطلبات
+  </button>
+
+  <div
+    id="ordersList"
+    class="orders-list"
+  >
+    <div class="empty">
+      ⏳ جاري تحميل طلبات الدفع...
+    </div>
+  </div>
+
+</div>
   <!-- ================= ADD CODE ================= -->
 
   <div class="form-box glass">
@@ -914,12 +1035,12 @@ function showAdmin(){
   ).style.display =
     "none";
 
-
   document.getElementById(
     "adminPanel"
   ).style.display =
     "block";
 
+  loadPaymentOrders();
 
   loadCodes();
 
@@ -942,7 +1063,388 @@ async function logout(){
 
 }
 
+/* =====================================================
+   PAYMENT ORDERS
+===================================================== */
 
+async function loadPaymentOrders(){
+
+  const list =
+    document.getElementById(
+      "ordersList"
+    );
+
+  if(!list)
+    return;
+
+  list.innerHTML =
+    '<div class="empty glass">⏳ جاري تحميل طلبات الدفع...</div>';
+
+  try{
+
+    const result =
+      await supabaseClient
+        .from("orders")
+        .select("*")
+        .eq(
+          "status",
+          "payment_submitted"
+        )
+        .order(
+          "created_at",
+          {
+            ascending:false
+          }
+        );
+
+    const data =
+      result.data;
+
+    const error =
+      result.error;
+
+    if(error){
+
+      list.innerHTML =
+        '<div class="empty glass">' +
+        '❌ حصل خطأ في تحميل الطلبات<br><br>' +
+        escapeHtml(
+          error.message
+        ) +
+        '</div>';
+
+      return;
+
+    }
+
+    if(
+      !data ||
+      data.length === 0
+    ){
+
+      list.innerHTML =
+        '<div class="empty glass">' +
+        '📭 لا توجد طلبات دفع معلقة' +
+        '</div>';
+
+      return;
+
+    }
+
+    list.innerHTML = "";
+
+    data.forEach(
+      order => {
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+        card.className =
+          "order-card";
+
+        const created =
+          order.created_at
+            ? new Date(
+                order.created_at
+              ).toLocaleString(
+                "ar-EG"
+              )
+            : "-";
+
+        const screenshot =
+          order.payment_screenshot;
+
+        card.innerHTML = `
+
+          <div class="order-number-title">
+
+            📋 ${escapeHtml(
+              order.order_number
+            )}
+
+          </div>
+
+          <div class="order-info">
+
+            <div>
+              👤
+              <strong>الاسم:</strong>
+              ${escapeHtml(
+                order.subscriber_name ||
+                "-"
+              )}
+            </div>
+
+            <div>
+              📱
+              <strong>الرقم:</strong>
+              ${escapeHtml(
+                order.phone ||
+                "-"
+              )}
+            </div>
+
+            <div>
+              📦
+              <strong>الباقة:</strong>
+              ${escapeHtml(
+                order.package_name ||
+                "-"
+              )}
+            </div>
+
+            <div>
+              💵
+              <strong>المبلغ:</strong>
+              ${Number(
+                order.final_price
+              ) || 0}
+              جنيه
+            </div>
+
+            <div>
+              💳
+              <strong>طريقة الدفع:</strong>
+              ${escapeHtml(
+                order.payment_method ||
+                "-"
+              )}
+            </div>
+
+            <div>
+              🕐
+              <strong>وقت الطلب:</strong>
+              ${escapeHtml(
+                created
+              )}
+            </div>
+
+            <div style="margin-top:10px">
+              <span class="order-status">
+                ⏳ في انتظار المراجعة
+              </span>
+            </div>
+
+          </div>
+
+          ${
+            screenshot
+            ?
+            `
+              <a
+                href="${escapeHtml(
+                  screenshot
+                )}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="${escapeHtml(
+                    screenshot
+                  )}"
+                  class="payment-image"
+                  alt="صورة التحويل"
+                >
+              </a>
+            `
+            :
+            `
+              <div
+                class="empty"
+                style="padding:20px"
+              >
+                ⚠️ لا توجد صورة تحويل
+              </div>
+            `
+          }
+
+          <div class="order-actions">
+
+            <button
+              class="approve-btn"
+              onclick="approvePayment(
+                '${escapeHtml(
+                  order.order_number
+                )}'
+              )"
+            >
+              ✅ تأكيد الدفع
+            </button>
+
+            <button
+              class="reject-btn"
+              onclick="rejectPayment(
+                '${escapeHtml(
+                  order.order_number
+                )}'
+              )"
+            >
+              ❌ رفض التحويل
+            </button>
+
+          </div>
+
+        `;
+
+        list.appendChild(
+          card
+        );
+
+      }
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "LOAD ORDERS ERROR:",
+      error
+    );
+
+    list.innerHTML =
+      '<div class="empty glass">' +
+      '❌ خطأ غير متوقع<br><br>' +
+      escapeHtml(
+        error.message
+      ) +
+      '</div>';
+
+  }
+
+}
+
+
+/* =====================================================
+   APPROVE PAYMENT
+===================================================== */
+
+async function approvePayment(
+  orderNumber
+){
+
+  if(
+    !confirm(
+      "هل أنت متأكد من تأكيد الدفع للطلب:\n\n" +
+      orderNumber +
+      "\n\nسيتم تسجيل المبلغ في الماليات."
+    )
+  ){
+    return;
+  }
+
+  try{
+
+    const result =
+      await supabaseClient
+        .rpc(
+          "approve_order_payment",
+          {
+            input_order_number:
+              orderNumber
+          }
+        );
+
+    if(result.error){
+
+      alert(
+        "❌ فشل تأكيد الدفع:\n\n" +
+        result.error.message
+      );
+
+      return;
+
+    }
+
+    alert(
+      "✅ تم تأكيد الدفع\n" +
+      "وتم تسجيل العملية في الماليات."
+    );
+
+    await loadPaymentOrders();
+
+  }
+  catch(error){
+
+    console.error(
+      "APPROVE ERROR:",
+      error
+    );
+
+    alert(
+      "❌ حصل خطأ:\n\n" +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   REJECT PAYMENT
+===================================================== */
+
+async function rejectPayment(
+  orderNumber
+){
+
+  if(
+    !confirm(
+      "هل أنت متأكد من رفض التحويل للطلب:\n\n" +
+      orderNumber +
+      "\n\nلن يتم تسجيل أي مبلغ في الماليات."
+    )
+  ){
+    return;
+  }
+
+  try{
+
+    const result =
+      await supabaseClient
+        .rpc(
+          "reject_order_payment",
+          {
+            input_order_number:
+              orderNumber
+          }
+        );
+
+    if(result.error){
+
+      alert(
+        "❌ فشل رفض التحويل:\n\n" +
+        result.error.message
+      );
+
+      return;
+
+    }
+
+    alert(
+      "❌ تم رفض التحويل."
+    );
+
+    await loadPaymentOrders();
+
+  }
+  catch(error){
+
+    console.error(
+      "REJECT ERROR:",
+      error
+    );
+
+    alert(
+      "❌ حصل خطأ:\n\n" +
+      error.message
+    );
+
+  }
+
+}
 /* =====================================================
    LOAD CODES
 ===================================================== */
