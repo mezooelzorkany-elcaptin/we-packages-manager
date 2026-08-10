@@ -33,6 +33,7 @@ body{
             #925be8 22%,
             transparent 55%
         ),
+
         linear-gradient(
             135deg,
             #f1eff9 0%,
@@ -247,6 +248,7 @@ body{
             #7544cf 28%,
             transparent 68%
         ),
+
         linear-gradient(
             135deg,
             #292d52 0%,
@@ -356,6 +358,8 @@ body{
     font-size:18px;
 
     font-weight:bold;
+
+    cursor:pointer;
 }
 
 .subscribe:active{
@@ -375,6 +379,7 @@ body{
             #814ad9 30%,
             transparent 68%
         ),
+
         linear-gradient(
             135deg,
             #30345c 0%,
@@ -425,6 +430,48 @@ body{
 
 
 /* =========================
+   HOME BUTTON
+========================= */
+
+.home-button{
+    display:block;
+
+    width:92%;
+    max-width:700px;
+
+    margin:0 auto 45px;
+
+    padding:18px 20px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5b21b6,
+            #9333ea
+        );
+
+    color:#fff;
+
+    text-decoration:none;
+
+    text-align:center;
+
+    font-size:20px;
+
+    font-weight:800;
+
+    box-shadow:
+        0 10px 30px
+        rgba(91,33,182,.25);
+
+    border:1px solid
+        rgba(255,255,255,.35);
+}
+
+
+/* =========================
    MOBILE
 ========================= */
 
@@ -444,7 +491,6 @@ body{
 
     .promo{
         width:92%;
-
         padding:28px 20px;
     }
 
@@ -575,16 +621,52 @@ body{
 
     <div
         class="price"
-        data-price="250"
+        data-price="270"
     >
-        250 جنيه
+        270 جنيه
     </div>
 
     <a
         href="#"
         class="subscribe"
         data-gb="20"
-        data-price="250"
+        data-price="270"
+        onclick="buyPackage(event,this)"
+    >
+        اشترك الآن
+    </a>
+
+</section>
+
+
+<!-- 25 GB -->
+
+<section class="package">
+
+    <h2>
+        باقة 25 جيجا
+    </h2>
+
+    <div class="gb">
+        25 GB
+    </div>
+
+    <div class="minutes">
+        1500 دقيقة
+    </div>
+
+    <div
+        class="price"
+        data-price="300"
+    >
+        300 جنيه
+    </div>
+
+    <a
+        href="#"
+        class="subscribe"
+        data-gb="25"
+        data-price="300"
         onclick="buyPackage(event,this)"
     >
         اشترك الآن
@@ -705,6 +787,42 @@ body{
 </section>
 
 
+<!-- 45 GB -->
+
+<section class="package">
+
+    <h2>
+        باقة 45 جيجا
+    </h2>
+
+    <div class="gb">
+        45 GB
+    </div>
+
+    <div class="minutes">
+        1500 دقيقة
+    </div>
+
+    <div
+        class="price"
+        data-price="450"
+    >
+        450 جنيه
+    </div>
+
+    <a
+        href="#"
+        class="subscribe"
+        data-gb="45"
+        data-price="450"
+        onclick="buyPackage(event,this)"
+    >
+        اشترك الآن
+    </a>
+
+</section>
+
+
 <!-- 50 GB -->
 
 <section class="package">
@@ -733,6 +851,42 @@ body{
         class="subscribe"
         data-gb="50"
         data-price="480"
+        onclick="buyPackage(event,this)"
+    >
+        اشترك الآن
+    </a>
+
+</section>
+
+
+<!-- 55 GB -->
+
+<section class="package">
+
+    <h2>
+        باقة 55 جيجا
+    </h2>
+
+    <div class="gb">
+        55 GB
+    </div>
+
+    <div class="minutes">
+        1500 دقيقة
+    </div>
+
+    <div
+        class="price"
+        data-price="520"
+    >
+        520 جنيه
+    </div>
+
+    <a
+        href="#"
+        class="subscribe"
+        data-gb="55"
+        data-price="520"
         onclick="buyPackage(event,this)"
     >
         اشترك الآن
@@ -781,54 +935,22 @@ body{
 
 
 <!-- =========================
-     BACK
+     HOME
 ========================= -->
 
-<div
-    style="
-        width:92%;
-        max-width:700px;
-        margin:0 auto;
-        padding:0 0 45px;
-    "
+<a
+    href="./index.html"
+    class="home-button"
 >
-
-    <a
-        href="./index.html"
-        style="
-            display:block;
-            text-align:center;
-            padding:18px 20px;
-            border-radius:20px;
-            background:
-                linear-gradient(
-                    135deg,
-                    #5b21b6,
-                    #9333ea
-                );
-            color:#fff;
-            text-decoration:none;
-            font-size:20px;
-            font-weight:800;
-            box-shadow:
-                0 10px 30px
-                rgba(91,33,182,.25);
-            border:
-                1px solid
-                rgba(255,255,255,.35);
-        "
-    >
-        🏠 الرجوع للصفحة الرئيسية
-    </a>
-
-</div>
+    🏠 الرجوع للصفحة الرئيسية
+</a>
 
 
 <script>
 
-/* =====================================================
+/* =========================
    SUPABASE
-===================================================== */
+========================= */
 
 const SUPABASE_URL =
 "https://pgvbynefhqmyzjtccttl.supabase.co";
@@ -837,44 +959,23 @@ const SUPABASE_KEY =
 "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 
 
-/* =====================================================
-   ACTIVE PROMO
-===================================================== */
-
 let activePromo = null;
 
 
-/* =====================================================
-   SHOW MESSAGE
-===================================================== */
-
-function showPromoMessage(
-    text,
-    type
-){
-
-    const message =
-        document.getElementById(
-            "promoMessage"
-        );
-
-    message.textContent =
-        text;
-
-    message.className =
-        type;
-}
-
-
-/* =====================================================
+/* =========================
    APPLY PROMO
-===================================================== */
+========================= */
 
 async function applyPromo(){
 
     const input =
         document.getElementById(
             "promoCode"
+        );
+
+    const message =
+        document.getElementById(
+            "promoMessage"
         );
 
     const code =
@@ -885,23 +986,22 @@ async function applyPromo(){
 
     if(!code){
 
-        activePromo = null;
+        message.innerHTML =
+            "⚠️ اكتب كود الخصم أولاً";
 
-        resetPrices();
-
-        showPromoMessage(
-            "⚠️ اكتب كود الخصم أولاً",
-            "promo-error"
-        );
+        message.className =
+            "promo-error";
 
         return;
+
     }
 
 
-    showPromoMessage(
-        "⏳ جاري التحقق من الكود...",
-        "promo-success"
-    );
+    message.innerHTML =
+        "⏳ جاري التحقق من الكود...";
+
+    message.className =
+        "promo-success";
 
 
     try{
@@ -916,6 +1016,7 @@ async function applyPromo(){
                     method:"POST",
 
                     headers:{
+
                         "apikey":
                             SUPABASE_KEY,
 
@@ -925,51 +1026,30 @@ async function applyPromo(){
 
                         "Content-Type":
                             "application/json"
+
                     },
 
                     body:
                         JSON.stringify({
-                            input_code:code
+
+                            input_code:
+                                code
+
                         })
+
                 }
 
             );
 
 
-        const text =
-            await response.text();
-
-
-        let data = null;
-
-
-        try{
-
-            data =
-                text
-                ?
-                JSON.parse(text)
-                :
-                null;
-
-        }
-        catch{
-
-            data = null;
-
-        }
+        const data =
+            await response.json();
 
 
         if(!response.ok){
 
-            console.error(
-                "PROMO ERROR:",
-                response.status,
-                text
-            );
-
             throw new Error(
-                "تعذر التحقق من الكود"
+                JSON.stringify(data)
             );
 
         }
@@ -977,68 +1057,31 @@ async function applyPromo(){
 
         const result =
             Array.isArray(data)
-            ?
-            data[0]
-            :
-            data;
+                ? data[0]
+                : data;
 
 
-        /*
-         * نقبل Boolean أو النص "true"
-         */
-        const valid =
-            result &&
-            (
-                result.valid === true ||
-                result.valid === "true" ||
-                result.valid === "TRUE"
-            );
-
-
-        if(!valid){
+        if(
+            !result ||
+            result.valid !== true
+        ){
 
             activePromo = null;
 
             resetPrices();
 
 
-            showPromoMessage(
-
+            message.innerHTML =
                 "❌ " +
                 (
-                    result &&
-                    result.message
-                    ?
-                    result.message
-                    :
-                    "كود الخصم غير صحيح"
-                ),
+                    result?.message ||
+                    "كود الخصم غير صحيح أو منتهي الصلاحية"
+                );
 
-                "promo-error"
-
-            );
+            message.className =
+                "promo-error";
 
             return;
-
-        }
-
-
-        const discountValue =
-            Number(
-                result.discount_value
-            );
-
-
-        if(
-            !Number.isFinite(
-                discountValue
-            ) ||
-            discountValue <= 0
-        ){
-
-            throw new Error(
-                "قيمة الخصم غير صحيحة"
-            );
 
         }
 
@@ -1046,64 +1089,42 @@ async function applyPromo(){
         activePromo = {
 
             code:
-                String(
-                    result.code ||
-                    code
-                )
-                .trim()
-                .toUpperCase(),
+                result.code,
 
             type:
-                String(
-                    result.discount_type ||
-                    ""
-                ),
+                result.discount_type,
 
             value:
-                discountValue
+                Number(
+                    result.discount_value
+                )
 
         };
 
 
-        /*
-         * مهم:
-         *
-         * هنا نحن فقط نتحقق من الكود.
-         *
-         * لا يوجد:
-         * UPDATE
-         * ولا زيادة/نقصان used_count
-         * ولا redeem
-         *
-         * استهلاك الكود يتم لاحقًا
-         * بعد إتمام العملية.
-         */
+        message.innerHTML =
+            "✅ تم تطبيق الخصم " +
+            result.discount_value +
+            (
+                result.discount_type ===
+                "percent"
+                    ? "%"
+                    : " جنيه"
+            );
+
+
+        message.className =
+            "promo-success";
 
 
         updatePrices();
 
-
-        showPromoMessage(
-
-            "✅ تم التحقق من كود الخصم " +
-            activePromo.value +
-            (
-                activePromo.type === "percent"
-                ?
-                "%"
-                :
-                " جنيه"
-            ),
-
-            "promo-success"
-
-        );
-
     }
+
     catch(error){
 
         console.error(
-            "PROMO CHECK:",
+            "PROMO ERROR:",
             error
         );
 
@@ -1113,77 +1134,20 @@ async function applyPromo(){
         resetPrices();
 
 
-        showPromoMessage(
-            "❌ تعذر التحقق من كود الخصم",
-            "promo-error"
-        );
+        message.innerHTML =
+            "❌ تعذر التحقق من كود الخصم";
+
+        message.className =
+            "promo-error";
 
     }
 
 }
 
 
-/* =====================================================
-   CALCULATE PRICE
-===================================================== */
-
-function calculateDiscountedPrice(
-    originalPrice
-){
-
-    if(!activePromo){
-
-        return originalPrice;
-
-    }
-
-
-    let finalPrice =
-        Number(
-            originalPrice
-        );
-
-
-    if(
-        activePromo.type ===
-        "percent"
-    ){
-
-        finalPrice =
-            finalPrice -
-            (
-                finalPrice *
-                activePromo.value /
-                100
-            );
-
-    }
-
-    else if(
-        activePromo.type ===
-        "fixed"
-    ){
-
-        finalPrice =
-            finalPrice -
-            activePromo.value;
-
-    }
-
-
-    return Math.max(
-        0,
-        Math.round(
-            finalPrice
-        )
-    );
-
-}
-
-
-/* =====================================================
-   UPDATE DISPLAY
-===================================================== */
+/* =========================
+   UPDATE PRICES
+========================= */
 
 function updatePrices(){
 
@@ -1193,35 +1157,48 @@ function updatePrices(){
         )
         .forEach(
 
-            function(
-                priceElement
-            ){
+            function(priceElement){
 
                 const original =
                     Number(
-                        priceElement
-                        .dataset
-                        .price
+                        priceElement.dataset.price
                     );
 
 
-                const finalPrice =
-                    calculateDiscountedPrice(
-                        original
-                    );
+                let newPrice;
 
 
                 if(
-                    !activePromo
+                    activePromo.type ===
+                    "percent"
                 ){
 
-                    priceElement.textContent =
-                        original +
-                        " جنيه";
-
-                    return;
+                    newPrice =
+                        original -
+                        (
+                            original *
+                            activePromo.value /
+                            100
+                        );
 
                 }
+
+                else{
+
+                    newPrice =
+                        original -
+                        activePromo.value;
+
+                }
+
+
+                newPrice =
+                    Math.max(
+                        0,
+                        Math.round(
+                            newPrice
+                        )
+                    );
 
 
                 priceElement.innerHTML =
@@ -1230,7 +1207,7 @@ function updatePrices(){
                     original +
                     ' جنيه</span>' +
 
-                    finalPrice +
+                    newPrice +
                     ' جنيه';
 
             }
@@ -1240,9 +1217,9 @@ function updatePrices(){
 }
 
 
-/* =====================================================
+/* =========================
    RESET PRICES
-===================================================== */
+========================= */
 
 function resetPrices(){
 
@@ -1252,19 +1229,15 @@ function resetPrices(){
         )
         .forEach(
 
-            function(
-                priceElement
-            ){
+            function(priceElement){
 
                 const original =
                     Number(
-                        priceElement
-                        .dataset
-                        .price
+                        priceElement.dataset.price
                     );
 
 
-                priceElement.textContent =
+                priceElement.innerHTML =
                     original +
                     " جنيه";
 
@@ -1275,9 +1248,9 @@ function resetPrices(){
 }
 
 
-/* =====================================================
+/* =========================
    BUY PACKAGE
-===================================================== */
+========================= */
 
 function buyPackage(
     event,
@@ -1297,42 +1270,62 @@ function buyPackage(
         );
 
 
-    if(
-        !gb ||
-        !Number.isFinite(
-            originalPrice
-        )
-    ){
+    let finalPrice =
+        originalPrice;
 
-        alert(
-            "❌ بيانات الباقة غير صحيحة"
-        );
 
-        return;
+    let promo = "";
+
+
+    /* =========================
+       الخصم يظهر فقط في السعر
+       ولا يتم استهلاكه هنا
+    ========================= */
+
+    if(activePromo){
+
+        promo =
+            activePromo.code;
+
+
+        if(
+            activePromo.type ===
+            "percent"
+        ){
+
+            finalPrice =
+                originalPrice -
+                (
+                    originalPrice *
+                    activePromo.value /
+                    100
+                );
+
+        }
+
+        else{
+
+            finalPrice =
+                originalPrice -
+                activePromo.value;
+
+        }
+
+
+        finalPrice =
+            Math.max(
+                0,
+                Math.round(
+                    finalPrice
+                )
+            );
 
     }
 
 
-    /*
-     * السعر النهائي محسوب هنا
-     * فقط لإظهاره في صفحة الطلب.
-     *
-     * لا يتم استهلاك الكود هنا.
-     */
-
-    const finalPrice =
-        calculateDiscountedPrice(
-            originalPrice
-        );
-
-
-    const promo =
-        activePromo
-        ?
-        activePromo.code
-        :
-        "";
-
+    /* =========================
+       الانتقال إلى Checkout
+    ========================= */
 
     const url =
 
@@ -1364,8 +1357,34 @@ function buyPackage(
 
 }
 
-</script>
 
+/* =========================
+   ENTER
+========================= */
+
+document
+    .getElementById(
+        "promoCode"
+    )
+    .addEventListener(
+        "keydown",
+        function(event){
+
+            if(
+                event.key ===
+                "Enter"
+            ){
+
+                event.preventDefault();
+
+                applyPromo();
+
+            }
+
+        }
+    );
+
+</script>
 
 </body>
 
