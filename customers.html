@@ -400,7 +400,110 @@ grid-template-columns:repeat(2,1fr)
 }
 
 }
+/* ================= PAYMENT ORDERS ================= */
 
+.payment-orders{
+  margin-top:20px;
+  margin-bottom:20px;
+  background:rgba(255,255,255,.78);
+  border:1px solid rgba(84,32,184,.12);
+  border-radius:24px;
+  padding:20px;
+  box-shadow:0 10px 30px rgba(60,35,120,.08);
+}
+
+.payment-orders-title{
+  color:#5420b8;
+  font-size:24px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.payment-orders-subtitle{
+  color:#777;
+  margin-bottom:15px;
+}
+
+.payment-orders-list{
+  display:grid;
+  gap:15px;
+}
+
+.payment-order-card{
+  background:#fff;
+  border:1px solid #eee;
+  border-radius:20px;
+  padding:18px;
+}
+
+.payment-order-number{
+  color:#5420b8;
+  font-size:20px;
+  font-weight:900;
+  margin-bottom:12px;
+}
+
+.payment-order-info{
+  line-height:2;
+}
+
+.payment-order-info strong{
+  color:#222;
+}
+
+.payment-proof{
+  display:block;
+  width:100%;
+  max-width:330px;
+  max-height:400px;
+  object-fit:contain;
+  margin:15px auto;
+  border-radius:15px;
+  border:1px solid #ddd;
+}
+
+.payment-actions{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+
+.payment-actions button{
+  flex:1;
+  border:0;
+  border-radius:13px;
+  padding:13px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.approve-payment{
+  background:#dff8e8;
+  color:#08752d;
+}
+
+.reject-payment{
+  background:#ffe2e2;
+  color:#a00000;
+}
+
+.refresh-payments{
+  width:100%;
+  border:0;
+  border-radius:13px;
+  padding:13px;
+  background:#eee4ff;
+  color:#5420b8;
+  font-weight:bold;
+  cursor:pointer;
+  margin-bottom:15px;
+}
+
+@media(max-width:550px){
+  .payment-actions{
+    flex-direction:column;
+  }
+}
 </style>
 
 </head>
@@ -597,7 +700,35 @@ class="select"
 
 </div>
 
+<!-- ================= PAYMENT ORDERS ================= -->
 
+<div class="payment-orders">
+
+  <div class="payment-orders-title">
+    💳 طلبات الدفع
+  </div>
+
+  <div class="payment-orders-subtitle">
+    التحويلات التي تنتظر مراجعتك
+  </div>
+
+  <button
+    class="refresh-payments"
+    onclick="loadPaymentOrders()"
+  >
+    🔄 تحديث طلبات الدفع
+  </button>
+
+  <div
+    id="paymentOrdersList"
+    class="payment-orders-list"
+  >
+    <div class="loading">
+      ⏳ جاري تحميل طلبات الدفع...
+    </div>
+  </div>
+
+</div>
 <div
 id="list"
 class="list"
@@ -2870,7 +3001,343 @@ error.message
 
 }
 
+/* =========================================
+PAYMENT ORDERS
+========================================= */
 
+async function loadPaymentOrders(){
+
+  const list =
+    document.getElementById(
+      "paymentOrdersList"
+    );
+
+  if(!list) return;
+
+  list.innerHTML =
+    `
+    <div class="loading">
+      ⏳ جاري تحميل طلبات الدفع...
+    </div>
+    `;
+
+  try{
+
+    const orders =
+      await supabaseRequest(
+        "orders?select=*"
+      );
+
+    const pending =
+      (Array.isArray(orders)
+        ? orders
+        : []
+      )
+      .filter(
+        order =>
+          order.status ===
+          "payment_submitted"
+      );
+
+    if(!pending.length){
+
+      list.innerHTML =
+        `
+        <div class="empty">
+          📭 لا توجد طلبات دفع معلقة
+        </div>
+        `;
+
+      return;
+    }
+
+    list.innerHTML =
+      pending
+      .map(
+        order => {
+
+          const screenshot =
+            order.payment_screenshot
+            ?
+            `
+            <a
+              href="${escapeHtml(
+                order.payment_screenshot
+              )}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                class="payment-proof"
+                src="${escapeHtml(
+                  order.payment_screenshot
+                )}"
+                alt="إثبات التحويل"
+              >
+            </a>
+            `
+            :
+            `
+            <div class="empty">
+              ⚠️ لا توجد صورة تحويل
+            </div>
+            `;
+
+          return `
+
+          <div class="payment-order-card">
+
+            <div class="payment-order-number">
+              📋 ${escapeHtml(
+                order.order_number || "-"
+              )}
+            </div>
+
+            <div class="payment-order-info">
+
+              <div>
+                👤
+                <strong>العميل:</strong>
+                ${escapeHtml(
+                  order.subscriber_name || "-"
+                )}
+              </div>
+
+              <div>
+                📱
+                <strong>الرقم:</strong>
+                ${escapeHtml(
+                  order.phone || "-"
+                )}
+              </div>
+
+              <div>
+                📦
+                <strong>الباقة:</strong>
+                ${escapeHtml(
+                  order.package_name || "-"
+                )}
+              </div>
+
+              <div>
+                💰
+                <strong>المبلغ:</strong>
+                ${Number(
+                  order.final_price
+                ) || 0}
+                جنيه
+              </div>
+
+              <div>
+                💳
+                <strong>طريقة الدفع:</strong>
+                ${escapeHtml(
+                  order.payment_method || "-"
+                )}
+              </div>
+
+            </div>
+
+            ${screenshot}
+
+            <div class="payment-actions">
+
+              <button
+                class="approve-payment"
+                onclick="approveOrderPayment(
+                  '${escapeHtml(
+                    order.order_number
+                  )}'
+                )"
+              >
+                ✅ تأكيد الدفع
+              </button>
+
+              <button
+                class="reject-payment"
+                onclick="rejectOrderPayment(
+                  '${escapeHtml(
+                    order.order_number
+                  )}'
+                )"
+              >
+                ❌ رفض التحويل
+              </button>
+
+            </div>
+
+          </div>
+
+          `;
+
+        }
+      )
+      .join("");
+
+  }
+  catch(error){
+
+    console.error(
+      "PAYMENT ORDERS:",
+      error
+    );
+
+    list.innerHTML =
+      `
+      <div class="error">
+        ❌ حصل خطأ في تحميل طلبات الدفع
+        <br><br>
+        ${escapeHtml(
+          error.message
+        )}
+      </div>
+      `;
+
+  }
+
+}
+
+
+/* =========================================
+APPROVE PAYMENT
+========================================= */
+
+async function approveOrderPayment(
+  orderNumber
+){
+
+  if(
+    !confirm(
+      "هل أنت متأكد من تأكيد الدفع؟\n\n" +
+      "رقم الطلب: " +
+      orderNumber +
+      "\n\n" +
+      "سيتم تسجيل المبلغ في الماليات."
+    )
+  ){
+    return;
+  }
+
+  try{
+
+    const result =
+      await supabaseRequest(
+        "rpc/approve_order_payment",
+        {
+          method:"POST",
+
+          body:
+            JSON.stringify({
+              input_order_number:
+                orderNumber
+            })
+        }
+      );
+
+    if(
+      !result ||
+      result.success !== true
+    ){
+
+      throw new Error(
+        "لم يتم تأكيد الدفع"
+      );
+
+    }
+
+    alert(
+      "✅ تم تأكيد الدفع\n\n" +
+      "وتم تسجيل العملية في الماليات."
+    );
+
+    await loadPaymentOrders();
+
+    await loadCustomers();
+
+  }
+  catch(error){
+
+    console.error(
+      "APPROVE PAYMENT:",
+      error
+    );
+
+    alert(
+      "❌ فشل تأكيد الدفع:\n\n" +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =========================================
+REJECT PAYMENT
+========================================= */
+
+async function rejectOrderPayment(
+  orderNumber
+){
+
+  if(
+    !confirm(
+      "هل أنت متأكد من رفض التحويل؟\n\n" +
+      "لن يتم تسجيل أي مبلغ في الماليات."
+    )
+  ){
+    return;
+  }
+
+  try{
+
+    const result =
+      await supabaseRequest(
+        "rpc/reject_order_payment",
+        {
+          method:"POST",
+
+          body:
+            JSON.stringify({
+              input_order_number:
+                orderNumber
+            })
+        }
+      );
+
+    if(
+      !result ||
+      result.success !== true
+    ){
+
+      throw new Error(
+        "لم يتم رفض الطلب"
+      );
+
+    }
+
+    alert(
+      "❌ تم رفض التحويل."
+    );
+
+    await loadPaymentOrders();
+
+  }
+  catch(error){
+
+    console.error(
+      "REJECT PAYMENT:",
+      error
+    );
+
+    alert(
+      "❌ فشل رفض التحويل:\n\n" +
+      error.message
+    );
+
+  }
+
+}
 /* =====================================================
    HELPERS
 ===================================================== */
@@ -2991,7 +3458,7 @@ closeModal();
 /* =====================================================
    START
 ===================================================== */
-
+loadPaymentOrders();
 loadCustomers();
 
 </script>
