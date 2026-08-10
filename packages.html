@@ -2,10 +2,13 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>الباقات | WE Packages</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
@@ -34,8 +37,8 @@ padding:25px 0
 }
 
 .header-box{
-background:rgba(255,255,255,.72);
-border:1px solid rgba(255,255,255,.9);
+background:rgba(255,255,255,.78);
+border:1px solid rgba(255,255,255,.95);
 border-radius:25px;
 padding:20px;
 backdrop-filter:blur(18px);
@@ -66,6 +69,78 @@ color:#777;
 font-size:16px
 }
 
+
+/* =========================
+   DISCOUNT
+========================= */
+
+.discount-box{
+margin:0 0 25px;
+padding:20px;
+background:rgba(255,255,255,.82);
+border-radius:22px;
+box-shadow:0 10px 30px rgba(60,35,120,.08);
+border:1px solid rgba(84,32,184,.1)
+}
+
+.discount-title{
+font-size:19px;
+font-weight:900;
+color:#5420b8;
+margin-bottom:12px
+}
+
+.discount-row{
+display:flex;
+gap:10px
+}
+
+.discount-input{
+flex:1;
+height:52px;
+border:2px solid #ddd5eb;
+border-radius:14px;
+padding:0 15px;
+font-size:16px;
+outline:none;
+text-transform:uppercase
+}
+
+.discount-input:focus{
+border-color:#7544cf
+}
+
+.discount-btn{
+height:52px;
+border:0;
+border-radius:14px;
+padding:0 22px;
+background:#5420b8;
+color:white;
+font-weight:bold;
+font-size:15px;
+cursor:pointer
+}
+
+.discount-message{
+margin-top:10px;
+font-weight:bold;
+line-height:1.6
+}
+
+.discount-success{
+color:#08752d
+}
+
+.discount-error{
+color:#b00020
+}
+
+
+/* =========================
+   PACKAGES
+========================= */
+
 .packages{
 display:grid;
 grid-template-columns:repeat(3,1fr);
@@ -75,7 +150,7 @@ padding:10px 0 50px
 
 .package{
 position:relative;
-background:rgba(255,255,255,.85);
+background:rgba(255,255,255,.88);
 border:1px solid rgba(255,255,255,.95);
 border-radius:25px;
 padding:25px;
@@ -88,8 +163,9 @@ transform:translateY(-5px);
 box-shadow:0 18px 40px rgba(60,35,120,.17)
 }
 
-.package.featured{
-border:2px solid #8b48e8
+.package.selected{
+border:3px solid #5420b8;
+transform:translateY(-4px)
 }
 
 .popular{
@@ -118,6 +194,14 @@ font-size:18px
 font-size:18px;
 font-weight:bold;
 margin-top:5px
+}
+
+.old-price{
+display:none;
+color:#999;
+text-decoration:line-through;
+font-size:17px;
+margin-top:15px
 }
 
 .price{
@@ -161,6 +245,11 @@ background:linear-gradient(135deg,#5420b8,#9747ff);
 color:white
 }
 
+.subscribe:disabled{
+opacity:.5;
+cursor:not-allowed
+}
+
 .note{
 text-align:center;
 padding:20px;
@@ -171,6 +260,22 @@ color:#777;
 line-height:1.8
 }
 
+.discount-badge{
+display:none;
+margin-bottom:12px;
+padding:7px 12px;
+border-radius:12px;
+background:#dff8e8;
+color:#08752d;
+font-weight:bold;
+font-size:13px
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
 @media(max-width:850px){
 
 .packages{
@@ -179,7 +284,7 @@ grid-template-columns:repeat(2,1fr)
 
 }
 
-@media(max-width:550px){
+@media(max-width:600px){
 
 .container{
 width:94%
@@ -193,6 +298,14 @@ grid-template-columns:1fr
 font-size:28px
 }
 
+.discount-row{
+flex-direction:column
+}
+
+.discount-btn{
+width:100%
+}
+
 }
 
 </style>
@@ -201,7 +314,9 @@ font-size:28px
 
 <body>
 
+
 <div class="container">
+
 
 <header class="header">
 
@@ -231,14 +346,56 @@ class="back"
 </header>
 
 
-<main>
+<!-- =========================
+     DISCOUNT CODE
+========================= -->
+
+<div class="discount-box">
+
+<div class="discount-title">
+🎟️ عندك كود خصم؟
+</div>
+
+<div class="discount-row">
+
+<input
+id="discountCode"
+class="discount-input"
+type="text"
+placeholder="اكتب كود الخصم"
+autocomplete="off"
+>
+
+<button
+class="discount-btn"
+onclick="applyDiscount()"
+>
+تطبيق الكود
+</button>
+
+</div>
+
+<div
+id="discountMessage"
+class="discount-message"
+></div>
+
+</div>
+
+
+<!-- =========================
+     PACKAGES
+========================= -->
 
 <div class="packages">
 
 
 <!-- 20 -->
 
-<div class="package">
+<div
+class="package"
+id="package-20"
+>
 
 <div class="gb">
 20 <span>جيجا</span>
@@ -248,9 +405,24 @@ class="back"
 باقة 20 جيجا
 </div>
 
-<div class="price">
-270
-<span>جنيه</span>
+<div
+class="discount-badge"
+id="badge-20"
+>
+</div>
+
+<div
+class="old-price"
+id="old-20"
+>
+270 جنيه
+</div>
+
+<div
+class="price"
+id="price-20"
+>
+270 <span>جنيه</span>
 </div>
 
 <div class="minutes">
@@ -275,7 +447,10 @@ onclick="selectPackage('20 جيجا',20,270)"
 
 <!-- 25 -->
 
-<div class="package">
+<div
+class="package"
+id="package-25"
+>
 
 <div class="gb">
 25 <span>جيجا</span>
@@ -285,9 +460,24 @@ onclick="selectPackage('20 جيجا',20,270)"
 باقة 25 جيجا
 </div>
 
-<div class="price">
-300
-<span>جنيه</span>
+<div
+class="discount-badge"
+id="badge-25"
+>
+</div>
+
+<div
+class="old-price"
+id="old-25"
+>
+300 جنيه
+</div>
+
+<div
+class="price"
+id="price-25"
+>
+300 <span>جنيه</span>
 </div>
 
 <div class="minutes">
@@ -312,7 +502,10 @@ onclick="selectPackage('25 جيجا',25,300)"
 
 <!-- 30 -->
 
-<div class="package featured">
+<div
+class="package featured"
+id="package-30"
+>
 
 <div class="popular">
 ⭐ الأكثر طلبًا
@@ -326,9 +519,24 @@ onclick="selectPackage('25 جيجا',25,300)"
 باقة 30 جيجا
 </div>
 
-<div class="price">
-340
-<span>جنيه</span>
+<div
+class="discount-badge"
+id="badge-30"
+>
+</div>
+
+<div
+class="old-price"
+id="old-30"
+>
+340 جنيه
+</div>
+
+<div
+class="price"
+id="price-30"
+>
+340 <span>جنيه</span>
 </div>
 
 <div class="minutes">
@@ -353,7 +561,10 @@ onclick="selectPackage('30 جيجا',30,340)"
 
 <!-- 35 -->
 
-<div class="package">
+<div
+class="package"
+id="package-35"
+>
 
 <div class="gb">
 35 <span>جيجا</span>
@@ -363,9 +574,24 @@ onclick="selectPackage('30 جيجا',30,340)"
 باقة 35 جيجا
 </div>
 
-<div class="price">
-380
-<span>جنيه</span>
+<div
+class="discount-badge"
+id="badge-35"
+>
+</div>
+
+<div
+class="old-price"
+id="old-35"
+>
+380 جنيه
+</div>
+
+<div
+class="price"
+id="price-35"
+>
+380 <span>جنيه</span>
 </div>
 
 <div class="minutes">
@@ -390,7 +616,10 @@ onclick="selectPackage('35 جيجا',35,380)"
 
 <!-- 40 -->
 
-<div class="package">
+<div
+class="package"
+id="package-40"
+>
 
 <div class="gb">
 40 <span>جيجا</span>
@@ -400,9 +629,24 @@ onclick="selectPackage('35 جيجا',35,380)"
 باقة 40 جيجا
 </div>
 
-<div class="price">
-430
-<span>جنيه</span>
+<div
+class="discount-badge"
+id="badge-40"
+>
+</div>
+
+<div
+class="old-price"
+id="old-40"
+>
+430 جنيه
+</div>
+
+<div
+class="price"
+id="price-40"
+>
+430 <span>جنيه</span>
 </div>
 
 <div class="minutes">
@@ -427,7 +671,10 @@ onclick="selectPackage('40 جيجا',40,430)"
 
 <!-- 45 -->
 
-<div class="package">
+<div
+class="package"
+id="package-45"
+>
 
 <div class="gb">
 45 <span>جيجا</span>
@@ -437,9 +684,24 @@ onclick="selectPackage('40 جيجا',40,430)"
 باقة 45 جيجا
 </div>
 
-<div class="price">
-450
-<span>جنيه</span>
+<div
+class="discount-badge"
+id="badge-45"
+>
+</div>
+
+<div
+class="old-price"
+id="old-45"
+>
+450 جنيه
+</div>
+
+<div
+class="price"
+id="price-45"
+>
+450 <span>جنيه</span>
 </div>
 
 <div class="minutes">
@@ -464,7 +726,10 @@ onclick="selectPackage('45 جيجا',45,450)"
 
 <!-- 50 -->
 
-<div class="package">
+<div
+class="package"
+id="package-50"
+>
 
 <div class="gb">
 50 <span>جيجا</span>
@@ -474,9 +739,24 @@ onclick="selectPackage('45 جيجا',45,450)"
 باقة 50 جيجا
 </div>
 
-<div class="price">
-480
-<span>جنيه</span>
+<div
+class="discount-badge"
+id="badge-50"
+>
+</div>
+
+<div
+class="old-price"
+id="old-50"
+>
+480 جنيه
+</div>
+
+<div
+class="price"
+id="price-50"
+>
+480 <span>جنيه</span>
 </div>
 
 <div class="minutes">
@@ -501,7 +781,10 @@ onclick="selectPackage('50 جيجا',50,480)"
 
 <!-- 55 -->
 
-<div class="package">
+<div
+class="package"
+id="package-55"
+>
 
 <div class="gb">
 55 <span>جيجا</span>
@@ -511,9 +794,24 @@ onclick="selectPackage('50 جيجا',50,480)"
 باقة 55 جيجا
 </div>
 
-<div class="price">
-520
-<span>جنيه</span>
+<div
+class="discount-badge"
+id="badge-55"
+>
+</div>
+
+<div
+class="old-price"
+id="old-55"
+>
+520 جنيه
+</div>
+
+<div
+class="price"
+id="price-55"
+>
+520 <span>جنيه</span>
 </div>
 
 <div class="minutes">
@@ -538,7 +836,10 @@ onclick="selectPackage('55 جيجا',55,520)"
 
 <!-- 60 -->
 
-<div class="package">
+<div
+class="package"
+id="package-60"
+>
 
 <div class="gb">
 60 <span>جيجا</span>
@@ -548,9 +849,24 @@ onclick="selectPackage('55 جيجا',55,520)"
 باقة 60 جيجا
 </div>
 
-<div class="price">
-570
-<span>جنيه</span>
+<div
+class="discount-badge"
+id="badge-60"
+>
+</div>
+
+<div
+class="old-price"
+id="old-60"
+>
+570 جنيه
+</div>
+
+<div
+class="price"
+id="price-60"
+>
+570 <span>جنيه</span>
 </div>
 
 <div class="minutes">
@@ -585,12 +901,469 @@ onclick="selectPackage('60 جيجا',60,570)"
 
 </div>
 
-</main>
 
 </div>
 
 
 <script>
+
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+"https://pgvbynefhqmyzjtccttl.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
+
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+/* =====================================================
+   PACKAGES
+===================================================== */
+
+const packages = {
+
+"20 جيجا":{
+gb:20,
+price:270
+},
+
+"25 جيجا":{
+gb:25,
+price:300
+},
+
+"30 جيجا":{
+gb:30,
+price:340
+},
+
+"35 جيجا":{
+gb:35,
+price:380
+},
+
+"40 جيجا":{
+gb:40,
+price:430
+},
+
+"45 جيجا":{
+gb:45,
+price:450
+},
+
+"50 جيجا":{
+gb:50,
+price:480
+},
+
+"55 جيجا":{
+gb:55,
+price:520
+},
+
+"60 جيجا":{
+gb:60,
+price:570
+}
+
+};
+
+
+/* =====================================================
+   DISCOUNT STATE
+===================================================== */
+
+let discount = null;
+
+
+/* =====================================================
+   APPLY DISCOUNT
+===================================================== */
+
+async function applyDiscount(){
+
+const input =
+document.getElementById(
+"discountCode"
+);
+
+const message =
+document.getElementById(
+"discountMessage"
+);
+
+const code =
+input.value
+.trim()
+.toUpperCase();
+
+
+message.className =
+"discount-message";
+
+message.textContent =
+"";
+
+
+if(!code){
+
+message.classList.add(
+"discount-error"
+);
+
+message.textContent =
+"❌ اكتب كود الخصم أولاً";
+
+discount=null;
+
+updatePrices();
+
+return;
+
+}
+
+
+message.textContent =
+"⏳ جاري التحقق من الكود...";
+
+
+try{
+
+const result =
+await supabaseClient
+.from("promo_codes")
+.select("*")
+.eq("code",code)
+.limit(1)
+.maybeSingle();
+
+
+if(result.error){
+
+throw result.error;
+
+}
+
+
+const data =
+result.data;
+
+
+if(!data){
+
+discount=null;
+
+message.classList.add(
+"discount-error"
+);
+
+message.textContent =
+"❌ كود الخصم غير صحيح";
+
+updatePrices();
+
+return;
+
+}
+
+
+/* =========================
+   ACTIVE
+========================= */
+
+if(!data.is_active){
+
+discount=null;
+
+message.classList.add(
+"discount-error"
+);
+
+message.textContent =
+"❌ كود الخصم غير مفعل";
+
+updatePrices();
+
+return;
+
+}
+
+
+/* =========================
+   EXPIRY
+========================= */
+
+if(
+data.expires_at &&
+new Date(data.expires_at)<=new Date()
+){
+
+discount=null;
+
+message.classList.add(
+"discount-error"
+);
+
+message.textContent =
+"❌ كود الخصم منتهي الصلاحية";
+
+updatePrices();
+
+return;
+
+}
+
+
+/* =========================
+   USES
+========================= */
+
+const maxUses =
+Number(data.max_uses)||1;
+
+const usedCount =
+Number(data.used_count)||0;
+
+
+if(usedCount>=maxUses){
+
+discount=null;
+
+message.classList.add(
+"discount-error"
+);
+
+message.textContent =
+"❌ كود الخصم استنفد كل الاستخدامات";
+
+updatePrices();
+
+return;
+
+}
+
+
+/* =========================
+   SAVE DISCOUNT
+========================= */
+
+discount = {
+
+id:data.id,
+
+code:data.code,
+
+type:data.discount_type,
+
+value:Number(data.discount_value)||0,
+
+maxUses:maxUses,
+
+usedCount:usedCount
+
+};
+
+
+message.classList.add(
+"discount-success"
+);
+
+message.textContent =
+"✅ تم تطبيق كود الخصم: "+
+data.code+
+" — خصم "+
+(
+data.discount_type==="percent"
+?
+data.discount_value+"%"
+:
+data.discount_value+" جنيه"
+);
+
+
+updatePrices();
+
+
+}
+catch(error){
+
+console.error(
+"DISCOUNT ERROR:",
+error
+);
+
+discount=null;
+
+message.classList.add(
+"discount-error"
+);
+
+message.textContent =
+"❌ تعذر التحقق من كود الخصم:\n"+
+error.message;
+
+updatePrices();
+
+}
+
+}
+
+
+/* =====================================================
+   CALCULATE
+===================================================== */
+
+function calculateDiscount(price){
+
+if(!discount)
+return {
+discount:0,
+final:price
+};
+
+
+let amount=0;
+
+
+if(
+discount.type==="percent"
+){
+
+amount =
+price*
+discount.value/
+100;
+
+}
+else{
+
+amount =
+discount.value;
+
+}
+
+
+amount =
+Math.min(
+amount,
+price
+);
+
+
+const finalPrice =
+Math.max(
+price-amount,
+0
+);
+
+
+return {
+
+discount:amount,
+
+final:finalPrice
+
+};
+
+}
+
+
+/* =====================================================
+   UPDATE PRICES
+===================================================== */
+
+function updatePrices(){
+
+Object.keys(packages)
+.forEach(
+name=>{
+
+const data =
+packages[name];
+
+const id =
+data.gb;
+
+const oldPrice =
+document.getElementById(
+"old-"+id
+);
+
+const price =
+document.getElementById(
+"price-"+id
+);
+
+const badge =
+document.getElementById(
+"badge-"+id
+);
+
+
+const result =
+calculateDiscount(
+data.price
+);
+
+
+if(discount){
+
+oldPrice.style.display =
+"block";
+
+oldPrice.textContent =
+data.price+
+" جنيه";
+
+price.innerHTML =
+result.final+
+' <span>جنيه</span>';
+
+badge.style.display =
+"inline-block";
+
+badge.textContent =
+"🎟️ خصم "+
+(
+data.price-result.final
+)+
+" جنيه";
+
+}
+else{
+
+oldPrice.style.display =
+"none";
+
+price.innerHTML =
+data.price+
+' <span>جنيه</span>';
+
+badge.style.display =
+"none";
+
+}
+
+}
+);
+
+}
+
+
+/* =====================================================
+   SELECT PACKAGE
+===================================================== */
 
 function selectPackage(
 name,
@@ -598,14 +1371,47 @@ gb,
 price
 ){
 
+const result =
+calculateDiscount(price);
+
+
 const params =
 new URLSearchParams({
 
+type:"new",
+
 package:name,
+
 gb:gb,
-price:price
+
+original_price:price,
+
+discount_code:
+discount
+?
+discount.code
+:"",
+
+discount_type:
+discount
+?
+discount.type
+:"",
+
+discount_value:
+discount
+?
+discount.value
+:0,
+
+discount_amount:
+result.discount,
+
+price:
+result.final
 
 });
+
 
 window.location.href =
 "checkout.html?"+
