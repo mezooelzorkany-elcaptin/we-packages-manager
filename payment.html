@@ -2,443 +2,578 @@
 <html lang="ar" dir="rtl">
 
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>الدفع | WE Packages</title>
+<title>إتمام الدفع | WE Packages</title>
 
 <style>
 
 *{
-box-sizing:border-box;
-font-family:Arial,Tahoma,sans-serif
+    box-sizing:border-box;
 }
 
 body{
-margin:0;
-min-height:100vh;
+    margin:0;
+    min-height:100vh;
+    font-family:Arial,Tahoma,sans-serif;
+    color:#19182d;
 
-background:
-radial-gradient(
-circle at 100% 0%,
-#a06cf0 0%,
-transparent 38%
-),
-
-linear-gradient(
-135deg,
-#f1eff9,
-#ded5f0,
-#d1c5e8
-);
-
-color:#19182d
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            #a06cf0 0%,
+            transparent 38%
+        ),
+        linear-gradient(
+            135deg,
+            #f1eff9,
+            #ded5f0,
+            #d1c5e8
+        );
 }
 
 .container{
-width:92%;
-max-width:650px;
-margin:auto;
-padding:28px 0 70px
+    width:92%;
+    max-width:650px;
+    margin:auto;
+    padding:28px 0 70px;
 }
 
 .card{
-background:rgba(255,255,255,.84);
-border:1px solid rgba(255,255,255,.95);
-border-radius:30px;
-padding:26px 20px 32px;
+    background:rgba(255,255,255,.82);
+    border:1px solid rgba(255,255,255,.95);
+    border-radius:32px;
+    padding:26px 20px 32px;
 
-backdrop-filter:blur(20px);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
 
-box-shadow:
-0 20px 55px
-rgba(60,35,120,.15)
+    box-shadow:
+        0 20px 55px rgba(60,35,120,.15);
 }
 
+.logo-top{
+    width:64px;
+    height:64px;
 
-/* HEADER */
+    margin:0 auto 12px;
 
-.logo{
-text-align:center;
-font-size:43px;
-margin-bottom:8px
+    border-radius:22px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:31px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5420b8,
+            #9747ff
+        );
+
+    box-shadow:
+        0 10px 25px rgba(84,32,184,.22);
 }
 
 .title{
-text-align:center;
-color:#5420b8;
-font-size:30px;
-font-weight:900;
-margin-bottom:7px
+    text-align:center;
+    color:#5420b8;
+
+    font-size:30px;
+    font-weight:900;
+
+    margin:0 0 7px;
 }
 
 .subtitle{
-text-align:center;
-color:#777;
-font-size:15px;
-line-height:1.8;
-margin-bottom:20px
+    text-align:center;
+    color:#777;
+
+    font-size:15px;
+    line-height:1.8;
+
+    margin-bottom:22px;
 }
-
-
-/* TYPE */
-
-.customer-type{
-
-padding:14px;
-
-border-radius:16px;
-
-text-align:center;
-
-font-size:18px;
-
-font-weight:900;
-
-margin-bottom:18px
-}
-
-.new{
-
-background:#eee5ff;
-
-color:#5420b8
-}
-
-.current{
-
-background:#dff8e8;
-
-color:#08752d
-}
-
-
-/* SUMMARY */
 
 .summary{
+    border-radius:26px;
+    padding:22px 18px;
 
-border-radius:25px;
+    color:#fff;
+    text-align:center;
 
-padding:22px 18px;
+    background:
+        linear-gradient(
+            135deg,
+            #5420b8,
+            #9747ff
+        );
 
-color:#fff;
-
-text-align:center;
-
-background:
-linear-gradient(
-135deg,
-#5420b8,
-#9747ff
-);
-
-box-shadow:
-0 15px 35px
-rgba(84,32,184,.20)
+    box-shadow:
+        0 15px 35px rgba(84,32,184,.20);
 }
 
-.summary-small{
-font-size:14px;
-opacity:.9
+.summary-top{
+    font-size:15px;
 }
 
 .summary-package{
-font-size:29px;
-font-weight:900;
-margin-top:10px
+    font-size:31px;
+    font-weight:900;
+    margin-top:12px;
 }
 
 .summary-price{
-font-size:34px;
-font-weight:900;
-margin-top:5px
+    font-size:34px;
+    font-weight:900;
+    margin-top:5px;
 }
 
-.summary-discount{
-margin-top:8px;
-font-size:14px;
-color:#e5ffe8
-}
+.section-title{
+    text-align:center;
 
+    margin:28px 0 15px;
 
-/* INFO */
+    font-size:25px;
+    font-weight:900;
 
-.info{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin-top:20px
-}
-
-.info-box{
-background:#f7f5fb;
-border-radius:15px;
-padding:14px
-}
-
-.info-box small{
-display:block;
-color:#888;
-margin-bottom:6px
-}
-
-.info-box strong{
-font-size:15px;
-word-break:break-word
+    color:#5420b8;
 }
 
 
 /* PAYMENT */
 
-.section-title{
-text-align:center;
+.payment-card{
+    position:relative;
 
-margin:28px 0 15px;
+    display:flex;
+    align-items:center;
 
-font-size:24px;
+    gap:14px;
 
-font-weight:900;
+    min-height:128px;
 
-color:#5420b8
+    padding:16px 14px;
+    margin-bottom:16px;
+
+    border-radius:26px;
+
+    background:#fff;
+
+    border:2px solid #eee7f8;
+
+    cursor:pointer;
+
+    transition:.2s ease;
+
+    box-shadow:
+        0 8px 28px rgba(84,32,184,.07);
 }
 
-.payment-card{
-
-display:flex;
-
-align-items:center;
-
-gap:13px;
-
-padding:17px;
-
-margin-bottom:12px;
-
-border-radius:20px;
-
-background:#fff;
-
-border:2px solid #eee7f8;
-
-cursor:pointer;
-
-transition:.2s
+.payment-card:hover{
+    transform:translateY(-1px);
 }
 
 .payment-card.selected{
+    border-color:#7544cf;
 
-border-color:#7544cf;
+    background:#faf7ff;
 
-background:#faf7ff
+    box-shadow:
+        0 12px 32px rgba(84,32,184,.14);
 }
 
 .payment-card input{
-
-display:none
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
 }
 
+
+/* RADIO */
+
 .radio{
+    width:25px;
+    height:25px;
 
-width:24px;
-height:24px;
+    border:3px solid #bdbdbd;
 
-border:3px solid #bbb;
+    border-radius:50%;
 
-border-radius:50%;
+    flex:0 0 25px;
 
-flex:0 0 24px;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 .payment-card.selected .radio{
-
-border-color:#6d28d9
+    border-color:#6d28d9;
 }
 
 .payment-card.selected .radio span{
+    width:11px;
+    height:11px;
 
-width:10px;
-height:10px;
+    border-radius:50%;
 
-background:#6d28d9;
-
-border-radius:50%
+    background:#6d28d9;
 }
 
-.payment-icon{
-font-size:28px
+
+/* INFO */
+
+.payment-info{
+    flex:1;
+
+    text-align:center;
+
+    min-width:0;
 }
 
 .payment-name{
-font-weight:bold;
-font-size:17px
+    font-size:23px;
+    font-weight:900;
+
+    color:#171426;
+}
+
+.payment-number{
+    display:inline-block;
+
+    margin-top:6px;
+
+    font-size:22px;
+    font-weight:900;
+
+    color:#2417c8;
+
+    text-decoration:underline;
+
+    direction:ltr;
+}
+
+.payment-desc{
+    margin-top:6px;
+
+    color:#777;
+
+    font-size:14px;
 }
 
 
-/* PROOF */
+/* LOGO */
 
-.proof{
+.payment-logo{
+    width:92px;
+    height:92px;
 
-margin-top:20px;
+    border-radius:25px;
 
-display:none
+    background:#fff;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:7px;
+
+    flex:0 0 92px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.09);
+
+    overflow:hidden;
 }
 
-.proof label{
+.payment-logo img{
+    width:100%;
+    height:100%;
 
-display:block;
+    object-fit:contain;
 
-font-weight:bold;
-
-margin-bottom:9px
+    border-radius:19px;
 }
 
-.proof input{
 
-width:100%;
+/* COPY */
 
-padding:14px;
+.copy-btn{
+    display:block;
 
-border:1px solid #ddd;
+    margin:7px auto 0;
 
-border-radius:14px;
+    border:0;
 
-background:white
+    background:#eee6ff;
+
+    color:#5420b8;
+
+    border-radius:10px;
+
+    padding:6px 11px;
+
+    font-weight:bold;
+
+    cursor:pointer;
 }
 
-.hint{
 
-font-size:12px;
+/* UPLOAD */
 
-color:#777;
+.upload{
+    padding:22px 16px;
 
-margin-top:7px;
+    border:2px dashed #8c5bd4;
 
-line-height:1.6
+    border-radius:25px;
+
+    text-align:center;
+
+    background:rgba(255,255,255,.72);
+}
+
+.upload-icon{
+    font-size:46px;
+    margin-bottom:5px;
+}
+
+.upload-title{
+    color:#5420b8;
+
+    font-size:24px;
+
+    font-weight:900;
+}
+
+.upload-desc{
+    color:#777;
+
+    font-size:14px;
+
+    line-height:1.8;
+
+    margin:8px 0 16px;
+}
+
+.file-label{
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    width:100%;
+
+    padding:16px;
+
+    border-radius:17px;
+
+    color:#fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5420b8,
+            #9747ff
+        );
+
+    font-size:19px;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 10px 25px rgba(84,32,184,.18);
+}
+
+#paymentScreenshot{
+    display:none;
+}
+
+.file-name{
+    display:none;
+
+    margin-top:12px;
+
+    color:#5420b8;
+
+    font-weight:900;
+
+    word-break:break-word;
+}
+
+.preview{
+    display:none;
+
+    width:100%;
+
+    max-height:320px;
+
+    object-fit:contain;
+
+    margin-top:15px;
+
+    border-radius:18px;
+
+    border:1px solid #ddd;
 }
 
 
 /* BUTTON */
 
 .submit{
+    width:100%;
 
-width:100%;
+    margin-top:18px;
 
-margin-top:22px;
+    padding:18px;
 
-padding:17px;
+    border:0;
 
-border:0;
+    border-radius:19px;
 
-border-radius:17px;
+    color:#fff;
 
-background:
-linear-gradient(
-135deg,
-#5420b8,
-#9747ff
-);
+    background:
+        linear-gradient(
+            135deg,
+            #5420b8,
+            #9747ff
+        );
 
-color:white;
+    font-size:20px;
 
-font-size:18px;
+    font-weight:900;
 
-font-weight:bold;
+    cursor:pointer;
 
-cursor:pointer
+    box-shadow:
+        0 12px 28px rgba(84,32,184,.22);
 }
 
 .submit:disabled{
-
-opacity:.6;
-
-cursor:not-allowed
+    opacity:.6;
+    cursor:not-allowed;
 }
 
 
-/* MESSAGE */
-
-.message{
-
-display:none;
-
-margin-top:15px;
-
-padding:14px;
-
-border-radius:14px;
-
-text-align:center;
-
-font-weight:bold;
-
-line-height:1.7
-}
+/* ERROR */
 
 .error{
+    display:none;
 
-background:#ffe2e2;
+    margin-top:16px;
 
-color:#a00000
+    padding:14px;
+
+    border-radius:15px;
+
+    background:#ffe1e1;
+
+    color:#a00000;
+
+    text-align:center;
+
+    font-weight:bold;
+
+    word-break:break-word;
 }
+
+
+/* SUCCESS */
 
 .success{
+    display:none;
 
-background:#dff8e8;
+    text-align:center;
 
-color:#08752d
+    padding:24px 5px;
 }
 
-
-/* ORDER */
-
-.order-number{
-
-margin-top:20px;
-
-padding:14px;
-
-background:#eee6ff;
-
-border-radius:15px;
-
-text-align:center;
-
-color:#5420b8;
-
-font-weight:bold
+.success-icon{
+    font-size:65px;
 }
 
+.success h2{
+    color:#5420b8;
+    margin:8px 0;
+}
+
+.success p{
+    color:#666;
+    line-height:1.9;
+}
 
 .back{
+    display:block;
 
-display:block;
+    text-align:center;
 
-text-align:center;
+    margin-top:22px;
 
-margin-top:20px;
+    color:#5420b8;
 
-color:#5420b8;
+    text-decoration:none;
 
-text-decoration:none;
+    font-weight:bold;
 
-font-weight:bold
+    font-size:18px;
 }
 
 
-@media(max-width:550px){
+@media(max-width:430px){
 
-.info{
+    .container{
+        width:94%;
+        padding-top:15px;
+    }
 
-grid-template-columns:1fr
+    .card{
+        padding:22px 14px 28px;
+        border-radius:28px;
+    }
 
-}
+    .summary-package{
+        font-size:28px;
+    }
+
+    .summary-price{
+        font-size:32px;
+    }
+
+    .payment-card{
+        gap:10px;
+        padding:13px 10px;
+    }
+
+    .payment-logo{
+        width:78px;
+        height:78px;
+        flex-basis:78px;
+        border-radius:22px;
+    }
+
+    .payment-name{
+        font-size:20px;
+    }
+
+    .payment-number{
+        font-size:19px;
+    }
+
+    .payment-desc{
+        font-size:12px;
+    }
+
+    .radio{
+        width:22px;
+        height:22px;
+        flex-basis:22px;
+    }
 
 }
 
@@ -446,325 +581,289 @@ grid-template-columns:1fr
 
 </head>
 
-<body>
 
+<body>
 
 <div class="container">
 
 <div class="card">
 
 
-<div class="logo">
-💳
+<div class="logo-top">
+    💳
 </div>
 
 
 <div class="title">
-إتمام الدفع
+    إتمام التحويل
 </div>
 
 
 <div class="subtitle">
-راجع بيانات الطلب واختار طريقة الدفع
+    اختر طريقة الدفع المناسبة ثم ارفع صورة التحويل
 </div>
 
-
-<!-- TYPE -->
-
-<div
-id="customerType"
-class="customer-type"
->
-⏳ جاري تحميل نوع العميل...
-</div>
-
-
-<!-- SUMMARY -->
 
 <div class="summary">
 
-<div class="summary-small">
-بيانات الطلب
-</div>
+    <div class="summary-top">
+        رقم الطلب:
+        <span id="orderNumber">
+            جاري التحميل...
+        </span>
+    </div>
 
-<div
-id="packageName"
-class="summary-package"
->
-جاري التحميل...
-</div>
+    <div
+        class="summary-package"
+        id="packageName"
+    >
+        جاري التحميل...
+    </div>
 
-<div
-id="price"
-class="summary-price"
->
---
-</div>
-
-<div
-id="discount"
-class="summary-discount"
-></div>
+    <div
+        class="summary-price"
+        id="price"
+    >
+        --
+    </div>
 
 </div>
 
 
-<!-- INFO -->
+<div id="paymentContent">
 
-<div class="info">
-
-
-<div class="info-box">
-
-<small>
-👤 العميل
-</small>
-
-<strong
-id="customerName"
->
---
-</strong>
-
-</div>
-
-
-<div class="info-box">
-
-<small>
-📱 الرقم
-</small>
-
-<strong
-id="customerPhone"
->
---
-</strong>
-
-</div>
-
-
-<div class="info-box">
-
-<small>
-📋 رقم الطلب
-</small>
-
-<strong
-id="orderNumberSmall"
->
---
-</strong>
-
-</div>
-
-
-<div class="info-box">
-
-<small>
-📌 نوع الطلب
-</small>
-
-<strong
-id="orderTypeSmall"
->
---
-</strong>
-
-</div>
-
-
-</div>
-
-
-<!-- PAYMENT -->
 
 <div class="section-title">
-💰 اختر طريقة الدفع
+    اختر طريقة الدفع
 </div>
 
 
-<label
-class="payment-card"
-onclick="selectPayment(this,'Vodafone Cash')"
->
-
-<input
-type="radio"
-name="payment"
-value="Vodafone Cash"
->
-
-<div class="radio">
-<span></span>
-</div>
-
-<div class="payment-icon">
-🔴
-</div>
-
-<div class="payment-name">
-Vodafone Cash
-</div>
-
-</label>
-
-
-<label
-class="payment-card"
-onclick="selectPayment(this,'Etisalat Cash')"
->
-
-<input
-type="radio"
-name="payment"
-value="Etisalat Cash"
->
-
-<div class="radio">
-<span></span>
-</div>
-
-<div class="payment-icon">
-🟢
-</div>
-
-<div class="payment-name">
-Etisalat Cash
-</div>
-
-</label>
-
-
-<label
-class="payment-card"
-onclick="selectPayment(this,'WE Pay')"
->
-
-<input
-type="radio"
-name="payment"
-value="WE Pay"
->
-
-<div class="radio">
-<span></span>
-</div>
-
-<div class="payment-icon">
-💜
-</div>
-
-<div class="payment-name">
-WE Pay
-</div>
-
-</label>
-
-
-<label
-class="payment-card"
-onclick="selectPayment(this,'Orange Cash')"
->
-
-<input
-type="radio"
-name="payment"
-value="Orange Cash"
->
-
-<div class="radio">
-<span></span>
-</div>
-
-<div class="payment-icon">
-🟠
-</div>
-
-<div class="payment-name">
-Orange Cash
-</div>
-
-</label>
-
-
-<label
-class="payment-card"
-onclick="selectPayment(this,'كاش')"
->
-
-<input
-type="radio"
-name="payment"
-value="كاش"
->
-
-<div class="radio">
-<span></span>
-</div>
-
-<div class="payment-icon">
-💵
-</div>
-
-<div class="payment-name">
-كاش
-</div>
-
-</label>
-
-
-<!-- PROOF -->
+<!-- VODAFONE CASH -->
 
 <div
-id="proof"
-class="proof"
+    class="payment-card"
+    id="vodafoneCard"
+    onclick="selectPayment('Vodafone Cash')"
 >
 
-<label>
-📸 صورة التحويل
-</label>
+    <input
+        type="radio"
+        name="payment"
+        value="Vodafone Cash"
+    >
 
-<input
-type="file"
-id="proofFile"
-accept="image/*"
->
+    <div class="radio">
+        <span></span>
+    </div>
 
-<div class="hint">
-ارفع صورة واضحة لإيصال التحويل.
+    <div class="payment-info">
+
+        <div class="payment-name">
+            Vodafone Cash
+        </div>
+
+        <a
+            class="payment-number"
+            href="tel:01090532469"
+            onclick="event.stopPropagation()"
+        >
+            01090532469
+        </a>
+
+        <div class="payment-desc">
+            حوّل المبلغ المطلوب إلى الرقم
+        </div>
+
+        <button
+            class="copy-btn"
+            type="button"
+            onclick="copyNumber('01090532469',event)"
+        >
+            نسخ الرقم
+        </button>
+
+    </div>
+
+    <div class="payment-logo">
+
+        <img
+            src="https://16093.tel/icons/vodafone.png"
+            alt="Vodafone Cash"
+        >
+
+    </div>
+
 </div>
 
-</div>
 
+<!-- INSTAPAY -->
 
 <div
-id="message"
-class="message"
-></div>
+    class="payment-card"
+    id="instapayCard"
+    onclick="selectPayment('InstaPay')"
+>
+
+    <input
+        type="radio"
+        name="payment"
+        value="InstaPay"
+    >
+
+    <div class="radio">
+        <span></span>
+    </div>
+
+    <div class="payment-info">
+
+        <div class="payment-name">
+            InstaPay
+        </div>
+
+        <a
+            class="payment-number"
+            href="tel:01090532469"
+            onclick="event.stopPropagation()"
+        >
+            01090532469
+        </a>
+
+        <div class="payment-desc">
+            حوّل المبلغ المطلوب عبر InstaPay
+        </div>
+
+        <button
+            class="copy-btn"
+            type="button"
+            onclick="copyNumber('01090532469',event)"
+        >
+            نسخ الرقم
+        </button>
+
+    </div>
+
+    <div class="payment-logo">
+
+        <img
+            src="https://commons.wikimedia.org/wiki/Special:Redirect/file/InstaPay_Logo.png"
+            alt="InstaPay"
+        >
+
+    </div>
+
+</div>
+
+
+<div class="section-title">
+    📸 صورة إثبات التحويل
+</div>
+
+
+<div class="upload">
+
+    <div class="upload-icon">
+        📸
+    </div>
+
+    <div class="upload-title">
+        صورة إثبات التحويل
+    </div>
+
+    <div class="upload-desc">
+        لازم ترفق Screenshot واضحة للتحويل
+        <br>
+        الحد الأقصى لحجم الصورة 5 ميجا
+    </div>
+
+    <label
+        class="file-label"
+        for="paymentScreenshot"
+    >
+        اختيار صورة التحويل 📁
+    </label>
+
+    <input
+        type="file"
+        id="paymentScreenshot"
+        accept="image/jpeg,image/png,image/webp"
+        onchange="previewImage()"
+    >
+
+    <div
+        class="file-name"
+        id="fileName"
+    ></div>
+
+    <img
+        class="preview"
+        id="preview"
+        alt="صورة التحويل"
+    >
+
+</div>
 
 
 <button
-id="submitButton"
-class="submit"
-onclick="submitPayment()"
+    class="submit"
+    id="submitButton"
+    onclick="confirmPayment()"
 >
-✅ تأكيد الدفع وإرسال الطلب
+    ✅ تم التحويل وإرسال الطلب
 </button>
 
 
 <div
-id="orderNumber"
-class="order-number"
+    class="error"
+    id="errorMessage"
+></div>
+
+
+</div>
+
+
+<div
+    class="success"
+    id="successBox"
 >
+
+    <div class="success-icon">
+        🎉
+    </div>
+
+    <h2>
+        تم إرسال التحويل بنجاح
+    </h2>
+
+    <p>
+        تم استلام صورة التحويل والطلب.
+        <br>
+        سيتم مراجعة التحويل وتفعيل الباقة.
+    </p>
+
+    <div
+        class="summary"
+        style="margin-top:20px"
+    >
+
+        <div class="summary-top">
+            رقم الطلب
+        </div>
+
+        <div
+            id="successOrder"
+            style="font-size:20px;font-weight:900;margin-top:8px"
+        ></div>
+
+    </div>
+
 </div>
 
 
 <a
-href="index.html"
-class="back"
+    href="packages.html"
+    class="back"
 >
-← العودة للرئيسية
+    ← العودة للباقات
 </a>
 
 
@@ -775,25 +874,19 @@ class="back"
 
 <script>
 
-
-/* =====================================================
-   SUPABASE
-===================================================== */
-
 const SUPABASE_URL =
 "https://pgvbynefhqmyzjtccttl.supabase.co";
 
 const SUPABASE_KEY =
 "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 
+const STORAGE_BUCKET =
+"payment-screenshots";
 
-/* =====================================================
-   ORDER
-===================================================== */
 
 const params =
 new URLSearchParams(
-window.location.search
+    window.location.search
 );
 
 
@@ -801,591 +894,830 @@ const orderNumber =
 params.get("order");
 
 
-let order = null;
+let selectedPayment = null;
 
-let selectedPayment = "";
+let orderData = null;
 
 
-/* =====================================================
+/* =========================
    LOAD ORDER
-===================================================== */
+========================= */
 
 async function loadOrder(){
 
-if(!orderNumber){
+    if(!orderNumber){
 
-showMessage(
-"❌ رقم الطلب غير موجود",
-"error"
-);
+        showError(
+            "❌ رقم الطلب غير موجود"
+        );
 
-return;
-
-}
+        return;
+    }
 
 
-try{
+    try{
 
-const response =
-await fetch(
+        const response =
+            await fetch(
 
-SUPABASE_URL+
-"/rest/v1/orders?select=*&order_number=eq."+
-encodeURIComponent(
-orderNumber
-)+
-"&limit=1",
+                SUPABASE_URL +
+                "/rest/v1/orders?order_number=eq." +
+                encodeURIComponent(orderNumber) +
+                "&select=*",
 
-{
+                {
+                    headers:{
+                        "apikey":
+                            SUPABASE_KEY,
 
-headers:{
+                        "Authorization":
+                            "Bearer " +
+                            SUPABASE_KEY
+                    }
+                }
 
-"apikey":
-SUPABASE_KEY,
-
-"Authorization":
-"Bearer "+
-SUPABASE_KEY
-
-}
-
-}
-
-);
+            );
 
 
-const data =
-await response.json();
+        const data =
+            await response.json();
 
 
-if(!response.ok){
+        if(
+            !response.ok ||
+            !data.length
+        ){
 
-throw new Error(
-data.message||
-"تعذر تحميل الطلب"
-);
+            showError(
+                "❌ لم يتم العثور على الطلب"
+            );
 
-}
-
-
-if(
-!Array.isArray(data)||
-!data.length
-){
-
-throw new Error(
-"الطلب غير موجود"
-);
-
-}
+            return;
+        }
 
 
-order =
-data[0];
+        orderData =
+            data[0];
 
 
-displayOrder();
+        document.getElementById(
+            "orderNumber"
+        ).textContent =
+            orderData.order_number;
 
 
-}
-catch(error){
-
-console.error(
-"LOAD ORDER:",
-error
-);
-
-showMessage(
-"❌ "+error.message,
-"error"
-);
-
-}
-
-}
+        document.getElementById(
+            "packageName"
+        ).textContent =
+            orderData.package_name;
 
 
-/* =====================================================
-   TYPE FROM ORDER NUMBER
-===================================================== */
+        document.getElementById(
+            "price"
+        ).textContent =
+            Number(
+                orderData.final_price
+            ) +
+            " جنيه";
 
-function getOrderType(){
+    }
+    catch(error){
 
-if(
-String(order.order_number)
-.startsWith("CURRENT-")
-){
+        console.error(
+            "LOAD ORDER:",
+            error
+        );
 
-return "current";
+        showError(
+            "❌ تعذر تحميل بيانات الطلب"
+        );
 
-}
-
-if(
-String(order.order_number)
-.startsWith("NEW-")
-){
-
-return "new";
+    }
 
 }
 
 
-/*
-طلبات قديمة
-*/
-
-return "new";
-
-}
-
-
-/* =====================================================
-   DISPLAY
-===================================================== */
-
-function displayOrder(){
-
-const type =
-getOrderType();
-
-
-const typeBox =
-document.getElementById(
-"customerType"
-);
-
-
-const typeSmall =
-document.getElementById(
-"orderTypeSmall"
-);
-
-
-if(type==="current"){
-
-typeBox.className =
-"customer-type current";
-
-typeBox.textContent =
-"👤 عميل حالي — تجديد الباقة";
-
-typeSmall.textContent =
-"👤 عميل حالي";
-
-}
-else{
-
-typeBox.className =
-"customer-type new";
-
-typeBox.textContent =
-"🆕 عميل جديد — اشتراك جديد";
-
-typeSmall.textContent =
-"🆕 عميل جديد";
-
-}
-
-
-document.getElementById(
-"packageName"
-).textContent =
-order.package_name||"-";
-
-
-document.getElementById(
-"price"
-).textContent =
-(
-Number(order.final_price)||0
-)+
-" جنيه";
-
-
-document.getElementById(
-"customerName"
-).textContent =
-order.subscriber_name||"-";
-
-
-document.getElementById(
-"customerPhone"
-).textContent =
-order.phone||"-";
-
-
-document.getElementById(
-"orderNumberSmall"
-).textContent =
-order.order_number||"-";
-
-
-if(
-Number(order.original_price)>
-Number(order.final_price)
-){
-
-document.getElementById(
-"discount"
-).textContent =
-"🎟️ تم تطبيق الخصم — السعر النهائي بعد الخصم";
-
-}
-
-}
-
-
-/* =====================================================
+/* =========================
    SELECT PAYMENT
-===================================================== */
+========================= */
 
-function selectPayment(
-element,
-method
+function selectPayment(method){
+
+    selectedPayment =
+        method;
+
+
+    document
+        .getElementById(
+            "vodafoneCard"
+        )
+        .classList.remove(
+            "selected"
+        );
+
+
+    document
+        .getElementById(
+            "instapayCard"
+        )
+        .classList.remove(
+            "selected"
+        );
+
+
+    document
+        .querySelectorAll(
+            'input[name="payment"]'
+        )
+        .forEach(
+            function(input){
+
+                input.checked =
+                    input.value ===
+                    method;
+
+            }
+        );
+
+
+    if(
+        method ===
+        "Vodafone Cash"
+    ){
+
+        document
+            .getElementById(
+                "vodafoneCard"
+            )
+            .classList.add(
+                "selected"
+            );
+
+    }
+
+
+    if(
+        method ===
+        "InstaPay"
+    ){
+
+        document
+            .getElementById(
+                "instapayCard"
+            )
+            .classList.add(
+                "selected"
+            );
+
+    }
+
+
+    hideError();
+
+}
+
+
+/* =========================
+   COPY NUMBER
+========================= */
+
+async function copyNumber(
+    number,
+    event
 ){
 
-document
-.querySelectorAll(
-".payment-card"
-)
-.forEach(
-card =>
-card.classList.remove(
-"selected"
-)
-);
+    event.preventDefault();
+
+    event.stopPropagation();
 
 
-element.classList.add(
-"selected"
-);
+    try{
+
+        await navigator.clipboard.writeText(
+            number
+        );
 
 
-element
-.querySelector(
-"input"
-)
-.checked =
-true;
+        const button =
+            event.currentTarget;
 
 
-selectedPayment =
-method;
+        const oldText =
+            button.textContent;
 
 
-/*
-إظهار رفع الصورة
-*/
+        button.textContent =
+            "تم النسخ ✓";
 
-document.getElementById(
-"proof"
-).style.display =
-"block";
+
+        setTimeout(
+            function(){
+
+                button.textContent =
+                    oldText;
+
+            },
+            1500
+        );
+
+    }
+    catch(error){
+
+        alert(
+            "انسخ الرقم يدويًا: " +
+            number
+        );
+
+    }
+
+}
+
+
+/* =========================
+   PREVIEW
+========================= */
+
+function previewImage(){
+
+    const input =
+        document.getElementById(
+            "paymentScreenshot"
+        );
+
+
+    const preview =
+        document.getElementById(
+            "preview"
+        );
+
+
+    const fileName =
+        document.getElementById(
+            "fileName"
+        );
+
+
+    if(
+        !input.files.length
+    ){
+
+        preview.style.display =
+            "none";
+
+        fileName.style.display =
+            "none";
+
+        return;
+    }
+
+
+    const file =
+        input.files[0];
+
+
+    if(
+        file.size >
+        5 * 1024 * 1024
+    ){
+
+        showError(
+            "❌ حجم الصورة أكبر من 5 ميجا"
+        );
+
+
+        input.value = "";
+
+        preview.style.display =
+            "none";
+
+        fileName.style.display =
+            "none";
+
+        return;
+    }
+
+
+    if(
+        ![
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+        ].includes(
+            file.type
+        )
+    ){
+
+        showError(
+            "❌ اختار صورة JPG أو PNG أو WEBP"
+        );
+
+        input.value = "";
+
+        return;
+    }
+
+
+    hideError();
+
+
+    fileName.textContent =
+        "✅ " +
+        file.name;
+
+
+    fileName.style.display =
+        "block";
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function(e){
+
+            preview.src =
+                e.target.result;
+
+            preview.style.display =
+                "block";
+
+        };
+
+
+    reader.readAsDataURL(
+        file
+    );
+
+}
+
+
+/* =========================
+   UPLOAD
+========================= */
+
+async function uploadScreenshot(
+    file
+){
+
+    const extension =
+        file.name
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+
+    const safeExtension =
+        [
+            "jpg",
+            "jpeg",
+            "png",
+            "webp"
+        ].includes(
+            extension
+        )
+        ?
+        extension
+        :
+        "jpg";
+
+
+    const filePath =
+        orderNumber +
+        "/" +
+        Date.now() +
+        "." +
+        safeExtension;
+
+
+    const encodedPath =
+        filePath
+            .split("/")
+            .map(
+                part =>
+                    encodeURIComponent(
+                        part
+                    )
+            )
+            .join("/");
+
+
+    const response =
+        await fetch(
+
+            SUPABASE_URL +
+            "/storage/v1/object/" +
+            STORAGE_BUCKET +
+            "/" +
+            encodedPath,
+
+            {
+                method:"POST",
+
+                headers:{
+
+                    "apikey":
+                        SUPABASE_KEY,
+
+                    "Authorization":
+                        "Bearer " +
+                        SUPABASE_KEY,
+
+                    "Content-Type":
+                        file.type,
+
+                    "x-upsert":
+                        "false"
+
+                },
+
+                body:file
+
+            }
+
+        );
+
+
+    const text =
+        await response.text();
+
+
+    if(
+        !response.ok
+    ){
+
+        throw new Error(
+            "فشل رفع الصورة: " +
+            text
+        );
+
+    }
+
+
+    return (
+
+        SUPABASE_URL +
+        "/storage/v1/object/public/" +
+        STORAGE_BUCKET +
+        "/" +
+        encodedPath
+
+    );
+
+}
+
+
+/* =========================
+   TELEGRAM
+========================= */
+
+async function sendTelegram(
+    screenshotUrl
+){
+
+    const message =
+
+`💰 تحويل جديد - WE Packages
+
+📋 رقم الطلب:
+${orderData.order_number}
+
+👤 اسم المشترك:
+${orderData.subscriber_name || "غير مسجل"}
+
+📱 رقم الهاتف:
+${orderData.phone}
+
+📦 الباقة:
+${orderData.package_name}
+
+💵 المبلغ:
+${orderData.final_price} جنيه
+
+💳 طريقة الدفع:
+${selectedPayment}
+
+📸 صورة إثبات التحويل مرفقة
+
+📌 الحالة:
+تم التحويل - في انتظار المراجعة`;
+
+
+    const response =
+        await fetch(
+
+            SUPABASE_URL +
+            "/functions/v1/telegram-notify",
+
+            {
+                method:"POST",
+
+                headers:{
+
+                    "Content-Type":
+                        "application/json",
+
+                    "apikey":
+                        SUPABASE_KEY,
+
+                    "Authorization":
+                        "Bearer " +
+                        SUPABASE_KEY
+
+                },
+
+                body:
+                    JSON.stringify({
+
+                        text:
+                            message,
+
+                        photo_url:
+                            screenshotUrl
+
+                    })
+
+            }
+
+        );
+
+
+    const text =
+        await response.text();
+
+
+    console.log(
+        "TELEGRAM:",
+        response.status,
+        text
+    );
 
 }
 
 
 /* =====================================================
-   MESSAGE
+   CONFIRM PAYMENT
 ===================================================== */
 
-function showMessage(
-text,
-type
-){
+async function confirmPayment(){
 
-const box =
-document.getElementById(
-"message"
-);
+    const button =
+        document.getElementById(
+            "submitButton"
+        );
 
-box.className =
-"message "+type;
 
-box.textContent =
-text;
+    const input =
+        document.getElementById(
+            "paymentScreenshot"
+        );
 
-box.style.display =
-"block";
+
+    hideError();
+
+
+    if(!selectedPayment){
+
+        showError(
+            "❌ اختار طريقة الدفع أولاً"
+        );
+
+        return;
+    }
+
+
+    if(!orderData){
+
+        showError(
+            "❌ بيانات الطلب غير موجودة"
+        );
+
+        return;
+    }
+
+
+    if(!input.files.length){
+
+        showError(
+            "❌ لازم ترفق صورة التحويل"
+        );
+
+        return;
+    }
+
+
+    const file =
+        input.files[0];
+
+
+    button.disabled =
+        true;
+
+
+    try{
+
+        /* رفع الصورة */
+
+        button.textContent =
+            "⏳ جاري رفع الصورة...";
+
+
+        const screenshotUrl =
+            await uploadScreenshot(
+                file
+            );
+
+
+        /* تحديث الطلب */
+
+        button.textContent =
+            "⏳ جاري تسجيل التحويل...";
+
+
+        const updateResponse =
+            await fetch(
+
+                SUPABASE_URL +
+                "/rest/v1/orders?order_number=eq." +
+                encodeURIComponent(
+                    orderNumber
+                ),
+
+                {
+                    method:"PATCH",
+
+                    headers:{
+
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            SUPABASE_KEY,
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Prefer":
+                            "return=minimal"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            payment_method:
+                                selectedPayment,
+
+                            payment_screenshot:
+                                screenshotUrl,
+
+                            status:
+                                "payment_submitted"
+
+                        })
+
+                }
+
+            );
+
+
+        if(!updateResponse.ok){
+
+            throw new Error(
+                "فشل تسجيل التحويل: " +
+                await updateResponse.text()
+            );
+
+        }
+
+
+        /*
+         * =================================================
+         * مهم جدًا:
+         *
+         * لا يوجد هنا:
+         *
+         * redeem_promo_code
+         *
+         * ولا أي تعديل على used_count.
+         *
+         * الكود لن يُستهلك عند إرسال التحويل.
+         *
+         * استهلاك الكود يجب أن يحدث فقط عند:
+         *
+         * ✅ تأكيد الدفع من لوحة الإدارة.
+         * =================================================
+         */
+
+
+        button.textContent =
+            "⏳ جاري إرسال الطلب...";
+
+
+        try{
+
+            await sendTelegram(
+                screenshotUrl
+            );
+
+        }
+        catch(error){
+
+            console.error(
+                "Telegram error:",
+                error
+            );
+
+        }
+
+
+        document.getElementById(
+            "paymentContent"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "successBox"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "successOrder"
+        ).textContent =
+            orderNumber;
+
+    }
+    catch(error){
+
+        console.error(
+            "PAYMENT ERROR:",
+            error
+        );
+
+
+        showError(
+            "❌ " +
+            (
+                error.message ||
+                "حصل خطأ أثناء إرسال الطلب"
+            )
+        );
+
+
+        button.disabled =
+            false;
+
+
+        button.textContent =
+            "✅ تم التحويل وإرسال الطلب";
+
+    }
 
 }
 
 
-/* =====================================================
-   SUBMIT PAYMENT
-===================================================== */
+/* =========================
+   ERROR
+========================= */
 
-async function submitPayment(){
+function showError(text){
 
-if(!order){
-
-showMessage(
-"❌ الطلب غير محمل",
-"error"
-);
-
-return;
-
-}
+    const box =
+        document.getElementById(
+            "errorMessage"
+        );
 
 
-if(!selectedPayment){
+    box.textContent =
+        text;
 
-showMessage(
-"❌ اختر طريقة الدفع أولاً",
-"error"
-);
 
-return;
+    box.style.display =
+        "block";
 
 }
 
 
-const file =
-document.getElementById(
-"proofFile"
-).files[0];
+/* =========================
+   HIDE ERROR
+========================= */
 
+function hideError(){
 
-if(
-selectedPayment!=="كاش" &&
-!file
-){
-
-showMessage(
-"❌ ارفع صورة التحويل أولاً",
-"error"
-);
-
-return;
+    document.getElementById(
+        "errorMessage"
+    ).style.display =
+        "none";
 
 }
 
 
-const button =
-document.getElementById(
-"submitButton"
-);
-
-
-button.disabled =
-true;
-
-button.textContent =
-"⏳ جاري إرسال الدفع...";
-
-
-try{
-
-
-/*
-=====================================================
-رفع صورة التحويل
-=====================================================
-*/
-
-let screenshotUrl =
-null;
-
-
-if(file){
-
-/*
-نستخدم اسم ملف فريد
-*/
-
-const fileName =
-"payments/"+
-Date.now()+
-"-"+
-Math.random()
-.toString(36)
-.slice(2)+
-"-"+
-file.name
-.replace(
-/[^a-zA-Z0-9._-]/g,
-"_"
-);
-
-
-const upload =
-await fetch(
-
-SUPABASE_URL+
-"/storage/v1/object/payment-proofs/"+
-fileName,
-
-{
-
-method:"POST",
-
-headers:{
-
-"apikey":
-SUPABASE_KEY,
-
-"Authorization":
-"Bearer "+
-SUPABASE_KEY,
-
-"Content-Type":
-file.type||
-"image/jpeg"
-
-},
-
-body:file
-
-}
-
-);
-
-
-if(!upload.ok){
-
-const text =
-await upload.text();
-
-throw new Error(
-"فشل رفع صورة التحويل: "+
-text
-);
-
-}
-
-
-screenshotUrl =
-SUPABASE_URL+
-"/storage/v1/object/public/payment-proofs/"+
-fileName;
-
-}
-
-
-/*
-=====================================================
-تحديث الطلب
-=====================================================
-*/
-
-const updateData = {
-
-payment_method:
-selectedPayment,
-
-payment_screenshot:
-screenshotUrl,
-
-status:
-"payment_submitted"
-
-};
-
-
-const response =
-await fetch(
-
-SUPABASE_URL+
-"/rest/v1/orders?order_number=eq."+
-encodeURIComponent(
-order.order_number
-),
-
-{
-
-method:"PATCH",
-
-headers:{
-
-"apikey":
-SUPABASE_KEY,
-
-"Authorization":
-"Bearer "+
-SUPABASE_KEY,
-
-"Content-Type":
-"application/json",
-
-"Prefer":
-"return=representation"
-
-},
-
-body:
-JSON.stringify(
-updateData
-)
-
-}
-
-);
-
-
-const text =
-await response.text();
-
-
-if(!response.ok){
-
-throw new Error(
-text||
-"تعذر تحديث الطلب"
-);
-
-}
-
-
-showMessage(
-"✅ تم إرسال الدفع بنجاح.\nجاري مراجعة التحويل من الإدارة.",
-"success"
-);
-
-
-button.textContent =
-"✅ تم إرسال الطلب";
-
-
-/*
-إظهار رقم الطلب
-*/
-
-document.getElementById(
-"orderNumber"
-).textContent =
-"رقم الطلب: "+
-order.order_number;
-
-
-}
-catch(error){
-
-console.error(
-"PAYMENT ERROR:",
-error
-);
-
-showMessage(
-"❌ فشل إرسال الدفع:\n"+
-error.message,
-"error"
-);
-
-button.disabled =
-false;
-
-button.textContent =
-"✅ تأكيد الدفع وإرسال الطلب";
-
-}
-
-}
-
-
-/* =====================================================
+/* =========================
    START
-===================================================== */
+========================= */
 
 loadOrder();
 
