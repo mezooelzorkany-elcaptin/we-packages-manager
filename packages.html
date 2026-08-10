@@ -3,476 +3,195 @@
 
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>باقات WE</title>
+<title>الباقات | WE Packages</title>
 
 <style>
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
+box-sizing:border-box;
+font-family:Arial,Tahoma,sans-serif
 }
 
 body{
-    direction:rtl;
-    min-height:100vh;
-
-    font-family:Arial,Tahoma,sans-serif;
-
-    background:
-        radial-gradient(
-            circle at 100% 0%,
-            #a06cf0 0%,
-            #925be8 22%,
-            transparent 55%
-        ),
-        linear-gradient(
-            135deg,
-            #f1eff9 0%,
-            #e5dcf5 40%,
-            #d9cef0 70%,
-            #cfc2e8 100%
-        );
-
-    color:#171b35;
+margin:0;
+min-height:100vh;
+background:
+radial-gradient(circle at 100% 0%,#a568f0 0%,transparent 35%),
+linear-gradient(135deg,#f7f4ff,#e5ddf4,#d8ccea);
+color:#19182d
 }
 
-
-/* =========================
-   HEADER
-========================= */
+.container{
+width:92%;
+max-width:1100px;
+margin:auto
+}
 
 .header{
-    text-align:center;
-    padding:45px 18px 30px;
+padding:25px 0
 }
 
-.badge-top{
-    display:inline-block;
-
-    padding:10px 24px;
-
-    border-radius:50px;
-
-    color:#5b35a8;
-
-    background:rgba(255,255,255,.55);
-
-    border:1px solid rgba(255,255,255,.85);
-
-    backdrop-filter:blur(15px);
-    -webkit-backdrop-filter:blur(15px);
-
-    font-size:18px;
-    font-weight:bold;
-
-    margin-bottom:20px;
+.header-box{
+background:rgba(255,255,255,.72);
+border:1px solid rgba(255,255,255,.9);
+border-radius:25px;
+padding:20px;
+backdrop-filter:blur(18px);
+box-shadow:0 15px 40px rgba(60,35,120,.1)
 }
 
-.header h1{
-    font-size:40px;
-    font-weight:900;
-
-    color:#171b35;
-
-    margin-bottom:14px;
+.back{
+display:inline-block;
+text-decoration:none;
+color:#5420b8;
+font-weight:bold;
+margin-bottom:15px
 }
 
-.header p{
-    font-size:18px;
-    line-height:1.8;
-
-    color:#403b55;
+.title{
+text-align:center
 }
 
-
-/* =========================
-   PROMO
-========================= */
-
-.promo{
-    width:92%;
-    max-width:700px;
-
-    margin:10px auto 30px;
-
-    padding:30px 22px;
-
-    text-align:center;
-
-    background:rgba(255,255,255,.23);
-
-    border:1px solid rgba(255,255,255,.55);
-
-    border-radius:30px;
-
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-
-    box-shadow:
-        0 18px 45px rgba(65,35,130,.14);
+.title h1{
+margin:0;
+font-size:34px;
+color:#5420b8
 }
 
-.promo-icon{
-    font-size:42px;
-    margin-bottom:8px;
+.title p{
+margin:10px 0 0;
+color:#777;
+font-size:16px
 }
-
-.promo h2{
-    color:#fff;
-
-    font-size:27px;
-
-    margin-bottom:10px;
-}
-
-.promo p{
-    color:rgba(255,255,255,.88);
-
-    font-size:17px;
-
-    margin-bottom:20px;
-}
-
-.promo-box{
-    display:flex;
-    gap:12px;
-}
-
-.promo-box input{
-    flex:1;
-
-    min-width:0;
-
-    padding:17px;
-
-    border:none;
-    outline:none;
-
-    border-radius:16px;
-
-    background:rgba(255,255,255,.94);
-
-    color:#222;
-
-    font-size:18px;
-
-    text-align:center;
-}
-
-.promo-box button{
-    border:none;
-
-    cursor:pointer;
-
-    padding:0 24px;
-
-    border-radius:16px;
-
-    background:#fff;
-
-    color:#5b35a8;
-
-    font-size:18px;
-
-    font-weight:bold;
-}
-
-.promo-box button:active{
-    transform:scale(.98);
-}
-
-.promo-success{
-    margin-top:16px;
-
-    color:#d9ffd9;
-
-    font-size:18px;
-
-    font-weight:bold;
-}
-
-.promo-error{
-    margin-top:16px;
-
-    color:#ffd4d4;
-
-    font-size:18px;
-
-    font-weight:bold;
-}
-
-
-/* =========================
-   PACKAGES
-========================= */
 
 .packages{
-    width:92%;
-    max-width:700px;
-
-    margin:auto;
-
-    padding-bottom:50px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:18px;
+padding:10px 0 50px
 }
 
 .package{
-    position:relative;
-
-    overflow:hidden;
-
-    margin-bottom:25px;
-
-    padding:36px 23px;
-
-    text-align:center;
-
-    color:#fff;
-
-    border-radius:30px;
-
-    border:1px solid rgba(255,255,255,.38);
-
-    background:
-        radial-gradient(
-            circle at 100% 0%,
-            #925bea 0%,
-            #7544cf 28%,
-            transparent 68%
-        ),
-        linear-gradient(
-            135deg,
-            #292d52 0%,
-            #3c347c 40%,
-            #6841c4 72%,
-            #7948d6 100%
-        );
-
-    box-shadow:
-        0 18px 45px rgba(60,40,120,.20),
-        inset 0 1px 0 rgba(255,255,255,.22);
+position:relative;
+background:rgba(255,255,255,.85);
+border:1px solid rgba(255,255,255,.95);
+border-radius:25px;
+padding:25px;
+box-shadow:0 12px 35px rgba(60,35,120,.1);
+transition:.2s
 }
 
-.package::before{
-    content:"";
-
-    position:absolute;
-
-    width:280px;
-    height:280px;
-
-    top:-170px;
-    right:-100px;
-
-    border-radius:50%;
-
-    background:rgba(255,255,255,.13);
-
-    filter:blur(25px);
-
-    pointer-events:none;
+.package:hover{
+transform:translateY(-5px);
+box-shadow:0 18px 40px rgba(60,35,120,.17)
 }
 
-.package h2{
-    position:relative;
-    z-index:2;
-
-    color:#fff;
-
-    font-size:30px;
-
-    font-weight:900;
-
-    margin-bottom:18px;
-}
-
-.gb{
-    position:relative;
-    z-index:2;
-
-    color:#fff;
-
-    font-size:43px;
-
-    font-weight:900;
-
-    margin-bottom:12px;
-}
-
-.minutes{
-    position:relative;
-    z-index:2;
-
-    color:rgba(255,255,255,.82);
-
-    font-size:18px;
-
-    margin-bottom:18px;
-}
-
-.price{
-    position:relative;
-    z-index:2;
-
-    color:#fff;
-
-    font-size:33px;
-
-    font-weight:900;
-
-    margin-bottom:25px;
-}
-
-.subscribe{
-    position:relative;
-    z-index:3;
-
-    display:block;
-
-    width:100%;
-
-    padding:16px;
-
-    border-radius:17px;
-
-    text-decoration:none;
-
-    color:#fff;
-
-    background:rgba(255,255,255,.14);
-
-    border:1px solid rgba(255,255,255,.48);
-
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
-
-    font-size:18px;
-
-    font-weight:bold;
-}
-
-.subscribe:active{
-    transform:scale(.99);
-}
-
-
-/* =========================
-   FEATURED
-========================= */
-
-.featured{
-    background:
-        radial-gradient(
-            circle at 100% 0%,
-            #a06aff 0%,
-            #814ad9 30%,
-            transparent 68%
-        ),
-        linear-gradient(
-            135deg,
-            #30345c 0%,
-            #493b91 38%,
-            #7145ce 70%,
-            #8951e5 100%
-        );
-
-    border:2px solid rgba(255,255,255,.45);
-
-    box-shadow:
-        0 20px 50px rgba(75,40,150,.25),
-        inset 0 1px 0 rgba(255,255,255,.30);
+.package.featured{
+border:2px solid #8b48e8
 }
 
 .popular{
-    position:relative;
-    z-index:2;
-
-    display:inline-block;
-
-    padding:8px 18px;
-
-    margin-bottom:15px;
-
-    border-radius:50px;
-
-    background:rgba(255,255,255,.16);
-
-    border:1px solid rgba(255,255,255,.42);
-
-    color:#fff;
-
-    font-size:14px;
-
-    font-weight:bold;
+position:absolute;
+top:15px;
+left:15px;
+background:#5420b8;
+color:white;
+padding:6px 12px;
+border-radius:30px;
+font-size:12px;
+font-weight:bold
 }
 
-.old-price{
-    text-decoration:line-through;
-
-    opacity:.55;
-
-    font-size:18px;
-
-    margin-left:8px;
+.gb{
+font-size:42px;
+font-weight:900;
+color:#5420b8
 }
 
+.gb span{
+font-size:18px
+}
 
-/* =========================
-   MOBILE
-========================= */
+.package-name{
+font-size:18px;
+font-weight:bold;
+margin-top:5px
+}
 
-@media(max-width:600px){
+.price{
+font-size:30px;
+font-weight:900;
+margin:20px 0 5px
+}
 
-    .header{
-        padding:42px 18px 25px;
-    }
+.price span{
+font-size:14px;
+font-weight:normal;
+color:#777
+}
 
-    .header h1{
-        font-size:35px;
-    }
+.minutes{
+background:#f1e8ff;
+color:#5420b8;
+padding:10px;
+border-radius:12px;
+margin:15px 0;
+font-weight:bold;
+text-align:center
+}
 
-    .header p{
-        font-size:16px;
-    }
+.features{
+color:#666;
+line-height:2;
+font-size:14px;
+margin-bottom:18px
+}
 
-    .promo{
-        width:92%;
-        padding:28px 20px;
-    }
+.subscribe{
+width:100%;
+border:0;
+border-radius:15px;
+padding:14px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+background:linear-gradient(135deg,#5420b8,#9747ff);
+color:white
+}
 
-    .promo h2{
-        font-size:25px;
-    }
+.note{
+text-align:center;
+padding:20px;
+margin-bottom:40px;
+background:rgba(255,255,255,.65);
+border-radius:20px;
+color:#777;
+line-height:1.8
+}
 
-    .promo-box{
-        flex-direction:column;
-    }
+@media(max-width:850px){
 
-    .promo-box button{
-        padding:16px;
-    }
+.packages{
+grid-template-columns:repeat(2,1fr)
+}
 
-    .package{
-        padding:34px 20px;
-    }
+}
 
-    .package h2{
-        font-size:28px;
-    }
+@media(max-width:550px){
 
-    .gb{
-        font-size:40px;
-    }
+.container{
+width:94%
+}
 
-    .price{
-        font-size:31px;
-    }
+.packages{
+grid-template-columns:1fr
+}
+
+.title h1{
+font-size:28px
+}
 
 }
 
@@ -480,692 +199,421 @@ body{
 
 </head>
 
-
 <body>
 
-
-<!-- HEADER -->
+<div class="container">
 
 <header class="header">
 
-    <div class="badge-top">
-        ⚡ تفعيل سريع وآمن
-    </div>
+<div class="header-box">
 
-    <h1>
-        أفضل باقات WE
-    </h1>
+<a
+href="index.html"
+class="back"
+>
+← الرئيسية
+</a>
 
-    <p>
-        اختار الباقة المناسبة ليك واستمتع بتفعيل سريع
-        <br>
-        ودعم متواصل
-    </p>
+<div class="title">
+
+<h1>
+📦 باقات WE
+</h1>
+
+<p>
+اختار الباقة المناسبة ليك وابدأ طلبك
+</p>
+
+</div>
+
+</div>
 
 </header>
 
 
-<!-- PROMO -->
+<main>
 
-<section class="promo">
+<div class="packages">
 
-    <div class="promo-icon">
-        🎁
-    </div>
 
-    <h2>
-        عندك كود خصم؟
-    </h2>
+<!-- 20 -->
 
-    <p>
-        اكتب كود الخصم واحصل على السعر الخاص بك
-    </p>
+<div class="package">
 
-    <div class="promo-box">
-
-        <input
-            type="text"
-            id="promoCode"
-            placeholder="اكتب كود الخصم"
-            autocomplete="off"
-        >
-
-        <button onclick="applyPromo()">
-            تطبيق الكود
-        </button>
-
-    </div>
-
-    <div id="promoMessage"></div>
-
-</section>
-
-
-<!-- PACKAGES -->
-
-<main class="packages">
-
-
-<!-- 20 GB -->
-
-<section class="package">
-
-    <h2>
-        باقة 20 جيجا
-    </h2>
-
-    <div class="gb">
-        20 GB
-    </div>
-
-    <div class="minutes">
-        1500 دقيقة
-    </div>
-
-    <div
-        class="price"
-        data-price="250"
-    >
-        250 جنيه
-    </div>
-
-    <a
-        href="#"
-        class="subscribe"
-        data-gb="20"
-        data-price="250"
-        onclick="buyPackage(event,this)"
-    >
-        اشترك الآن
-    </a>
-
-</section>
-
-
-<!-- 30 GB -->
-
-<section class="package">
-
-    <h2>
-        باقة 30 جيجا
-    </h2>
-
-    <div class="gb">
-        30 GB
-    </div>
-
-    <div class="minutes">
-        1500 دقيقة
-    </div>
-
-    <div
-        class="price"
-        data-price="340"
-    >
-        340 جنيه
-    </div>
-
-    <a
-        href="#"
-        class="subscribe"
-        data-gb="30"
-        data-price="340"
-        onclick="buyPackage(event,this)"
-    >
-        اشترك الآن
-    </a>
-
-</section>
-
-
-<!-- 35 GB -->
-
-<section class="package featured">
-
-    <div class="popular">
-        ⭐ الأكثر طلبًا
-    </div>
-
-    <h2>
-        باقة 35 جيجا
-    </h2>
-
-    <div class="gb">
-        35 GB
-    </div>
-
-    <div class="minutes">
-        1500 دقيقة
-    </div>
-
-    <div
-        class="price"
-        data-price="380"
-    >
-        380 جنيه
-    </div>
-
-    <a
-        href="#"
-        class="subscribe"
-        data-gb="35"
-        data-price="380"
-        onclick="buyPackage(event,this)"
-    >
-        اشترك الآن
-    </a>
-
-</section>
-
-
-<!-- 40 GB -->
-
-<section class="package">
-
-    <h2>
-        باقة 40 جيجا
-    </h2>
-
-    <div class="gb">
-        40 GB
-    </div>
-
-    <div class="minutes">
-        1500 دقيقة
-    </div>
-
-    <div
-        class="price"
-        data-price="430"
-    >
-        430 جنيه
-    </div>
-
-    <a
-        href="#"
-        class="subscribe"
-        data-gb="40"
-        data-price="430"
-        onclick="buyPackage(event,this)"
-    >
-        اشترك الآن
-    </a>
-
-</section>
-
-
-<!-- 50 GB -->
-
-<section class="package">
-
-    <h2>
-        باقة 50 جيجا
-    </h2>
-
-    <div class="gb">
-        50 GB
-    </div>
-
-    <div class="minutes">
-        1500 دقيقة
-    </div>
-
-    <div
-        class="price"
-        data-price="480"
-    >
-        480 جنيه
-    </div>
-
-    <a
-        href="#"
-        class="subscribe"
-        data-gb="50"
-        data-price="480"
-        onclick="buyPackage(event,this)"
-    >
-        اشترك الآن
-    </a>
-
-</section>
-
-
-<!-- 60 GB -->
-
-<section class="package">
-
-    <h2>
-        باقة 60 جيجا
-    </h2>
-
-    <div class="gb">
-        60 GB
-    </div>
-
-    <div class="minutes">
-        1500 دقيقة
-    </div>
-
-    <div
-        class="price"
-        data-price="570"
-    >
-        570 جنيه
-    </div>
-
-    <a
-        href="#"
-        class="subscribe"
-        data-gb="60"
-        data-price="570"
-        onclick="buyPackage(event,this)"
-    >
-        اشترك الآن
-    </a>
-
-</section>
-
-
-</main>
-</main>
-
-<!-- الرجوع للصفحة الرئيسية -->
-<div style="width:92%; max-width:700px; margin:0 auto; padding:0 0 45px;">
-  <a href="./index.html"
-     style="
-       display:block;
-       text-align:center;
-       padding:18px 20px;
-       border-radius:20px;
-       background:linear-gradient(135deg,#5b21b6,#9333ea);
-       color:#fff;
-       text-decoration:none;
-       font-size:20px;
-       font-weight:800;
-       box-shadow:0 10px 30px rgba(91,33,182,.25);
-       border:1px solid rgba(255,255,255,.35);
-     ">
-    🏠 الرجوع للصفحة الرئيسية
-  </a>
+<div class="gb">
+20 <span>جيجا</span>
 </div>
+
+<div class="package-name">
+باقة 20 جيجا
+</div>
+
+<div class="price">
+270
+<span>جنيه</span>
+</div>
+
+<div class="minutes">
+📞 1500 دقيقة
+</div>
+
+<div class="features">
+✓ إنترنت لمدة 30 يوم<br>
+✓ 1500 دقيقة لجميع الشبكات<br>
+✓ تفعيل على رقمك
+</div>
+
+<button
+class="subscribe"
+onclick="selectPackage('20 جيجا',20,270)"
+>
+اشترك الآن
+</button>
+
+</div>
+
+
+<!-- 25 -->
+
+<div class="package">
+
+<div class="gb">
+25 <span>جيجا</span>
+</div>
+
+<div class="package-name">
+باقة 25 جيجا
+</div>
+
+<div class="price">
+300
+<span>جنيه</span>
+</div>
+
+<div class="minutes">
+📞 1500 دقيقة
+</div>
+
+<div class="features">
+✓ إنترنت لمدة 30 يوم<br>
+✓ 1500 دقيقة لجميع الشبكات<br>
+✓ تفعيل على رقمك
+</div>
+
+<button
+class="subscribe"
+onclick="selectPackage('25 جيجا',25,300)"
+>
+اشترك الآن
+</button>
+
+</div>
+
+
+<!-- 30 -->
+
+<div class="package featured">
+
+<div class="popular">
+⭐ الأكثر طلبًا
+</div>
+
+<div class="gb">
+30 <span>جيجا</span>
+</div>
+
+<div class="package-name">
+باقة 30 جيجا
+</div>
+
+<div class="price">
+340
+<span>جنيه</span>
+</div>
+
+<div class="minutes">
+📞 1500 دقيقة
+</div>
+
+<div class="features">
+✓ إنترنت لمدة 30 يوم<br>
+✓ 1500 دقيقة لجميع الشبكات<br>
+✓ تفعيل على رقمك
+</div>
+
+<button
+class="subscribe"
+onclick="selectPackage('30 جيجا',30,340)"
+>
+اشترك الآن
+</button>
+
+</div>
+
+
+<!-- 35 -->
+
+<div class="package">
+
+<div class="gb">
+35 <span>جيجا</span>
+</div>
+
+<div class="package-name">
+باقة 35 جيجا
+</div>
+
+<div class="price">
+380
+<span>جنيه</span>
+</div>
+
+<div class="minutes">
+📞 1500 دقيقة
+</div>
+
+<div class="features">
+✓ إنترنت لمدة 30 يوم<br>
+✓ 1500 دقيقة لجميع الشبكات<br>
+✓ تفعيل على رقمك
+</div>
+
+<button
+class="subscribe"
+onclick="selectPackage('35 جيجا',35,380)"
+>
+اشترك الآن
+</button>
+
+</div>
+
+
+<!-- 40 -->
+
+<div class="package">
+
+<div class="gb">
+40 <span>جيجا</span>
+</div>
+
+<div class="package-name">
+باقة 40 جيجا
+</div>
+
+<div class="price">
+430
+<span>جنيه</span>
+</div>
+
+<div class="minutes">
+📞 1500 دقيقة
+</div>
+
+<div class="features">
+✓ إنترنت لمدة 30 يوم<br>
+✓ 1500 دقيقة لجميع الشبكات<br>
+✓ تفعيل على رقمك
+</div>
+
+<button
+class="subscribe"
+onclick="selectPackage('40 جيجا',40,430)"
+>
+اشترك الآن
+</button>
+
+</div>
+
+
+<!-- 45 -->
+
+<div class="package">
+
+<div class="gb">
+45 <span>جيجا</span>
+</div>
+
+<div class="package-name">
+باقة 45 جيجا
+</div>
+
+<div class="price">
+450
+<span>جنيه</span>
+</div>
+
+<div class="minutes">
+📞 1500 دقيقة
+</div>
+
+<div class="features">
+✓ إنترنت لمدة 30 يوم<br>
+✓ 1500 دقيقة لجميع الشبكات<br>
+✓ تفعيل على رقمك
+</div>
+
+<button
+class="subscribe"
+onclick="selectPackage('45 جيجا',45,450)"
+>
+اشترك الآن
+</button>
+
+</div>
+
+
+<!-- 50 -->
+
+<div class="package">
+
+<div class="gb">
+50 <span>جيجا</span>
+</div>
+
+<div class="package-name">
+باقة 50 جيجا
+</div>
+
+<div class="price">
+480
+<span>جنيه</span>
+</div>
+
+<div class="minutes">
+📞 1500 دقيقة
+</div>
+
+<div class="features">
+✓ إنترنت لمدة 30 يوم<br>
+✓ 1500 دقيقة لجميع الشبكات<br>
+✓ تفعيل على رقمك
+</div>
+
+<button
+class="subscribe"
+onclick="selectPackage('50 جيجا',50,480)"
+>
+اشترك الآن
+</button>
+
+</div>
+
+
+<!-- 55 -->
+
+<div class="package">
+
+<div class="gb">
+55 <span>جيجا</span>
+</div>
+
+<div class="package-name">
+باقة 55 جيجا
+</div>
+
+<div class="price">
+520
+<span>جنيه</span>
+</div>
+
+<div class="minutes">
+📞 1500 دقيقة
+</div>
+
+<div class="features">
+✓ إنترنت لمدة 30 يوم<br>
+✓ 1500 دقيقة لجميع الشبكات<br>
+✓ تفعيل على رقمك
+</div>
+
+<button
+class="subscribe"
+onclick="selectPackage('55 جيجا',55,520)"
+>
+اشترك الآن
+</button>
+
+</div>
+
+
+<!-- 60 -->
+
+<div class="package">
+
+<div class="gb">
+60 <span>جيجا</span>
+</div>
+
+<div class="package-name">
+باقة 60 جيجا
+</div>
+
+<div class="price">
+570
+<span>جنيه</span>
+</div>
+
+<div class="minutes">
+📞 1500 دقيقة
+</div>
+
+<div class="features">
+✓ إنترنت لمدة 30 يوم<br>
+✓ 1500 دقيقة لجميع الشبكات<br>
+✓ تفعيل على رقمك
+</div>
+
+<button
+class="subscribe"
+onclick="selectPackage('60 جيجا',60,570)"
+>
+اشترك الآن
+</button>
+
+</div>
+
+</div>
+
+
+<div class="note">
+
+💜 <strong>WE Packages</strong>
+
+<br>
+
+بعد اختيار الباقة هتدخل بياناتك وتكمل طلب الاشتراك والدفع من الموقع.
+
+</div>
+
+</main>
+
+</div>
+
 
 <script>
 
-
-/* =========================
-   SUPABASE
-========================= */
-
-const SUPABASE_URL =
-"https://pgvbynefhqmyzjtccttl.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
-
-
-let activePromo = null;
-
-
-/* =========================
-   APPLY PROMO
-========================= */
-
-async function applyPromo(){
-
-    const input =
-        document.getElementById(
-            "promoCode"
-        );
-
-    const message =
-        document.getElementById(
-            "promoMessage"
-        );
-
-    const code =
-        input.value
-        .trim()
-        .toUpperCase();
-
-
-    if(!code){
-
-        message.innerHTML =
-            "⚠️ اكتب كود الخصم أولاً";
-
-        message.className =
-            "promo-error";
-
-        return;
-
-    }
-
-
-    message.innerHTML =
-        "⏳ جاري التحقق من الكود...";
-
-    message.className =
-        "promo-success";
-
-
-    try{
-
-        const response =
-            await fetch(
-
-                SUPABASE_URL +
-                "/rest/v1/rpc/check_promo_code",
-
-                {
-
-                    method:"POST",
-
-                    headers:{
-
-                        "apikey":
-                            SUPABASE_KEY,
-
-                        "Authorization":
-                            "Bearer " +
-                            SUPABASE_KEY,
-
-                        "Content-Type":
-                            "application/json"
-
-                    },
-
-                    body:JSON.stringify({
-
-                        input_code:
-                            code
-
-                    })
-
-                }
-
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if(!response.ok){
-
-            throw new Error(
-                JSON.stringify(data)
-            );
-
-        }
-
-
-        const result =
-            Array.isArray(data)
-                ? data[0]
-                : data;
-
-
-        if(
-            !result ||
-            result.valid !== true
-        ){
-
-            activePromo = null;
-
-            resetPrices();
-
-            message.innerHTML =
-                "❌ " +
-                (
-                    result?.message ||
-                    "كود الخصم غير صحيح أو منتهي الصلاحية"
-                );
-
-            message.className =
-                "promo-error";
-
-            return;
-
-        }
-
-
-        activePromo = {
-
-            code:result.code,
-
-            type:
-                result.discount_type,
-
-            value:
-                Number(
-                    result.discount_value
-                )
-
-        };
-
-
-        message.innerHTML =
-            "✅ تم تطبيق الخصم " +
-            result.discount_value +
-            (
-                result.discount_type === "percent"
-                    ? "%"
-                    : " جنيه"
-            );
-
-
-        message.className =
-            "promo-success";
-
-
-        updatePrices();
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        activePromo = null;
-
-        resetPrices();
-
-        message.innerHTML =
-            "❌ تعذر التحقق من الكود";
-
-        message.className =
-            "promo-error";
-
-    }
-
-}
-
-
-/* =========================
-   UPDATE PRICES
-========================= */
-
-function updatePrices(){
-
-    document
-        .querySelectorAll(".price")
-        .forEach(
-
-            function(priceElement){
-
-                const original =
-                    Number(
-                        priceElement.dataset.price
-                    );
-
-
-                let newPrice;
-
-
-                if(
-                    activePromo.type ===
-                    "percent"
-                ){
-
-                    newPrice =
-                        original -
-                        (
-                            original *
-                            activePromo.value /
-                            100
-                        );
-
-                }
-
-                else{
-
-                    newPrice =
-                        original -
-                        activePromo.value;
-
-                }
-
-
-                newPrice =
-                    Math.max(
-                        0,
-                        Math.round(newPrice)
-                    );
-
-
-                priceElement.innerHTML =
-
-                    '<span class="old-price">' +
-                    original +
-                    ' جنيه</span>' +
-
-                    newPrice +
-                    ' جنيه';
-
-            }
-
-        );
-
-}
-
-
-/* =========================
-   RESET
-========================= */
-
-function resetPrices(){
-
-    document
-        .querySelectorAll(".price")
-        .forEach(
-
-            function(priceElement){
-
-                const original =
-                    Number(
-                        priceElement.dataset.price
-                    );
-
-
-                priceElement.innerHTML =
-                    original +
-                    " جنيه";
-
-            }
-
-        );
-
-}
-
-
-/* =========================
-   BUY PACKAGE
-========================= */
-
-function buyPackage(event,button){
-
-    event.preventDefault();
-
-
-    const gb =
-        button.dataset.gb;
-
-
-    const originalPrice =
-        Number(
-            button.dataset.price
-        );
-
-
-    let finalPrice =
-        originalPrice;
-
-
-    let promo = "";
-
-
-    if(activePromo){
-
-        promo =
-            activePromo.code;
-
-
-        if(
-            activePromo.type ===
-            "percent"
-        ){
-
-            finalPrice =
-                originalPrice -
-                (
-                    originalPrice *
-                    activePromo.value /
-                    100
-                );
-
-        }
-
-        else{
-
-            finalPrice =
-                originalPrice -
-                activePromo.value;
-
-        }
-
-
-        finalPrice =
-            Math.max(
-                0,
-                Math.round(finalPrice)
-            );
-
-    }
-
-
-    const url =
-        "checkout.html" +
-
-        "?package=" +
-        encodeURIComponent(gb) +
-
-        "&price=" +
-        encodeURIComponent(finalPrice) +
-
-        "&original=" +
-        encodeURIComponent(originalPrice) +
-
-        "&promo=" +
-        encodeURIComponent(promo);
-
-
-    window.location.href =
-        url;
+function selectPackage(
+name,
+gb,
+price
+){
+
+const params =
+new URLSearchParams({
+
+package:name,
+gb:gb,
+price:price
+
+});
+
+window.location.href =
+"checkout.html?"+
+params.toString();
 
 }
 
 </script>
-
 
 </body>
 
