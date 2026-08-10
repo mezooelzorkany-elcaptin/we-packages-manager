@@ -1,803 +1,323 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>WE Packages</title>
+<title>WE Packages | باقات الإنترنت</title>
 
 <style>
-
 *{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+  box-sizing:border-box;
+  font-family:Arial,Tahoma,sans-serif;
 }
 
 body{
-    font-family:Arial,Tahoma,sans-serif;
-    background:#f5f7fb;
-    color:#111827;
+  margin:0;
+  min-height:100vh;
+  color:#17152a;
+  background:
+    radial-gradient(circle at 90% 0%,#b277ff 0%,transparent 35%),
+    radial-gradient(circle at 0% 100%,#ddd0ff 0%,transparent 35%),
+    linear-gradient(135deg,#f7f4ff,#e8e0f7);
 }
 
-/* =========================
-   TOP
-========================= */
-
-.top{
-    height:85px;
-    background:#101828;
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:28px;
-    font-weight:800;
+.container{
+  width:92%;
+  max-width:1050px;
+  margin:auto;
 }
-
-/* =========================
-   HERO
-========================= */
 
 .hero{
-    min-height:580px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:60px 20px;
-
-    background:
-    radial-gradient(
-        circle at top right,
-        #7c3aed,
-        transparent 45%
-    ),
-    linear-gradient(
-        135deg,
-        #111827,
-        #312e81,
-        #6d28d9
-    );
-
-    color:#fff;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  padding:35px 0;
 }
 
-.hero-content{
-    max-width:850px;
+.hero-box{
+  width:100%;
+  text-align:center;
+  padding:45px 25px;
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(255,255,255,.9);
+  border-radius:35px;
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  box-shadow:0 25px 70px rgba(70,40,130,.15);
 }
 
-.badge{
-    display:inline-block;
-    padding:12px 25px;
-    border:1px solid rgba(255,255,255,.35);
-    background:rgba(255,255,255,.12);
-    border-radius:50px;
-    margin-bottom:28px;
-    font-size:18px;
+.logo{
+  width:90px;
+  height:90px;
+  margin:0 auto 20px;
+  border-radius:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:48px;
+  background:linear-gradient(135deg,#5420b8,#a24cff);
+  box-shadow:0 15px 35px rgba(84,32,184,.3);
 }
 
 h1{
-    font-size:55px;
-    line-height:1.35;
-    margin-bottom:22px;
+  margin:0;
+  color:#5420b8;
+  font-size:42px;
+  font-weight:900;
 }
 
-h1 span{
-    color:#c4b5fd;
+.subtitle{
+  margin:15px auto 35px;
+  max-width:650px;
+  color:#6e6b7b;
+  font-size:18px;
+  line-height:1.8;
 }
 
-.hero p{
-    font-size:21px;
-    line-height:1.9;
-    color:#e5e7eb;
+.buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  max-width:700px;
+  margin:auto;
 }
 
-/* =========================
-   FEATURES
-========================= */
-
-.features{
-    max-width:1050px;
-    margin:-60px auto 65px;
-    position:relative;
-
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:22px;
-
-    padding:0 20px;
+.choice{
+  text-decoration:none;
+  padding:27px 20px;
+  border-radius:24px;
+  transition:.2s;
+  display:block;
 }
 
-.card{
-    background:#fff;
-    padding:38px 25px;
-    text-align:center;
-
-    border-radius:25px;
-
-    box-shadow:
-    0 15px 40px rgba(0,0,0,.08);
-
-    transition:.25s;
+.choice:hover{
+  transform:translateY(-4px);
 }
 
-.card:hover{
-    transform:translateY(-5px);
+.current{
+  background:linear-gradient(135deg,#5420b8,#8f45ef);
+  color:white;
+  box-shadow:0 15px 30px rgba(84,32,184,.25);
+}
+
+.new{
+  background:white;
+  color:#5420b8;
+  border:2px solid #e4d9ff;
+  box-shadow:0 10px 25px rgba(50,30,100,.08);
 }
 
 .icon{
-    font-size:45px;
-    margin-bottom:18px;
+  font-size:38px;
+  margin-bottom:12px;
 }
 
-.card h2{
-    font-size:24px;
-    margin-bottom:12px;
+.choice-title{
+  font-size:22px;
+  font-weight:900;
 }
 
-.card p{
-    color:#6b7280;
-    font-size:17px;
-    line-height:1.7;
+.choice-text{
+  margin-top:8px;
+  font-size:14px;
+  line-height:1.7;
+  opacity:.8;
 }
 
-/* =========================
-   IMPORTANT INFORMATION
-========================= */
-
-.important-section{
-    max-width:1050px;
-    margin:0 auto;
-    padding:0 20px;
+.packages-preview{
+  margin-top:35px;
+  padding-top:25px;
+  border-top:1px solid rgba(84,32,184,.12);
 }
 
-.important-card{
-    background:
-    linear-gradient(
-        135deg,
-        rgba(255,255,255,.97),
-        rgba(245,240,255,.98)
-    );
-
-    border:1px solid rgba(124,58,237,.14);
-
-    border-radius:32px;
-
-    padding:35px 25px;
-
-    box-shadow:
-    0 20px 55px rgba(91,33,182,.13);
-
-    text-align:center;
+.packages-preview h2{
+  color:#5420b8;
+  margin:0 0 8px;
 }
 
-.important-title{
-    color:#5424b8;
+.packages-preview p{
+  color:#777;
+  margin:0 0 18px;
+}
+
+.package-row{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.package{
+  padding:10px 16px;
+  border-radius:50px;
+  background:#f0e7ff;
+  color:#5420b8;
+  font-weight:bold;
+}
+
+.footer{
+  margin-top:25px;
+  color:#888;
+  font-size:13px;
+}
+
+@media(max-width:650px){
+
+  .hero{
+    padding:15px 0;
+  }
+
+  .hero-box{
+    padding:35px 18px;
+    border-radius:28px;
+  }
+
+  h1{
     font-size:32px;
-    font-weight:800;
-    margin-bottom:10px;
-}
+  }
 
-.important-subtitle{
-    color:#6b7280;
-    font-size:17px;
-    line-height:1.8;
-    margin-bottom:28px;
-}
-
-/* =========================
-   INFO GRID
-========================= */
-
-.info-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:16px;
-}
-
-.info-box{
-    background:#fff;
-
-    border-radius:22px;
-
-    padding:20px 18px;
-
-    display:flex;
-    align-items:center;
-
-    gap:15px;
-
-    text-align:right;
-
-    box-shadow:
-    0 8px 25px rgba(0,0,0,.06);
-
-    border:
-    1px solid rgba(124,58,237,.08);
-
-    transition:.25s;
-}
-
-.info-box:hover{
-    transform:translateY(-3px);
-}
-
-.info-icon{
-    width:56px;
-    height:56px;
-    min-width:56px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:29px;
-
-    border-radius:18px;
-
-    background:
-    linear-gradient(
-        135deg,
-        #ede9fe,
-        #ddd6fe
-    );
-}
-
-.info-content{
-    flex:1;
-}
-
-.info-content strong{
-    display:block;
-
-    font-size:18px;
-
-    color:#5424b8;
-
-    margin-bottom:5px;
-}
-
-.info-content p{
-    font-size:15px;
-
-    line-height:1.7;
-
-    color:#6b7280;
-}
-
-/* =========================
-   FINAL MESSAGE
-========================= */
-
-.final-message{
-    margin-top:22px;
-
-    padding:17px 20px;
-
-    border-radius:20px;
-
-    background:
-    linear-gradient(
-        135deg,
-        #5b21b6,
-        #9333ea
-    );
-
-    color:#fff;
-
-    font-size:17px;
-
-    font-weight:700;
-
-    line-height:1.7;
-
-    box-shadow:
-    0 10px 30px rgba(91,33,182,.20);
-}
-
-/* =========================
-   PACKAGES BUTTON
-========================= */
-
-.packages-action{
-    text-align:center;
-
-    padding:
-    30px 20px
-    55px;
-}
-
-.packages-action h2{
-    color:#5424b8;
-
-    font-size:23px;
-
-    margin-bottom:10px;
-}
-
-.packages-action p{
-    color:#6b7280;
-
+  .subtitle{
     font-size:16px;
+  }
 
-    line-height:1.7;
+  .buttons{
+    grid-template-columns:1fr;
+  }
 
-    margin-bottom:22px;
-}
-
-.packages-btn{
-    display:block;
-
-    width:100%;
-
-    max-width:600px;
-
-    margin:auto;
-
-    padding:19px 25px;
-
-    background:
-    linear-gradient(
-        135deg,
-        #5b21b6,
-        #9333ea
-    );
-
-    color:#fff;
-
-    text-decoration:none;
-
-    border-radius:20px;
-
-    font-size:22px;
-
-    font-weight:800;
-
-    box-shadow:
-    0 12px 35px rgba(91,33,182,.25);
-
-    transition:.25s;
-}
-
-.packages-btn:hover{
-    transform:translateY(-4px);
-
-    box-shadow:
-    0 18px 40px rgba(91,33,182,.32);
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-footer{
-    text-align:center;
-
-    padding:30px;
-
-    color:#6b7280;
-
-    font-size:14px;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:700px){
-
-    .top{
-        height:75px;
-        font-size:25px;
-    }
-
-    .hero{
-        min-height:540px;
-        padding:50px 20px;
-    }
-
-    h1{
-        font-size:40px;
-    }
-
-    .hero p{
-        font-size:18px;
-    }
-
-    .features{
-        grid-template-columns:1fr;
-
-        margin-top:-40px;
-
-        margin-bottom:45px;
-
-        padding:0 15px;
-    }
-
-    .card{
-        padding:32px 20px;
-    }
-
-    .important-section{
-        padding:0 15px;
-    }
-
-    .important-card{
-        padding:28px 15px;
-        border-radius:28px;
-    }
-
-    .important-title{
-        font-size:26px;
-    }
-
-    .important-subtitle{
-        font-size:15px;
-    }
-
-    .info-grid{
-        grid-template-columns:1fr;
-        gap:12px;
-    }
-
-    .info-box{
-        padding:16px 13px;
-    }
-
-    .info-icon{
-        width:50px;
-        height:50px;
-        min-width:50px;
-        font-size:26px;
-    }
-
-    .info-content strong{
-        font-size:17px;
-    }
-
-    .info-content p{
-        font-size:14px;
-    }
-
-    .final-message{
-        font-size:16px;
-    }
-
-    .packages-action{
-        padding:
-        25px 15px
-        45px;
-    }
-
-    .packages-action h2{
-        font-size:21px;
-    }
-
-    .packages-btn{
-        font-size:20px;
-        padding:18px;
-    }
+  .choice{
+    padding:22px 18px;
+  }
 
 }
-
 </style>
-
 </head>
 
 <body>
 
-<!-- =========================
-     TOP
-========================= -->
+<div class="hero">
 
-<div class="top">
-    💜 WE Packages
+<div class="container">
+
+<div class="hero-box">
+
+<div class="logo">
+💜
+</div>
+
+<h1>
+WE Packages
+</h1>
+
+<div class="subtitle">
+باقات الإنترنت والتجديد في مكان واحد
+<br>
+اختار نوع الخدمة وابدأ طلبك بسهولة.
 </div>
 
 
-<!-- =========================
-     HERO
-========================= -->
+<div class="buttons">
 
-<section class="hero">
+<a
+href="renew.html"
+class="choice current"
+>
 
-    <div class="hero-content">
+<div class="icon">
+🔄
+</div>
 
-        <div class="badge">
-            ⚡ عروض وباقات مميزة
-        </div>
+<div class="choice-title">
+أنا عميل حالي
+</div>
 
-        <h1>
-            باقات <span>WE</span>
-            <br>
-            تناسب احتياجك
-        </h1>
+<div class="choice-text">
+عايز أجدد باقتي الحالية
+<br>
+وأتابع بيانات اشتراكي.
+</div>
 
-        <p>
-            اختار الباقة المناسبة ليك
-            واستمتع بخدمة سهلة
-            وأسعار مميزة.
-        </p>
+</a>
 
-    </div>
 
-</section>
+<a
+href="packages.html"
+class="choice new"
+>
 
+<div class="icon">
+🆕
+</div>
 
-<!-- =========================
-     FEATURES
-========================= -->
+<div class="choice-title">
+اشتراك جديد
+</div>
 
-<section class="features">
+<div class="choice-text">
+عايز أشوف الباقات المتاحة
+<br>
+وأقدم طلب اشتراك جديد.
+</div>
 
-    <div class="card">
+</a>
 
-        <div class="icon">
-            ⚡
-        </div>
+</div>
 
-        <h2>
-            سرعة التنفيذ
-        </h2>
 
-        <p>
-            بنهتم بتنفيذ طلبك
-            بأسرع وقت ممكن.
-        </p>
+<div class="packages-preview">
 
-    </div>
+<h2>
+📦 الباقات المتاحة
+</h2>
 
+<p>
+اختيارات مختلفة تناسب استخدامك
+</p>
 
-    <div class="card">
+<div class="package-row">
 
-        <div class="icon">
-            💎
-        </div>
+<div class="package">
+20 جيجا
+</div>
 
-        <h2>
-            أسعار مميزة
-        </h2>
+<div class="package">
+25 جيجا
+</div>
 
-        <p>
-            اختيارات متنوعة
-            تناسب احتياجاتك.
-        </p>
+<div class="package">
+30 جيجا
+</div>
 
-    </div>
+<div class="package">
+35 جيجا
+</div>
 
+<div class="package">
+40 جيجا
+</div>
 
-    <div class="card">
+<div class="package">
+50 جيجا
+</div>
 
-        <div class="icon">
-            💬
-        </div>
+<div class="package">
+60 جيجا
+</div>
 
-        <h2>
-            متابعة مستمرة
-        </h2>
+</div>
 
-        <p>
-            بنكون معاك
-            لو احتجت أي مساعدة.
-        </p>
+</div>
 
-    </div>
 
-</section>
+<div class="footer">
+WE Packages 💜
+</div>
 
+</div>
 
-<!-- =========================
-     IMPORTANT INFORMATION
-========================= -->
+</div>
 
-<section class="important-section">
-
-    <div class="important-card">
-
-        <h2 class="important-title">
-            ✨ معلومات مهمة قبل الاشتراك
-        </h2>
-
-        <p class="important-subtitle">
-            كل التفاصيل اللي محتاج تعرفها قبل اختيار الباقة
-        </p>
-
-
-        <div class="info-grid">
-
-
-            <!-- مدة الباقة -->
-
-            <div class="info-box">
-
-                <div class="info-icon">
-                    📅
-                </div>
-
-                <div class="info-content">
-
-                    <strong>
-                        مدة الباقة
-                    </strong>
-
-                    <p>
-                        جميع الباقات صالحة لمدة
-                        <b>30 يومًا</b>.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- التفعيل -->
-
-            <div class="info-box">
-
-                <div class="info-icon">
-                    📱
-                </div>
-
-                <div class="info-content">
-
-                    <strong>
-                        التفعيل برقم التليفون
-                    </strong>
-
-                    <p>
-                        يتم التفعيل مباشرة
-                        على رقم التليفون.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- مواعيد التفعيل -->
-
-            <div class="info-box">
-
-                <div class="info-icon">
-                    🗓️
-                </div>
-
-                <div class="info-content">
-
-                    <strong>
-                        مواعيد التفعيل
-                    </strong>
-
-                    <p>
-                        التفعيل متاح يوم
-                        <b>1 أو 16</b>
-                        من كل شهر.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- خدمة العملاء -->
-
-            <div class="info-box">
-
-                <div class="info-icon">
-                    🎧
-                </div>
-
-                <div class="info-content">
-
-                    <strong>
-                        خدمة العملاء
-                    </strong>
-
-                    <p>
-                        متاحة على مدار
-                        <b>24 ساعة</b>.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- الدعم -->
-
-            <div class="info-box">
-
-                <div class="info-icon">
-                    💬
-                </div>
-
-                <div class="info-content">
-
-                    <strong>
-                        الدعم والمتابعة
-                    </strong>
-
-                    <p>
-                        تقدر تتواصل معنا
-                        في حالة وجود أي استفسار.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- الخصوصية -->
-
-            <div class="info-box">
-
-                <div class="info-icon">
-                    🔐
-                </div>
-
-                <div class="info-content">
-
-                    <strong>
-                        بياناتك بأمان
-                    </strong>
-
-                    <p>
-                        بنحرص على التعامل
-                        مع بيانات طلبك باهتمام.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-
-        <div class="final-message">
-            💜 كل اللي عليك تختار الباقة المناسبة ليك
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     FINAL CTA
-========================= -->
-
-<section class="packages-action">
-
-    <h2>
-        جاهز تختار باقتك؟
-    </h2>
-
-    <p>
-        شوف الباقات المتاحة واختار الأنسب ليك 👇
-    </p>
-
-    <a
-        href="packages.html"
-        class="packages-btn"
-    >
-        📦 استعرض الباقات
-    </a>
-
-</section>
-
-
-<!-- =========================
-     FOOTER
-========================= -->
-
-<footer>
-    WE Packages © 2026
-</footer>
-
+</div>
 
 </body>
-
 </html>
