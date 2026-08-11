@@ -1086,6 +1086,283 @@ function updateStats(){
     }
 
 }
+function updateStats(){
+
+    const total =
+        document.getElementById("total");
+
+    const active =
+        document.getElementById("active");
+
+    const soon =
+        document.getElementById("soon");
+
+    const expired =
+        document.getElementById("expired");
+
+
+    if(total){
+        total.textContent =
+            customers.length;
+    }
+
+
+    if(active){
+        active.textContent =
+            customers.filter(
+                c => c.status === "active"
+            ).length;
+    }
+
+
+    if(soon){
+        soon.textContent =
+            customers.filter(c => {
+
+                const d =
+                    daysUntil(
+                        c.next_renewal_date
+                    );
+
+                return (
+                    d !== null &&
+                    d >= 0 &&
+                    d <= 7
+                );
+
+            }).length;
+    }
+
+
+    if(expired){
+        expired.textContent =
+            customers.filter(c => {
+
+                const d =
+                    daysUntil(
+                        c.next_renewal_date
+                    );
+
+                return (
+                    d !== null &&
+                    d < 0
+                );
+
+            }).length;
+    }
+
+}
+
+
+function render(){
+
+    const list =
+        document.getElementById("list");
+
+    if(!list)
+        return;
+
+
+    const searchInput =
+        document.getElementById("search");
+
+    const renewalFilter =
+        document.getElementById(
+            "renewalFilter"
+        );
+
+    const statusFilter =
+        document.getElementById(
+            "statusFilter"
+        );
+
+
+    const search =
+        String(
+            searchInput?.value || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    const renewal =
+        renewalFilter?.value || "all";
+
+
+    const status =
+        statusFilter?.value || "all";
+
+
+    let filtered =
+        customers.filter(c => {
+
+
+            /* =================
+               البحث
+            ================= */
+
+            if(search){
+
+                const text = [
+
+                    c.subscriber_name,
+
+                    c.phone,
+
+                    c.primary_number,
+
+                    c.package_name
+
+                ]
+                .map(v =>
+                    String(v || "")
+                    .toLowerCase()
+                )
+                .join(" ");
+
+
+                if(!text.includes(search))
+                    return false;
+
+            }
+
+
+            /* =================
+               فلتر موعد التجديد
+            ================= */
+
+            if(
+                renewal !== "all"
+            ){
+
+                if(
+                    renewal === "custom"
+                ){
+
+                    if(
+                        c.renewal_type !==
+                        "custom"
+                    )
+                        return false;
+
+                }
+                else{
+
+                    if(
+                        String(
+                            c.renewal_day
+                        ) !== String(renewal)
+                    )
+                        return false;
+
+                }
+
+            }
+
+
+            /* =================
+               فلتر الحالة
+            ================= */
+
+            if(
+                status !== "all"
+            ){
+
+                const d =
+                    daysUntil(
+                        c.next_renewal_date
+                    );
+
+
+                if(
+                    status === "active"
+                ){
+
+                    if(
+                        c.status !==
+                        "active"
+                    )
+                        return false;
+
+                }
+
+
+                if(
+                    status === "inactive"
+                ){
+
+                    if(
+                        c.status !==
+                        "inactive"
+                    )
+                        return false;
+
+                }
+
+
+                if(
+                    status === "soon"
+                ){
+
+                    if(
+                        d === null ||
+                        d < 0 ||
+                        d > 7
+                    )
+                        return false;
+
+                }
+
+
+                if(
+                    status === "expired"
+                ){
+
+                    if(
+                        d === null ||
+                        d >= 0
+                    )
+                        return false;
+
+                }
+
+            }
+
+
+            return true;
+
+        });
+
+
+    /* =================
+       لا يوجد عملاء
+    ================= */
+
+    if(!filtered.length){
+
+        list.innerHTML =
+            '<div class="empty">' +
+            '📭 لا يوجد عملاء مطابقون للبحث' +
+            '</div>';
+
+        return;
+
+    }
+
+
+    /* =================
+       عرض العملاء
+    ================= */
+
+    list.innerHTML =
+        filtered
+        .map(
+            customer =>
+                customerCard(customer)
+        )
+        .join("");
+
+}
 function customerCard(c){
 
     const d =
