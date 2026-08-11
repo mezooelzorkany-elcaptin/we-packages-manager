@@ -1984,478 +1984,216 @@ escapeHtml(e.message)+
    CONFIRM PAYMENT
    ========================================================= */
 
+/* ================= APPROVE PAYMENT ================= */
+
 async function approveOrderPayment(orderNumber){
 
-/* أولًا نجيب الطلب نفسه */
+    /* منع تنفيذ نفس الطلب مرتين */
+    if(window.approvingOrder){
+        alert("⏳ جاري تنفيذ طلب آخر، انتظر لحظة...");
+        return;
+    }
 
-let order;
+    window.approvingOrder = true;
 
-try{
+    try{
 
-const orders=
-await supabaseRequest(
-"orders?select=*&order_number=eq."+
-encodeURIComponent(orderNumber)+
-"&limit=1"
-);
+        /* =========================================
+           1) طلب الرقم الأساسي
+        ========================================= */
 
-if(
-!Array.isArray(orders)||
-!orders.length
-){
+        let primaryNumber = prompt(
+            "📱 اكتب الرقم الأساسي الذي سيتم عمل الباقة عليه:\n\n" +
+            "رقم الطلب: " + orderNumber
+        );
 
-throw new Error(
-"لم يتم العثور على الطلب."
-);
+        /* إلغاء */
+        if(primaryNumber === null){
+            return;
+        }
+
+        /* تنظيف الرقم */
+        primaryNumber = String(primaryNumber)
+            .replace(/\D/g,"")
+            .trim();
+
+        /* =========================================
+           2) التأكد من صحة الرقم
+        ========================================= */
+
+        if(!/^01[0125][0-9]{8}$/.test(primaryNumber)){
+
+            alert(
+                "❌ الرقم الأساسي غير صحيح.\n\n" +
+                "اكتب رقم مصري صحيح مكون من 11 رقم."
+            );
+
+            return;
+        }
+
+        /* =========================================
+           3) التأكيد النهائي
+        ========================================= */
+
+        const confirmed = confirm(
+            "⚠️ تأكيد الطلب\n\n" +
+
+            "📋 رقم الطلب:\n" +
+            orderNumber +
+
+            "\n\n📱 الرقم الأساسي:\n" +
+            primaryNumber +
+
+            "\n\nهل أنت متأكد من تأكيد الدفع؟"
+        );
+
+        if(!confirmed){
+            return;
+        }
+
+        /* =========================================
+           4) تشغيل RPC مرة واحدة
+        ========================================= */
+
+        const r =
+            await supabaseRequest(
+                "rpc/approve_order_payment",
+                {
+                    method:"POST",
+
+                    body:JSON.stringify({
+                        input_order_number:
+                            orderNumber
+                    })
+                }
+            );
+
+        if(!r || r.success !== true){
+
+            throw new Error(
+                "لم يتم تأكيد الدفع."
+            );
+
+        }
+
+        /* =========================================
+           5) جلب بيانات الطلب
+        ========================================= */
+
+        const orders =
+            await supabaseRequest(
+                "orders?select=*&order_number=eq." +
+                encodeURIComponent(orderNumber) +
+                "&limit=1"
+            );
+
+        if(
+            !Array.isArray(orders) ||
+            !orders.length
+        ){
+
+            throw new Error(
+                "تم تأكيد الدفع ولكن لم أجد بيانات الطلب."
+            );
+
+        }
+
+        const order = orders[0];
+
+        const phone =
+            String(order.phone || "").trim();
+
+        /* =========================================
+           6) البحث عن العميل
+        ========================================= */
+
+        if(phone){
+
+            const customerResult =
+                await supabaseRequest(
+                    "customers?select=id" +
+                    "&phone=eq." +
+                    encodeURIComponent(phone) +
+                    "&deleted_at=is.null" +
+                    "&limit=1"
+                );
+
+            if(
+                Array.isArray(customerResult) &&
+                customerResult.length
+            ){
+
+                const customerId =
+                    customerResult[0].id;
+
+                /* =========================================
+                   7) تحديث الرقم الأساسي فقط
+                ========================================= */
+
+                await supabaseRequest(
+                    "customers?id=eq." +
+                    encodeURIComponent(customerId),
+                    {
+                        method:"PATCH",
+
+                        body:JSON.stringify({
+                            primary_number:
+                                primaryNumber,
+
+                            updated_at:
+                                new Date().toISOString()
+                        })
+                    }
+                );
+
+            }
+
+        }
+
+        /* =========================================
+           8) انتهينا
+           
+           مهم:
+           لا يوجد هنا INSERT للماليات.
+           الـRPC هو المسؤول عن تسجيل العملية.
+        ========================================= */
+
+        alert(
+            "✅ تم تأكيد الدفع بنجاح\n\n" +
+
+            "📋 رقم الطلب:\n" +
+            orderNumber +
+
+            "\n\n📱 الرقم الأساسي:\n" +
+            primaryNumber
+        );
+
+        /* تحديث الطلبات والعملاء */
+        await loadPaymentOrders();
+
+        await loadCustomers();
+
+    }
+    catch(e){
+
+        console.error(
+            "APPROVE PAYMENT ERROR:",
+            e
+        );
+
+        alert(
+            "❌ فشل تأكيد الدفع:\n\n" +
+            e.message
+        );
+
+    }
+    finally{
+
+        window.approvingOrder = false;
+
+    }
 
 }
-
-order=orders[0];
-
-}
-catch(e){
-
-alert(
-"❌ تعذر قراءة بيانات الطلب:\n\n"+
-e.message
-);
-
-return;
-
-}
-
-
-/* الرقم الأساسي */
-
-let primaryNumber=
-prompt(
-"📱 اكتب الرقم الأساسي\n\n"+
-"الرقم الذي سيتم عمل الباقة عليه:"
-);
-
-if(primaryNumber===null)
-return;
-
-primaryNumber=
-cleanPhone(primaryNumber);
-
-if(!primaryNumber){
-
-alert(
-"⚠️ لازم تكتب الرقم الأساسي."
-);
-
-return;
-
-}
-
-if(!isValidEgyptianPhone(primaryNumber)){
-
-alert(
-"❌ الرقم الأساسي غير صحيح.\n\n"+
-"اكتب رقم مصري مكون من 11 رقم ويبدأ بـ 010 أو 011 أو 012 أو 015."
-);
-
-return;
-
-}
-
-
-/* تأكيد نهائي */
-
-const customerName=
-order.subscriber_name||"-";
-
-const packageName=
-getOrderPackage(order)||"-";
-
-const gb=
-getOrderGB(order);
-
-const amount=
-getOrderPrice(order);
-
-const paymentMethod=
-order.payment_method||"-";
-
-
-const finalConfirm=
-confirm(
-"💳 تأكيد الدفع\n\n"+
-"العميل: "+customerName+
-"\nالباقة: "+packageName+
-"\nالجيجات: "+formatGB(gb)+" GB"+
-"\nالمبلغ: "+formatMoney(amount)+" جنيه"+
-"\nطريقة الدفع: "+paymentMethod+
-"\n\n📱 الرقم الأساسي:\n"+primaryNumber+
-"\n\nهل أنت متأكد أن الباقة سيتم عملها على هذا الرقم؟"
-);
-
-if(!finalConfirm)
-return;
-
-
-/* =========================================================
-   تأكيد الدفع من الـ RPC الموجود
-   ========================================================= */
-
-try{
-
-const r=
-await supabaseRequest(
-"rpc/approve_order_payment",
-{
-method:"POST",
-body:JSON.stringify({
-input_order_number:orderNumber
-})
-}
-);
-
-if(r?.success!==true){
-
-throw new Error(
-r?.message||
-"لم يتم تأكيد الدفع"
-);
-
-}
-
-
-/* =========================================================
-   بعد نجاح التأكيد:
-   نبحث عن العميل ونكمل البيانات الناقصة
-   ========================================================= */
-
-const phone=
-cleanPhone(
-order.phone||""
-);
-
-if(!phone){
-
-throw new Error(
-"تم تأكيد الدفع، لكن الطلب لا يحتوي على رقم العميل."
-);
-
-}
-
-
-/* نبحث عن العميل */
-
-const customerResult=
-await supabaseRequest(
-"customers?select=*&phone=eq."+
-encodeURIComponent(phone)+
-"&deleted_at=is.null&limit=1"
-);
-
-if(
-!Array.isArray(customerResult)||
-!customerResult.length
-){
-
-/*
-لو الـRPC لم ينشئ العميل لأي سبب،
-نحاول إنشاء العميل هنا بكل البيانات.
-*/
-
-const now=
-new Date();
-
-const renewalDate=
-getOrderRenewalDate(order)||
-addDays(now,30);
-
-let renewalType=
-"custom";
-
-let renewalDay=
-new Date(
-renewalDate+"T00:00:00"
-).getDate();
-
-
-if(renewalDay===1)
-renewalType="day_1";
-
-if(renewalDay===16)
-renewalType="day_16";
-
-
-const created=
-await supabaseRequest(
-"customers",
-{
-method:"POST",
-body:JSON.stringify({
-
-subscriber_name:
-order.subscriber_name||"بدون اسم",
-
-phone,
-
-primary_number:
-primaryNumber,
-
-allocated_gb:
-gb,
-
-package_name:
-packageName==="-"?null:packageName,
-
-last_price:
-amount,
-
-payment_method:
-paymentMethod==="-"?null:paymentMethod,
-
-status:"active",
-
-renewal_type:
-renewalType,
-
-renewal_day:
-renewalDay,
-
-next_renewal_date:
-renewalDate,
-
-total_orders:1,
-
-created_at:
-now.toISOString(),
-
-updated_at:
-now.toISOString(),
-
-last_order_at:
-now.toISOString(),
-
-last_renewed_at:
-now.toISOString()
-
-})
-}
-);
-
-const newCustomerId=
-Number(created?.[0]?.id)||null;
-
-
-/*
-لو العملية المالية لم يسجلها الـRPC،
-نحاول تسجيلها فقط لو عندنا عميل جديد.
-*/
-if(
-amount>0&&
-newCustomerId
-){
-
-await supabaseRequest(
-"financial_transactions",
-{
-method:"POST",
-body:JSON.stringify({
-
-customer_id:
-newCustomerId,
-
-customer_name:
-order.subscriber_name||"بدون اسم",
-
-customer_phone:
-phone,
-
-primary_number:
-primaryNumber,
-
-package_name:
-packageName==="-"?null:packageName,
-
-amount,
-
-transaction_type:
-"اشتراك جديد",
-
-transaction_date:
-now.toISOString(),
-
-notes:
-"تأكيد طلب دفع من صفحة العملاء"
-
-})
-}
-);
-
-}
-
-}
-else{
-
-/*
-العميل موجود بالفعل.
-نقوم بتحديث البيانات المهمة فقط.
-*/
-
-const customer=
-customerResult[0];
-
-const now=
-new Date();
-
-const existingRenewal=
-getOrderRenewalDate(order);
-
-let renewalDate=
-existingRenewal;
-
-if(!renewalDate){
-
-if(
-customer.next_renewal_date
-){
-
-renewalDate=
-customer.next_renewal_date;
-
-}
-else{
-
-renewalDate=
-addDays(now,30);
-
-}
-
-}
-
-
-/*
-نحدد نوع التجديد من التاريخ
-إذا كان 1 أو 16 نستخدم النظام المعروف.
-وإلا مخصص.
-*/
-
-const renewalDateObj=
-new Date(
-renewalDate+"T00:00:00"
-);
-
-const renewalDay=
-renewalDateObj.getDate();
-
-let renewalType=
-"custom";
-
-if(renewalDay===1)
-renewalType="day_1";
-
-if(renewalDay===16)
-renewalType="day_16";
-
-
-const patch={
-
-primary_number:
-primaryNumber,
-
-allocated_gb:
-gb>0
-?gb
-:Number(customer.allocated_gb)||0,
-
-package_name:
-packageName!=="-"
-?packageName
-:customer.package_name||null,
-
-last_price:
-amount>0
-?amount
-:Number(customer.last_price)||0,
-
-payment_method:
-paymentMethod!=="-"
-?paymentMethod
-:customer.payment_method||null,
-
-status:"active",
-
-renewal_type:
-customer.renewal_type||
-renewalType,
-
-renewal_day:
-customer.renewal_day||
-renewalDay,
-
-next_renewal_date:
-renewalDate,
-
-total_orders:
-Math.max(
-Number(customer.total_orders)||0,
-Number(customer.total_orders)||0+1
-),
-
-last_order_at:
-now.toISOString(),
-
-last_renewed_at:
-now.toISOString(),
-
-updated_at:
-now.toISOString()
-
-};
-
-
-await supabaseRequest(
-"customers?id=eq."+
-encodeURIComponent(customer.id),
-{
-method:"PATCH",
-body:JSON.stringify(patch)
-}
-);
-
-}
-
-
-/* انتهينا */
-
-alert(
-"✅ تم تأكيد الدفع بنجاح\n\n"+
-"العميل: "+customerName+
-"\n📦 الباقة: "+packageName+
-"\n📦 الجيجا: "+formatGB(gb)+" GB"+
-"\n📱 الرقم الأساسي: "+primaryNumber+
-"\n💰 المبلغ: "+formatMoney(amount)+" جنيه"
-);
-
-
-/* تحديث الصفحتين */
-
-await loadPaymentOrders();
-
-await loadCustomers();
-
-}
-catch(e){
-
-console.error(e);
-
-alert(
-"❌ حصل خطأ أثناء تأكيد الدفع:\n\n"+
-e.message+
-"\n\nلو ظهر أن الدفع تم تأكيده بالفعل، لا تضغط تأكيد مرة أخرى."
-);
-
-}
-
-}
-
-
 /* =========================================================
    REJECT PAYMENT
    ========================================================= */
