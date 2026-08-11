@@ -1,1045 +1,489 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
 <title>الماليات | WE Packages</title>
-
 <style>
-
-*{
-box-sizing:border-box;
-font-family:Arial,Tahoma,sans-serif
-}
-
-body{
-margin:0;
-background:
-radial-gradient(circle at 100% 0%,#9b63ed 0%,transparent 38%),
-linear-gradient(135deg,#f1eef9,#ded5f0,#d2c6e8);
-min-height:100vh;
-color:#19182d
-}
-
-.container{
-width:92%;
-max-width:1150px;
-margin:auto;
-padding:25px 0 60px
-}
-
-.glass{
-background:rgba(255,255,255,.76);
-border:1px solid rgba(255,255,255,.9);
-border-radius:25px;
-backdrop-filter:blur(18px);
--webkit-backdrop-filter:blur(18px);
-box-shadow:0 15px 40px rgba(60,35,120,.12)
-}
-
-
-/* NAVIGATION */
-
-.navigation{
-display:flex;
-gap:10px;
-margin-bottom:15px;
-flex-wrap:wrap
-}
-
-.nav-btn{
-display:inline-flex;
-align-items:center;
-justify-content:center;
-padding:12px 20px;
-border-radius:15px;
-text-decoration:none;
-font-weight:bold;
-background:#e8ddff;
-color:#5420b8
-}
-
-
-/* HEADER */
-
-.header{
-text-align:center;
-padding:28px;
-margin-bottom:20px
-}
-
-.header h1{
-margin:0 0 8px;
-font-size:31px;
-color:#5420b8
-}
-
-.header p{
-margin:0;
-color:#777
-}
-
-
-/* SUMMARY */
-
-.summary{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:14px;
-margin-bottom:20px
-}
-
-.summary-card{
-padding:22px
-}
-
-.summary-title{
-color:#777;
-font-size:14px;
-margin-bottom:9px
-}
-
-.summary-value{
-font-size:29px;
-font-weight:900;
-color:#5420b8
-}
-
-
-/* FILTERS */
-
-.filters{
-padding:20px;
-margin-bottom:20px
-}
-
-.filters h2{
-margin-top:0;
-color:#5420b8
-}
-
-.filter-row{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:12px
-}
-
-input,
-select{
-width:100%;
-height:50px;
-border:1px solid #ddd;
-border-radius:14px;
-padding:0 14px;
-background:white;
-font-size:15px;
-outline:none
-}
-
-input:focus,
-select:focus{
-border-color:#7544cf;
-box-shadow:0 0 0 3px rgba(117,68,207,.12)
-}
-
-.reset{
-height:50px;
-border:0;
-border-radius:14px;
-background:#eee;
-font-weight:bold;
-cursor:pointer
-}
-
-
-/* TABLE */
-
-.table-box{
-overflow:hidden;
-margin-bottom:20px
-}
-
-.table-title{
-padding:20px;
-font-size:20px;
-font-weight:bold;
-color:#5420b8
-}
-
-.table-wrapper{
-overflow-x:auto
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-min-width:850px
-}
-
-th,
-td{
-padding:15px 12px;
-text-align:right;
-border-bottom:1px solid #eee
-}
-
-th{
-background:#f6f3fb;
-color:#666;
-font-size:13px
-}
-
-td{
-font-size:14px
-}
-
-.amount{
-font-weight:900;
-color:#5420b8
-}
-
-.badge{
-display:inline-block;
-padding:6px 11px;
-border-radius:20px;
-background:#e4f8ec;
-color:#14863f;
-font-size:12px;
-font-weight:bold
-}
-
-.delete{
-border:0;
-background:#fde2e4;
-color:#b51f2c;
-border-radius:10px;
-padding:8px 11px;
-cursor:pointer;
-font-weight:bold
-}
-
-
-/* MANUAL TRANSACTION */
-
-.manual{
-padding:22px;
-margin-bottom:20px
-}
-
-.manual h2{
-margin-top:0;
-color:#5420b8
-}
-
-.manual-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:12px
-}
-
-.add{
-height:50px;
-border:0;
-border-radius:14px;
-background:linear-gradient(135deg,#5420b8,#9747ff);
-color:white;
-font-size:15px;
-font-weight:bold;
-cursor:pointer
-}
-
-
-/* EMPTY */
-
-.empty{
-padding:45px;
-text-align:center;
-color:#777
-}
-
-
-/* MOBILE */
-
-@media(max-width:850px){
-
-.summary{
-grid-template-columns:repeat(2,1fr)
-}
-
-.filter-row,
-.manual-grid{
-grid-template-columns:1fr
-}
-
-}
-
-@media(max-width:550px){
-
-.container{
-width:94%
-}
-
-.summary{
-grid-template-columns:1fr 1fr
-}
-
-.summary-value{
-font-size:24px
-}
-
-}
-
+*{box-sizing:border-box;font-family:Arial,Tahoma,sans-serif}
+body{margin:0;background:#f4f6fb;color:#172033}
+.container{width:94%;max-width:1180px;margin:auto;padding:18px 0 60px}
+.glass{background:#fff;border:1px solid #edf0f5;border-radius:24px;box-shadow:0 8px 30px rgba(24,32,55,.06)}
+.nav{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:15px}
+.nav a{padding:11px 15px;border-radius:13px;text-decoration:none;font-weight:bold;background:#eee7ff;color:#5420b8}
+.header{padding:24px;margin-bottom:16px;background:linear-gradient(135deg,#151a35,#5420b8);color:#fff;border:0}
+.header h1{margin:0 0 7px;font-size:30px}
+.header p{margin:0;opacity:.8}
+.balance{padding:24px;margin-bottom:16px;background:linear-gradient(135deg,#5420b8,#293160);color:#fff;border:0}
+.balance-label{opacity:.8;font-size:14px}
+.balance-value{font-size:38px;font-weight:900;margin-top:8px}
+.balance-sub{margin-top:7px;font-size:13px;opacity:.75}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+.stat{padding:19px}
+.stat .label{color:#7b8395;font-size:13px;margin-bottom:8px}
+.stat .value{font-size:24px;font-weight:900}
+.income .value{color:#14863f}.expense .value{color:#c73542}.profit .value{color:#5420b8}
+.section{padding:20px;margin-bottom:16px}
+.section-title{font-size:20px;font-weight:900;color:#293160;margin-bottom:15px}
+.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+input,select,textarea{width:100%;border:1px solid #dfe3eb;border-radius:13px;background:#fff;padding:13px;font-size:15px;outline:none}
+input,select{height:50px}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:#7544cf;box-shadow:0 0 0 3px rgba(117,68,207,.1)}
+.type-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.type-btn{height:50px;border:1px solid #dfe3eb;border-radius:13px;background:#f7f8fb;font-weight:bold;cursor:pointer}
+.type-btn.active-income{background:#e4f8ec;color:#14863f;border-color:#bce8cd}
+.type-btn.active-expense{background:#fde8ea;color:#c73542;border-color:#f1bcc2}
+.add-btn{height:50px;border:0;border-radius:13px;background:#5420b8;color:#fff;font-size:15px;font-weight:bold;cursor:pointer}
+.add-btn:disabled{opacity:.6}
+.filters{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px}
+.reset{height:50px;border:0;border-radius:13px;background:#edf0f5;color:#293160;font-weight:bold;cursor:pointer}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;min-width:920px}
+th,td{padding:14px 11px;border-bottom:1px solid #edf0f5;text-align:right;vertical-align:middle}
+th{background:#f7f8fb;color:#7b8395;font-size:13px}
+td{font-size:14px}
+.amount{font-weight:900;direction:ltr;text-align:right}
+.amount.in{color:#14863f}.amount.out{color:#c73542}
+.badge{display:inline-block;padding:6px 10px;border-radius:20px;font-size:12px;font-weight:bold}
+.badge.in{background:#e4f8ec;color:#14863f}.badge.out{background:#fde8ea;color:#c73542}
+.delete{border:0;border-radius:10px;padding:8px 11px;background:#fde8ea;color:#c73542;font-weight:bold;cursor:pointer}
+.empty,.error,.loading{text-align:center;padding:35px;color:#7b8395}
+.error{color:#c73542}
+.small{font-size:12px;color:#8991a2;margin-top:6px}
+@media(max-width:950px){.stats{grid-template-columns:repeat(3,1fr)}.filters{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.container{width:95%}.header h1{font-size:25px}.balance-value{font-size:31px}.stats{grid-template-columns:1fr 1fr}.form-grid,.filters{grid-template-columns:1fr}.section{padding:16px}.nav a{flex:1;text-align:center}}
 </style>
-
 </head>
-
-
 <body>
-
 <div class="container">
 
-
-<!-- NAVIGATION -->
-
-<div class="navigation">
-
-<a
-href="customers.html"
-class="nav-btn"
->
-👥 العملاء
-</a>
-
-<a
-href="numbers.html"
-class="nav-btn"
->
-📱 الأرقام الأساسية
-</a>
-
-<a
-href="admin.html"
-class="nav-btn"
->
-🔢 الأكواد
-</a>
-
+<div class="nav">
+<a href="customers.html">👥 العملاء</a>
+<a href="numbers.html">📱 الأرقام الأساسية</a>
+<a href="admin.html">🔢 الأكواد</a>
 </div>
-
-
-<!-- HEADER -->
 
 <div class="header glass">
-
-<h1>
-💰 الماليات
-</h1>
-
-<p>
-متابعة دخل التجديدات والباقات
-</p>
-
+<h1>💰 الماليات</h1>
+<p>دفتر حركة الأموال الخاص بالباقات والعملاء</p>
 </div>
 
-
-<!-- SUMMARY -->
-
-<div class="summary">
-
-
-<div class="summary-card glass">
-
-<div class="summary-title">
-إجمالي الدخل
+<div class="balance glass">
+<div class="balance-label">الرصيد الصافي</div>
+<div id="balance" class="balance-value">0 جنيه</div>
+<div id="balanceSub" class="balance-sub">الدخل ناقص المصروفات</div>
 </div>
 
-<div
-class="summary-value"
-id="totalIncome"
->
-0 جنيه
+<div class="stats">
+<div class="stat glass income"><div class="label">إجمالي الدخل</div><div id="totalIncome" class="value">0 جنيه</div></div>
+<div class="stat glass expense"><div class="label">إجمالي المصروفات</div><div id="totalExpense" class="value">0 جنيه</div></div>
+<div class="stat glass profit"><div class="label">صافي الربح</div><div id="netProfit" class="value">0 جنيه</div></div>
+<div class="stat glass"><div class="label">دخل اليوم</div><div id="todayIncome" class="value">0 جنيه</div></div>
+<div class="stat glass"><div class="label">عمليات الشهر</div><div id="monthCount" class="value">0</div></div>
 </div>
 
+<div class="section glass">
+<div class="section-title">➕ إضافة حركة مالية</div>
+
+<div class="type-switch" style="margin-bottom:11px">
+<button id="incomeBtn" class="type-btn active-income" onclick="setTransactionType('income')">🟢 دخل</button>
+<button id="expenseBtn" class="type-btn" onclick="setTransactionType('expense')">🔴 مصروف</button>
 </div>
 
-
-<div class="summary-card glass">
-
-<div class="summary-title">
-دخل اليوم
+<div class="form-grid">
+<input id="manualCustomer" placeholder="اسم العميل (اختياري)">
+<input id="manualPhone" inputmode="numeric" placeholder="رقم العميل (اختياري)">
+<input id="manualPrimary" inputmode="numeric" placeholder="الرقم الأساسي (اختياري)">
+<input id="manualPackage" placeholder="الباقة / سبب العملية">
+<input id="manualAmount" type="number" min="0.01" step="0.01" placeholder="المبلغ">
+<input id="manualNotes" placeholder="ملاحظات (اختياري)">
 </div>
 
-<div
-class="summary-value"
-id="todayIncome"
->
-0 جنيه
+<div style="margin-top:11px">
+<button id="addButton" class="add-btn" style="width:100%" onclick="addManualTransaction()">إضافة العملية</button>
 </div>
 
+<div class="small">
+العمليات القادمة من الطلبات والتجديدات تظل مسجلة تلقائيًا بنفس السجل.
+</div>
 </div>
 
+<div class="section glass">
+<div class="section-title">🔎 البحث والتصفية</div>
 
-<div class="summary-card glass">
-
-<div class="summary-title">
-دخل الشهر
-</div>
-
-<div
-class="summary-value"
-id="monthIncome"
->
-0 جنيه
-</div>
-
-</div>
-
-
-<div class="summary-card glass">
-
-<div class="summary-title">
-عدد العمليات
-</div>
-
-<div
-class="summary-value"
-id="transactionCount"
->
-0
-</div>
-
-</div>
-
-
-</div>
-
-
-<!-- FILTERS -->
-
-<div class="filters glass">
-
-<h2>
-🔎 البحث والتصفية
-</h2>
-
-<div class="filter-row">
-
-
-<input
-id="search"
-placeholder="ابحث باسم العميل أو الرقم..."
->
-
+<div class="filters">
+<input id="search" placeholder="ابحث بالعميل أو الرقم أو الباقة...">
 
 <select id="period">
-
-<option value="all">
-كل العمليات
-</option>
-
-<option value="today">
-اليوم
-</option>
-
-<option value="month">
-هذا الشهر
-</option>
-
-<option value="year">
-هذه السنة
-</option>
-
+<option value="all">كل العمليات</option>
+<option value="today">اليوم</option>
+<option value="month">هذا الشهر</option>
+<option value="year">هذه السنة</option>
 </select>
 
+<select id="typeFilter">
+<option value="all">كل الأنواع</option>
+<option value="income">الدخل فقط</option>
+<option value="expense">المصروفات فقط</option>
+</select>
 
-<button
-class="reset"
-onclick="resetFilters()"
->
-إعادة ضبط
-</button>
+<button class="reset" onclick="resetFilters()">إعادة ضبط</button>
+</div>
+</div>
 
+<div class="section glass">
+<div class="section-title">📒 سجل العمليات</div>
 
+<div id="transactions" class="table-wrap">
+<div class="loading">⏳ جاري تحميل الماليات...</div>
+</div>
 </div>
 
 </div>
 
+<script>
+const SUPABASE_URL="https://pgvbynefhqmyzjtccttl.supabase.co";
+const SUPABASE_KEY="sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 
-<!-- MANUAL -->
+let transactions=[];
+let manualType="income";
 
-<div class="manual glass">
+function escapeHtml(v){
+return String(v??"").replace(/[&<>"']/g,c=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+}[c]));
+}
 
-<h2>
-➕ إضافة عملية مالية يدويًا
-</h2>
+function formatMoney(v){
+return Number(v||0).toLocaleString("ar-EG",{maximumFractionDigits:2});
+}
 
-<div class="manual-grid">
+function isExpense(t){
+const type=String(t?.transaction_type||"").toLowerCase().trim();
 
+return type.includes("مصروف")||
+type.includes("expense")||
+type.includes("سحب");
+}
 
-<input
-id="manualCustomer"
-placeholder="اسم العميل"
->
+function sameDay(a,b){
+return a.getFullYear()===b.getFullYear()&&
+a.getMonth()===b.getMonth()&&
+a.getDate()===b.getDate();
+}
 
+function sameMonth(a,b){
+return a.getFullYear()===b.getFullYear()&&
+a.getMonth()===b.getMonth();
+}
 
-<input
-id="manualPhone"
-placeholder="رقم العميل"
->
+function sameYear(a,b){
+return a.getFullYear()===b.getFullYear();
+}
 
+async function supabaseRequest(path,options={}){
+const controller=new AbortController();
 
-<input
-id="manualPrimary"
-placeholder="الرقم الأساسي"
->
+const timer=setTimeout(()=>{
+controller.abort();
+},15000);
 
+try{
 
-<input
-id="manualPackage"
-placeholder="الباقة"
->
+const response=await fetch(
+SUPABASE_URL+"/rest/v1/"+path,
+{
+...options,
+signal:controller.signal,
 
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY,
+"Content-Type":"application/json",
+"Prefer":"return=representation",
+...(options.headers||{})
+}
+});
 
-<input
-id="manualAmount"
-type="number"
-min="0"
-placeholder="المبلغ"
->
+const text=await response.text();
 
+let data=null;
 
-<button
-class="add"
-onclick="addManualTransaction()"
->
-إضافة العملية
-</button>
+try{
+data=text?JSON.parse(text):null;
+}catch{
+data=text;
+}
 
+if(!response.ok){
 
-</div>
+let msg=
+typeof data==="string"
+?data
+:(data?.message||data?.hint||data?.details||"خطأ من Supabase");
 
-</div>
+throw new Error(msg);
+}
 
+return data;
 
-<!-- TABLE -->
+}catch(e){
 
-<div class="table-box glass">
+if(e.name==="AbortError"){
+throw new Error("الاتصال بقاعدة البيانات استغرق وقتًا طويلًا.");
+}
 
-<div class="table-title">
-📋 سجل العمليات
-</div>
+throw e;
 
-<div class="table-wrapper">
+}finally{
+
+clearTimeout(timer);
+
+}
+}
+
+function setTransactionType(type){
+
+manualType=type;
+
+document.getElementById("incomeBtn").className=
+"type-btn"+(type==="income"?" active-income":"");
+
+document.getElementById("expenseBtn").className=
+"type-btn"+(type==="expense"?" active-expense":"");
+
+}
+
+function filteredTransactions(){
+
+const search=
+document.getElementById("search").value.trim().toLowerCase();
+
+const period=
+document.getElementById("period").value;
+
+const type=
+document.getElementById("typeFilter").value;
+
+const now=new Date();
+
+return transactions.filter(t=>{
+
+const text=[
+t.customer_name,
+t.customer_phone,
+t.primary_number,
+t.package_name,
+t.notes,
+t.transaction_type
+]
+.map(v=>String(v||"").toLowerCase())
+.join(" ");
+
+if(search&&!text.includes(search)){
+return false;
+}
+
+const expense=isExpense(t);
+
+if(type==="income"&&expense){
+return false;
+}
+
+if(type==="expense"&&!expense){
+return false;
+}
+
+if(!t.transaction_date){
+return period==="all";
+}
+
+const d=new Date(t.transaction_date);
+
+if(Number.isNaN(d.getTime())){
+return period==="all";
+}
+
+if(period==="today"){
+return sameDay(d,now);
+}
+
+if(period==="month"){
+return sameMonth(d,now);
+}
+
+if(period==="year"){
+return sameYear(d,now);
+}
+
+return true;
+
+});
+}
+
+function updateSummary(){
+
+let income=0;
+let expense=0;
+let today=0;
+let monthCount=0;
+
+const now=new Date();
+
+transactions.forEach(t=>{
+
+const amount=Math.abs(Number(t.amount)||0);
+
+if(isExpense(t)){
+expense+=amount;
+}else{
+income+=amount;
+}
+
+if(t.transaction_date){
+
+const d=new Date(t.transaction_date);
+
+if(!Number.isNaN(d.getTime())){
+
+if(sameDay(d,now)&&!isExpense(t)){
+today+=amount;
+}
+
+if(sameMonth(d,now)){
+monthCount++;
+}
+
+}
+
+}
+
+});
+
+const net=income-expense;
+
+document.getElementById("balance").textContent=
+formatMoney(net)+" جنيه";
+
+document.getElementById("totalIncome").textContent=
+formatMoney(income)+" جنيه";
+
+document.getElementById("totalExpense").textContent=
+formatMoney(expense)+" جنيه";
+
+document.getElementById("netProfit").textContent=
+formatMoney(net)+" جنيه";
+
+document.getElementById("todayIncome").textContent=
+formatMoney(today)+" جنيه";
+
+document.getElementById("monthCount").textContent=
+monthCount;
+
+document.getElementById("balanceSub").textContent=
+net>=0
+?"الدخل ناقص المصروفات"
+:"المصروفات أعلى من الدخل";
+
+}
+
+function render(){
+
+const data=filteredTransactions();
+
+const box=document.getElementById("transactions");
+
+updateSummary();
+
+if(!data.length){
+
+box.innerHTML=
+'<div class="empty">📭 لا توجد عمليات مطابقة.</div>';
+
+return;
+
+}
+
+box.innerHTML=`
 
 <table>
 
 <thead>
 
 <tr>
-
-<th>
-التاريخ
-</th>
-
-<th>
-العميل
-</th>
-
-<th>
-رقم العميل
-</th>
-
-<th>
-الرقم الأساسي
-</th>
-
-<th>
-الباقة
-</th>
-
-<th>
-المبلغ
-</th>
-
-<th>
-النوع
-</th>
-
-<th>
-إجراء
-</th>
-
+<th>التاريخ</th>
+<th>النوع</th>
+<th>البيان</th>
+<th>العميل</th>
+<th>الرقم</th>
+<th>الباقة</th>
+<th>المبلغ</th>
+<th>إجراء</th>
 </tr>
 
 </thead>
 
+<tbody>
 
-<tbody
-id="transactions"
->
+${data.map(t=>{
 
-<tr>
+const expense=isExpense(t);
 
-<td
-colspan="8"
-class="empty"
->
-⏳ جاري التحميل...
-</td>
+const amount=Math.abs(Number(t.amount)||0);
 
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-
-</div>
-
-
-<script>
-
-/* =========================================
-SUPABASE
-========================================= */
-
-const SUPABASE_URL =
-"https://pgvbynefhqmyzjtccttl.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
-
-
-/* =========================================
-DATA
-========================================= */
-
-let transactions=[];
-
-
-/* =========================================
-SUPABASE REQUEST
-========================================= */
-
-async function supabaseRequest(
-path,
-options={}
-){
-
-const controller =
-new AbortController();
-
-const timer =
-setTimeout(
-()=>controller.abort(),
-10000
-);
-
-try{
-
-const response =
-await fetch(
-SUPABASE_URL+
-"/rest/v1/"+
-path,
-{
-
-...options,
-
-signal:
-controller.signal,
-
-headers:{
-
-"apikey":
-SUPABASE_KEY,
-
-"Authorization":
-"Bearer "+
-SUPABASE_KEY,
-
-"Content-Type":
-"application/json",
-
-"Prefer":
-"return=representation",
-
-...(options.headers||{})
-
-}
-
-}
-);
-
-
-const text =
-await response.text();
-
-
-let data=null;
-
-
-try{
-
-data=
-text
-?
-JSON.parse(text)
-:
-null;
-
-}
-
-catch{
-
-data=text;
-
-}
-
-
-if(!response.ok){
-
-throw new Error(
-
-typeof data==="string"
-
-?
-data
-
-:
-
-(
-data?.message||
-data?.hint||
-"خطأ من Supabase"
-)
-
-);
-
-}
-
-
-return data;
-
-}
-
-finally{
-
-clearTimeout(timer);
-
-}
-
-}
-
-
-/* =========================================
-LOAD
-========================================= */
-
-async function loadTransactions(){
-
-const tbody =
-document.getElementById(
-"transactions"
-);
-
-
-tbody.innerHTML=
-`
-<tr>
-<td colspan="8" class="empty">
-⏳ جاري تحميل العمليات...
-</td>
-</tr>
-`;
-
-
-try{
-
-const data =
-await supabaseRequest(
-"financial_transactions?select=*&order=transaction_date.desc"
-);
-
-
-transactions =
-Array.isArray(data)
-?
-data
-:
-[];
-
-
-render();
-
-}
-
-catch(error){
-
-console.error(error);
-
-
-tbody.innerHTML=
-`
-<tr>
-<td colspan="8" class="empty">
-
-❌ حصل خطأ في تحميل الماليات
-
-<br><br>
-
-${escapeHtml(
-error.message
-)}
-
-</td>
-</tr>
-`;
-
-}
-
-}
-
-
-/* =========================================
-FILTER
-========================================= */
-
-function getFiltered(){
-
-const search =
-document.getElementById(
-"search"
-)
-.value
-.trim()
-.toLowerCase();
-
-
-const period =
-document.getElementById(
-"period"
-).value;
-
-
-const now =
-new Date();
-
-
-return transactions.filter(
-t=>{
-
-const name =
-String(
-t.customer_name||
-""
-)
-.toLowerCase();
-
-
-const phone =
-String(
-t.customer_phone||
-""
-)
-.toLowerCase();
-
-
-const primary =
-String(
-t.primary_number||
-""
-)
-.toLowerCase();
-
-
-if(
-search&&
-!name.includes(search)&&
-!phone.includes(search)&&
-!primary.includes(search)
-){
-
-return false;
-
-}
-
-
-if(
-!t.transaction_date
-){
-
-return period==="all";
-
-}
-
-
-const date =
-new Date(
+const date=
 t.transaction_date
-);
-
-
-if(period==="today"){
-
-return(
-date.getFullYear()===
-now.getFullYear()&&
-date.getMonth()===
-now.getMonth()&&
-date.getDate()===
-now.getDate()
-);
-
-}
-
-
-if(period==="month"){
-
-return(
-date.getFullYear()===
-now.getFullYear()&&
-date.getMonth()===
-now.getMonth()
-);
-
-}
-
-
-if(period==="year"){
-
-return(
-date.getFullYear()===
-now.getFullYear()
-);
-
-}
-
-
-return true;
-
-}
-);
-
-}
-
-
-/* =========================================
-RENDER
-========================================= */
-
-function render(){
-
-const filtered =
-getFiltered();
-
-
-const tbody =
-document.getElementById(
-"transactions"
-);
-
-
-if(!filtered.length){
-
-tbody.innerHTML=
-`
-<tr>
-
-<td
-colspan="8"
-class="empty"
->
-📭 لا توجد عمليات مالية.
-</td>
-
-</tr>
-`;
-
-updateSummary(filtered);
-
-return;
-
-}
-
-
-tbody.innerHTML=
-filtered
-.map(
-t=>{
-
-const date =
-t.transaction_date
-?
-new Date(
-t.transaction_date
-).toLocaleString(
-"ar-EG"
-)
-:
-"-";
-
-
-const amount =
-Number(
-t.amount
-)||0;
-
+?new Date(t.transaction_date).toLocaleString("ar-EG")
+:"-";
 
 return `
 
 <tr>
 
-<td>
-${escapeHtml(date)}
-</td>
-
-<td>
-${escapeHtml(
-t.customer_name||"-"
-)}
-</td>
-
-<td>
-${escapeHtml(
-t.customer_phone||"-"
-)}
-</td>
-
-<td>
-${escapeHtml(
-t.primary_number||"-"
-)}
-</td>
-
-<td>
-${escapeHtml(
-t.package_name||"-"
-)}
-</td>
-
-<td class="amount">
-${formatMoney(amount)}
- جنيه
-</td>
+<td>${escapeHtml(date)}</td>
 
 <td>
 
-<span class="badge">
+<span class="badge ${expense?"out":"in"}">
 
-${escapeHtml(
-t.transaction_type||
-"تجديد"
-)}
+${expense?"🔴 مصروف":"🟢 دخل"}
 
 </span>
+
+<br>
+
+<span class="small">
+${escapeHtml(t.transaction_type||"")}
+</span>
+
+</td>
+
+<td>
+${escapeHtml(t.notes||"-")}
+</td>
+
+<td>
+${escapeHtml(t.customer_name||"-")}
+</td>
+
+<td>
+${escapeHtml(t.customer_phone||"-")}
+</td>
+
+<td>
+${escapeHtml(t.package_name||"-")}
+</td>
+
+<td class="amount ${expense?"out":"in"}">
+
+${expense?"−":"+"}
+${formatMoney(amount)}
+جنيه
 
 </td>
 
@@ -1047,9 +491,10 @@ t.transaction_type||
 
 <button
 class="delete"
-onclick="deleteTransaction(${Number(t.id)})"
->
+onclick="deleteTransaction(${Number(t.id)})">
+
 🗑️
+
 </button>
 
 </td>
@@ -1058,412 +503,227 @@ onclick="deleteTransaction(${Number(t.id)})"
 
 `;
 
+}).join("")}
+
+</tbody>
+
+</table>
+
+`;
+
 }
-)
-.join("");
 
+async function loadTransactions(){
 
-updateSummary(filtered);
+const box=document.getElementById("transactions");
 
-}
+box.innerHTML=
+'<div class="loading">⏳ جاري تحميل الماليات...</div>';
 
+try{
 
-/* =========================================
-SUMMARY
-========================================= */
-
-function updateSummary(data){
-
-let total=0;
-
-let today=0;
-
-let month=0;
-
-
-const now =
-new Date();
-
-
-data.forEach(
-t=>{
-
-const amount =
-Number(
-t.amount
-)||0;
-
-
-total+=amount;
-
-
-if(!t.transaction_date)
-return;
-
-
-const date =
-new Date(
-t.transaction_date
+const data=
+await supabaseRequest(
+"financial_transactions?select=*&order=transaction_date.desc"
 );
 
+transactions=
+Array.isArray(data)?data:[];
 
-if(
-date.getFullYear()===
-now.getFullYear()&&
-date.getMonth()===
-now.getMonth()&&
-date.getDate()===
-now.getDate()
-){
+render();
 
-today+=amount;
+}catch(e){
 
-}
+console.error(e);
 
-
-if(
-date.getFullYear()===
-now.getFullYear()&&
-date.getMonth()===
-now.getMonth()
-){
-
-month+=amount;
+box.innerHTML=
+'<div class="error">'+
+'❌ تعذر تحميل الماليات'+
+'<br><br>'+
+escapeHtml(e.message)+
+'<br><br>'+
+'<button class="reset" onclick="loadTransactions()">إعادة المحاولة</button>'+
+'</div>';
 
 }
 
 }
-);
-
-
-document.getElementById(
-"totalIncome"
-)
-.textContent=
-formatMoney(total)+
-" جنيه";
-
-
-document.getElementById(
-"todayIncome"
-)
-.textContent=
-formatMoney(today)+
-" جنيه";
-
-
-document.getElementById(
-"monthIncome"
-)
-.textContent=
-formatMoney(month)+
-" جنيه";
-
-
-document.getElementById(
-"transactionCount"
-)
-.textContent=
-data.length;
-
-}
-
-
-/* =========================================
-MANUAL TRANSACTION
-========================================= */
 
 async function addManualTransaction(){
 
-const customer =
-document.getElementById(
-"manualCustomer"
-)
-.value
-.trim();
+const customer=
+document.getElementById("manualCustomer").value.trim();
 
+const phone=
+document.getElementById("manualPhone").value.trim();
 
-const phone =
-document.getElementById(
-"manualPhone"
-)
-.value
-.trim();
+const primary=
+document.getElementById("manualPrimary").value.trim();
 
+const packageName=
+document.getElementById("manualPackage").value.trim();
 
-const primary =
-document.getElementById(
-"manualPrimary"
-)
-.value
-.trim();
+const notes=
+document.getElementById("manualNotes").value.trim();
 
+const amount=
+Number(document.getElementById("manualAmount").value);
 
-const packageName =
-document.getElementById(
-"manualPackage"
-)
-.value
-.trim();
+if(!amount||amount<=0){
 
-
-const amount =
-Number(
-document.getElementById(
-"manualAmount"
-).value
-);
-
-
-if(
-!amount||
-amount<0
-){
-
-alert(
-"❌ اكتب المبلغ"
-);
+alert("❌ اكتب مبلغ صحيح");
 
 return;
 
 }
 
+if(!packageName){
+
+alert("❌ اكتب سبب العملية أو اسم الباقة");
+
+return;
+
+}
+
+const button=
+document.getElementById("addButton");
+
+button.disabled=true;
+
+button.textContent="⏳ جاري الحفظ...";
 
 try{
 
 await supabaseRequest(
 "financial_transactions",
 {
-
 method:"POST",
 
-body:
-JSON.stringify({
+body:JSON.stringify({
 
-customer_name:
-customer||null,
+customer_name:customer||null,
 
-customer_phone:
-phone||null,
+customer_phone:phone||null,
 
-primary_number:
-primary||null,
+primary_number:primary||null,
 
-package_name:
-packageName||null,
+package_name:packageName||null,
 
-amount:amount,
+amount:Math.abs(amount),
 
 transaction_type:
-"عملية يدوية",
+manualType==="expense"
+?"مصروف"
+:"عملية يدوية",
 
 transaction_date:
-new Date()
-.toISOString()
+new Date().toISOString(),
+
+notes:
+notes||
+(
+manualType==="expense"
+?"مصروف يدوي"
+:"دخل يدوي"
+)
 
 })
-
 }
 );
 
+[
+"manualCustomer",
+"manualPhone",
+"manualPrimary",
+"manualPackage",
+"manualAmount",
+"manualNotes"
+]
+.forEach(id=>{
+document.getElementById(id).value="";
+});
 
-document.getElementById(
-"manualCustomer"
-).value="";
-
-
-document.getElementById(
-"manualPhone"
-).value="";
-
-
-document.getElementById(
-"manualPrimary"
-).value="";
-
-
-document.getElementById(
-"manualPackage"
-).value="";
-
-
-document.getElementById(
-"manualAmount"
-).value="";
-
+alert(
+manualType==="expense"
+?"✅ تم تسجيل المصروف"
+:"✅ تم تسجيل الدخل"
+);
 
 await loadTransactions();
 
+}catch(e){
 
 alert(
-"✅ تمت إضافة العملية"
+"❌ لم يتم تسجيل العملية\n\n"+
+e.message
 );
 
+}finally{
 
-}
+button.disabled=false;
 
-catch(error){
-
-alert(
-"❌ لم تتم الإضافة:\n\n"+
-error.message
-);
+button.textContent="إضافة العملية";
 
 }
 
 }
-
-
-/* =========================================
-DELETE
-========================================= */
 
 async function deleteTransaction(id){
 
-const ok =
-confirm(
-"هل أنت متأكد من حذف العملية المالية؟"
-);
-
-
-if(!ok)
+if(!id){
 return;
+}
 
+if(!confirm("هل أنت متأكد من حذف العملية المالية؟")){
+return;
+}
 
 try{
 
 await supabaseRequest(
-
 "financial_transactions?id=eq."+
 encodeURIComponent(id),
-
 {
-
 method:"DELETE"
-
 }
-
 );
-
 
 await loadTransactions();
 
-
-}
-
-catch(error){
+}catch(e){
 
 alert(
-"❌ لم يتم الحذف:\n\n"+
-error.message
+"❌ لم يتم حذف العملية\n\n"+
+e.message
 );
 
 }
 
 }
 
-
-/* =========================================
-RESET
-========================================= */
-
 function resetFilters(){
 
-document.getElementById(
-"search"
-).value="";
+document.getElementById("search").value="";
 
+document.getElementById("period").value="all";
 
-document.getElementById(
-"period"
-).value="all";
-
+document.getElementById("typeFilter").value="all";
 
 render();
 
 }
 
-
-/* =========================================
-HELPERS
-========================================= */
-
-function formatMoney(value){
-
-return Number(
-value||0
-)
-.toLocaleString(
-"ar-EG",
-{
-maximumFractionDigits:2
-}
-);
-
-}
-
-
-function escapeHtml(value){
-
-return String(
-value??""
-)
-
-.replaceAll(
-"&",
-"&amp;"
-)
-
-.replaceAll(
-"<",
-"&lt;"
-)
-
-.replaceAll(
-">",
-"&gt;"
-)
-
-.replaceAll(
-'"',
-"&quot;"
-)
-
-.replaceAll(
-"'",
-"&#039;"
-);
-
-}
-
-
-/* =========================================
-EVENTS
-========================================= */
+document
+.getElementById("search")
+.addEventListener("input",render);
 
 document
-.getElementById(
-"search"
-)
-.addEventListener(
-"input",
-render
-);
-
+.getElementById("period")
+.addEventListener("change",render);
 
 document
-.getElementById(
-"period"
-)
-.addEventListener(
-"change",
-render
-);
-
-
-/* =========================================
-START
-========================================= */
+.getElementById("typeFilter")
+.addEventListener("change",render);
 
 loadTransactions();
 
