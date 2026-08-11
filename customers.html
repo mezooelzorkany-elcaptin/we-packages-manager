@@ -631,193 +631,653 @@ loadCustomers();
 
 /* ================= CUSTOMERS ================= */
 
+/* ================= CUSTOMERS ================= */
+
 async function loadCustomers(){
 
-const list=document.getElementById("list");
+    const list =
+        document.getElementById("list");
 
-list.innerHTML='<div class="loading">⏳ جاري تحميل العملاء...</div>';
+    list.innerHTML =
+        '<div class="loading">⏳ جاري تحميل العملاء...</div>';
 
-try{
+    try{
 
-const customerData=await supabaseRequest(
-"customers?select=*&deleted_at=is.null&order=next_renewal_date.asc"
-);
+        /* ==================================================
+           1) تحميل العملاء
+        ================================================== */
 
-const customerRows=Array.isArray(customerData)?customerData:[];
+        const customerData =
+            await supabaseRequest(
+                "customers?select=*&deleted_at=is.null&order=next_renewal_date.asc"
+            );
 
-let orders=[];
+        customers =
+            Array.isArray(customerData)
+            ? customerData
+            : [];
 
-try{
 
-const orderData=await supabaseRequest(
-"orders?select=*&order=created_at.desc"
-);
+        /* ==================================================
+           2) تحميل الطلبات
+        ================================================== */
 
-orders=Array.isArray(orderData)?orderData:[];
+        let orders = [];
 
-}catch(orderError){
+        try{
 
-console.error("ORDERS LOAD ERROR:",orderError);
-orders=[];
+            const orderData =
+                await supabaseRequest(
+                    "orders?select=*&order=created_at.desc"
+                );
+
+            orders =
+                Array.isArray(orderData)
+                ? orderData
+                : [];
+
+        }
+        catch(orderError){
+
+            console.error(
+                "ORDERS LOAD ERROR:",
+                orderError
+            );
+
+            orders = [];
+
+        }
+
+
+        /* ==================================================
+           3) تجميع الطلبات حسب رقم العميل
+        ================================================== */
+
+        const ordersByPhone = {};
+
+        orders.forEach(order => {
+
+            const phone =
+                cleanPhone(order.phone);
+
+            if(!phone)
+                return;
+
+            if(!ordersByPhone[phone]){
+                ordersByPhone[phone] = [];
+            }
+
+            ordersByPhone[phone].push(order);
+
+        });
+
+
+        /* ==================================================
+           4) أسعار الباقات الأساسية
+        ================================================== */
+
+        const packagePrices = {
+
+            "20 جيجا":270,
+            "25 جيجا":300,
+            "30 جيجا":340,
+            "35 جيجا":380,
+            "40 جيجا":430,
+            "45 جيجا":450,
+            "50 جيجا":480,
+            "55 جيجا":520,
+            "60 جيجا":570
+
+        };
+
+
+        /* ==================================================
+           5) استخراج الجيجا تلقائيًا من اسم الباقة
+        ================================================== */
+
+        function automaticGB(packageName){
+
+            const text =
+                String(packageName || "");
+
+            const match =
+                text.match(
+                    /(\d+(?:\.\d+)?)\s*(?:جيجا|GB|gb)?/i
+                );
+
+            if(!match)
+                return 0;
+
+            const gb =
+                Number(match[1]);
+
+            return (
+                Number.isFinite(gb) &&
+                gb > 0
+            )
+            ? gb
+            : 0;
+
+        }
+
+
+        /* ==================================================
+           6) استخراج السعر الأساسي تلقائيًا
+        ================================================== */
+
+        function automaticOriginalPrice(
+            packageName,
+            fallback = 0
+        ){
+
+            const name =
+                String(
+                    packageName || ""
+                ).trim();
+
+
+            if(
+                Object.prototype.hasOwnProperty.call(
+                    packagePrices,
+                    name
+                )
+            ){
+
+                return packagePrices[name];
+
+            }
+
+
+            const gb =
+                automaticGB(name);
+
+
+            const key =
+                gb + " جيجا";
+
+
+            if(
+                Object.prototype.hasOwnProperty.call(
+                    packagePrices,
+                    key
+                )
+            ){
+
+                return packagePrices[key];
+
+            }
+
+
+            const fallbackNumber =
+                Number(fallback);
+
+
+            return Number.isFinite(
+                fallbackNumber
+            )
+            ? fallbackNumber
+            : 0;
+
+        }
+
+
+        /* ==================================================
+           7) استخراج الجيجا من الطلب
+        ================================================== */
+
+        function orderGB(order){
+
+            const values = [
+
+                order.package_gb,
+
+                order.allocated_gb,
+
+                order.gb,
+
+                order.gigabytes,
+
+                order.package_size
+
+            ];
+
+
+            for(
+                const value of values
+            ){
+
+                const n =
+                    Number(value);
+
+
+                if(
+                    Number.isFinite(n) &&
+                    n > 0
+                ){
+
+                    return n;
+
+                }
+
+            }
+
+
+            return automaticGB(
+                order.package_name ||
+                order.package ||
+                order.package_title
+            );
+
+        }
+
+
+        /* ==================================================
+           8) استخراج موعد التجديد من الطلب
+        ================================================== */
+
+        function orderRenewalDate(
+            order,
+            customer
+        ){
+
+            const possible = [
+
+                order.next_renewal_date,
+
+                order.renewal_date,
+
+                order.nextRenewalDate,
+
+                order.renewal_at,
+
+                order.next_renewal,
+
+                order.expiry_date,
+
+                order.expires_at
+
+            ];
+
+
+            for(
+                const value of possible
+            ){
+
+                if(value){
+
+                    const date =
+                        String(value)
+                        .split("T")[0];
+
+
+                    if(
+                        /^\d{4}-\d{2}-\d{2}$/
+                        .test(date)
+                    ){
+
+                        return date;
+
+                    }
+
+                }
+
+            }
+
+
+            /* لو العميل عنده تاريخ محفوظ */
+
+            if(
+                customer.next_renewal_date
+            ){
+
+                return String(
+                    customer.next_renewal_date
+                ).split("T")[0];
+
+            }
+
+
+            /* ==================================================
+               لو مفيش تاريخ نهائي:
+               نحسبه من تاريخ إنشاء الطلب
+            ================================================== */
+
+            const created =
+                order.created_at;
+
+
+            if(created){
+
+                const d =
+                    new Date(created);
+
+
+                if(
+                    !Number.isNaN(
+                        d.getTime()
+                    )
+                ){
+
+                    if(
+                        customer.renewal_type ===
+                        "day_1"
+                    ){
+
+                        d.setMonth(
+                            d.getMonth()+1
+                        );
+
+                        d.setDate(1);
+
+                    }
+                    else if(
+                        customer.renewal_type ===
+                        "day_16"
+                    ){
+
+                        d.setMonth(
+                            d.getMonth()+1
+                        );
+
+                        d.setDate(16);
+
+                    }
+                    else{
+
+                        d.setDate(
+                            d.getDate()+30
+                        );
+
+                    }
+
+
+                    return d
+                        .toISOString()
+                        .split("T")[0];
+
+                }
+
+            }
+
+
+            return null;
+
+        }
+
+
+        /* ==================================================
+           9) تحديث بيانات العملاء من آخر طلب
+        ================================================== */
+
+        customers =
+            customers.map(customer => {
+
+                const phone =
+                    cleanPhone(
+                        customer.phone
+                    );
+
+
+                const customerOrders =
+                    ordersByPhone[phone] || [];
+
+
+                /* أحدث طلب */
+
+                const latestOrder =
+                    customerOrders.length
+                    ? customerOrders[0]
+                    : null;
+
+
+                /* لو مفيش طلب */
+
+                if(!latestOrder){
+
+                    return {
+
+                        ...customer,
+
+                        allocated_gb:
+                            Number(
+                                customer.allocated_gb
+                            ) || 0,
+
+                        original_price:
+                            Number(
+                                customer.original_price
+                            ) || 0,
+
+                        last_price:
+                            Number(
+                                customer.last_price
+                            ) || 0,
+
+                        discount_amount:
+                            Number(
+                                customer.discount_amount
+                            ) || 0,
+
+                        promo_code:
+                            customer.promo_code ||
+                            "",
+
+                        total_orders:
+                            customerOrders.length ||
+                            Number(
+                                customer.total_orders
+                            ) ||
+                            0
+
+                    };
+
+                }
+
+
+                /* ==================================================
+                   بيانات الباقة
+                ================================================== */
+
+                const packageName =
+                    latestOrder.package_name ||
+                    latestOrder.package ||
+                    latestOrder.package_title ||
+                    customer.package_name ||
+                    "";
+
+
+                /* ==================================================
+                   الجيجا
+                ================================================== */
+
+                const gb =
+                    orderGB(latestOrder) ||
+                    Number(
+                        customer.allocated_gb
+                    ) ||
+                    automaticGB(packageName) ||
+                    0;
+
+
+                /* ==================================================
+                   السعر الأصلي
+                ================================================== */
+
+                const originalPrice =
+                    automaticOriginalPrice(
+                        packageName,
+                        latestOrder.original_price ||
+                        latestOrder.price ||
+                        customer.original_price ||
+                        0
+                    );
+
+
+                /* ==================================================
+                   السعر النهائي
+                ================================================== */
+
+                const finalPrice =
+                    Number(
+                        latestOrder.final_price
+                    ) ||
+                    Number(
+                        latestOrder.total_price
+                    ) ||
+                    Number(
+                        latestOrder.amount
+                    ) ||
+                    Number(
+                        customer.last_price
+                    ) ||
+                    0;
+
+
+                /* ==================================================
+                   قيمة الخصم
+                ================================================== */
+
+                let discount =
+                    Math.max(
+                        0,
+                        originalPrice -
+                        finalPrice
+                    );
+
+
+                /* لو الطلب فيه قيمة خصم صريحة */
+
+                if(
+                    Number.isFinite(
+                        Number(
+                            latestOrder.discount_amount
+                        )
+                    ) &&
+                    Number(
+                        latestOrder.discount_amount
+                    ) > 0
+                ){
+
+                    discount =
+                        Number(
+                            latestOrder.discount_amount
+                        );
+
+                }
+
+
+                /* ==================================================
+                   كود الخصم
+                ================================================== */
+
+                const promoCode =
+                    latestOrder.promo_code ||
+                    latestOrder.discount_code ||
+                    latestOrder.coupon_code ||
+                    latestOrder.coupon ||
+                    customer.promo_code ||
+                    "";
+
+
+                /* ==================================================
+                   موعد التجديد
+                ================================================== */
+
+                const renewalDate =
+                    orderRenewalDate(
+                        latestOrder,
+                        customer
+                    );
+
+
+                /* ==================================================
+                   إرجاع بيانات العميل
+                ================================================== */
+
+                return {
+
+                    ...customer,
+
+                    package_name:
+                        packageName || null,
+
+                    allocated_gb:
+                        gb,
+
+                    last_price:
+                        finalPrice,
+
+                    original_price:
+                        originalPrice,
+
+                    discount_amount:
+                        discount,
+
+                    promo_code:
+                        promoCode,
+
+                    payment_method:
+                        latestOrder.payment_method ||
+                        customer.payment_method ||
+                        null,
+
+                    next_renewal_date:
+                        renewalDate,
+
+                    total_orders:
+                        customerOrders.length
+
+                };
+
+            });
+
+
+        /* ==================================================
+           10) تحديث الإحصائيات
+        ================================================== */
+
+        updateStats();
+
+
+        /* ==================================================
+           11) عرض العملاء
+        ================================================== */
+
+        render();
+
+    }
+    catch(e){
+
+        console.error(
+            "LOAD CUSTOMERS ERROR:",
+            e
+        );
+
+
+        list.innerHTML =
+            '<div class="error">' +
+
+            '❌ تعذر تحميل العملاء<br><br>' +
+
+            escapeHtml(
+                e.message
+            ) +
+
+            '<br><br>' +
+
+            '<button ' +
+            'class="action edit" ' +
+            'onclick="loadCustomers()">' +
+
+            '🔄 إعادة المحاولة' +
+
+            '</button>' +
+
+            '</div>';
+
+    }
 
 }
-
-/* ربط الطلبات بالعميل عن طريق رقم الهاتف */
-
-const ordersByPhone={};
-
-orders.forEach(order=>{
-
-const phone=cleanPhone(order.phone);
-
-if(!phone)return;
-
-if(!ordersByPhone[phone]){
-ordersByPhone[phone]=[];
-}
-
-ordersByPhone[phone].push(order);
-
-});
-
-
-customers=customerRows.map(customer=>{
-
-const phone=cleanPhone(customer.phone);
-
-const customerOrders=ordersByPhone[phone]||[];
-
-const latestOrder=customerOrders.length
-?customerOrders[0]
-:null;
-
-if(!latestOrder){
-
-return{
-...customer,
-total_orders:
-customerOrders.length||
-Number(customer.total_orders)||
-0
-};
-
-}
-
-
-/* =========================
-   بيانات آخر طلب
-========================= */
-
-const packageName=
-getOrderPackage(latestOrder)||
-customer.package_name||
-"";
-
-const finalPrice=
-getOrderPrice(latestOrder)||
-Number(customer.last_price)||
-0;
-
-const packageGB=
-getOrderGB(latestOrder)||
-Number(customer.allocated_gb)||
-0;
-
-
-/* =========================
-   السعر الأصلي تلقائي
-========================= */
-
-const originalPrice=
-getAutomaticOriginalPrice(
-packageName,
-latestOrder.original_price,
-finalPrice
-);
-
-
-/* =========================
-   قيمة الخصم تلقائي
-========================= */
-
-const discountAmount=
-Math.max(
-0,
-originalPrice-finalPrice
-);
-
-
-/* =========================
-   كود الخصم
-========================= */
-
-const promoCode=
-String(
-latestOrder.promo_code||
-""
-).trim();
-
-
-return{
-
-...customer,
-
-package_name:
-packageName,
-
-allocated_gb:
-    getOrderGB(latestOrder) ||
-    Number(customer.allocated_gb) ||
-    0,
-next_renewal_date:
-getOrderRenewalDate(latestOrder) ||
-customer.next_renewal_date ||
-null,
-
-last_price:
-finalPrice,
-
-payment_method:
-latestOrder.payment_method||
-customer.payment_method||
-"",
-
-original_price:
-originalPrice,
-
-discount_amount:
-discountAmount,
-
-promo_code:
-promoCode,
-
-total_orders:
-customerOrders.length
-
-};
-
-});
-
-updateStats();
-render();
-
-}catch(e){
-
-console.error(e);
-
-list.innerHTML=
-'<div class="error">'+
-'❌ تعذر تحميل العملاء<br><br>'+
-escapeHtml(e.message)+
-'<br><br>'+
-'<button class="action edit" onclick="loadCustomers()">'+
-'🔄 إعادة المحاولة'+
-'</button>'+
-'</div>';
-
-}
-}
-
 /* ================= STATS ================= */
 
 function updateStats(){
