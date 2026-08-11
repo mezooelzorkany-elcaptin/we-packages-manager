@@ -3,15 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>الأرقام الأساسية | WE Packages</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
     margin:0;
@@ -23,223 +20,265 @@ body{
     color:#19182d;
 }
 
+button,input,select{font-family:inherit}
+
 .container{
-    width:92%;
-    max-width:1100px;
+    width:94%;
+    max-width:1050px;
     margin:auto;
-    padding:25px 0 60px;
+    padding:18px 0 60px;
 }
 
-.glass{
-    background:rgba(255,255,255,.76);
-    border:1px solid rgba(255,255,255,.9);
-    border-radius:25px;
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
-    box-shadow:0 15px 40px rgba(60,35,120,.12);
-}
-
-/* العنوان */
-
-.header{
-    text-align:center;
-    padding:28px;
-    margin-bottom:18px;
-}
-
-.header h1{
-    margin:0 0 8px;
-    color:#5420b8;
-    font-size:30px;
-}
-
-.header p{
-    margin:0;
-    color:#707080;
-}
-
-/* زر العودة */
+/* ================= HEADER ================= */
 
 .navigation{
-    display:flex;
-    justify-content:flex-start;
-    margin-bottom:14px;
+    margin-bottom:12px;
 }
 
 .back-btn{
     display:inline-flex;
     align-items:center;
-    justify-content:center;
-    padding:12px 20px;
+    gap:8px;
+    padding:11px 17px;
     border-radius:15px;
     background:#e8ddff;
     color:#5420b8;
     text-decoration:none;
     font-weight:bold;
-    font-size:16px;
 }
 
-/* الإحصائيات */
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-    margin-bottom:20px;
+.header{
+    text-align:center;
+    padding:24px 18px;
+    margin-bottom:15px;
+    background:rgba(255,255,255,.8);
+    border:1px solid rgba(255,255,255,.9);
+    border-radius:25px;
+    box-shadow:0 12px 35px rgba(60,35,120,.1);
+    backdrop-filter:blur(15px);
 }
 
-.stat{
-    padding:20px;
+.header h1{
+    margin:0 0 7px;
+    color:#5420b8;
+    font-size:29px;
 }
 
-.stat-title{
+.header p{
+    margin:0;
     color:#777;
-    font-size:14px;
-    margin-bottom:9px;
 }
 
-.stat-number{
-    color:#5420b8;
-    font-size:28px;
-    font-weight:900;
-}
+/* ================= TOP ACTIONS ================= */
 
-/* إضافة */
-
-.add-box{
-    padding:22px;
-    margin-bottom:20px;
-}
-
-.add-box h2{
-    margin-top:0;
-    color:#5420b8;
-}
-
-.row{
+.top-actions{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:12px;
+    margin-bottom:15px;
 }
 
-input{
+.top-action{
+    height:55px;
+    border:0;
+    border-radius:17px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.add-number-btn{
+    background:linear-gradient(135deg,#5420b8,#9747ff);
+    color:white;
+}
+
+.refresh-btn{
+    background:white;
+    color:#5420b8;
+    border:2px solid #e5dcf7;
+}
+
+/* ================= SEARCH ================= */
+
+.search-box{
+    background:rgba(255,255,255,.8);
+    border-radius:20px;
+    padding:13px;
+    margin-bottom:15px;
+    box-shadow:0 8px 25px rgba(60,35,120,.08);
+}
+
+.search{
     width:100%;
-    height:52px;
-    border:1px solid #ddd;
+    height:50px;
+    border:2px solid #e4dff0;
     border-radius:15px;
-    padding:0 15px;
+    padding:0 16px;
     font-size:16px;
     outline:none;
     background:white;
 }
 
-input:focus{
-    border-color:#7544cf;
-    box-shadow:0 0 0 3px rgba(117,68,207,.12);
+.search:focus{
+    border-color:#7c43d5;
 }
 
-.add-btn{
+/* ================= GROUP ================= */
+
+.group{
+    margin-bottom:14px;
+    border-radius:23px;
+    overflow:hidden;
+    background:rgba(255,255,255,.8);
+    border:1px solid rgba(255,255,255,.9);
+    box-shadow:0 10px 30px rgba(60,35,120,.1);
+}
+
+.group-header{
     width:100%;
-    height:52px;
     border:0;
-    border-radius:15px;
-    background:linear-gradient(135deg,#5420b8,#9747ff);
-    color:white;
-    font-size:16px;
-    font-weight:bold;
+    background:white;
+    min-height:72px;
+    padding:15px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
     cursor:pointer;
-    margin-top:12px;
+    text-align:right;
 }
 
-/* القائمة */
-
-.list{
-    display:grid;
-    gap:18px;
+.group-info{
+    display:flex;
+    align-items:center;
+    gap:13px;
 }
+
+.group-icon{
+    width:45px;
+    height:45px;
+    border-radius:14px;
+    background:#eee4ff;
+    color:#5420b8;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+}
+
+.group-title{
+    font-size:19px;
+    font-weight:900;
+    color:#29213d;
+}
+
+.group-count{
+    color:#888;
+    font-size:13px;
+    margin-top:3px;
+}
+
+.arrow{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    background:#f1ecfa;
+    color:#5420b8;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    transition:.25s;
+}
+
+.group.open .arrow{
+    transform:rotate(180deg);
+}
+
+.group-content{
+    display:none;
+    padding:0 12px 12px;
+}
+
+.group.open .group-content{
+    display:block;
+}
+
+/* ================= NUMBER CARD ================= */
 
 .number-card{
-    padding:23px;
+    background:#fdfcff;
+    border:1px solid #eee8f7;
+    border-radius:20px;
+    padding:17px;
+    margin-top:10px;
 }
 
 .number-head{
     display:flex;
-    justify-content:space-between;
     align-items:center;
+    justify-content:space-between;
     gap:10px;
 }
 
 .number{
-    font-size:25px;
-    font-weight:900;
     color:#5420b8;
+    font-size:22px;
+    font-weight:900;
+    direction:ltr;
+    text-align:right;
 }
 
 .status{
-    padding:7px 13px;
-    border-radius:30px;
-    font-size:13px;
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:12px;
     font-weight:bold;
+    white-space:nowrap;
 }
 
 .status.active{
-    background:#d9fbe5;
+    background:#dff8e8;
     color:#08752d;
 }
 
-.status.empty{
-    background:#fff0d5;
-    color:#9a5a00;
+.status.inactive{
+    background:#ffe3e3;
+    color:#a00000;
 }
 
-.stats-grid{
+.number-details{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:12px;
-    margin-top:18px;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:14px;
 }
 
-.box{
-    background:#f7f5fb;
-    border-radius:17px;
-    padding:15px;
+.detail{
+    background:#f6f4fa;
+    border-radius:14px;
+    padding:12px;
 }
 
-.box-title{
+.detail-title{
     color:#888;
     font-size:12px;
-    margin-bottom:8px;
+    margin-bottom:5px;
 }
 
-.box-value{
-    font-size:20px;
-    font-weight:900;
-    color:#25213b;
+.detail-value{
+    font-weight:bold;
+    font-size:15px;
 }
 
-.progress{
-    height:11px;
-    background:#e8e4ef;
-    border-radius:20px;
-    overflow:hidden;
-    margin-top:18px;
+.number-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    margin-top:13px;
 }
 
-.progress-bar{
-    height:100%;
-    background:linear-gradient(90deg,#5420b8,#9747ff);
-    border-radius:20px;
-    transition:.3s;
-}
-
-.actions{
-    display:flex;
-    gap:10px;
-    margin-top:18px;
-}
-
-.action{
-    flex:1;
+.number-action{
     height:45px;
     border:0;
     border-radius:13px;
@@ -247,39 +286,40 @@ input:focus{
     cursor:pointer;
 }
 
-.edit{
+.edit-btn{
     background:#e8ddff;
     color:#5420b8;
 }
 
-.delete{
+.delete-btn{
     background:#ffe1e1;
     color:#a00000;
 }
 
-.empty-state{
-    padding:40px;
+/* ================= EMPTY ================= */
+
+.empty{
     text-align:center;
+    padding:28px 15px;
     color:#777;
 }
 
-.message{
-    text-align:center;
-    margin-top:10px;
-    font-weight:bold;
+.empty-icon{
+    font-size:35px;
+    margin-bottom:8px;
 }
 
-/* Modal */
+/* ================= MODAL ================= */
 
 .modal{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.55);
+    background:rgba(20,15,35,.6);
     display:none;
     align-items:center;
     justify-content:center;
     padding:15px;
-    z-index:999;
+    z-index:9999;
 }
 
 .modal.show{
@@ -289,78 +329,219 @@ input:focus{
 .modal-box{
     width:100%;
     max-width:500px;
-    padding:25px;
+    max-height:94vh;
+    overflow:auto;
+    background:white;
+    border-radius:25px;
+    padding:22px;
+    box-shadow:0 25px 70px rgba(0,0,0,.25);
 }
 
-.modal-box h2{
-    margin-top:0;
+.modal-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.modal-head h2{
+    margin:0;
+    color:#5420b8;
+    font-size:22px;
+}
+
+.close{
+    width:40px;
+    height:40px;
+    border:0;
+    border-radius:12px;
+    background:#f0eef4;
+    cursor:pointer;
+    font-size:18px;
+}
+
+/* ================= FORM ================= */
+
+.field{
+    margin-bottom:15px;
+}
+
+.field label{
+    display:block;
+    font-weight:bold;
+    font-size:13px;
+    color:#555;
+    margin-bottom:7px;
+}
+
+.field input{
+    width:100%;
+    height:50px;
+    border:2px solid #e4e0eb;
+    border-radius:14px;
+    padding:0 14px;
+    font-size:16px;
+    outline:none;
+}
+
+.field input:focus{
+    border-color:#7544cf;
+}
+
+.quick-title{
+    font-size:13px;
+    color:#777;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.quick-options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+}
+
+.quick-option{
+    min-height:50px;
+    border:2px solid #e4e0eb;
+    background:#faf9fc;
+    border-radius:14px;
+    font-weight:bold;
+    cursor:pointer;
+    color:#333;
+}
+
+.quick-option.selected{
+    border-color:#5420b8;
+    background:#eee4ff;
     color:#5420b8;
 }
 
-.modal-actions{
-    display:flex;
-    gap:10px;
-    margin-top:10px;
+.status-options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
 }
 
-.modal-actions button{
-    flex:1;
-    height:48px;
-    border:0;
+.status-option{
+    height:50px;
+    border:2px solid #e4e0eb;
     border-radius:14px;
+    background:white;
     font-weight:bold;
     cursor:pointer;
 }
 
+.status-option.selected.active-option{
+    border-color:#1a9b4a;
+    background:#e4f8ec;
+    color:#08752d;
+}
+
+.status-option.selected.inactive-option{
+    border-color:#c73542;
+    background:#fde8ea;
+    color:#a00000;
+}
+
+.modal-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:20px;
+}
+
 .save{
+    height:50px;
+    border:0;
+    border-radius:14px;
     background:#5420b8;
     color:white;
+    font-weight:bold;
+    cursor:pointer;
 }
 
 .cancel{
+    height:50px;
+    border:0;
+    border-radius:14px;
     background:#eee;
     color:#333;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-/* موبايل */
-
-@media(max-width:800px){
-
-    .stats{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .stats-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
+.message{
+    text-align:center;
+    font-weight:bold;
+    margin-top:12px;
+    min-height:20px;
 }
 
-@media(max-width:550px){
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%) translateY(100px);
+    background:#24203a;
+    color:white;
+    padding:13px 20px;
+    border-radius:15px;
+    z-index:10000;
+    opacity:0;
+    transition:.3s;
+    max-width:90%;
+    text-align:center;
+    font-weight:bold;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:600px){
 
     .container{
-        width:94%;
+        width:95%;
+        padding-top:12px;
     }
 
-    .row{
+    .top-actions{
         grid-template-columns:1fr;
     }
 
-    .number-head{
-        display:block;
+    .group-title{
+        font-size:17px;
     }
 
-    .status{
-        display:inline-block;
-        margin-top:10px;
+    .number{
+        font-size:20px;
     }
 
-    .stats-grid{
+    .number-details{
         grid-template-columns:1fr 1fr;
     }
 
-    .actions{
-        flex-direction:column;
+    .modal-actions{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:380px){
+
+    .number-details{
+        grid-template-columns:1fr;
+    }
+
+    .number-actions{
+        grid-template-columns:1fr;
     }
 
 }
@@ -371,166 +552,133 @@ input:focus{
 
 <div class="container">
 
-    <!-- العودة للعملاء -->
-
     <div class="navigation">
-
-        <a
-            href="customers.html"
-            class="back-btn"
-        >
+        <a href="customers.html" class="back-btn">
             👥 العملاء
         </a>
-
     </div>
 
-
-    <!-- العنوان -->
-
-    <div class="header glass">
-
-        <h1>
-            📱 الأرقام الأساسية
-        </h1>
-
-        <p>
-            إدارة الباقات وتوزيع الجيجا على العملاء
-        </p>
-
+    <div class="header">
+        <h1>📱 الأرقام الأساسية</h1>
+        <p>إدارة أرقام الجروبات بسهولة</p>
     </div>
 
-
-    <!-- الإحصائيات -->
-
-    <div class="stats">
-
-        <div class="stat glass">
-
-            <div class="stat-title">
-                عدد الأرقام
-            </div>
-
-            <div
-                class="stat-number"
-                id="totalNumbers"
-            >
-                0
-            </div>
-
-        </div>
-
-
-        <div class="stat glass">
-
-            <div class="stat-title">
-                إجمالي الجيجا
-            </div>
-
-            <div
-                class="stat-number"
-                id="totalGB"
-            >
-                0
-            </div>
-
-        </div>
-
-
-        <div class="stat glass">
-
-            <div class="stat-title">
-                الجيجا الموزعة
-            </div>
-
-            <div
-                class="stat-number"
-                id="usedGB"
-            >
-                0
-            </div>
-
-        </div>
-
-
-        <div class="stat glass">
-
-            <div class="stat-title">
-                الجيجا المتبقية
-            </div>
-
-            <div
-                class="stat-number"
-                id="remainingGB"
-            >
-                0
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- إضافة رقم -->
-
-    <div class="add-box glass">
-
-        <h2>
-            ➕ إضافة رقم أساسي
-        </h2>
-
-        <div class="row">
-
-            <input
-                id="newPhone"
-                type="text"
-                inputmode="numeric"
-                placeholder="الرقم الأساسي"
-            >
-
-            <input
-                id="newGB"
-                type="number"
-                min="0"
-                step="0.01"
-                placeholder="إجمالي الجيجا"
-            >
-
-        </div>
-
-
-        <input
-            id="newNotes"
-            type="text"
-            placeholder="ملاحظات - اختياري"
-            style="margin-top:0"
-        >
-
+    <div class="top-actions">
 
         <button
-            class="add-btn"
-            onclick="addNumber()"
+            class="top-action add-number-btn"
+            onclick="openAddModal()"
         >
-            إضافة الرقم
+            ➕ إضافة رقم
         </button>
 
-
-        <div
-            id="addMessage"
-            class="message"
-        ></div>
+        <button
+            class="top-action refresh-btn"
+            onclick="loadData()"
+        >
+            🔄 تحديث الأرقام
+        </button>
 
     </div>
 
+    <div class="search-box">
 
-    <!-- الأرقام -->
+        <input
+            id="search"
+            class="search"
+            type="search"
+            placeholder="🔎 ابحث عن رقم..."
+        >
 
-    <div
-        id="numbersList"
-        class="list"
-    >
+    </div>
 
-        <div class="empty-state glass">
-            ⏳ جاري تحميل الأرقام...
+    <div id="groups">
+
+        <div class="group open" id="group1">
+
+            <button
+                class="group-header"
+                onclick="toggleGroup('group1')"
+            >
+
+                <div class="group-info">
+
+                    <div class="group-icon">
+                        📅
+                    </div>
+
+                    <div>
+
+                        <div class="group-title">
+                            جروب يوم 1
+                        </div>
+
+                        <div
+                            class="group-count"
+                            id="count1"
+                        >
+                            0 رقم
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="arrow">
+                   ⌄
+                </div>
+
+            </button>
+
+            <div
+                class="group-content"
+                id="content1"
+            ></div>
+
+        </div>
+
+
+        <div class="group" id="group16">
+
+            <button
+                class="group-header"
+                onclick="toggleGroup('group16')"
+            >
+
+                <div class="group-info">
+
+                    <div class="group-icon">
+                        📅
+                    </div>
+
+                    <div>
+
+                        <div class="group-title">
+                            جروب يوم 16
+                        </div>
+
+                        <div
+                            class="group-count"
+                            id="count16"
+                        >
+                            0 رقم
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="arrow">
+                   ⌄
+                </div>
+
+            </button>
+
+            <div
+                class="group-content"
+                id="content16"
+            ></div>
+
         </div>
 
     </div>
@@ -538,18 +686,29 @@ input:focus{
 </div>
 
 
-<!-- Modal تعديل -->
+<!-- ================= ADD / EDIT MODAL ================= -->
 
 <div
-    id="editModal"
+    id="numberModal"
     class="modal"
 >
 
-    <div class="modal-box glass">
+    <div class="modal-box">
 
-        <h2>
-            ✏️ تعديل الرقم
-        </h2>
+        <div class="modal-head">
+
+            <h2 id="modalTitle">
+                ➕ إضافة رقم
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeModal()"
+            >
+                ✕
+            </button>
+
+        </div>
 
 
         <input
@@ -558,43 +717,112 @@ input:focus{
         >
 
 
-        <input
-            id="editPhone"
-            type="text"
-            inputmode="numeric"
-            placeholder="الرقم الأساسي"
-        >
+        <div class="field">
+
+            <label>
+                📱 الرقم الأساسي
+            </label>
+
+            <input
+                id="phoneInput"
+                type="tel"
+                inputmode="numeric"
+                maxlength="11"
+                placeholder="01xxxxxxxxx"
+            >
+
+        </div>
 
 
-        <input
-            id="editGB"
-            type="number"
-            min="0"
-            step="0.01"
-            placeholder="إجمالي الجيجا"
-        >
+        <div class="field">
+
+            <div class="quick-title">
+                📅 اختار الجروب
+            </div>
+
+            <div class="quick-options">
+
+                <button
+                    type="button"
+                    class="quick-option"
+                    id="groupDay1Btn"
+                    onclick="selectGroup(1)"
+                >
+                    📅 جروب يوم 1
+                </button>
+
+                <button
+                    type="button"
+                    class="quick-option"
+                    id="groupDay16Btn"
+                    onclick="selectGroup(16)"
+                >
+                    📅 جروب يوم 16
+                </button>
+
+            </div>
+
+        </div>
 
 
-        <input
-            id="editNotes"
-            type="text"
-            placeholder="ملاحظات"
-        >
+        <div class="field">
+
+            <div class="quick-title">
+                🟢 حالة الرقم
+            </div>
+
+            <div class="status-options">
+
+                <button
+                    type="button"
+                    id="activeBtn"
+                    class="status-option active-option"
+                    onclick="selectStatus('active')"
+                >
+                    🟢 نشط
+                </button>
+
+                <button
+                    type="button"
+                    id="inactiveBtn"
+                    class="status-option"
+                    onclick="selectStatus('inactive')"
+                >
+                    🔴 موقوف
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                📝 ملاحظات
+            </label>
+
+            <input
+                id="notesInput"
+                type="text"
+                placeholder="اختياري"
+            >
+
+        </div>
 
 
         <div class="modal-actions">
 
             <button
                 class="save"
-                onclick="saveEdit()"
+                onclick="saveNumber()"
             >
                 💾 حفظ
             </button>
 
-
             <button
                 class="cancel"
-                onclick="closeEdit()"
+                onclick="closeModal()"
             >
                 إلغاء
             </button>
@@ -603,7 +831,7 @@ input:focus{
 
 
         <div
-            id="editMessage"
+            id="modalMessage"
             class="message"
         ></div>
 
@@ -612,18 +840,23 @@ input:focus{
 </div>
 
 
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
 <script>
 
-/* =========================================
+/* =========================================================
    SUPABASE
-========================================= */
+========================================================= */
 
 const SUPABASE_URL =
 "https://pgvbynefhqmyzjtccttl.supabase.co";
 
 const SUPABASE_KEY =
 "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
-
 
 const supabaseClient =
 window.supabase.createClient(
@@ -632,93 +865,46 @@ window.supabase.createClient(
 );
 
 
-/* =========================================
+/* =========================================================
    VARIABLES
-========================================= */
+========================================================= */
 
 let numbers = [];
 
-let customers = [];
+let selectedGroup = 1;
+
+let selectedStatus = "active";
 
 
-/* =========================================
-   تحميل البيانات
-========================================= */
+/* =========================================================
+   LOAD DATA
+========================================================= */
 
 async function loadData(){
 
-    const list =
-        document.getElementById(
-            "numbersList"
-        );
+    document.getElementById("content1").innerHTML =
+        `<div class="empty">⏳ جاري تحميل الأرقام...</div>`;
 
-
-    list.innerHTML =
-    `
-        <div class="empty-state glass">
-            ⏳ جاري تحميل البيانات...
-        </div>
-    `;
-
+    document.getElementById("content16").innerHTML =
+        `<div class="empty">⏳ جاري تحميل الأرقام...</div>`;
 
     try{
 
-        const numbersResult =
+        const result =
             await supabaseClient
                 .from("primary_numbers")
                 .select("*")
-                .order(
-                    "id",
-                    {
-                        ascending:false
-                    }
-                );
+                .order("id",{ascending:false});
 
 
-        if(numbersResult.error){
-
-            throw numbersResult.error;
-
-        }
+        if(result.error)
+            throw result.error;
 
 
         numbers =
-            numbersResult.data || [];
-
-
-        /*
-         * نحاول قراءة العملاء
-         * عشان نحسب العدد والجيجات.
-         *
-         * في المرحلة دي الحساب يعتمد
-         * على الأعمدة الموجودة عندك.
-         */
-
-        const customersResult =
-            await supabaseClient
-                .from("customers")
-                .select("*")
-                .is(
-                    "deleted_at",
-                    null
-                );
-
-
-        if(customersResult.error){
-
-            console.warn(
-                "Customers:",
-                customersResult.error
-            );
-
-            customers = [];
-
-        }else{
-
-            customers =
-                customersResult.data || [];
-
-        }
+            Array.isArray(result.data)
+            ? result.data
+            : [];
 
 
         renderNumbers();
@@ -726,593 +912,441 @@ async function loadData(){
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "NUMBERS LOAD ERROR:",
+            error
+        );
 
 
-        list.innerHTML =
+        const html =
         `
-            <div class="empty-state glass">
+        <div class="empty">
 
-                ❌ حصل خطأ في تحميل البيانات
+            ❌ حصل خطأ في تحميل الأرقام
 
-                <br><br>
+            <br><br>
 
-                ${escapeHtml(
-                    error.message
-                )}
+            ${escapeHtml(
+                error.message
+            )}
 
-            </div>
+        </div>
         `;
+
+
+        document.getElementById(
+            "content1"
+        ).innerHTML = html;
+
+        document.getElementById(
+            "content16"
+        ).innerHTML = html;
 
     }
 
 }
 
 
-/* =========================================
-   حساب بيانات الرقم
-========================================= */
+/* =========================================================
+   GROUP STORAGE
+   =========================================================
 
-function getNumberStats(number){
+   مهم:
+   إحنا مش بنضيف عمود جديد في Supabase.
 
-    const phone =
+   الجروب بيتحفظ داخل notes بعلامة مخفية:
+   [GROUP:1]
+   أو
+   [GROUP:16]
+
+   وباقي الملاحظات بتفضل موجودة عادي.
+========================================================= */
+
+function getGroup(number){
+
+    const notes =
         String(
-            number.phone || ""
-        ).trim();
+            number.notes || ""
+        );
+
+
+    const match =
+        notes.match(
+            /\[GROUP:(1|16)\]/
+        );
+
+
+    if(match)
+        return Number(match[1]);
 
 
     /*
-     * العملاء المرتبطين بالرقم الأساسي
-     */
+       الأرقام القديمة اللي مفيهاش جروب
+       هنعتبرها يوم 1 تلقائيًا.
+    */
 
-    const linkedCustomers =
-        customers.filter(
-            customer =>
-                String(
-                    customer.primary_number || ""
-                ).trim() === phone
-        );
-
-
-    let usedGB = 0;
-
-
-    linkedCustomers.forEach(
-        customer => {
-
-            /*
-             * في المرحلة الأولى نحاول
-             * قراءة أكثر من اسم محتمل
-             * لعمود الجيجا.
-             */
-
-            const gb =
-    Number(
-        customer.allocated_gb ??
-        customer.gigabytes ??
-        customer.giga ??
-        customer.gb ??
-        customer.package_gb ??
-        customer.data_gb ??
-        0
-    );
-
-
-            if(
-                Number.isFinite(gb)
-            ){
-
-                usedGB += gb;
-
-            }
-
-        }
-    );
-
-
-    const totalGB =
-        Number(
-            number.total_gb
-        ) || 0;
-
-
-    const remainingGB =
-        Math.max(
-            totalGB - usedGB,
-            0
-        );
-
-
-    return {
-
-        customers:
-            linkedCustomers.length,
-
-        usedGB,
-
-        totalGB,
-
-        remainingGB
-
-    };
+    return 1;
 
 }
 
 
-/* =========================================
-   عرض الأرقام
-========================================= */
+function getCleanNotes(number){
+
+    return String(
+        number.notes || ""
+    )
+    .replace(
+        /\[GROUP:(1|16)\]\s*/g,
+        ""
+    )
+    .trim();
+
+}
+
+
+function buildNotes(notes,group){
+
+    const clean =
+        String(notes || "")
+        .replace(
+            /\[GROUP:(1|16)\]\s*/g,
+            ""
+        )
+        .trim();
+
+
+    return (
+        `[GROUP:${group}]` +
+        (
+            clean
+            ? " " + clean
+            : ""
+        )
+    );
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
 
 function renderNumbers(){
 
-    const list =
-        document.getElementById(
-            "numbersList"
+    const search =
+        String(
+            document.getElementById(
+                "search"
+            ).value || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    const filtered =
+        numbers.filter(number=>{
+
+            const phone =
+                String(
+                    number.phone || ""
+                )
+                .toLowerCase();
+
+
+            const notes =
+                getCleanNotes(number)
+                .toLowerCase();
+
+
+            return (
+                !search ||
+                phone.includes(search) ||
+                notes.includes(search)
+            );
+
+        });
+
+
+    const day1 =
+        filtered.filter(
+            number =>
+                getGroup(number) === 1
         );
 
 
-    if(!numbers.length){
+    const day16 =
+        filtered.filter(
+            number =>
+                getGroup(number) === 16
+        );
 
-        list.innerHTML =
+
+    document.getElementById(
+        "count1"
+    ).textContent =
+        `${day1.length} ${day1.length===1?"رقم":"أرقام"}`;
+
+
+    document.getElementById(
+        "count16"
+    ).textContent =
+        `${day16.length} ${day16.length===1?"رقم":"أرقام"}`;
+
+
+    renderGroup(
+        "content1",
+        day1
+    );
+
+
+    renderGroup(
+        "content16",
+        day16
+    );
+
+}
+
+
+function renderGroup(elementId,list){
+
+    const element =
+        document.getElementById(
+            elementId
+        );
+
+
+    if(!list.length){
+
+        element.innerHTML =
         `
-            <div class="empty-state glass">
+            <div class="empty">
 
-                📱 لا توجد أرقام أساسية حتى الآن.
+                <div class="empty-icon">
+                    📭
+                </div>
 
-                <br><br>
-
-                أضف أول رقم من النموذج بالأعلى.
+                لا توجد أرقام هنا
 
             </div>
         `;
-
-
-        updateTotals();
 
         return;
 
     }
 
 
-    list.innerHTML = "";
+    element.innerHTML =
+        list
+        .map(
+            renderNumberCard
+        )
+        .join("");
+
+}
 
 
-    numbers.forEach(
-        number => {
+/* =========================================================
+   NUMBER CARD
+========================================================= */
 
-            const stats =
-                getNumberStats(
-                    number
-                );
+function renderNumberCard(number){
 
-
-            const percentage =
-                stats.totalGB > 0
-                ? Math.min(
-                    (
-                        stats.usedGB /
-                        stats.totalGB
-                    ) * 100,
-                    100
-                )
-                : 0;
+    const group =
+        getGroup(number);
 
 
-            const card =
-                document.createElement(
-                    "div"
-                );
+    const cleanNotes =
+        getCleanNotes(number);
 
 
-            card.className =
-                "number-card glass";
+    const isActive =
+        number.is_active !== false;
 
 
-            const statusClass =
-                stats.remainingGB <= 0
-                ? "empty"
-                : "active";
+    return `
+
+        <div class="number-card">
+
+            <div class="number-head">
+
+                <div class="number">
+                    📱 ${escapeHtml(
+                        number.phone || "-"
+                    )}
+                </div>
+
+                <div
+                    class="status ${
+                        isActive
+                        ? "active"
+                        : "inactive"
+                    }"
+                >
+                    ${
+                        isActive
+                        ? "🟢 نشط"
+                        : "🔴 موقوف"
+                    }
+                </div>
+
+            </div>
 
 
-            const statusText =
-                stats.remainingGB <= 0
-                ? "⚠️ خلصت الجيجا"
-                : "🟢 متاح";
+            <div class="number-details">
 
+                <div class="detail">
 
-            card.innerHTML =
-            `
-
-                <div class="number-head">
-
-                    <div class="number">
-
-                        📱
-                        ${escapeHtml(
-                            number.phone
-                        )}
-
+                    <div class="detail-title">
+                        📅 الجروب
                     </div>
 
-
-                    <div
-                        class="status ${statusClass}"
-                    >
-
-                        ${statusText}
-
+                    <div class="detail-value">
+                        ${
+                            group===1
+                            ? "جروب يوم 1"
+                            : "جروب يوم 16"
+                        }
                     </div>
 
                 </div>
 
 
-                <div class="stats-grid">
+                <div class="detail">
 
-
-                    <div class="box">
-
-                        <div class="box-title">
-                            إجمالي الجيجا
-                        </div>
-
-                        <div class="box-value">
-
-                            ${formatGB(
-                                stats.totalGB
-                            )}
-
-                            GB
-
-                        </div>
-
+                    <div class="detail-title">
+                        👥 الاستخدام
                     </div>
 
-
-                    <div class="box">
-
-                        <div class="box-title">
-                            الجيجا الموزعة
-                        </div>
-
-                        <div class="box-value">
-
-                            ${formatGB(
-                                stats.usedGB
-                            )}
-
-                            GB
-
-                        </div>
-
+                    <div class="detail-value">
+                        رقم أساسي
                     </div>
-
-
-                    <div class="box">
-
-                        <div class="box-title">
-                            المتبقي
-                        </div>
-
-                        <div class="box-value">
-
-                            ${formatGB(
-                                stats.remainingGB
-                            )}
-
-                            GB
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="box">
-
-                        <div class="box-title">
-                            عدد العملاء
-                        </div>
-
-                        <div class="box-value">
-
-                            ${stats.customers}
-
-                        </div>
-
-                    </div>
-
 
                 </div>
-
-
-                <div class="progress">
-
-                    <div
-                        class="progress-bar"
-                        style="width:${percentage}%"
-                    ></div>
-
-                </div>
-
 
                 ${
-                    number.notes
+                    cleanNotes
                     ?
                     `
                     <div
-                        style="
-                            margin-top:14px;
-                            color:#777;
-                            font-size:14px;
-                        "
+                        class="detail"
+                        style="grid-column:1/-1"
                     >
-                        📝
-                        ${escapeHtml(
-                            number.notes
-                        )}
+
+                        <div class="detail-title">
+                            📝 ملاحظات
+                        </div>
+
+                        <div class="detail-value">
+                            ${escapeHtml(
+                                cleanNotes
+                            )}
+                        </div>
+
                     </div>
                     `
                     :
                     ""
                 }
 
-
-                <div class="actions">
-
-                    <button
-                        class="action edit"
-                        onclick="openEdit(${Number(number.id)})"
-                    >
-                        ✏️ تعديل
-                    </button>
+            </div>
 
 
-                    <button
-                        class="action delete"
-                        onclick="deleteNumber(${Number(number.id)})"
-                    >
-                        🗑️ حذف
-                    </button>
+            <div class="number-actions">
 
-                </div>
-
-            `;
+                <button
+                    class="number-action edit-btn"
+                    onclick="openEdit(${Number(number.id)})"
+                >
+                    ✏️ تعديل
+                </button>
 
 
-            list.appendChild(
-                card
-            );
+                <button
+                    class="number-action delete-btn"
+                    onclick="deleteNumber(${Number(number.id)})"
+                >
+                    🗑️ حذف
+                </button>
 
-        }
-    );
+            </div>
 
+        </div>
 
-    updateTotals();
+    `;
 
 }
 
 
-/* =========================================
-   الإحصائيات العامة
-========================================= */
+/* =========================================================
+   GROUP TOGGLE
+========================================================= */
 
-function updateTotals(){
+function toggleGroup(id){
 
-    let total =
-        0;
-
-    let used =
-        0;
-
-    let remaining =
-        0;
+    const group =
+        document.getElementById(id);
 
 
-    numbers.forEach(
-        number => {
-
-            const stats =
-                getNumberStats(
-                    number
-                );
-
-
-            total +=
-                stats.totalGB;
-
-            used +=
-                stats.usedGB;
-
-            remaining +=
-                stats.remainingGB;
-
-        }
-    );
-
-
-    document.getElementById(
-        "totalNumbers"
-    ).textContent =
-        numbers.length;
-
-
-    document.getElementById(
-        "totalGB"
-    ).textContent =
-        formatGB(total);
-
-
-    document.getElementById(
-        "usedGB"
-    ).textContent =
-        formatGB(used);
-
-
-    document.getElementById(
-        "remainingGB"
-    ).textContent =
-        formatGB(remaining);
-
-}
-
-
-/* =========================================
-   إضافة رقم
-========================================= */
-
-async function addNumber(){
-
-    const message =
-        document.getElementById(
-            "addMessage"
-        );
-
-
-    const phone =
-        document.getElementById(
-            "newPhone"
-        ).value
-        .trim();
-
-
-    const totalGB =
-        Number(
-            document.getElementById(
-                "newGB"
-            ).value
-        );
-
-
-    const notes =
-        document.getElementById(
-            "newNotes"
-        ).value
-        .trim();
-
-
-    if(!phone){
-
-        message.style.color =
-            "#a00000";
-
-        message.textContent =
-            "❌ اكتب الرقم الأساسي";
-
+    if(!group)
         return;
 
-    }
 
-
-    if(
-        !Number.isFinite(totalGB) ||
-        totalGB < 0
-    ){
-
-        message.style.color =
-            "#a00000";
-
-        message.textContent =
-            "❌ اكتب عدد الجيجا بشكل صحيح";
-
-        return;
-
-    }
-
-
-    message.style.color =
-        "#555";
-
-    message.textContent =
-        "⏳ جاري إضافة الرقم...";
-
-
-    try{
-
-        const result =
-            await supabaseClient
-                .from(
-                    "primary_numbers"
-                )
-                .insert({
-
-                    phone,
-
-                    total_gb:
-                        totalGB,
-
-                    notes:
-                        notes || null,
-
-                    is_active:
-                        true
-
-                });
-
-
-        if(result.error){
-
-            if(
-                result.error.code ===
-                "23505"
-            ){
-
-                message.style.color =
-                    "#a00000";
-
-                message.textContent =
-                    "❌ الرقم موجود بالفعل";
-
-                return;
-
-            }
-
-
-            throw result.error;
-
-        }
-
-
-        message.style.color =
-            "#08752d";
-
-        message.textContent =
-            "✅ تم إضافة الرقم بنجاح";
-
-
-        document.getElementById(
-            "newPhone"
-        ).value = "";
-
-
-        document.getElementById(
-            "newGB"
-        ).value = "";
-
-
-        document.getElementById(
-            "newNotes"
-        ).value = "";
-
-
-        await loadData();
-
-
-    }catch(error){
-
-        message.style.color =
-            "#a00000";
-
-        message.textContent =
-            "❌ " +
-            error.message;
-
-    }
+    group.classList.toggle(
+        "open"
+    );
 
 }
 
 
-/* =========================================
-   تعديل
-========================================= */
+/* =========================================================
+   ADD MODAL
+========================================================= */
+
+function openAddModal(){
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "➕ إضافة رقم";
+
+
+    document.getElementById(
+        "editId"
+    ).value = "";
+
+
+    document.getElementById(
+        "phoneInput"
+    ).value = "";
+
+
+    document.getElementById(
+        "notesInput"
+    ).value = "";
+
+
+    selectGroup(1);
+
+    selectStatus("active");
+
+
+    document.getElementById(
+        "modalMessage"
+    ).textContent = "";
+
+
+    document.getElementById(
+        "numberModal"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+/* =========================================================
+   EDIT MODAL
+========================================================= */
 
 function openEdit(id){
 
@@ -1326,7 +1360,7 @@ function openEdit(id){
 
     if(!number){
 
-        alert(
+        showToast(
             "❌ الرقم غير موجود"
         );
 
@@ -1336,37 +1370,48 @@ function openEdit(id){
 
 
     document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "✏️ تعديل الرقم";
+
+
+    document.getElementById(
         "editId"
     ).value =
         number.id;
 
 
     document.getElementById(
-        "editPhone"
+        "phoneInput"
     ).value =
         number.phone || "";
 
 
     document.getElementById(
-        "editGB"
+        "notesInput"
     ).value =
-        number.total_gb ?? "";
+        getCleanNotes(number);
+
+
+    selectGroup(
+        getGroup(number)
+    );
+
+
+    selectStatus(
+        number.is_active === false
+        ? "inactive"
+        : "active"
+    );
 
 
     document.getElementById(
-        "editNotes"
-    ).value =
-        number.notes || "";
+        "modalMessage"
+    ).textContent = "";
 
 
     document.getElementById(
-        "editMessage"
-    ).textContent =
-        "";
-
-
-    document.getElementById(
-        "editModal"
+        "numberModal"
     ).classList.add(
         "show"
     );
@@ -1374,76 +1419,111 @@ function openEdit(id){
 }
 
 
-function closeEdit(){
+/* =========================================================
+   QUICK OPTIONS
+========================================================= */
+
+function selectGroup(group){
+
+    selectedGroup =
+        Number(group) === 16
+        ? 16
+        : 1;
+
 
     document.getElementById(
-        "editModal"
-    ).classList.remove(
-        "show"
+        "groupDay1Btn"
+    ).classList.toggle(
+        "selected",
+        selectedGroup === 1
+    );
+
+
+    document.getElementById(
+        "groupDay16Btn"
+    ).classList.toggle(
+        "selected",
+        selectedGroup === 16
     );
 
 }
 
 
-async function saveEdit(){
+function selectStatus(status){
+
+    selectedStatus =
+        status === "inactive"
+        ? "inactive"
+        : "active";
+
+
+    document.getElementById(
+        "activeBtn"
+    ).classList.toggle(
+        "selected",
+        selectedStatus === "active"
+    );
+
+
+    document.getElementById(
+        "inactiveBtn"
+    ).classList.toggle(
+        "selected",
+        selectedStatus === "inactive"
+    );
+
+}
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+async function saveNumber(){
 
     const message =
         document.getElementById(
-            "editMessage"
+            "modalMessage"
         );
 
 
-    const id =
+    let phone =
         document.getElementById(
-            "editId"
-        ).value;
-
-
-    const phone =
-        document.getElementById(
-            "editPhone"
+            "phoneInput"
         ).value
         .trim();
 
 
-    const totalGB =
-        Number(
-            document.getElementById(
-                "editGB"
-            ).value
+    phone =
+        normalizeArabicNumbers(
+            phone
+        )
+        .replace(
+            /\D/g,
+            ""
         );
 
 
     const notes =
         document.getElementById(
-            "editNotes"
+            "notesInput"
         ).value
         .trim();
 
 
-    if(!phone){
+    const editId =
+        document.getElementById(
+            "editId"
+        ).value;
+
+
+    if(!/^01[0125][0-9]{8}$/.test(phone)){
 
         message.style.color =
             "#a00000";
 
         message.textContent =
-            "❌ اكتب الرقم";
-
-        return;
-
-    }
-
-
-    if(
-        !Number.isFinite(totalGB) ||
-        totalGB < 0
-    ){
-
-        message.style.color =
-            "#a00000";
-
-        message.textContent =
-            "❌ اكتب عدد الجيجا بشكل صحيح";
+            "❌ اكتب رقم مصري صحيح مكون من 11 رقم";
 
         return;
 
@@ -1459,72 +1539,171 @@ async function saveEdit(){
 
     try{
 
-        const result =
-            await supabaseClient
-                .from(
-                    "primary_numbers"
-                )
-                .update({
-
-                    phone,
-
-                    total_gb:
-                        totalGB,
-
-                    notes:
-                        notes || null,
-
-                    updated_at:
-                        new Date()
-                            .toISOString()
-
-                })
-                .eq(
-                    "id",
-                    id
-                );
+        const savedNotes =
+            buildNotes(
+                notes,
+                selectedGroup
+            );
 
 
-        if(result.error){
+        const payload = {
 
-            if(
-                result.error.code ===
-                "23505"
-            ){
+            phone,
 
-                message.style.color =
-                    "#a00000";
+            notes:
+                savedNotes,
 
-                message.textContent =
-                    "❌ الرقم موجود بالفعل";
+            is_active:
+                selectedStatus === "active"
 
-                return;
+        };
+
+
+        /* ================= EDIT ================= */
+
+        if(editId){
+
+            const result =
+                await supabaseClient
+                    .from(
+                        "primary_numbers"
+                    )
+                    .update(payload)
+                    .eq(
+                        "id",
+                        editId
+                    );
+
+
+            if(result.error){
+
+                if(
+                    result.error.code ===
+                    "23505"
+                ){
+
+                    throw new Error(
+                        "الرقم موجود بالفعل."
+                    );
+
+                }
+
+                throw result.error;
 
             }
 
 
-            throw result.error;
+            message.style.color =
+                "#08752d";
+
+            message.textContent =
+                "✅ تم تعديل الرقم بنجاح";
+
 
         }
 
 
-        message.style.color =
-            "#08752d";
+        /* ================= ADD ================= */
 
-        message.textContent =
-            "✅ تم الحفظ";
+        else{
+
+            const existing =
+                await supabaseClient
+                    .from(
+                        "primary_numbers"
+                    )
+                    .select("id")
+                    .eq(
+                        "phone",
+                        phone
+                    )
+                    .limit(1);
+
+
+            if(existing.error)
+                throw existing.error;
+
+
+            if(
+                existing.data &&
+                existing.data.length
+            ){
+
+                throw new Error(
+                    "الرقم موجود بالفعل."
+                );
+
+            }
+
+
+            const result =
+                await supabaseClient
+                    .from(
+                        "primary_numbers"
+                    )
+                    .insert({
+
+                        phone,
+
+                        notes:
+                            savedNotes,
+
+                        is_active:
+                            selectedStatus === "active"
+
+                    });
+
+
+            if(result.error){
+
+                if(
+                    result.error.code ===
+                    "23505"
+                ){
+
+                    throw new Error(
+                        "الرقم موجود بالفعل."
+                    );
+
+                }
+
+                throw result.error;
+
+            }
+
+
+            message.style.color =
+                "#08752d";
+
+            message.textContent =
+                "✅ تم إضافة الرقم بنجاح";
+
+        }
 
 
         await loadData();
 
 
         setTimeout(
-            closeEdit,
-            500
+            closeModal,
+            450
+        );
+
+
+        showToast(
+            editId
+            ? "✅ تم تعديل الرقم"
+            : "✅ تم إضافة الرقم"
         );
 
 
     }catch(error){
+
+        console.error(
+            "SAVE NUMBER ERROR:",
+            error
+        );
+
 
         message.style.color =
             "#a00000";
@@ -1538,9 +1717,9 @@ async function saveEdit(){
 }
 
 
-/* =========================================
-   حذف
-========================================= */
+/* =========================================================
+   DELETE
+========================================================= */
 
 async function deleteNumber(id){
 
@@ -1556,32 +1735,11 @@ async function deleteNumber(id){
         return;
 
 
-    const stats =
-        getNumberStats(
-            number
-        );
-
-
-    if(stats.customers > 0){
-
-        alert(
-            "⚠️ لا يمكن حذف الرقم الآن.\n\n" +
-            "الرقم مرتبط بـ " +
-            stats.customers +
-            " عميل.\n\n" +
-            "انقل العملاء لرقم آخر أولًا."
-        );
-
-        return;
-
-    }
-
-
     const confirmed =
         confirm(
-            "هل أنت متأكد من حذف الرقم:\n\n" +
+            "⚠️ حذف الرقم\n\n" +
             number.phone +
-            " ؟"
+            "\n\nهل أنت متأكد؟"
         );
 
 
@@ -1590,6 +1748,54 @@ async function deleteNumber(id){
 
 
     try{
+
+        /*
+         * قبل الحذف نتأكد هل الرقم مستخدم
+         * كرقم أساسي عند العملاء.
+         */
+
+        const customersResult =
+            await supabaseClient
+                .from("customers")
+                .select("id")
+                .eq(
+                    "primary_number",
+                    number.phone
+                )
+                .is(
+                    "deleted_at",
+                    null
+                )
+                .limit(1);
+
+
+        if(
+            customersResult.error
+        ){
+
+            console.warn(
+                "Customer check:",
+                customersResult.error
+            );
+
+        }
+
+
+        if(
+            customersResult.data &&
+            customersResult.data.length
+        ){
+
+            alert(
+                "⚠️ لا يمكن حذف الرقم الآن.\n\n" +
+                "الرقم مرتبط بعميل.\n\n" +
+                "انقل العميل لرقم آخر أولًا."
+            );
+
+            return;
+
+        }
+
 
         const result =
             await supabaseClient
@@ -1603,17 +1809,25 @@ async function deleteNumber(id){
                 );
 
 
-        if(result.error){
-
+        if(result.error)
             throw result.error;
 
-        }
+
+        showToast(
+            "✅ تم حذف الرقم"
+        );
 
 
         await loadData();
 
 
     }catch(error){
+
+        console.error(
+            "DELETE ERROR:",
+            error
+        );
+
 
         alert(
             "❌ لم يتم حذف الرقم:\n\n" +
@@ -1625,67 +1839,39 @@ async function deleteNumber(id){
 }
 
 
-/* =========================================
-   Helpers
-========================================= */
+/* =========================================================
+   CLOSE MODAL
+========================================================= */
 
-function formatGB(value){
+function closeModal(){
 
-    const n =
-        Number(value) || 0;
-
-
-    if(
-        Number.isInteger(n)
-    ){
-
-        return String(n);
-
-    }
-
-
-    return n.toFixed(2);
-
-}
-
-
-function escapeHtml(value){
-
-    return String(
-        value ?? ""
-    )
-    .replaceAll(
-        "&",
-        "&amp;"
-    )
-    .replaceAll(
-        "<",
-        "&lt;"
-    )
-    .replaceAll(
-        ">",
-        "&gt;"
-    )
-    .replaceAll(
-        '"',
-        "&quot;"
-    )
-    .replaceAll(
-        "'",
-        "&#039;"
+    document.getElementById(
+        "numberModal"
+    ).classList.remove(
+        "show"
     );
 
 }
 
 
-/* =========================================
-   إغلاق الـ Modal
-========================================= */
+/* =========================================================
+   SEARCH
+========================================================= */
 
 document
-    .getElementById(
-        "editModal"
-    )
+    .getElementById("search")
+    .addEventListener(
+        "input",
+        renderNumbers
+    );
+
+
+/* =========================================================
+   CLOSE MODAL OUTSIDE
+========================================================= */
+
+document
+    .getElementById("numberModal")
     .addEventListener(
         "click",
         function(event){
@@ -1695,7 +1881,7 @@ document
                 this
             ){
 
-                closeEdit();
+                closeModal();
 
             }
 
@@ -1703,9 +1889,97 @@ document
     );
 
 
-/* =========================================
-   تشغيل الصفحة
-========================================= */
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Escape"
+        ){
+
+            closeModal();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function normalizeArabicNumbers(value){
+
+    return String(
+        value || ""
+    )
+    .replace(
+        /[٠-٩]/g,
+        d =>
+            "٠١٢٣٤٥٦٧٨٩"
+            .indexOf(d)
+    );
+
+}
+
+
+function escapeHtml(value){
+
+    return String(
+        value ?? ""
+    )
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+function showToast(text){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.textContent =
+        text;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        window.toastTimer
+    );
+
+
+    window.toastTimer =
+        setTimeout(
+            ()=>{
+                toast.classList.remove(
+                    "show"
+                );
+            },
+            2500
+        );
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
 
 loadData();
 
