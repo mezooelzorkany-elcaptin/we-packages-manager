@@ -3,12 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>الأرقام الأساسية | WE Packages</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+}
 
 body{
     margin:0;
@@ -20,7 +23,9 @@ body{
     color:#19182d;
 }
 
-button,input,select{font-family:inherit}
+button,input{
+    font-family:inherit;
+}
 
 .container{
     width:94%;
@@ -69,7 +74,7 @@ button,input,select{font-family:inherit}
     color:#777;
 }
 
-/* ================= TOP ACTIONS ================= */
+/* ================= ACTIONS ================= */
 
 .top-actions{
     display:grid;
@@ -247,29 +252,68 @@ button,input,select{font-family:inherit}
     color:#a00000;
 }
 
-.number-details{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
+/* ================= CUSTOMER INFO ================= */
+
+.customer-summary{
     margin-top:14px;
+    background:#f5f1fc;
+    border-radius:17px;
+    padding:14px;
 }
 
-.detail{
-    background:#f6f4fa;
-    border-radius:14px;
-    padding:12px;
-}
-
-.detail-title{
-    color:#888;
-    font-size:12px;
-    margin-bottom:5px;
-}
-
-.detail-value{
+.customer-summary-title{
+    font-size:13px;
+    color:#777;
     font-weight:bold;
-    font-size:15px;
+    margin-bottom:10px;
 }
+
+.customer-count{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    background:#e8ddff;
+    color:#5420b8;
+    border-radius:12px;
+    padding:8px 11px;
+    font-weight:900;
+    margin-bottom:10px;
+}
+
+.customers-list{
+    display:grid;
+    gap:8px;
+}
+
+.customer-row{
+    background:white;
+    border-radius:13px;
+    padding:11px 12px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.customer-name{
+    font-weight:bold;
+    color:#29213d;
+}
+
+.customer-phone{
+    direction:ltr;
+    color:#777;
+    font-size:14px;
+    white-space:nowrap;
+}
+
+.no-customers{
+    color:#999;
+    font-size:14px;
+    padding:5px 0;
+}
+
+/* ================= ACTIONS ================= */
 
 .number-actions{
     display:grid;
@@ -524,8 +568,13 @@ button,input,select{font-family:inherit}
         font-size:20px;
     }
 
-    .number-details{
-        grid-template-columns:1fr 1fr;
+    .customer-row{
+        display:block;
+    }
+
+    .customer-phone{
+        display:block;
+        margin-top:5px;
     }
 
     .modal-actions{
@@ -535,10 +584,6 @@ button,input,select{font-family:inherit}
 }
 
 @media(max-width:380px){
-
-    .number-details{
-        grid-template-columns:1fr;
-    }
 
     .number-actions{
         grid-template-columns:1fr;
@@ -552,16 +597,36 @@ button,input,select{font-family:inherit}
 
 <div class="container">
 
+    <!-- العودة -->
+
     <div class="navigation">
-        <a href="customers.html" class="back-btn">
+
+        <a
+            href="customers.html"
+            class="back-btn"
+        >
             👥 العملاء
         </a>
+
     </div>
 
+
+    <!-- العنوان -->
+
     <div class="header">
-        <h1>📱 الأرقام الأساسية</h1>
-        <p>إدارة أرقام الجروبات بسهولة</p>
+
+        <h1>
+            📱 الأرقام الأساسية
+        </h1>
+
+        <p>
+            إدارة أرقام الجروبات والعملاء المرتبطين بها
+        </p>
+
     </div>
+
+
+    <!-- الأزرار -->
 
     <div class="top-actions">
 
@@ -576,10 +641,13 @@ button,input,select{font-family:inherit}
             class="top-action refresh-btn"
             onclick="loadData()"
         >
-            🔄 تحديث الأرقام
+            🔄 تحديث البيانات
         </button>
 
     </div>
+
+
+    <!-- البحث -->
 
     <div class="search-box">
 
@@ -587,97 +655,118 @@ button,input,select{font-family:inherit}
             id="search"
             class="search"
             type="search"
-            placeholder="🔎 ابحث عن رقم..."
+            placeholder="🔎 ابحث عن الرقم أو اسم العميل..."
         >
 
     </div>
 
-    <div id="groups">
 
-        <div class="group open" id="group1">
+    <!-- ================= جروب يوم 1 ================= -->
 
-            <button
-                class="group-header"
-                onclick="toggleGroup('group1')"
-            >
+    <div
+        class="group open"
+        id="group1"
+    >
 
-                <div class="group-info">
+        <button
+            class="group-header"
+            onclick="toggleGroup('group1')"
+        >
 
-                    <div class="group-icon">
-                        📅
+            <div class="group-info">
+
+                <div class="group-icon">
+                    📅
+                </div>
+
+                <div>
+
+                    <div class="group-title">
+                        جروب يوم 1
                     </div>
 
-                    <div>
-
-                        <div class="group-title">
-                            جروب يوم 1
-                        </div>
-
-                        <div
-                            class="group-count"
-                            id="count1"
-                        >
-                            0 رقم
-                        </div>
-
+                    <div
+                        class="group-count"
+                        id="count1"
+                    >
+                        0 رقم
                     </div>
 
                 </div>
 
-                <div class="arrow">
-                   ⌄
-                </div>
+            </div>
 
-            </button>
+            <div class="arrow">
+                ⌄
+            </div>
 
-            <div
-                class="group-content"
-                id="content1"
-            ></div>
+        </button>
+
+
+        <div
+            class="group-content"
+            id="content1"
+        >
+
+            <div class="empty">
+                ⏳ جاري تحميل الأرقام...
+            </div>
 
         </div>
 
+    </div>
 
-        <div class="group" id="group16">
 
-            <button
-                class="group-header"
-                onclick="toggleGroup('group16')"
-            >
+    <!-- ================= جروب يوم 16 ================= -->
 
-                <div class="group-info">
+    <div
+        class="group"
+        id="group16"
+    >
 
-                    <div class="group-icon">
-                        📅
+        <button
+            class="group-header"
+            onclick="toggleGroup('group16')"
+        >
+
+            <div class="group-info">
+
+                <div class="group-icon">
+                    📅
+                </div>
+
+                <div>
+
+                    <div class="group-title">
+                        جروب يوم 16
                     </div>
 
-                    <div>
-
-                        <div class="group-title">
-                            جروب يوم 16
-                        </div>
-
-                        <div
-                            class="group-count"
-                            id="count16"
-                        >
-                            0 رقم
-                        </div>
-
+                    <div
+                        class="group-count"
+                        id="count16"
+                    >
+                        0 رقم
                     </div>
 
                 </div>
 
-                <div class="arrow">
-                   ⌄
-                </div>
+            </div>
 
-            </button>
+            <div class="arrow">
+                ⌄
+            </div>
 
-            <div
-                class="group-content"
-                id="content16"
-            ></div>
+        </button>
+
+
+        <div
+            class="group-content"
+            id="content16"
+        >
+
+            <div class="empty">
+                ⏳ جاري تحميل الأرقام...
+            </div>
 
         </div>
 
@@ -686,7 +775,7 @@ button,input,select{font-family:inherit}
 </div>
 
 
-<!-- ================= ADD / EDIT MODAL ================= -->
+<!-- ================= MODAL ================= -->
 
 <div
     id="numberModal"
@@ -703,6 +792,7 @@ button,input,select{font-family:inherit}
 
             <button
                 class="close"
+                type="button"
                 onclick="closeModal()"
             >
                 ✕
@@ -716,6 +806,8 @@ button,input,select{font-family:inherit}
             id="editId"
         >
 
+
+        <!-- الرقم -->
 
         <div class="field">
 
@@ -734,6 +826,8 @@ button,input,select{font-family:inherit}
         </div>
 
 
+        <!-- الجروب -->
+
         <div class="field">
 
             <div class="quick-title">
@@ -744,17 +838,18 @@ button,input,select{font-family:inherit}
 
                 <button
                     type="button"
-                    class="quick-option"
                     id="groupDay1Btn"
+                    class="quick-option"
                     onclick="selectGroup(1)"
                 >
                     📅 جروب يوم 1
                 </button>
 
+
                 <button
                     type="button"
-                    class="quick-option"
                     id="groupDay16Btn"
+                    class="quick-option"
                     onclick="selectGroup(16)"
                 >
                     📅 جروب يوم 16
@@ -764,6 +859,8 @@ button,input,select{font-family:inherit}
 
         </div>
 
+
+        <!-- الحالة -->
 
         <div class="field">
 
@@ -782,10 +879,11 @@ button,input,select{font-family:inherit}
                     🟢 نشط
                 </button>
 
+
                 <button
                     type="button"
                     id="inactiveBtn"
-                    class="status-option"
+                    class="status-option inactive-option"
                     onclick="selectStatus('inactive')"
                 >
                     🔴 موقوف
@@ -795,6 +893,8 @@ button,input,select{font-family:inherit}
 
         </div>
 
+
+        <!-- ملاحظات -->
 
         <div class="field">
 
@@ -815,13 +915,16 @@ button,input,select{font-family:inherit}
 
             <button
                 class="save"
+                type="button"
                 onclick="saveNumber()"
             >
                 💾 حفظ
             </button>
 
+
             <button
                 class="cancel"
+                type="button"
                 onclick="closeModal()"
             >
                 إلغاء
@@ -871,6 +974,8 @@ window.supabase.createClient(
 
 let numbers = [];
 
+let customers = [];
+
 let selectedGroup = 1;
 
 let selectedStatus = "active";
@@ -882,61 +987,130 @@ let selectedStatus = "active";
 
 async function loadData(){
 
-    document.getElementById("content1").innerHTML =
-        `<div class="empty">⏳ جاري تحميل الأرقام...</div>`;
+    document.getElementById(
+        "content1"
+    ).innerHTML =
+        `<div class="empty">⏳ جاري تحميل البيانات...</div>`;
 
-    document.getElementById("content16").innerHTML =
-        `<div class="empty">⏳ جاري تحميل الأرقام...</div>`;
+
+    document.getElementById(
+        "content16"
+    ).innerHTML =
+        `<div class="empty">⏳ جاري تحميل البيانات...</div>`;
+
 
     try{
 
-        const result =
+        /* ==========================================
+           تحميل الأرقام الأساسية
+        ========================================== */
+
+        const numbersResult =
             await supabaseClient
                 .from("primary_numbers")
                 .select("*")
-                .order("id",{ascending:false});
+                .order(
+                    "id",
+                    {
+                        ascending:false
+                    }
+                );
 
 
-        if(result.error)
-            throw result.error;
+        if(numbersResult.error){
+
+            throw numbersResult.error;
+
+        }
 
 
         numbers =
-            Array.isArray(result.data)
-            ? result.data
-            : [];
+            Array.isArray(
+                numbersResult.data
+            )
+            ?
+            numbersResult.data
+            :
+            [];
+
+
+        /* ==========================================
+           تحميل العملاء
+           
+           البيانات المطلوبة فقط:
+           الاسم
+           رقم العميل
+           الرقم الأساسي
+           ========================================== */
+
+        const customersResult =
+            await supabaseClient
+                .from("customers")
+                .select(
+                    "subscriber_name,phone,primary_number,deleted_at"
+                )
+                .is(
+                    "deleted_at",
+                    null
+                );
+
+
+        if(customersResult.error){
+
+            console.warn(
+                "CUSTOMERS LOAD ERROR:",
+                customersResult.error
+            );
+
+            customers = [];
+
+        }
+        else{
+
+            customers =
+                Array.isArray(
+                    customersResult.data
+                )
+                ?
+                customersResult.data
+                :
+                [];
+
+        }
 
 
         renderNumbers();
 
 
-    }catch(error){
+    }
+    catch(error){
 
         console.error(
-            "NUMBERS LOAD ERROR:",
+            "LOAD DATA ERROR:",
             error
         );
 
 
         const html =
         `
-        <div class="empty">
+            <div class="empty">
 
-            ❌ حصل خطأ في تحميل الأرقام
+                ❌ حصل خطأ في تحميل البيانات
 
-            <br><br>
+                <br><br>
 
-            ${escapeHtml(
-                error.message
-            )}
+                ${escapeHtml(
+                    error.message
+                )}
 
-        </div>
+            </div>
         `;
 
 
         document.getElementById(
             "content1"
         ).innerHTML = html;
+
 
         document.getElementById(
             "content16"
@@ -948,18 +1122,7 @@ async function loadData(){
 
 
 /* =========================================================
-   GROUP STORAGE
-   =========================================================
-
-   مهم:
-   إحنا مش بنضيف عمود جديد في Supabase.
-
-   الجروب بيتحفظ داخل notes بعلامة مخفية:
-   [GROUP:1]
-   أو
-   [GROUP:16]
-
-   وباقي الملاحظات بتفضل موجودة عادي.
+   GROUP
 ========================================================= */
 
 function getGroup(number){
@@ -976,13 +1139,18 @@ function getGroup(number){
         );
 
 
-    if(match)
-        return Number(match[1]);
+    if(match){
+
+        return Number(
+            match[1]
+        );
+
+    }
 
 
     /*
-       الأرقام القديمة اللي مفيهاش جروب
-       هنعتبرها يوم 1 تلقائيًا.
+       الأرقام القديمة التي لم يكن لها جروب
+       تظهر تلقائيًا في جروب يوم 1.
     */
 
     return 1;
@@ -1004,10 +1172,15 @@ function getCleanNotes(number){
 }
 
 
-function buildNotes(notes,group){
+function buildNotes(
+    notes,
+    group
+){
 
     const clean =
-        String(notes || "")
+        String(
+            notes || ""
+        )
         .replace(
             /\[GROUP:(1|16)\]\s*/g,
             ""
@@ -1019,9 +1192,52 @@ function buildNotes(notes,group){
         `[GROUP:${group}]` +
         (
             clean
-            ? " " + clean
-            : ""
+            ?
+            " " + clean
+            :
+            ""
         )
+    );
+
+}
+
+
+/* =========================================================
+   GET CUSTOMERS FOR PRIMARY NUMBER
+========================================================= */
+
+function getLinkedCustomers(
+    primaryNumber
+){
+
+    const primary =
+        cleanPhone(
+            primaryNumber
+        );
+
+
+    if(!primary){
+
+        return [];
+
+    }
+
+
+    return customers.filter(
+        customer => {
+
+            const customerPrimary =
+                cleanPhone(
+                    customer.primary_number
+                );
+
+
+            return (
+                customerPrimary ===
+                primary
+            );
+
+        }
     );
 
 }
@@ -1044,27 +1260,48 @@ function renderNumbers(){
 
 
     const filtered =
-        numbers.filter(number=>{
+        numbers.filter(
+            number => {
 
-            const phone =
-                String(
-                    number.phone || ""
-                )
-                .toLowerCase();
-
-
-            const notes =
-                getCleanNotes(number)
-                .toLowerCase();
+                const phone =
+                    String(
+                        number.phone || ""
+                    )
+                    .toLowerCase();
 
 
-            return (
-                !search ||
-                phone.includes(search) ||
-                notes.includes(search)
-            );
+                const notes =
+                    getCleanNotes(
+                        number
+                    )
+                    .toLowerCase();
 
-        });
+
+                const linked =
+                    getLinkedCustomers(
+                        number.phone
+                    );
+
+
+                const customerText =
+                    linked
+                    .map(
+                        customer =>
+                            `${customer.subscriber_name || ""} ${customer.phone || ""}`
+                    )
+                    .join(" ")
+                    .toLowerCase();
+
+
+                return (
+                    !search ||
+                    phone.includes(search) ||
+                    notes.includes(search) ||
+                    customerText.includes(search)
+                );
+
+            }
+        );
 
 
     const day1 =
@@ -1084,13 +1321,21 @@ function renderNumbers(){
     document.getElementById(
         "count1"
     ).textContent =
-        `${day1.length} ${day1.length===1?"رقم":"أرقام"}`;
+        `${day1.length} ${
+            day1.length === 1
+            ? "رقم"
+            : "أرقام"
+        }`;
 
 
     document.getElementById(
         "count16"
     ).textContent =
-        `${day16.length} ${day16.length===1?"رقم":"أرقام"}`;
+        `${day16.length} ${
+            day16.length === 1
+            ? "رقم"
+            : "أرقام"
+        }`;
 
 
     renderGroup(
@@ -1107,7 +1352,14 @@ function renderNumbers(){
 }
 
 
-function renderGroup(elementId,list){
+/* =========================================================
+   RENDER GROUP
+========================================================= */
+
+function renderGroup(
+    elementId,
+    list
+){
 
     const element =
         document.getElementById(
@@ -1149,18 +1401,30 @@ function renderGroup(elementId,list){
    NUMBER CARD
 ========================================================= */
 
-function renderNumberCard(number){
+function renderNumberCard(
+    number
+){
 
     const group =
-        getGroup(number);
+        getGroup(
+            number
+        );
 
 
     const cleanNotes =
-        getCleanNotes(number);
+        getCleanNotes(
+            number
+        );
 
 
     const isActive =
         number.is_active !== false;
+
+
+    const linkedCustomers =
+        getLinkedCustomers(
+            number.phone
+        );
 
 
     return `
@@ -1170,10 +1434,14 @@ function renderNumberCard(number){
             <div class="number-head">
 
                 <div class="number">
-                    📱 ${escapeHtml(
+
+                    📱
+                    ${escapeHtml(
                         number.phone || "-"
                     )}
+
                 </div>
+
 
                 <div
                     class="status ${
@@ -1182,15 +1450,104 @@ function renderNumberCard(number){
                         : "inactive"
                     }"
                 >
+
                     ${
                         isActive
-                        ? "🟢 نشط"
-                        : "🔴 موقوف"
+                        ?
+                        "🟢 نشط"
+                        :
+                        "🔴 موقوف"
                     }
+
                 </div>
 
             </div>
 
+
+            <!-- معلومات العملاء -->
+
+            <div class="customer-summary">
+
+                <div class="customer-summary-title">
+                    👥 العملاء على الرقم الأساسي
+                </div>
+
+
+                <div class="customer-count">
+
+                    👥
+
+                    عدد الأرقام:
+
+                    ${linkedCustomers.length}
+
+                </div>
+
+
+                ${
+                    linkedCustomers.length
+                    ?
+                    `
+                        <div class="customers-list">
+
+                            ${
+                                linkedCustomers
+                                .map(
+                                    customer => `
+
+                                        <div class="customer-row">
+
+                                            <div>
+
+                                                <div class="customer-name">
+
+                                                    👤
+
+                                                    ${escapeHtml(
+                                                        customer.subscriber_name ||
+                                                        "بدون اسم"
+                                                    )}
+
+                                                </div>
+
+                                                <div
+                                                    class="customer-phone"
+                                                >
+
+                                                    📱
+
+                                                    ${escapeHtml(
+                                                        customer.phone ||
+                                                        "-"
+                                                    )}
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    `
+                                )
+                                .join("")
+                            }
+
+                        </div>
+                    `
+                    :
+                    `
+                        <div class="no-customers">
+
+                            📭 لا يوجد عملاء مرتبطون بهذا الرقم حاليًا
+
+                        </div>
+                    `
+                }
+
+            </div>
+
+
+            <!-- بيانات الرقم -->
 
             <div class="number-details">
 
@@ -1201,11 +1558,15 @@ function renderNumberCard(number){
                     </div>
 
                     <div class="detail-value">
+
                         ${
-                            group===1
-                            ? "جروب يوم 1"
-                            : "جروب يوم 16"
+                            group === 1
+                            ?
+                            "جروب يوم 1"
+                            :
+                            "جروب يوم 16"
                         }
+
                     </div>
 
                 </div>
@@ -1214,35 +1575,46 @@ function renderNumberCard(number){
                 <div class="detail">
 
                     <div class="detail-title">
-                        👥 الاستخدام
+                        🟢 الحالة
                     </div>
 
                     <div class="detail-value">
-                        رقم أساسي
+
+                        ${
+                            isActive
+                            ?
+                            "نشط"
+                            :
+                            "موقوف"
+                        }
+
                     </div>
 
                 </div>
+
 
                 ${
                     cleanNotes
                     ?
                     `
-                    <div
-                        class="detail"
-                        style="grid-column:1/-1"
-                    >
+                        <div
+                            class="detail"
+                            style="grid-column:1/-1"
+                        >
 
-                        <div class="detail-title">
-                            📝 ملاحظات
+                            <div class="detail-title">
+                                📝 ملاحظات
+                            </div>
+
+                            <div class="detail-value">
+
+                                ${escapeHtml(
+                                    cleanNotes
+                                )}
+
+                            </div>
+
                         </div>
-
-                        <div class="detail-value">
-                            ${escapeHtml(
-                                cleanNotes
-                            )}
-                        </div>
-
-                    </div>
                     `
                     :
                     ""
@@ -1250,6 +1622,8 @@ function renderNumberCard(number){
 
             </div>
 
+
+            <!-- أزرار -->
 
             <div class="number-actions">
 
@@ -1278,13 +1652,15 @@ function renderNumberCard(number){
 
 
 /* =========================================================
-   GROUP TOGGLE
+   TOGGLE GROUP
 ========================================================= */
 
 function toggleGroup(id){
 
     const group =
-        document.getElementById(id);
+        document.getElementById(
+            id
+        );
 
 
     if(!group)
@@ -1299,7 +1675,7 @@ function toggleGroup(id){
 
 
 /* =========================================================
-   ADD MODAL
+   ADD
 ========================================================= */
 
 function openAddModal(){
@@ -1345,7 +1721,7 @@ function openAddModal(){
 
 
 /* =========================================================
-   EDIT MODAL
+   EDIT
 ========================================================= */
 
 function openEdit(id){
@@ -1390,18 +1766,24 @@ function openEdit(id){
     document.getElementById(
         "notesInput"
     ).value =
-        getCleanNotes(number);
+        getCleanNotes(
+            number
+        );
 
 
     selectGroup(
-        getGroup(number)
+        getGroup(
+            number
+        )
     );
 
 
     selectStatus(
         number.is_active === false
-        ? "inactive"
-        : "active"
+        ?
+        "inactive"
+        :
+        "active"
     );
 
 
@@ -1420,15 +1802,19 @@ function openEdit(id){
 
 
 /* =========================================================
-   QUICK OPTIONS
+   SELECT GROUP
 ========================================================= */
 
-function selectGroup(group){
+function selectGroup(
+    group
+){
 
     selectedGroup =
         Number(group) === 16
-        ? 16
-        : 1;
+        ?
+        16
+        :
+        1;
 
 
     document.getElementById(
@@ -1449,12 +1835,20 @@ function selectGroup(group){
 }
 
 
-function selectStatus(status){
+/* =========================================================
+   SELECT STATUS
+========================================================= */
+
+function selectStatus(
+    status
+){
 
     selectedStatus =
         status === "inactive"
-        ? "inactive"
-        : "active";
+        ?
+        "inactive"
+        :
+        "active";
 
 
     document.getElementById(
@@ -1495,12 +1889,8 @@ async function saveNumber(){
 
 
     phone =
-        normalizeArabicNumbers(
+        cleanPhone(
             phone
-        )
-        .replace(
-            /\D/g,
-            ""
         );
 
 
@@ -1517,7 +1907,11 @@ async function saveNumber(){
         ).value;
 
 
-    if(!/^01[0125][0-9]{8}$/.test(phone)){
+    if(
+        !/^01[0125][0-9]{8}$/.test(
+            phone
+        )
+    ){
 
         message.style.color =
             "#a00000";
@@ -1568,7 +1962,9 @@ async function saveNumber(){
                     .from(
                         "primary_numbers"
                     )
-                    .update(payload)
+                    .update(
+                        payload
+                    )
                     .eq(
                         "id",
                         editId
@@ -1588,6 +1984,7 @@ async function saveNumber(){
 
                 }
 
+
                 throw result.error;
 
             }
@@ -1598,7 +1995,6 @@ async function saveNumber(){
 
             message.textContent =
                 "✅ تم تعديل الرقم بنجاح";
-
 
         }
 
@@ -1667,6 +2063,7 @@ async function saveNumber(){
 
                 }
 
+
                 throw result.error;
 
             }
@@ -1692,12 +2089,15 @@ async function saveNumber(){
 
         showToast(
             editId
-            ? "✅ تم تعديل الرقم"
-            : "✅ تم إضافة الرقم"
+            ?
+            "✅ تم تعديل الرقم"
+            :
+            "✅ تم إضافة الرقم"
         );
 
 
-    }catch(error){
+    }
+    catch(error){
 
         console.error(
             "SAVE NUMBER ERROR:",
@@ -1721,7 +2121,9 @@ async function saveNumber(){
    DELETE
 ========================================================= */
 
-async function deleteNumber(id){
+async function deleteNumber(
+    id
+){
 
     const number =
         numbers.find(
@@ -1733,6 +2135,34 @@ async function deleteNumber(id){
 
     if(!number)
         return;
+
+
+    /*
+       نتأكد من العملاء المرتبطين
+       بالرقم الأساسي.
+    */
+
+    const linkedCustomers =
+        getLinkedCustomers(
+            number.phone
+        );
+
+
+    if(
+        linkedCustomers.length
+    ){
+
+        alert(
+            "⚠️ لا يمكن حذف الرقم الآن.\n\n" +
+            "الرقم مرتبط بـ " +
+            linkedCustomers.length +
+            " عميل.\n\n" +
+            "انقل العملاء لرقم آخر أولًا."
+        );
+
+        return;
+
+    }
 
 
     const confirmed =
@@ -1748,54 +2178,6 @@ async function deleteNumber(id){
 
 
     try{
-
-        /*
-         * قبل الحذف نتأكد هل الرقم مستخدم
-         * كرقم أساسي عند العملاء.
-         */
-
-        const customersResult =
-            await supabaseClient
-                .from("customers")
-                .select("id")
-                .eq(
-                    "primary_number",
-                    number.phone
-                )
-                .is(
-                    "deleted_at",
-                    null
-                )
-                .limit(1);
-
-
-        if(
-            customersResult.error
-        ){
-
-            console.warn(
-                "Customer check:",
-                customersResult.error
-            );
-
-        }
-
-
-        if(
-            customersResult.data &&
-            customersResult.data.length
-        ){
-
-            alert(
-                "⚠️ لا يمكن حذف الرقم الآن.\n\n" +
-                "الرقم مرتبط بعميل.\n\n" +
-                "انقل العميل لرقم آخر أولًا."
-            );
-
-            return;
-
-        }
-
 
         const result =
             await supabaseClient
@@ -1821,7 +2203,8 @@ async function deleteNumber(id){
         await loadData();
 
 
-    }catch(error){
+    }
+    catch(error){
 
         console.error(
             "DELETE ERROR:",
@@ -1859,7 +2242,9 @@ function closeModal(){
 ========================================================= */
 
 document
-    .getElementById("search")
+    .getElementById(
+        "search"
+    )
     .addEventListener(
         "input",
         renderNumbers
@@ -1871,7 +2256,9 @@ document
 ========================================================= */
 
 document
-    .getElementById("numberModal")
+    .getElementById(
+        "numberModal"
+    )
     .addEventListener(
         "click",
         function(event){
@@ -1890,7 +2277,7 @@ document
 
 
 /* =========================================================
-   ESCAPE
+   ESC
 ========================================================= */
 
 document.addEventListener(
@@ -1898,7 +2285,8 @@ document.addEventListener(
     function(event){
 
         if(
-            event.key === "Escape"
+            event.key ===
+            "Escape"
         ){
 
             closeModal();
@@ -1913,7 +2301,24 @@ document.addEventListener(
    HELPERS
 ========================================================= */
 
-function normalizeArabicNumbers(value){
+function cleanPhone(
+    value
+){
+
+    return normalizeArabicNumbers(
+        value
+    )
+    .replace(
+        /\D/g,
+        ""
+    );
+
+}
+
+
+function normalizeArabicNumbers(
+    value
+){
 
     return String(
         value || ""
@@ -1928,21 +2333,40 @@ function normalizeArabicNumbers(value){
 }
 
 
-function escapeHtml(value){
+function escapeHtml(
+    value
+){
 
     return String(
         value ?? ""
     )
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+    .replaceAll(
+        "&",
+        "&amp;"
+    )
+    .replaceAll(
+        "<",
+        "&lt;"
+    )
+    .replaceAll(
+        ">",
+        "&gt;"
+    )
+    .replaceAll(
+        '"',
+        "&quot;"
+    )
+    .replaceAll(
+        "'",
+        "&#039;"
+    );
 
 }
 
 
-function showToast(text){
+function showToast(
+    text
+){
 
     const toast =
         document.getElementById(
@@ -1966,10 +2390,12 @@ function showToast(text){
 
     window.toastTimer =
         setTimeout(
-            ()=>{
+            function(){
+
                 toast.classList.remove(
                     "show"
                 );
+
             },
             2500
         );
