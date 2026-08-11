@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>العملاء | WE Packages</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box;font-family:Arial,Tahoma,sans-serif}
 body{margin:0;background:#f4f6fb;color:#172033}
@@ -79,10 +80,26 @@ body{margin:0;background:#f4f6fb;color:#172033}
 .cancel{background:#edf0f5;color:#252b40}
 .save{background:#293160;color:#fff}
 .hint{font-size:12px;color:#858b99;margin-top:5px}
-@media(max-width:800px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:550px){.container{padding:13px}.toolbar{display:block}.search,.select,.add-btn,.admin-btn,.numbers-btn,.finance-btn{width:100%;margin-bottom:9px}.card-head{display:block}.badge{display:inline-block;margin-top:12px}.grid{grid-template-columns:repeat(2,1fr)}.payment-actions{flex-direction:column}.header-row{align-items:flex-start}.logout{font-size:12px}}
+
+@media(max-width:800px){
+.stats{grid-template-columns:repeat(2,1fr)}
+.grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:550px){
+.container{padding:13px}
+.toolbar{display:block}
+.search,.select,.add-btn,.admin-btn,.numbers-btn,.finance-btn{width:100%;margin-bottom:9px}
+.card-head{display:block}
+.badge{display:inline-block;margin-top:12px}
+.grid{grid-template-columns:repeat(2,1fr)}
+.payment-actions{flex-direction:column}
+.header-row{align-items:flex-start}
+.logout{font-size:12px}
+}
 </style>
 </head>
+
 <body>
 
 <div id="loginScreen">
@@ -90,12 +107,16 @@ body{margin:0;background:#f4f6fb;color:#172033}
 <div style="font-size:48px">🔐</div>
 <h1>WE Packages</h1>
 <p>تسجيل الدخول إلى لوحة الإدارة</p>
+
 <input id="loginEmail" type="email" value="mezooelzorkany@gmail.com" placeholder="البريد الإلكتروني">
 <input id="loginPassword" type="password" placeholder="كلمة المرور">
+
 <button onclick="loginCustomers()">تسجيل الدخول</button>
+
 <div id="loginMessage"></div>
 </div>
 </div>
+
 
 <div id="app">
 
@@ -105,26 +126,57 @@ body{margin:0;background:#f4f6fb;color:#172033}
 <h1>👥 العملاء</h1>
 <p>إدارة العملاء والتجديدات والاشتراكات</p>
 </div>
+
 <button class="logout" onclick="logoutCustomers()">تسجيل الخروج</button>
 </div>
 </header>
 
+
 <main class="container">
 
 <div class="stats">
-<div class="stat"><div class="stat-title">إجمالي العملاء</div><div class="stat-number" id="total">0</div></div>
-<div class="stat"><div class="stat-title">العملاء النشطين</div><div class="stat-number" id="active">0</div></div>
-<div class="stat"><div class="stat-title">تجديد قريب</div><div class="stat-number" id="soon">0</div></div>
-<div class="stat"><div class="stat-title">منتهية</div><div class="stat-number" id="expired">0</div></div>
+
+<div class="stat">
+<div class="stat-title">إجمالي العملاء</div>
+<div class="stat-number" id="total">0</div>
 </div>
 
-<div class="toolbar">
-<a href="admin.html" class="admin-btn">🔢 الأكواد</a>
-<a href="numbers.html" class="numbers-btn">📱 الأرقام الأساسية</a>
-<a href="finances.html" class="finance-btn">💰 الماليات</a>
-<button class="add-btn" type="button" onclick="openAdd()">➕ إضافة عميل</button>
+<div class="stat">
+<div class="stat-title">العملاء النشطين</div>
+<div class="stat-number" id="active">0</div>
+</div>
 
-<input id="search" class="search" type="search" placeholder="🔎 ابحث بالاسم أو رقم التليفون أو الرقم الأساسي...">
+<div class="stat">
+<div class="stat-title">تجديد قريب</div>
+<div class="stat-number" id="soon">0</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">منتهية</div>
+<div class="stat-number" id="expired">0</div>
+</div>
+
+</div>
+
+
+<div class="toolbar">
+
+<a href="admin.html" class="admin-btn">🔢 الأكواد</a>
+
+<a href="numbers.html" class="numbers-btn">📱 الأرقام الأساسية</a>
+
+<a href="finances.html" class="finance-btn">💰 الماليات</a>
+
+<button class="add-btn" type="button" onclick="openAdd()">
+➕ إضافة عميل
+</button>
+
+<input
+id="search"
+class="search"
+type="search"
+placeholder="🔎 ابحث بالاسم أو رقم التليفون أو الرقم الأساسي..."
+>
 
 <select id="renewalFilter" class="select">
 <option value="all">كل مواعيد التجديد</option>
@@ -140,57 +192,90 @@ body{margin:0;background:#f4f6fb;color:#172033}
 <option value="soon">🟠 قرب التجديد</option>
 <option value="expired">🔴 منتهي</option>
 </select>
+
 </div>
+
 
 <div class="payment-orders">
-<div class="payment-orders-title">💳 طلبات الدفع</div>
-<div class="payment-orders-subtitle">التحويلات التي تنتظر مراجعتك</div>
-<button class="refresh-payments" onclick="loadPaymentOrders()">🔄 تحديث طلبات الدفع</button>
+
+<div class="payment-orders-title">
+💳 طلبات الدفع
+</div>
+
+<div class="payment-orders-subtitle">
+التحويلات التي تنتظر مراجعتك
+</div>
+
+<button class="refresh-payments" onclick="loadPaymentOrders()">
+🔄 تحديث طلبات الدفع
+</button>
+
 <div id="paymentOrdersList" class="payment-orders-list">
-<div class="loading">⏳ جاري تحميل طلبات الدفع...</div>
+<div class="loading">
+⏳ جاري تحميل طلبات الدفع...
 </div>
 </div>
 
+</div>
+
+
 <div id="list" class="list">
-<div class="loading">⏳ جاري تحميل العملاء...</div>
+<div class="loading">
+⏳ جاري تحميل العملاء...
+</div>
 </div>
 
 </main>
 </div>
 
+
 <div id="modal" class="modal">
+
 <div class="modal-box">
 
-<button class="close" type="button" onclick="closeModal()">✕</button>
+<button class="close" type="button" onclick="closeModal()">
+✕
+</button>
 
-<div id="modalTitle" class="modal-title">➕ إضافة عميل</div>
+<div id="modalTitle" class="modal-title">
+➕ إضافة عميل
+</div>
 
 <input type="hidden" id="customerId">
+
 
 <div class="field">
 <label>اسم العميل *</label>
 <input id="customerName" placeholder="مثال: محمد">
 </div>
 
+
 <div class="field">
 <label>رقم العميل *</label>
 <input id="customerPhone" inputmode="numeric" placeholder="01xxxxxxxxx">
 </div>
+
 
 <div class="field">
 <label>الرقم الأساسي</label>
 <input id="primaryNumber" inputmode="numeric" placeholder="الرقم اللي اتعملت منه الباقة">
 </div>
 
+
 <div class="field">
 <label>📦 جيجات العميل</label>
 <input id="allocatedGB" type="number" min="0" step="0.01" placeholder="مثال: 30">
-<div class="hint">يتم تحديدها تلقائيًا عند اختيار الباقة، ويمكنك تعديلها يدويًا.</div>
+<div class="hint">
+يتم تحديدها تلقائيًا عند اختيار الباقة، ويمكنك تعديلها يدويًا.
 </div>
+</div>
+
 
 <div class="field">
 <label>الباقة</label>
+
 <select id="packageName" onchange="updatePackageData()">
+
 <option value="">اختر الباقة</option>
 <option value="20 جيجا">20 جيجا</option>
 <option value="25 جيجا">25 جيجا</option>
@@ -201,18 +286,28 @@ body{margin:0;background:#f4f6fb;color:#172033}
 <option value="50 جيجا">50 جيجا</option>
 <option value="55 جيجا">55 جيجا</option>
 <option value="60 جيجا">60 جيجا</option>
+
 </select>
 </div>
 
+
 <div class="field">
 <label>السعر</label>
+
 <input id="lastPrice" type="number" min="0" placeholder="السعر">
-<div class="hint">السعر يتعبّى تلقائيًا ويمكنك تغييره لو فيه خصم.</div>
+
+<div class="hint">
+السعر يتعبّى تلقائيًا ويمكنك تغييره لو فيه خصم.
 </div>
+
+</div>
+
 
 <div class="field">
 <label>طريقة الدفع</label>
+
 <select id="paymentMethod">
+
 <option value="">غير محدد</option>
 <option value="Vodafone Cash">Vodafone Cash</option>
 <option value="Etisalat Cash">Etisalat Cash</option>
@@ -220,54 +315,81 @@ body{margin:0;background:#f4f6fb;color:#172033}
 <option value="Orange Cash">Orange Cash</option>
 <option value="كاش">كاش</option>
 <option value="تحويل بنكي">تحويل بنكي</option>
+
 </select>
+
 </div>
+
 
 <div class="field">
 <label>الحالة</label>
+
 <select id="status">
+
 <option value="active">🟢 نشط</option>
 <option value="inactive">🔴 موقوف</option>
+
 </select>
+
 </div>
+
 
 <div class="field">
 <label>نظام التجديد</label>
+
 <select id="renewalType" onchange="changeRenewalType()">
+
 <option value="day_1">يوم 1</option>
 <option value="day_16">يوم 16</option>
 <option value="custom">تاريخ مخصص</option>
+
 </select>
+
 </div>
+
 
 <div class="field">
 <label>يوم التجديد</label>
 <input id="renewalDay" type="number" min="1" max="31" value="1">
 </div>
 
+
 <div class="field">
 <label>التجديد القادم *</label>
 <input id="nextRenewal" type="date">
 </div>
+
 
 <div class="field">
 <label>عدد الطلبات</label>
 <input id="totalOrders" type="number" min="0" value="0">
 </div>
 
+
 <div class="modal-actions">
-<button class="cancel" type="button" onclick="closeModal()">إلغاء</button>
-<button class="save" type="button" onclick="saveCustomer()">💾 حفظ</button>
+
+<button class="cancel" type="button" onclick="closeModal()">
+إلغاء
+</button>
+
+<button class="save" type="button" onclick="saveCustomer()">
+💾 حفظ
+</button>
+
 </div>
 
 </div>
 </div>
+
 
 <script>
 
 const SUPABASE_URL="https://pgvbynefhqmyzjtccttl.supabase.co";
+
 const SUPABASE_KEY="sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
+
 const ADMIN_EMAIL="mezooelzorkany@gmail.com";
+
 
 const authClient=
 window.supabase.createClient(
@@ -275,8 +397,12 @@ SUPABASE_URL,
 SUPABASE_KEY
 );
 
+
 let customers=[];
 let editMode=false;
+
+
+/* ================= TOKEN ================= */
 
 async function getAccessToken(){
 
@@ -286,6 +412,9 @@ await authClient.auth.getSession();
 return data?.session?.access_token||SUPABASE_KEY;
 
 }
+
+
+/* ================= REQUEST ================= */
 
 async function supabaseRequest(
 path,
@@ -370,10 +499,15 @@ throw e;
 
 }
 finally{
+
 clearTimeout(timer);
+
 }
 
 }
+
+
+/* ================= HELPERS ================= */
 
 function escapeHtml(v){
 
@@ -391,6 +525,34 @@ c=>({
 
 }
 
+
+function normalizeArabicNumbers(value){
+
+return String(value||"")
+.replace(/[٠-٩]/g,d=>
+"٠١٢٣٤٥٦٧٨٩".indexOf(d)
+);
+
+}
+
+
+function cleanPhone(value){
+
+return normalizeArabicNumbers(value)
+.replace(/\D/g,"");
+
+}
+
+
+function isValidEgyptianPhone(value){
+
+const phone=cleanPhone(value);
+
+return /^01[0125][0-9]{8}$/.test(phone);
+
+}
+
+
 function formatGB(v){
 
 const n=Number(v)||0;
@@ -400,6 +562,7 @@ return Number.isInteger(n)
 :n.toFixed(2);
 
 }
+
 
 function formatMoney(v){
 
@@ -412,6 +575,7 @@ maximumFractionDigits:2
 );
 
 }
+
 
 function daysUntil(date){
 
@@ -430,6 +594,101 @@ date+"T00:00:00"
 return Math.ceil(
 (d-t)/86400000
 );
+
+}
+
+
+function addDays(date,days){
+
+const d=
+new Date(date);
+
+d.setDate(
+d.getDate()+days
+);
+
+return d
+.toISOString()
+.split("T")[0];
+
+}
+
+
+function getOrderGB(order){
+
+const possible=[
+order.package_gb,
+order.allocated_gb,
+order.gb,
+order.gigabytes,
+order.package_size
+];
+
+for(const value of possible){
+
+const n=Number(value);
+
+if(Number.isFinite(n)&&n>0)
+return n;
+
+}
+
+return 0;
+
+}
+
+
+function getOrderPackage(order){
+
+return (
+order.package_name||
+order.package||
+order.package_title||
+null
+);
+
+}
+
+
+function getOrderPrice(order){
+
+const values=[
+order.final_price,
+order.total_price,
+order.price,
+order.amount
+];
+
+for(const value of values){
+
+const n=Number(value);
+
+if(Number.isFinite(n)&&n>=0)
+return n;
+
+}
+
+return 0;
+
+}
+
+
+function getOrderRenewalDate(order){
+
+const possible=[
+order.next_renewal_date,
+order.renewal_date,
+order.nextRenewalDate
+];
+
+for(const value of possible){
+
+if(value)
+return String(value).split("T")[0];
+
+}
+
+return null;
 
 }
 
@@ -454,6 +713,7 @@ document.getElementById(
 );
 
 msg.style.color="#c73542";
+
 msg.textContent=
 "⏳ جاري تسجيل الدخول...";
 
@@ -804,6 +1064,7 @@ ${badge}
 
 </div>
 
+
 <div class="grid">
 
 <div class="box">
@@ -852,6 +1113,7 @@ ${badge}
 </div>
 
 </div>
+
 
 <div class="actions">
 
@@ -1109,11 +1371,9 @@ return;
 
 if(packages[p]){
 
-g.value=
-packages[p][0];
+g.value=packages[p][0];
 
-price.value=
-packages[p][1];
+price.value=packages[p][1];
 
 }
 
@@ -1130,14 +1390,18 @@ document.getElementById(
 ).value.trim();
 
 const phone=
+cleanPhone(
 document.getElementById(
 "customerPhone"
-).value.trim();
+).value
+);
 
 const primary=
+cleanPhone(
 document.getElementById(
 "primaryNumber"
-).value.trim();
+).value
+);
 
 const gb=
 Number(
@@ -1161,6 +1425,20 @@ return;
 if(!phone){
 
 alert("⚠️ اكتب رقم العميل");
+return;
+
+}
+
+if(!isValidEgyptianPhone(phone)){
+
+alert("⚠️ رقم العميل غير صحيح");
+return;
+
+}
+
+if(primary&&!isValidEgyptianPhone(primary)){
+
+alert("⚠️ الرقم الأساسي غير صحيح");
 return;
 
 }
@@ -1201,24 +1479,38 @@ const now=
 new Date().toISOString();
 
 const payload={
+
 subscriber_name:name,
+
 phone,
+
 primary_number:primary||null,
+
 allocated_gb:gb,
+
 package_name:
 document.getElementById("packageName").value||null,
+
 last_price:
 Number(document.getElementById("lastPrice").value)||0,
+
 payment_method:
 document.getElementById("paymentMethod").value||null,
+
 status:
 document.getElementById("status").value,
+
 renewal_type:type,
+
 renewal_day:day,
+
 next_renewal_date:nextDate,
+
 total_orders:
 Number(document.getElementById("totalOrders").value)||0,
+
 updated_at:now
+
 };
 
 try{
@@ -1280,16 +1572,26 @@ await supabaseRequest(
 {
 method:"POST",
 body:JSON.stringify({
+
 customer_id:
 Number(newCustomer?.[0]?.id)||null,
+
 customer_name:name,
+
 customer_phone:phone,
+
 primary_number:primary||null,
+
 package_name:payload.package_name,
+
 amount,
+
 transaction_type:"اشتراك جديد",
+
 transaction_date:now,
+
 notes:"أول اشتراك - إضافة عميل جديد"
+
 })
 }
 );
@@ -1454,14 +1756,21 @@ await supabaseRequest(
 {
 method:"PATCH",
 body:JSON.stringify({
+
 last_renewed_at:now.toISOString(),
+
 last_order_at:now.toISOString(),
+
 next_renewal_date:
 next.toISOString().split("T")[0],
+
 total_orders:
 (Number(c.total_orders)||0)+1,
+
 status:"active",
+
 updated_at:now.toISOString()
+
 })
 }
 );
@@ -1473,15 +1782,25 @@ await supabaseRequest(
 {
 method:"POST",
 body:JSON.stringify({
+
 customer_id:Number(c.id),
+
 customer_name:c.subscriber_name,
+
 customer_phone:c.phone,
+
 primary_number:c.primary_number,
+
 package_name:c.package_name,
+
 amount,
+
 transaction_type:"تجديد",
+
 transaction_date:now.toISOString(),
+
 notes:"تجديد من صفحة العملاء"
+
 })
 }
 );
@@ -1509,7 +1828,9 @@ e.message
 }
 
 
-/* ================= PAYMENT ORDERS ================= */
+/* =========================================================
+   PAYMENT ORDERS
+   ========================================================= */
 
 async function loadPaymentOrders(){
 
@@ -1561,6 +1882,7 @@ order=>`
 📋 ${escapeHtml(order.order_number||"-")}
 </div>
 
+
 <div class="payment-order-info">
 
 <div>
@@ -1579,8 +1901,13 @@ ${escapeHtml(order.package_name||"-")}
 </div>
 
 <div>
+📦 <strong>الجيجات:</strong>
+${formatGB(getOrderGB(order))} GB
+</div>
+
+<div>
 💰 <strong>المبلغ:</strong>
-${Number(order.final_price)||0} جنيه
+${formatMoney(getOrderPrice(order))} جنيه
 </div>
 
 <div>
@@ -1589,6 +1916,7 @@ ${escapeHtml(order.payment_method||"-")}
 </div>
 
 </div>
+
 
 ${
 order.payment_screenshot
@@ -1614,6 +1942,7 @@ alt="إثبات التحويل"
 `
 }
 
+
 <div class="payment-actions">
 
 <button
@@ -1633,6 +1962,7 @@ onclick="rejectOrderPayment('${escapeHtml(order.order_number)}')"
 </div>
 
 </div>
+
 `
 )
 .join("");
@@ -1650,24 +1980,126 @@ escapeHtml(e.message)+
 }
 
 
-/* ================= APPROVE PAYMENT ================= */
+/* =========================================================
+   CONFIRM PAYMENT
+   ========================================================= */
 
 async function approveOrderPayment(orderNumber){
 
-if(
-!confirm(
-"هل أنت متأكد من تأكيد الدفع؟\n\n"+
-"رقم الطلب: "+orderNumber+
-"\n\nسيتم تسجيل المبلغ في الماليات."
-)
-)
-return;
+/* أولًا نجيب الطلب نفسه */
+
+let order;
 
 try{
 
-/* =========================================
-   1) تشغيل الـ RPC الموجود بالفعل
-========================================= */
+const orders=
+await supabaseRequest(
+"orders?select=*&order_number=eq."+
+encodeURIComponent(orderNumber)+
+"&limit=1"
+);
+
+if(
+!Array.isArray(orders)||
+!orders.length
+){
+
+throw new Error(
+"لم يتم العثور على الطلب."
+);
+
+}
+
+order=orders[0];
+
+}
+catch(e){
+
+alert(
+"❌ تعذر قراءة بيانات الطلب:\n\n"+
+e.message
+);
+
+return;
+
+}
+
+
+/* الرقم الأساسي */
+
+let primaryNumber=
+prompt(
+"📱 اكتب الرقم الأساسي\n\n"+
+"الرقم الذي سيتم عمل الباقة عليه:"
+);
+
+if(primaryNumber===null)
+return;
+
+primaryNumber=
+cleanPhone(primaryNumber);
+
+if(!primaryNumber){
+
+alert(
+"⚠️ لازم تكتب الرقم الأساسي."
+);
+
+return;
+
+}
+
+if(!isValidEgyptianPhone(primaryNumber)){
+
+alert(
+"❌ الرقم الأساسي غير صحيح.\n\n"+
+"اكتب رقم مصري مكون من 11 رقم ويبدأ بـ 010 أو 011 أو 012 أو 015."
+);
+
+return;
+
+}
+
+
+/* تأكيد نهائي */
+
+const customerName=
+order.subscriber_name||"-";
+
+const packageName=
+getOrderPackage(order)||"-";
+
+const gb=
+getOrderGB(order);
+
+const amount=
+getOrderPrice(order);
+
+const paymentMethod=
+order.payment_method||"-";
+
+
+const finalConfirm=
+confirm(
+"💳 تأكيد الدفع\n\n"+
+"العميل: "+customerName+
+"\nالباقة: "+packageName+
+"\nالجيجات: "+formatGB(gb)+" GB"+
+"\nالمبلغ: "+formatMoney(amount)+" جنيه"+
+"\nطريقة الدفع: "+paymentMethod+
+"\n\n📱 الرقم الأساسي:\n"+primaryNumber+
+"\n\nهل أنت متأكد أن الباقة سيتم عملها على هذا الرقم؟"
+);
+
+if(!finalConfirm)
+return;
+
+
+/* =========================================================
+   تأكيد الدفع من الـ RPC الموجود
+   ========================================================= */
+
+try{
 
 const r=
 await supabaseRequest(
@@ -1683,54 +2115,33 @@ input_order_number:orderNumber
 if(r?.success!==true){
 
 throw new Error(
+r?.message||
 "لم يتم تأكيد الدفع"
 );
 
 }
 
 
-/* =========================================
-   2) جلب بيانات الطلب بعد التأكيد
-========================================= */
+/* =========================================================
+   بعد نجاح التأكيد:
+   نبحث عن العميل ونكمل البيانات الناقصة
+   ========================================================= */
 
-const orders=
-await supabaseRequest(
-"orders?select=*&order_number=eq."+
-encodeURIComponent(orderNumber)+
-"&limit=1"
+const phone=
+cleanPhone(
+order.phone||""
 );
 
-if(
-!Array.isArray(orders)||
-!orders.length
-){
+if(!phone){
 
 throw new Error(
-"تم تأكيد الدفع ولكن لم أتمكن من قراءة بيانات الطلب للتحقق من الماليات."
+"تم تأكيد الدفع، لكن الطلب لا يحتوي على رقم العميل."
 );
 
 }
 
-const order=
-orders[0];
 
-const amount=
-Number(order.final_price)||0;
-
-const phone=
-String(order.phone||"").trim();
-
-const packageName=
-String(order.package_name||"").trim();
-
-
-/* =========================================
-   3) البحث عن العميل الحالي
-========================================= */
-
-let customer=null;
-
-if(phone){
+/* نبحث عن العميل */
 
 const customerResult=
 await supabaseRequest(
@@ -1740,196 +2151,138 @@ encodeURIComponent(phone)+
 );
 
 if(
-Array.isArray(customerResult)&&
-customerResult.length
+!Array.isArray(customerResult)||
+!customerResult.length
 ){
-
-customer=
-customerResult[0];
-
-}
-
-}
-
-
-/* =========================================
-   4) التأكد من العملية المالية
-      قبل إنشاء أي عملية جديدة
-========================================= */
-
-let financeExists=false;
-
 
 /*
-   أولاً نبحث باستخدام رقم الطلب داخل الملاحظات.
-   لو الـRPC الحالي بيسجل رقم الطلب، هنلاقيه مباشرة.
+لو الـRPC لم ينشئ العميل لأي سبب،
+نحاول إنشاء العميل هنا بكل البيانات.
 */
 
-try{
+const now=
+new Date();
 
-const exactNotes=
-await supabaseRequest(
-"financial_transactions?select=*&notes=ilike.*"+
-encodeURIComponent(orderNumber)+
-"*&limit=20"
-);
+const renewalDate=
+getOrderRenewalDate(order)||
+addDays(now,30);
 
-if(
-Array.isArray(exactNotes)&&
-exactNotes.length
-){
+let renewalType=
+"custom";
 
-financeExists=true;
-
-}
-
-}
-catch(checkError){
-
-console.warn(
-"Finance order check:",
-checkError
-);
-
-}
-
-
-/*
-   لو الـRPC لم يضع رقم الطلب في الملاحظات،
-   نعمل فحص إضافي بالمبلغ + العميل + الباقة
-   خلال آخر 10 دقائق.
-*/
-
-if(!financeExists&&phone&&amount>0){
-
-try{
-
-const recentTransactions=
-await supabaseRequest(
-"financial_transactions?select=*&customer_phone=eq."+
-encodeURIComponent(phone)+
-"&amount=eq."+
-encodeURIComponent(amount)+
-"&order=transaction_date.desc&limit=20"
-);
-
-if(
-Array.isArray(recentTransactions)&&
-recentTransactions.length
-){
-
-const nowTime=
-Date.now();
-
-financeExists=
-recentTransactions.some(
-transaction=>{
-
-const transactionPackage=
-String(
-transaction.package_name||""
-).trim();
-
-if(
-packageName&&
-transactionPackage&&
-transactionPackage!==packageName
-){
-
-return false;
-
-}
-
-if(
-!transaction.transaction_date
-){
-
-return false;
-
-}
-
-const transactionTime=
+let renewalDay=
 new Date(
-transaction.transaction_date
-).getTime();
+renewalDate+"T00:00:00"
+).getDate();
 
+
+if(renewalDay===1)
+renewalType="day_1";
+
+if(renewalDay===16)
+renewalType="day_16";
+
+
+const created=
+await supabaseRequest(
+"customers",
+{
+method:"POST",
+body:JSON.stringify({
+
+subscriber_name:
+order.subscriber_name||"بدون اسم",
+
+phone,
+
+primary_number:
+primaryNumber,
+
+allocated_gb:
+gb,
+
+package_name:
+packageName==="-"?null:packageName,
+
+last_price:
+amount,
+
+payment_method:
+paymentMethod==="-"?null:paymentMethod,
+
+status:"active",
+
+renewal_type:
+renewalType,
+
+renewal_day:
+renewalDay,
+
+next_renewal_date:
+renewalDate,
+
+total_orders:1,
+
+created_at:
+now.toISOString(),
+
+updated_at:
+now.toISOString(),
+
+last_order_at:
+now.toISOString(),
+
+last_renewed_at:
+now.toISOString()
+
+})
+}
+);
+
+const newCustomerId=
+Number(created?.[0]?.id)||null;
+
+
+/*
+لو العملية المالية لم يسجلها الـRPC،
+نحاول تسجيلها فقط لو عندنا عميل جديد.
+*/
 if(
-Number.isNaN(transactionTime)
+amount>0&&
+newCustomerId
 ){
-
-return false;
-
-}
-
-return(
-nowTime-transactionTime
-)<=
-10*60*1000;
-
-}
-);
-
-}
-
-}
-catch(checkError){
-
-console.warn(
-"Recent finance check:",
-checkError
-);
-
-}
-
-}
-
-
-/* =========================================
-   5) لو العملية المالية غير موجودة
-      نسجلها مرة واحدة
-========================================= */
-
-if(!financeExists&&amount>0){
 
 await supabaseRequest(
 "financial_transactions",
 {
 method:"POST",
-
 body:JSON.stringify({
 
 customer_id:
-Number(customer?.id)||null,
+newCustomerId,
 
 customer_name:
-order.subscriber_name||null,
+order.subscriber_name||"بدون اسم",
 
 customer_phone:
-phone||null,
+phone,
 
 primary_number:
-customer?.primary_number||null,
+primaryNumber,
 
 package_name:
-packageName||null,
+packageName==="-"?null:packageName,
 
-amount:
 amount,
 
 transaction_type:
-String(order.order_number||"")
-.startsWith("REN-")
-?
-"تجديد"
-:
 "اشتراك جديد",
 
 transaction_date:
-new Date().toISOString(),
+now.toISOString(),
 
 notes:
-"طلب دفع مؤكد - "+
-orderNumber
+"تأكيد طلب دفع من صفحة العملاء"
 
 })
 }
@@ -1937,20 +2290,151 @@ orderNumber
 
 }
 
+}
+else{
 
-/* =========================================
-   6) تحديث الشاشة فقط
-========================================= */
+/*
+العميل موجود بالفعل.
+نقوم بتحديث البيانات المهمة فقط.
+*/
+
+const customer=
+customerResult[0];
+
+const now=
+new Date();
+
+const existingRenewal=
+getOrderRenewalDate(order);
+
+let renewalDate=
+existingRenewal;
+
+if(!renewalDate){
+
+if(
+customer.next_renewal_date
+){
+
+renewalDate=
+customer.next_renewal_date;
+
+}
+else{
+
+renewalDate=
+addDays(now,30);
+
+}
+
+}
+
+
+/*
+نحدد نوع التجديد من التاريخ
+إذا كان 1 أو 16 نستخدم النظام المعروف.
+وإلا مخصص.
+*/
+
+const renewalDateObj=
+new Date(
+renewalDate+"T00:00:00"
+);
+
+const renewalDay=
+renewalDateObj.getDate();
+
+let renewalType=
+"custom";
+
+if(renewalDay===1)
+renewalType="day_1";
+
+if(renewalDay===16)
+renewalType="day_16";
+
+
+const patch={
+
+primary_number:
+primaryNumber,
+
+allocated_gb:
+gb>0
+?gb
+:Number(customer.allocated_gb)||0,
+
+package_name:
+packageName!=="-"
+?packageName
+:customer.package_name||null,
+
+last_price:
+amount>0
+?amount
+:Number(customer.last_price)||0,
+
+payment_method:
+paymentMethod!=="-"
+?paymentMethod
+:customer.payment_method||null,
+
+status:"active",
+
+renewal_type:
+customer.renewal_type||
+renewalType,
+
+renewal_day:
+customer.renewal_day||
+renewalDay,
+
+next_renewal_date:
+renewalDate,
+
+total_orders:
+Math.max(
+Number(customer.total_orders)||0,
+Number(customer.total_orders)||0+1
+),
+
+last_order_at:
+now.toISOString(),
+
+last_renewed_at:
+now.toISOString(),
+
+updated_at:
+now.toISOString()
+
+};
+
+
+await supabaseRequest(
+"customers?id=eq."+
+encodeURIComponent(customer.id),
+{
+method:"PATCH",
+body:JSON.stringify(patch)
+}
+);
+
+}
+
+
+/* انتهينا */
 
 alert(
-financeExists
-?
 "✅ تم تأكيد الدفع بنجاح\n\n"+
-"العملية المالية موجودة بالفعل ولم يتم تكرارها."
-:
-"✅ تم تأكيد الدفع بنجاح\n\n"+
-"💰 تم تسجيل العملية في الماليات."
+"العميل: "+customerName+
+"\n📦 الباقة: "+packageName+
+"\n📦 الجيجا: "+formatGB(gb)+" GB"+
+"\n📱 الرقم الأساسي: "+primaryNumber+
+"\n💰 المبلغ: "+formatMoney(amount)+" جنيه"
 );
+
+
+/* تحديث الصفحتين */
 
 await loadPaymentOrders();
 
@@ -1959,20 +2443,22 @@ await loadCustomers();
 }
 catch(e){
 
-console.error(
-"APPROVE PAYMENT ERROR:",
-e
-);
+console.error(e);
 
 alert(
-"❌ فشل تأكيد الدفع:\n\n"+
-e.message
+"❌ حصل خطأ أثناء تأكيد الدفع:\n\n"+
+e.message+
+"\n\nلو ظهر أن الدفع تم تأكيده بالفعل، لا تضغط تأكيد مرة أخرى."
 );
 
 }
 
 }
 
+
+/* =========================================================
+   REJECT PAYMENT
+   ========================================================= */
 
 async function rejectOrderPayment(orderNumber){
 
@@ -1999,10 +2485,13 @@ input_order_number:orderNumber
 
 if(r?.success!==true)
 throw new Error(
+r?.message||
 "لم يتم رفض الطلب"
 );
 
-alert("❌ تم رفض التحويل.");
+alert(
+"❌ تم رفض التحويل."
+);
 
 await loadPaymentOrders();
 
@@ -2058,5 +2547,6 @@ closeModal();
 checkSession();
 
 </script>
+
 </body>
 </html>
