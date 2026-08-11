@@ -360,37 +360,77 @@ if(Number.isFinite(n)&&n>=0)return n;
 return 0;
 }
 
-function getPackageNumber(packageName){
-const match=String(packageName||"").match(/(\d+(?:\.\d+)?)/);
-return match?match[1]:"";
-}
+function getOrderGB(order){
 
-function getAutomaticOriginalPrice(packageName,savedOriginal,finalPrice){
-const saved=Number(savedOriginal)||0;
+    const possible = [
+        order.package_gb,
+        order.allocated_gb,
+        order.gb,
+        order.gigabytes,
+        order.package_size
+    ];
 
-if(saved>0)return saved;
+    for(const value of possible){
 
-const gb=getPackageNumber(packageName);
+        const n = Number(value);
 
-if(PACKAGE_PRICES[gb]){
-return Number(PACKAGE_PRICES[gb]);
-}
+        if(Number.isFinite(n) && n > 0){
+            return n;
+        }
 
-return Number(finalPrice)||0;
+    }
+
+    // لو عمود الجيجا فاضي، نستخرجها من اسم الباقة
+    const packageText =
+        String(
+            order.package_name ||
+            order.package ||
+            order.package_title ||
+            ""
+        );
+
+    const match =
+        packageText.match(/(\d+(?:\.\d+)?)\s*(?:جيجا|GB|gb)?/i);
+
+    if(match){
+        const n = Number(match[1]);
+
+        if(Number.isFinite(n) && n > 0){
+            return n;
+        }
+    }
+
+    return 0;
 }
 
 function getOrderRenewalDate(order){
-const possible=[
-order.next_renewal_date,
-order.renewal_date,
-order.nextRenewalDate
-];
 
-for(const value of possible){
-if(value)return String(value).split("T")[0];
-}
+    const possible = [
+        order.next_renewal_date,
+        order.renewal_date,
+        order.nextRenewalDate,
+        order.renewal_at,
+        order.next_renewal,
+        order.expiry_date,
+        order.expires_at
+    ];
 
-return null;
+    for(const value of possible){
+
+        if(value){
+
+            const date =
+                String(value).split("T")[0];
+
+            if(/^\d{4}-\d{2}-\d{2}$/.test(date)){
+                return date;
+            }
+
+        }
+
+    }
+
+    return null;
 }
 
 /* ================= LOGIN ================= */
@@ -582,7 +622,12 @@ package_name:
 packageName,
 
 allocated_gb:
-packageGB,
+packageGB || getOrderGB(latestOrder) || 0,
+
+next_renewal_date:
+getOrderRenewalDate(latestOrder) ||
+customer.next_renewal_date ||
+null,
 
 last_price:
 finalPrice,
