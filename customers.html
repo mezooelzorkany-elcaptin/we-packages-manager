@@ -1,693 +1,668 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1.0"
->
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>العملاء | WE Packages</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
 *{
-box-sizing:border-box;
-font-family:Arial,Tahoma,sans-serif
+  box-sizing:border-box;
+  font-family:Arial,Tahoma,sans-serif
 }
 
 body{
-margin:0;
-background:#f4f6fb;
-color:#172033
+  margin:0;
+  background:#f4f6fb;
+  color:#172033
 }
-
-button,
-input,
-select{
-font-family:inherit
-}
-
-/* ================= LOGIN ================= */
 
 #loginScreen{
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px;
-background:linear-gradient(135deg,#151a35,#5420b8)
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:linear-gradient(135deg,#151a35,#5420b8)
 }
 
 .login-box{
-width:100%;
-max-width:430px;
-background:#fff;
-border-radius:28px;
-padding:30px;
-box-shadow:0 20px 60px rgba(0,0,0,.25);
-text-align:center
+  width:100%;
+  max-width:430px;
+  background:#fff;
+  border-radius:28px;
+  padding:30px;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+  text-align:center
 }
 
 .login-box h1{
-margin:0 0 8px;
-color:#293160
+  margin:0 0 8px;
+  color:#293160
 }
 
 .login-box p{
-color:#7b8395;
-margin:0 0 22px
+  color:#7b8395;
+  margin:0 0 22px
 }
 
 .login-box input{
-width:100%;
-height:52px;
-border:2px solid #e2e6ef;
-border-radius:15px;
-padding:0 15px;
-margin-bottom:12px;
-font-size:16px
+  width:100%;
+  height:52px;
+  border:2px solid #e2e6ef;
+  border-radius:15px;
+  padding:0 15px;
+  margin-bottom:12px;
+  font-size:16px
 }
 
 .login-box button{
-width:100%;
-height:52px;
-border:0;
-border-radius:15px;
-background:#5420b8;
-color:#fff;
-font-weight:bold;
-font-size:16px;
-cursor:pointer
+  width:100%;
+  height:52px;
+  border:0;
+  border-radius:15px;
+  background:#5420b8;
+  color:#fff;
+  font-weight:bold;
+  font-size:16px
 }
 
 #loginMessage{
-margin-top:15px;
-font-weight:bold
+  margin-top:15px;
+  font-weight:bold
 }
 
-/* ================= APP ================= */
-
 #app{
-display:none
+  display:none
 }
 
 .header{
-background:linear-gradient(135deg,#151a35,#292f62);
-color:#fff;
-padding:22px 20px 28px;
-border-radius:0 0 35px 35px
+  background:linear-gradient(135deg,#151a35,#292f62);
+  color:#fff;
+  padding:22px 20px 28px;
+  border-radius:0 0 35px 35px
 }
 
 .container{
-max-width:1100px;
-margin:auto;
-padding:18px
+  max-width:1100px;
+  margin:auto;
+  padding:18px
 }
 
 .header-row{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:12px
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px
 }
 
 .header h1{
-margin:0;
-font-size:28px
+  margin:0;
+  font-size:28px
 }
 
 .header p{
-margin:8px 0 0;
-opacity:.75
+  margin:8px 0 0;
+  opacity:.75
 }
 
 .logout{
-border:0;
-background:rgba(255,255,255,.14);
-color:#fff;
-border-radius:12px;
-padding:10px 14px;
-font-weight:bold;
-cursor:pointer
+  border:0;
+  background:rgba(255,255,255,.14);
+  color:#fff;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:bold;
+  cursor:pointer
 }
 
-/* ================= STATS ================= */
-
 .stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:14px;
-margin-top:20px
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-top:20px
 }
 
 .stat{
-background:#fff;
-border-radius:20px;
-padding:20px;
-box-shadow:0 5px 25px rgba(0,0,0,.05)
+  background:#fff;
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 5px 25px rgba(0,0,0,.05)
 }
 
 .stat-title{
-color:#7b8395;
-font-size:14px;
-margin-bottom:10px
+  color:#7b8395;
+  font-size:14px;
+  margin-bottom:10px
 }
 
 .stat-number{
-font-size:30px;
-font-weight:bold
+  font-size:30px;
+  font-weight:bold
 }
 
-/* ================= TOOLBAR ================= */
-
 .toolbar{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-top:20px
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:20px
 }
 
 .search{
-flex:1;
-min-width:220px;
-height:55px;
-border:2px solid #e2e6ef;
-border-radius:18px;
-background:#fff;
-padding:0 18px;
-font-size:16px;
-outline:none
+  flex:1;
+  min-width:220px;
+  height:55px;
+  border:2px solid #e2e6ef;
+  border-radius:18px;
+  background:#fff;
+  padding:0 18px;
+  font-size:16px;
+  outline:none
 }
 
 .select{
-height:55px;
-border:2px solid #e2e6ef;
-border-radius:18px;
-background:#fff;
-padding:0 16px;
-font-size:15px;
-outline:none
+  height:55px;
+  border:2px solid #e2e6ef;
+  border-radius:18px;
+  background:#fff;
+  padding:0 16px;
+  font-size:15px;
+  outline:none
 }
 
 .add-btn,
 .admin-btn,
 .numbers-btn,
 .finance-btn{
-height:55px;
-display:flex;
-align-items:center;
-justify-content:center;
-border:0;
-border-radius:18px;
-color:#fff;
-font-size:16px;
-font-weight:bold;
-padding:0 22px;
-cursor:pointer;
-text-decoration:none;
-white-space:nowrap
+  height:55px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:0;
+  border-radius:18px;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  padding:0 22px;
+  cursor:pointer;
+  text-decoration:none;
+  white-space:nowrap
 }
 
 .add-btn{
-background:#293160
+  background:#293160
 }
 
 .admin-btn{
-background:#151a35
+  background:#151a35
 }
 
 .numbers-btn{
-background:#5420b8
+  background:#5420b8
 }
 
 .finance-btn{
-background:#14863f
+  background:#14863f
 }
 
-/* ================= PAYMENT ORDERS ================= */
+/* PAYMENT ORDERS */
 
 .payment-orders{
-margin-top:20px;
-background:#fff;
-border-radius:24px;
-padding:20px;
-box-shadow:0 5px 25px rgba(0,0,0,.05)
+  margin-top:20px;
+  background:#fff;
+  border-radius:24px;
+  padding:20px;
+  box-shadow:0 5px 25px rgba(0,0,0,.05)
 }
 
 .payment-orders-title{
-color:#5420b8;
-font-size:24px;
-font-weight:900;
-margin-bottom:8px
+  color:#5420b8;
+  font-size:24px;
+  font-weight:900;
+  margin-bottom:8px
 }
 
 .payment-orders-subtitle{
-color:#777;
-margin-bottom:15px
+  color:#777;
+  margin-bottom:15px
 }
 
 .refresh-payments{
-width:100%;
-border:0;
-border-radius:13px;
-padding:13px;
-background:#eee4ff;
-color:#5420b8;
-font-weight:bold;
-cursor:pointer;
-margin-bottom:15px
+  width:100%;
+  border:0;
+  border-radius:13px;
+  padding:13px;
+  background:#eee4ff;
+  color:#5420b8;
+  font-weight:bold;
+  cursor:pointer;
+  margin-bottom:15px
 }
 
 .payment-orders-list{
-display:grid;
-gap:15px
+  display:grid;
+  gap:15px
 }
 
 .payment-order-card{
-background:#f9f9fc;
-border:1px solid #eee;
-border-radius:20px;
-padding:18px
+  background:#f9f9fc;
+  border:1px solid #eee;
+  border-radius:20px;
+  padding:18px
 }
 
 .payment-order-number{
-color:#5420b8;
-font-size:20px;
-font-weight:900;
-margin-bottom:12px
+  color:#5420b8;
+  font-size:20px;
+  font-weight:900;
+  margin-bottom:12px
 }
 
 .payment-order-info{
-line-height:2
+  line-height:2
+}
+
+.payment-order-code{
+  background:#eee4ff;
+  color:#5420b8;
+  padding:10px 13px;
+  border-radius:12px;
+  margin-top:10px;
+  font-weight:bold
 }
 
 .payment-proof{
-display:block;
-width:100%;
-max-width:330px;
-max-height:400px;
-object-fit:contain;
-margin:15px auto;
-border-radius:15px;
-border:1px solid #ddd
+  display:block;
+  width:100%;
+  max-width:330px;
+  max-height:400px;
+  object-fit:contain;
+  margin:15px auto;
+  border-radius:15px;
+  border:1px solid #ddd
 }
 
 .payment-actions{
-display:flex;
-gap:10px;
-margin-top:15px
+  display:flex;
+  gap:10px;
+  margin-top:15px
 }
 
 .payment-actions button{
-flex:1;
-border:0;
-border-radius:13px;
-padding:13px;
-font-weight:bold;
-cursor:pointer
+  flex:1;
+  border:0;
+  border-radius:13px;
+  padding:13px;
+  font-weight:bold;
+  cursor:pointer
 }
 
 .approve-payment{
-background:#dff8e8;
-color:#08752d
+  background:#dff8e8;
+  color:#08752d
 }
 
 .reject-payment{
-background:#ffe2e2;
-color:#a00000
+  background:#ffe2e2;
+  color:#a00000
 }
 
-/* ================= CUSTOMERS ================= */
+/* CUSTOMER */
 
 .list{
-margin-top:20px;
-display:grid;
-gap:16px
+  margin-top:20px;
+  display:grid;
+  gap:16px
 }
 
 .card{
-background:#fff;
-border-radius:25px;
-padding:20px;
-box-shadow:0 5px 25px rgba(0,0,0,.05)
+  background:#fff;
+  border-radius:25px;
+  padding:20px;
+  box-shadow:0 5px 25px rgba(0,0,0,.05)
 }
 
 .card-head{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-gap:15px
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:15px
 }
 
 .name{
-font-size:22px;
-font-weight:bold
+  font-size:22px;
+  font-weight:bold
 }
 
 .phone{
-color:#7b8395;
-margin-top:7px
+  color:#7b8395;
+  margin-top:7px
 }
 
 .badge{
-padding:8px 13px;
-border-radius:20px;
-font-size:13px;
-font-weight:bold
+  padding:8px 13px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:bold
 }
 
 .badge.active{
-background:#e4f8ec;
-color:#159447
+  background:#e4f8ec;
+  color:#159447
 }
 
 .badge.inactive{
-background:#fde8ea;
-color:#c73542
+  background:#fde8ea;
+  color:#c73542
 }
 
 .grid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:12px;
-margin-top:18px
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:18px
 }
 
 .box{
-background:#f7f8fb;
-border-radius:16px;
-padding:14px
+  background:#f7f8fb;
+  border-radius:16px;
+  padding:14px
 }
 
 .box small{
-display:block;
-color:#8991a2;
-margin-bottom:7px;
-font-size:12px
+  display:block;
+  color:#8991a2;
+  margin-bottom:7px;
+  font-size:12px
 }
 
 .box strong{
-font-size:15px;
-word-break:break-word
+  font-size:15px;
+  word-break:break-word
 }
 
 .renewed-box strong{
-color:#159447
+  color:#159447
 }
 
 .not-renewed-box strong{
-color:#c73542
+  color:#c73542
+}
+
+.promo-box{
+  background:#eee4ff
+}
+
+.promo-box strong{
+  color:#5420b8
 }
 
 .actions{
-display:flex;
-gap:9px;
-flex-wrap:wrap;
-margin-top:18px
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:18px
 }
 
 .action{
-border:0;
-border-radius:14px;
-padding:12px 18px;
-font-size:14px;
-font-weight:bold;
-cursor:pointer
+  border:0;
+  border-radius:14px;
+  padding:12px 18px;
+  font-size:14px;
+  font-weight:bold;
+  cursor:pointer
 }
 
 .edit{
-background:#293160;
-color:#fff
+  background:#293160;
+  color:#fff
 }
 
 .renew{
-background:#edf0f7;
-color:#252b40
+  background:#edf0f7;
+  color:#252b40
 }
 
 .delete{
-background:#fde8ea;
-color:#c73542
+  background:#fde8ea;
+  color:#c73542
 }
-
-/* ================= STATES ================= */
 
 .loading,
 .empty,
 .error{
-background:#fff;
-border-radius:20px;
-padding:35px;
-text-align:center;
-margin-top:20px;
-font-size:17px
+  background:#fff;
+  border-radius:20px;
+  padding:35px;
+  text-align:center;
+  margin-top:20px;
+  font-size:17px
 }
 
 .error{
-color:#c73542
+  color:#c73542
 }
 
-/* ================= MODAL ================= */
+/* MODAL */
 
 .modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.6);
-z-index:999;
-padding:15px;
-overflow:auto
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  z-index:999;
+  padding:15px;
+  overflow:auto
 }
 
 .modal.show{
-display:flex;
-align-items:center;
-justify-content:center
+  display:flex;
+  align-items:center;
+  justify-content:center
 }
 
 .modal-box{
-width:100%;
-max-width:600px;
-background:#fff;
-border-radius:25px;
-padding:22px;
-max-height:95vh;
-overflow:auto
+  width:100%;
+  max-width:600px;
+  background:#fff;
+  border-radius:25px;
+  padding:22px;
+  max-height:95vh;
+  overflow:auto
 }
 
 .modal-title{
-font-size:22px;
-font-weight:bold;
-margin-bottom:20px
+  font-size:22px;
+  font-weight:bold;
+  margin-bottom:20px
 }
 
 .close{
-float:left;
-border:0;
-background:#f1f2f5;
-border-radius:10px;
-padding:8px 12px;
-cursor:pointer
+  float:left;
+  border:0;
+  background:#f1f2f5;
+  border-radius:10px;
+  padding:8px 12px;
+  cursor:pointer
 }
 
 .field{
-margin-bottom:14px
+  margin-bottom:14px
 }
 
 .field label{
-display:block;
-font-weight:bold;
-font-size:13px;
-margin-bottom:7px
+  display:block;
+  font-weight:bold;
+  font-size:13px;
+  margin-bottom:7px
 }
 
 .field input,
 .field select{
-width:100%;
-height:48px;
-border:1px solid #dfe3eb;
-border-radius:13px;
-padding:0 13px;
-font-size:15px;
-outline:none;
-background:#fff
+  width:100%;
+  height:48px;
+  border:1px solid #dfe3eb;
+  border-radius:13px;
+  padding:0 13px;
+  font-size:15px;
+  outline:none;
+  background:#fff
 }
 
 .modal-actions{
-display:flex;
-gap:10px;
-margin-top:20px
+  display:flex;
+  gap:10px;
+  margin-top:20px
 }
 
 .modal-actions button{
-flex:1;
-height:50px;
-border:0;
-border-radius:14px;
-font-size:15px;
-font-weight:bold;
-cursor:pointer
+  flex:1;
+  height:50px;
+  border:0;
+  border-radius:14px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer
 }
 
 .cancel{
-background:#edf0f5;
-color:#252b40
+  background:#edf0f5;
+  color:#252b40
 }
 
 .save{
-background:#293160;
-color:#fff
+  background:#293160;
+  color:#fff
 }
 
 .hint{
-font-size:12px;
-color:#858b99;
-margin-top:5px
+  font-size:12px;
+  color:#858b99;
+  margin-top:5px
 }
-
-/* ================= MOBILE ================= */
 
 @media(max-width:800px){
 
-.stats{
-grid-template-columns:repeat(2,1fr)
-}
+  .stats{
+    grid-template-columns:repeat(2,1fr)
+  }
 
-.grid{
-grid-template-columns:repeat(2,1fr)
-}
+  .grid{
+    grid-template-columns:repeat(2,1fr)
+  }
 
 }
 
 @media(max-width:550px){
 
-.container{
-padding:13px
-}
+  .container{
+    padding:13px
+  }
 
-.toolbar{
-display:block
-}
+  .toolbar{
+    display:block
+  }
 
-.search,
-.select,
-.add-btn,
-.admin-btn,
-.numbers-btn,
-.finance-btn{
-width:100%;
-margin-bottom:9px
-}
+  .search,
+  .select,
+  .add-btn,
+  .admin-btn,
+  .numbers-btn,
+  .finance-btn{
+    width:100%;
+    margin-bottom:9px
+  }
 
-.card-head{
-display:block
-}
+  .card-head{
+    display:block
+  }
 
-.badge{
-display:inline-block;
-margin-top:12px
-}
+  .badge{
+    display:inline-block;
+    margin-top:12px
+  }
 
-.grid{
-grid-template-columns:repeat(2,1fr)
-}
+  .grid{
+    grid-template-columns:repeat(2,1fr)
+  }
 
-.payment-actions{
-flex-direction:column
-}
+  .payment-actions{
+    flex-direction:column
+  }
 
-.header-row{
-align-items:flex-start
-}
+  .header-row{
+    align-items:flex-start
+  }
 
-.logout{
-font-size:12px
-}
+  .logout{
+    font-size:12px
+  }
 
 }
-
 </style>
-
 </head>
 
 <body>
 
-<!-- =========================================================
-LOGIN
-========================================================= -->
+<!-- LOGIN -->
 
 <div id="loginScreen">
 
-<div class="login-box">
+  <div class="login-box">
 
-<div style="font-size:48px">🔐</div>
+    <div style="font-size:48px">🔐</div>
 
-<h1>WE Packages</h1>
+    <h1>WE Packages</h1>
 
-<p>
-تسجيل الدخول إلى لوحة الإدارة
-</p>
+    <p>تسجيل الدخول إلى لوحة الإدارة</p>
 
-<input
-id="loginEmail"
-type="email"
-value="mezooelzorkany@gmail.com"
-placeholder="البريد الإلكتروني"
->
+    <input
+      id="loginEmail"
+      type="email"
+      value="mezooelzorkany@gmail.com"
+      placeholder="البريد الإلكتروني"
+    >
 
-<input
-id="loginPassword"
-type="password"
-placeholder="كلمة المرور"
->
+    <input
+      id="loginPassword"
+      type="password"
+      placeholder="كلمة المرور"
+    >
 
-<button onclick="loginCustomers()">
-تسجيل الدخول
-</button>
+    <button onclick="loginCustomers()">
+      تسجيل الدخول
+    </button>
 
-<div id="loginMessage"></div>
+    <div id="loginMessage"></div>
 
-</div>
+  </div>
 
 </div>
 
 
-<!-- =========================================================
-APP
-========================================================= -->
+<!-- APP -->
 
 <div id="app">
 
 <header class="header">
 
-<div class="container header-row">
+  <div class="container header-row">
 
-<div>
+    <div>
+      <h1>👥 العملاء</h1>
+      <p>إدارة العملاء والتجديدات والاشتراكات</p>
+    </div>
 
-<h1>
-👥 العملاء
-</h1>
+    <button
+      class="logout"
+      onclick="logoutCustomers()"
+    >
+      تسجيل الخروج
+    </button>
 
-<p>
-إدارة العملاء والتجديدات والاشتراكات
-</p>
-
-</div>
-
-<button
-class="logout"
-onclick="logoutCustomers()"
->
-تسجيل الخروج
-</button>
-
-</div>
+  </div>
 
 </header>
 
@@ -695,323 +670,266 @@ onclick="logoutCustomers()"
 <main class="container">
 
 
-<!-- =========================================================
-STATS
-========================================================= -->
+<!-- STATS -->
 
 <div class="stats">
 
-<div class="stat">
+  <div class="stat">
+    <div class="stat-title">
+      إجمالي العملاء
+    </div>
+    <div
+      class="stat-number"
+      id="total"
+    >
+      0
+    </div>
+  </div>
 
-<div class="stat-title">
-إجمالي العملاء
-</div>
+  <div class="stat">
+    <div class="stat-title">
+      العملاء النشطين
+    </div>
+    <div
+      class="stat-number"
+      id="active"
+    >
+      0
+    </div>
+  </div>
 
-<div
-class="stat-number"
-id="total"
->
-0
-</div>
+  <div class="stat">
+    <div class="stat-title">
+      تجديد قريب
+    </div>
+    <div
+      class="stat-number"
+      id="soon"
+    >
+      0
+    </div>
+  </div>
 
-</div>
-
-
-<div class="stat">
-
-<div class="stat-title">
-العملاء النشطين
-</div>
-
-<div
-class="stat-number"
-id="active"
->
-0
-</div>
-
-</div>
-
-
-<div class="stat">
-
-<div class="stat-title">
-تجديد قريب
-</div>
-
-<div
-class="stat-number"
-id="soon"
->
-0
-</div>
-
-</div>
-
-
-<div class="stat">
-
-<div class="stat-title">
-منتهية
-</div>
-
-<div
-class="stat-number"
-id="expired"
->
-0
-</div>
-
-</div>
+  <div class="stat">
+    <div class="stat-title">
+      منتهية
+    </div>
+    <div
+      class="stat-number"
+      id="expired"
+    >
+      0
+    </div>
+  </div>
 
 </div>
 
 
-<!-- =========================================================
-TOOLBAR
-========================================================= -->
+<!-- TOOLBAR -->
 
 <div class="toolbar">
 
-<a
-href="admin.html"
-class="admin-btn"
->
-🔢 الأكواد
-</a>
+  <a
+    href="admin.html"
+    class="admin-btn"
+  >
+    🔢 الأكواد
+  </a>
 
+  <a
+    href="numbers.html"
+    class="numbers-btn"
+  >
+    📱 الأرقام الأساسية
+  </a>
 
-<a
-href="numbers.html"
-class="numbers-btn"
->
-📱 الأرقام الأساسية
-</a>
+  <a
+    href="finances.html"
+    class="finance-btn"
+  >
+    💰 الماليات
+  </a>
 
+  <button
+    class="add-btn"
+    onclick="openAdd()"
+  >
+    ➕ إضافة عميل
+  </button>
 
-<a
-href="finances.html"
-class="finance-btn"
->
-💰 الماليات
-</a>
+  <input
+    id="search"
+    class="search"
+    type="search"
+    placeholder="🔎 ابحث بالاسم أو رقم التليفون أو الرقم الأساسي أو الكود..."
+  >
 
+  <select
+    id="renewalFilter"
+    class="select"
+  >
+    <option value="all">
+      كل مواعيد التجديد
+    </option>
 
-<button
-class="add-btn"
-onclick="openAdd()"
->
-➕ إضافة عميل
-</button>
+    <option value="1">
+      تجديد يوم 1
+    </option>
 
+    <option value="16">
+      تجديد يوم 16
+    </option>
 
-<input
-id="search"
-class="search"
-type="search"
-placeholder="🔎 ابحث بالاسم أو رقم التليفون أو الرقم الأساسي أو كود الخصم..."
->
+    <option value="custom">
+      تاريخ مخصص
+    </option>
+  </select>
 
+  <select
+    id="statusFilter"
+    class="select"
+  >
+    <option value="all">
+      كل الحالات
+    </option>
 
-<select
-id="renewalFilter"
-class="select"
->
+    <option value="active">
+      🟢 نشط
+    </option>
 
-<option value="all">
-كل مواعيد التجديد
-</option>
+    <option value="inactive">
+      🔴 موقوف
+    </option>
 
-<option value="1">
-تجديد يوم 1
-</option>
+    <option value="soon">
+      🟠 قرب التجديد
+    </option>
 
-<option value="16">
-تجديد يوم 16
-</option>
-
-<option value="custom">
-تاريخ مخصص
-</option>
-
-</select>
-
-
-<select
-id="statusFilter"
-class="select"
->
-
-<option value="all">
-كل الحالات
-</option>
-
-<option value="active">
-🟢 نشط
-</option>
-
-<option value="inactive">
-🔴 موقوف
-</option>
-
-<option value="soon">
-🟠 قرب التجديد
-</option>
-
-<option value="expired">
-🔴 منتهي
-</option>
-
-</select>
+    <option value="expired">
+      🔴 منتهي
+    </option>
+  </select>
 
 </div>
 
 
-<!-- =========================================================
-PAYMENT ORDERS
-========================================================= -->
+<!-- PAYMENT ORDERS -->
 
 <div class="payment-orders">
 
-<div class="payment-orders-title">
-💳 طلبات الدفع
+  <div class="payment-orders-title">
+    💳 طلبات الدفع
+  </div>
+
+  <div class="payment-orders-subtitle">
+    التحويلات التي تنتظر مراجعتك
+  </div>
+
+  <button
+    class="refresh-payments"
+    onclick="loadPaymentOrders()"
+  >
+    🔄 تحديث طلبات الدفع
+  </button>
+
+  <div
+    id="paymentOrdersList"
+    class="payment-orders-list"
+  >
+    <div class="loading">
+      ⏳ جاري تحميل طلبات الدفع...
+    </div>
+  </div>
+
 </div>
 
-<div class="payment-orders-subtitle">
-التحويلات التي تنتظر مراجعتك
-</div>
 
-<button
-class="refresh-payments"
-onclick="loadPaymentOrders()"
->
-🔄 تحديث طلبات الدفع
-</button>
+<!-- CUSTOMERS -->
 
 <div
-id="paymentOrdersList"
-class="payment-orders-list"
+  id="list"
+  class="list"
 >
 
-<div class="loading">
-⏳ جاري تحميل طلبات الدفع...
-</div>
+  <div class="loading">
+    ⏳ جاري تحميل العملاء...
+  </div>
 
 </div>
-
-</div>
-
-
-<!-- =========================================================
-CUSTOMERS
-========================================================= -->
-
-<div
-id="list"
-class="list"
->
-
-<div class="loading">
-⏳ جاري تحميل العملاء...
-</div>
-
-</div>
-
 
 </main>
-
 </div>
 
 
-<!-- =========================================================
-MODAL
-========================================================= -->
+<!-- MODAL -->
 
 <div
-id="modal"
-class="modal"
+  id="modal"
+  class="modal"
 >
 
 <div class="modal-box">
 
 <button
-class="close"
-onclick="closeModal()"
+  class="close"
+  onclick="closeModal()"
 >
-✕
+  ✕
 </button>
 
-
 <div
-id="modalTitle"
-class="modal-title"
+  id="modalTitle"
+  class="modal-title"
 >
-➕ إضافة عميل
+  ➕ إضافة عميل
 </div>
 
 
 <input
-type="hidden"
-id="customerId"
+  type="hidden"
+  id="customerId"
 >
 
 
 <div class="field">
-
-<label>
-اسم العميل *
-</label>
-
+<label>اسم العميل *</label>
 <input
-id="customerName"
-placeholder="مثال: محمد"
+  id="customerName"
+  placeholder="مثال: محمد"
 >
-
 </div>
 
 
 <div class="field">
-
-<label>
-رقم العميل *
-</label>
-
+<label>رقم العميل *</label>
 <input
-id="customerPhone"
-inputmode="numeric"
-placeholder="01xxxxxxxxx"
+  id="customerPhone"
+  inputmode="numeric"
+  placeholder="01xxxxxxxxx"
 >
-
 </div>
 
 
 <div class="field">
-
-<label>
-الرقم الأساسي
-</label>
-
+<label>الرقم الأساسي</label>
 <input
-id="primaryNumber"
-inputmode="numeric"
-placeholder="الرقم اللي اتعملت منه الباقة"
+  id="primaryNumber"
+  inputmode="numeric"
+  placeholder="الرقم اللي اتعملت منه الباقة"
 >
-
 </div>
 
 
 <div class="field">
 
-<label>
-📦 جيجات العميل
-</label>
+<label>📦 جيجات العميل</label>
 
 <input
-id="allocatedGB"
-type="number"
-min="0"
-step="0.01"
-placeholder="مثال: 30"
+  id="allocatedGB"
+  type="number"
+  min="0"
+  step="0.01"
+  placeholder="مثال: 30"
 >
 
 <div class="hint">
@@ -1023,54 +941,26 @@ placeholder="مثال: 30"
 
 <div class="field">
 
-<label>
-الباقة
-</label>
+<label>الباقة</label>
 
 <select
-id="packageName"
-onchange="updatePackageData()"
+  id="packageName"
+  onchange="updatePackageData()"
 >
 
 <option value="">
 اختر الباقة
 </option>
 
-<option value="20 جيجا">
-20 جيجا
-</option>
-
-<option value="25 جيجا">
-25 جيجا
-</option>
-
-<option value="30 جيجا">
-30 جيجا
-</option>
-
-<option value="35 جيجا">
-35 جيجا
-</option>
-
-<option value="40 جيجا">
-40 جيجا
-</option>
-
-<option value="45 جيجا">
-45 جيجا
-</option>
-
-<option value="50 جيجا">
-50 جيجا
-</option>
-
-<option value="55 جيجا">
-55 جيجا
-</option>
-
-<option value="60 جيجا">
-60 جيجا
-</option>
+<option value="20 جيجا">20 جيجا</option>
+<option value="25 جيجا">25 جيجا</option>
+<option value="30 جيجا">30 جيجا</option>
+<option value="35 جيجا">35 جيجا</option>
+<option value="40 جيجا">40 جيجا</option>
+<option value="45 جيجا">45 جيجا</option>
+<option value="50 جيجا">50 جيجا</option>
+<option value="55 جيجا">55 جيجا</option>
+<option value="60 جيجا">60 جيجا</option>
 
 </select>
 
@@ -1079,15 +969,13 @@ onchange="updatePackageData()"
 
 <div class="field">
 
-<label>
-السعر
-</label>
+<label>السعر</label>
 
 <input
-id="lastPrice"
-type="number"
-min="0"
-placeholder="السعر"
+  id="lastPrice"
+  type="number"
+  min="0"
+  placeholder="السعر"
 >
 
 <div class="hint">
@@ -1099,9 +987,7 @@ placeholder="السعر"
 
 <div class="field">
 
-<label>
-طريقة الدفع
-</label>
+<label>طريقة الدفع</label>
 
 <select id="paymentMethod">
 
@@ -1144,9 +1030,7 @@ InstaPay
 
 <div class="field">
 
-<label>
-الحالة
-</label>
+<label>الحالة</label>
 
 <select id="status">
 
@@ -1165,13 +1049,11 @@ InstaPay
 
 <div class="field">
 
-<label>
-نظام التجديد
-</label>
+<label>نظام التجديد</label>
 
 <select
-id="renewalType"
-onchange="changeRenewalType()"
+  id="renewalType"
+  onchange="changeRenewalType()"
 >
 
 <option value="day_1">
@@ -1191,21 +1073,16 @@ onchange="changeRenewalType()"
 </div>
 
 
-<div
-class="field"
-id="renewalDayField"
->
+<div class="field">
 
-<label>
-يوم التجديد
-</label>
+<label>يوم التجديد</label>
 
 <input
-id="renewalDay"
-type="number"
-min="1"
-max="31"
-value="1"
+  id="renewalDay"
+  type="number"
+  min="1"
+  max="31"
+  value="1"
 >
 
 </div>
@@ -1213,13 +1090,11 @@ value="1"
 
 <div class="field">
 
-<label>
-التجديد القادم *
-</label>
+<label>التجديد القادم *</label>
 
 <input
-id="nextRenewal"
-type="date"
+  id="nextRenewal"
+  type="date"
 >
 
 </div>
@@ -1227,15 +1102,13 @@ type="date"
 
 <div class="field">
 
-<label>
-عدد الطلبات
-</label>
+<label>عدد الطلبات</label>
 
 <input
-id="totalOrders"
-type="number"
-min="0"
-value="0"
+  id="totalOrders"
+  type="number"
+  min="0"
+  value="0"
 >
 
 </div>
@@ -1244,31 +1117,30 @@ value="0"
 <div class="modal-actions">
 
 <button
-class="cancel"
-onclick="closeModal()"
+  class="cancel"
+  onclick="closeModal()"
 >
-إلغاء
+  إلغاء
 </button>
 
 <button
-class="save"
-onclick="saveCustomer()"
+  class="save"
+  onclick="saveCustomer()"
 >
-💾 حفظ
+  💾 حفظ
 </button>
 
 </div>
 
 </div>
-
 </div>
 
 
 <script>
 
-/* =========================================================
-SUPABASE
-========================================================= */
+/* =====================================================
+   SUPABASE
+===================================================== */
 
 const SUPABASE_URL =
 "https://pgvbynefhqmyzjtccttl.supabase.co";
@@ -1279,4293 +1151,3902 @@ const SUPABASE_KEY =
 const ADMIN_EMAIL =
 "mezooelzorkany@gmail.com";
 
-
 const authClient =
 window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
 
 let customers = [];
-
 let editMode = false;
 
 
-/* =========================================================
-PACKAGE PRICES
-========================================================= */
+/* =====================================================
+   PACKAGE PRICES
+===================================================== */
 
 const PACKAGE_PRICES = {
 
-"20 جيجا":270,
-"25 جيجا":300,
-"30 جيجا":340,
-"35 جيجا":380,
-"40 جيجا":430,
-"45 جيجا":450,
-"50 جيجا":480,
-"55 جيجا":520,
-"60 جيجا":570
+  "20 جيجا":270,
+  "25 جيجا":300,
+  "30 جيجا":340,
+  "35 جيجا":380,
+  "40 جيجا":430,
+  "45 جيجا":450,
+  "50 جيجا":480,
+  "55 جيجا":520,
+  "60 جيجا":570
 
 };
 
 
-/* =========================================================
-TOKEN
-========================================================= */
+/* =====================================================
+   TOKEN
+===================================================== */
 
 async function getAccessToken(){
 
-const {data} =
-await authClient.auth.getSession();
+  const {data} =
+    await authClient.auth.getSession();
 
-return (
-data?.session?.access_token ||
-SUPABASE_KEY
-);
+  return (
+    data?.session?.access_token ||
+    SUPABASE_KEY
+  );
 
 }
 
 
-/* =========================================================
-SUPABASE REQUEST
-========================================================= */
+/* =====================================================
+   SUPABASE REQUEST
+===================================================== */
 
 async function supabaseRequest(
-path,
-options={}
+  path,
+  options={}
 ){
 
-const controller =
-new AbortController();
+  const controller =
+    new AbortController();
 
-const timer =
-setTimeout(
-()=>{
-controller.abort();
-},
-15000
-);
+  const timer =
+    setTimeout(
+      ()=>controller.abort(),
+      20000
+    );
 
-try{
+  try{
 
-const token =
-await getAccessToken();
+    const token =
+      await getAccessToken();
 
+    const response =
+      await fetch(
+        SUPABASE_URL +
+        "/rest/v1/" +
+        path,
+        {
+          ...options,
 
-const response =
-await fetch(
-SUPABASE_URL +
-"/rest/v1/" +
-path,
-{
+          signal:
+            controller.signal,
 
-...options,
+          headers:{
+            apikey:
+              SUPABASE_KEY,
 
-signal:
-controller.signal,
+            Authorization:
+              "Bearer " +
+              token,
 
-headers:{
+            "Content-Type":
+              "application/json",
 
-apikey:
-SUPABASE_KEY,
+            Prefer:
+              "return=representation",
 
-Authorization:
-"Bearer " +
-token,
-
-"Content-Type":
-"application/json",
-
-Prefer:
-"return=representation",
-
-...(options.headers||{})
-
-}
-
-}
-);
+            ...(options.headers || {})
+          }
+        }
+      );
 
 
-const text =
-await response.text();
+    const text =
+      await response.text();
+
+    let data = null;
+
+    try{
+
+      data =
+        text
+        ? JSON.parse(text)
+        : null;
+
+    }catch{
+
+      data = text;
+
+    }
 
 
-let data = null;
+    if(!response.ok){
 
-try{
+      let msg =
+        "خطأ من قاعدة البيانات";
 
-data =
-text
-?
-JSON.parse(text)
-:
-null;
+      if(
+        typeof data ===
+        "string"
+      ){
 
-}
-catch{
+        msg = data;
 
-data = text;
+      }else if(data){
 
-}
+        msg =
+          data.message ||
+          data.error_description ||
+          data.hint ||
+          data.details ||
+          JSON.stringify(data);
 
+      }
 
-if(!response.ok){
+      throw new Error(msg);
 
-let message =
-"خطأ من قاعدة البيانات";
-
-if(typeof data === "string"){
-
-message = data;
-
-}
-else if(data){
-
-message =
-data.message ||
-data.error_description ||
-data.hint ||
-JSON.stringify(data);
-
-}
-
-throw new Error(message);
-
-}
+    }
 
 
-return data;
+    return data;
 
-}
-catch(e){
+  }catch(e){
 
-if(
-e.name ===
-"AbortError"
-){
+    if(
+      e.name ===
+      "AbortError"
+    ){
 
-throw new Error(
-"الاتصال بقاعدة البيانات استغرق وقتًا طويلًا."
-);
+      throw new Error(
+        "الاتصال بقاعدة البيانات استغرق وقتًا طويلًا."
+      );
 
-}
+    }
 
-throw e;
+    throw e;
 
-}
-finally{
+  }finally{
 
-clearTimeout(timer);
+    clearTimeout(timer);
 
-}
+  }
 
 }
 
 
-/* =========================================================
-HELPERS
-========================================================= */
+/* =====================================================
+   HELPERS
+===================================================== */
 
 function escapeHtml(value){
 
-return String(
-value ?? ""
-)
-.replace(
-/[&<>"']/g,
-char=>({
-
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-
-}[char])
-);
+  return String(
+    value ?? ""
+  ).replace(
+    /[&<>"']/g,
+    char => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    }[char])
+  );
 
 }
 
 
 function normalizeArabicNumbers(value){
 
-return String(
-value || ""
-)
-.replace(
-/[٠-٩]/g,
-digit =>
-"٠١٢٣٤٥٦٧٨٩"
-.indexOf(digit)
-);
+  return String(
+    value || ""
+  ).replace(
+    /[٠-٩]/g,
+    d =>
+      "٠١٢٣٤٥٦٧٨٩"
+      .indexOf(d)
+  );
 
 }
 
 
 function cleanPhone(value){
 
-return normalizeArabicNumbers(
-value
-)
-.replace(
-/\D/g,
-""
-);
+  return normalizeArabicNumbers(
+    value
+  ).replace(
+    /\D/g,
+    ""
+  );
 
 }
 
 
 function isValidEgyptianPhone(value){
 
-return /^01[0125][0-9]{8}$/
-.test(
-cleanPhone(value)
-);
+  return /^01[0125][0-9]{8}$/
+    .test(
+      cleanPhone(value)
+    );
 
 }
 
 
 function formatGB(value){
 
-const number =
-Number(value) || 0;
+  const n =
+    Number(value) || 0;
 
-return Number.isInteger(number)
-?
-String(number)
-:
-number.toFixed(2);
+  if(
+    Number.isInteger(n)
+  ){
+
+    return String(n);
+
+  }
+
+  return n.toFixed(2);
 
 }
 
 
 function formatMoney(value){
 
-return Number(
-value || 0
-)
-.toLocaleString(
-"ar-EG",
-{
-maximumFractionDigits:2
-}
-);
+  return Number(
+    value || 0
+  ).toLocaleString(
+    "ar-EG",
+    {
+      maximumFractionDigits:2
+    }
+  );
 
 }
 
 
-/* =========================================================
-DATE
-========================================================= */
+function dateOnly(value){
 
-function getTodayString(){
+  if(!value)
+    return null;
 
-const now =
-new Date();
+  const text =
+    String(value);
 
-const year =
-now.getFullYear();
+  const match =
+    text.match(
+      /\d{4}-\d{2}-\d{2}/
+    );
 
-const month =
-String(
-now.getMonth()+1
-)
-.padStart(2,"0");
-
-const day =
-String(
-now.getDate()
-)
-.padStart(2,"0");
-
-return (
-year +
-"-" +
-month +
-"-" +
-day
-);
+  return match
+    ? match[0]
+    : null;
 
 }
 
 
 function daysUntil(date){
 
-if(!date)
-return null;
+  const cleanDate =
+    dateOnly(date);
 
+  if(!cleanDate)
+    return null;
 
-const today =
-getTodayString();
+  const today =
+    new Date();
 
+  today.setHours(
+    0,0,0,0
+  );
 
-const todayDate =
-new Date(
-today +
-"T00:00:00"
-);
+  const target =
+    new Date(
+      cleanDate +
+      "T00:00:00"
+    );
 
+  if(
+    Number.isNaN(
+      target.getTime()
+    )
+  ){
 
-const target =
-String(date)
-.split("T")[0];
+    return null;
 
+  }
 
-const targetDate =
-new Date(
-target +
-"T00:00:00"
-);
-
-
-if(
-Number.isNaN(
-targetDate.getTime()
-)
-)
-return null;
-
-
-return Math.round(
-(
-targetDate -
-todayDate
-) /
-86400000
-);
+  return Math.ceil(
+    (
+      target.getTime() -
+      today.getTime()
+    ) /
+    86400000
+  );
 
 }
 
 
-/* =========================================================
-PACKAGE GB
-========================================================= */
+/* =====================================================
+   PACKAGE GB
+===================================================== */
 
-function getPackageGB(packageName){
+function getPackageGB(
+  packageName
+){
 
-const text =
-String(
-packageName || ""
-)
-.trim();
+  const text =
+    String(
+      packageName || ""
+    ).trim();
 
+  const match =
+    text.match(
+      /(\d+(?:\.\d+)?)\s*(?:جيجا|GB|gb)?/i
+    );
 
-if(!text)
-return 0;
+  if(!match)
+    return 0;
 
+  const gb =
+    Number(match[1]);
 
-const match =
-text.match(
-/(\d+(?:\.\d+)?)\s*(?:جيجا|GB|gb)?/i
-);
-
-
-if(!match)
-return 0;
-
-
-const gb =
-Number(
-match[1]
-);
-
-
-return (
-Number.isFinite(gb) &&
-gb > 0
-)
-?
-gb
-:
-0;
+  return (
+    Number.isFinite(gb) &&
+    gb > 0
+  )
+  ? gb
+  : 0;
 
 }
 
 
-/* =========================================================
-PACKAGE PRICE
-========================================================= */
+/* =====================================================
+   PACKAGE PRICE
+===================================================== */
 
 function getAutomaticOriginalPrice(
-packageName,
-fallback=0
+  packageName,
+  fallback=0
 ){
 
-const name =
-String(
-packageName || ""
-)
-.trim();
+  const name =
+    String(
+      packageName || ""
+    ).trim();
 
 
-if(
-Object.prototype.hasOwnProperty.call(
-PACKAGE_PRICES,
-name
-)
-){
+  if(
+    Object.prototype.hasOwnProperty.call(
+      PACKAGE_PRICES,
+      name
+    )
+  ){
 
-return PACKAGE_PRICES[name];
+    return PACKAGE_PRICES[name];
 
-}
-
-
-const gb =
-getPackageGB(
-name
-);
+  }
 
 
-if(gb > 0){
+  const gb =
+    getPackageGB(name);
 
-const key =
-gb +
-" جيجا";
-
-
-if(
-Object.prototype.hasOwnProperty.call(
-PACKAGE_PRICES,
-key
-)
-){
-
-return PACKAGE_PRICES[key];
-
-}
-
-}
+  const key =
+    gb +
+    " جيجا";
 
 
-const number =
-Number(
-fallback
-);
+  if(
+    Object.prototype.hasOwnProperty.call(
+      PACKAGE_PRICES,
+      key
+    )
+  ){
+
+    return PACKAGE_PRICES[key];
+
+  }
 
 
-return (
-Number.isFinite(number) &&
-number >= 0
-)
-?
-number
-:
-0;
+  const n =
+    Number(fallback);
+
+  return (
+    Number.isFinite(n) &&
+    n >= 0
+  )
+  ? n
+  : 0;
 
 }
 
 
-/* =========================================================
-ORDER PACKAGE
-========================================================= */
+/* =====================================================
+   ORDER PACKAGE
+===================================================== */
 
 function getOrderPackage(order){
 
-return (
-order?.package_name ||
-order?.package ||
-order?.package_title ||
-null
-);
+  if(!order)
+    return null;
+
+  return (
+    order.package_name ||
+    order.package ||
+    order.package_title ||
+    order.packageName ||
+    null
+  );
 
 }
 
 
-/* =========================================================
-ORDER GB
-========================================================= */
+/* =====================================================
+   ORDER GB
+===================================================== */
 
 function getOrderGB(order){
 
-if(!order)
-return 0;
+  if(!order)
+    return 0;
 
 
-const possible = [
+  const possible = [
 
-order.package_gb,
-order.allocated_gb,
-order.gb,
-order.gigabytes
+    order.package_gb,
+    order.allocated_gb,
+    order.gb,
+    order.gigabytes,
+    order.package_size,
+    order.packageGB
 
-];
-
-
-for(
-const value of possible
-){
-
-if(
-value === null ||
-value === undefined ||
-value === ""
-)
-continue;
+  ];
 
 
-const number =
-Number(value);
+  for(
+    const value of possible
+  ){
+
+    const n =
+      Number(value);
+
+    if(
+      Number.isFinite(n) &&
+      n > 0
+    ){
+
+      return n;
+
+    }
+
+  }
 
 
-if(
-Number.isFinite(number) &&
-number > 0
-){
+  const packageName =
+    getOrderPackage(order);
 
-return number;
-
-}
-
-}
-
-
-/* ===============================
-من package_size
-=============================== */
-
-const sizeText =
-String(
-order.package_size || ""
-);
-
-
-const sizeGB =
-getPackageGB(
-sizeText
-);
-
-
-if(sizeGB > 0)
-return sizeGB;
-
-
-/* ===============================
-من اسم الباقة
-=============================== */
-
-const packageName =
-getOrderPackage(
-order
-);
-
-
-return getPackageGB(
-packageName
-);
+  return getPackageGB(
+    packageName
+  );
 
 }
 
 
-/* =========================================================
-ORDER PRICE
-========================================================= */
+/* =====================================================
+   ORDER PRICE
+===================================================== */
 
 function getOrderPrice(order){
 
-if(!order)
-return 0;
+  if(!order)
+    return 0;
+
+  const possible = [
+
+    order.final_price,
+    order.total_price,
+    order.amount,
+    order.price,
+    order.total,
+    order.finalPrice
+
+  ];
 
 
-const values = [
+  for(
+    const value of possible
+  ){
 
-order.final_price,
-order.total_price,
-order.amount,
-order.price
+    const n =
+      Number(value);
 
-];
+    if(
+      Number.isFinite(n) &&
+      n >= 0
+    ){
 
+      return n;
 
-for(
-const value of values
-){
+    }
 
-if(
-value === null ||
-value === undefined ||
-value === ""
-)
-continue;
+  }
 
-
-const number =
-Number(value);
-
-
-if(
-Number.isFinite(number) &&
-number >= 0
-){
-
-return number;
-
-}
+  return 0;
 
 }
 
 
-return 0;
-
-}
-
-
-/* =========================================================
-PROMO CODE
-========================================================= */
+/* =====================================================
+   PROMO CODE
+===================================================== */
 
 function getOrderPromoCode(order){
 
-if(!order)
-return "";
+  if(!order)
+    return "";
 
+  return String(
 
-return String(
+    order.promo_code ||
+    order.discount_code ||
+    order.coupon_code ||
+    order.coupon ||
+    order.promo ||
+    ""
 
-order.promo_code ||
-
-order.discount_code ||
-
-order.coupon_code ||
-
-order.coupon ||
-
-order.promo ||
-
-""
-
-)
-.trim();
+  ).trim();
 
 }
 
 
-/* =========================================================
-ORDER ORIGINAL PRICE
-========================================================= */
+/* =====================================================
+   ORDER ORIGINAL PRICE
+===================================================== */
 
-function getOrderOriginalPrice(order){
+function getOrderOriginalPrice(
+  order,
+  packageName,
+  finalPrice
+){
 
-const packageName =
-getOrderPackage(order);
+  const explicit = [
+
+    order?.original_price,
+    order?.originalPrice,
+    order?.before_discount_price,
+    order?.before_price
+
+  ];
 
 
-return getAutomaticOriginalPrice(
+  for(
+    const value of explicit
+  ){
 
-packageName,
+    const n =
+      Number(value);
 
-order?.original_price ||
+    if(
+      Number.isFinite(n) &&
+      n > 0
+    ){
 
-order?.price ||
+      return n;
 
-order?.final_price ||
+    }
 
-order?.amount ||
+  }
 
-0
 
-);
+  return getAutomaticOriginalPrice(
+    packageName,
+    finalPrice
+  );
 
 }
 
 
-/* =========================================================
-ORDER RENEWAL DATE
-========================================================= */
+/* =====================================================
+   ORDER DATE
+===================================================== */
+
+function getOrderDate(order){
+
+  if(!order)
+    return null;
+
+  const possible = [
+
+    order.created_at,
+    order.createdAt,
+    order.updated_at,
+    order.updatedAt,
+    order.paid_at,
+    order.payment_date,
+    order.order_date
+
+  ];
+
+
+  for(
+    const value of possible
+  ){
+
+    if(!value)
+      continue;
+
+    const d =
+      new Date(value);
+
+    if(
+      !Number.isNaN(
+        d.getTime()
+      )
+    ){
+
+      return d.getTime();
+
+    }
+
+  }
+
+
+  return 0;
+
+}
+
+
+/* =====================================================
+   SORT ORDERS WITHOUT created_at QUERY
+===================================================== */
+
+function sortOrdersNewestFirst(
+  orders
+){
+
+  return [...orders].sort(
+    (a,b)=>{
+
+      const dateA =
+        getOrderDate(a);
+
+      const dateB =
+        getOrderDate(b);
+
+      if(
+        dateA ||
+        dateB
+      ){
+
+        return (
+          dateB -
+          dateA
+        );
+
+      }
+
+
+      const idA =
+        Number(a?.id);
+
+      const idB =
+        Number(b?.id);
+
+      if(
+        Number.isFinite(idA) &&
+        Number.isFinite(idB)
+      ){
+
+        return idB - idA;
+
+      }
+
+
+      return String(
+        b?.order_number || ""
+      ).localeCompare(
+        String(
+          a?.order_number || ""
+        )
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   RENEWAL DATE
+===================================================== */
 
 function getOrderRenewalDate(
-order,
-customer
+  order,
+  customer
 ){
 
-if(!order && !customer)
-return null;
+  if(order){
+
+    const possible = [
+
+      order.next_renewal_date,
+      order.renewal_date,
+      order.nextRenewalDate,
+      order.renewal_at,
+      order.next_renewal,
+      order.expiry_date,
+      order.expires_at
+
+    ];
 
 
-const possible = [
+    for(
+      const value of possible
+    ){
 
-order?.next_renewal_date,
-order?.renewal_date,
-order?.nextRenewalDate,
-order?.renewal_at,
-order?.next_renewal,
-order?.expiry_date,
-order?.expires_at
+      const d =
+        dateOnly(value);
 
-];
+      if(d)
+        return d;
 
+    }
 
-for(
-const value of possible
-){
-
-if(!value)
-continue;
+  }
 
 
-const date =
-String(value)
-.split("T")[0];
+  if(
+    customer?.next_renewal_date
+  ){
+
+    return dateOnly(
+      customer.next_renewal_date
+    );
+
+  }
 
 
-if(
-/^\d{4}-\d{2}-\d{2}$/
-.test(date)
-){
-
-return date;
-
-}
-
-}
-
-
-/* ===============================
-تاريخ العميل
-=============================== */
-
-if(
-customer?.next_renewal_date
-){
-
-return String(
-customer.next_renewal_date
-)
-.split("T")[0];
+  return null;
 
 }
 
 
-return null;
-
-}
-
-
-/* =========================================================
-LOGIN
-========================================================= */
+/* =====================================================
+   LOGIN
+===================================================== */
 
 async function loginCustomers(){
 
-const email =
-document
-.getElementById("loginEmail")
-.value
-.trim();
+  const email =
+    document
+      .getElementById(
+        "loginEmail"
+      )
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById(
+        "loginPassword"
+      )
+      .value;
+
+  const msg =
+    document.getElementById(
+      "loginMessage"
+    );
 
 
-const password =
-document
-.getElementById("loginPassword")
-.value;
+  msg.style.color =
+    "#c73542";
+
+  msg.textContent =
+    "⏳ جاري تسجيل الدخول...";
 
 
-const message =
-document
-.getElementById("loginMessage");
+  if(
+    !email ||
+    !password
+  ){
+
+    msg.textContent =
+      "❌ اكتب البريد الإلكتروني وكلمة المرور";
+
+    return;
+
+  }
 
 
-message.style.color =
-"#c73542";
+  try{
 
-message.textContent =
-"⏳ جاري تسجيل الدخول...";
+    const {
+      data,
+      error
+    } =
+      await authClient.auth
+        .signInWithPassword({
+          email,
+          password
+        });
 
 
-if(!email || !password){
+    if(error)
+      throw error;
 
-message.textContent =
-"❌ اكتب البريد الإلكتروني وكلمة المرور";
 
-return;
+    if(!data?.user)
+      throw new Error(
+        "لم يتم العثور على الحساب"
+      );
+
+
+    if(
+      (
+        data.user.email ||
+        ""
+      ).toLowerCase() !==
+      ADMIN_EMAIL.toLowerCase()
+    ){
+
+      await authClient.auth
+        .signOut();
+
+      throw new Error(
+        "هذا الحساب غير مسموح له بالدخول"
+      );
+
+    }
+
+
+    showApp();
+
+  }catch(e){
+
+    msg.textContent =
+      "❌ " +
+      e.message;
+
+  }
 
 }
 
 
-try{
-
-const {
-data,
-error
-} =
-await authClient.auth.signInWithPassword(
-{
-email,
-password
-}
-);
-
-
-if(error)
-throw error;
-
-
-if(!data?.user)
-throw new Error(
-"لم يتم العثور على الحساب"
-);
-
-
-if(
-(data.user.email || "")
-.toLowerCase()
-!==
-ADMIN_EMAIL.toLowerCase()
-){
-
-await authClient.auth.signOut();
-
-throw new Error(
-"هذا الحساب غير مسموح له بالدخول"
-);
-
-}
-
-
-showApp();
-
-}
-catch(e){
-
-message.textContent =
-"❌ " +
-e.message;
-
-}
-
-}
-
-
-/* =========================================================
-LOGOUT
-========================================================= */
+/* =====================================================
+   LOGOUT
+===================================================== */
 
 async function logoutCustomers(){
 
-await authClient.auth.signOut();
+  await authClient.auth.signOut();
 
-location.reload();
+  location.reload();
 
 }
 
 
-/* =========================================================
-SESSION
-========================================================= */
+/* =====================================================
+   SESSION
+===================================================== */
 
 async function checkSession(){
 
-const {
-data
-} =
-await authClient.auth.getSession();
+  const {
+    data
+  } =
+    await authClient.auth
+      .getSession();
 
 
-if(
-data?.session?.user?.email
-?.toLowerCase()
-===
-ADMIN_EMAIL.toLowerCase()
-){
+  if(
+    data?.session?.user?.email
+      ?.toLowerCase() ===
+    ADMIN_EMAIL.toLowerCase()
+  ){
 
-showApp();
+    showApp();
+
+  }
 
 }
 
-}
 
-
-/* =========================================================
-SHOW APP
-========================================================= */
+/* =====================================================
+   SHOW APP
+===================================================== */
 
 function showApp(){
 
-document
-.getElementById("loginScreen")
-.style.display =
-"none";
+  document.getElementById(
+    "loginScreen"
+  ).style.display =
+    "none";
+
+  document.getElementById(
+    "app"
+  ).style.display =
+    "block";
 
 
-document
-.getElementById("app")
-.style.display =
-"block";
-
-
-loadPaymentOrders();
-
-loadCustomers();
+  loadPaymentOrders();
+  loadCustomers();
 
 }
 
 
-/* =========================================================
-LOAD CUSTOMERS
-========================================================= */
+/* =====================================================
+   LOAD CUSTOMERS
+===================================================== */
 
 async function loadCustomers(){
 
-const list =
-document.getElementById("list");
+  const list =
+    document.getElementById(
+      "list"
+    );
 
 
-list.innerHTML =
-`
-<div class="loading">
-⏳ جاري تحميل العملاء...
-</div>
-`;
+  list.innerHTML =
+    `
+    <div class="loading">
+      ⏳ جاري تحميل العملاء...
+    </div>
+    `;
 
 
-try{
+  try{
 
+    /* ================================================
+       تحميل العملاء
+       مهم:
+       لا نطلب أي أعمدة إضافية
+    ================================================ */
 
-/* ===============================
-CUSTOMERS
-=============================== */
+    const customerData =
+      await supabaseRequest(
+        "customers?select=*&deleted_at=is.null"
+      );
 
-const customerData =
-await supabaseRequest(
-"customers?select=*&deleted_at=is.null"
-);
 
+    const rawCustomers =
+      Array.isArray(
+        customerData
+      )
+      ? customerData
+      : [];
 
-customers =
-Array.isArray(
-customerData
-)
-?
-customerData
-:
-[];
 
+    /* ================================================
+       تحميل الطلبات
+       بدون order=created_at
+       لأن العمود غير موجود عندك
+    ================================================ */
 
-/* ===============================
-ORDERS
+    let rawOrders = [];
 
-مهم:
-لا نستخدم created_at هنا
-=============================== */
 
-let orders = [];
+    try{
 
+      const orderData =
+        await supabaseRequest(
+          "orders?select=*"
+        );
 
-try{
 
-const orderData =
-await supabaseRequest(
-"orders?select=*"
-);
+      rawOrders =
+        sortOrdersNewestFirst(
+          Array.isArray(orderData)
+          ? orderData
+          : []
+        );
 
+    }catch(orderError){
 
-orders =
-Array.isArray(
-orderData
-)
-?
-orderData
-:
-[];
+      console.error(
+        "ORDERS LOAD ERROR:",
+        orderError
+      );
 
+      rawOrders = [];
 
-}
-catch(orderError){
+    }
 
-console.error(
-"ORDERS LOAD ERROR:",
-orderError
-);
 
-orders = [];
+    /* ================================================
+       تجميع الطلبات حسب رقم العميل
+    ================================================ */
 
-}
+    const ordersByPhone = {};
 
 
-/* ===============================
-ترتيب الطلبات بأمان
-=============================== */
+    rawOrders.forEach(
+      order=>{
 
-orders.sort(
-(a,b)=>{
+        const phone =
+          cleanPhone(
+            order?.phone ||
+            order?.customer_phone ||
+            ""
+          );
 
-if(
-a.created_at &&
-b.created_at
-){
 
-const dateA =
-new Date(
-a.created_at
-)
-.getTime();
+        if(!phone)
+          return;
 
 
-const dateB =
-new Date(
-b.created_at
-)
-.getTime();
+        if(
+          !ordersByPhone[phone]
+        ){
 
+          ordersByPhone[phone] =
+            [];
 
-if(
-Number.isFinite(dateA) &&
-Number.isFinite(dateB)
-){
+        }
 
-return dateB - dateA;
 
-}
+        ordersByPhone[phone]
+          .push(order);
 
-}
+      }
+    );
 
 
-if(
-a.id !== undefined &&
-b.id !== undefined
-){
+    /* ================================================
+       بناء بيانات العملاء
+    ================================================ */
 
-const idA =
-Number(a.id);
+    customers =
+      rawCustomers.map(
+        customer=>{
 
-const idB =
-Number(b.id);
+          const phone =
+            cleanPhone(
+              customer.phone
+            );
 
 
-if(
-Number.isFinite(idA) &&
-Number.isFinite(idB)
-){
+          const customerOrders =
+            ordersByPhone[phone] ||
+            [];
 
-return idB - idA;
 
-}
+          const latestOrder =
+            customerOrders.length
+            ? customerOrders[0]
+            : null;
 
-}
 
+          /* ==========================================
+             لا يوجد طلب
+          ========================================== */
 
-return 0;
+          if(!latestOrder){
 
-}
-);
+            const packageName =
+              customer.package_name ||
+              "";
 
 
-/* ===============================
-GROUP ORDERS
-=============================== */
+            const gb =
+              Number(
+                customer.allocated_gb
+              ) ||
+              getPackageGB(
+                packageName
+              ) ||
+              0;
 
-const ordersByPhone = {};
 
+            const finalPrice =
+              Number(
+                customer.last_price
+              ) ||
+              0;
 
-orders.forEach(
-order=>{
 
-const phone =
-cleanPhone(
-order.phone
-);
+            const originalPrice =
+              getAutomaticOriginalPrice(
+                packageName,
+                customer.original_price ||
+                finalPrice
+              );
 
 
-if(!phone)
-return;
+            return {
 
+              ...customer,
 
-if(
-!ordersByPhone[phone]
-){
+              allocated_gb:
+                gb,
 
-ordersByPhone[phone] = [];
+              last_price:
+                finalPrice,
 
-}
+              original_price:
+                originalPrice,
 
+              promo_code:
+                "",
 
-ordersByPhone[phone]
-.push(order);
+              payment_method:
+                customer.payment_method ||
+                null,
 
-}
-);
+              next_renewal_date:
+                dateOnly(
+                  customer.next_renewal_date
+                ),
 
+              total_orders:
+                customerOrders.length ||
+                Number(
+                  customer.total_orders
+                ) ||
+                0
 
-/* ===============================
-UPDATE CUSTOMERS FROM ORDERS
-=============================== */
+            };
 
-customers =
-customers.map(
-customer=>{
+          }
 
-const phone =
-cleanPhone(
-customer.phone
-);
 
+          /* ==========================================
+             الباقة
+          ========================================== */
 
-const customerOrders =
-ordersByPhone[phone] ||
-[];
+          const packageName =
+            getOrderPackage(
+              latestOrder
+            ) ||
+            customer.package_name ||
+            "";
 
 
-/* ===============================
-آخر طلب
-=============================== */
+          /* ==========================================
+             الجيجا
+          ========================================== */
 
-const latestOrder =
-customerOrders.length
-?
-customerOrders[0]
-:
-null;
+          const gb =
+            getOrderGB(
+              latestOrder
+            ) ||
+            Number(
+              customer.allocated_gb
+            ) ||
+            getPackageGB(
+              packageName
+            ) ||
+            0;
 
 
-if(!latestOrder){
+          /* ==========================================
+             السعر النهائي
+          ========================================== */
 
-const existingPackage =
-customer.package_name ||
-"";
+          const finalPrice =
+            getOrderPrice(
+              latestOrder
+            ) ||
+            Number(
+              customer.last_price
+            ) ||
+            0;
 
 
-const existingGB =
-Number(
-customer.allocated_gb
-) ||
-getPackageGB(
-existingPackage
-) ||
-0;
+          /* ==========================================
+             السعر قبل الخصم
+          ========================================== */
 
+          const originalPrice =
+            getOrderOriginalPrice(
+              latestOrder,
+              packageName,
+              finalPrice
+            );
 
-return {
 
-...customer,
+          /* ==========================================
+             الخصم
+          ========================================== */
 
-allocated_gb:
-existingGB,
+          let discount =
+            Math.max(
+              0,
+              originalPrice -
+              finalPrice
+            );
 
-last_price:
-Number(
-customer.last_price
-) ||
-0,
 
-total_orders:
-customerOrders.length ||
-Number(
-customer.total_orders
-) ||
-0,
+          const explicitDiscount =
+            Number(
+              latestOrder.discount_amount
+            );
 
-promo_code:
-""
 
-};
+          if(
+            Number.isFinite(
+              explicitDiscount
+            ) &&
+            explicitDiscount > 0
+          ){
 
-}
+            discount =
+              explicitDiscount;
 
+          }
 
-/* ===============================
-PACKAGE
-=============================== */
 
-const packageName =
-getOrderPackage(
-latestOrder
-) ||
-customer.package_name ||
-"";
+          /* ==========================================
+             كود الخصم
+          ========================================== */
 
+          const promoCode =
+            getOrderPromoCode(
+              latestOrder
+            );
 
-/* ===============================
-GB
 
-الأولوية للطلب
-ثم العميل
-ثم اسم الباقة
-=============================== */
+          /* ==========================================
+             موعد التجديد
+          ========================================== */
 
-const gb =
-getOrderGB(
-latestOrder
-) ||
-Number(
-customer.allocated_gb
-) ||
-getPackageGB(
-packageName
-) ||
-0;
+          const renewalDate =
+            getOrderRenewalDate(
+              latestOrder,
+              customer
+            );
 
 
-/* ===============================
-PRICE
-=============================== */
+          /* ==========================================
+             طريقة الدفع
+          ========================================== */
 
-const finalPrice =
-getOrderPrice(
-latestOrder
-) ||
-Number(
-customer.last_price
-) ||
-0;
+          const paymentMethod =
+            latestOrder.payment_method ||
+            customer.payment_method ||
+            null;
 
 
-/* ===============================
-ORIGINAL PRICE
-=============================== */
+          return {
 
-const originalPrice =
-getOrderOriginalPrice(
-latestOrder
-) ||
-getAutomaticOriginalPrice(
-packageName,
-customer.original_price ||
-0
-);
+            ...customer,
 
+            package_name:
+              packageName ||
+              null,
 
-/* ===============================
-PROMO
-=============================== */
+            allocated_gb:
+              gb,
 
-const promoCode =
-getOrderPromoCode(
-latestOrder
-);
+            last_price:
+              finalPrice,
 
+            original_price:
+              originalPrice,
 
-/* ===============================
-PAYMENT
-=============================== */
+            discount_amount:
+              discount,
 
-const paymentMethod =
-latestOrder.payment_method ||
-customer.payment_method ||
-null;
+            promo_code:
+              promoCode,
 
+            payment_method:
+              paymentMethod,
 
-/* ===============================
-RENEWAL
-=============================== */
+            next_renewal_date:
+              renewalDate,
 
-const renewalDate =
-getOrderRenewalDate(
-latestOrder,
-customer
-);
+            total_orders:
+              customerOrders.length
 
+          };
 
-/* ===============================
-RETURN
-=============================== */
+        }
+      );
 
-return {
 
-...customer,
+    updateStats();
+    render();
 
-package_name:
-packageName || null,
 
-allocated_gb:
-gb,
+  }catch(e){
 
-last_price:
-finalPrice,
+    console.error(
+      "LOAD CUSTOMERS ERROR:",
+      e
+    );
 
-original_price:
-originalPrice,
 
-promo_code:
-promoCode,
+    list.innerHTML =
+      `
+      <div class="error">
 
-payment_method:
-paymentMethod,
+        ❌ تعذر تحميل العملاء
 
-next_renewal_date:
-renewalDate,
+        <br><br>
 
-total_orders:
-customerOrders.length
+        ${escapeHtml(
+          e.message
+        )}
 
-};
+        <br><br>
 
-}
-);
+        <button
+          class="action edit"
+          onclick="loadCustomers()"
+        >
+          🔄 إعادة المحاولة
+        </button>
 
+      </div>
+      `;
 
-/* ===============================
-STATS
-=============================== */
-
-updateStats();
-
-
-/* ===============================
-RENDER
-=============================== */
-
-render();
-
-
-}
-catch(e){
-
-console.error(
-"LOAD CUSTOMERS ERROR:",
-e
-);
-
-
-list.innerHTML =
-`
-<div class="error">
-
-❌ تعذر تحميل العملاء
-
-<br><br>
-
-${escapeHtml(
-e.message
-)}
-
-<br><br>
-
-<button
-class="action edit"
-onclick="loadCustomers()"
->
-🔄 إعادة المحاولة
-</button>
-
-</div>
-`;
-
-}
+  }
 
 }
 
 
-/* =========================================================
-STATS
-========================================================= */
+/* =====================================================
+   STATS
+===================================================== */
 
 function updateStats(){
 
-const total =
-document.getElementById(
-"total"
-);
+  const total =
+    document.getElementById(
+      "total"
+    );
 
-const active =
-document.getElementById(
-"active"
-);
+  const active =
+    document.getElementById(
+      "active"
+    );
 
-const soon =
-document.getElementById(
-"soon"
-);
+  const soon =
+    document.getElementById(
+      "soon"
+    );
 
-const expired =
-document.getElementById(
-"expired"
-);
-
-
-if(total){
-
-total.textContent =
-customers.length;
-
-}
+  const expired =
+    document.getElementById(
+      "expired"
+    );
 
 
-if(active){
+  if(total){
 
-active.textContent =
-customers.filter(
-customer =>
-customer.status ===
-"active"
-)
-.length;
+    total.textContent =
+      customers.length;
 
-}
+  }
 
 
-if(soon){
+  if(active){
 
-soon.textContent =
-customers.filter(
-customer=>{
+    active.textContent =
+      customers.filter(
+        c =>
+          c.status ===
+          "active"
+      ).length;
 
-const d =
-daysUntil(
-customer.next_renewal_date
-);
-
-
-return (
-d !== null &&
-d >= 0 &&
-d <= 7
-);
-
-}
-)
-.length;
-
-}
+  }
 
 
-if(expired){
+  if(soon){
 
-expired.textContent =
-customers.filter(
-customer=>{
+    soon.textContent =
+      customers.filter(
+        c=>{
 
-const d =
-daysUntil(
-customer.next_renewal_date
-);
+          const d =
+            daysUntil(
+              c.next_renewal_date
+            );
+
+          return (
+            d !== null &&
+            d >= 0 &&
+            d <= 7
+          );
+
+        }
+      ).length;
+
+  }
 
 
-return (
-d !== null &&
-d < 0
-);
+  if(expired){
 
-}
-)
-.length;
+    expired.textContent =
+      customers.filter(
+        c=>{
 
-}
+          const d =
+            daysUntil(
+              c.next_renewal_date
+            );
+
+          return (
+            d !== null &&
+            d < 0
+          );
+
+        }
+      ).length;
+
+  }
 
 }
 
 
-/* =========================================================
-RENDER
-========================================================= */
+/* =====================================================
+   RENDER
+===================================================== */
 
 function render(){
 
-const list =
-document.getElementById(
-"list"
-);
+  const list =
+    document.getElementById(
+      "list"
+    );
 
 
-if(!list)
-return;
+  if(!list)
+    return;
 
 
-const search =
-String(
-document
-.getElementById("search")
-?.value ||
-""
-)
-.trim()
-.toLowerCase();
+  const search =
+    String(
+      document.getElementById(
+        "search"
+      )?.value ||
+      ""
+    )
+    .trim()
+    .toLowerCase();
 
 
-const renewal =
-document
-.getElementById(
-"renewalFilter"
-)
-?.value ||
-"all";
+  const renewal =
+    document.getElementById(
+      "renewalFilter"
+    )?.value ||
+    "all";
 
 
-const status =
-document
-.getElementById(
-"statusFilter"
-)
-?.value ||
-"all";
+  const status =
+    document.getElementById(
+      "statusFilter"
+    )?.value ||
+    "all";
 
 
-const filtered =
-customers.filter(
-customer=>{
+  const filtered =
+    customers.filter(
+      customer=>{
+
+        /* SEARCH */
+
+        if(search){
+
+          const text = [
+
+            customer.subscriber_name,
+            customer.phone,
+            customer.primary_number,
+            customer.package_name,
+            customer.promo_code
+
+          ]
+          .map(
+            value =>
+              String(
+                value || ""
+              ).toLowerCase()
+          )
+          .join(" ");
 
 
-/* ===============================
-SEARCH
-=============================== */
+          if(
+            !text.includes(
+              search
+            )
+          ){
 
-if(search){
+            return false;
 
-const text = [
+          }
 
-customer.subscriber_name,
-customer.phone,
-customer.primary_number,
-customer.package_name,
-customer.promo_code
-
-]
-.map(
-value =>
-String(
-value || ""
-)
-.toLowerCase()
-)
-.join(" ");
+        }
 
 
-if(
-!text.includes(search)
-)
-return false;
+        /* RENEWAL FILTER */
+
+        if(
+          renewal !==
+          "all"
+        ){
+
+          if(
+            renewal ===
+            "custom"
+          ){
+
+            if(
+              customer.renewal_type !==
+              "custom"
+            ){
+
+              return false;
+
+            }
+
+          }else{
+
+            if(
+              String(
+                customer.renewal_day
+              ) !==
+              String(
+                renewal
+              )
+            ){
+
+              return false;
+
+            }
+
+          }
+
+        }
+
+
+        /* STATUS */
+
+        const d =
+          daysUntil(
+            customer.next_renewal_date
+          );
+
+
+        if(
+          status ===
+          "active" &&
+          customer.status !==
+          "active"
+        ){
+
+          return false;
+
+        }
+
+
+        if(
+          status ===
+          "inactive" &&
+          customer.status !==
+          "inactive"
+        ){
+
+          return false;
+
+        }
+
+
+        if(
+          status ===
+          "soon" &&
+          !(
+            d !== null &&
+            d >= 0 &&
+            d <= 7
+          )
+        ){
+
+          return false;
+
+        }
+
+
+        if(
+          status ===
+          "expired" &&
+          !(
+            d !== null &&
+            d < 0
+          )
+        ){
+
+          return false;
+
+        }
+
+
+        return true;
+
+      }
+    );
+
+
+  if(!filtered.length){
+
+    list.innerHTML =
+      `
+      <div class="empty">
+        📭 لا يوجد عملاء مطابقين.
+      </div>
+      `;
+
+    return;
+
+  }
+
+
+  list.innerHTML =
+    filtered
+      .map(
+        customerCard
+      )
+      .join("");
 
 }
 
 
-/* ===============================
-RENEWAL FILTER
-=============================== */
-
-if(
-renewal !== "all"
-){
-
-if(
-renewal === "custom"
-){
-
-if(
-customer.renewal_type !==
-"custom"
-)
-return false;
-
-}
-else{
-
-if(
-String(
-customer.renewal_day
-) !==
-String(
-renewal
-)
-)
-return false;
-
-}
-
-}
-
-
-/* ===============================
-STATUS
-=============================== */
-
-const d =
-daysUntil(
-customer.next_renewal_date
-);
-
-
-if(
-status === "active" &&
-customer.status !==
-"active"
-){
-
-return false;
-
-}
-
-
-if(
-status === "inactive" &&
-customer.status !==
-"inactive"
-){
-
-return false;
-
-}
-
-
-if(
-status === "soon" &&
-!(
-d !== null &&
-d >= 0 &&
-d <= 7
-)
-){
-
-return false;
-
-}
-
-
-if(
-status === "expired" &&
-!(
-d !== null &&
-d < 0
-)
-){
-
-return false;
-
-}
-
-
-return true;
-
-}
-);
-
-
-if(!filtered.length){
-
-list.innerHTML =
-`
-<div class="empty">
-📭 لا يوجد عملاء مطابقين.
-</div>
-`;
-
-return;
-
-}
-
-
-list.innerHTML =
-filtered
-.map(
-customerCard
-)
-.join("");
-
-}
-
-
-/* =========================================================
-CUSTOMER CARD
-========================================================= */
+/* =====================================================
+   CUSTOMER CARD
+===================================================== */
 
 function customerCard(c){
 
-const d =
-daysUntil(
-c.next_renewal_date
-);
+  const d =
+    daysUntil(
+      c.next_renewal_date
+    );
 
 
-/* ===============================
-RENEWAL STATUS
-=============================== */
+  /* ================================================
+     حالة التجديد
+     طول ما التاريخ لم ينتهِ = مجدد
+     بعد التاريخ = غير مجدد
+  ================================================ */
 
-let renewalText =
-"غير محدد";
+  let renewalText =
+    "غير محدد";
 
+  let renewalClass =
+    "";
 
-let renewalClass =
-"";
 
+  if(
+    c.next_renewal_date
+  ){
 
-if(
-c.next_renewal_date
-){
+    if(
+      d !== null &&
+      d >= 0
+    ){
 
-if(
-d !== null &&
-d >= 0
-){
+      renewalText =
+        "🟢 مجدد";
 
-renewalText =
-"🟢 مجدد";
+      renewalClass =
+        "renewed-box";
 
-renewalClass =
-"renewed-box";
+    }else{
 
-}
-else{
+      renewalText =
+        "🔴 غير مجدد";
 
-renewalText =
-"🔴 غير مجدد";
+      renewalClass =
+        "not-renewed-box";
 
-renewalClass =
-"not-renewed-box";
+    }
 
-}
+  }
 
-}
 
+  const badge =
+    c.status ===
+    "inactive"
 
-/* ===============================
-BADGE
-=============================== */
+    ?
 
-const badge =
-c.status === "inactive"
+    `
+    <span class="badge inactive">
+      🔴 موقوف
+    </span>
+    `
 
-?
+    :
 
-`
-<span class="badge inactive">
-🔴 موقوف
-</span>
-`
+    `
+    <span class="badge active">
+      🟢 نشط
+    </span>
+    `;
 
-:
 
-`
-<span class="badge active">
-🟢 نشط
-</span>
-`;
+  const gb =
+    Number(
+      c.allocated_gb
+    ) ||
+    getPackageGB(
+      c.package_name
+    ) ||
+    0;
 
 
-/* ===============================
-GB
-=============================== */
+  const lastPrice =
+    Number(
+      c.last_price
+    ) ||
+    0;
 
-const gb =
-Number(
-c.allocated_gb
-) ||
-getPackageGB(
-c.package_name
-) ||
-0;
 
+  const originalPrice =
+    Number(
+      c.original_price
+    ) ||
+    getAutomaticOriginalPrice(
+      c.package_name,
+      lastPrice
+    );
 
-/* ===============================
-PRICE
-=============================== */
 
-const lastPrice =
-Number(
-c.last_price
-) ||
-0;
+  const discountAmount =
+    Number(
+      c.discount_amount
+    ) ||
+    Math.max(
+      0,
+      originalPrice -
+      lastPrice
+    );
 
 
-const originalPrice =
-getAutomaticOriginalPrice(
-c.package_name,
-c.original_price ||
-0
-);
+  const promoCode =
+    String(
+      c.promo_code ||
+      ""
+    ).trim();
 
 
-const discountAmount =
-Math.max(
-0,
-originalPrice -
-lastPrice
-);
+  return `
 
+  <div class="card">
 
-/* ===============================
-PROMO
-=============================== */
+    <div class="card-head">
 
-const promoCode =
-String(
-c.promo_code ||
-""
-)
-.trim();
+      <div>
 
+        <div class="name">
+          ${escapeHtml(
+            c.subscriber_name ||
+            "بدون اسم"
+          )}
+        </div>
 
-return `
+        <div class="phone">
+          📱 ${escapeHtml(
+            c.phone ||
+            "-"
+          )}
+        </div>
 
-<div class="card">
+      </div>
 
+      ${badge}
 
-<div class="card-head">
+    </div>
 
-<div>
 
-<div class="name">
+    <div class="grid">
 
-${escapeHtml(
-c.subscriber_name ||
-"بدون اسم"
-)}
 
-</div>
+      <div class="box">
 
-<div class="phone">
+        <small>
+          الرقم الأساسي
+        </small>
 
-📱
+        <strong>
+          ${escapeHtml(
+            c.primary_number ||
+            "-"
+          )}
+        </strong>
 
-${escapeHtml(
-c.phone ||
-"-"
-)}
+      </div>
 
-</div>
 
-</div>
+      <div class="box">
 
+        <small>
+          📦 الجيجا
+        </small>
 
-${badge}
+        <strong>
+          ${formatGB(gb)}
+          GB
+        </strong>
 
-</div>
+      </div>
 
 
-<div class="grid">
+      <div class="box">
 
+        <small>
+          الباقة
+        </small>
 
-<!-- PRIMARY -->
+        <strong>
+          ${escapeHtml(
+            c.package_name ||
+            "-"
+          )}
+        </strong>
 
-<div class="box">
+      </div>
 
-<small>
-الرقم الأساسي
-</small>
 
-<strong>
+      <div class="box">
 
-${escapeHtml(
-c.primary_number ||
-"-"
-)}
+        <small>
+          السعر النهائي
+        </small>
 
-</strong>
+        <strong>
+          ${formatMoney(
+            lastPrice
+          )}
+          جنيه
+        </strong>
 
-</div>
+      </div>
 
 
-<!-- GB -->
+      <div class="box">
 
-<div class="box">
+        <small>
+          السعر قبل الخصم
+        </small>
 
-<small>
-📦 الجيجا
-</small>
+        <strong>
+          ${
+            originalPrice > 0
+            ?
+            formatMoney(
+              originalPrice
+            ) +
+            " جنيه"
+            :
+            "-"
+          }
+        </strong>
 
-<strong>
+      </div>
 
-${formatGB(gb)}
-GB
 
-</strong>
+      <div class="box promo-box">
 
-</div>
+        <small>
+          🎁 كود الخصم المستخدم
+        </small>
 
+        <strong>
+          ${
+            promoCode
+            ?
+            escapeHtml(
+              promoCode
+            )
+            :
+            "لا يوجد"
+          }
+        </strong>
 
-<!-- PACKAGE -->
+      </div>
 
-<div class="box">
 
-<small>
-الباقة
-</small>
+      <div class="box">
 
-<strong>
+        <small>
+          💰 قيمة الخصم
+        </small>
 
-${escapeHtml(
-c.package_name ||
-"-"
-)}
+        <strong>
+          ${
+            discountAmount > 0
+            ?
+            formatMoney(
+              discountAmount
+            ) +
+            " جنيه"
+            :
+            "0 جنيه"
+          }
+        </strong>
 
-</strong>
+      </div>
 
-</div>
 
+      <div class="box">
 
-<!-- FINAL PRICE -->
+        <small>
+          موعد التجديد
+        </small>
 
-<div class="box">
+        <strong>
+          ${escapeHtml(
+            c.next_renewal_date ||
+            "-"
+          )}
+        </strong>
 
-<small>
-السعر النهائي
-</small>
+      </div>
 
-<strong>
 
-${formatMoney(
-lastPrice
-)}
-جنيه
+      <div
+        class="box ${renewalClass}"
+      >
 
-</strong>
+        <small>
+          حالة التجديد
+        </small>
 
-</div>
+        <strong>
+          ${renewalText}
+        </strong>
 
+      </div>
 
-<!-- ORIGINAL PRICE -->
 
-<div class="box">
+      <div class="box">
 
-<small>
-السعر قبل الخصم
-</small>
+        <small>
+          عدد الطلبات
+        </small>
 
-<strong>
+        <strong>
+          ${c.total_orders ?? 0}
+        </strong>
 
-${
-originalPrice > 0
-?
-formatMoney(
-originalPrice
-) +
-" جنيه"
-:
-"-"
-}
+      </div>
 
-</strong>
 
-</div>
+      <div class="box">
 
+        <small>
+          طريقة الدفع
+        </small>
 
-<!-- PROMO -->
+        <strong>
+          ${escapeHtml(
+            c.payment_method ||
+            "-"
+          )}
+        </strong>
 
-<div class="box">
+      </div>
 
-<small>
-🎁 كود الخصم المستخدم
-</small>
 
-<strong>
+    </div>
 
-${
-promoCode
-?
-escapeHtml(
-promoCode
-)
-:
-"لا يوجد"
-}
 
-</strong>
+    <div class="actions">
 
-</div>
+      <button
+        class="action edit"
+        onclick="openEdit(${Number(c.id)})"
+      >
+        ✏️ تعديل
+      </button>
 
+      <button
+        class="action renew"
+        onclick="renewCustomer(${Number(c.id)})"
+      >
+        🔄 تجديد الآن
+      </button>
 
-<!-- DISCOUNT -->
+      <button
+        class="action delete"
+        onclick="deleteCustomer(${Number(c.id)})"
+      >
+        🗑️ حذف
+      </button>
 
-<div class="box">
+    </div>
 
-<small>
-💰 قيمة الخصم
-</small>
+  </div>
 
-<strong>
-
-${
-discountAmount > 0
-?
-formatMoney(
-discountAmount
-) +
-" جنيه"
-:
-"0 جنيه"
-}
-
-</strong>
-
-</div>
-
-
-<!-- RENEWAL DATE -->
-
-<div class="box">
-
-<small>
-موعد التجديد
-</small>
-
-<strong>
-
-${
-escapeHtml(
-c.next_renewal_date ||
-"-"
-)
-}
-
-</strong>
-
-</div>
-
-
-<!-- RENEWAL STATUS -->
-
-<div
-class="box ${renewalClass}"
->
-
-<small>
-حالة التجديد
-</small>
-
-<strong>
-
-${renewalText}
-
-</strong>
-
-</div>
-
-
-<!-- ORDERS -->
-
-<div class="box">
-
-<small>
-عدد الطلبات
-</small>
-
-<strong>
-
-${c.total_orders ?? 0}
-
-</strong>
-
-</div>
-
-
-<!-- PAYMENT -->
-
-<div class="box">
-
-<small>
-طريقة الدفع
-</small>
-
-<strong>
-
-${escapeHtml(
-c.payment_method ||
-"-"
-)}
-
-</strong>
-
-</div>
-
-
-</div>
-
-
-<div class="actions">
-
-
-<button
-class="action edit"
-onclick="openEdit(${Number(c.id)})"
->
-✏️ تعديل
-</button>
-
-
-<button
-class="action renew"
-onclick="renewCustomer(${Number(c.id)})"
->
-🔄 تجديد الآن
-</button>
-
-
-<button
-class="action delete"
-onclick="deleteCustomer(${Number(c.id)})"
->
-🗑️ حذف
-</button>
-
-
-</div>
-
-
-</div>
-
-`;
+  `;
 
 }
 
 
-/* =========================================================
-ADD
-========================================================= */
+/* =====================================================
+   ADD
+===================================================== */
 
 function openAdd(){
 
-editMode =
-false;
+  editMode =
+    false;
 
 
-document.getElementById(
-"modalTitle"
-).textContent =
-"➕ إضافة عميل";
+  document.getElementById(
+    "modalTitle"
+  ).textContent =
+    "➕ إضافة عميل";
 
 
-clearForm();
+  clearForm();
 
 
-document.getElementById(
-"renewalType"
-).value =
-"day_1";
+  document.getElementById(
+    "renewalType"
+  ).value =
+    "day_1";
 
 
-document.getElementById(
-"renewalDay"
-).value =
-1;
+  document.getElementById(
+    "renewalDay"
+  ).value =
+    1;
 
 
-document.getElementById(
-"renewalDayField"
-).style.display =
-"block";
+  document.getElementById(
+    "status"
+  ).value =
+    "active";
 
 
-document.getElementById(
-"status"
-).value =
-"active";
+  document.getElementById(
+    "totalOrders"
+  ).value =
+    0;
 
 
-document.getElementById(
-"totalOrders"
-).value =
-0;
-
-
-document.getElementById(
-"modal"
-).classList.add(
-"show"
-);
+  document.getElementById(
+    "modal"
+  ).classList.add(
+    "show"
+  );
 
 }
 
 
-/* =========================================================
-EDIT
-========================================================= */
+/* =====================================================
+   EDIT
+===================================================== */
 
 function openEdit(id){
 
-const customer =
-customers.find(
-item =>
-Number(item.id) ===
-Number(id)
-);
+  const c =
+    customers.find(
+      x =>
+        Number(x.id) ===
+        Number(id)
+    );
 
 
-if(!customer){
+  if(!c){
 
-alert(
-"❌ العميل غير موجود"
-);
+    alert(
+      "❌ العميل غير موجود"
+    );
 
-return;
+    return;
+
+  }
+
+
+  editMode =
+    true;
+
+
+  document.getElementById(
+    "modalTitle"
+  ).textContent =
+    "✏️ تعديل بيانات العميل";
+
+
+  document.getElementById(
+    "customerId"
+  ).value =
+    c.id;
+
+
+  document.getElementById(
+    "customerName"
+  ).value =
+    c.subscriber_name ||
+    "";
+
+
+  document.getElementById(
+    "customerPhone"
+  ).value =
+    c.phone ||
+    "";
+
+
+  document.getElementById(
+    "primaryNumber"
+  ).value =
+    c.primary_number ||
+    "";
+
+
+  document.getElementById(
+    "allocatedGB"
+  ).value =
+    Number(
+      c.allocated_gb
+    ) ||
+    getPackageGB(
+      c.package_name
+    ) ||
+    0;
+
+
+  document.getElementById(
+    "packageName"
+  ).value =
+    c.package_name ||
+    "";
+
+
+  document.getElementById(
+    "lastPrice"
+  ).value =
+    c.last_price ??
+    "";
+
+
+  document.getElementById(
+    "paymentMethod"
+  ).value =
+    c.payment_method ||
+    "";
+
+
+  document.getElementById(
+    "status"
+  ).value =
+    c.status ||
+    "active";
+
+
+  document.getElementById(
+    "renewalType"
+  ).value =
+    c.renewal_type ||
+    "day_1";
+
+
+  document.getElementById(
+    "renewalDay"
+  ).value =
+    c.renewal_day ||
+    "";
+
+
+  document.getElementById(
+    "nextRenewal"
+  ).value =
+    dateOnly(
+      c.next_renewal_date
+    ) ||
+    "";
+
+
+  document.getElementById(
+    "totalOrders"
+  ).value =
+    c.total_orders ??
+    0;
+
+
+  document.getElementById(
+    "modal"
+  ).classList.add(
+    "show"
+  );
 
 }
 
 
-editMode =
-true;
-
-
-document.getElementById(
-"modalTitle"
-).textContent =
-"✏️ تعديل بيانات العميل";
-
-
-document.getElementById(
-"customerId"
-).value =
-customer.id;
-
-
-document.getElementById(
-"customerName"
-).value =
-customer.subscriber_name ||
-"";
-
-
-document.getElementById(
-"customerPhone"
-).value =
-customer.phone ||
-"";
-
-
-document.getElementById(
-"primaryNumber"
-).value =
-customer.primary_number ||
-"";
-
-
-document.getElementById(
-"allocatedGB"
-).value =
-Number(
-customer.allocated_gb
-) ||
-getPackageGB(
-customer.package_name
-) ||
-0;
-
-
-document.getElementById(
-"packageName"
-).value =
-customer.package_name ||
-"";
-
-
-document.getElementById(
-"lastPrice"
-).value =
-customer.last_price ??
-"";
-
-
-document.getElementById(
-"paymentMethod"
-).value =
-customer.payment_method ||
-"";
-
-
-document.getElementById(
-"status"
-).value =
-customer.status ||
-"active";
-
-
-document.getElementById(
-"renewalType"
-).value =
-customer.renewal_type ||
-"day_1";
-
-
-document.getElementById(
-"renewalDay"
-).value =
-customer.renewal_day ||
-"";
-
-
-document.getElementById(
-"nextRenewal"
-).value =
-customer.next_renewal_date ||
-"";
-
-
-document.getElementById(
-"totalOrders"
-).value =
-customer.total_orders ??
-0;
-
-
-changeRenewalType();
-
-
-document.getElementById(
-"modal"
-).classList.add(
-"show"
-);
-
-}
-
-
-/* =========================================================
-CLEAR
-========================================================= */
+/* =====================================================
+   CLEAR FORM
+===================================================== */
 
 function clearForm(){
 
-const ids = [
+  [
 
-"customerId",
-"customerName",
-"customerPhone",
-"primaryNumber",
-"packageName",
-"lastPrice",
-"nextRenewal"
+    "customerId",
+    "customerName",
+    "customerPhone",
+    "primaryNumber",
+    "packageName",
+    "lastPrice",
+    "nextRenewal"
 
-];
+  ].forEach(
+    id => {
 
+      document.getElementById(
+        id
+      ).value = "";
 
-ids.forEach(
-id=>{
-
-document.getElementById(
-id
-).value =
-"";
-
-}
-);
+    }
+  );
 
 
-document.getElementById(
-"allocatedGB"
-).value =
-0;
+  document.getElementById(
+    "allocatedGB"
+  ).value =
+    0;
 
 
-document.getElementById(
-"paymentMethod"
-).value =
-"";
+  document.getElementById(
+    "paymentMethod"
+  ).value =
+    "";
 
 
-document.getElementById(
-"status"
-).value =
-"active";
+  document.getElementById(
+    "status"
+  ).value =
+    "active";
 
 
-document.getElementById(
-"renewalType"
-).value =
-"day_1";
+  document.getElementById(
+    "renewalType"
+  ).value =
+    "day_1";
 
 
-document.getElementById(
-"renewalDay"
-).value =
-1;
+  document.getElementById(
+    "renewalDay"
+  ).value =
+    1;
 
 
-document.getElementById(
-"renewalDayField"
-).style.display =
-"block";
-
-
-document.getElementById(
-"totalOrders"
-).value =
-0;
+  document.getElementById(
+    "totalOrders"
+  ).value =
+    0;
 
 }
 
 
-/* =========================================================
-RENEWAL TYPE
-========================================================= */
+/* =====================================================
+   RENEWAL TYPE
+===================================================== */
 
 function changeRenewalType(){
 
-const type =
-document.getElementById(
-"renewalType"
-).value;
+  const type =
+    document.getElementById(
+      "renewalType"
+    ).value;
 
 
-const dayField =
-document.getElementById(
-"renewalDayField"
-);
+  document.getElementById(
+    "renewalDay"
+  ).value =
 
+    type ===
+    "day_1"
 
-if(
-type === "custom"
-){
+    ? 1
 
-dayField.style.display =
-"none";
+    :
 
+    type ===
+    "day_16"
 
-document.getElementById(
-"renewalDay"
-).value =
-"";
+    ? 16
 
-}
-else{
+    :
 
-dayField.style.display =
-"block";
-
-
-document.getElementById(
-"renewalDay"
-).value =
-type === "day_1"
-?
-1
-:
-16;
-
-}
+    "";
 
 }
 
 
-/* =========================================================
-CLOSE MODAL
-========================================================= */
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
 
 function closeModal(){
 
-document.getElementById(
-"modal"
-)
-.classList.remove(
-"show"
-);
+  document.getElementById(
+    "modal"
+  ).classList.remove(
+    "show"
+  );
 
 }
 
 
-/* =========================================================
-PACKAGE DATA
-========================================================= */
+/* =====================================================
+   PACKAGE DATA
+===================================================== */
 
 function updatePackageData(){
 
-const packageName =
-document.getElementById(
-"packageName"
-).value;
+  const packageName =
+    document.getElementById(
+      "packageName"
+    ).value;
 
 
-const gbInput =
-document.getElementById(
-"allocatedGB"
-);
+  const gbInput =
+    document.getElementById(
+      "allocatedGB"
+    );
 
 
-const priceInput =
-document.getElementById(
-"lastPrice"
-);
+  const priceInput =
+    document.getElementById(
+      "lastPrice"
+    );
 
 
-if(!packageName){
+  if(!packageName){
 
-gbInput.value =
-0;
+    gbInput.value =
+      0;
 
-priceInput.value =
-"";
+    priceInput.value =
+      "";
 
-return;
+    return;
+
+  }
+
+
+  const gb =
+    getPackageGB(
+      packageName
+    );
+
+
+  const price =
+    getAutomaticOriginalPrice(
+      packageName,
+      0
+    );
+
+
+  if(gb > 0){
+
+    gbInput.value =
+      gb;
+
+  }
+
+
+  if(price > 0){
+
+    priceInput.value =
+      price;
+
+  }
 
 }
 
 
-const gb =
-getPackageGB(
-packageName
-);
-
-
-const price =
-getAutomaticOriginalPrice(
-packageName,
-0
-);
-
-
-if(gb > 0){
-
-gbInput.value =
-gb;
-
-}
-
-
-if(price > 0){
-
-priceInput.value =
-price;
-
-}
-
-}
-
-
-/* =========================================================
-SAVE CUSTOMER
-========================================================= */
+/* =====================================================
+   SAVE CUSTOMER
+===================================================== */
 
 async function saveCustomer(){
 
-const name =
-document.getElementById(
-"customerName"
-).value
-.trim();
+  const name =
+    document.getElementById(
+      "customerName"
+    ).value.trim();
 
 
-const phone =
-cleanPhone(
-document.getElementById(
-"customerPhone"
-).value
-);
+  const phone =
+    cleanPhone(
+      document.getElementById(
+        "customerPhone"
+      ).value
+    );
 
 
-const primary =
-cleanPhone(
-document.getElementById(
-"primaryNumber"
-).value
-);
+  const primary =
+    cleanPhone(
+      document.getElementById(
+        "primaryNumber"
+      ).value
+    );
 
 
-const packageName =
-document.getElementById(
-"packageName"
-).value ||
-null;
+  const packageName =
+    document.getElementById(
+      "packageName"
+    ).value ||
+    null;
 
 
-let gb =
-Number(
-document.getElementById(
-"allocatedGB"
-).value
-);
+  let gb =
+    Number(
+      document.getElementById(
+        "allocatedGB"
+      ).value
+    );
 
 
-if(
-!Number.isFinite(gb) ||
-gb < 0
-){
+  if(
+    !Number.isFinite(gb) ||
+    gb < 0
+  ){
 
-gb =
-getPackageGB(
-packageName
-) ||
-0;
+    gb =
+      getPackageGB(
+        packageName
+      ) ||
+      0;
+
+  }
+
+
+  const lastPrice =
+    Number(
+      document.getElementById(
+        "lastPrice"
+      ).value
+    ) ||
+    0;
+
+
+  const nextDate =
+    document.getElementById(
+      "nextRenewal"
+    ).value;
+
+
+  if(!name){
+
+    alert(
+      "⚠️ اكتب اسم العميل"
+    );
+
+    return;
+
+  }
+
+
+  if(!phone){
+
+    alert(
+      "⚠️ اكتب رقم العميل"
+    );
+
+    return;
+
+  }
+
+
+  if(
+    !isValidEgyptianPhone(
+      phone
+    )
+  ){
+
+    alert(
+      "⚠️ رقم العميل غير صحيح"
+    );
+
+    return;
+
+  }
+
+
+  if(
+    primary &&
+    !isValidEgyptianPhone(
+      primary
+    )
+  ){
+
+    alert(
+      "⚠️ الرقم الأساسي غير صحيح"
+    );
+
+    return;
+
+  }
+
+
+  if(!nextDate){
+
+    alert(
+      "⚠️ اختر موعد التجديد القادم"
+    );
+
+    return;
+
+  }
+
+
+  const type =
+    document.getElementById(
+      "renewalType"
+    ).value;
+
+
+  let day =
+    Number(
+      document.getElementById(
+        "renewalDay"
+      ).value
+    ) ||
+    null;
+
+
+  if(
+    type ===
+    "day_1"
+  ){
+
+    day = 1;
+
+  }
+
+
+  if(
+    type ===
+    "day_16"
+  ){
+
+    day = 16;
+
+  }
+
+
+  const now =
+    new Date()
+      .toISOString();
+
+
+  const payload = {
+
+    subscriber_name:
+      name,
+
+    phone:
+      phone,
+
+    primary_number:
+      primary ||
+      null,
+
+    allocated_gb:
+      gb,
+
+    package_name:
+      packageName,
+
+    last_price:
+      lastPrice,
+
+    payment_method:
+      document.getElementById(
+        "paymentMethod"
+      ).value ||
+      null,
+
+    status:
+      document.getElementById(
+        "status"
+      ).value,
+
+    renewal_type:
+      type,
+
+    renewal_day:
+      day,
+
+    next_renewal_date:
+      nextDate,
+
+    total_orders:
+      Number(
+        document.getElementById(
+          "totalOrders"
+        ).value
+      ) ||
+      0,
+
+    updated_at:
+      now
+
+  };
+
+
+  try{
+
+    if(editMode){
+
+      const id =
+        document.getElementById(
+          "customerId"
+        ).value;
+
+
+      await supabaseRequest(
+        "customers?id=eq." +
+        encodeURIComponent(id),
+        {
+          method:
+            "PATCH",
+
+          body:
+            JSON.stringify(
+              payload
+            )
+        }
+      );
+
+
+    }else{
+
+      const existing =
+        await supabaseRequest(
+          "customers?select=id&phone=eq." +
+          encodeURIComponent(
+            phone
+          ) +
+          "&deleted_at=is.null&limit=1"
+        );
+
+
+      if(
+        Array.isArray(existing) &&
+        existing.length
+      ){
+
+        throw new Error(
+          "الرقم ده موجود بالفعل."
+        );
+
+      }
+
+
+      payload.created_at =
+        now;
+
+
+      const newCustomer =
+        await supabaseRequest(
+          "customers",
+          {
+            method:
+              "POST",
+
+            body:
+              JSON.stringify(
+                payload
+              )
+          }
+        );
+
+
+      const customerId =
+        Number(
+          newCustomer?.[0]?.id
+        ) ||
+        null;
+
+
+      /* تسجيل الاشتراك في الماليات */
+
+      if(
+        lastPrice > 0
+      ){
+
+        try{
+
+          await supabaseRequest(
+            "financial_transactions",
+            {
+              method:
+                "POST",
+
+              body:
+                JSON.stringify({
+
+                  customer_id:
+                    customerId,
+
+                  customer_name:
+                    name,
+
+                  customer_phone:
+                    phone,
+
+                  primary_number:
+                    primary ||
+                    null,
+
+                  package_name:
+                    packageName,
+
+                  amount:
+                    lastPrice,
+
+                  transaction_type:
+                    "اشتراك جديد",
+
+                  transaction_date:
+                    now,
+
+                  notes:
+                    "أول اشتراك - إضافة عميل جديد"
+
+                })
+            }
+          );
+
+        }catch(financeError){
+
+          console.error(
+            "FINANCE ERROR:",
+            financeError
+          );
+
+          /* لا نفشل إضافة العميل بسبب الماليات */
+
+        }
+
+      }
+
+    }
+
+
+    closeModal();
+
+    await loadCustomers();
+
+
+    alert(
+      editMode
+      ?
+      "✅ تم تعديل بيانات العميل بنجاح"
+      :
+      "✅ تم إضافة العميل بنجاح"
+    );
+
+
+  }catch(e){
+
+    console.error(
+      "SAVE CUSTOMER ERROR:",
+      e
+    );
+
+
+    alert(
+      "❌ لم يتم حفظ العميل\n\n" +
+      e.message
+    );
+
+  }
 
 }
 
 
-if(
-gb === 0 &&
-packageName
-){
-
-gb =
-getPackageGB(
-packageName
-);
-
-}
-
-
-const nextDate =
-document.getElementById(
-"nextRenewal"
-).value;
-
-
-if(!name){
-
-alert(
-"⚠️ اكتب اسم العميل"
-);
-
-return;
-
-}
-
-
-if(!phone){
-
-alert(
-"⚠️ اكتب رقم العميل"
-);
-
-return;
-
-}
-
-
-if(
-!isValidEgyptianPhone(
-phone
-)
-){
-
-alert(
-"⚠️ رقم العميل غير صحيح"
-);
-
-return;
-
-}
-
-
-if(
-primary &&
-!isValidEgyptianPhone(
-primary
-)
-){
-
-alert(
-"⚠️ الرقم الأساسي غير صحيح"
-);
-
-return;
-
-}
-
-
-if(!nextDate){
-
-alert(
-"⚠️ اختر موعد التجديد القادم"
-);
-
-return;
-
-}
-
-
-const type =
-document.getElementById(
-"renewalType"
-).value;
-
-
-let day =
-Number(
-document.getElementById(
-"renewalDay"
-).value
-) ||
-null;
-
-
-if(
-type === "day_1"
-){
-
-day = 1;
-
-}
-
-
-if(
-type === "day_16"
-){
-
-day = 16;
-
-}
-
-
-const now =
-new Date()
-.toISOString();
-
-
-const payload = {
-
-subscriber_name:
-name,
-
-phone:
-phone,
-
-primary_number:
-primary ||
-null,
-
-allocated_gb:
-gb,
-
-package_name:
-packageName,
-
-last_price:
-Number(
-document.getElementById(
-"lastPrice"
-).value
-) ||
-0,
-
-payment_method:
-document.getElementById(
-"paymentMethod"
-).value ||
-null,
-
-status:
-document.getElementById(
-"status"
-).value,
-
-renewal_type:
-type,
-
-renewal_day:
-day,
-
-next_renewal_date:
-nextDate,
-
-total_orders:
-Number(
-document.getElementById(
-"totalOrders"
-).value
-) ||
-0,
-
-updated_at:
-now
-
-};
-
-
-try{
-
-
-if(editMode){
-
-const id =
-document.getElementById(
-"customerId"
-).value;
-
-
-await supabaseRequest(
-"customers?id=eq." +
-encodeURIComponent(id),
-{
-
-method:
-"PATCH",
-
-body:
-JSON.stringify(
-payload
-)
-
-}
-);
-
-
-}
-else{
-
-
-const existing =
-await supabaseRequest(
-
-"customers?select=id&phone=eq." +
-encodeURIComponent(
-phone
-) +
-"&deleted_at=is.null&limit=1"
-
-);
-
-
-if(
-Array.isArray(existing) &&
-existing.length
-){
-
-throw new Error(
-"الرقم ده موجود بالفعل."
-);
-
-}
-
-
-payload.created_at =
-now;
-
-
-const newCustomer =
-await supabaseRequest(
-"customers",
-{
-
-method:
-"POST",
-
-body:
-JSON.stringify(
-payload
-)
-
-}
-);
-
-
-const amount =
-Number(
-payload.last_price
-) ||
-0;
-
-
-if(amount > 0){
-
-await supabaseRequest(
-"financial_transactions",
-{
-
-method:
-"POST",
-
-body:
-JSON.stringify({
-
-customer_id:
-Number(
-newCustomer?.[0]?.id
-) ||
-null,
-
-customer_name:
-name,
-
-customer_phone:
-phone,
-
-primary_number:
-primary ||
-null,
-
-package_name:
-packageName,
-
-amount:
-amount,
-
-transaction_type:
-"اشتراك جديد",
-
-transaction_date:
-now,
-
-notes:
-"أول اشتراك - إضافة عميل جديد"
-
-})
-
-}
-);
-
-}
-
-}
-
-
-closeModal();
-
-
-await loadCustomers();
-
-
-alert(
-
-editMode
-?
-"✅ تم تعديل بيانات العميل بنجاح"
-:
-"✅ تم إضافة العميل بنجاح"
-
-);
-
-
-}
-catch(e){
-
-console.error(
-" SAVE CUSTOMER ERROR:",
-e
-);
-
-
-alert(
-"❌ لم يتم حفظ العميل\n\n" +
-e.message
-);
-
-}
-
-}
-
-
-/* =========================================================
-DELETE
-========================================================= */
+/* =====================================================
+   DELETE
+===================================================== */
 
 async function deleteCustomer(id){
 
-const customer =
-customers.find(
-item =>
-Number(item.id) ===
-Number(id)
-);
+  const c =
+    customers.find(
+      x =>
+        Number(x.id) ===
+        Number(id)
+    );
 
 
-if(!customer)
-return;
+  if(!c)
+    return;
 
 
-if(
-!confirm(
+  const confirmed =
+    confirm(
+      "⚠️ حذف العميل\n\n" +
 
-"⚠️ حذف العميل\n\n" +
+      "الاسم: " +
+      c.subscriber_name +
 
-"الاسم: " +
-customer.subscriber_name +
+      "\nرقم العميل: " +
+      c.phone +
 
-"\nرقم العميل: " +
-customer.phone +
-
-"\n\nهل أنت متأكد؟"
-
-)
-)
-return;
+      "\n\nهل أنت متأكد؟"
+    );
 
 
-try{
-
-const now =
-new Date()
-.toISOString();
+  if(!confirmed)
+    return;
 
 
-await supabaseRequest(
-"customers?id=eq." +
-encodeURIComponent(id),
-{
+  try{
 
-method:
-"PATCH",
-
-body:
-JSON.stringify({
-
-deleted_at:
-now,
-
-updated_at:
-now
-
-})
-
-}
-);
+    const now =
+      new Date()
+        .toISOString();
 
 
-customers =
-customers.filter(
-item =>
-Number(item.id) !==
-Number(id)
-);
+    await supabaseRequest(
+      "customers?id=eq." +
+      encodeURIComponent(id),
+      {
+        method:
+          "PATCH",
+
+        body:
+          JSON.stringify({
+
+            deleted_at:
+              now,
+
+            updated_at:
+              now
+
+          })
+      }
+    );
 
 
-updateStats();
+    customers =
+      customers.filter(
+        x =>
+          Number(x.id) !==
+          Number(id)
+      );
 
-render();
+
+    updateStats();
+    render();
 
 
-alert(
-"✅ تم حذف العميل من القائمة"
-);
+    alert(
+      "✅ تم حذف العميل من القائمة"
+    );
 
-}
-catch(e){
 
-alert(
-"❌ لم يتم حذف العميل:\n\n" +
-e.message
-);
+  }catch(e){
 
-}
+    alert(
+      "❌ لم يتم حذف العميل:\n\n" +
+      e.message
+    );
+
+  }
 
 }
 
 
-/* =========================================================
-RENEW CUSTOMER
-========================================================= */
+/* =====================================================
+   RENEW CUSTOMER
+===================================================== */
 
 async function renewCustomer(id){
 
-const customer =
-customers.find(
-item =>
-Number(item.id) ===
-Number(id)
-);
+  const c =
+    customers.find(
+      x =>
+        Number(x.id) ===
+        Number(id)
+    );
 
 
-if(!customer)
-return;
+  if(!c)
+    return;
 
 
-const amount =
-Number(
-customer.last_price
-) ||
-0;
+  const amount =
+    Number(
+      c.last_price
+    ) ||
+    0;
 
 
-if(
-!confirm(
+  const confirmed =
+    confirm(
 
-"🔄 تجديد العميل\n\n" +
+      "🔄 تجديد العميل\n\n" +
 
-"العميل: " +
-customer.subscriber_name +
+      "العميل: " +
+      c.subscriber_name +
 
-"\nالباقة: " +
-(
-customer.package_name ||
-"-"
-) +
+      "\nالباقة: " +
+      (
+        c.package_name ||
+        "-"
+      ) +
 
-"\nالمبلغ: " +
-amount +
-" جنيه" +
+      "\nالمبلغ: " +
+      amount +
+      " جنيه" +
 
-"\n\nهل تريد تسجيل التجديد؟"
+      "\n\nهل تريد تسجيل التجديد؟"
 
-)
-)
-return;
+    );
 
 
-try{
+  if(!confirmed)
+    return;
 
-const now =
-new Date();
 
+  try{
 
-let next =
-new Date(
-now
-);
+    const now =
+      new Date();
 
 
-/* ===============================
-التجديد القادم
-=============================== */
+    const next =
+      new Date(
+        now
+      );
 
-if(
-customer.renewal_type ===
-"day_1"
-){
 
-next.setMonth(
-next.getMonth()+1
-);
+    if(
+      c.renewal_type ===
+      "day_1"
+    ){
 
-next.setDate(
-1
-);
+      next.setMonth(
+        next.getMonth() + 1
+      );
 
-}
-else if(
-customer.renewal_type ===
-"day_16"
-){
+      next.setDate(1);
 
-next.setMonth(
-next.getMonth()+1
-);
+    }
 
-next.setDate(
-16
-);
+    else if(
+      c.renewal_type ===
+      "day_16"
+    ){
 
-}
-else{
+      next.setMonth(
+        next.getMonth() + 1
+      );
 
-/* تاريخ مخصص:
-نضيف شهر
-مع الحفاظ على اليوم قدر الإمكان */
+      next.setDate(16);
 
-const currentDay =
-Number(
-String(
-customer.next_renewal_date ||
-""
-)
-.split("-")[2]
-) ||
-now.getDate();
+    }
 
+    else{
 
-next.setMonth(
-next.getMonth()+1
-);
+      next.setMonth(
+        next.getMonth() + 1
+      );
 
-next.setDate(
-currentDay
-);
+    }
 
-}
 
+    const nextDate =
+      next
+        .toISOString()
+        .split("T")[0];
 
-/* ===============================
-UPDATE CUSTOMER
-=============================== */
 
-await supabaseRequest(
-"customers?id=eq." +
-encodeURIComponent(id),
-{
+    await supabaseRequest(
+      "customers?id=eq." +
+      encodeURIComponent(id),
+      {
+        method:
+          "PATCH",
 
-method:
-"PATCH",
+        body:
+          JSON.stringify({
 
-body:
-JSON.stringify({
+            last_renewed_at:
+              now.toISOString(),
 
-last_renewed_at:
-now.toISOString(),
+            last_order_at:
+              now.toISOString(),
 
-last_order_at:
-now.toISOString(),
+            next_renewal_date:
+              nextDate,
 
-next_renewal_date:
-next.toISOString()
-.split("T")[0],
+            total_orders:
+              (
+                Number(
+                  c.total_orders
+                ) ||
+                0
+              ) + 1,
 
-total_orders:
-(
-Number(
-customer.total_orders
-) ||
-0
-) + 1,
+            status:
+              "active",
 
-status:
-"active",
+            updated_at:
+              now.toISOString()
 
-updated_at:
-now.toISOString()
+          })
+      }
+    );
 
-})
 
-}
-);
+    if(
+      amount > 0
+    ){
 
+      try{
 
-/* ===============================
-FINANCE
-=============================== */
+        await supabaseRequest(
+          "financial_transactions",
+          {
+            method:
+              "POST",
 
-if(amount > 0){
+            body:
+              JSON.stringify({
 
-await supabaseRequest(
-"financial_transactions",
-{
+                customer_id:
+                  Number(c.id),
 
-method:
-"POST",
+                customer_name:
+                  c.subscriber_name,
 
-body:
-JSON.stringify({
+                customer_phone:
+                  c.phone,
 
-customer_id:
-Number(
-customer.id
-),
+                primary_number:
+                  c.primary_number,
 
-customer_name:
-customer.subscriber_name,
+                package_name:
+                  c.package_name,
 
-customer_phone:
-customer.phone,
+                amount:
+                  amount,
 
-primary_number:
-customer.primary_number,
+                transaction_type:
+                  "تجديد",
 
-package_name:
-customer.package_name,
+                transaction_date:
+                  now.toISOString(),
 
-amount:
-amount,
+                notes:
+                  "تجديد من صفحة العملاء"
 
-transaction_type:
-"تجديد",
+              })
+          }
+        );
 
-transaction_date:
-now.toISOString(),
+      }catch(financeError){
 
-notes:
-"تجديد من صفحة العملاء"
+        console.error(
+          "RENEW FINANCE ERROR:",
+          financeError
+        );
 
-})
+      }
 
-}
-);
+    }
 
-}
 
+    await loadCustomers();
 
-await loadCustomers();
 
+    alert(
+      "✅ تم التجديد بنجاح\n\n" +
+      "المبلغ: " +
+      amount +
+      " جنيه"
+    );
 
-alert(
 
-"✅ تم التجديد بنجاح\n\n" +
+  }catch(e){
 
-"المبلغ المسجل في الماليات: " +
+    alert(
+      "❌ حصل خطأ في التجديد:\n\n" +
+      e.message
+    );
 
-amount +
-
-" جنيه"
-
-);
-
-}
-catch(e){
-
-console.error(
-"RENEW ERROR:",
-e
-);
-
-
-alert(
-"❌ حصل خطأ في التجديد:\n\n" +
-e.message
-);
-
-}
+  }
 
 }
 
 
-/* =========================================================
-PAYMENT ORDERS
-========================================================= */
+/* =====================================================
+   PAYMENT ORDERS
+===================================================== */
 
 async function loadPaymentOrders(){
 
-const list =
-document.getElementById(
-"paymentOrdersList"
-);
+  const list =
+    document.getElementById(
+      "paymentOrdersList"
+    );
 
 
-if(!list)
-return;
+  if(!list)
+    return;
 
 
-list.innerHTML =
-`
-<div class="loading">
-⏳ جاري تحميل طلبات الدفع...
-</div>
-`;
+  list.innerHTML =
+    `
+    <div class="loading">
+      ⏳ جاري تحميل طلبات الدفع...
+    </div>
+    `;
 
 
-try{
+  try{
 
+    /* مهم:
+       لا يوجد order=created_at
+       لأن created_at غير موجود عندك
+    */
 
-/* ==================================================
-مهم جدًا:
-لا نستخدم created_at في استعلام Supabase
-================================================== */
+    const rawOrders =
+      await supabaseRequest(
+        "orders?select=*"
+      );
 
-const orders =
-await supabaseRequest(
-"orders?select=*"
-);
 
+    const orders =
+      sortOrdersNewestFirst(
+        Array.isArray(rawOrders)
+        ? rawOrders
+        : []
+      );
 
-let allOrders =
-Array.isArray(orders)
-?
-orders
-:
-[];
 
+    const pending =
+      orders.filter(
+        order =>
+          order.status ===
+          "payment_submitted"
+      );
 
-/* ==================================================
-ترتيب آمن
-================================================== */
 
-allOrders.sort(
-(a,b)=>{
+    if(!pending.length){
 
-if(
-a.created_at &&
-b.created_at
-){
+      list.innerHTML =
+        `
+        <div class="empty">
+          📭 لا توجد طلبات دفع معلقة
+        </div>
+        `;
 
-const dateA =
-new Date(
-a.created_at
-)
-.getTime();
+      return;
 
+    }
 
-const dateB =
-new Date(
-b.created_at
-)
-.getTime();
 
+    list.innerHTML =
+      pending
+        .map(
+          order=>{
 
-if(
-Number.isFinite(dateA) &&
-Number.isFinite(dateB)
-){
+            const packageName =
+              getOrderPackage(
+                order
+              ) ||
+              "-";
 
-return dateB - dateA;
 
-}
+            const gb =
+              getOrderGB(
+                order
+              );
 
-}
 
+            const finalPrice =
+              getOrderPrice(
+                order
+              );
 
-if(
-a.id !== undefined &&
-b.id !== undefined
-){
 
-const idA =
-Number(a.id);
+            const originalPrice =
+              getOrderOriginalPrice(
+                order,
+                packageName,
+                finalPrice
+              );
 
-const idB =
-Number(b.id);
 
+            const discount =
+              Math.max(
+                0,
+                originalPrice -
+                finalPrice
+              );
 
-if(
-Number.isFinite(idA) &&
-Number.isFinite(idB)
-){
 
-return idB - idA;
+            const promoCode =
+              getOrderPromoCode(
+                order
+              );
+
+
+            return `
+
+            <div
+              class="payment-order-card"
+            >
+
+              <div
+                class="payment-order-number"
+              >
+                📋
+                ${escapeHtml(
+                  order.order_number ||
+                  "-"
+                )}
+              </div>
 
-}
 
-}
-
-
-return 0;
-
-}
-);
-
-
-/* ==================================================
-PENDING
-================================================== */
-
-const pending =
-allOrders.filter(
-order =>
-order &&
-order.status ===
-"payment_submitted"
-);
-
-
-if(!pending.length){
-
-list.innerHTML =
-`
-<div class="empty">
-📭 لا توجد طلبات دفع معلقة
-</div>
-`;
-
-return;
-
-}
-
-
-/* ==================================================
-RENDER ORDERS
-================================================== */
-
-list.innerHTML =
-pending
-.map(
-order=>{
-
-
-const packageName =
-getOrderPackage(
-order
-) ||
-"-";
-
-
-const gb =
-getOrderGB(
-order
-);
-
-
-const finalPrice =
-getOrderPrice(
-order
-);
-
-
-const originalPrice =
-getOrderOriginalPrice(
-order
-);
-
-
-const directDiscount =
-Number(
-order.discount_amount
-);
-
-
-let discount =
-Math.max(
-0,
-originalPrice -
-finalPrice
-);
-
-
-if(
-Number.isFinite(
-directDiscount
-) &&
-directDiscount > 0
-){
-
-discount =
-directDiscount;
-
-}
-
-
-const promoCode =
-getOrderPromoCode(
-order
-);
-
-
-const orderNumber =
-order.order_number ||
-order.id ||
-"-";
-
-
-return `
-
-<div class="payment-order-card">
-
-
-<div class="payment-order-number">
-
-📋
-
-${escapeHtml(
-orderNumber
-)}
-
-</div>
-
-
-<div class="payment-order-info">
-
-
-<div>
-
-👤
-
-<strong>
-العميل:
-</strong>
-
-${escapeHtml(
-order.subscriber_name ||
-order.name ||
-"-"
-)}
-
-</div>
-
-
-<div>
-
-📱
-
-<strong>
-الرقم:
-</strong>
-
-${escapeHtml(
-order.phone ||
-"-"
-)}
-
-</div>
-
-
-<div>
-
-📦
-
-<strong>
-الباقة:
-</strong>
-
-${escapeHtml(
-packageName
-)}
-
-</div>
-
-
-<div>
-
-📦
-
-<strong>
-الجيجات:
-</strong>
-
-${formatGB(
-gb
-)}
-GB
-
-</div>
-
-
-<div>
-
-💰
-
-<strong>
-السعر النهائي:
-</strong>
-
-${formatMoney(
-finalPrice
-)}
-جنيه
-
-</div>
-
-
-<div>
-
-💰
-
-<strong>
-السعر قبل الخصم:
-</strong>
-
-${formatMoney(
-originalPrice
-)}
-جنيه
-
-</div>
-
-
-<div>
-
-🎁
-
-<strong>
-كود الخصم:
-</strong>
-
-${
-promoCode
-?
-escapeHtml(
-promoCode
-)
-:
-"لا يوجد"
-}
-
-</div>
-
-
-<div>
-
-💸
-
-<strong>
-قيمة الخصم:
-</strong>
-
-${formatMoney(
-discount
-)}
-جنيه
-
-</div>
-
-
-<div>
-
-💳
-
-<strong>
-طريقة الدفع:
-</strong>
-
-${escapeHtml(
-order.payment_method ||
-"-"
-)}
-
-</div>
-
-
-</div>
-
-
-${
-order.payment_screenshot
-
-?
-
-`
-<a
-href="${escapeHtml(
-order.payment_screenshot
-)}"
-target="_blank"
-rel="noopener"
->
-
-<img
-class="payment-proof"
-src="${escapeHtml(
-order.payment_screenshot
-)}"
-alt="إثبات التحويل"
->
-
-</a>
-`
-
-:
-
-`
-<div class="empty">
-⚠️ لا توجد صورة تحويل
-</div>
-`
+              <div
+                class="payment-order-info"
+              >
+
+                <div>
+                  👤
+                  <strong>
+                    العميل:
+                  </strong>
+
+                  ${escapeHtml(
+                    order.subscriber_name ||
+                    "-"
+                  )}
+                </div>
+
+
+                <div>
+                  📱
+                  <strong>
+                    الرقم:
+                  </strong>
+
+                  ${escapeHtml(
+                    order.phone ||
+                    "-"
+                  )}
+                </div>
+
+
+                <div>
+                  📦
+                  <strong>
+                    الباقة:
+                  </strong>
+
+                  ${escapeHtml(
+                    packageName
+                  )}
+                </div>
+
+
+                <div>
+                  📦
+                  <strong>
+                    الجيجات:
+                  </strong>
+
+                  ${formatGB(gb)}
+                  GB
+                </div>
+
+
+                <div>
+                  💰
+                  <strong>
+                    السعر:
+                  </strong>
+
+                  ${formatMoney(
+                    finalPrice
+                  )}
+                  جنيه
+                </div>
+
+
+                <div>
+                  💰
+                  <strong>
+                    السعر قبل الخصم:
+                  </strong>
+
+                  ${formatMoney(
+                    originalPrice
+                  )}
+                  جنيه
+                </div>
+
+
+                <div>
+                  💸
+                  <strong>
+                    قيمة الخصم:
+                  </strong>
+
+                  ${formatMoney(
+                    discount
+                  )}
+                  جنيه
+                </div>
+
+
+                ${
+                  promoCode
+
+                  ?
+
+                  `
+                  <div
+                    class="payment-order-code"
+                  >
+                    🎁 كود الخصم المستخدم:
+                    <strong>
+                      ${escapeHtml(
+                        promoCode
+                      )}
+                    </strong>
+                  </div>
+                  `
+
+                  :
+
+                  `
+                  <div
+                    class="payment-order-code"
+                  >
+                    🎁 كود الخصم:
+                    لا يوجد
+                  </div>
+                  `
+                }
+
+
+                <div>
+                  💳
+                  <strong>
+                    طريقة الدفع:
+                  </strong>
+
+                  ${escapeHtml(
+                    order.payment_method ||
+                    "-"
+                  )}
+                </div>
+
+              </div>
+
+
+              ${
+                order.payment_screenshot
+
+                ?
+
+                `
+                <a
+                  href="${escapeHtml(
+                    order.payment_screenshot
+                  )}"
+                  target="_blank"
+                  rel="noopener"
+                >
+
+                  <img
+                    class="payment-proof"
+                    src="${escapeHtml(
+                      order.payment_screenshot
+                    )}"
+                    alt="إثبات التحويل"
+                  >
+
+                </a>
+                `
+
+                :
+
+                `
+                <div class="empty">
+                  ⚠️ لا توجد صورة تحويل
+                </div>
+                `
+              }
+
+
+              <div
+                class="payment-actions"
+              >
+
+                <button
+                  class="approve-payment"
+                  onclick="approveOrderPayment('${escapeHtml(
+                    order.order_number
+                  )}')"
+                >
+                  ✅ تأكيد الدفع
+                </button>
+
+
+                <button
+                  class="reject-payment"
+                  onclick="rejectOrderPayment('${escapeHtml(
+                    order.order_number
+                  )}')"
+                >
+                  ❌ رفض التحويل
+                </button>
+
+              </div>
+
+            </div>
+
+            `;
+
+          }
+        )
+        .join("");
+
+
+  }catch(e){
+
+    list.innerHTML =
+      `
+      <div class="error">
+
+        ❌ حصل خطأ في تحميل طلبات الدفع
+
+        <br><br>
+
+        ${escapeHtml(
+          e.message
+        )}
+
+      </div>
+      `;
+
+  }
 
 }
 
 
-<div class="payment-actions">
-
-
-<button
-class="approve-payment"
-onclick="approveOrderPayment('${escapeHtml(
-String(orderNumber)
-)}')"
->
-✅ تأكيد الدفع
-</button>
-
-
-<button
-class="reject-payment"
-onclick="rejectOrderPayment('${escapeHtml(
-String(orderNumber)
-)}')"
->
-❌ رفض التحويل
-</button>
-
-
-</div>
-
-
-</div>
-
-`;
-
-}
-)
-.join("");
-
-
-}
-catch(e){
-
-console.error(
-"PAYMENT ORDERS ERROR:",
-e
-);
-
-
-list.innerHTML =
-`
-
-<div class="error">
-
-❌ حصل خطأ في تحميل طلبات الدفع
-
-<br><br>
-
-${escapeHtml(
-e.message
-)}
-
-<br><br>
-
-<button
-class="action edit"
-onclick="loadPaymentOrders()"
->
-🔄 إعادة المحاولة
-</button>
-
-</div>
-
-`;
-
-}
-
-}
-
-
-/* =========================================================
-APPROVE PAYMENT
-========================================================= */
+/* =====================================================
+   APPROVE PAYMENT
+===================================================== */
 
 async function approveOrderPayment(
-orderNumber
+  orderNumber
 ){
 
-if(
-window.approvingOrder
-){
+  if(
+    window.approvingOrder
+  ){
 
-alert(
-"⏳ جاري تنفيذ طلب آخر، انتظر لحظة..."
-);
+    alert(
+      "⏳ جاري تنفيذ طلب آخر، انتظر لحظة..."
+    );
 
-return;
+    return;
+
+  }
+
+
+  window.approvingOrder =
+    true;
+
+
+  try{
+
+    let primaryNumber =
+      prompt(
+
+        "📱 اكتب الرقم الأساسي الذي سيتم عمل الباقة عليه:\n\n" +
+
+        "رقم الطلب: " +
+        orderNumber
+
+      );
+
+
+    if(
+      primaryNumber ===
+      null
+    ){
+
+      return;
+
+    }
+
+
+    primaryNumber =
+      cleanPhone(
+        primaryNumber
+      );
+
+
+    if(
+      !isValidEgyptianPhone(
+        primaryNumber
+      )
+    ){
+
+      alert(
+        "❌ الرقم الأساسي غير صحيح.\n\n" +
+        "اكتب رقم مصري صحيح مكون من 11 رقم."
+      );
+
+      return;
+
+    }
+
+
+    const confirmed =
+      confirm(
+
+        "⚠️ تأكيد الطلب\n\n" +
+
+        "📋 رقم الطلب:\n" +
+        orderNumber +
+
+        "\n\n📱 الرقم الأساسي:\n" +
+        primaryNumber +
+
+        "\n\nهل أنت متأكد من تأكيد الدفع؟"
+
+      );
+
+
+    if(!confirmed)
+      return;
+
+
+    /* ==========================================
+       RPC الموجود عندك
+    ========================================== */
+
+    const result =
+      await supabaseRequest(
+        "rpc/approve_order_payment",
+        {
+          method:
+            "POST",
+
+          body:
+            JSON.stringify({
+              input_order_number:
+                orderNumber
+            })
+        }
+      );
+
+
+    if(
+      !result ||
+      result.success !==
+      true
+    ){
+
+      throw new Error(
+        result?.message ||
+        "لم يتم تأكيد الدفع."
+      );
+
+    }
+
+
+    /* ==========================================
+       جلب الطلب بدون order by created_at
+    ========================================== */
+
+    const orderRows =
+      await supabaseRequest(
+        "orders?select=*&order_number=eq." +
+        encodeURIComponent(
+          orderNumber
+        ) +
+        "&limit=1"
+      );
+
+
+    if(
+      !Array.isArray(
+        orderRows
+      ) ||
+      !orderRows.length
+    ){
+
+      throw new Error(
+        "تم تأكيد الدفع ولكن لم أجد بيانات الطلب."
+      );
+
+    }
+
+
+    const order =
+      orderRows[0];
+
+
+    const phone =
+      cleanPhone(
+        order.phone
+      );
+
+
+    /* ==========================================
+       تحديث الرقم الأساسي فقط
+       لا نلمس promo_code
+       ولا discount_amount
+    ========================================== */
+
+    if(phone){
+
+      const customerResult =
+        await supabaseRequest(
+          "customers?select=id&phone=eq." +
+          encodeURIComponent(
+            phone
+          ) +
+          "&deleted_at=is.null&limit=1"
+        );
+
+
+      if(
+        Array.isArray(
+          customerResult
+        ) &&
+        customerResult.length
+      ){
+
+        const customerId =
+          customerResult[0].id;
+
+
+        await supabaseRequest(
+          "customers?id=eq." +
+          encodeURIComponent(
+            customerId
+          ),
+          {
+            method:
+              "PATCH",
+
+            body:
+              JSON.stringify({
+
+                primary_number:
+                  primaryNumber,
+
+                updated_at:
+                  new Date()
+                    .toISOString()
+
+              })
+          }
+        );
+
+      }
+
+    }
+
+
+    /* ==========================================
+       كود الخصم من الطلب فقط
+    ========================================== */
+
+    const promoCode =
+      getOrderPromoCode(
+        order
+      );
+
+
+    let successMessage =
+      "✅ تم تأكيد الدفع بنجاح\n\n" +
+
+      "📋 رقم الطلب:\n" +
+      orderNumber +
+
+      "\n\n📱 الرقم الأساسي:\n" +
+      primaryNumber;
+
+
+    if(promoCode){
+
+      successMessage +=
+        "\n\n🎁 كود الخصم:\n" +
+        promoCode;
+
+    }
+
+
+    alert(
+      successMessage
+    );
+
+
+    await loadPaymentOrders();
+    await loadCustomers();
+
+
+  }catch(e){
+
+    console.error(
+      "APPROVE PAYMENT ERROR:",
+      e
+    );
+
+
+    alert(
+      "❌ فشل تأكيد الدفع:\n\n" +
+      e.message
+    );
+
+
+  }finally{
+
+    window.approvingOrder =
+      false;
+
+  }
 
 }
 
 
-window.approvingOrder =
-true;
-
-
-try{
-
-
-/* ==================================================
-PRIMARY NUMBER
-================================================== */
-
-let primaryNumber =
-prompt(
-
-"📱 اكتب الرقم الأساسي الذي سيتم عمل الباقة عليه:\n\n" +
-
-"رقم الطلب: " +
-orderNumber
-
-);
-
-
-if(
-primaryNumber === null
-)
-return;
-
-
-primaryNumber =
-cleanPhone(
-primaryNumber
-);
-
-
-if(
-!isValidEgyptianPhone(
-primaryNumber
-)
-){
-
-alert(
-
-"❌ الرقم الأساسي غير صحيح.\n\n" +
-
-"اكتب رقم مصري صحيح مكون من 11 رقم."
-
-);
-
-return;
-
-}
-
-
-/* ==================================================
-GET ORDER BEFORE CONFIRM
-================================================== */
-
-const orderBefore =
-await getOrderByNumber(
-orderNumber
-);
-
-
-if(!orderBefore){
-
-throw new Error(
-"لم أجد الطلب المطلوب."
-);
-
-}
-
-
-/* ==================================================
-PROMO
-================================================== */
-
-const promoCode =
-getOrderPromoCode(
-orderBefore
-);
-
-
-/* ==================================================
-CONFIRM
-================================================== */
-
-const confirmed =
-confirm(
-
-"⚠️ تأكيد الطلب\n\n" +
-
-"📋 رقم الطلب:\n" +
-orderNumber +
-
-"\n\n📱 الرقم الأساسي:\n" +
-primaryNumber +
-
-(
-promoCode
-?
-"\n\n🎁 كود الخصم:\n" +
-promoCode
-:
-""
-) +
-
-"\n\nهل أنت متأكد من تأكيد الدفع؟"
-
-);
-
-
-if(!confirmed)
-return;
-
-
-/* ==================================================
-RPC
-================================================== */
-
-const result =
-await supabaseRequest(
-"rpc/approve_order_payment",
-{
-
-method:
-"POST",
-
-body:
-JSON.stringify({
-
-input_order_number:
-orderNumber
-
-})
-
-}
-);
-
-
-if(
-!result ||
-result.success !== true
-){
-
-throw new Error(
-result?.message ||
-"لم يتم تأكيد الدفع."
-);
-
-}
-
-
-/* ==================================================
-GET ORDER AGAIN
-================================================== */
-
-const order =
-await getOrderByNumber(
-orderNumber
-);
-
-
-if(!order){
-
-throw new Error(
-"تم تأكيد الدفع ولكن لم أجد بيانات الطلب."
-);
-
-}
-
-
-const phone =
-cleanPhone(
-order.phone
-);
-
-
-/* ==================================================
-UPDATE CUSTOMER
-فقط بالأعمدة الموجودة فعليًا
-لا discount_amount
-ولا promo_code
-================================================== */
-
-if(phone){
-
-const customerResult =
-await supabaseRequest(
-
-"customers?select=id&phone=eq." +
-encodeURIComponent(
-phone
-) +
-"&deleted_at=is.null&limit=1"
-
-);
-
-
-if(
-Array.isArray(
-customerResult
-) &&
-customerResult.length
-){
-
-const customerId =
-customerResult[0].id;
-
-
-await supabaseRequest(
-
-"customers?id=eq." +
-encodeURIComponent(
-customerId
-),
-
-{
-
-method:
-"PATCH",
-
-body:
-JSON.stringify({
-
-primary_number:
-primaryNumber,
-
-updated_at:
-new Date()
-.toISOString()
-
-})
-
-}
-
-);
-
-}
-
-}
-
-
-/* ==================================================
-SUCCESS
-================================================== */
-
-alert(
-
-"✅ تم تأكيد الدفع بنجاح\n\n" +
-
-"📋 رقم الطلب:\n" +
-orderNumber +
-
-"\n\n📱 الرقم الأساسي:\n" +
-primaryNumber +
-
-(
-promoCode
-?
-"\n\n🎁 كود الخصم:\n" +
-promoCode
-:
-""
-)
-
-);
-
-
-await loadPaymentOrders();
-
-await loadCustomers();
-
-
-}
-catch(e){
-
-console.error(
-"APPROVE PAYMENT ERROR:",
-e
-);
-
-
-alert(
-
-"❌ فشل تأكيد الدفع:\n\n" +
-
-e.message
-
-);
-
-}
-finally{
-
-window.approvingOrder =
-false;
-
-}
-
-}
-
-
-/* =========================================================
-GET ORDER BY NUMBER
-========================================================= */
-
-async function getOrderByNumber(
-orderNumber
-){
-
-const orders =
-await supabaseRequest(
-
-"orders?select=*&order_number=eq." +
-encodeURIComponent(
-orderNumber
-) +
-"&limit=1"
-
-);
-
-
-if(
-Array.isArray(orders) &&
-orders.length
-){
-
-return orders[0];
-
-}
-
-
-return null;
-
-}
-
-
-/* =========================================================
-REJECT PAYMENT
-========================================================= */
+/* =====================================================
+   REJECT PAYMENT
+===================================================== */
 
 async function rejectOrderPayment(
-orderNumber
+  orderNumber
 ){
 
-if(
-!confirm(
+  const confirmed =
+    confirm(
 
-"هل أنت متأكد من رفض التحويل؟\n\n" +
+      "هل أنت متأكد من رفض التحويل؟\n\n" +
 
-"لن يتم تسجيل أي مبلغ في الماليات."
+      "لن يتم تسجيل أي مبلغ في الماليات."
 
-)
-)
-return;
+    );
 
 
-try{
-
-const result =
-await supabaseRequest(
-"rpc/reject_order_payment",
-{
-
-method:
-"POST",
-
-body:
-JSON.stringify({
-
-input_order_number:
-orderNumber
-
-})
-
-}
-);
+  if(!confirmed)
+    return;
 
 
-if(
-result?.success !== true
-){
+  try{
 
-throw new Error(
+    const result =
+      await supabaseRequest(
+        "rpc/reject_order_payment",
+        {
+          method:
+            "POST",
 
-result?.message ||
-"لم يتم رفض الطلب"
+          body:
+            JSON.stringify({
 
-);
+              input_order_number:
+                orderNumber
 
-}
-
-
-alert(
-"❌ تم رفض التحويل."
-);
+            })
+        }
+      );
 
 
-await loadPaymentOrders();
+    if(
+      result?.success !==
+      true
+    ){
 
-}
-catch(e){
+      throw new Error(
+        result?.message ||
+        "لم يتم رفض الطلب"
+      );
 
-alert(
+    }
 
-"❌ فشل رفض التحويل:\n\n" +
 
-e.message
+    alert(
+      "❌ تم رفض التحويل."
+    );
 
-);
 
-}
+    await loadPaymentOrders();
+
+
+  }catch(e){
+
+    alert(
+      "❌ فشل رفض التحويل:\n\n" +
+      e.message
+    );
+
+  }
 
 }
 
 
-/* =========================================================
-EVENTS
-========================================================= */
+/* =====================================================
+   EVENTS
+===================================================== */
 
 document
-.getElementById(
-"search"
-)
-.addEventListener(
-"input",
-render
-);
+  .getElementById(
+    "search"
+  )
+  .addEventListener(
+    "input",
+    render
+  );
 
 
 document
-.getElementById(
-"renewalFilter"
-)
-.addEventListener(
-"change",
-render
-);
+  .getElementById(
+    "renewalFilter"
+  )
+  .addEventListener(
+    "change",
+    render
+  );
 
 
 document
-.getElementById(
-"statusFilter"
-)
-.addEventListener(
-"change",
-render
-);
+  .getElementById(
+    "statusFilter"
+  )
+  .addEventListener(
+    "change",
+    render
+  );
 
 
 document
-.getElementById(
-"modal"
-)
-.addEventListener(
-"click",
-event=>{
+  .getElementById(
+    "modal"
+  )
+  .addEventListener(
+    "click",
+    event=>{
 
-if(
-event.target ===
-event.currentTarget
-){
+      if(
+        event.target ===
+        event.currentTarget
+      ){
 
-closeModal();
+        closeModal();
 
-}
+      }
 
-}
-);
+    }
+  );
 
 
-/* =========================================================
-START
-========================================================= */
+/* =====================================================
+   START
+===================================================== */
 
 checkSession();
 
 </script>
 
 </body>
-
 </html>
