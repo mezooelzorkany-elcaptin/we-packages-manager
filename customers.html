@@ -1650,6 +1650,8 @@ escapeHtml(e.message)+
 }
 
 
+/* ================= APPROVE PAYMENT ================= */
+
 async function approveOrderPayment(orderNumber){
 
 if(
@@ -1663,6 +1665,10 @@ return;
 
 try{
 
+/* =========================================
+   1) تشغيل الـ RPC الموجود بالفعل
+========================================= */
+
 const r=
 await supabaseRequest(
 "rpc/approve_order_payment",
@@ -1674,14 +1680,276 @@ input_order_number:orderNumber
 }
 );
 
-if(r?.success!==true)
+if(r?.success!==true){
+
 throw new Error(
 "لم يتم تأكيد الدفع"
 );
 
+}
+
+
+/* =========================================
+   2) جلب بيانات الطلب بعد التأكيد
+========================================= */
+
+const orders=
+await supabaseRequest(
+"orders?select=*&order_number=eq."+
+encodeURIComponent(orderNumber)+
+"&limit=1"
+);
+
+if(
+!Array.isArray(orders)||
+!orders.length
+){
+
+throw new Error(
+"تم تأكيد الدفع ولكن لم أتمكن من قراءة بيانات الطلب للتحقق من الماليات."
+);
+
+}
+
+const order=
+orders[0];
+
+const amount=
+Number(order.final_price)||0;
+
+const phone=
+String(order.phone||"").trim();
+
+const packageName=
+String(order.package_name||"").trim();
+
+
+/* =========================================
+   3) البحث عن العميل الحالي
+========================================= */
+
+let customer=null;
+
+if(phone){
+
+const customerResult=
+await supabaseRequest(
+"customers?select=*&phone=eq."+
+encodeURIComponent(phone)+
+"&deleted_at=is.null&limit=1"
+);
+
+if(
+Array.isArray(customerResult)&&
+customerResult.length
+){
+
+customer=
+customerResult[0];
+
+}
+
+}
+
+
+/* =========================================
+   4) التأكد من العملية المالية
+      قبل إنشاء أي عملية جديدة
+========================================= */
+
+let financeExists=false;
+
+
+/*
+   أولاً نبحث باستخدام رقم الطلب داخل الملاحظات.
+   لو الـRPC الحالي بيسجل رقم الطلب، هنلاقيه مباشرة.
+*/
+
+try{
+
+const exactNotes=
+await supabaseRequest(
+"financial_transactions?select=*&notes=ilike.*"+
+encodeURIComponent(orderNumber)+
+"*&limit=20"
+);
+
+if(
+Array.isArray(exactNotes)&&
+exactNotes.length
+){
+
+financeExists=true;
+
+}
+
+}
+catch(checkError){
+
+console.warn(
+"Finance order check:",
+checkError
+);
+
+}
+
+
+/*
+   لو الـRPC لم يضع رقم الطلب في الملاحظات،
+   نعمل فحص إضافي بالمبلغ + العميل + الباقة
+   خلال آخر 10 دقائق.
+*/
+
+if(!financeExists&&phone&&amount>0){
+
+try{
+
+const recentTransactions=
+await supabaseRequest(
+"financial_transactions?select=*&customer_phone=eq."+
+encodeURIComponent(phone)+
+"&amount=eq."+
+encodeURIComponent(amount)+
+"&order=transaction_date.desc&limit=20"
+);
+
+if(
+Array.isArray(recentTransactions)&&
+recentTransactions.length
+){
+
+const nowTime=
+Date.now();
+
+financeExists=
+recentTransactions.some(
+transaction=>{
+
+const transactionPackage=
+String(
+transaction.package_name||""
+).trim();
+
+if(
+packageName&&
+transactionPackage&&
+transactionPackage!==packageName
+){
+
+return false;
+
+}
+
+if(
+!transaction.transaction_date
+){
+
+return false;
+
+}
+
+const transactionTime=
+new Date(
+transaction.transaction_date
+).getTime();
+
+if(
+Number.isNaN(transactionTime)
+){
+
+return false;
+
+}
+
+return(
+nowTime-transactionTime
+)<=
+10*60*1000;
+
+}
+);
+
+}
+
+}
+catch(checkError){
+
+console.warn(
+"Recent finance check:",
+checkError
+);
+
+}
+
+}
+
+
+/* =========================================
+   5) لو العملية المالية غير موجودة
+      نسجلها مرة واحدة
+========================================= */
+
+if(!financeExists&&amount>0){
+
+await supabaseRequest(
+"financial_transactions",
+{
+method:"POST",
+
+body:JSON.stringify({
+
+customer_id:
+Number(customer?.id)||null,
+
+customer_name:
+order.subscriber_name||null,
+
+customer_phone:
+phone||null,
+
+primary_number:
+customer?.primary_number||null,
+
+package_name:
+packageName||null,
+
+amount:
+amount,
+
+transaction_type:
+String(order.order_number||"")
+.startsWith("REN-")
+?
+"تجديد"
+:
+"اشتراك جديد",
+
+transaction_date:
+new Date().toISOString(),
+
+notes:
+"طلب دفع مؤكد - "+
+orderNumber
+
+})
+}
+);
+
+}
+
+
+/* =========================================
+   6) تحديث الشاشة فقط
+========================================= */
+
 alert(
-"✅ تم تأكيد الدفع\n\n"+
-"وتم تسجيل العملية في الماليات."
+financeExists
+?
+"✅ تم تأكيد الدفع بنجاح\n\n"+
+"العملية المالية موجودة بالفعل ولم يتم تكرارها."
+:
+"✅ تم تأكيد الدفع بنجاح\n\n"+
+"💰 تم تسجيل العملية في الماليات."
 );
 
 await loadPaymentOrders();
@@ -1690,6 +1958,11 @@ await loadCustomers();
 
 }
 catch(e){
+
+console.error(
+"APPROVE PAYMENT ERROR:",
+e
+);
 
 alert(
 "❌ فشل تأكيد الدفع:\n\n"+
