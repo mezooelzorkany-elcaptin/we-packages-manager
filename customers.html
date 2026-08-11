@@ -1016,7 +1016,76 @@ async function loadCustomers(){
     }
 
 }
+function updateStats(){
 
+    const total =
+        document.getElementById("total");
+
+    const active =
+        document.getElementById("active");
+
+    const soon =
+        document.getElementById("soon");
+
+    const expired =
+        document.getElementById("expired");
+
+
+    if(total){
+        total.textContent =
+            customers.length;
+    }
+
+
+    if(active){
+        active.textContent =
+            customers.filter(
+                c => c.status === "active"
+            ).length;
+    }
+
+
+    if(soon){
+
+        soon.textContent =
+            customers.filter(c => {
+
+                const d =
+                    daysUntil(
+                        c.next_renewal_date
+                    );
+
+                return (
+                    d !== null &&
+                    d >= 0 &&
+                    d <= 7
+                );
+
+            }).length;
+
+    }
+
+
+    if(expired){
+
+        expired.textContent =
+            customers.filter(c => {
+
+                const d =
+                    daysUntil(
+                        c.next_renewal_date
+                    );
+
+                return (
+                    d !== null &&
+                    d < 0
+                );
+
+            }).length;
+
+    }
+
+}
 function customerCard(c){
 
     const d =
