@@ -320,7 +320,151 @@ t.setHours(0,0,0,0);
 const d=new Date(date+"T00:00:00");
 return Math.ceil((d-t)/86400000);
 }
+/* ================= AUTOMATIC PACKAGE DATA ================= */
 
+function getAutomaticOriginalPrice(packageName, fallbackPrice = 0){
+
+    const prices = {
+        "20 جيجا": 270,
+        "25 جيجا": 300,
+        "30 جيجا": 340,
+        "35 جيجا": 380,
+        "40 جيجا": 430,
+        "45 جيجا": 450,
+        "50 جيجا": 480,
+        "55 جيجا": 520,
+        "60 جيجا": 570
+    };
+
+    const name =
+        String(packageName || "")
+        .trim();
+
+    /* الاسم مطابق بالضبط */
+    if(
+        Object.prototype.hasOwnProperty.call(
+            prices,
+            name
+        )
+    ){
+        return prices[name];
+    }
+
+    /* لو الاسم مختلف شوية، نستخرج عدد الجيجا */
+    const match =
+        name.match(
+            /(\d+(?:\.\d+)?)\s*(?:جيجا|GB|gb)/i
+        );
+
+    if(match){
+
+        const gb =
+            Number(match[1]);
+
+        const key =
+            gb + " جيجا";
+
+        if(
+            Object.prototype.hasOwnProperty.call(
+                prices,
+                key
+            )
+        ){
+            return prices[key];
+        }
+    }
+
+    /* لو مفيش سعر معروف، استخدم السعر الموجود */
+    const fallback =
+        Number(fallbackPrice);
+
+    return Number.isFinite(fallback)
+        ? fallback
+        : 0;
+}
+
+
+/* ================= AUTOMATIC PACKAGE GB ================= */
+
+function getAutomaticPackageGB(packageName){
+
+    const name =
+        String(packageName || "")
+        .trim();
+
+    const match =
+        name.match(
+            /(\d+(?:\.\d+)?)\s*(?:جيجا|GB|gb)/i
+        );
+
+    if(match){
+
+        const gb =
+            Number(match[1]);
+
+        if(
+            Number.isFinite(gb) &&
+            gb > 0
+        ){
+            return gb;
+        }
+    }
+
+    return 0;
+}
+
+
+/* ================= ORDER GB ================= */
+
+function getOrderGB(order){
+
+    const possible = [
+
+        order.package_gb,
+
+        order.allocated_gb,
+
+        order.gb,
+
+        order.gigabytes,
+
+        order.package_size
+
+    ];
+
+    for(const value of possible){
+
+        const n =
+            Number(value);
+
+        if(
+            Number.isFinite(n) &&
+            n > 0
+        ){
+            return n;
+        }
+    }
+
+
+    /* لو عمود الجيجا فاضي
+       نستخرجها من اسم الباقة */
+
+    const automaticGB =
+        getAutomaticPackageGB(
+            order.package_name ||
+            order.package ||
+            order.package_title
+        );
+
+    if(
+        automaticGB > 0
+    ){
+        return automaticGB;
+    }
+
+
+    return 0;
+}
 function getOrderGB(order){
 const possible=[
 order.package_gb,
@@ -622,8 +766,9 @@ package_name:
 packageName,
 
 allocated_gb:
-packageGB || getOrderGB(latestOrder) || 0,
-
+    getOrderGB(latestOrder) ||
+    Number(customer.allocated_gb) ||
+    0,
 next_renewal_date:
 getOrderRenewalDate(latestOrder) ||
 customer.next_renewal_date ||
@@ -827,12 +972,14 @@ Number(c.last_price)||0;
 
 /* السعر الأصلي من الباقة تلقائيًا */
 
-const originalPrice=
-getAutomaticOriginalPrice(
-c.package_name,
-c.original_price,
-lastPrice
-);
+const originalPrice =
+    getAutomaticOriginalPrice(
+        latestOrder.package_name ||
+        customer.package_name,
+        latestOrder.original_price ||
+        customer.original_price ||
+        0
+    );
 
 
 /* الخصم = السعر الأصلي - السعر النهائي */
