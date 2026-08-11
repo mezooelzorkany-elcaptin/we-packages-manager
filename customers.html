@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0"
+>
 
 <title>العملاء | WE Packages</title>
 
@@ -21,6 +26,14 @@ margin:0;
 background:#f4f6fb;
 color:#172033
 }
+
+button,
+input,
+select{
+font-family:inherit
+}
+
+/* ================= LOGIN ================= */
 
 #loginScreen{
 min-height:100vh;
@@ -69,13 +82,16 @@ border-radius:15px;
 background:#5420b8;
 color:#fff;
 font-weight:bold;
-font-size:16px
+font-size:16px;
+cursor:pointer
 }
 
 #loginMessage{
 margin-top:15px;
 font-weight:bold
 }
+
+/* ================= APP ================= */
 
 #app{
 display:none
@@ -121,6 +137,8 @@ font-weight:bold;
 cursor:pointer
 }
 
+/* ================= STATS ================= */
+
 .stats{
 display:grid;
 grid-template-columns:repeat(4,1fr);
@@ -145,6 +163,8 @@ margin-bottom:10px
 font-size:30px;
 font-weight:bold
 }
+
+/* ================= TOOLBAR ================= */
 
 .toolbar{
 display:flex;
@@ -209,6 +229,8 @@ background:#5420b8
 .finance-btn{
 background:#14863f
 }
+
+/* ================= PAYMENT ORDERS ================= */
 
 .payment-orders{
 margin-top:20px;
@@ -300,6 +322,8 @@ color:#08752d
 background:#ffe2e2;
 color:#a00000
 }
+
+/* ================= CUSTOMERS ================= */
 
 .list{
 margin-top:20px;
@@ -412,6 +436,8 @@ background:#fde8ea;
 color:#c73542
 }
 
+/* ================= STATES ================= */
+
 .loading,
 .empty,
 .error{
@@ -426,6 +452,8 @@ font-size:17px
 .error{
 color:#c73542
 }
+
+/* ================= MODAL ================= */
 
 .modal{
 display:none;
@@ -523,6 +551,8 @@ color:#858b99;
 margin-top:5px
 }
 
+/* ================= MOBILE ================= */
+
 @media(max-width:800px){
 
 .stats{
@@ -583,12 +613,14 @@ font-size:12px
 }
 
 </style>
+
 </head>
 
 <body>
 
-
-<!-- ================= LOGIN ================= -->
+<!-- =========================================================
+LOGIN
+========================================================= -->
 
 <div id="loginScreen">
 
@@ -598,7 +630,9 @@ font-size:12px
 
 <h1>WE Packages</h1>
 
-<p>تسجيل الدخول إلى لوحة الإدارة</p>
+<p>
+تسجيل الدخول إلى لوحة الإدارة
+</p>
 
 <input
 id="loginEmail"
@@ -624,7 +658,9 @@ placeholder="كلمة المرور"
 </div>
 
 
-<!-- ================= APP ================= -->
+<!-- =========================================================
+APP
+========================================================= -->
 
 <div id="app">
 
@@ -634,7 +670,9 @@ placeholder="كلمة المرور"
 
 <div>
 
-<h1>👥 العملاء</h1>
+<h1>
+👥 العملاء
+</h1>
 
 <p>
 إدارة العملاء والتجديدات والاشتراكات
@@ -657,7 +695,9 @@ onclick="logoutCustomers()"
 <main class="container">
 
 
-<!-- ================= STATS ================= -->
+<!-- =========================================================
+STATS
+========================================================= -->
 
 <div class="stats">
 
@@ -727,7 +767,9 @@ id="expired"
 </div>
 
 
-<!-- ================= TOOLBAR ================= -->
+<!-- =========================================================
+TOOLBAR
+========================================================= -->
 
 <div class="toolbar">
 
@@ -738,6 +780,7 @@ class="admin-btn"
 🔢 الأكواد
 </a>
 
+
 <a
 href="numbers.html"
 class="numbers-btn"
@@ -745,12 +788,14 @@ class="numbers-btn"
 📱 الأرقام الأساسية
 </a>
 
+
 <a
 href="finances.html"
 class="finance-btn"
 >
 💰 الماليات
 </a>
+
 
 <button
 class="add-btn"
@@ -764,7 +809,7 @@ onclick="openAdd()"
 id="search"
 class="search"
 type="search"
-placeholder="🔎 ابحث بالاسم أو رقم التليفون أو الرقم الأساسي..."
+placeholder="🔎 ابحث بالاسم أو رقم التليفون أو الرقم الأساسي أو كود الخصم..."
 >
 
 
@@ -822,7 +867,9 @@ class="select"
 </div>
 
 
-<!-- ================= PAYMENT ORDERS ================= -->
+<!-- =========================================================
+PAYMENT ORDERS
+========================================================= -->
 
 <div class="payment-orders">
 
@@ -855,7 +902,9 @@ class="payment-orders-list"
 </div>
 
 
-<!-- ================= CUSTOMERS ================= -->
+<!-- =========================================================
+CUSTOMERS
+========================================================= -->
 
 <div
 id="list"
@@ -874,7 +923,9 @@ class="list"
 </div>
 
 
-<!-- ================= MODAL ================= -->
+<!-- =========================================================
+MODAL
+========================================================= -->
 
 <div
 id="modal"
@@ -1140,7 +1191,10 @@ onchange="changeRenewalType()"
 </div>
 
 
-<div class="field">
+<div
+class="field"
+id="renewalDayField"
+>
 
 <label>
 يوم التجديد
@@ -1212,9 +1266,8 @@ onclick="saveCustomer()"
 
 <script>
 
-
 /* =========================================================
-   SUPABASE
+SUPABASE
 ========================================================= */
 
 const SUPABASE_URL =
@@ -1240,7 +1293,7 @@ let editMode = false;
 
 
 /* =========================================================
-   PACKAGE PRICES
+PACKAGE PRICES
 ========================================================= */
 
 const PACKAGE_PRICES = {
@@ -1259,7 +1312,7 @@ const PACKAGE_PRICES = {
 
 
 /* =========================================================
-   TOKEN
+TOKEN
 ========================================================= */
 
 async function getAccessToken(){
@@ -1276,7 +1329,7 @@ SUPABASE_KEY
 
 
 /* =========================================================
-   SUPABASE REQUEST
+SUPABASE REQUEST
 ========================================================= */
 
 async function supabaseRequest(
@@ -1314,6 +1367,7 @@ signal:
 controller.signal,
 
 headers:{
+
 apikey:
 SUPABASE_KEY,
 
@@ -1328,6 +1382,7 @@ Prefer:
 "return=representation",
 
 ...(options.headers||{})
+
 }
 
 }
@@ -1344,8 +1399,10 @@ try{
 
 data =
 text
-? JSON.parse(text)
-: null;
+?
+JSON.parse(text)
+:
+null;
 
 }
 catch{
@@ -1357,20 +1414,17 @@ data = text;
 
 if(!response.ok){
 
-let msg =
+let message =
 "خطأ من قاعدة البيانات";
 
+if(typeof data === "string"){
 
-if(
-typeof data === "string"
-){
-
-msg = data;
+message = data;
 
 }
 else if(data){
 
-msg =
+message =
 data.message ||
 data.error_description ||
 data.hint ||
@@ -1378,8 +1432,7 @@ JSON.stringify(data);
 
 }
 
-
-throw new Error(msg);
+throw new Error(message);
 
 }
 
@@ -1390,7 +1443,8 @@ return data;
 catch(e){
 
 if(
-e.name === "AbortError"
+e.name ===
+"AbortError"
 ){
 
 throw new Error(
@@ -1412,7 +1466,7 @@ clearTimeout(timer);
 
 
 /* =========================================================
-   HELPERS
+HELPERS
 ========================================================= */
 
 function escapeHtml(value){
@@ -1422,7 +1476,7 @@ value ?? ""
 )
 .replace(
 /[&<>"']/g,
-c=>({
+char=>({
 
 "&":"&amp;",
 "<":"&lt;",
@@ -1430,7 +1484,7 @@ c=>({
 '"':"&quot;",
 "'":"&#039;"
 
-}[c])
+}[char])
 );
 
 }
@@ -1443,8 +1497,9 @@ value || ""
 )
 .replace(
 /[٠-٩]/g,
-d =>
-"٠١٢٣٤٥٦٧٨٩".indexOf(d)
+digit =>
+"٠١٢٣٤٥٦٧٨٩"
+.indexOf(digit)
 );
 
 }
@@ -1465,7 +1520,8 @@ value
 
 function isValidEgyptianPhone(value){
 
-return /^01[0125][0-9]{8}$/.test(
+return /^01[0125][0-9]{8}$/
+.test(
 cleanPhone(value)
 );
 
@@ -1474,24 +1530,63 @@ cleanPhone(value)
 
 function formatGB(value){
 
-const n =
+const number =
 Number(value) || 0;
 
-return Number.isInteger(n)
-? String(n)
-: n.toFixed(2);
+return Number.isInteger(number)
+?
+String(number)
+:
+number.toFixed(2);
 
 }
 
 
 function formatMoney(value){
 
-return Number(value || 0)
+return Number(
+value || 0
+)
 .toLocaleString(
 "ar-EG",
 {
 maximumFractionDigits:2
 }
+);
+
+}
+
+
+/* =========================================================
+DATE
+========================================================= */
+
+function getTodayString(){
+
+const now =
+new Date();
+
+const year =
+now.getFullYear();
+
+const month =
+String(
+now.getMonth()+1
+)
+.padStart(2,"0");
+
+const day =
+String(
+now.getDate()
+)
+.padStart(2,"0");
+
+return (
+year +
+"-" +
+month +
+"-" +
+day
 );
 
 }
@@ -1504,31 +1599,41 @@ return null;
 
 
 const today =
-new Date();
+getTodayString();
 
-today.setHours(
-0,0,0,0
+
+const todayDate =
+new Date(
+today +
+"T00:00:00"
 );
 
 
-const d =
-new Date(
+const target =
 String(date)
-.split("T")[0] +
+.split("T")[0];
+
+
+const targetDate =
+new Date(
+target +
 "T00:00:00"
 );
 
 
 if(
 Number.isNaN(
-d.getTime()
+targetDate.getTime()
 )
 )
 return null;
 
 
-return Math.ceil(
-(d - today) /
+return Math.round(
+(
+targetDate -
+todayDate
+) /
 86400000
 );
 
@@ -1536,15 +1641,20 @@ return Math.ceil(
 
 
 /* =========================================================
-   EXTRACT GB
+PACKAGE GB
 ========================================================= */
 
 function getPackageGB(packageName){
 
 const text =
-normalizeArabicNumbers(
-String(packageName || "")
-);
+String(
+packageName || ""
+)
+.trim();
+
+
+if(!text)
+return 0;
 
 
 const match =
@@ -1558,155 +1668,25 @@ return 0;
 
 
 const gb =
-Number(match[1]);
+Number(
+match[1]
+);
 
 
 return (
 Number.isFinite(gb) &&
 gb > 0
 )
-? gb
-: 0;
+?
+gb
+:
+0;
 
 }
 
 
 /* =========================================================
-   GET ORDER GB
-========================================================= */
-
-function getOrderGB(order){
-
-const possible = [
-
-order?.package_gb,
-order?.allocated_gb,
-order?.gb,
-order?.gigabytes,
-order?.package_size
-
-];
-
-
-for(
-const value of possible
-){
-
-if(
-value === null ||
-value === undefined ||
-value === ""
-)
-continue;
-
-
-const direct =
-Number(
-normalizeArabicNumbers(
-String(value)
-)
-);
-
-
-if(
-Number.isFinite(direct) &&
-direct > 0
-){
-
-return direct;
-
-}
-
-
-const extracted =
-getPackageGB(value);
-
-
-if(extracted > 0)
-return extracted;
-
-}
-
-
-/* آخر حل: اسم الباقة */
-
-return getPackageGB(
-order?.package_name ||
-order?.package ||
-order?.package_title ||
-""
-);
-
-}
-
-
-/* =========================================================
-   ORDER PRICE
-========================================================= */
-
-function getOrderPrice(order){
-
-const values = [
-
-order?.final_price,
-order?.total_price,
-order?.price,
-order?.amount
-
-];
-
-
-for(
-const value of values
-){
-
-if(
-value === null ||
-value === undefined ||
-value === ""
-)
-continue;
-
-
-const n =
-Number(value);
-
-
-if(
-Number.isFinite(n) &&
-n >= 0
-){
-
-return n;
-
-}
-
-}
-
-
-return 0;
-
-}
-
-
-/* =========================================================
-   PACKAGE NAME
-========================================================= */
-
-function getOrderPackage(order){
-
-return (
-order?.package_name ||
-order?.package ||
-order?.package_title ||
-null
-);
-
-}
-
-
-/* =========================================================
-   ORIGINAL PRICE
+PACKAGE PRICE
 ========================================================= */
 
 function getAutomaticOriginalPrice(
@@ -1734,13 +1714,16 @@ return PACKAGE_PRICES[name];
 
 
 const gb =
-getPackageGB(name);
+getPackageGB(
+name
+);
 
 
 if(gb > 0){
 
 const key =
-gb + " جيجا";
+gb +
+" جيجا";
 
 
 if(
@@ -1757,29 +1740,249 @@ return PACKAGE_PRICES[key];
 }
 
 
-const n =
-Number(fallback);
+const number =
+Number(
+fallback
+);
 
 
 return (
-Number.isFinite(n)
-&&
-n >= 0
+Number.isFinite(number) &&
+number >= 0
 )
-? n
-: 0;
+?
+number
+:
+0;
 
 }
 
 
 /* =========================================================
-   RENEWAL DATE FROM ORDER
+ORDER PACKAGE
+========================================================= */
+
+function getOrderPackage(order){
+
+return (
+order?.package_name ||
+order?.package ||
+order?.package_title ||
+null
+);
+
+}
+
+
+/* =========================================================
+ORDER GB
+========================================================= */
+
+function getOrderGB(order){
+
+if(!order)
+return 0;
+
+
+const possible = [
+
+order.package_gb,
+order.allocated_gb,
+order.gb,
+order.gigabytes
+
+];
+
+
+for(
+const value of possible
+){
+
+if(
+value === null ||
+value === undefined ||
+value === ""
+)
+continue;
+
+
+const number =
+Number(value);
+
+
+if(
+Number.isFinite(number) &&
+number > 0
+){
+
+return number;
+
+}
+
+}
+
+
+/* ===============================
+من package_size
+=============================== */
+
+const sizeText =
+String(
+order.package_size || ""
+);
+
+
+const sizeGB =
+getPackageGB(
+sizeText
+);
+
+
+if(sizeGB > 0)
+return sizeGB;
+
+
+/* ===============================
+من اسم الباقة
+=============================== */
+
+const packageName =
+getOrderPackage(
+order
+);
+
+
+return getPackageGB(
+packageName
+);
+
+}
+
+
+/* =========================================================
+ORDER PRICE
+========================================================= */
+
+function getOrderPrice(order){
+
+if(!order)
+return 0;
+
+
+const values = [
+
+order.final_price,
+order.total_price,
+order.amount,
+order.price
+
+];
+
+
+for(
+const value of values
+){
+
+if(
+value === null ||
+value === undefined ||
+value === ""
+)
+continue;
+
+
+const number =
+Number(value);
+
+
+if(
+Number.isFinite(number) &&
+number >= 0
+){
+
+return number;
+
+}
+
+}
+
+
+return 0;
+
+}
+
+
+/* =========================================================
+PROMO CODE
+========================================================= */
+
+function getOrderPromoCode(order){
+
+if(!order)
+return "";
+
+
+return String(
+
+order.promo_code ||
+
+order.discount_code ||
+
+order.coupon_code ||
+
+order.coupon ||
+
+order.promo ||
+
+""
+
+)
+.trim();
+
+}
+
+
+/* =========================================================
+ORDER ORIGINAL PRICE
+========================================================= */
+
+function getOrderOriginalPrice(order){
+
+const packageName =
+getOrderPackage(order);
+
+
+return getAutomaticOriginalPrice(
+
+packageName,
+
+order?.original_price ||
+
+order?.price ||
+
+order?.final_price ||
+
+order?.amount ||
+
+0
+
+);
+
+}
+
+
+/* =========================================================
+ORDER RENEWAL DATE
 ========================================================= */
 
 function getOrderRenewalDate(
 order,
 customer
 ){
+
+if(!order && !customer)
+return null;
+
 
 const possible = [
 
@@ -1819,7 +2022,9 @@ return date;
 }
 
 
-/* تاريخ العميل */
+/* ===============================
+تاريخ العميل
+=============================== */
 
 if(
 customer?.next_renewal_date
@@ -1833,112 +2038,45 @@ customer.next_renewal_date
 }
 
 
-/* لو مفيش تاريخ، نحسبه من تاريخ الطلب */
-
-if(
-order?.created_at
-){
-
-const d =
-new Date(
-order.created_at
-);
-
-
-if(
-!Number.isNaN(
-d.getTime()
-)
-){
-
-if(
-customer?.renewal_type ===
-"day_1"
-){
-
-d.setMonth(
-d.getMonth()+1
-);
-
-d.setDate(1);
-
-}
-else if(
-customer?.renewal_type ===
-"day_16"
-){
-
-d.setMonth(
-d.getMonth()+1
-);
-
-d.setDate(16);
-
-}
-else{
-
-d.setDate(
-d.getDate()+30
-);
-
-}
-
-
-return d
-.toISOString()
-.split("T")[0];
-
-}
-
-}
-
-
 return null;
 
 }
 
 
 /* =========================================================
-   LOGIN
+LOGIN
 ========================================================= */
 
 async function loginCustomers(){
 
 const email =
-document.getElementById(
-"loginEmail"
-)
+document
+.getElementById("loginEmail")
 .value
 .trim();
 
 
 const password =
-document.getElementById(
-"loginPassword"
-)
+document
+.getElementById("loginPassword")
 .value;
 
 
-const msg =
-document.getElementById(
-"loginMessage"
-);
+const message =
+document
+.getElementById("loginMessage");
 
 
-msg.style.color =
+message.style.color =
 "#c73542";
 
-
-msg.textContent =
+message.textContent =
 "⏳ جاري تسجيل الدخول...";
 
 
-if(
-!email ||
-!password
-){
+if(!email || !password){
 
-msg.textContent =
+message.textContent =
 "❌ اكتب البريد الإلكتروني وكلمة المرور";
 
 return;
@@ -1952,12 +2090,12 @@ const {
 data,
 error
 } =
-await authClient.auth.signInWithPassword({
-
+await authClient.auth.signInWithPassword(
+{
 email,
 password
-
-});
+}
+);
 
 
 if(error)
@@ -1991,7 +2129,7 @@ showApp();
 }
 catch(e){
 
-msg.textContent =
+message.textContent =
 "❌ " +
 e.message;
 
@@ -2001,7 +2139,7 @@ e.message;
 
 
 /* =========================================================
-   LOGOUT
+LOGOUT
 ========================================================= */
 
 async function logoutCustomers(){
@@ -2014,12 +2152,14 @@ location.reload();
 
 
 /* =========================================================
-   SESSION
+SESSION
 ========================================================= */
 
 async function checkSession(){
 
-const {data} =
+const {
+data
+} =
 await authClient.auth.getSession();
 
 
@@ -2038,21 +2178,19 @@ showApp();
 
 
 /* =========================================================
-   SHOW APP
+SHOW APP
 ========================================================= */
 
 function showApp(){
 
-document.getElementById(
-"loginScreen"
-)
+document
+.getElementById("loginScreen")
 .style.display =
 "none";
 
 
-document.getElementById(
-"app"
-)
+document
+.getElementById("app")
 .style.display =
 "block";
 
@@ -2065,15 +2203,13 @@ loadCustomers();
 
 
 /* =========================================================
-   LOAD CUSTOMERS
+LOAD CUSTOMERS
 ========================================================= */
 
 async function loadCustomers(){
 
 const list =
-document.getElementById(
-"list"
-);
+document.getElementById("list");
 
 
 list.innerHTML =
@@ -2086,25 +2222,33 @@ list.innerHTML =
 
 try{
 
-/* =========================
-   CUSTOMERS
-========================= */
+
+/* ===============================
+CUSTOMERS
+=============================== */
 
 const customerData =
 await supabaseRequest(
-"customers?select=*&deleted_at=is.null&order=next_renewal_date.asc"
+"customers?select=*&deleted_at=is.null"
 );
 
 
 customers =
-Array.isArray(customerData)
-? customerData
-: [];
+Array.isArray(
+customerData
+)
+?
+customerData
+:
+[];
 
 
-/* =========================
-   ORDERS
-========================= */
+/* ===============================
+ORDERS
+
+مهم:
+لا نستخدم created_at هنا
+=============================== */
 
 let orders = [];
 
@@ -2113,14 +2257,19 @@ try{
 
 const orderData =
 await supabaseRequest(
-"orders?select=*&order=created_at.desc"
+"orders?select=*"
 );
 
 
 orders =
-Array.isArray(orderData)
-? orderData
-: [];
+Array.isArray(
+orderData
+)
+?
+orderData
+:
+[];
+
 
 }
 catch(orderError){
@@ -2135,9 +2284,77 @@ orders = [];
 }
 
 
-/* =========================
-   ORDERS BY PHONE
-========================= */
+/* ===============================
+ترتيب الطلبات بأمان
+=============================== */
+
+orders.sort(
+(a,b)=>{
+
+if(
+a.created_at &&
+b.created_at
+){
+
+const dateA =
+new Date(
+a.created_at
+)
+.getTime();
+
+
+const dateB =
+new Date(
+b.created_at
+)
+.getTime();
+
+
+if(
+Number.isFinite(dateA) &&
+Number.isFinite(dateB)
+){
+
+return dateB - dateA;
+
+}
+
+}
+
+
+if(
+a.id !== undefined &&
+b.id !== undefined
+){
+
+const idA =
+Number(a.id);
+
+const idB =
+Number(b.id);
+
+
+if(
+Number.isFinite(idA) &&
+Number.isFinite(idB)
+){
+
+return idB - idA;
+
+}
+
+}
+
+
+return 0;
+
+}
+);
+
+
+/* ===============================
+GROUP ORDERS
+=============================== */
 
 const ordersByPhone = {};
 
@@ -2147,7 +2364,7 @@ order=>{
 
 const phone =
 cleanPhone(
-order?.phone
+order.phone
 );
 
 
@@ -2164,17 +2381,16 @@ ordersByPhone[phone] = [];
 }
 
 
-ordersByPhone[phone].push(
-order
-);
+ordersByPhone[phone]
+.push(order);
 
 }
 );
 
 
-/* =========================
-   UPDATE CUSTOMERS
-========================= */
+/* ===============================
+UPDATE CUSTOMERS FROM ORDERS
+=============================== */
 
 customers =
 customers.map(
@@ -2187,63 +2403,37 @@ customer.phone
 
 
 const customerOrders =
-ordersByPhone[phone] || [];
+ordersByPhone[phone] ||
+[];
 
 
-/* الأحدث */
+/* ===============================
+آخر طلب
+=============================== */
 
 const latestOrder =
 customerOrders.length
-? customerOrders[0]
-: null;
+?
+customerOrders[0]
+:
+null;
 
-
-/* =========================
-   NO ORDER
-========================= */
 
 if(!latestOrder){
 
-const packageName =
+const existingPackage =
 customer.package_name ||
 "";
 
 
-const automaticGB =
-getPackageGB(
-packageName
-);
-
-
-const gb =
+const existingGB =
 Number(
 customer.allocated_gb
 ) ||
-automaticGB ||
-0;
-
-
-const originalPrice =
-getAutomaticOriginalPrice(
-packageName,
-customer.original_price ||
-0
-);
-
-
-const finalPrice =
-Number(
-customer.last_price
+getPackageGB(
+existingPackage
 ) ||
 0;
-
-
-const discount =
-Math.max(
-0,
-originalPrice -
-finalPrice
-);
 
 
 return {
@@ -2251,36 +2441,32 @@ return {
 ...customer,
 
 allocated_gb:
-gb,
-
-original_price:
-originalPrice,
+existingGB,
 
 last_price:
-finalPrice,
-
-discount_amount:
-discount,
-
-promo_code:
-customer.promo_code ||
-"",
+Number(
+customer.last_price
+) ||
+0,
 
 total_orders:
 customerOrders.length ||
 Number(
 customer.total_orders
 ) ||
-0
+0,
+
+promo_code:
+""
 
 };
 
 }
 
 
-/* =========================
-   PACKAGE
-========================= */
+/* ===============================
+PACKAGE
+=============================== */
 
 const packageName =
 getOrderPackage(
@@ -2290,9 +2476,13 @@ customer.package_name ||
 "";
 
 
-/* =========================
-   GB
-========================= */
+/* ===============================
+GB
+
+الأولوية للطلب
+ثم العميل
+ثم اسم الباقة
+=============================== */
 
 const gb =
 getOrderGB(
@@ -2307,23 +2497,9 @@ packageName
 0;
 
 
-/* =========================
-   ORIGINAL PRICE
-========================= */
-
-const originalPrice =
-getAutomaticOriginalPrice(
-packageName,
-latestOrder?.original_price ||
-latestOrder?.price ||
-customer.original_price ||
-0
-);
-
-
-/* =========================
-   FINAL PRICE
-========================= */
+/* ===============================
+PRICE
+=============================== */
 
 const finalPrice =
 getOrderPrice(
@@ -2335,72 +2511,44 @@ customer.last_price
 0;
 
 
-/* =========================
-   DISCOUNT
-========================= */
+/* ===============================
+ORIGINAL PRICE
+=============================== */
 
-let discount =
-Math.max(
-0,
-originalPrice -
-finalPrice
+const originalPrice =
+getOrderOriginalPrice(
+latestOrder
+) ||
+getAutomaticOriginalPrice(
+packageName,
+customer.original_price ||
+0
 );
 
 
-const orderDiscount =
-Number(
-latestOrder?.discount_amount
-);
-
-
-if(
-Number.isFinite(orderDiscount) &&
-orderDiscount > 0
-){
-
-discount =
-orderDiscount;
-
-}
-
-
-/* =========================
-   PROMO CODE
-========================= */
+/* ===============================
+PROMO
+=============================== */
 
 const promoCode =
-
-latestOrder?.promo_code ||
-
-latestOrder?.discount_code ||
-
-latestOrder?.coupon_code ||
-
-latestOrder?.coupon ||
-
-latestOrder?.promo ||
-
-customer?.promo_code ||
-
-"";
+getOrderPromoCode(
+latestOrder
+);
 
 
-/* =========================
-   PAYMENT
-========================= */
+/* ===============================
+PAYMENT
+=============================== */
 
 const paymentMethod =
-
-latestOrder?.payment_method ||
-
-customer?.payment_method ||
-
+latestOrder.payment_method ||
+customer.payment_method ||
 null;
 
 
-/* =========================
-   RENEWAL DATE
-========================= */
+/* ===============================
+RENEWAL
+=============================== */
 
 const renewalDate =
 getOrderRenewalDate(
@@ -2409,17 +2557,16 @@ customer
 );
 
 
-/* =========================
-   RETURN
-========================= */
+/* ===============================
+RETURN
+=============================== */
 
 return {
 
 ...customer,
 
 package_name:
-packageName ||
-null,
+packageName || null,
 
 allocated_gb:
 gb,
@@ -2429,9 +2576,6 @@ finalPrice,
 
 original_price:
 originalPrice,
-
-discount_amount:
-discount,
 
 promo_code:
 promoCode,
@@ -2451,18 +2595,19 @@ customerOrders.length
 );
 
 
-/* =========================
-   STATS
-========================= */
+/* ===============================
+STATS
+=============================== */
 
 updateStats();
 
 
-/* =========================
-   RENDER
-========================= */
+/* ===============================
+RENDER
+=============================== */
 
 render();
+
 
 }
 catch(e){
@@ -2481,7 +2626,9 @@ list.innerHTML =
 
 <br><br>
 
-${escapeHtml(e.message)}
+${escapeHtml(
+e.message
+)}
 
 <br><br>
 
@@ -2501,7 +2648,7 @@ onclick="loadCustomers()"
 
 
 /* =========================================================
-   STATS
+STATS
 ========================================================= */
 
 function updateStats(){
@@ -2539,9 +2686,11 @@ if(active){
 
 active.textContent =
 customers.filter(
-c =>
-c.status === "active"
-).length;
+customer =>
+customer.status ===
+"active"
+)
+.length;
 
 }
 
@@ -2550,12 +2699,13 @@ if(soon){
 
 soon.textContent =
 customers.filter(
-c=>{
+customer=>{
 
 const d =
 daysUntil(
-c.next_renewal_date
+customer.next_renewal_date
 );
+
 
 return (
 d !== null &&
@@ -2564,7 +2714,8 @@ d <= 7
 );
 
 }
-).length;
+)
+.length;
 
 }
 
@@ -2573,12 +2724,13 @@ if(expired){
 
 expired.textContent =
 customers.filter(
-c=>{
+customer=>{
 
 const d =
 daysUntil(
-c.next_renewal_date
+customer.next_renewal_date
 );
+
 
 return (
 d !== null &&
@@ -2586,7 +2738,8 @@ d < 0
 );
 
 }
-).length;
+)
+.length;
 
 }
 
@@ -2594,7 +2747,7 @@ d < 0
 
 
 /* =========================================================
-   RENDER
+RENDER
 ========================================================= */
 
 function render(){
@@ -2611,9 +2764,9 @@ return;
 
 const search =
 String(
-document.getElementById(
-"search"
-)?.value ||
+document
+.getElementById("search")
+?.value ||
 ""
 )
 .trim()
@@ -2621,16 +2774,20 @@ document.getElementById(
 
 
 const renewal =
-document.getElementById(
+document
+.getElementById(
 "renewalFilter"
-)?.value ||
+)
+?.value ||
 "all";
 
 
 const status =
-document.getElementById(
+document
+.getElementById(
 "statusFilter"
-)?.value ||
+)
+?.value ||
 "all";
 
 
@@ -2639,27 +2796,25 @@ customers.filter(
 customer=>{
 
 
-/* SEARCH */
+/* ===============================
+SEARCH
+=============================== */
 
 if(search){
 
 const text = [
 
 customer.subscriber_name,
-
 customer.phone,
-
 customer.primary_number,
-
 customer.package_name,
-
 customer.promo_code
 
 ]
 .map(
-v =>
+value =>
 String(
-v || ""
+value || ""
 )
 .toLowerCase()
 )
@@ -2674,7 +2829,9 @@ return false;
 }
 
 
-/* RENEWAL FILTER */
+/* ===============================
+RENEWAL FILTER
+=============================== */
 
 if(
 renewal !== "all"
@@ -2708,7 +2865,9 @@ return false;
 }
 
 
-/* STATUS FILTER */
+/* ===============================
+STATUS
+=============================== */
 
 const d =
 daysUntil(
@@ -2718,7 +2877,8 @@ customer.next_renewal_date
 
 if(
 status === "active" &&
-customer.status !== "active"
+customer.status !==
+"active"
 ){
 
 return false;
@@ -2728,7 +2888,8 @@ return false;
 
 if(
 status === "inactive" &&
-customer.status !== "inactive"
+customer.status !==
+"inactive"
 ){
 
 return false;
@@ -2774,7 +2935,7 @@ if(!filtered.length){
 list.innerHTML =
 `
 <div class="empty">
-📭 لا يوجد عملاء مطابقون.
+📭 لا يوجد عملاء مطابقين.
 </div>
 `;
 
@@ -2794,7 +2955,7 @@ customerCard
 
 
 /* =========================================================
-   CUSTOMER CARD
+CUSTOMER CARD
 ========================================================= */
 
 function customerCard(c){
@@ -2805,9 +2966,9 @@ c.next_renewal_date
 );
 
 
-/* =========================
-   RENEWAL STATUS
-========================= */
+/* ===============================
+RENEWAL STATUS
+=============================== */
 
 let renewalText =
 "غير محدد";
@@ -2846,14 +3007,15 @@ renewalClass =
 }
 
 
-/* =========================
-   BADGE
-========================= */
+/* ===============================
+BADGE
+=============================== */
 
 const badge =
 c.status === "inactive"
 
 ?
+
 `
 <span class="badge inactive">
 🔴 موقوف
@@ -2861,6 +3023,7 @@ c.status === "inactive"
 `
 
 :
+
 `
 <span class="badge active">
 🟢 نشط
@@ -2868,9 +3031,9 @@ c.status === "inactive"
 `;
 
 
-/* =========================
-   GB
-========================= */
+/* ===============================
+GB
+=============================== */
 
 const gb =
 Number(
@@ -2882,9 +3045,9 @@ c.package_name
 0;
 
 
-/* =========================
-   PRICES
-========================= */
+/* ===============================
+PRICE
+=============================== */
 
 const lastPrice =
 Number(
@@ -2909,9 +3072,9 @@ lastPrice
 );
 
 
-/* =========================
-   PROMO CODE
-========================= */
+/* ===============================
+PROMO
+=============================== */
 
 const promoCode =
 String(
@@ -2939,10 +3102,11 @@ c.subscriber_name ||
 
 </div>
 
-
 <div class="phone">
 
-📱 ${escapeHtml(
+📱
+
+${escapeHtml(
 c.phone ||
 "-"
 )}
@@ -2960,7 +3124,7 @@ ${badge}
 <div class="grid">
 
 
-<!-- PRIMARY NUMBER -->
+<!-- PRIMARY -->
 
 <div class="box">
 
@@ -3053,8 +3217,7 @@ originalPrice > 0
 ?
 formatMoney(
 originalPrice
-)
-+
+) +
 " جنيه"
 :
 "-"
@@ -3105,8 +3268,7 @@ discountAmount > 0
 ?
 formatMoney(
 discountAmount
-)
-+
+) +
 " جنيه"
 :
 "0 جنيه"
@@ -3205,9 +3367,7 @@ c.payment_method ||
 class="action edit"
 onclick="openEdit(${Number(c.id)})"
 >
-
 ✏️ تعديل
-
 </button>
 
 
@@ -3215,9 +3375,7 @@ onclick="openEdit(${Number(c.id)})"
 class="action renew"
 onclick="renewCustomer(${Number(c.id)})"
 >
-
 🔄 تجديد الآن
-
 </button>
 
 
@@ -3225,9 +3383,7 @@ onclick="renewCustomer(${Number(c.id)})"
 class="action delete"
 onclick="deleteCustomer(${Number(c.id)})"
 >
-
 🗑️ حذف
-
 </button>
 
 
@@ -3242,12 +3398,13 @@ onclick="deleteCustomer(${Number(c.id)})"
 
 
 /* =========================================================
-   ADD
+ADD
 ========================================================= */
 
 function openAdd(){
 
-editMode = false;
+editMode =
+false;
 
 
 document.getElementById(
@@ -3272,6 +3429,12 @@ document.getElementById(
 
 
 document.getElementById(
+"renewalDayField"
+).style.display =
+"block";
+
+
+document.getElementById(
 "status"
 ).value =
 "active";
@@ -3293,20 +3456,20 @@ document.getElementById(
 
 
 /* =========================================================
-   EDIT
+EDIT
 ========================================================= */
 
 function openEdit(id){
 
-const c =
+const customer =
 customers.find(
-x =>
-Number(x.id) ===
+item =>
+Number(item.id) ===
 Number(id)
 );
 
 
-if(!c){
+if(!customer){
 
 alert(
 "❌ العميل غير موجود"
@@ -3317,7 +3480,8 @@ return;
 }
 
 
-editMode = true;
+editMode =
+true;
 
 
 document.getElementById(
@@ -3329,94 +3493,99 @@ document.getElementById(
 document.getElementById(
 "customerId"
 ).value =
-c.id;
+customer.id;
 
 
 document.getElementById(
 "customerName"
 ).value =
-c.subscriber_name ||
+customer.subscriber_name ||
 "";
 
 
 document.getElementById(
 "customerPhone"
 ).value =
-c.phone ||
+customer.phone ||
 "";
 
 
 document.getElementById(
 "primaryNumber"
 ).value =
-c.primary_number ||
+customer.primary_number ||
 "";
 
 
 document.getElementById(
 "allocatedGB"
 ).value =
-c.allocated_gb ??
+Number(
+customer.allocated_gb
+) ||
 getPackageGB(
-c.package_name
-) ??
+customer.package_name
+) ||
 0;
 
 
 document.getElementById(
 "packageName"
 ).value =
-c.package_name ||
+customer.package_name ||
 "";
 
 
 document.getElementById(
 "lastPrice"
 ).value =
-c.last_price ??
+customer.last_price ??
 "";
 
 
 document.getElementById(
 "paymentMethod"
 ).value =
-c.payment_method ||
+customer.payment_method ||
 "";
 
 
 document.getElementById(
 "status"
 ).value =
-c.status ||
+customer.status ||
 "active";
 
 
 document.getElementById(
 "renewalType"
 ).value =
-c.renewal_type ||
+customer.renewal_type ||
 "day_1";
 
 
 document.getElementById(
 "renewalDay"
 ).value =
-c.renewal_day ||
+customer.renewal_day ||
 "";
 
 
 document.getElementById(
 "nextRenewal"
 ).value =
-c.next_renewal_date ||
+customer.next_renewal_date ||
 "";
 
 
 document.getElementById(
 "totalOrders"
 ).value =
-c.total_orders ??
+customer.total_orders ??
 0;
+
+
+changeRenewalType();
 
 
 document.getElementById(
@@ -3429,12 +3598,13 @@ document.getElementById(
 
 
 /* =========================================================
-   CLEAR FORM
+CLEAR
 ========================================================= */
 
 function clearForm(){
 
-[
+const ids = [
+
 "customerId",
 "customerName",
 "customerPhone",
@@ -3443,12 +3613,18 @@ function clearForm(){
 "lastPrice",
 "nextRenewal"
 
-]
-.forEach(
-id =>
+];
+
+
+ids.forEach(
+id=>{
+
 document.getElementById(
 id
-).value = ""
+).value =
+"";
+
+}
 );
 
 
@@ -3483,6 +3659,12 @@ document.getElementById(
 
 
 document.getElementById(
+"renewalDayField"
+).style.display =
+"block";
+
+
+document.getElementById(
 "totalOrders"
 ).value =
 0;
@@ -3491,7 +3673,7 @@ document.getElementById(
 
 
 /* =========================================================
-   RENEWAL TYPE
+RENEWAL TYPE
 ========================================================= */
 
 function changeRenewalType(){
@@ -3502,25 +3684,48 @@ document.getElementById(
 ).value;
 
 
+const dayField =
+document.getElementById(
+"renewalDayField"
+);
+
+
+if(
+type === "custom"
+){
+
+dayField.style.display =
+"none";
+
+
 document.getElementById(
 "renewalDay"
 ).value =
-
-type === "day_1"
-? 1
-
-:
-type === "day_16"
-? 16
-
-:
 "";
+
+}
+else{
+
+dayField.style.display =
+"block";
+
+
+document.getElementById(
+"renewalDay"
+).value =
+type === "day_1"
+?
+1
+:
+16;
+
+}
 
 }
 
 
 /* =========================================================
-   CLOSE MODAL
+CLOSE MODAL
 ========================================================= */
 
 function closeModal(){
@@ -3536,7 +3741,7 @@ document.getElementById(
 
 
 /* =========================================================
-   PACKAGE DATA
+PACKAGE DATA
 ========================================================= */
 
 function updatePackageData(){
@@ -3561,9 +3766,11 @@ document.getElementById(
 
 if(!packageName){
 
-gbInput.value = 0;
+gbInput.value =
+0;
 
-priceInput.value = "";
+priceInput.value =
+"";
 
 return;
 
@@ -3602,7 +3809,7 @@ price;
 
 
 /* =========================================================
-   SAVE CUSTOMER
+SAVE CUSTOMER
 ========================================================= */
 
 async function saveCustomer(){
@@ -3659,6 +3866,19 @@ packageName
 }
 
 
+if(
+gb === 0 &&
+packageName
+){
+
+gb =
+getPackageGB(
+packageName
+);
+
+}
+
+
 const nextDate =
 document.getElementById(
 "nextRenewal"
@@ -3688,7 +3908,9 @@ return;
 
 
 if(
-!isValidEgyptianPhone(phone)
+!isValidEgyptianPhone(
+phone
+)
 ){
 
 alert(
@@ -3702,7 +3924,9 @@ return;
 
 if(
 primary &&
-!isValidEgyptianPhone(primary)
+!isValidEgyptianPhone(
+primary
+)
 ){
 
 alert(
@@ -3724,10 +3948,6 @@ return;
 
 }
 
-
-/* =========================
-   RENEWAL
-========================= */
 
 const type =
 document.getElementById(
@@ -3767,15 +3987,6 @@ new Date()
 .toISOString();
 
 
-const finalPrice =
-Number(
-document.getElementById(
-"lastPrice"
-).value
-) ||
-0;
-
-
 const payload = {
 
 subscriber_name:
@@ -3795,7 +4006,12 @@ package_name:
 packageName,
 
 last_price:
-finalPrice,
+Number(
+document.getElementById(
+"lastPrice"
+).value
+) ||
+0,
 
 payment_method:
 document.getElementById(
@@ -3834,10 +4050,6 @@ now
 try{
 
 
-/* =========================
-   EDIT
-========================= */
-
 if(editMode){
 
 const id =
@@ -3862,21 +4074,20 @@ payload
 }
 );
 
+
 }
-
-
-/* =========================
-   ADD
-========================= */
-
 else{
 
 
 const existing =
 await supabaseRequest(
+
 "customers?select=id&phone=eq." +
-encodeURIComponent(phone) +
+encodeURIComponent(
+phone
+) +
 "&deleted_at=is.null&limit=1"
+
 );
 
 
@@ -3913,11 +4124,14 @@ payload
 );
 
 
-/* =========================
-   FINANCE
-========================= */
+const amount =
+Number(
+payload.last_price
+) ||
+0;
 
-if(finalPrice > 0){
+
+if(amount > 0){
 
 await supabaseRequest(
 "financial_transactions",
@@ -3949,7 +4163,7 @@ package_name:
 packageName,
 
 amount:
-finalPrice,
+amount,
 
 transaction_type:
 "اشتراك جديد",
@@ -3977,18 +4191,23 @@ await loadCustomers();
 
 
 alert(
+
 editMode
 ?
 "✅ تم تعديل بيانات العميل بنجاح"
 :
 "✅ تم إضافة العميل بنجاح"
+
 );
 
 
 }
 catch(e){
 
-console.error(e);
+console.error(
+" SAVE CUSTOMER ERROR:",
+e
+);
 
 
 alert(
@@ -4002,20 +4221,20 @@ e.message
 
 
 /* =========================================================
-   DELETE
+DELETE
 ========================================================= */
 
 async function deleteCustomer(id){
 
-const c =
+const customer =
 customers.find(
-x =>
-Number(x.id) ===
+item =>
+Number(item.id) ===
 Number(id)
 );
 
 
-if(!c)
+if(!customer)
 return;
 
 
@@ -4025,10 +4244,10 @@ if(
 "⚠️ حذف العميل\n\n" +
 
 "الاسم: " +
-c.subscriber_name +
+customer.subscriber_name +
 
 "\nرقم العميل: " +
-c.phone +
+customer.phone +
 
 "\n\nهل أنت متأكد؟"
 
@@ -4069,8 +4288,8 @@ now
 
 customers =
 customers.filter(
-x =>
-Number(x.id) !==
+item =>
+Number(item.id) !==
 Number(id)
 );
 
@@ -4098,26 +4317,26 @@ e.message
 
 
 /* =========================================================
-   RENEW CUSTOMER
+RENEW CUSTOMER
 ========================================================= */
 
 async function renewCustomer(id){
 
-const c =
+const customer =
 customers.find(
-x =>
-Number(x.id) ===
+item =>
+Number(item.id) ===
 Number(id)
 );
 
 
-if(!c)
+if(!customer)
 return;
 
 
 const amount =
 Number(
-c.last_price
+customer.last_price
 ) ||
 0;
 
@@ -4128,10 +4347,13 @@ if(
 "🔄 تجديد العميل\n\n" +
 
 "العميل: " +
-c.subscriber_name +
+customer.subscriber_name +
 
 "\nالباقة: " +
-(c.package_name || "-") +
+(
+customer.package_name ||
+"-"
+) +
 
 "\nالمبلغ: " +
 amount +
@@ -4150,18 +4372,18 @@ const now =
 new Date();
 
 
-const next =
+let next =
 new Date(
 now
 );
 
 
-/* =========================
-   NEXT RENEWAL
-========================= */
+/* ===============================
+التجديد القادم
+=============================== */
 
 if(
-c.renewal_type ===
+customer.renewal_type ===
 "day_1"
 ){
 
@@ -4169,11 +4391,13 @@ next.setMonth(
 next.getMonth()+1
 );
 
-next.setDate(1);
+next.setDate(
+1
+);
 
 }
 else if(
-c.renewal_type ===
+customer.renewal_type ===
 "day_16"
 ){
 
@@ -4181,17 +4405,42 @@ next.setMonth(
 next.getMonth()+1
 );
 
-next.setDate(16);
+next.setDate(
+16
+);
 
 }
 else{
+
+/* تاريخ مخصص:
+نضيف شهر
+مع الحفاظ على اليوم قدر الإمكان */
+
+const currentDay =
+Number(
+String(
+customer.next_renewal_date ||
+""
+)
+.split("-")[2]
+) ||
+now.getDate();
+
 
 next.setMonth(
 next.getMonth()+1
 );
 
+next.setDate(
+currentDay
+);
+
 }
 
+
+/* ===============================
+UPDATE CUSTOMER
+=============================== */
 
 await supabaseRequest(
 "customers?id=eq." +
@@ -4215,9 +4464,12 @@ next.toISOString()
 .split("T")[0],
 
 total_orders:
-(Number(
-c.total_orders
-) || 0) + 1,
+(
+Number(
+customer.total_orders
+) ||
+0
+) + 1,
 
 status:
 "active",
@@ -4231,9 +4483,9 @@ now.toISOString()
 );
 
 
-/* =========================
-   FINANCE
-========================= */
+/* ===============================
+FINANCE
+=============================== */
 
 if(amount > 0){
 
@@ -4248,19 +4500,21 @@ body:
 JSON.stringify({
 
 customer_id:
-Number(c.id),
+Number(
+customer.id
+),
 
 customer_name:
-c.subscriber_name,
+customer.subscriber_name,
 
 customer_phone:
-c.phone,
+customer.phone,
 
 primary_number:
-c.primary_number,
+customer.primary_number,
 
 package_name:
-c.package_name,
+customer.package_name,
 
 amount:
 amount,
@@ -4300,12 +4554,15 @@ amount +
 }
 catch(e){
 
+console.error(
+"RENEW ERROR:",
+e
+);
+
+
 alert(
-
 "❌ حصل خطأ في التجديد:\n\n" +
-
 e.message
-
 );
 
 }
@@ -4314,7 +4571,7 @@ e.message
 
 
 /* =========================================================
-   PAYMENT ORDERS
+PAYMENT ORDERS
 ========================================================= */
 
 async function loadPaymentOrders(){
@@ -4339,21 +4596,103 @@ list.innerHTML =
 
 try{
 
+
+/* ==================================================
+مهم جدًا:
+لا نستخدم created_at في استعلام Supabase
+================================================== */
+
 const orders =
 await supabaseRequest(
-"orders?select=*&order=created_at.desc"
+"orders?select=*"
 );
 
 
-const pending =
-(
+let allOrders =
 Array.isArray(orders)
-? orders
-: []
+?
+orders
+:
+[];
+
+
+/* ==================================================
+ترتيب آمن
+================================================== */
+
+allOrders.sort(
+(a,b)=>{
+
+if(
+a.created_at &&
+b.created_at
+){
+
+const dateA =
+new Date(
+a.created_at
 )
-.filter(
-o =>
-o.status ===
+.getTime();
+
+
+const dateB =
+new Date(
+b.created_at
+)
+.getTime();
+
+
+if(
+Number.isFinite(dateA) &&
+Number.isFinite(dateB)
+){
+
+return dateB - dateA;
+
+}
+
+}
+
+
+if(
+a.id !== undefined &&
+b.id !== undefined
+){
+
+const idA =
+Number(a.id);
+
+const idB =
+Number(b.id);
+
+
+if(
+Number.isFinite(idA) &&
+Number.isFinite(idB)
+){
+
+return idB - idA;
+
+}
+
+}
+
+
+return 0;
+
+}
+);
+
+
+/* ==================================================
+PENDING
+================================================== */
+
+const pending =
+allOrders.filter(
+order =>
+order &&
+order.status ===
 "payment_submitted"
 );
 
@@ -4371,6 +4710,10 @@ return;
 
 }
 
+
+/* ==================================================
+RENDER ORDERS
+================================================== */
 
 list.innerHTML =
 pending
@@ -4398,15 +4741,18 @@ order
 
 
 const originalPrice =
-getAutomaticOriginalPrice(
-packageName,
-order?.original_price ||
-order?.price ||
-finalPrice
+getOrderOriginalPrice(
+order
 );
 
 
-const discount =
+const directDiscount =
+Number(
+order.discount_amount
+);
+
+
+let discount =
 Math.max(
 0,
 originalPrice -
@@ -4414,19 +4760,29 @@ finalPrice
 );
 
 
+if(
+Number.isFinite(
+directDiscount
+) &&
+directDiscount > 0
+){
+
+discount =
+directDiscount;
+
+}
+
+
 const promoCode =
+getOrderPromoCode(
+order
+);
 
-order?.promo_code ||
 
-order?.discount_code ||
-
-order?.coupon_code ||
-
-order?.coupon ||
-
-order?.promo ||
-
-"";
+const orderNumber =
+order.order_number ||
+order.id ||
+"-";
 
 
 return `
@@ -4437,9 +4793,9 @@ return `
 <div class="payment-order-number">
 
 📋
+
 ${escapeHtml(
-order.order_number ||
-"-"
+orderNumber
 )}
 
 </div>
@@ -4451,12 +4807,14 @@ order.order_number ||
 <div>
 
 👤
+
 <strong>
 العميل:
 </strong>
 
 ${escapeHtml(
 order.subscriber_name ||
+order.name ||
 "-"
 )}
 
@@ -4466,6 +4824,7 @@ order.subscriber_name ||
 <div>
 
 📱
+
 <strong>
 الرقم:
 </strong>
@@ -4481,6 +4840,7 @@ order.phone ||
 <div>
 
 📦
+
 <strong>
 الباقة:
 </strong>
@@ -4495,11 +4855,14 @@ packageName
 <div>
 
 📦
+
 <strong>
 الجيجات:
 </strong>
 
-${formatGB(gb)}
+${formatGB(
+gb
+)}
 GB
 
 </div>
@@ -4508,11 +4871,14 @@ GB
 <div>
 
 💰
+
 <strong>
-السعر:
+السعر النهائي:
 </strong>
 
-${formatMoney(finalPrice)}
+${formatMoney(
+finalPrice
+)}
 جنيه
 
 </div>
@@ -4521,11 +4887,14 @@ ${formatMoney(finalPrice)}
 <div>
 
 💰
+
 <strong>
 السعر قبل الخصم:
 </strong>
 
-${formatMoney(originalPrice)}
+${formatMoney(
+originalPrice
+)}
 جنيه
 
 </div>
@@ -4534,6 +4903,7 @@ ${formatMoney(originalPrice)}
 <div>
 
 🎁
+
 <strong>
 كود الخصم:
 </strong>
@@ -4554,11 +4924,14 @@ promoCode
 <div>
 
 💸
+
 <strong>
 قيمة الخصم:
 </strong>
 
-${formatMoney(discount)}
+${formatMoney(
+discount
+)}
 جنيه
 
 </div>
@@ -4567,6 +4940,7 @@ ${formatMoney(discount)}
 <div>
 
 💳
+
 <strong>
 طريقة الدفع:
 </strong>
@@ -4588,7 +4962,6 @@ order.payment_screenshot
 ?
 
 `
-
 <a
 href="${escapeHtml(
 order.payment_screenshot
@@ -4606,20 +4979,16 @@ alt="إثبات التحويل"
 >
 
 </a>
-
 `
 
 :
 
 `
-
 <div class="empty">
-
 ⚠️ لا توجد صورة تحويل
-
 </div>
-
 `
+
 }
 
 
@@ -4629,24 +4998,20 @@ alt="إثبات التحويل"
 <button
 class="approve-payment"
 onclick="approveOrderPayment('${escapeHtml(
-order.order_number
+String(orderNumber)
 )}')"
 >
-
 ✅ تأكيد الدفع
-
 </button>
 
 
 <button
 class="reject-payment"
 onclick="rejectOrderPayment('${escapeHtml(
-order.order_number
+String(orderNumber)
 )}')"
 >
-
 ❌ رفض التحويل
-
 </button>
 
 
@@ -4661,11 +5026,19 @@ order.order_number
 )
 .join("");
 
+
 }
 catch(e){
 
+console.error(
+"PAYMENT ORDERS ERROR:",
+e
+);
+
+
 list.innerHTML =
 `
+
 <div class="error">
 
 ❌ حصل خطأ في تحميل طلبات الدفع
@@ -4676,7 +5049,17 @@ ${escapeHtml(
 e.message
 )}
 
+<br><br>
+
+<button
+class="action edit"
+onclick="loadPaymentOrders()"
+>
+🔄 إعادة المحاولة
+</button>
+
 </div>
+
 `;
 
 }
@@ -4685,7 +5068,7 @@ e.message
 
 
 /* =========================================================
-   APPROVE PAYMENT
+APPROVE PAYMENT
 ========================================================= */
 
 async function approveOrderPayment(
@@ -4712,9 +5095,9 @@ true;
 try{
 
 
-/* =========================
-   PRIMARY NUMBER
-========================= */
+/* ==================================================
+PRIMARY NUMBER
+================================================== */
 
 let primaryNumber =
 prompt(
@@ -4758,9 +5141,38 @@ return;
 }
 
 
-/* =========================
-   CONFIRM
-========================= */
+/* ==================================================
+GET ORDER BEFORE CONFIRM
+================================================== */
+
+const orderBefore =
+await getOrderByNumber(
+orderNumber
+);
+
+
+if(!orderBefore){
+
+throw new Error(
+"لم أجد الطلب المطلوب."
+);
+
+}
+
+
+/* ==================================================
+PROMO
+================================================== */
+
+const promoCode =
+getOrderPromoCode(
+orderBefore
+);
+
+
+/* ==================================================
+CONFIRM
+================================================== */
 
 const confirmed =
 confirm(
@@ -4773,6 +5185,15 @@ orderNumber +
 "\n\n📱 الرقم الأساسي:\n" +
 primaryNumber +
 
+(
+promoCode
+?
+"\n\n🎁 كود الخصم:\n" +
+promoCode
+:
+""
+) +
+
 "\n\nهل أنت متأكد من تأكيد الدفع؟"
 
 );
@@ -4782,9 +5203,9 @@ if(!confirmed)
 return;
 
 
-/* =========================
-   RPC
-========================= */
+/* ==================================================
+RPC
+================================================== */
 
 const result =
 await supabaseRequest(
@@ -4819,26 +5240,17 @@ result?.message ||
 }
 
 
-/* =========================
-   GET ORDER
-========================= */
+/* ==================================================
+GET ORDER AGAIN
+================================================== */
 
-const orders =
-await supabaseRequest(
-
-"orders?select=*&order_number=eq." +
-encodeURIComponent(
+const order =
+await getOrderByNumber(
 orderNumber
-) +
-"&limit=1"
-
 );
 
 
-if(
-!Array.isArray(orders) ||
-!orders.length
-){
+if(!order){
 
 throw new Error(
 "تم تأكيد الدفع ولكن لم أجد بيانات الطلب."
@@ -4847,23 +5259,18 @@ throw new Error(
 }
 
 
-const order =
-orders[0];
-
-
 const phone =
 cleanPhone(
 order.phone
 );
 
 
-/* =========================
-   UPDATE PRIMARY ONLY
-   IMPORTANT:
-   لا نكتب promo_code داخل customers
-   حتى لا نعتمد على عمود غير موجود.
-   الكود سيظهر في العملاء من جدول orders.
-========================= */
+/* ==================================================
+UPDATE CUSTOMER
+فقط بالأعمدة الموجودة فعليًا
+لا discount_amount
+ولا promo_code
+================================================== */
 
 if(phone){
 
@@ -4871,7 +5278,9 @@ const customerResult =
 await supabaseRequest(
 
 "customers?select=id&phone=eq." +
-encodeURIComponent(phone) +
+encodeURIComponent(
+phone
+) +
 "&deleted_at=is.null&limit=1"
 
 );
@@ -4921,24 +5330,9 @@ new Date()
 }
 
 
-/* =========================
-   SUCCESS
-========================= */
-
-const promoCode =
-
-order?.promo_code ||
-
-order?.discount_code ||
-
-order?.coupon_code ||
-
-order?.coupon ||
-
-order?.promo ||
-
-"";
-
+/* ==================================================
+SUCCESS
+================================================== */
 
 alert(
 
@@ -4962,13 +5356,10 @@ promoCode
 );
 
 
-/* =========================
-   REFRESH
-========================= */
-
 await loadPaymentOrders();
 
 await loadCustomers();
+
 
 }
 catch(e){
@@ -4999,7 +5390,42 @@ false;
 
 
 /* =========================================================
-   REJECT PAYMENT
+GET ORDER BY NUMBER
+========================================================= */
+
+async function getOrderByNumber(
+orderNumber
+){
+
+const orders =
+await supabaseRequest(
+
+"orders?select=*&order_number=eq." +
+encodeURIComponent(
+orderNumber
+) +
+"&limit=1"
+
+);
+
+
+if(
+Array.isArray(orders) &&
+orders.length
+){
+
+return orders[0];
+
+}
+
+
+return null;
+
+}
+
+
+/* =========================================================
+REJECT PAYMENT
 ========================================================= */
 
 async function rejectOrderPayment(
@@ -5045,8 +5471,10 @@ result?.success !== true
 ){
 
 throw new Error(
+
 result?.message ||
 "لم يتم رفض الطلب"
+
 );
 
 }
@@ -5076,7 +5504,7 @@ e.message
 
 
 /* =========================================================
-   EVENTS
+EVENTS
 ========================================================= */
 
 document
@@ -5115,11 +5543,11 @@ document
 )
 .addEventListener(
 "click",
-e=>{
+event=>{
 
 if(
-e.target ===
-e.currentTarget
+event.target ===
+event.currentTarget
 ){
 
 closeModal();
@@ -5131,7 +5559,7 @@ closeModal();
 
 
 /* =========================================================
-   START
+START
 ========================================================= */
 
 checkSession();
@@ -5139,4 +5567,5 @@ checkSession();
 </script>
 
 </body>
+
 </html>
