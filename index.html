@@ -22,57 +22,31 @@ background:#f5f7fb;
 color:#111827;
 }
 
-/* =========================
-   TOP
-========================= */
-
 .top{
-
 height:85px;
-
 background:#101828;
-
 color:white;
-
 display:flex;
-
 align-items:center;
-
 justify-content:center;
-
 font-size:28px;
-
 font-weight:bold;
-
 }
 
-
-/* =========================
-   HERO
-========================= */
-
 .hero{
-
 min-height:650px;
-
 display:flex;
-
 align-items:center;
-
 justify-content:center;
-
 text-align:center;
-
 padding:60px 20px;
 
 background:
-
 radial-gradient(
 circle at top right,
 #7c3aed,
 transparent 45%
 ),
-
 linear-gradient(
 135deg,
 #111827,
@@ -81,271 +55,153 @@ linear-gradient(
 );
 
 color:white;
-
 }
 
 .hero-content{
-
 max-width:850px;
-
 }
 
 .badge{
-
 display:inline-block;
-
 padding:12px 25px;
-
 border:1px solid rgba(255,255,255,.35);
-
 background:rgba(255,255,255,.12);
-
 border-radius:50px;
-
 margin-bottom:28px;
-
 font-size:18px;
-
 }
 
 h1{
-
 font-size:55px;
-
 line-height:1.35;
-
 margin-bottom:22px;
-
 }
 
 h1 span{
-
 color:#c4b5fd;
-
 }
 
 .hero p{
-
 font-size:22px;
-
 line-height:1.8;
-
 color:#e5e7eb;
-
 margin-bottom:35px;
-
 }
 
-
-/* =========================
-   CUSTOMER BUTTONS
-========================= */
-
 .customer-actions{
-
 display:flex;
-
 justify-content:center;
-
 gap:15px;
-
 flex-wrap:wrap;
-
 margin-top:10px;
-
 }
 
 .customer-btn{
-
 display:flex;
-
 align-items:center;
-
 justify-content:center;
-
 padding:18px 28px;
-
 border-radius:16px;
-
 text-decoration:none;
-
 font-size:18px;
-
 font-weight:bold;
-
 transition:.3s;
-
 min-width:250px;
-
 }
 
 .customer-btn:hover{
-
 transform:translateY(-4px);
-
 }
 
 .current-btn{
-
 background:rgba(255,255,255,.15);
-
 color:white;
-
 border:1px solid rgba(255,255,255,.45);
-
 backdrop-filter:blur(10px);
-
 }
 
 .new-btn{
-
 background:white;
-
 color:#5b21b6;
-
 box-shadow:
 0 10px 30px rgba(0,0,0,.15);
-
 }
 
-
-/* =========================
-   FEATURES
-========================= */
-
 .features{
-
 max-width:1050px;
-
 margin:-65px auto 70px;
-
 position:relative;
-
 display:grid;
-
 grid-template-columns:repeat(3,1fr);
-
 gap:22px;
-
 padding:0 20px;
-
 }
 
 .card{
-
 background:white;
-
 padding:40px 25px;
-
 text-align:center;
-
 border-radius:25px;
-
 box-shadow:
 0 15px 40px rgba(0,0,0,.08);
-
 }
 
 .icon{
-
 font-size:45px;
-
 margin-bottom:18px;
-
 }
 
 .card h2{
-
 font-size:24px;
-
 margin-bottom:12px;
-
 }
 
 .card p{
-
 color:#6b7280;
-
 font-size:17px;
-
 line-height:1.7;
-
 }
-
-
-/* =========================
-   FOOTER
-========================= */
 
 footer{
-
 text-align:center;
-
 padding:30px;
-
 color:#6b7280;
-
 }
-
-
-/* =========================
-   MOBILE
-========================= */
 
 @media(max-width:700px){
 
 .top{
-
 height:75px;
-
 font-size:25px;
-
 }
 
 .hero{
-
 min-height:650px;
-
 padding:50px 18px;
-
 }
 
 h1{
-
 font-size:40px;
-
 }
 
 .hero p{
-
 font-size:18px;
-
 margin-bottom:28px;
-
 }
 
 .customer-actions{
-
 flex-direction:column;
-
 width:100%;
-
 }
 
 .customer-btn{
-
 width:100%;
-
 min-width:0;
-
 }
 
 .features{
-
 grid-template-columns:1fr;
-
 margin-top:-40px;
-
 }
 
 }
@@ -358,20 +214,12 @@ margin-top:-40px;
 <body>
 
 
-<!-- =========================
-     TOP
-========================= -->
-
 <div class="top">
 
 💜 WE Packages
 
 </div>
 
-
-<!-- =========================
-     HERO
-========================= -->
 
 <section class="hero">
 
@@ -402,15 +250,11 @@ margin-top:-40px;
 </p>
 
 
-<!-- =========================
-     CUSTOMER TYPE
-========================= -->
-
 <div class="customer-actions">
 
 
 <a
-href="renew.html"
+href="client.html"
 class="customer-btn current-btn"
 >
 
@@ -436,10 +280,6 @@ class="customer-btn new-btn"
 
 </section>
 
-
-<!-- =========================
-     FEATURES
-========================= -->
 
 <section class="features">
 
@@ -497,10 +337,6 @@ class="customer-btn new-btn"
 
 </section>
 
-
-<!-- =========================
-     FOOTER
-========================= -->
 
 <footer>
 
