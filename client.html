@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>أنا عميل حالي | WE Packages</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+box-sizing:border-box;
+font-family:Arial,Tahoma,sans-serif;
+}
+
+body{
+margin:0;
+min-height:100vh;
+background:
+linear-gradient(
+135deg,
+#151a35,
+#5420b8
+);
+padding:18px;
+color:#172033;
+}
+
+.wrap{
+max-width:570px;
+margin:auto;
+padding-top:24px;
+}
+
+.card{
+background:#fff;
+border-radius:30px;
+padding:27px;
+box-shadow:
+0 25px 70px rgba(0,0,0,.28);
+}
+
+.logo{
+width:75px;
+height:75px;
+border-radius:24px;
+background:#eee5ff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:37px;
+margin:0 auto 15px;
+}
+
+h1{
+text-align:center;
+margin:0;
+color:#293160;
+font-size:28px;
+}
+
+.sub{
+text-align:center;
+color:#7b8395;
+line-height:1.7;
+margin:9px 0 24px;
+}
+
+.choice{
+display:flex;
+align-items:center;
+gap:14px;
+width:100%;
+border:2px solid #e7e3ef;
+background:#faf9fd;
+border-radius:20px;
+padding:18px;
+margin:12px 0;
+cursor:pointer;
+text-align:right;
+transition:.2s;
+}
+
+.choice:hover{
+border-color:#5420b8;
+background:#f5f0ff;
+transform:translateY(-1px);
+}
+
+.icon{
+width:54px;
+height:54px;
+flex:0 0 54px;
+border-radius:17px;
+background:#eee5ff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:27px;
+}
+
+.choice h2{
+font-size:18px;
+margin:0 0 5px;
+color:#292f62;
+}
+
+.choice p{
+margin:0;
+color:#858b99;
+font-size:13px;
+line-height:1.5;
+}
+
+.arrow{
+margin-right:auto;
+color:#5420b8;
+font-size:25px;
+}
+
+.panel{
+display:none;
+}
+
+.back{
+border:0;
+background:#eee8fb;
+color:#5420b8;
+border-radius:13px;
+padding:10px 15px;
+font-weight:bold;
+cursor:pointer;
+margin-bottom:18px;
+}
+
+.field{
+margin-bottom:16px;
+}
+
+label{
+display:block;
+font-weight:bold;
+font-size:14px;
+margin-bottom:7px;
+}
+
+input,
+select{
+width:100%;
+height:51px;
+border:2px solid #e2e6ef;
+border-radius:14px;
+padding:0 14px;
+font-size:16px;
+outline:0;
+background:#fff;
+}
+
+input:focus,
+select:focus{
+border-color:#5420b8;
+box-shadow:
+0 0 0 3px rgba(84,32,184,.08);
+}
+
+.price{
+background:#f5f1ff;
+border:1px solid #e2d7ff;
+border-radius:17px;
+padding:15px;
+margin:4px 0 18px;
+}
+
+.price small{
+color:#777;
+}
+
+.price strong{
+display:block;
+color:#5420b8;
+font-size:27px;
+margin-top:4px;
+}
+
+.submit{
+width:100%;
+height:53px;
+border:0;
+border-radius:15px;
+background:
+linear-gradient(
+135deg,
+#5420b8,
+#7e3fe0
+);
+color:#fff;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.message{
+display:none;
+text-align:center;
+border-radius:15px;
+padding:14px;
+margin-top:14px;
+font-weight:bold;
+line-height:1.7;
+}
+
+.success{
+background:#e5f8ec;
+color:#08752d;
+}
+
+.error{
+background:#ffe7e7;
+color:#a00000;
+}
+
+.note{
+text-align:center;
+color:#858b99;
+font-size:12px;
+line-height:1.7;
+margin-top:14px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="wrap">
+
+<div class="card">
+
+
+<div id="home">
+
+
+<div class="logo">
+👤
+</div>
+
+
+<h1>
+أنا عميل حالي
+</h1>
+
+
+<div class="sub">
+اختار الخدمة اللي عايزها
+</div>
+
+
+<div
+class="choice"
+onclick="showPanel('register')"
+>
+
+<div class="icon">
+📝
+</div>
+
+<div>
+
+<h2>
+تسجيل بياناتي
+</h2>
+
+<p>
+لو دي أول مرة تسجل بياناتك عندنا
+</p>
+
+</div>
+
+<div class="arrow">
+‹
+</div>
+
+</div>
+
+
+<div
+class="choice"
+onclick="goRenew()"
+>
+
+<div class="icon">
+🔄
+</div>
+
+<div>
+
+<h2>
+تجديد اشتراكي
+</h2>
+
+<p>
+أنا عميل مسجل وعايز أجدد الباقة
+</p>
+
+</div>
+
+<div class="arrow">
+‹
+</div>
+
+</div>
+
+
+</div>
+
+
+<div
+id="registerPanel"
+class="panel"
+>
+
+
+<button
+class="back"
+type="button"
+onclick="backHome()"
+>
+
+→ رجوع
+
+</button>
+
+
+<h1>
+📝 تسجيل بياناتي
+</h1>
+
+
+<div class="sub">
+سجّل بياناتك واختار الباقة وموعد التجديد
+</div>
+
+
+<div class="field">
+
+<label>
+👤 الاسم *
+</label>
+
+<input
+id="customerName"
+autocomplete="name"
+placeholder="اكتب اسمك"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+📱 رقم الموبايل *
+</label>
+
+<input
+id="customerPhone"
+inputmode="numeric"
+maxlength="11"
+autocomplete="tel"
+placeholder="01xxxxxxxxx"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+📦 الباقة *
+</label>
+
+
+<select
+id="packageName"
+onchange="updatePrice()"
+>
+
+<option value="">
+اختار الباقة
+</option>
+
+<option value="20 جيجا">
+20 جيجا
+</option>
+
+<option value="25 جيجا">
+25 جيجا
+</option>
+
+<option value="30 جيجا">
+30 جيجا
+</option>
+
+<option value="35 جيجا">
+35 جيجا
+</option>
+
+<option value="40 جيجا">
+40 جيجا
+</option>
+
+<option value="45 جيجا">
+45 جيجا
+</option>
+
+<option value="50 جيجا">
+50 جيجا
+</option>
+
+<option value="55 جيجا">
+55 جيجا
+</option>
+
+<option value="60 جيجا">
+60 جيجا
+</option>
+
+</select>
+
+</div>
+
+
+<div class="price">
+
+<small>
+💰 سعر الباقة
+</small>
+
+<strong id="price">
+اختار الباقة أولًا
+</strong>
+
+</div>
+
+
+<div class="field">
+
+<label>
+📅 موعد التجديد *
+</label>
+
+
+<select
+id="renewalType"
+>
+
+<option value="">
+اختار الموعد
+</option>
+
+<option value="day_1">
+يوم 1 من كل شهر
+</option>
+
+<option value="day_16">
+يوم 16 من كل شهر
+</option>
+
+</select>
+
+</div>
+
+
+<div
+id="successMessage"
+class="message success"
+></div>
+
+
+<div
+id="errorMessage"
+class="message error"
+></div>
+
+
+<button
+id="submitButton"
+class="submit"
+type="button"
+onclick="registerCustomer()"
+>
+
+✅ تسجيل البيانات
+
+</button>
+
+
+<div class="note">
+بياناتك تُستخدم لتسجيل اشتراكك فقط.
+</div>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+
+const SUPABASE_URL =
+"https://pgvbynefhqmyzjtccttl.supabase.co";
+
+
+const SUPABASE_KEY =
+"sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
+
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+const PACKAGE_DATA = {
+
+"20 جيجا":
+{
+gb:20,
+price:270
+},
+
+"25 جيجا":
+{
+gb:25,
+price:300
+},
+
+"30 جيجا":
+{
+gb:30,
+price:340
+},
+
+"35 جيجا":
+{
+gb:35,
+price:380
+},
+
+"40 جيجا":
+{
+gb:40,
+price:430
+},
+
+"45 جيجا":
+{
+gb:45,
+price:450
+},
+
+"50 جيجا":
+{
+gb:50,
+price:480
+},
+
+"55 جيجا":
+{
+gb:55,
+price:520
+},
+
+"60 جيجا":
+{
+gb:60,
+price:570
+}
+
+};
+
+
+function cleanPhone(value){
+
+return String(value||"")
+.replace(
+/[٠-٩]/g,
+d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)
+)
+.replace(
+/\D/g,
+""
+);
+
+}
+
+
+function validPhone(phone){
+
+return /^01[0125][0-9]{8}$/.test(
+phone
+);
+
+}
+
+
+function showPanel(panel){
+
+document.getElementById(
+"home"
+).style.display="none";
+
+document.getElementById(
+"registerPanel"
+).style.display=
+panel==="register"
+?"block"
+:"none";
+
+}
+
+
+function backHome(){
+
+document.getElementById(
+"home"
+).style.display="block";
+
+document.getElementById(
+"registerPanel"
+).style.display="none";
+
+clearMessages();
+
+}
+
+
+function goRenew(){
+
+window.location.href=
+"renew.html";
+
+}
+
+
+function updatePrice(){
+
+const packageName =
+document.getElementById(
+"packageName"
+).value;
+
+const price =
+document.getElementById(
+"price"
+);
+
+price.textContent =
+packageName &&
+PACKAGE_DATA[packageName]
+?
+PACKAGE_DATA[
+packageName
+].price.toLocaleString(
+"ar-EG"
+)+" جنيه"
+:
+"اختار الباقة أولًا";
+
+}
+
+
+function getNextRenewalDate(
+type
+){
+
+const now =
+new Date();
+
+let year =
+now.getFullYear();
+
+let month =
+now.getMonth();
+
+const day =
+type==="day_16"
+?16
+:1;
+
+
+if(
+now.getDate()>day
+){
+
+month++;
+
+}
+
+
+const result =
+new Date(
+year,
+month,
+day
+);
+
+
+return result
+.toISOString()
+.split("T")[0];
+
+}
+
+
+function showError(text){
+
+const el =
+document.getElementById(
+"errorMessage"
+);
+
+el.textContent =
+"❌ "+text;
+
+el.style.display="block";
+
+document.getElementById(
+"successMessage"
+).style.display="none";
+
+}
+
+
+function clearMessages(){
+
+document.getElementById(
+"errorMessage"
+).style.display="none";
+
+document.getElementById(
+"successMessage"
+).style.display="none";
+
+}
+
+
+async function registerCustomer(){
+
+clearMessages();
+
+
+const button =
+document.getElementById(
+"submitButton"
+);
+
+
+const name =
+document.getElementById(
+"customerName"
+).value.trim();
+
+
+const phone =
+cleanPhone(
+document.getElementById(
+"customerPhone"
+).value
+);
+
+
+const packageName =
+document.getElementById(
+"packageName"
+).value;
+
+
+const renewalType =
+document.getElementById(
+"renewalType"
+).value;
+
+
+if(!name){
+
+showError(
+"اكتب اسمك"
+);
+
+return;
+
+}
+
+
+if(
+!validPhone(phone)
+){
+
+showError(
+"اكتب رقم موبايل مصري صحيح مكون من 11 رقم"
+);
+
+return;
+
+}
+
+
+if(!packageName){
+
+showError(
+"اختار الباقة"
+);
+
+return;
+
+}
+
+
+if(!renewalType){
+
+showError(
+"اختار موعد التجديد"
+);
+
+return;
+
+}
+
+
+const packageData =
+PACKAGE_DATA[
+packageName
+];
+
+
+const nextRenewalDate =
+getNextRenewalDate(
+renewalType
+);
+
+
+const renewalDay =
+renewalType==="day_16"
+?16
+:1;
+
+
+button.disabled=true;
+
+button.textContent=
+"⏳ جاري تسجيل البيانات...";
+
+
+try{
+
+
+const existing =
+await supabaseClient
+.from("customers")
+.select("id")
+.eq(
+"phone",
+phone
+)
+.is(
+"deleted_at",
+null
+)
+.limit(1);
+
+
+if(existing.error)
+throw existing.error;
+
+
+if(
+existing.data &&
+existing.data.length
+){
+
+showError(
+"الرقم ده مسجل بالفعل. اختار «تجديد اشتراكي» بدل تسجيل بيانات جديدة."
+);
+
+return;
+
+}
+
+
+const {
+error
+} =
+await supabaseClient
+.from("customers")
+.insert({
+
+subscriber_name:
+name,
+
+phone:
+phone,
+
+allocated_gb:
+packageData.gb,
+
+package_name:
+packageName,
+
+last_price:
+packageData.price,
+
+status:
+"active",
+
+renewal_type:
+renewalType,
+
+renewal_day:
+renewalDay,
+
+next_renewal_date:
+nextRenewalDate,
+
+total_orders:
+0,
+
+created_at:
+new Date().toISOString(),
+
+updated_at:
+new Date().toISOString()
+
+});
+
+
+if(error)
+throw error;
+
+
+document.getElementById(
+"successMessage"
+).textContent=
+"✅ تم تسجيل بياناتك بنجاح. هنراجع البيانات ونتابع معاك الاشتراك.";
+
+document.getElementById(
+"successMessage"
+).style.display=
+"block";
+
+
+document.getElementById(
+"customerName"
+).value="";
+
+
+document.getElementById(
+"customerPhone"
+).value="";
+
+
+document.getElementById(
+"packageName"
+).value="";
+
+
+document.getElementById(
+"renewalType"
+).value="";
+
+
+document.getElementById(
+"price"
+).textContent=
+"اختار الباقة أولًا";
+
+
+}
+catch(error){
+
+console.error(
+error
+);
+
+showError(
+error.message ||
+"حصل خطأ أثناء تسجيل البيانات"
+);
+
+}
+finally{
+
+button.disabled=false;
+
+button.textContent=
+"✅ تسجيل البيانات";
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>
