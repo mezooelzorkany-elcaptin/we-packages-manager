@@ -2634,39 +2634,46 @@ function render(){
     customers.filter(
       customer=>{
 
-        /* SEARCH */
+     /* SEARCH */
 
-        if(search){
+if(search){
 
-          const text = [
+  const text = [
 
-            customer.subscriber_name,
-            customer.phone,
-            customer.primary_number,
-            customer.package_name,
-            customer.promo_code
+    customer.subscriber_name,
 
-          ]
-          .map(
-            value =>
-              String(
-                value || ""
-              ).toLowerCase()
-          )
-          .join(" ");
+    /* الاسم اللي إنت مسجله بيه عندك */
+    customer.internal_name,
+
+    customer.phone,
+
+    customer.primary_number,
+
+    customer.package_name,
+
+    customer.promo_code
+
+  ]
+  .map(
+    value =>
+      String(
+        value || ""
+      ).toLowerCase()
+  )
+  .join(" ");
 
 
-          if(
-            !text.includes(
-              search
-            )
-          ){
+  if(
+    !text.includes(
+      search
+    )
+  ){
 
-            return false;
+    return false;
 
-          }
+  }
 
-        }
+}
 
 
         /* RENEWAL FILTER */
