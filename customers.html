@@ -5152,42 +5152,164 @@ checkSession();
 </script>
 <script>
 /* =========================================================
-   إضافة الاسم الداخلي للعملاء
-   لا يحتاج تعديل أي جزء من الكود الأصلي
+   الاسم عندي - النسخة المصححة
 ========================================================= */
 
 (function(){
 
-  /* ---------------------------------------------------------
-     1) إضافة خانة "الاسم عندي" داخل نافذة التعديل
-  --------------------------------------------------------- */
+  const SUPABASE_URL =
+    "https://pgvbynefhqmyzjtccttl.supabase.co";
 
-  function addInternalNameField(){
+  const SUPABASE_KEY =
+    "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 
-    if(document.getElementById("internalName")){
-      return;
+  let savingInternalName = false;
+  let loadingInternalNames = false;
+
+
+  /* =====================================================
+     أدوات
+  ===================================================== */
+
+  function digitsOnly(value){
+
+    return String(value || "")
+      .replace(/[^\d]/g,"");
+
+  }
+
+
+  function escapeText(value){
+
+    return String(value || "")
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
+
+  }
+
+
+  async function api(
+    path,
+    options={}
+  ){
+
+    const response =
+      await fetch(
+        SUPABASE_URL +
+        "/rest/v1/" +
+        path,
+        {
+          ...options,
+
+          headers:{
+            apikey:
+              SUPABASE_KEY,
+
+            Authorization:
+              "Bearer " +
+              SUPABASE_KEY,
+
+            "Content-Type":
+              "application/json",
+
+            Prefer:
+              "return=representation",
+
+            ...(options.headers || {})
+          }
+        }
+      );
+
+
+    const text =
+      await response.text();
+
+
+    let data = null;
+
+    try{
+
+      data =
+        text
+        ? JSON.parse(text)
+        : null;
+
+    }catch{
+
+      data = text;
+
     }
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data?.message ||
+        data?.hint ||
+        data?.details ||
+        String(data || "خطأ في قاعدة البيانات")
+      );
+
+    }
+
+
+    return data;
+
+  }
+
+
+  /* =====================================================
+     إضافة خانة الاسم عندي
+  ===================================================== */
+
+  function addInternalField(){
+
+    if(
+      document.getElementById(
+        "internalName"
+      )
+    ){
+
+      return;
+
+    }
+
 
     const nameInput =
-      document.getElementById("customerName");
+      document.getElementById(
+        "customerName"
+      );
 
-    if(!nameInput){
+
+    if(!nameInput)
       return;
-    }
 
-    const nameField =
-      nameInput.closest(".field");
 
-    if(!nameField){
+    const parent =
+      nameInput.closest(
+        ".field"
+      );
+
+
+    if(!parent)
       return;
-    }
+
 
     const field =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
-    field.className = "field";
+
+    field.className =
+      "field";
+
 
     field.innerHTML = `
+
       <label>
         🏷️ الاسم عندي
       </label>
@@ -5195,16 +5317,18 @@ checkSession();
       <input
         id="internalName"
         type="text"
-        placeholder="مثال: محمد أبو علي"
         autocomplete="off"
+        placeholder="مثال: محمد أبو علي"
       >
 
       <div class="hint">
-        الاسم اللي إنت مسجله بيه في جهات اتصالك — العميل مش هيشوفه.
+        الاسم اللي إنت مسجله بيه عندك — العميل مش هيشوفه.
       </div>
+
     `;
 
-    nameField.insertAdjacentElement(
+
+    parent.insertAdjacentElement(
       "afterend",
       field
     );
@@ -5212,244 +5336,433 @@ checkSession();
   }
 
 
-  /* ---------------------------------------------------------
-     2) إضافة الخانة بعد تحميل الصفحة
-  --------------------------------------------------------- */
+  /* =====================================================
+     تحميل الاسم الداخلي عند فتح تعديل
+  ===================================================== */
 
-  if(
-    document.readyState === "loading"
-  ){
+  async function loadInternalName(){
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      addInternalNameField
-    );
+    const id =
+      document.getElementById(
+        "customerId"
+      )?.value;
 
-  }else{
 
-    addInternalNameField();
+    const input =
+      document.getElementById(
+        "internalName"
+      );
+
+
+    if(
+      !id ||
+      !input
+    ){
+
+      return;
+
+    }
+
+
+    try{
+
+      const data =
+        await api(
+          "customers?select=internal_name&id=eq." +
+          encodeURIComponent(id) +
+          "&limit=1"
+        );
+
+
+      input.value =
+        data?.[0]?.internal_name ||
+        "";
+
+    }catch(error){
+
+      console.error(
+        "LOAD INTERNAL NAME:",
+        error
+      );
+
+    }
 
   }
 
 
-  /* ---------------------------------------------------------
-     3) مراقبة الصفحة لو الـ Modal اتعمل بعدين
-  --------------------------------------------------------- */
+  /* =====================================================
+     حفظ الاسم الداخلي
+  ===================================================== */
 
-  const observer =
-    new MutationObserver(
-      function(){
+  async function saveInternalName(){
 
-        addInternalNameField();
-
-      }
-    );
+    if(savingInternalName)
+      return;
 
 
-  observer.observe(
-    document.body,
-    {
-      childList:true,
-      subtree:true
-    }
-  );
+    const input =
+      document.getElementById(
+        "internalName"
+      );
 
 
-  /* ---------------------------------------------------------
-     4) حفظ الاسم الداخلي مع أي حفظ للعميل
-  --------------------------------------------------------- */
-
-  const originalSupabaseRequest =
-    window.supabaseRequest;
+    if(!input)
+      return;
 
 
-  if(
-    typeof originalSupabaseRequest ===
-    "function"
-  ){
-
-    window.supabaseRequest =
-      async function(
-        path,
-        options={}
-      ){
-
-        try{
-
-          /*
-           * لو العملية على جدول العملاء
-           * نضيف internal_name تلقائيًا
-          */
-
-          if(
-            String(path)
-              .startsWith("customers")
-          ){
-
-            const method =
-              String(
-                options.method ||
-                "GET"
-              ).toUpperCase();
+    const name =
+      input.value.trim();
 
 
-            if(
-              method === "POST" ||
-              method === "PATCH"
-            ){
-
-              let body = {};
-
-              try{
-
-                body =
-                  options.body
-                  ?
-                  JSON.parse(
-                    options.body
-                  )
-                  :
-                  {};
-
-              }catch{
-
-                body = {};
-
-              }
+    let id =
+      document.getElementById(
+        "customerId"
+      )?.value;
 
 
-              const input =
-                document.getElementById(
-                  "internalName"
-                );
+    let phone =
+      document.getElementById(
+        "customerPhone"
+      )?.value;
 
 
-              if(input){
+    phone =
+      digitsOnly(
+        phone
+      );
 
-                body.internal_name =
-                  input.value.trim() ||
-                  null;
 
-                options = {
-                  ...options,
+    if(!id && !phone)
+      return;
 
-                  body:
-                    JSON.stringify(
-                      body
-                    )
 
-                };
+    savingInternalName =
+      true;
 
-              }
 
-            }
+    try{
+
+      /*
+       * لو تعديل:
+       * نستخدم ID مباشرة.
+       */
+
+      if(id){
+
+        await api(
+          "customers?id=eq." +
+          encodeURIComponent(id),
+          {
+            method:"PATCH",
+
+            body:
+              JSON.stringify({
+
+                internal_name:
+                  name || null
+
+              })
 
           }
+        );
 
-        }catch(error){
+      }
 
-          console.warn(
-            "Internal name patch:",
-            error
+      /*
+       * لو إضافة عميل جديد:
+       * نجيب العميل بالرقم بعد الحفظ.
+       */
+
+      else if(phone){
+
+        const rows =
+          await api(
+            "customers?select=id&phone=eq." +
+            encodeURIComponent(phone) +
+            "&deleted_at=is.null&limit=1"
+          );
+
+
+        if(
+          Array.isArray(rows) &&
+          rows.length
+        ){
+
+          id =
+            rows[0].id;
+
+
+          await api(
+            "customers?id=eq." +
+            encodeURIComponent(id),
+            {
+              method:"PATCH",
+
+              body:
+                JSON.stringify({
+
+                  internal_name:
+                    name || null
+
+                })
+
+            }
           );
 
         }
 
+      }
 
-        return originalSupabaseRequest(
-          path,
-          options
-        );
 
-      };
+      /*
+       * تحديث الاسم في قاعدة البيانات
+       * ثم تحديث الصفحة.
+       */
+
+      await refreshInternalNames();
+
+    }catch(error){
+
+      console.error(
+        "SAVE INTERNAL NAME:",
+        error
+      );
+
+      alert(
+        "⚠️ تم حفظ بيانات العميل، لكن حصل خطأ في حفظ الاسم عندي:\n\n" +
+        error.message
+      );
+
+    }finally{
+
+      savingInternalName =
+        false;
+
+    }
 
   }
 
 
-  /* ---------------------------------------------------------
-     5) تعبئة الاسم الداخلي عند الضغط على تعديل
-  --------------------------------------------------------- */
+  /* =====================================================
+     جلب كل الأسماء الداخلية
+  ===================================================== */
 
-  const originalOpenEdit =
-    window.openEdit;
+  async function refreshInternalNames(){
 
-
-  if(
-    typeof originalOpenEdit ===
-    "function"
-  ){
-
-    window.openEdit =
-      function(id){
-
-        originalOpenEdit(id);
+    if(loadingInternalNames)
+      return;
 
 
-        setTimeout(
-          function(){
+    loadingInternalNames =
+      true;
 
-            const input =
-              document.getElementById(
-                "internalName"
+
+    try{
+
+      const rows =
+        await api(
+          "customers?select=id,phone,internal_name&deleted_at=is.null"
+        );
+
+
+      const map = {};
+
+
+      if(
+        Array.isArray(rows)
+      ){
+
+        rows.forEach(
+          customer => {
+
+            const phone =
+              digitsOnly(
+                customer.phone
               );
 
 
-            if(!input)
-              return;
+            if(phone){
 
-
-            const customer =
-              Array.isArray(
-                window.customers
-              )
-              ?
-              window.customers.find(
-                x =>
-                  Number(x.id) ===
-                  Number(id)
-              )
-              :
-              null;
-
-
-            if(customer){
-
-              input.value =
+              map[phone] =
                 customer.internal_name ||
                 "";
 
             }
 
-          },
-          50
+          }
         );
 
-      };
+      }
+
+
+      const cards =
+        document.querySelectorAll(
+          "#list .card"
+        );
+
+
+      cards.forEach(
+        card => {
+
+          const phoneElement =
+            card.querySelector(
+              ".phone"
+            );
+
+
+          if(!phoneElement)
+            return;
+
+
+          const phone =
+            digitsOnly(
+              phoneElement.textContent
+            );
+
+
+          if(!phone)
+            return;
+
+
+          const internalName =
+            map[phone] ||
+            "";
+
+
+          let display =
+            card.querySelector(
+              ".internal-name-display"
+            );
+
+
+          if(!display){
+
+            display =
+              document.createElement(
+                "div"
+              );
+
+
+            display.className =
+              "internal-name-display";
+
+
+            display.style.cssText = `
+              margin-top:7px;
+              color:#5420b8;
+              font-size:14px;
+              font-weight:bold;
+            `;
+
+
+            phoneElement.insertAdjacentElement(
+              "afterend",
+              display
+            );
+
+          }
+
+
+          display.innerHTML =
+            internalName
+
+            ?
+
+            `
+              🏷️ عندي:
+              <strong>
+                ${escapeText(
+                  internalName
+                )}
+              </strong>
+            `
+
+            :
+
+            `
+              🏷️ عندي:
+              <span style="color:#999">
+                لم يتم تحديده
+              </span>
+            `;
+
+        }
+      );
+
+
+    }catch(error){
+
+      console.error(
+        "REFRESH INTERNAL NAMES:",
+        error
+      );
+
+    }finally{
+
+      loadingInternalNames =
+        false;
+
+    }
 
   }
 
 
-  /* ---------------------------------------------------------
-     6) تنظيف الخانة عند إضافة عميل جديد
-  --------------------------------------------------------- */
+  /* =====================================================
+     مراقبة فتح التعديل والحفظ
+  ===================================================== */
 
-  const originalOpenAdd =
-    window.openAdd;
+  document.addEventListener(
+    "click",
+    function(event){
+
+      const target =
+        event.target.closest(
+          "button"
+        );
 
 
-  if(
-    typeof originalOpenAdd ===
-    "function"
-  ){
+      if(!target)
+        return;
 
-    window.openAdd =
-      function(){
 
-        originalOpenAdd();
+      /*
+       * زر تعديل
+       */
 
+      if(
+        target.classList.contains(
+          "edit"
+        )
+      ){
 
         setTimeout(
           function(){
+
+            addInternalField();
+            loadInternalName();
+
+          },
+          100
+        );
+
+      }
+
+
+      /*
+       * زر إضافة عميل
+       */
+
+      if(
+        target.classList.contains(
+          "add-btn"
+        )
+      ){
+
+        setTimeout(
+          function(){
+
+            addInternalField();
+
 
             const input =
               document.getElementById(
@@ -5459,24 +5772,80 @@ checkSession();
 
             if(input){
 
-              input.value = "";
+              input.value =
+                "";
 
             }
 
           },
-          50
+          100
         );
 
-      };
-
-  }
+      }
 
 
-  /* ---------------------------------------------------------
-     7) عرض الاسم الداخلي في كارت العميل
-  --------------------------------------------------------- */
+      /*
+       * زر حفظ
+       */
 
-  function showInternalNames(){
+      if(
+        target.classList.contains(
+          "save"
+        )
+      ){
+
+        /*
+         * ننتظر الحفظ الأصلي
+         * ثم نحفظ الاسم الداخلي.
+         */
+
+        setTimeout(
+          function(){
+
+            saveInternalName();
+
+          },
+          1200
+        );
+
+      }
+
+    },
+    true
+  );
+
+
+  /* =====================================================
+     مراقبة قائمة العملاء
+  ===================================================== */
+
+  let refreshTimer = null;
+
+
+  const observer =
+    new MutationObserver(
+      function(){
+
+        clearTimeout(
+          refreshTimer
+        );
+
+
+        refreshTimer =
+          setTimeout(
+            function(){
+
+              refreshInternalNames();
+
+            },
+            300
+          );
+
+      }
+    );
+
+
+  function startObserver(){
 
     const list =
       document.getElementById(
@@ -5488,358 +5857,48 @@ checkSession();
       return;
 
 
-    const cards =
-      list.querySelectorAll(
-        ".card"
-      );
-
-
-    cards.forEach(
-      card => {
-
-        /*
-         * منع التكرار
-        */
-
-        if(
-          card.querySelector(
-            ".internal-name-display"
-          )
-        ){
-
-          return;
-
-        }
-
-
-        /*
-         * نجيب رقم العميل من الكارت
-        */
-
-        const phoneElement =
-          card.querySelector(
-            ".phone"
-          );
-
-
-        if(!phoneElement)
-          return;
-
-
-        const phone =
-          cleanPhone(
-            phoneElement.textContent
-          );
-
-
-        if(!phone)
-          return;
-
-
-        const customer =
-          Array.isArray(
-            window.customers
-          )
-          ?
-          window.customers.find(
-            c =>
-              cleanPhone(
-                c.phone
-              ) === phone
-          )
-          :
-          null;
-
-
-        if(!customer)
-          return;
-
-
-        const internalName =
-          String(
-            customer.internal_name ||
-            ""
-          ).trim();
-
-
-        const nameElement =
-          card.querySelector(
-            ".name"
-          );
-
-
-        if(!nameElement)
-          return;
-
-
-        const display =
-          document.createElement(
-            "div"
-          );
-
-
-        display.className =
-          "internal-name-display";
-
-
-        display.style.cssText = `
-          margin-top:6px;
-          font-size:14px;
-          font-weight:bold;
-          color:#5420b8;
-        `;
-
-
-        display.innerHTML =
-          internalName
-          ?
-          `
-            🏷️ عندي:
-            <span>
-              ${escapeHtml(
-                internalName
-              )}
-            </span>
-          `
-          :
-          `
-            🏷️ عندي:
-            <span style="color:#999">
-              لم يتم تحديده
-            </span>
-          `;
-
-
-        nameElement.insertAdjacentElement(
-          "afterend",
-          display
-        );
-
-      }
-    );
-
-  }
-
-
-  /* ---------------------------------------------------------
-     8) تحديث العرض تلقائيًا
-  --------------------------------------------------------- */
-
-  const listObserver =
-    new MutationObserver(
-      function(){
-
-        setTimeout(
-          showInternalNames,
-          20
-        );
-
-      }
-    );
-
-
-  const customerList =
-    document.getElementById(
-      "list"
-    );
-
-
-  if(customerList){
-
-    listObserver.observe(
-      customerList,
+    observer.observe(
+      list,
       {
         childList:true,
         subtree:true
       }
     );
 
-  }
 
-
-  /* ---------------------------------------------------------
-     9) البحث بالاسم الداخلي
-  --------------------------------------------------------- */
-
-  const searchInput =
-    document.getElementById(
-      "search"
-    );
-
-
-  if(searchInput){
-
-    searchInput.addEventListener(
-      "input",
-      function(){
-
-        const value =
-          String(
-            this.value || ""
-          )
-          .trim()
-          .toLowerCase();
-
-
-        if(!value)
-          return;
-
-
-        /*
-         * لو البحث مطابق للاسم الداخلي
-         * نعرض العميل حتى لو الاسم الحقيقي مختلف.
-        */
-
-        const match =
-          Array.isArray(
-            window.customers
-          )
-          ?
-          window.customers.find(
-            c =>
-              String(
-                c.internal_name ||
-                ""
-              )
-              .toLowerCase()
-              .includes(value)
-          )
-          :
-          null;
-
-
-        if(!match)
-          return;
-
-
-        const cards =
-          document.querySelectorAll(
-            "#list .card"
-          );
-
-
-        /*
-         * لو الكارت موجود بالفعل
-         * لا نعمل أي شيء.
-        */
-
-        const exists =
-          Array.from(cards)
-            .some(
-              card =>
-                cleanPhone(
-                  card
-                    .querySelector(
-                      ".phone"
-                    )
-                    ?.textContent ||
-                  ""
-                ) ===
-                cleanPhone(
-                  match.phone
-                )
-            );
-
-
-        if(exists)
-          return;
-
-
-        /*
-         * في حالة البحث بالاسم الداخلي،
-         * نعيد البحث باستخدام اسم العميل
-         * الموجود في النظام.
-        */
-
-        const originalValue =
-          this.value;
-
-
-        this.value =
-          match.subscriber_name ||
-          "";
-
-
-        if(
-          typeof render ===
-          "function"
-        ){
-
-          render();
-
-        }
-
-
-        /*
-         * نرجع القيمة اللي المستخدم كتبها
-         * عشان تفضل ظاهرة في البحث.
-        */
-
-        setTimeout(
-          function(){
-
-            searchInput.value =
-              originalValue;
-
-          },
-          0
-        );
-
-      }
-    );
+    refreshInternalNames();
 
   }
 
 
-  /* ---------------------------------------------------------
-     10) CSS إضافي
-  --------------------------------------------------------- */
+  /* =====================================================
+     تشغيل
+  ===================================================== */
 
-  const style =
-    document.createElement(
-      "style"
+  function start(){
+
+    addInternalField();
+
+    startObserver();
+
+  }
+
+
+  if(
+    document.readyState ===
+    "loading"
+  ){
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      start
     );
 
+  }else{
 
-  style.textContent = `
+    start();
 
-    #internalName{
-      border:1px solid #dfe3eb;
-      background:#fff;
-    }
-
-    #internalName:focus{
-      border-color:#5420b8;
-      box-shadow:
-        0 0 0 3px
-        rgba(84,32,184,.10);
-    }
-
-    .internal-name-display{
-      user-select:text;
-    }
-
-  `;
-
-
-  document.head.appendChild(
-    style
-  );
-
-
-  /* ---------------------------------------------------------
-     11) إعادة المحاولة بعد تحميل العملاء
-  --------------------------------------------------------- */
-
-  setTimeout(
-    function(){
-
-      addInternalNameField();
-      showInternalNames();
-
-    },
-    1000
-  );
+  }
 
 
 })();
