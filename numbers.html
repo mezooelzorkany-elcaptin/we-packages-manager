@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>الأرقام الأساسية | WE Packages</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 *{
     box-sizing:border-box;
 }
@@ -34,7 +37,7 @@ button,input{
     padding:18px 0 60px;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 
 .navigation{
     margin-bottom:12px;
@@ -57,10 +60,8 @@ button,input{
     padding:24px 18px;
     margin-bottom:15px;
     background:rgba(255,255,255,.8);
-    border:1px solid rgba(255,255,255,.9);
     border-radius:25px;
     box-shadow:0 12px 35px rgba(60,35,120,.1);
-    backdrop-filter:blur(15px);
 }
 
 .header h1{
@@ -74,7 +75,7 @@ button,input{
     color:#777;
 }
 
-/* ================= ACTIONS ================= */
+/* TOP */
 
 .top-actions{
     display:grid;
@@ -103,14 +104,13 @@ button,input{
     border:2px solid #e5dcf7;
 }
 
-/* ================= SEARCH ================= */
+/* SEARCH */
 
 .search-box{
     background:rgba(255,255,255,.8);
     border-radius:20px;
     padding:13px;
     margin-bottom:15px;
-    box-shadow:0 8px 25px rgba(60,35,120,.08);
 }
 
 .search{
@@ -121,21 +121,15 @@ button,input{
     padding:0 16px;
     font-size:16px;
     outline:none;
-    background:white;
 }
 
-.search:focus{
-    border-color:#7c43d5;
-}
-
-/* ================= GROUP ================= */
+/* GROUP */
 
 .group{
     margin-bottom:14px;
     border-radius:23px;
     overflow:hidden;
     background:rgba(255,255,255,.8);
-    border:1px solid rgba(255,255,255,.9);
     box-shadow:0 10px 30px rgba(60,35,120,.1);
 }
 
@@ -148,7 +142,6 @@ button,input{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:10px;
     cursor:pointer;
     text-align:right;
 }
@@ -174,7 +167,6 @@ button,input{
 .group-title{
     font-size:19px;
     font-weight:900;
-    color:#29213d;
 }
 
 .group-count{
@@ -209,7 +201,7 @@ button,input{
     display:block;
 }
 
-/* ================= NUMBER CARD ================= */
+/* NUMBER CARD */
 
 .number-card{
     background:#fdfcff;
@@ -231,7 +223,6 @@ button,input{
     font-size:22px;
     font-weight:900;
     direction:ltr;
-    text-align:right;
 }
 
 .status{
@@ -239,7 +230,6 @@ button,input{
     border-radius:20px;
     font-size:12px;
     font-weight:bold;
-    white-space:nowrap;
 }
 
 .status.active{
@@ -252,7 +242,43 @@ button,input{
     color:#a00000;
 }
 
-/* ================= CUSTOMER INFO ================= */
+/* PACKAGE SUMMARY */
+
+.package-summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:15px;
+}
+
+.package-box{
+    background:#f5f1fc;
+    border-radius:17px;
+    padding:15px;
+    text-align:center;
+}
+
+.package-box small{
+    display:block;
+    color:#777;
+    font-size:12px;
+    margin-bottom:7px;
+}
+
+.package-box strong{
+    font-size:20px;
+    color:#5420b8;
+}
+
+.package-box.remaining strong{
+    color:#08752d;
+}
+
+.package-box.used strong{
+    color:#d97706;
+}
+
+/* CUSTOMERS */
 
 .customer-summary{
     margin-top:14px;
@@ -262,7 +288,7 @@ button,input{
 }
 
 .customer-summary-title{
-    font-size:13px;
+    font-size:14px;
     color:#777;
     font-weight:bold;
     margin-bottom:10px;
@@ -270,8 +296,6 @@ button,input{
 
 .customer-count{
     display:inline-flex;
-    align-items:center;
-    gap:7px;
     background:#e8ddff;
     color:#5420b8;
     border-radius:12px;
@@ -288,7 +312,7 @@ button,input{
 .customer-row{
     background:white;
     border-radius:13px;
-    padding:11px 12px;
+    padding:12px;
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -297,23 +321,56 @@ button,input{
 
 .customer-name{
     font-weight:bold;
-    color:#29213d;
 }
 
 .customer-phone{
-    direction:ltr;
     color:#777;
-    font-size:14px;
+    font-size:13px;
+    margin-top:5px;
+    direction:ltr;
+    text-align:right;
+}
+
+.customer-gb{
+    background:#eee4ff;
+    color:#5420b8;
+    padding:8px 10px;
+    border-radius:10px;
+    font-weight:bold;
     white-space:nowrap;
 }
 
 .no-customers{
     color:#999;
-    font-size:14px;
-    padding:5px 0;
+    padding:8px 0;
 }
 
-/* ================= ACTIONS ================= */
+/* DETAILS */
+
+.number-details{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:13px;
+}
+
+.detail{
+    background:#f7f6fa;
+    border-radius:13px;
+    padding:11px;
+}
+
+.detail-title{
+    font-size:11px;
+    color:#888;
+    margin-bottom:5px;
+}
+
+.detail-value{
+    font-weight:bold;
+}
+
+/* BUTTONS */
 
 .number-actions{
     display:grid;
@@ -340,7 +397,7 @@ button,input{
     color:#a00000;
 }
 
-/* ================= EMPTY ================= */
+/* EMPTY */
 
 .empty{
     text-align:center;
@@ -348,12 +405,7 @@ button,input{
     color:#777;
 }
 
-.empty-icon{
-    font-size:35px;
-    margin-bottom:8px;
-}
-
-/* ================= MODAL ================= */
+/* MODAL */
 
 .modal{
     position:fixed;
@@ -378,21 +430,18 @@ button,input{
     background:white;
     border-radius:25px;
     padding:22px;
-    box-shadow:0 25px 70px rgba(0,0,0,.25);
 }
 
 .modal-head{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:10px;
     margin-bottom:20px;
 }
 
 .modal-head h2{
     margin:0;
     color:#5420b8;
-    font-size:22px;
 }
 
 .close{
@@ -402,10 +451,7 @@ button,input{
     border-radius:12px;
     background:#f0eef4;
     cursor:pointer;
-    font-size:18px;
 }
-
-/* ================= FORM ================= */
 
 .field{
     margin-bottom:15px;
@@ -429,52 +475,33 @@ button,input{
     outline:none;
 }
 
-.field input:focus{
-    border-color:#7544cf;
+.hint{
+    color:#888;
+    font-size:12px;
+    margin-top:6px;
 }
 
-.quick-title{
-    font-size:13px;
-    color:#777;
-    font-weight:bold;
-    margin-bottom:8px;
-}
-
-.quick-options{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-}
-
-.quick-option{
-    min-height:50px;
-    border:2px solid #e4e0eb;
-    background:#faf9fc;
-    border-radius:14px;
-    font-weight:bold;
-    cursor:pointer;
-    color:#333;
-}
-
-.quick-option.selected{
-    border-color:#5420b8;
-    background:#eee4ff;
-    color:#5420b8;
-}
-
+.quick-options,
 .status-options{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:9px;
 }
 
+.quick-option,
 .status-option{
-    height:50px;
+    min-height:50px;
     border:2px solid #e4e0eb;
+    background:#faf9fc;
     border-radius:14px;
-    background:white;
     font-weight:bold;
     cursor:pointer;
+}
+
+.quick-option.selected{
+    border-color:#5420b8;
+    background:#eee4ff;
+    color:#5420b8;
 }
 
 .status-option.selected.active-option{
@@ -496,34 +523,31 @@ button,input{
     margin-top:20px;
 }
 
-.save{
-    height:50px;
-    border:0;
-    border-radius:14px;
-    background:#5420b8;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-}
-
+.save,
 .cancel{
     height:50px;
     border:0;
     border-radius:14px;
-    background:#eee;
-    color:#333;
     font-weight:bold;
     cursor:pointer;
+}
+
+.save{
+    background:#5420b8;
+    color:white;
+}
+
+.cancel{
+    background:#eee;
 }
 
 .message{
     text-align:center;
     font-weight:bold;
     margin-top:12px;
-    min-height:20px;
 }
 
-/* ================= TOAST ================= */
+/* TOAST */
 
 .toast{
     position:fixed;
@@ -537,9 +561,6 @@ button,input{
     z-index:10000;
     opacity:0;
     transition:.3s;
-    max-width:90%;
-    text-align:center;
-    font-weight:bold;
 }
 
 .toast.show{
@@ -547,34 +568,24 @@ button,input{
     transform:translateX(-50%) translateY(0);
 }
 
-/* ================= MOBILE ================= */
+/* MOBILE */
 
 @media(max-width:600px){
-
-    .container{
-        width:95%;
-        padding-top:12px;
-    }
 
     .top-actions{
         grid-template-columns:1fr;
     }
 
-    .group-title{
-        font-size:17px;
-    }
-
-    .number{
-        font-size:20px;
+    .package-summary{
+        grid-template-columns:1fr 1fr;
     }
 
     .customer-row{
-        display:block;
+        align-items:flex-start;
     }
 
-    .customer-phone{
-        display:block;
-        margin-top:5px;
+    .number-details{
+        grid-template-columns:1fr 1fr;
     }
 
     .modal-actions{
@@ -583,13 +594,6 @@ button,input{
 
 }
 
-@media(max-width:380px){
-
-    .number-actions{
-        grid-template-columns:1fr;
-    }
-
-}
 </style>
 </head>
 
@@ -597,36 +601,25 @@ button,input{
 
 <div class="container">
 
-    <!-- العودة -->
-
     <div class="navigation">
 
-        <a
-            href="customers.html"
-            class="back-btn"
-        >
+        <a href="customers.html" class="back-btn">
             👥 العملاء
         </a>
 
     </div>
 
 
-    <!-- العنوان -->
-
     <div class="header">
 
-        <h1>
-            📱 الأرقام الأساسية
-        </h1>
+        <h1>📱 الأرقام الأساسية</h1>
 
         <p>
-            إدارة أرقام الجروبات والعملاء المرتبطين بها
+            متابعة توزيع الجيجا لكل رقم أساسي
         </p>
 
     </div>
 
-
-    <!-- الأزرار -->
 
     <div class="top-actions">
 
@@ -647,8 +640,6 @@ button,input{
     </div>
 
 
-    <!-- البحث -->
-
     <div class="search-box">
 
         <input
@@ -661,12 +652,9 @@ button,input{
     </div>
 
 
-    <!-- ================= جروب يوم 1 ================= -->
+    <!-- DAY 1 -->
 
-    <div
-        class="group open"
-        id="group1"
-    >
+    <div class="group open" id="group1">
 
         <button
             class="group-header"
@@ -675,9 +663,7 @@ button,input{
 
             <div class="group-info">
 
-                <div class="group-icon">
-                    📅
-                </div>
+                <div class="group-icon">📅</div>
 
                 <div>
 
@@ -696,9 +682,7 @@ button,input{
 
             </div>
 
-            <div class="arrow">
-                ⌄
-            </div>
+            <div class="arrow">⌄</div>
 
         </button>
 
@@ -709,7 +693,7 @@ button,input{
         >
 
             <div class="empty">
-                ⏳ جاري تحميل الأرقام...
+                ⏳ جاري تحميل البيانات...
             </div>
 
         </div>
@@ -717,12 +701,9 @@ button,input{
     </div>
 
 
-    <!-- ================= جروب يوم 16 ================= -->
+    <!-- DAY 16 -->
 
-    <div
-        class="group"
-        id="group16"
-    >
+    <div class="group" id="group16">
 
         <button
             class="group-header"
@@ -731,9 +712,7 @@ button,input{
 
             <div class="group-info">
 
-                <div class="group-icon">
-                    📅
-                </div>
+                <div class="group-icon">📅</div>
 
                 <div>
 
@@ -752,9 +731,7 @@ button,input{
 
             </div>
 
-            <div class="arrow">
-                ⌄
-            </div>
+            <div class="arrow">⌄</div>
 
         </button>
 
@@ -765,7 +742,7 @@ button,input{
         >
 
             <div class="empty">
-                ⏳ جاري تحميل الأرقام...
+                ⏳ جاري تحميل البيانات...
             </div>
 
         </div>
@@ -775,7 +752,7 @@ button,input{
 </div>
 
 
-<!-- ================= MODAL ================= -->
+<!-- MODAL -->
 
 <div
     id="numberModal"
@@ -792,7 +769,6 @@ button,input{
 
             <button
                 class="close"
-                type="button"
                 onclick="closeModal()"
             >
                 ✕
@@ -806,8 +782,6 @@ button,input{
             id="editId"
         >
 
-
-        <!-- الرقم -->
 
         <div class="field">
 
@@ -826,7 +800,28 @@ button,input{
         </div>
 
 
-        <!-- الجروب -->
+        <!-- إجمالي الباقة -->
+
+        <div class="field">
+
+            <label>
+                📦 إجمالي جيجات الباقة
+            </label>
+
+            <input
+                id="totalGBInput"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="مثال: 200"
+            >
+
+            <div class="hint">
+                اكتب إجمالي الجيجا الموجودة على الرقم الأساسي لهذا الشهر.
+            </div>
+
+        </div>
+
 
         <div class="field">
 
@@ -845,7 +840,6 @@ button,input{
                     📅 جروب يوم 1
                 </button>
 
-
                 <button
                     type="button"
                     id="groupDay16Btn"
@@ -859,8 +853,6 @@ button,input{
 
         </div>
 
-
-        <!-- الحالة -->
 
         <div class="field">
 
@@ -879,7 +871,6 @@ button,input{
                     🟢 نشط
                 </button>
 
-
                 <button
                     type="button"
                     id="inactiveBtn"
@@ -893,8 +884,6 @@ button,input{
 
         </div>
 
-
-        <!-- ملاحظات -->
 
         <div class="field">
 
@@ -915,16 +904,13 @@ button,input{
 
             <button
                 class="save"
-                type="button"
                 onclick="saveNumber()"
             >
                 💾 حفظ
             </button>
 
-
             <button
                 class="cancel"
-                type="button"
                 onclick="closeModal()"
             >
                 إلغاء
@@ -943,17 +929,14 @@ button,input{
 </div>
 
 
-<div
-    id="toast"
-    class="toast"
-></div>
+<div id="toast" class="toast"></div>
 
 
 <script>
 
-/* =========================================================
+/* =====================================================
    SUPABASE
-========================================================= */
+===================================================== */
 
 const SUPABASE_URL =
 "https://pgvbynefhqmyzjtccttl.supabase.co";
@@ -968,9 +951,9 @@ window.supabase.createClient(
 );
 
 
-/* =========================================================
+/* =====================================================
    VARIABLES
-========================================================= */
+===================================================== */
 
 let numbers = [];
 
@@ -981,91 +964,56 @@ let selectedGroup = 1;
 let selectedStatus = "active";
 
 
-/* =========================================================
-   LOAD DATA
-========================================================= */
+/* =====================================================
+   LOAD
+===================================================== */
 
 async function loadData(){
 
-    document.getElementById(
-        "content1"
-    ).innerHTML =
+    document.getElementById("content1").innerHTML =
         `<div class="empty">⏳ جاري تحميل البيانات...</div>`;
 
-
-    document.getElementById(
-        "content16"
-    ).innerHTML =
+    document.getElementById("content16").innerHTML =
         `<div class="empty">⏳ جاري تحميل البيانات...</div>`;
 
 
     try{
 
-        /* ==========================================
-           تحميل الأرقام الأساسية
-        ========================================== */
-
         const numbersResult =
             await supabaseClient
                 .from("primary_numbers")
                 .select("*")
-                .order(
-                    "id",
-                    {
-                        ascending:false
-                    }
-                );
+                .order("id",{ascending:false});
 
 
-        if(numbersResult.error){
-
+        if(numbersResult.error)
             throw numbersResult.error;
-
-        }
 
 
         numbers =
-            Array.isArray(
-                numbersResult.data
-            )
-            ?
-            numbersResult.data
-            :
-            [];
+            Array.isArray(numbersResult.data)
+            ? numbersResult.data
+            : [];
 
-
-        /* ==========================================
-           تحميل العملاء
-           
-           البيانات المطلوبة فقط:
-           الاسم
-           رقم العميل
-           الرقم الأساسي
-           ========================================== */
 
         const customersResult =
             await supabaseClient
                 .from("customers")
                 .select(
-                    "subscriber_name,phone,primary_number,deleted_at"
+                    "id,subscriber_name,phone,primary_number,allocated_gb,deleted_at"
                 )
-                .is(
-                    "deleted_at",
-                    null
-                );
+                .is("deleted_at",null);
 
 
         if(customersResult.error){
 
-            console.warn(
-                "CUSTOMERS LOAD ERROR:",
+            console.error(
                 customersResult.error
             );
 
             customers = [];
 
-        }
-        else{
+        }else{
 
             customers =
                 Array.isArray(
@@ -1081,29 +1029,26 @@ async function loadData(){
 
         renderNumbers();
 
-
     }
     catch(error){
 
         console.error(
-            "LOAD DATA ERROR:",
+            "LOAD ERROR:",
             error
         );
 
 
         const html =
         `
-            <div class="empty">
+        <div class="empty">
 
-                ❌ حصل خطأ في تحميل البيانات
+            ❌ حصل خطأ في تحميل البيانات
 
-                <br><br>
+            <br><br>
 
-                ${escapeHtml(
-                    error.message
-                )}
+            ${escapeHtml(error.message)}
 
-            </div>
+        </div>
         `;
 
 
@@ -1121,16 +1066,14 @@ async function loadData(){
 }
 
 
-/* =========================================================
+/* =====================================================
    GROUP
-========================================================= */
+===================================================== */
 
 function getGroup(number){
 
     const notes =
-        String(
-            number.notes || ""
-        );
+        String(number.notes || "");
 
 
     const match =
@@ -1139,24 +1082,57 @@ function getGroup(number){
         );
 
 
-    if(match){
-
-        return Number(
-            match[1]
-        );
-
-    }
-
-
-    /*
-       الأرقام القديمة التي لم يكن لها جروب
-       تظهر تلقائيًا في جروب يوم 1.
-    */
-
-    return 1;
+    return match
+        ? Number(match[1])
+        : 1;
 
 }
 
+
+/* =====================================================
+   TOTAL PACKAGE GB
+===================================================== */
+
+/*
+   إجمالي الباقة بيتخزن داخل notes
+   بالشكل:
+
+   [GROUP:1] [TOTAL_GB:200]
+
+   وده عشان مش محتاجين نضيف عمود جديد
+   في قاعدة البيانات.
+*/
+
+function getTotalGB(number){
+
+    const notes =
+        String(number.notes || "");
+
+
+    const match =
+        notes.match(
+            /\[TOTAL_GB:([0-9]+(?:\.[0-9]+)?)\]/
+        );
+
+
+    if(!match)
+        return 0;
+
+
+    const value =
+        Number(match[1]);
+
+
+    return Number.isFinite(value)
+        ? value
+        : 0;
+
+}
+
+
+/* =====================================================
+   CLEAN NOTES
+===================================================== */
 
 function getCleanNotes(number){
 
@@ -1167,74 +1143,74 @@ function getCleanNotes(number){
         /\[GROUP:(1|16)\]\s*/g,
         ""
     )
+    .replace(
+        /\[TOTAL_GB:[0-9]+(?:\.[0-9]+)?\]\s*/g,
+        ""
+    )
     .trim();
 
 }
 
 
+/* =====================================================
+   BUILD NOTES
+===================================================== */
+
 function buildNotes(
     notes,
-    group
+    group,
+    totalGB
 ){
 
     const clean =
-        String(
-            notes || ""
-        )
+        String(notes || "")
         .replace(
             /\[GROUP:(1|16)\]\s*/g,
+            ""
+        )
+        .replace(
+            /\[TOTAL_GB:[0-9]+(?:\.[0-9]+)?\]\s*/g,
             ""
         )
         .trim();
 
 
-    return (
-        `[GROUP:${group}]` +
-        (
-            clean
-            ?
-            " " + clean
-            :
-            ""
-        )
-    );
+    let result =
+        `[GROUP:${group}] [TOTAL_GB:${totalGB}]`;
+
+
+    if(clean)
+        result += " " + clean;
+
+
+    return result;
 
 }
 
 
-/* =========================================================
-   GET CUSTOMERS FOR PRIMARY NUMBER
-========================================================= */
+/* =====================================================
+   LINKED CUSTOMERS
+===================================================== */
 
 function getLinkedCustomers(
     primaryNumber
 ){
 
     const primary =
-        cleanPhone(
-            primaryNumber
-        );
+        cleanPhone(primaryNumber);
 
 
-    if(!primary){
-
+    if(!primary)
         return [];
-
-    }
 
 
     return customers.filter(
         customer => {
 
-            const customerPrimary =
+            return (
                 cleanPhone(
                     customer.primary_number
-                );
-
-
-            return (
-                customerPrimary ===
-                primary
+                ) === primary
             );
 
         }
@@ -1243,9 +1219,9 @@ function getLinkedCustomers(
 }
 
 
-/* =========================================================
+/* =====================================================
    RENDER
-========================================================= */
+===================================================== */
 
 function renderNumbers(){
 
@@ -1263,6 +1239,22 @@ function renderNumbers(){
         numbers.filter(
             number => {
 
+                const linked =
+                    getLinkedCustomers(
+                        number.phone
+                    );
+
+
+                const customerText =
+                    linked
+                    .map(
+                        c =>
+                        `${c.subscriber_name || ""} ${c.phone || ""}`
+                    )
+                    .join(" ")
+                    .toLowerCase();
+
+
                 const phone =
                     String(
                         number.phone || ""
@@ -1274,22 +1266,6 @@ function renderNumbers(){
                     getCleanNotes(
                         number
                     )
-                    .toLowerCase();
-
-
-                const linked =
-                    getLinkedCustomers(
-                        number.phone
-                    );
-
-
-                const customerText =
-                    linked
-                    .map(
-                        customer =>
-                            `${customer.subscriber_name || ""} ${customer.phone || ""}`
-                    )
-                    .join(" ")
                     .toLowerCase();
 
 
@@ -1306,36 +1282,26 @@ function renderNumbers(){
 
     const day1 =
         filtered.filter(
-            number =>
-                getGroup(number) === 1
+            n => getGroup(n) === 1
         );
 
 
     const day16 =
         filtered.filter(
-            number =>
-                getGroup(number) === 16
+            n => getGroup(n) === 16
         );
 
 
     document.getElementById(
         "count1"
     ).textContent =
-        `${day1.length} ${
-            day1.length === 1
-            ? "رقم"
-            : "أرقام"
-        }`;
+        `${day1.length} ${day1.length === 1 ? "رقم" : "أرقام"}`;
 
 
     document.getElementById(
         "count16"
     ).textContent =
-        `${day16.length} ${
-            day16.length === 1
-            ? "رقم"
-            : "أرقام"
-        }`;
+        `${day16.length} ${day16.length === 1 ? "رقم" : "أرقام"}`;
 
 
     renderGroup(
@@ -1352,9 +1318,9 @@ function renderNumbers(){
 }
 
 
-/* =========================================================
+/* =====================================================
    RENDER GROUP
-========================================================= */
+===================================================== */
 
 function renderGroup(
     elementId,
@@ -1371,15 +1337,15 @@ function renderGroup(
 
         element.innerHTML =
         `
-            <div class="empty">
+        <div class="empty">
 
-                <div class="empty-icon">
-                    📭
-                </div>
-
-                لا توجد أرقام هنا
-
+            <div style="font-size:35px">
+                📭
             </div>
+
+            لا توجد أرقام هنا
+
+        </div>
         `;
 
         return;
@@ -1388,75 +1354,275 @@ function renderGroup(
 
 
     element.innerHTML =
-        list
-        .map(
+        list.map(
             renderNumberCard
-        )
-        .join("");
+        ).join("");
 
 }
 
 
-/* =========================================================
+/* =====================================================
    NUMBER CARD
-========================================================= */
+===================================================== */
 
 function renderNumberCard(
     number
 ){
 
-    const group =
-        getGroup(
-            number
+    const linked =
+        getLinkedCustomers(
+            number.phone
         );
 
 
-    const cleanNotes =
-        getCleanNotes(
-            number
+    const totalGB =
+        getTotalGB(number);
+
+
+    const distributedGB =
+        linked.reduce(
+            (sum,customer) => {
+
+                const gb =
+                    Number(
+                        customer.allocated_gb
+                    ) || 0;
+
+
+                return sum + gb;
+
+            },
+            0
         );
+
+
+    const remainingGB =
+        Math.max(
+            0,
+            totalGB - distributedGB
+        );
+
+
+    const isOver =
+        distributedGB > totalGB &&
+        totalGB > 0;
 
 
     const isActive =
         number.is_active !== false;
 
 
-    const linkedCustomers =
-        getLinkedCustomers(
-            number.phone
-        );
+    const cleanNotes =
+        getCleanNotes(number);
 
 
     return `
 
-        <div class="number-card">
+    <div class="number-card">
 
-            <div class="number-head">
+        <div class="number-head">
 
-                <div class="number">
+            <div class="number">
+                📱 ${escapeHtml(number.phone || "-")}
+            </div>
 
-                    📱
-                    ${escapeHtml(
-                        number.phone || "-"
-                    )}
+            <div class="status ${
+                isActive
+                ? "active"
+                : "inactive"
+            }">
 
-                </div>
+                ${
+                    isActive
+                    ? "🟢 نشط"
+                    : "🔴 موقوف"
+                }
+
+            </div>
+
+        </div>
 
 
-                <div
-                    class="status ${
-                        isActive
-                        ? "active"
-                        : "inactive"
-                    }"
-                >
+        <!-- ملخص الجيجا -->
+
+        <div class="package-summary">
+
+            <div class="package-box">
+
+                <small>
+                    📦 إجمالي الباقة
+                </small>
+
+                <strong>
+                    ${formatGB(totalGB)} GB
+                </strong>
+
+            </div>
+
+
+            <div class="package-box used">
+
+                <small>
+                    📤 الجيجا الموزعة
+                </small>
+
+                <strong>
+                    ${formatGB(distributedGB)} GB
+                </strong>
+
+            </div>
+
+
+            <div class="package-box remaining">
+
+                <small>
+                    📥 المتبقي
+                </small>
+
+                <strong>
+                    ${
+                        totalGB > 0
+                        ?
+                        formatGB(remainingGB) + " GB"
+                        :
+                        "غير محدد"
+                    }
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        ${
+            isOver
+            ?
+            `
+            <div style="
+                margin-top:10px;
+                background:#ffe3e3;
+                color:#a00000;
+                padding:12px;
+                border-radius:13px;
+                font-weight:bold;
+                text-align:center;
+            ">
+                ⚠️ الجيجا الموزعة أكبر من إجمالي الباقة
+                بـ ${formatGB(distributedGB-totalGB)} GB
+            </div>
+            `
+            :
+            ""
+        }
+
+
+        <!-- العملاء -->
+
+        <div class="customer-summary">
+
+            <div class="customer-summary-title">
+                👥 العملاء المرتبطين بالرقم الأساسي
+            </div>
+
+
+            <div class="customer-count">
+
+                👥 عدد العملاء:
+                ${linked.length}
+
+            </div>
+
+
+            ${
+                linked.length
+                ?
+                `
+                <div class="customers-list">
 
                     ${
-                        isActive
+                        linked.map(
+                            customer => {
+
+                                const gb =
+                                    Number(
+                                        customer.allocated_gb
+                                    ) || 0;
+
+
+                                return `
+
+                                <div class="customer-row">
+
+                                    <div>
+
+                                        <div class="customer-name">
+
+                                            👤
+                                            ${escapeHtml(
+                                                customer.subscriber_name ||
+                                                "بدون اسم"
+                                            )}
+
+                                        </div>
+
+                                        <div class="customer-phone">
+
+                                            📱
+                                            ${escapeHtml(
+                                                customer.phone || "-"
+                                            )}
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="customer-gb">
+
+                                        ${formatGB(gb)}
+                                        GB
+
+                                    </div>
+
+                                </div>
+
+                                `;
+
+                            }
+                        ).join("")
+                    }
+
+                </div>
+                `
+                :
+                `
+                <div class="no-customers">
+                    📭 لا يوجد عملاء مرتبطون بهذا الرقم حاليًا
+                </div>
+                `
+            }
+
+        </div>
+
+
+        <!-- التفاصيل -->
+
+        <div class="number-details">
+
+            <div class="detail">
+
+                <div class="detail-title">
+                    📅 الجروب
+                </div>
+
+                <div class="detail-value">
+
+                    ${
+                        getGroup(number) === 1
                         ?
-                        "🟢 نشط"
+                        "جروب يوم 1"
                         :
-                        "🔴 موقوف"
+                        "جروب يوم 16"
                     }
 
                 </div>
@@ -1464,219 +1630,82 @@ function renderNumberCard(
             </div>
 
 
-            <!-- معلومات العملاء -->
+            <div class="detail">
 
-            <div class="customer-summary">
-
-                <div class="customer-summary-title">
-                    👥 العملاء على الرقم الأساسي
+                <div class="detail-title">
+                    🟢 الحالة
                 </div>
 
+                <div class="detail-value">
 
-                <div class="customer-count">
-
-                    👥
-
-                    عدد الأرقام:
-
-                    ${linkedCustomers.length}
+                    ${
+                        isActive
+                        ?
+                        "نشط"
+                        :
+                        "موقوف"
+                    }
 
                 </div>
-
-
-                ${
-                    linkedCustomers.length
-                    ?
-                    `
-                        <div class="customers-list">
-
-                            ${
-                                linkedCustomers
-                                .map(
-                                    customer => `
-
-                                        <div class="customer-row">
-
-                                            <div>
-
-                                                <div class="customer-name">
-
-                                                    👤
-
-                                                    ${escapeHtml(
-                                                        customer.subscriber_name ||
-                                                        "بدون اسم"
-                                                    )}
-
-                                                </div>
-
-                                                <div
-                                                    class="customer-phone"
-                                                >
-
-                                                    📱
-
-                                                    ${escapeHtml(
-                                                        customer.phone ||
-                                                        "-"
-                                                    )}
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                    `
-                                )
-                                .join("")
-                            }
-
-                        </div>
-                    `
-                    :
-                    `
-                        <div class="no-customers">
-
-                            📭 لا يوجد عملاء مرتبطون بهذا الرقم حاليًا
-
-                        </div>
-                    `
-                }
 
             </div>
 
 
-            <!-- بيانات الرقم -->
-
-            <div class="number-details">
-
-                <div class="detail">
+            ${
+                cleanNotes
+                ?
+                `
+                <div
+                    class="detail"
+                    style="grid-column:1/-1"
+                >
 
                     <div class="detail-title">
-                        📅 الجروب
+                        📝 ملاحظات
                     </div>
 
                     <div class="detail-value">
-
-                        ${
-                            group === 1
-                            ?
-                            "جروب يوم 1"
-                            :
-                            "جروب يوم 16"
-                        }
-
+                        ${escapeHtml(cleanNotes)}
                     </div>
 
                 </div>
-
-
-                <div class="detail">
-
-                    <div class="detail-title">
-                        🟢 الحالة
-                    </div>
-
-                    <div class="detail-value">
-
-                        ${
-                            isActive
-                            ?
-                            "نشط"
-                            :
-                            "موقوف"
-                        }
-
-                    </div>
-
-                </div>
-
-
-                ${
-                    cleanNotes
-                    ?
-                    `
-                        <div
-                            class="detail"
-                            style="grid-column:1/-1"
-                        >
-
-                            <div class="detail-title">
-                                📝 ملاحظات
-                            </div>
-
-                            <div class="detail-value">
-
-                                ${escapeHtml(
-                                    cleanNotes
-                                )}
-
-                            </div>
-
-                        </div>
-                    `
-                    :
-                    ""
-                }
-
-            </div>
-
-
-            <!-- أزرار -->
-
-            <div class="number-actions">
-
-                <button
-                    class="number-action edit-btn"
-                    onclick="openEdit(${Number(number.id)})"
-                >
-                    ✏️ تعديل
-                </button>
-
-
-                <button
-                    class="number-action delete-btn"
-                    onclick="deleteNumber(${Number(number.id)})"
-                >
-                    🗑️ حذف
-                </button>
-
-            </div>
+                `
+                :
+                ""
+            }
 
         </div>
+
+
+        <div class="number-actions">
+
+            <button
+                class="number-action edit-btn"
+                onclick="openEdit(${Number(number.id)})"
+            >
+                ✏️ تعديل
+            </button>
+
+
+            <button
+                class="number-action delete-btn"
+                onclick="deleteNumber(${Number(number.id)})"
+            >
+                🗑️ حذف
+            </button>
+
+        </div>
+
+    </div>
 
     `;
 
 }
 
 
-/* =========================================================
-   TOGGLE GROUP
-========================================================= */
-
-function toggleGroup(id){
-
-    const group =
-        document.getElementById(
-            id
-        );
-
-
-    if(!group)
-        return;
-
-
-    group.classList.toggle(
-        "open"
-    );
-
-}
-
-
-/* =========================================================
+/* =====================================================
    ADD
-========================================================= */
+===================================================== */
 
 function openAddModal(){
 
@@ -1697,6 +1726,11 @@ function openAddModal(){
 
 
     document.getElementById(
+        "totalGBInput"
+    ).value = "";
+
+
+    document.getElementById(
         "notesInput"
     ).value = "";
 
@@ -1713,24 +1747,22 @@ function openAddModal(){
 
     document.getElementById(
         "numberModal"
-    ).classList.add(
-        "show"
-    );
+    ).classList.add("show");
 
 }
 
 
-/* =========================================================
+/* =====================================================
    EDIT
-========================================================= */
+===================================================== */
 
 function openEdit(id){
 
     const number =
         numbers.find(
-            item =>
-                Number(item.id) ===
-                Number(id)
+            n =>
+            Number(n.id) ===
+            Number(id)
         );
 
 
@@ -1764,26 +1796,26 @@ function openEdit(id){
 
 
     document.getElementById(
+        "totalGBInput"
+    ).value =
+        getTotalGB(number) || "";
+
+
+    document.getElementById(
         "notesInput"
     ).value =
-        getCleanNotes(
-            number
-        );
+        getCleanNotes(number);
 
 
     selectGroup(
-        getGroup(
-            number
-        )
+        getGroup(number)
     );
 
 
     selectStatus(
         number.is_active === false
-        ?
-        "inactive"
-        :
-        "active"
+        ? "inactive"
+        : "active"
     );
 
 
@@ -1794,27 +1826,21 @@ function openEdit(id){
 
     document.getElementById(
         "numberModal"
-    ).classList.add(
-        "show"
-    );
+    ).classList.add("show");
 
 }
 
 
-/* =========================================================
-   SELECT GROUP
-========================================================= */
+/* =====================================================
+   GROUP
+===================================================== */
 
-function selectGroup(
-    group
-){
+function selectGroup(group){
 
     selectedGroup =
         Number(group) === 16
-        ?
-        16
-        :
-        1;
+        ? 16
+        : 1;
 
 
     document.getElementById(
@@ -1835,20 +1861,16 @@ function selectGroup(
 }
 
 
-/* =========================================================
-   SELECT STATUS
-========================================================= */
+/* =====================================================
+   STATUS
+===================================================== */
 
-function selectStatus(
-    status
-){
+function selectStatus(status){
 
     selectedStatus =
         status === "inactive"
-        ?
-        "inactive"
-        :
-        "active";
+        ? "inactive"
+        : "active";
 
 
     document.getElementById(
@@ -1869,9 +1891,9 @@ function selectStatus(
 }
 
 
-/* =========================================================
+/* =====================================================
    SAVE
-========================================================= */
+===================================================== */
 
 async function saveNumber(){
 
@@ -1882,23 +1904,25 @@ async function saveNumber(){
 
 
     let phone =
-        document.getElementById(
-            "phoneInput"
-        ).value
-        .trim();
-
-
-    phone =
         cleanPhone(
-            phone
+            document.getElementById(
+                "phoneInput"
+            ).value
+        );
+
+
+    const totalGB =
+        Number(
+            document.getElementById(
+                "totalGBInput"
+            ).value
         );
 
 
     const notes =
         document.getElementById(
             "notesInput"
-        ).value
-        .trim();
+        ).value.trim();
 
 
     const editId =
@@ -1908,9 +1932,7 @@ async function saveNumber(){
 
 
     if(
-        !/^01[0125][0-9]{8}$/.test(
-            phone
-        )
+        !/^01[0125][0-9]{8}$/.test(phone)
     ){
 
         message.style.color =
@@ -1918,6 +1940,22 @@ async function saveNumber(){
 
         message.textContent =
             "❌ اكتب رقم مصري صحيح مكون من 11 رقم";
+
+        return;
+
+    }
+
+
+    if(
+        !Number.isFinite(totalGB) ||
+        totalGB <= 0
+    ){
+
+        message.style.color =
+            "#a00000";
+
+        message.textContent =
+            "❌ اكتب إجمالي الباقة بالجيجا";
 
         return;
 
@@ -1936,16 +1974,16 @@ async function saveNumber(){
         const savedNotes =
             buildNotes(
                 notes,
-                selectedGroup
+                selectedGroup,
+                totalGB
             );
 
 
         const payload = {
 
-            phone,
+            phone:phone,
 
-            notes:
-                savedNotes,
+            notes:savedNotes,
 
             is_active:
                 selectedStatus === "active"
@@ -1953,29 +1991,21 @@ async function saveNumber(){
         };
 
 
-        /* ================= EDIT ================= */
+        /* EDIT */
 
         if(editId){
 
             const result =
                 await supabaseClient
-                    .from(
-                        "primary_numbers"
-                    )
-                    .update(
-                        payload
-                    )
-                    .eq(
-                        "id",
-                        editId
-                    );
+                    .from("primary_numbers")
+                    .update(payload)
+                    .eq("id",editId);
 
 
             if(result.error){
 
                 if(
-                    result.error.code ===
-                    "23505"
+                    result.error.code === "23505"
                 ){
 
                     throw new Error(
@@ -1984,35 +2014,27 @@ async function saveNumber(){
 
                 }
 
-
                 throw result.error;
 
             }
 
 
-            message.style.color =
-                "#08752d";
-
-            message.textContent =
-                "✅ تم تعديل الرقم بنجاح";
+            showToast(
+                "✅ تم تعديل الرقم وإجمالي الباقة"
+            );
 
         }
 
 
-        /* ================= ADD ================= */
+        /* ADD */
 
         else{
 
             const existing =
                 await supabaseClient
-                    .from(
-                        "primary_numbers"
-                    )
+                    .from("primary_numbers")
                     .select("id")
-                    .eq(
-                        "phone",
-                        phone
-                    )
+                    .eq("phone",phone)
                     .limit(1);
 
 
@@ -2034,27 +2056,14 @@ async function saveNumber(){
 
             const result =
                 await supabaseClient
-                    .from(
-                        "primary_numbers"
-                    )
-                    .insert({
-
-                        phone,
-
-                        notes:
-                            savedNotes,
-
-                        is_active:
-                            selectedStatus === "active"
-
-                    });
+                    .from("primary_numbers")
+                    .insert(payload);
 
 
             if(result.error){
 
                 if(
-                    result.error.code ===
-                    "23505"
+                    result.error.code === "23505"
                 ){
 
                     throw new Error(
@@ -2063,44 +2072,28 @@ async function saveNumber(){
 
                 }
 
-
                 throw result.error;
 
             }
 
 
-            message.style.color =
-                "#08752d";
-
-            message.textContent =
-                "✅ تم إضافة الرقم بنجاح";
+            showToast(
+                "✅ تم إضافة الرقم"
+            );
 
         }
 
 
         await loadData();
 
-
-        setTimeout(
-            closeModal,
-            450
-        );
-
-
-        showToast(
-            editId
-            ?
-            "✅ تم تعديل الرقم"
-            :
-            "✅ تم إضافة الرقم"
-        );
+        closeModal();
 
 
     }
     catch(error){
 
         console.error(
-            "SAVE NUMBER ERROR:",
+            "SAVE ERROR:",
             error
         );
 
@@ -2117,19 +2110,17 @@ async function saveNumber(){
 }
 
 
-/* =========================================================
+/* =====================================================
    DELETE
-========================================================= */
+===================================================== */
 
-async function deleteNumber(
-    id
-){
+async function deleteNumber(id){
 
     const number =
         numbers.find(
-            item =>
-                Number(item.id) ===
-                Number(id)
+            n =>
+            Number(n.id) ===
+            Number(id)
         );
 
 
@@ -2137,25 +2128,18 @@ async function deleteNumber(
         return;
 
 
-    /*
-       نتأكد من العملاء المرتبطين
-       بالرقم الأساسي.
-    */
-
-    const linkedCustomers =
+    const linked =
         getLinkedCustomers(
             number.phone
         );
 
 
-    if(
-        linkedCustomers.length
-    ){
+    if(linked.length){
 
         alert(
             "⚠️ لا يمكن حذف الرقم الآن.\n\n" +
             "الرقم مرتبط بـ " +
-            linkedCustomers.length +
+            linked.length +
             " عميل.\n\n" +
             "انقل العملاء لرقم آخر أولًا."
         );
@@ -2165,30 +2149,26 @@ async function deleteNumber(
     }
 
 
-    const confirmed =
-        confirm(
+    if(
+        !confirm(
             "⚠️ حذف الرقم\n\n" +
             number.phone +
             "\n\nهل أنت متأكد؟"
-        );
+        )
+    ){
 
-
-    if(!confirmed)
         return;
+
+    }
 
 
     try{
 
         const result =
             await supabaseClient
-                .from(
-                    "primary_numbers"
-                )
+                .from("primary_numbers")
                 .delete()
-                .eq(
-                    "id",
-                    id
-                );
+                .eq("id",id);
 
 
         if(result.error)
@@ -2202,15 +2182,8 @@ async function deleteNumber(
 
         await loadData();
 
-
     }
     catch(error){
-
-        console.error(
-            "DELETE ERROR:",
-            error
-        );
-
 
         alert(
             "❌ لم يتم حذف الرقم:\n\n" +
@@ -2222,151 +2195,96 @@ async function deleteNumber(
 }
 
 
-/* =========================================================
-   CLOSE MODAL
-========================================================= */
+/* =====================================================
+   CLOSE
+===================================================== */
 
 function closeModal(){
 
     document.getElementById(
         "numberModal"
-    ).classList.remove(
-        "show"
-    );
+    ).classList.remove("show");
 
 }
 
 
-/* =========================================================
+/* =====================================================
+   GROUP TOGGLE
+===================================================== */
+
+function toggleGroup(id){
+
+    document.getElementById(
+        id
+    ).classList.toggle("open");
+
+}
+
+
+/* =====================================================
    SEARCH
-========================================================= */
+===================================================== */
 
 document
-    .getElementById(
-        "search"
-    )
+    .getElementById("search")
     .addEventListener(
         "input",
         renderNumbers
     );
 
 
-/* =========================================================
-   CLOSE MODAL OUTSIDE
-========================================================= */
-
-document
-    .getElementById(
-        "numberModal"
-    )
-    .addEventListener(
-        "click",
-        function(event){
-
-            if(
-                event.target ===
-                this
-            ){
-
-                closeModal();
-
-            }
-
-        }
-    );
-
-
-/* =========================================================
-   ESC
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    function(event){
-
-        if(
-            event.key ===
-            "Escape"
-        ){
-
-            closeModal();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
+/* =====================================================
    HELPERS
-========================================================= */
+===================================================== */
 
-function cleanPhone(
-    value
-){
+function cleanPhone(value){
 
-    return normalizeArabicNumbers(
-        value
-    )
-    .replace(
-        /\D/g,
-        ""
-    );
+    return normalizeArabicNumbers(value)
+        .replace(/\D/g,"");
 
 }
 
 
-function normalizeArabicNumbers(
-    value
-){
+function normalizeArabicNumbers(value){
 
-    return String(
-        value || ""
-    )
-    .replace(
-        /[٠-٩]/g,
-        d =>
-            "٠١٢٣٤٥٦٧٨٩"
-            .indexOf(d)
-    );
+    return String(value || "")
+        .replace(
+            /[٠-٩]/g,
+            d =>
+            "٠١٢٣٤٥٦٧٨٩".indexOf(d)
+        );
 
 }
 
 
-function escapeHtml(
-    value
-){
+function formatGB(value){
 
-    return String(
-        value ?? ""
-    )
-    .replaceAll(
-        "&",
-        "&amp;"
-    )
-    .replaceAll(
-        "<",
-        "&lt;"
-    )
-    .replaceAll(
-        ">",
-        "&gt;"
-    )
-    .replaceAll(
-        '"',
-        "&quot;"
-    )
-    .replaceAll(
-        "'",
-        "&#039;"
-    );
+    const n =
+        Number(value) || 0;
+
+
+    if(Number.isInteger(n))
+        return String(n);
+
+
+    return n.toFixed(2);
 
 }
 
 
-function showToast(
-    text
-){
+function escapeHtml(value){
+
+    return String(value ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+function showToast(text){
 
     const toast =
         document.getElementById(
@@ -2378,9 +2296,7 @@ function showToast(
         text;
 
 
-    toast.classList.add(
-        "show"
-    );
+    toast.classList.add("show");
 
 
     clearTimeout(
@@ -2390,12 +2306,8 @@ function showToast(
 
     window.toastTimer =
         setTimeout(
-            function(){
-
-                toast.classList.remove(
-                    "show"
-                );
-
+            () => {
+                toast.classList.remove("show");
             },
             2500
         );
@@ -2403,9 +2315,43 @@ function showToast(
 }
 
 
-/* =========================================================
+/* =====================================================
+   CLOSE OUTSIDE
+===================================================== */
+
+document
+    .getElementById("numberModal")
+    .addEventListener(
+        "click",
+        function(event){
+
+            if(event.target === this){
+                closeModal();
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   ESC
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Escape"){
+            closeModal();
+        }
+
+    }
+);
+
+
+/* =====================================================
    START
-========================================================= */
+===================================================== */
 
 loadData();
 
