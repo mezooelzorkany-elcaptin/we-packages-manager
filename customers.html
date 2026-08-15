@@ -4633,186 +4633,274 @@ async function loadPaymentOrders(){
    APPROVE PAYMENT
 ===================================================== */
 
-async function approveOrderPayment(
-  orderNumber
-){
+async function approveOrderPayment(orderNumber){
 
-  if(
-    window.approvingOrder
-  ){
-
-    alert(
-      "⏳ جاري تنفيذ طلب آخر، انتظر لحظة..."
-    );
-
+  if(window.approvingOrder){
+    alert("⏳ جاري تنفيذ طلب آخر، انتظر لحظة...");
     return;
-
   }
 
-
-  window.approvingOrder =
-    true;
-
+  window.approvingOrder = true;
 
   try{
 
-    let primaryNumber =
-      prompt(
+    /* ===============================
+       1) الرقم الأساسي
+    =============================== */
 
-        "📱 اكتب الرقم الأساسي الذي سيتم عمل الباقة عليه:\n\n" +
+    let primaryNumber = prompt(
+      "📱 اكتب الرقم الأساسي الذي سيتم عمل الباقة عليه:\n\n" +
+      "رقم الطلب: " + orderNumber
+    );
 
-        "رقم الطلب: " +
-        orderNumber
-
-      );
-
-
-    if(
-      primaryNumber ===
-      null
-    ){
-
+    if(primaryNumber === null){
       return;
-
     }
 
+    primaryNumber = cleanPhone(primaryNumber);
 
-    primaryNumber =
-      cleanPhone(
-        primaryNumber
-      );
-
-
-    if(
-      !isValidEgyptianPhone(
-        primaryNumber
-      )
-    ){
-
+    if(!isValidEgyptianPhone(primaryNumber)){
       alert(
         "❌ الرقم الأساسي غير صحيح.\n\n" +
         "اكتب رقم مصري صحيح مكون من 11 رقم."
       );
-
       return;
-
     }
 
 
-    const confirmed =
-      confirm(
+    /* ===============================
+       2) جلب الطلب أولًا
+    =============================== */
 
-        "⚠️ تأكيد الطلب\n\n" +
+    const orderRows = await supabaseRequest(
+      "orders?select=*&order_number=eq." +
+      encodeURIComponent(orderNumber) +
+      "&limit=1"
+    );
 
-        "📋 رقم الطلب:\n" +
-        orderNumber +
+    if(!Array.isArray(orderRows) || !orderRows.length){
+      throw new Error(
+        "لم أجد بيانات الطلب."
+      );
+    }
 
-        "\n\n📱 الرقم الأساسي:\n" +
-        primaryNumber +
+    const order = orderRows[0];
 
-        "\n\nهل أنت متأكد من تأكيد الدفع؟"
 
+    /* ===============================
+       3) بيانات الطلب
+    =============================== */
+
+    const customerName =
+      order.subscriber_name ||
+      order.customer_name ||
+      "";
+
+    const customerPhone =
+      cleanPhone(order.phone || "");
+
+    const packageName =
+      getOrderPackage(order) || "";
+
+    const amount =
+      Number(
+        order.final_price ??
+        order.total_price ??
+        order.amount ??
+        order.price ??
+        0
       );
 
 
-    if(!confirmed)
+    if(!amount || amount <= 0){
+      throw new Error(
+        "مبلغ الطلب غير موجود أو يساوي صفر."
+      );
+    }
+
+
+    /* ===============================
+       4) كود الخصم
+    =============================== */
+
+    const promoCode =
+      getOrderPromoCode(order) || "";
+
+
+    /* ===============================
+       5) تأكيد نهائي
+    =============================== */
+
+    let confirmMessage =
+      "⚠️ تأكيد الطلب\n\n" +
+
+      "📋 رقم الطلب:\n" +
+      orderNumber +
+
+      "\n\n👤 العميل:\n" +
+      customerName +
+
+      "\n\n📱 الرقم:\n" +
+      customerPhone +
+
+      "\n\n📱 الرقم الأساسي:\n" +
+      primaryNumber +
+
+      "\n\n📦 الباقة:\n" +
+      packageName +
+
+      "\n\n💰 المبلغ:\n" +
+      amount +
+      " جنيه";
+
+    if(promoCode){
+      confirmMessage +=
+        "\n\n🎁 كود الخصم:\n" +
+        promoCode;
+    }
+
+    confirmMessage +=
+      "\n\nهل أنت متأكد من تأكيد الدفع؟";
+
+
+    const confirmed =
+      confirm(confirmMessage);
+
+    if(!confirmed){
       return;
+    }
 
 
-    /* ==========================================
-       RPC الموجود عندك
-    ========================================== */
+    /* ===============================
+       6) تأكيد الطلب
+    =============================== */
 
     const result =
       await supabaseRequest(
         "rpc/approve_order_payment",
         {
-          method:
-            "POST",
+          method:"POST",
 
-          body:
-            JSON.stringify({
-              input_order_number:
-                orderNumber
-            })
+          body:JSON.stringify({
+            input_order_number:
+              orderNumber
+          })
         }
       );
 
 
     if(
       !result ||
-      result.success !==
-      true
+      result.success !== true
     ){
-
       throw new Error(
         result?.message ||
         "لم يتم تأكيد الدفع."
       );
+    }
+
+
+    /* ===============================
+       7) تسجيل العملية في الماليات
+    =============================== */
+
+    const financeNote =
+      "طلب دفع " +
+      orderNumber +
+      " - تم تأكيده من طلبات الدفع";
+
+
+    /*
+     * نتأكد الأول إن العملية
+     * مش متسجلة قبل كده
+     */
+
+    let existingFinance = [];
+
+    try{
+
+      existingFinance =
+        await supabaseRequest(
+          "financial_transactions?select=id&notes=eq." +
+          encodeURIComponent(financeNote) +
+          "&limit=1"
+        );
+
+    }catch(financeCheckError){
+
+      console.warn(
+        "FINANCE CHECK:",
+        financeCheckError
+      );
+
+      existingFinance = [];
 
     }
 
 
-    /* ==========================================
-       جلب الطلب بدون order by created_at
-    ========================================== */
-
-    const orderRows =
-      await supabaseRequest(
-        "orders?select=*&order_number=eq." +
-        encodeURIComponent(
-          orderNumber
-        ) +
-        "&limit=1"
-      );
-
+    /*
+     * لو مش موجودة نسجلها
+     */
 
     if(
-      !Array.isArray(
-        orderRows
-      ) ||
-      !orderRows.length
+      !Array.isArray(existingFinance) ||
+      !existingFinance.length
     ){
 
-      throw new Error(
-        "تم تأكيد الدفع ولكن لم أجد بيانات الطلب."
+      await supabaseRequest(
+        "financial_transactions",
+        {
+          method:"POST",
+
+          body:JSON.stringify({
+
+            customer_name:
+              customerName || null,
+
+            customer_phone:
+              customerPhone || null,
+
+            primary_number:
+              primaryNumber || null,
+
+            package_name:
+              packageName || null,
+
+            amount:
+              Math.abs(amount),
+
+            transaction_type:
+              "اشتراك / تجديد",
+
+            transaction_date:
+              new Date().toISOString(),
+
+            notes:
+              financeNote
+
+          })
+        }
       );
 
     }
 
 
-    const order =
-      orderRows[0];
+    /* ===============================
+       8) تحديث العميل
+    =============================== */
 
-
-    const phone =
-      cleanPhone(
-        order.phone
-      );
-
-
-    /* ==========================================
-       تحديث الرقم الأساسي فقط
-       لا نلمس promo_code
-       ولا discount_amount
-    ========================================== */
-
-    if(phone){
+    if(customerPhone){
 
       const customerResult =
         await supabaseRequest(
           "customers?select=id&phone=eq." +
-          encodeURIComponent(
-            phone
-          ) +
+          encodeURIComponent(customerPhone) +
           "&deleted_at=is.null&limit=1"
         );
 
 
       if(
-        Array.isArray(
-          customerResult
-        ) &&
+        Array.isArray(customerResult) &&
         customerResult.length
       ){
 
@@ -4822,24 +4910,36 @@ async function approveOrderPayment(
 
         await supabaseRequest(
           "customers?id=eq." +
-          encodeURIComponent(
-            customerId
-          ),
+          encodeURIComponent(customerId),
           {
-            method:
-              "PATCH",
+            method:"PATCH",
 
-            body:
-              JSON.stringify({
+            body:JSON.stringify({
 
-                primary_number:
-                  primaryNumber,
+              primary_number:
+                primaryNumber,
 
-                updated_at:
-                  new Date()
-                    .toISOString()
+              package_name:
+                packageName || null,
 
-              })
+              last_price:
+                amount,
+
+              payment_method:
+                order.payment_method ||
+                null,
+
+              total_orders:
+                (
+                  Number(
+                    customerResult[0].total_orders
+                  ) || 0
+                ) + 1,
+
+              updated_at:
+                new Date().toISOString()
+
+            })
           }
         );
 
@@ -4848,25 +4948,28 @@ async function approveOrderPayment(
     }
 
 
-    /* ==========================================
-       كود الخصم من الطلب فقط
-    ========================================== */
-
-    const promoCode =
-      getOrderPromoCode(
-        order
-      );
-
+    /* ===============================
+       9) رسالة النجاح
+    =============================== */
 
     let successMessage =
-      "✅ تم تأكيد الدفع بنجاح\n\n" +
+      "✅ تم تأكيد الدفع وتسجيل العملية المالية بنجاح\n\n" +
 
       "📋 رقم الطلب:\n" +
       orderNumber +
 
-      "\n\n📱 الرقم الأساسي:\n" +
-      primaryNumber;
+      "\n\n👤 العميل:\n" +
+      customerName +
 
+      "\n\n📱 الرقم الأساسي:\n" +
+      primaryNumber +
+
+      "\n\n📦 الباقة:\n" +
+      packageName +
+
+      "\n\n💰 المبلغ المسجل في الماليات:\n" +
+      amount +
+      " جنيه";
 
     if(promoCode){
 
@@ -4877,33 +4980,33 @@ async function approveOrderPayment(
     }
 
 
-    alert(
-      successMessage
-    );
+    alert(successMessage);
 
+
+    /* ===============================
+       10) تحديث الشاشة
+    =============================== */
 
     await loadPaymentOrders();
     await loadCustomers();
 
-
-  }catch(e){
+  }
+  catch(e){
 
     console.error(
       "APPROVE PAYMENT ERROR:",
       e
     );
 
-
     alert(
-      "❌ فشل تأكيد الدفع:\n\n" +
+      "❌ حصل خطأ أثناء تأكيد الدفع:\n\n" +
       e.message
     );
 
+  }
+  finally{
 
-  }finally{
-
-    window.approvingOrder =
-      false;
+    window.approvingOrder = false;
 
   }
 
