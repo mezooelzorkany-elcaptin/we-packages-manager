@@ -1000,8 +1000,8 @@ async function loadData(){
             await supabaseClient
                 .from("customers")
                 .select(
-                    "id,subscriber_name,phone,primary_number,allocated_gb,deleted_at"
-                )
+    "subscriber_name,internal_name,phone,primary_number,allocated_gb,deleted_at"
+)
                 .is("deleted_at",null);
 
 
@@ -1555,15 +1555,40 @@ function renderNumberCard(
 
                                     <div>
 
-                                        <div class="customer-name">
+                                       <div class="customer-name">
 
-                                            👤
-                                            ${escapeHtml(
-                                                customer.subscriber_name ||
-                                                "بدون اسم"
-                                            )}
+    👤
 
-                                        </div>
+    ${escapeHtml(
+        customer.subscriber_name ||
+        "بدون اسم"
+    )}
+
+</div>
+
+${
+    customer.internal_name
+    ?
+    `
+        <div
+            style="
+                margin-top:5px;
+                color:#5420b8;
+                font-size:13px;
+                font-weight:bold;
+            "
+        >
+            🏷️ عندي:
+            <span>
+                ${escapeHtml(
+                    customer.internal_name
+                )}
+            </span>
+        </div>
+    `
+    :
+    ""
+}
 
                                         <div class="customer-phone">
 
