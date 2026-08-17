@@ -3319,115 +3319,170 @@ check();
 
 </script>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+/* =====================================================
+   FIX LOGIN - CASH BACK
+===================================================== */
 
-  const loginButton = document.querySelector(
-    '#loginScreen button'
-  );
+async function login(){
 
-  if (!loginButton) {
-    console.error("Login button not found");
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+  const message =
+    document.getElementById("loginMessage");
+
+  message.style.color = "#c73542";
+  message.textContent = "⏳ جاري تسجيل الدخول...";
+
+
+  if(!email || !password){
+
+    message.textContent =
+      "❌ اكتب البريد الإلكتروني وكلمة المرور";
+
     return;
   }
 
-  loginButton.onclick = async function () {
 
-    const emailInput =
-      document.getElementById("loginEmail");
+  try{
 
-    const passwordInput =
-      document.getElementById("loginPassword");
+    const { data, error } =
+      await db.auth.signInWithPassword({
 
-    const message =
-      document.getElementById("loginMessage");
+        email: email,
 
-    const email =
-      emailInput.value.trim();
+        password: password
 
-    const password =
-      passwordInput.value;
+      });
 
-    message.style.color = "#c73542";
-    message.textContent =
-      "⏳ جاري تسجيل الدخول...";
 
-    if (!email || !password) {
-      message.textContent =
-        "❌ اكتب البريد الإلكتروني وكلمة المرور";
-      return;
-    }
+    if(error){
 
-    try {
-
-      const result =
-        await authClient.auth.signInWithPassword({
-          email: email,
-          password: password
-        });
-
-      if (result.error) {
-        throw result.error;
-      }
-
-      if (!result.data || !result.data.user) {
-        throw new Error(
-          "لم يتم تسجيل الدخول"
-        );
-      }
-
-      const userEmail =
-        String(
-          result.data.user.email || ""
-        ).toLowerCase();
-
-      if (
-        userEmail !==
-        ADMIN_EMAIL.toLowerCase()
-      ) {
-
-        await authClient.auth.signOut();
-
-        throw new Error(
-          "هذا الحساب غير مسموح له بالدخول"
-        );
-      }
-
-      message.style.color = "#159447";
-      message.textContent =
-        "✅ تم تسجيل الدخول";
-
-      document.getElementById(
-        "loginScreen"
-      ).style.display = "none";
-
-      document.getElementById(
-        "app"
-      ).style.display = "block";
-
-      loadPaymentOrders();
-      loadCustomers();
-
-    } catch (error) {
-
-      console.error(
-        "LOGIN ERROR:",
-        error
+      throw new Error(
+        error.message ||
+        "فشل تسجيل الدخول"
       );
 
-      message.style.color = "#c73542";
+    }
 
-      message.textContent =
-        "❌ " +
-        (
-          error.message ||
-          "حصل خطأ أثناء تسجيل الدخول"
-        );
+
+    if(
+      !data ||
+      !data.user
+    ){
+
+      throw new Error(
+        "لم يتم العثور على بيانات الحساب"
+      );
 
     }
 
-  };
 
-});
+    const userEmail =
+      String(
+        data.user.email || ""
+      ).toLowerCase();
+
+
+    if(
+      userEmail !==
+      ADMIN.toLowerCase()
+    ){
+
+      await db.auth.signOut();
+
+      throw new Error(
+        "هذا الحساب غير مسموح له بالدخول"
+      );
+
+    }
+
+
+    message.style.color =
+      "#159447";
+
+    message.textContent =
+      "✅ تم تسجيل الدخول بنجاح";
+
+
+    $("loginScreen").style.display =
+      "none";
+
+    $("app").style.display =
+      "block";
+
+
+    /*
+     * تحميل بيانات الصفحة
+     */
+
+    loadCustomers();
+
+    loadPayments();
+
+
+  }catch(error){
+
+    console.error(
+      "LOGIN ERROR:",
+      error
+    );
+
+
+    message.style.color =
+      "#d93645";
+
+    message.textContent =
+      "❌ " +
+      (
+        error.message ||
+        "حدث خطأ أثناء تسجيل الدخول"
+      );
+
+  }
+
+}
+
+
+/* =====================================================
+   ENTER KEY
+===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    const password =
+      document.getElementById(
+        "password"
+      );
+
+    if(password){
+
+      password.addEventListener(
+        "keydown",
+        function(event){
+
+          if(
+            event.key === "Enter"
+          ){
+
+            login();
+
+          }
+
+        }
+      );
+
+    }
+
+  }
+);
+
 </script>
+
 </body>
 </html>
