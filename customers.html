@@ -1652,61 +1652,84 @@ return d;
 }
 
 
-async function login(){
+async function loginCustomers(){
 
-$("loginMessage")
-.textContent=
-"⏳ جاري تسجيل الدخول...";
+  const email =
+    document.getElementById("loginEmail").value.trim();
 
+  const password =
+    document.getElementById("loginPassword").value;
 
-try{
+  const msg =
+    document.getElementById("loginMessage");
 
-let r =
-await db.auth
-.signInWithPassword({
+  msg.style.color = "#c73542";
+  msg.textContent = "⏳ جاري تسجيل الدخول...";
 
-email:
-$("email")
-.value
-.trim(),
+  if(!email || !password){
+    msg.textContent =
+      "❌ اكتب البريد الإلكتروني وكلمة المرور";
+    return;
+  }
 
-password:
-$("password")
-.value
+  try{
 
-});
+    const { data, error } =
+      await authClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
 
+    if(error){
+      throw new Error(
+        error.message || "فشل تسجيل الدخول"
+      );
+    }
 
-if(r.error)
-throw r.error;
+    if(!data || !data.user){
+      throw new Error(
+        "لم يتم العثور على بيانات الحساب"
+      );
+    }
 
+    const userEmail =
+      String(data.user.email || "").toLowerCase();
 
-if(
-r.data.user.email
-.toLowerCase() !=
-ADMIN.toLowerCase()
-){
+    if(
+      userEmail !==
+      ADMIN_EMAIL.toLowerCase()
+    ){
 
-await db.auth
-.signOut();
+      await authClient.auth.signOut();
 
-throw Error(
-"هذا الحساب غير مسموح له بالدخول"
-);
+      throw new Error(
+        "هذا الحساب غير مسموح له بالدخول"
+      );
+    }
 
-}
+    msg.style.color = "#159447";
+    msg.textContent =
+      "✅ تم تسجيل الدخول بنجاح";
 
+    showApp();
 
-showApp();
+  }catch(error){
 
-}catch(e){
+    console.error(
+      "LOGIN ERROR:",
+      error
+    );
 
-$("loginMessage")
-.textContent=
-"❌ "+
-e.message;
+    msg.style.color = "#c73542";
 
-}
+    msg.textContent =
+      "❌ " +
+      (
+        error.message ||
+        "حدث خطأ أثناء تسجيل الدخول"
+      );
+
+  }
 
 }
 
