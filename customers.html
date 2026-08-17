@@ -1,751 +1,813 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1"
+>
+
 <title>العملاء | CASH BACK</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 *{
-  box-sizing:border-box;
-  font-family:Arial,Tahoma,sans-serif
+box-sizing:border-box;
+font-family:Arial,Tahoma,sans-serif
 }
 
 body{
-  margin:0;
-  background:#f7f6fb;
-  color:#1d2435
+margin:0;
+background:#f7f6fb;
+color:#1d2435
 }
 
 button,input,select{
-  font:inherit
+font:inherit
 }
 
-/* LOGIN */
+/* ================= LOGIN ================= */
 
 .login{
-  min-height:100vh;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(135deg,#171a31,#6428bd);
-  padding:20px
+min-height:100vh;
+display:grid;
+place-items:center;
+background:linear-gradient(135deg,#171a31,#6428bd);
+padding:20px
 }
 
 .loginbox{
-  width:min(420px,100%);
-  background:#fff;
-  border-radius:28px;
-  padding:30px;
-  text-align:center;
-  box-shadow:0 25px 70px #0005
+width:min(420px,100%);
+background:#fff;
+border-radius:28px;
+padding:30px;
+text-align:center;
+box-shadow:0 25px 70px #0005
 }
 
 .loginbox img{
-  width:120px;
-  height:120px;
-  object-fit:contain
+width:120px;
+height:120px;
+object-fit:contain;
+margin:auto;
+display:block
+}
+
+.loginbox h2{
+font-size:30px;
+margin:10px 0
+}
+
+.loginbox p{
+color:#666;
+margin-bottom:20px
 }
 
 .loginbox input{
-  width:100%;
-  height:52px;
-  border:1px solid #ddd;
-  border-radius:14px;
-  padding:0 14px;
-  margin:6px 0
+width:100%;
+height:52px;
+border:1px solid #ddd;
+border-radius:14px;
+padding:0 14px;
+margin:6px 0;
+outline:none
+}
+
+.loginbox input:focus{
+border-color:#5420b8;
+box-shadow:0 0 0 3px #5420b822
 }
 
 .loginbox button{
-  width:100%;
-  height:52px;
-  border:0;
-  border-radius:14px;
-  background:#5420b8;
-  color:#fff;
-  font-weight:bold;
-  margin-top:8px
+width:100%;
+height:52px;
+border:0;
+border-radius:14px;
+background:#5420b8;
+color:#fff;
+font-weight:bold;
+margin-top:8px;
+cursor:pointer
+}
+
+.loginbox button:disabled{
+opacity:.7;
+cursor:not-allowed
+}
+
+#loginMessage{
+min-height:25px;
+margin-top:12px;
+font-weight:bold
 }
 
 #app{
-  display:none
+display:none
 }
 
-/* SIDEBAR */
+/* ================= SIDEBAR ================= */
 
 .side{
-  position:fixed;
-  right:0;
-  top:0;
-  bottom:0;
-  width:245px;
-  background:#fff;
-  border-left:1px solid #eee;
-  z-index:5
+position:fixed;
+right:0;
+top:0;
+bottom:0;
+width:245px;
+background:#fff;
+border-left:1px solid #eee;
+z-index:5
 }
 
 .logo{
-  height:175px;
-  background:#111318;
-  display:grid;
-  place-items:center;
-  overflow:hidden
+height:175px;
+background:#111318;
+display:grid;
+place-items:center;
+overflow:hidden
 }
 
 .logo img{
-  width:100%;
-  height:100%;
-  object-fit:cover
+width:100%;
+height:100%;
+object-fit:cover
 }
 
 .nav{
-  padding:14px
+padding:14px
 }
 
 .nav a{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  padding:14px;
-  border-radius:13px;
-  margin:5px 0;
-  text-decoration:none;
-  color:#333;
-  font-weight:bold
+display:flex;
+align-items:center;
+gap:13px;
+padding:14px;
+border-radius:13px;
+margin:5px 0;
+text-decoration:none;
+color:#333;
+font-weight:bold
 }
 
 .nav a.active{
-  background:linear-gradient(90deg,#7034d2,#5420b8);
-  color:#fff
+background:linear-gradient(90deg,#7034d2,#5420b8);
+color:#fff
 }
 
 .nav i{
-  font-style:normal;
-  font-size:20px;
-  width:25px;
-  text-align:center
+font-style:normal;
+font-size:20px;
+width:25px;
+text-align:center
 }
 
 .logout{
-  position:absolute;
-  bottom:15px;
-  right:14px;
-  left:14px;
-  height:48px;
-  border:0;
-  border-radius:13px;
-  background:#fff0f2;
-  color:#d93645;
-  font-weight:bold
+position:absolute;
+bottom:15px;
+right:14px;
+left:14px;
+height:48px;
+border:0;
+border-radius:13px;
+background:#fff0f2;
+color:#d93645;
+font-weight:bold;
+cursor:pointer
 }
 
-/* MAIN */
+/* ================= MAIN ================= */
 
 .main{
-  margin-right:245px
+margin-right:245px
 }
 
 .top{
-  height:82px;
-  background:#fff;
-  border-bottom:1px solid #eee;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 30px
+height:82px;
+background:#fff;
+border-bottom:1px solid #eee;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 30px
 }
 
 .top b{
-  font-size:20px
+font-size:20px
 }
 
 .top small{
-  display:block;
-  color:#858b9b;
-  margin-top:4px
+display:block;
+color:#858b9b;
+margin-top:4px
 }
 
 .avatar{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  background:#eee4ff;
-  display:grid;
-  place-items:center
+width:42px;
+height:42px;
+border-radius:50%;
+background:#eee4ff;
+display:grid;
+place-items:center
 }
 
 .content{
-  max-width:1500px;
-  margin:auto;
-  padding:28px
+max-width:1500px;
+margin:auto;
+padding:28px
 }
 
 .heading{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:22px
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:22px
 }
 
 .heading h1{
-  margin:0;
-  color:#4f2692
+margin:0;
+color:#4f2692
 }
 
 .heading p{
-  margin:7px 0;
-  color:#858b9b
+margin:7px 0;
+color:#858b9b
 }
 
 .btn{
-  height:50px;
-  border:0;
-  border-radius:13px;
-  padding:0 18px;
-  font-weight:bold;
-  cursor:pointer
+height:50px;
+border:0;
+border-radius:13px;
+padding:0 18px;
+font-weight:bold;
+cursor:pointer
 }
 
 .purple{
-  background:#5420b8;
-  color:#fff
+background:#5420b8;
+color:#fff
 }
 
 .soft{
-  background:#eee4ff;
-  color:#5420b8
+background:#eee4ff;
+color:#5420b8
 }
 
-/* STATS */
+/* ================= STATS ================= */
 
 .stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:18px;
-  margin-bottom:22px
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:18px;
+margin-bottom:22px
 }
 
 .stat{
-  background:#fff;
-  border:1px solid #eee;
-  border-radius:20px;
-  padding:20px;
-  box-shadow:0 5px 22px #00000009
+background:#fff;
+border:1px solid #eee;
+border-radius:20px;
+padding:20px;
+box-shadow:0 5px 22px #00000009
 }
 
 .stat:nth-child(1){
-  background:#fff8ff
+background:#fff8ff
 }
 
 .stat:nth-child(2){
-  background:#f6fff8
+background:#f6fff8
 }
 
 .stat:nth-child(3){
-  background:#fffaf1
+background:#fffaf1
 }
 
 .stat:nth-child(4){
-  background:#fff7f8
+background:#fff7f8
 }
 
 .st{
-  display:flex;
-  justify-content:space-between;
-  font-weight:bold
+display:flex;
+justify-content:space-between;
+font-weight:bold
 }
 
 .ico{
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  background:#eee4ff
+width:45px;
+height:45px;
+border-radius:50%;
+display:grid;
+place-items:center;
+background:#eee4ff
 }
 
 .num{
-  font-size:34px;
-  font-weight:900;
-  margin-top:13px
+font-size:34px;
+font-weight:900;
+margin-top:13px
 }
 
 .label{
-  font-size:13px;
-  color:#858b9b
+font-size:13px;
+color:#858b9b
 }
 
-/* PANELS */
+/* ================= PANELS ================= */
 
 .panel{
-  background:#fff;
-  border:1px solid #eee;
-  border-radius:22px;
-  padding:20px;
-  margin-bottom:22px;
-  box-shadow:0 5px 22px #00000008
+background:#fff;
+border:1px solid #eee;
+border-radius:22px;
+padding:20px;
+margin-bottom:22px;
+box-shadow:0 5px 22px #00000008
 }
 
 .ph{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:15px
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px
 }
 
 .pt{
-  font-size:21px;
-  font-weight:900;
-  color:#5420b8
+font-size:21px;
+font-weight:900;
+color:#5420b8
 }
 
 .ps{
-  font-size:13px;
-  color:#858b9b;
-  margin-top:4px
+font-size:13px;
+color:#858b9b;
+margin-top:4px
 }
 
-/* SEARCH */
+/* ================= SEARCH ================= */
 
 .toolbar{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap
+display:flex;
+gap:10px;
+flex-wrap:wrap
 }
 
 .search{
-  flex:1;
-  min-width:250px;
-  height:50px;
-  border:1px solid #ddd;
-  border-radius:14px;
-  padding:0 15px
+flex:1;
+min-width:250px;
+height:50px;
+border:1px solid #ddd;
+border-radius:14px;
+padding:0 15px
 }
 
 .select{
-  height:50px;
-  border:1px solid #ddd;
-  border-radius:14px;
-  background:#fff;
-  padding:0 14px
+height:50px;
+border:1px solid #ddd;
+border-radius:14px;
+background:#fff;
+padding:0 14px
 }
 
-/* CUSTOMERS */
+/* ================= CUSTOMERS ================= */
 
 .list{
-  display:grid;
-  gap:16px
+display:grid;
+gap:16px
 }
 
 .card{
-  background:#fff;
-  border:1px solid #eee;
-  border-radius:20px;
-  padding:19px
+background:#fff;
+border:1px solid #eee;
+border-radius:20px;
+padding:19px
 }
 
 .ch{
-  display:flex;
-  justify-content:space-between
+display:flex;
+justify-content:space-between
 }
 
 .name{
-  font-size:21px;
-  font-weight:900
+font-size:21px;
+font-weight:900
 }
 
 .phone{
-  color:#777;
-  margin-top:6px
+color:#777;
+margin-top:6px
 }
 
 .internal{
-  color:#5420b8;
-  font-size:13px;
-  font-weight:bold;
-  margin-top:6px
+color:#5420b8;
+font-size:13px;
+font-weight:bold;
+margin-top:6px
 }
 
 .badge{
-  padding:8px 13px;
-  border-radius:20px;
-  height:max-content;
-  font-size:12px;
-  font-weight:bold
+padding:8px 13px;
+border-radius:20px;
+height:max-content;
+font-size:12px;
+font-weight:bold
 }
 
 .ok{
-  background:#e4f8ec;
-  color:#159447
+background:#e4f8ec;
+color:#159447
 }
 
 .bad{
-  background:#fde8ea;
-  color:#d93645
+background:#fde8ea;
+color:#d93645
 }
 
 .grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:11px;
-  margin-top:17px
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:11px;
+margin-top:17px
 }
 
 .box{
-  background:#f8f8fb;
-  border-radius:14px;
-  padding:13px
+background:#f8f8fb;
+border-radius:14px;
+padding:13px
 }
 
 .box small{
-  display:block;
-  color:#8991a2;
-  font-size:11px;
-  margin-bottom:7px
+display:block;
+color:#8991a2;
+font-size:11px;
+margin-bottom:7px
 }
 
 .box strong{
-  font-size:14px;
-  word-break:break-word
+font-size:14px;
+word-break:break-word
 }
 
 .promo{
-  background:#eee4ff
+background:#eee4ff
 }
 
 .promo strong{
-  color:#5420b8
+color:#5420b8
 }
 
 .actions{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-top:17px
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-top:17px
 }
 
 .action{
-  border:0;
-  border-radius:12px;
-  padding:11px 16px;
-  font-weight:bold;
-  cursor:pointer
+border:0;
+border-radius:12px;
+padding:11px 16px;
+font-weight:bold;
+cursor:pointer
 }
 
 .edit{
-  background:#293160;
-  color:#fff
+background:#293160;
+color:#fff
 }
 
 .renew{
-  background:#eef0f6
+background:#eef0f6
 }
 
 .delete{
-  background:#fde8ea;
-  color:#d93645
+background:#fde8ea;
+color:#d93645
 }
 
-/* PAYMENTS */
+/* ================= PAYMENTS ================= */
 
 .payments{
-  display:grid;
-  gap:12px
+display:grid;
+gap:12px
 }
 
 .pay{
-  background:#fafafd;
-  border:1px solid #eee;
-  border-radius:18px;
-  padding:16px
+background:#fafafd;
+border:1px solid #eee;
+border-radius:18px;
+padding:16px
 }
 
 .payno{
-  font-size:18px;
-  font-weight:900;
-  color:#5420b8
+font-size:18px;
+font-weight:900;
+color:#5420b8
 }
 
 .payinfo{
-  line-height:2
+line-height:2
 }
 
 .proof{
-  display:block;
-  width:min(330px,100%);
-  max-height:400px;
-  object-fit:contain;
-  margin:12px auto
+display:block;
+width:min(330px,100%);
+max-height:400px;
+object-fit:contain;
+margin:12px auto
 }
 
 .payactions{
-  display:flex;
-  gap:9px
+display:flex;
+gap:9px
 }
 
 .approve,
 .reject{
-  flex:1;
-  border:0;
-  border-radius:12px;
-  padding:12px;
-  font-weight:bold
+flex:1;
+border:0;
+border-radius:12px;
+padding:12px;
+font-weight:bold;
+cursor:pointer
 }
 
 .approve{
-  background:#dff8e8;
-  color:#08752d
+background:#dff8e8;
+color:#08752d
 }
 
 .reject{
-  background:#ffe2e2;
-  color:#a00000
+background:#ffe2e2;
+color:#a00000
 }
 
-/* STATES */
+/* ================= STATES ================= */
 
 .loading,
 .empty,
 .error{
-  text-align:center;
-  padding:30px;
-  background:#fff;
-  border-radius:18px;
-  color:#777
+text-align:center;
+padding:30px;
+background:#fff;
+border-radius:18px;
+color:#777
 }
 
 .error{
-  color:#d93645
+color:#d93645
 }
 
-/* MODAL */
+/* ================= MODAL ================= */
 
 .modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:#0008;
-  z-index:20;
-  padding:15px
+display:none;
+position:fixed;
+inset:0;
+background:#0008;
+z-index:20;
+padding:15px
 }
 
 .modal.show{
-  display:flex;
-  align-items:center;
-  justify-content:center
+display:flex;
+align-items:center;
+justify-content:center
 }
 
 .modalbox{
-  width:min(620px,100%);
-  max-height:95vh;
-  overflow:auto;
-  background:#fff;
-  border-radius:24px;
-  padding:22px
+width:min(620px,100%);
+max-height:95vh;
+overflow:auto;
+background:#fff;
+border-radius:24px;
+padding:22px
 }
 
 .mh{
-  display:flex;
-  justify-content:space-between
+display:flex;
+justify-content:space-between
 }
 
 .close{
-  border:0;
-  background:#eee;
-  border-radius:10px;
-  padding:8px
+border:0;
+background:#eee;
+border-radius:10px;
+padding:8px;
+cursor:pointer
 }
 
 .field{
-  margin:13px 0
+margin:13px 0
 }
 
 .field label{
-  display:block;
-  font-weight:bold;
-  font-size:13px;
-  margin-bottom:7px
+display:block;
+font-weight:bold;
+font-size:13px;
+margin-bottom:7px
 }
 
 .field input,
 .field select{
-  width:100%;
-  height:47px;
-  border:1px solid #ddd;
-  border-radius:12px;
-  padding:0 12px
+width:100%;
+height:47px;
+border:1px solid #ddd;
+border-radius:12px;
+padding:0 12px
 }
 
 .ma{
-  display:flex;
-  gap:10px
+display:flex;
+gap:10px
 }
 
 .ma button{
-  flex:1;
-  height:49px;
-  border:0;
-  border-radius:13px;
-  font-weight:bold
+flex:1;
+height:49px;
+border:0;
+border-radius:13px;
+font-weight:bold;
+cursor:pointer
 }
 
 .cancel{
-  background:#eee
+background:#eee
 }
 
 .save{
-  background:#5420b8;
-  color:#fff
+background:#5420b8;
+color:#fff
 }
 
-/* RESPONSIVE */
+/* ================= RESPONSIVE ================= */
 
 @media(max-width:950px){
 
-  .side{
-    width:78px
-  }
+.side{
+width:78px
+}
 
-  .logo{
-    height:90px
-  }
+.logo{
+height:90px
+}
 
-  .logo img{
-    object-fit:contain
-  }
+.logo img{
+object-fit:contain
+}
 
-  .nav span{
-    display:none
-  }
+.nav span{
+display:none
+}
 
-  .nav a{
-    justify-content:center
-  }
+.nav a{
+justify-content:center
+}
 
-  .main{
-    margin-right:78px
-  }
+.main{
+margin-right:78px
+}
 
-  .grid{
-    grid-template-columns:repeat(2,1fr)
-  }
+.grid{
+grid-template-columns:repeat(2,1fr)
+}
 
 }
 
 @media(max-width:650px){
 
-  .side{
-    top:auto;
-    bottom:0;
-    width:100%;
-    height:65px
-  }
+.side{
+top:auto;
+bottom:0;
+width:100%;
+height:65px
+}
 
-  .logo,
-  .logout{
-    display:none
-  }
+.logo,
+.logout{
+display:none
+}
 
-  .nav{
-    display:flex;
-    width:100%;
-    padding:4px
-  }
+.nav{
+display:flex;
+width:100%;
+padding:4px
+}
 
-  .nav a{
-    flex:1;
-    margin:0;
-    padding:6px
-  }
+.nav a{
+flex:1;
+margin:0;
+padding:6px
+}
 
-  .main{
-    margin-right:0;
-    padding-bottom:70px
-  }
+.main{
+margin-right:0;
+padding-bottom:70px
+}
 
-  .top{
-    height:70px;
-    padding:0 15px
-  }
+.top{
+height:70px;
+padding:0 15px
+}
 
-  .content{
-    padding:15px
-  }
+.content{
+padding:15px
+}
 
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-    gap:10px
-  }
+.stats{
+grid-template-columns:repeat(2,1fr);
+gap:10px
+}
 
-  .stat{
-    padding:15px
-  }
+.stat{
+padding:15px
+}
 
-  .num{
-    font-size:27px
-  }
+.num{
+font-size:27px
+}
 
-  .heading{
-    display:block
-  }
+.heading{
+display:block
+}
 
-  .heading .btn{
-    width:100%;
-    margin-top:15px
-  }
+.heading .btn{
+width:100%;
+margin-top:15px
+}
 
-  .toolbar{
-    display:grid
-  }
+.toolbar{
+display:grid
+}
 
-  .search,
-  .select{
-    width:100%
-  }
+.search,
+.select{
+width:100%
+}
 
-  .ch{
-    display:block
-  }
+.ch{
+display:block
+}
 
-  .badge{
-    display:inline-block;
-    margin-top:10px
-  }
+.badge{
+display:inline-block;
+margin-top:10px
+}
 
-  .payactions{
-    flex-direction:column
-  }
+.payactions{
+flex-direction:column
+}
 
 }
+
 </style>
+
 </head>
 
 <body>
 
-<div id="loginScreen" class="login">
+
+<!-- ================= LOGIN ================= -->
+
+<div
+id="loginScreen"
+class="login"
+>
 
 <div class="loginbox">
 
-<img src="logo.png" onerror="this.style.display='none'">
+<img
+src="logo.png"
+alt="CASH BACK"
+onerror="this.style.display='none'"
+>
 
 <h2>CASH BACK</h2>
 
-<p>تسجيل الدخول إلى لوحة الإدارة</p>
+<p>
+تسجيل الدخول إلى لوحة الإدارة
+</p>
 
 <input
 id="email"
 type="email"
 value="mezooelzorkany@gmail.com"
+autocomplete="username"
 >
 
 <input
 id="password"
 type="password"
 placeholder="كلمة المرور"
+autocomplete="current-password"
 >
 
-<button onclick="login()">
+<button
+id="loginButton"
+type="button"
+onclick="login()"
+>
 تسجيل الدخول
 </button>
 
@@ -756,18 +818,27 @@ placeholder="كلمة المرور"
 </div>
 
 
+<!-- ================= APP ================= -->
+
 <div id="app">
+
 
 <aside class="side">
 
+
 <div class="logo">
+
 <img
 src="logo.png"
 alt="CASH BACK"
+onerror="this.style.display='none'"
 >
+
 </div>
 
+
 <nav class="nav">
+
 
 <a
 class="active"
@@ -777,32 +848,39 @@ href="customers.html"
 <span>العملاء</span>
 </a>
 
+
 <a href="packages.html">
 <i>📦</i>
 <span>الباقات</span>
 </a>
+
 
 <a href="payment.html">
 <i>💳</i>
 <span>طلبات الدفع</span>
 </a>
 
+
 <a href="admin.html">
 <i>🔢</i>
 <span>الأكواد</span>
 </a>
+
 
 <a href="numbers.html">
 <i>📱</i>
 <span>الأرقام الأساسية</span>
 </a>
 
+
 <a href="finances.html">
 <i>💰</i>
 <span>الماليات</span>
 </a>
 
+
 </nav>
+
 
 <button
 class="logout"
@@ -811,10 +889,12 @@ onclick="logout()"
 🚪 تسجيل الخروج
 </button>
 
+
 </aside>
 
 
 <main class="main">
+
 
 <header class="top">
 
@@ -854,6 +934,7 @@ CASH BACK — إدارة العملاء والباقات
 
 </div>
 
+
 <button
 class="btn purple"
 onclick="openAdd()"
@@ -861,10 +942,14 @@ onclick="openAdd()"
 ➕ إضافة عميل
 </button>
 
+
 </div>
 
 
+<!-- STATS -->
+
 <div class="stats">
+
 
 <div class="stat">
 
@@ -949,10 +1034,14 @@ id="expired"
 
 </div>
 
+
 </div>
 
 
+<!-- SEARCH -->
+
 <div class="panel">
+
 
 <div class="ph">
 
@@ -973,11 +1062,13 @@ id="expired"
 
 <div class="toolbar">
 
+
 <input
 id="search"
 class="search"
 placeholder="🔎 ابحث عن عميل..."
 >
+
 
 <select
 id="renewalFilter"
@@ -1030,12 +1121,16 @@ class="select"
 
 </select>
 
-</div>
 
 </div>
 
+</div>
+
+
+<!-- PAYMENTS -->
 
 <div class="panel">
+
 
 <div class="ph">
 
@@ -1051,12 +1146,14 @@ class="select"
 
 </div>
 
+
 <button
 class="btn soft"
 onclick="loadPayments()"
 >
 🔄 تحديث
 </button>
+
 
 </div>
 
@@ -1072,8 +1169,11 @@ class="payments"
 
 </div>
 
+
 </div>
 
+
+<!-- CUSTOMERS -->
 
 <div
 id="list"
@@ -1094,12 +1194,15 @@ class="list"
 </div>
 
 
+<!-- ================= MODAL ================= -->
+
 <div
 id="modal"
 class="modal"
 >
 
 <div class="modalbox">
+
 
 <div class="mh">
 
@@ -1212,41 +1315,15 @@ onchange="packageData()"
 اختر الباقة
 </option>
 
-<option>
-20 جيجا
-</option>
-
-<option>
-25 جيجا
-</option>
-
-<option>
-30 جيجا
-</option>
-
-<option>
-35 جيجا
-</option>
-
-<option>
-40 جيجا
-</option>
-
-<option>
-45 جيجا
-</option>
-
-<option>
-50 جيجا
-</option>
-
-<option>
-55 جيجا
-</option>
-
-<option>
-60 جيجا
-</option>
+<option>20 جيجا</option>
+<option>25 جيجا</option>
+<option>30 جيجا</option>
+<option>35 جيجا</option>
+<option>40 جيجا</option>
+<option>45 جيجا</option>
+<option>50 جيجا</option>
+<option>55 جيجا</option>
+<option>60 جيجا</option>
 
 </select>
 
@@ -1280,33 +1357,13 @@ min="0"
 غير محدد
 </option>
 
-<option>
-Vodafone Cash
-</option>
-
-<option>
-Etisalat Cash
-</option>
-
-<option>
-WE Pay
-</option>
-
-<option>
-Orange Cash
-</option>
-
-<option>
-InstaPay
-</option>
-
-<option>
-كاش
-</option>
-
-<option>
-تحويل بنكي
-</option>
+<option>Vodafone Cash</option>
+<option>Etisalat Cash</option>
+<option>WE Pay</option>
+<option>Orange Cash</option>
+<option>InstaPay</option>
+<option>كاش</option>
+<option>تحويل بنكي</option>
 
 </select>
 
@@ -1427,12 +1484,17 @@ onclick="saveCustomer()"
 
 </div>
 
+
 </div>
 
 </div>
 
 
 <script>
+
+/* =====================================================
+   SUPABASE
+===================================================== */
 
 const URL =
 "https://pgvbynefhqmyzjtccttl.supabase.co";
@@ -1443,6 +1505,7 @@ const KEY =
 const ADMIN =
 "mezooelzorkany@gmail.com";
 
+
 const db =
 supabase.createClient(
 URL,
@@ -1450,7 +1513,11 @@ KEY
 );
 
 
-const prices={
+/* =====================================================
+   PRICES
+===================================================== */
+
+const prices = {
 
 "20 جيجا":270,
 "25 جيجا":300,
@@ -1465,21 +1532,30 @@ const prices={
 };
 
 
-let customers=[];
-let edit=false;
+/* =====================================================
+   GLOBALS
+===================================================== */
 
+let customers = [];
+
+let edit = false;
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
 
 const $ =
 id =>
 document.getElementById(id);
 
 
-const esc =
-v =>
-String(v??"")
+function esc(v){
+
+return String(v ?? "")
 .replace(
 /[&<>"']/g,
-c=>({
+c => ({
 "&":"&amp;",
 "<":"&lt;",
 ">":"&gt;",
@@ -1488,85 +1564,75 @@ c=>({
 }[c])
 );
 
+}
 
-const clean =
-v =>
-String(v||"")
+
+function clean(v){
+
+return String(v || "")
 .replace(/[^\d]/g,"");
 
+}
 
-const valid =
-v =>
-/^01[0125]\d{8}$/
-.test(
+
+function valid(v){
+
+return /^01[0125]\d{8}$/.test(
 clean(v)
 );
 
+}
 
-const date =
-v => {
+
+function date(v){
 
 let m =
-String(v||"")
+String(v || "")
 .match(
 /\d{4}-\d{2}-\d{2}/
 );
 
-return m
-?m[0]
-:null;
+return m ? m[0] : null;
 
-};
+}
 
 
-const days =
-v => {
+function days(v){
 
-let d =
-date(v);
+let d = date(v);
 
 if(!d)
 return null;
 
-let a =
-new Date();
+let a = new Date();
 
-a.setHours(
-0,0,0,0
-);
+a.setHours(0,0,0,0);
 
 return Math.ceil(
 (
-new Date(
-d+"T00:00:00"
-) -
-a
-) /
-86400000
+new Date(d+"T00:00:00") - a
+) / 86400000
 );
 
-};
+}
 
 
-const gb =
-v => {
+function gb(v){
 
 let m =
-String(v||"")
+String(v || "")
 .match(
 /(\d+(?:\.\d+)?)/
 );
 
-return m
-?Number(m[1])
-:0;
+return m ? Number(m[1]) : 0;
 
-};
+}
 
 
-const money =
-v =>
-Number(v||0)
+function money(v){
+
+return Number(v || 0)
 .toLocaleString(
 "ar-EG",
 {
@@ -1574,26 +1640,25 @@ maximumFractionDigits:2
 }
 );
 
+}
 
-async function api(
-path,
-opt={}
-){
 
-const s =
-await db.auth
-.getSession();
+/* =====================================================
+   DATABASE API
+===================================================== */
+
+async function api(path,opt={}){
+
+const session =
+await db.auth.getSession();
 
 const token =
-s.data.session?.access_token ||
-KEY;
+session.data.session?.access_token || KEY;
 
 
-const r =
+const response =
 await fetch(
-URL+
-"/rest/v1/"+
-path,
+URL + "/rest/v1/" + path,
 {
 ...opt,
 
@@ -1601,8 +1666,7 @@ headers:{
 apikey:KEY,
 
 Authorization:
-"Bearer "+
-token,
+"Bearer " + token,
 
 "Content-Type":
 "application/json",
@@ -1610,7 +1674,7 @@ token,
 Prefer:
 "return=representation",
 
-...(opt.headers||{})
+...(opt.headers || {})
 
 }
 
@@ -1618,141 +1682,232 @@ Prefer:
 );
 
 
-const t =
-await r.text();
+const text =
+await response.text();
 
-let d=null;
+
+let data = null;
 
 try{
-d=t
-?JSON.parse(t)
-:null
+
+data =
+text ? JSON.parse(text) : null;
+
+}catch{
+
+data = text;
+
 }
-catch{
-d=t
-}
 
 
-if(!r.ok){
+if(!response.ok){
 
-throw Error(
-d?.message ||
-d?.hint ||
-d?.details ||
+throw new Error(
+data?.message ||
+data?.hint ||
+data?.details ||
 String(
-d||
+data ||
 "خطأ في قاعدة البيانات"
 )
 );
 
 }
 
-return d;
+
+return data;
 
 }
 
 
-async function loginCustomers(){
+/* =====================================================
+   LOGIN
+===================================================== */
 
-  const email =
-    document.getElementById("loginEmail").value.trim();
+async function login(){
 
-  const password =
-    document.getElementById("loginPassword").value;
+const email =
+$("email").value.trim();
 
-  const msg =
-    document.getElementById("loginMessage");
+const password =
+$("password").value;
 
-  msg.style.color = "#c73542";
-  msg.textContent = "⏳ جاري تسجيل الدخول...";
+const message =
+$("loginMessage");
 
-  if(!email || !password){
-    msg.textContent =
-      "❌ اكتب البريد الإلكتروني وكلمة المرور";
-    return;
-  }
+const button =
+$("loginButton");
 
-  try{
 
-    const { data, error } =
-      await authClient.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
+message.style.color =
+"#c73542";
 
-    if(error){
-      throw new Error(
-        error.message || "فشل تسجيل الدخول"
-      );
-    }
+message.textContent =
+"⏳ جاري تسجيل الدخول...";
 
-    if(!data || !data.user){
-      throw new Error(
-        "لم يتم العثور على بيانات الحساب"
-      );
-    }
 
-    const userEmail =
-      String(data.user.email || "").toLowerCase();
+if(!email || !password){
 
-    if(
-      userEmail !==
-      ADMIN_EMAIL.toLowerCase()
-    ){
+message.textContent =
+"❌ اكتب البريد الإلكتروني وكلمة المرور";
 
-      await authClient.auth.signOut();
-
-      throw new Error(
-        "هذا الحساب غير مسموح له بالدخول"
-      );
-    }
-
-    msg.style.color = "#159447";
-    msg.textContent =
-      "✅ تم تسجيل الدخول بنجاح";
-
-    showApp();
-
-  }catch(error){
-
-    console.error(
-      "LOGIN ERROR:",
-      error
-    );
-
-    msg.style.color = "#c73542";
-
-    msg.textContent =
-      "❌ " +
-      (
-        error.message ||
-        "حدث خطأ أثناء تسجيل الدخول"
-      );
-
-  }
+return;
 
 }
 
 
-async function logout(){
+button.disabled = true;
 
-await db.auth.signOut();
 
-location.reload();
+try{
+
+const result =
+await db.auth.signInWithPassword({
+
+email:email,
+
+password:password
+
+});
+
+
+if(result.error){
+
+throw new Error(
+result.error.message ||
+"فشل تسجيل الدخول"
+);
 
 }
-
-
-async function check(){
-
-let r =
-await db.auth
-.getSession();
 
 
 if(
-r.data.session?.user?.email
-?.toLowerCase() ==
+!result.data ||
+!result.data.user
+){
+
+throw new Error(
+"لم يتم العثور على بيانات الحساب"
+);
+
+}
+
+
+const userEmail =
+String(
+result.data.user.email || ""
+).toLowerCase();
+
+
+if(
+userEmail !==
+ADMIN.toLowerCase()
+){
+
+await db.auth.signOut();
+
+throw new Error(
+"هذا الحساب غير مسموح له بالدخول"
+);
+
+}
+
+
+message.style.color =
+"#159447";
+
+message.textContent =
+"✅ تم تسجيل الدخول بنجاح";
+
+
+showApp();
+
+
+}catch(error){
+
+console.error(
+"LOGIN ERROR:",
+error
+);
+
+message.style.color =
+"#d93645";
+
+message.textContent =
+"❌ " +
+(
+error.message ||
+"حدث خطأ أثناء تسجيل الدخول"
+);
+
+
+}finally{
+
+button.disabled = false;
+
+}
+
+}
+
+
+/* =====================================================
+   ENTER KEY
+===================================================== */
+
+$("password").addEventListener(
+"keydown",
+function(event){
+
+if(event.key === "Enter"){
+
+login();
+
+}
+
+}
+);
+
+
+/* =====================================================
+   SHOW APP
+===================================================== */
+
+function showApp(){
+
+$("loginScreen").style.display =
+"none";
+
+$("app").style.display =
+"block";
+
+loadCustomers();
+
+loadPayments();
+
+}
+
+
+/* =====================================================
+   CHECK SESSION
+===================================================== */
+
+async function check(){
+
+try{
+
+const result =
+await db.auth.getSession();
+
+const session =
+result.data.session;
+
+
+if(
+session &&
+session.user &&
+String(
+session.user.email || ""
+).toLowerCase() ===
 ADMIN.toLowerCase()
 ){
 
@@ -1760,37 +1915,52 @@ showApp();
 
 }
 
-}
+}catch(error){
 
-
-function showApp(){
-
-$("loginScreen")
-.style.display=
-"none";
-
-$("app")
-.style.display=
-"block";
-
-loadCustomers();
-loadPayments();
+console.error(
+"SESSION CHECK ERROR:",
+error
+);
 
 }
 
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logout(){
+
+try{
+
+await db.auth.signOut();
+
+}catch(error){
+
+console.error(error);
+
+}
+
+location.reload();
+
+}
+
+
+/* =====================================================
+   LOAD CUSTOMERS
+===================================================== */
 
 async function loadCustomers(){
 
-$("list").innerHTML=
+$("list").innerHTML =
 '<div class="loading">⏳ جاري تحميل العملاء...</div>';
 
 
 try{
 
-let [
-cs,
-os
-] =
+const result =
 await Promise.all([
 
 api(
@@ -1799,98 +1969,110 @@ api(
 
 api(
 "orders?select=*"
-)
-.catch(
-()=>[]
+).catch(
+() => []
 )
 
 ]);
 
 
-let map={};
+const cs =
+result[0] || [];
+
+const os =
+result[1] || [];
 
 
-(os||[])
-.forEach(
-o=>{
+const map = {};
 
-let p=
+
+os.forEach(
+order => {
+
+const phone =
 clean(
-o.phone ||
-o.customer_phone
+order.phone ||
+order.customer_phone
 );
 
-if(p)
-(map[p]??=[]).push(o);
+if(phone){
+
+if(!map[phone])
+map[phone] = [];
+
+map[phone].push(order);
+
+}
 
 }
 );
 
 
 customers =
-(cs||[])
-.map(
-c=>{
+cs.map(
+customer => {
 
-let a =
+const orders =
 map[
-clean(c.phone)
-] ||
-[];
+clean(customer.phone)
+] || [];
 
-let o =
-a[0];
 
-let p =
-o?.package_name ||
-o?.package ||
-c.package_name ||
+const order =
+orders[0];
+
+
+const packageName =
+order?.package_name ||
+order?.package ||
+customer.package_name ||
 "";
 
 
 return {
 
-...c,
+...customer,
 
 package_name:
-p,
+packageName,
 
 last_price:
 Number(
-o?.final_price ??
-o?.total_price ??
-o?.amount ??
-c.last_price ??
+order?.final_price ??
+order?.total_price ??
+order?.amount ??
+customer.last_price ??
 0
 ),
 
 allocated_gb:
 Number(
-o?.package_gb ??
-o?.allocated_gb ??
-c.allocated_gb ??
-gb(p)
+order?.package_gb ??
+order?.allocated_gb ??
+customer.allocated_gb ??
+gb(packageName)
 ),
 
 next_renewal_date:
 date(
-o?.next_renewal_date ||
-o?.renewal_date ||
-c.next_renewal_date
+order?.next_renewal_date ||
+order?.renewal_date ||
+customer.next_renewal_date
 ),
 
 payment_method:
-o?.payment_method ||
-c.payment_method,
+order?.payment_method ||
+customer.payment_method,
 
 total_orders:
-a.length ||
-Number(c.total_orders) ||
+orders.length ||
+Number(customer.total_orders) ||
 0,
 
 promo_code:
-o?.promo_code ||
-o?.discount_code ||
+order?.promo_code ||
+order?.discount_code ||
+customer.promo_code ||
 ""
 
 };
@@ -1903,11 +2085,17 @@ stats();
 
 render();
 
-}catch(e){
 
-$("list").innerHTML=
+}catch(error){
+
+console.error(
+"LOAD CUSTOMERS ERROR:",
+error
+);
+
+$("list").innerHTML =
 '<div class="error">❌ '+
-esc(e.message)+
+esc(error.message)+
 '</div>';
 
 }
@@ -1915,55 +2103,49 @@ esc(e.message)+
 }
 
 
+/* =====================================================
+   STATS
+===================================================== */
+
 function stats(){
 
-$("total")
-.textContent=
+$("total").textContent =
 customers.length;
 
 
-$("active")
-.textContent=
+$("active").textContent =
 customers.filter(
-c=>
-c.status===
-"active"
+c => c.status === "active"
 ).length;
 
 
-$("soon")
-.textContent=
+$("soon").textContent =
 customers.filter(
-c=>{
+c => {
 
-let d=
-days(
-c.next_renewal_date
-);
+const d =
+days(c.next_renewal_date);
 
 return(
-d!==null &&
-d>=0 &&
-d<=7
+d !== null &&
+d >= 0 &&
+d <= 7
 );
 
 }
 ).length;
 
 
-$("expired")
-.textContent=
+$("expired").textContent =
 customers.filter(
-c=>{
+c => {
 
-let d=
-days(
-c.next_renewal_date
-);
+const d =
+days(c.next_renewal_date);
 
 return(
-d!==null &&
-d<0
+d !== null &&
+d < 0
 );
 
 }
@@ -1971,31 +2153,36 @@ d<0
 
 }
 
+
+/* =====================================================
+   RENDER
+===================================================== */
 
 function render(){
 
-let q =
+const q =
 $("search")
 .value
 .trim()
 .toLowerCase();
 
-let rf =
-$("renewalFilter")
-.value;
 
-let sf =
-$("statusFilter")
-.value;
+const renewalFilter =
+$("renewalFilter").value;
 
 
-let a =
+const statusFilter =
+$("statusFilter").value;
+
+
+const filtered =
 customers.filter(
-c=>{
+c => {
 
-if(
-q &&
-!(
+
+if(q){
+
+const text =
 [
 c.subscriber_name,
 c.internal_name,
@@ -2005,70 +2192,75 @@ c.package_name,
 c.promo_code
 ]
 .join(" ")
-.toLowerCase()
-.includes(q)
-)
-){
+.toLowerCase();
 
+
+if(!text.includes(q))
 return false;
 
 }
 
 
 if(
-rf!=="all" &&
-(
-rf==="custom"
-?
-c.renewal_type!=="custom"
-:
-String(
-c.renewal_day
-)!==rf
-)
+renewalFilter !== "all"
 ){
 
+if(
+renewalFilter === "custom"
+){
+
+if(
+c.renewal_type !== "custom"
+)
+return false;
+
+}else{
+
+if(
+String(c.renewal_day) !==
+renewalFilter
+)
 return false;
 
 }
 
+}
 
-let d =
-days(
-c.next_renewal_date
-);
+
+const d =
+days(c.next_renewal_date);
 
 
 if(
-sf==="active" &&
-c.status!=="active"
+statusFilter === "active" &&
+c.status !== "active"
 )
 return false;
 
 
 if(
-sf==="inactive" &&
-c.status!=="inactive"
+statusFilter === "inactive" &&
+c.status !== "inactive"
 )
 return false;
 
 
 if(
-sf==="soon" &&
+statusFilter === "soon" &&
 !(
-d!==null &&
-d>=0 &&
-d<=7
+d !== null &&
+d >= 0 &&
+d <= 7
 )
 )
 return false;
 
 
 if(
-sf==="expired" &&
+statusFilter === "expired" &&
 !(
-d!==null &&
-d<0
+d !== null &&
+d < 0
 )
 )
 return false;
@@ -2080,50 +2272,37 @@ return true;
 );
 
 
-$("list").innerHTML=
-
-a.length
-
+$("list").innerHTML =
+filtered.length
 ?
-
-a.map(
-card
-).join("")
-
+filtered.map(card).join("")
 :
-
 '<div class="empty">📭 لا يوجد عملاء مطابقين.</div>';
 
 }
 
 
+/* =====================================================
+   CUSTOMER CARD
+===================================================== */
+
 function card(c){
 
-let d =
-days(
-c.next_renewal_date
-);
+const d =
+days(c.next_renewal_date);
 
 
-let r =
-d!==null
-
+const renewalStatus =
+d !== null
 ?
-
 (
-d>=0
-
+d >= 0
 ?
-
 '<span style="color:#159447">🟢 مجدد</span>'
-
 :
-
 '<span style="color:#d93645">🔴 غير مجدد</span>'
 )
-
 :
-
 "-";
 
 
@@ -2144,8 +2323,7 @@ c.subscriber_name ||
 
 <div class="phone">
 📱 ${esc(
-c.phone ||
-"-"
+c.phone || "-"
 )}
 </div>
 
@@ -2154,9 +2332,7 @@ c.phone ||
 ${
 c.internal_name
 ?
-esc(
-c.internal_name
-)
+esc(c.internal_name)
 :
 '<span style="color:#999">لم يتم تحديده</span>'
 }
@@ -2167,14 +2343,16 @@ c.internal_name
 
 <span
 class="badge ${
-c.status==="inactive"
-?"bad"
-:"ok"
+c.status === "inactive"
+?
+"bad"
+:
+"ok"
 }"
 >
 
 ${
-c.status==="inactive"
+c.status === "inactive"
 ?
 "🔴 موقوف"
 :
@@ -2197,8 +2375,7 @@ c.status==="inactive"
 
 <strong>
 ${esc(
-c.primary_number ||
-"-"
+c.primary_number || "-"
 )}
 </strong>
 
@@ -2213,8 +2390,7 @@ c.primary_number ||
 
 <strong>
 ${esc(
-c.allocated_gb ||
-0
+c.allocated_gb || 0
 )}
 GB
 </strong>
@@ -2230,8 +2406,7 @@ GB
 
 <strong>
 ${esc(
-c.package_name ||
-"-"
+c.package_name || "-"
 )}
 </strong>
 
@@ -2245,9 +2420,7 @@ c.package_name ||
 </small>
 
 <strong>
-${money(
-c.last_price
-)}
+${money(c.last_price)}
 جنيه
 </strong>
 
@@ -2262,8 +2435,7 @@ c.last_price
 
 <strong>
 ${esc(
-c.next_renewal_date ||
-"-"
+c.next_renewal_date || "-"
 )}
 </strong>
 
@@ -2277,7 +2449,7 @@ c.next_renewal_date ||
 </small>
 
 <strong>
-${r}
+${renewalStatus}
 </strong>
 
 </div>
@@ -2291,8 +2463,7 @@ ${r}
 
 <strong>
 ${esc(
-c.promo_code ||
-"لا يوجد"
+c.promo_code || "لا يوجد"
 )}
 </strong>
 
@@ -2320,8 +2491,7 @@ ${c.total_orders || 0}
 
 <strong>
 ${esc(
-c.payment_method ||
-"-"
+c.payment_method || "-"
 )}
 </strong>
 
@@ -2332,6 +2502,7 @@ c.payment_method ||
 
 
 <div class="actions">
+
 
 <button
 class="action edit"
@@ -2356,6 +2527,7 @@ onclick="removeCustomer(${Number(c.id)})"
 🗑️ حذف
 </button>
 
+
 </div>
 
 </div>
@@ -2364,6 +2536,10 @@ onclick="removeCustomer(${Number(c.id)})"
 
 }
 
+
+/* =====================================================
+   FORM
+===================================================== */
 
 function clearForm(){
 
@@ -2378,331 +2554,316 @@ function clearForm(){
 "nextRenewal"
 ]
 .forEach(
-x=>
-$(x).value=""
+id => $(id).value = ""
 );
 
 
-$("allocatedGB")
-.value=0;
+$("allocatedGB").value = 0;
 
-$("paymentMethod")
-.value="";
+$("paymentMethod").value = "";
 
-$("status")
-.value="active";
+$("status").value = "active";
 
-$("renewalType")
-.value="day_1";
+$("renewalType").value = "day_1";
 
-$("renewalDay")
-.value=1;
+$("renewalDay").value = 1;
 
-$("totalOrders")
-.value=0;
+$("totalOrders").value = 0;
 
 }
 
 
+/* =====================================================
+   ADD
+===================================================== */
+
 function openAdd(){
 
-edit=false;
+edit = false;
 
-$("modalTitle")
-.textContent=
+$("modalTitle").textContent =
 "➕ إضافة عميل";
 
 clearForm();
 
-$("modal")
-.classList.add(
-"show"
-);
+$("modal").classList.add("show");
 
 }
 
 
+/* =====================================================
+   EDIT
+===================================================== */
+
 function openEdit(id){
 
-let c =
+const c =
 customers.find(
-x=>
-Number(x.id)===
-Number(id)
+x => Number(x.id) === Number(id)
 );
+
 
 if(!c)
 return;
 
-edit=true;
 
-$("modalTitle")
-.textContent=
+edit = true;
+
+
+$("modalTitle").textContent =
 "✏️ تعديل بيانات العميل";
 
-$("customerId")
-.value=
+
+$("customerId").value =
 c.id;
 
-$("customerName")
-.value=
-c.subscriber_name ||
-"";
 
-$("internalName")
-.value=
-c.internal_name ||
-"";
+$("customerName").value =
+c.subscriber_name || "";
 
-$("customerPhone")
-.value=
-c.phone ||
-"";
 
-$("primaryNumber")
-.value=
-c.primary_number ||
-"";
+$("internalName").value =
+c.internal_name || "";
 
-$("allocatedGB")
-.value=
+
+$("customerPhone").value =
+c.phone || "";
+
+
+$("primaryNumber").value =
+c.primary_number || "";
+
+
+$("allocatedGB").value =
 c.allocated_gb ||
-gb(
-c.package_name
-);
+gb(c.package_name);
 
-$("packageName")
-.value=
-c.package_name ||
-"";
 
-$("lastPrice")
-.value=
-c.last_price ||
-"";
+$("packageName").value =
+c.package_name || "";
 
-$("paymentMethod")
-.value=
-c.payment_method ||
-"";
 
-$("status")
-.value=
-c.status ||
-"active";
+$("lastPrice").value =
+c.last_price || "";
 
-$("renewalType")
-.value=
-c.renewal_type ||
-"day_1";
 
-$("renewalDay")
-.value=
-c.renewal_day ||
-1;
+$("paymentMethod").value =
+c.payment_method || "";
 
-$("nextRenewal")
-.value=
-date(
-c.next_renewal_date
-) ||
-"";
 
-$("totalOrders")
-.value=
-c.total_orders ||
-0;
+$("status").value =
+c.status || "active";
 
-$("modal")
-.classList.add(
-"show"
-);
+
+$("renewalType").value =
+c.renewal_type || "day_1";
+
+
+$("renewalDay").value =
+c.renewal_day || 1;
+
+
+$("nextRenewal").value =
+date(c.next_renewal_date) || "";
+
+
+$("totalOrders").value =
+c.total_orders || 0;
+
+
+$("modal").classList.add("show");
 
 }
 
+
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
 
 function closeModal(){
 
-$("modal")
-.classList.remove(
-"show"
-);
+$("modal").classList.remove("show");
 
 }
 
+
+/* =====================================================
+   PACKAGE DATA
+===================================================== */
 
 function packageData(){
 
-let p =
-$("packageName")
-.value;
+const packageName =
+$("packageName").value;
 
-if(p){
 
-$("allocatedGB")
-.value=
-gb(p);
+if(packageName){
 
-$("lastPrice")
-.value=
-prices[p] ||
-"";
+$("allocatedGB").value =
+gb(packageName);
+
+$("lastPrice").value =
+prices[packageName] || "";
 
 }
 
 }
 
+
+/* =====================================================
+   RENEWAL DATA
+===================================================== */
 
 function renewalData(){
 
-$("renewalDay")
-.value=
+const type =
+$("renewalType").value;
 
-$("renewalType")
-.value==="day_1"
 
+$("renewalDay").value =
+
+type === "day_1"
 ?
-
 1
-
 :
-
-$("renewalType")
-.value==="day_16"
-
+type === "day_16"
 ?
-
 16
-
 :
-
 "";
 
 }
 
 
+/* =====================================================
+   SAVE CUSTOMER
+===================================================== */
+
 async function saveCustomer(){
 
-let n =
+const name =
 $("customerName")
 .value
 .trim();
 
-let p =
-clean(
-$("customerPhone")
-.value
-);
 
-let pr =
+const phone =
 clean(
-$("primaryNumber")
-.value
+$("customerPhone").value
 );
 
 
-if(!n)
-return alert(
+const primary =
+clean(
+$("primaryNumber").value
+);
+
+
+if(!name){
+
+alert(
 "⚠️ اكتب اسم العميل"
 );
 
+return;
 
-if(!valid(p))
-return alert(
+}
+
+
+if(!valid(phone)){
+
+alert(
 "⚠️ رقم العميل غير صحيح"
 );
 
+return;
+
+}
+
 
 if(
-pr &&
-!valid(pr)
-)
-return alert(
+primary &&
+!valid(primary)
+){
+
+alert(
 "⚠️ الرقم الأساسي غير صحيح"
 );
 
+return;
+
+}
+
 
 if(
-!$("nextRenewal")
-.value
-)
-return alert(
+!$("nextRenewal").value
+){
+
+alert(
 "⚠️ اختر موعد التجديد"
 );
 
+return;
 
-let data={
+}
 
-subscriber_name:n,
+
+const data = {
+
+subscriber_name:name,
 
 internal_name:
 $("internalName")
 .value
-.trim() ||
-null,
+.trim() || null,
 
-phone:p,
+phone:phone,
 
 primary_number:
-pr ||
-null,
+primary || null,
 
 allocated_gb:
 Number(
-$("allocatedGB")
-.value
+$("allocatedGB").value
 ) ||
 gb(
-$("packageName")
-.value
+$("packageName").value
 ),
 
 package_name:
-$("packageName")
-.value ||
+$("packageName").value ||
 null,
 
 last_price:
 Number(
-$("lastPrice")
-.value
-) ||
-0,
+$("lastPrice").value
+) || 0,
 
 payment_method:
-$("paymentMethod")
-.value ||
+$("paymentMethod").value ||
 null,
 
 status:
-$("status")
-.value,
+$("status").value,
 
 renewal_type:
-$("renewalType")
-.value,
+$("renewalType").value,
 
 renewal_day:
 Number(
-$("renewalDay")
-.value
-) ||
-null,
+$("renewalDay").value
+) || null,
 
 next_renewal_date:
-$("nextRenewal")
-.value,
+$("nextRenewal").value,
 
 total_orders:
 Number(
-$("totalOrders")
-.value
-) ||
-0,
+$("totalOrders").value
+) || 0,
 
 updated_at:
-new Date()
-.toISOString()
+new Date().toISOString()
 
 };
 
@@ -2714,46 +2875,42 @@ if(edit){
 await api(
 "customers?id=eq."+
 encodeURIComponent(
-$("customerId")
-.value
+$("customerId").value
 ),
 {
 method:"PATCH",
-body:
-JSON.stringify(
-data
-)
+body:JSON.stringify(data)
 }
 );
 
 }else{
 
-let x =
+const existing =
 await api(
 "customers?select=id&phone=eq."+
-encodeURIComponent(p)+
+encodeURIComponent(phone)+
 "&deleted_at=is.null&limit=1"
 );
 
-if(x?.length)
-throw Error(
+
+if(existing?.length){
+
+throw new Error(
 "الرقم ده موجود بالفعل."
 );
 
+}
 
-data.created_at=
-new Date()
-.toISOString();
+
+data.created_at =
+new Date().toISOString();
 
 
 await api(
 "customers",
 {
 method:"POST",
-body:
-JSON.stringify(
-data
-)
+body:JSON.stringify(data)
 }
 );
 
@@ -2764,6 +2921,7 @@ closeModal();
 
 await loadCustomers();
 
+
 alert(
 edit
 ?
@@ -2772,26 +2930,30 @@ edit
 "✅ تم إضافة العميل بنجاح"
 );
 
-}catch(e){
+
+}catch(error){
 
 alert(
 "❌ لم يتم الحفظ\n\n"+
-e.message
+error.message
 );
 
 }
 
 }
 
+
+/* =====================================================
+   DELETE
+===================================================== */
 
 async function removeCustomer(id){
 
-let c =
+const c =
 customers.find(
-x=>
-Number(x.id)===
-Number(id)
+x => Number(x.id) === Number(id)
 );
+
 
 if(
 !c ||
@@ -2813,16 +2975,13 @@ await api(
 {
 method:"PATCH",
 
-body:
-JSON.stringify({
+body:JSON.stringify({
 
 deleted_at:
-new Date()
-.toISOString(),
+new Date().toISOString(),
 
 updated_at:
-new Date()
-.toISOString()
+new Date().toISOString()
 
 })
 
@@ -2832,49 +2991,53 @@ new Date()
 
 await loadCustomers();
 
-}catch(e){
+
+}catch(error){
 
 alert(
-"❌ "+
-e.message
+"❌ " +
+error.message
 );
 
 }
 
 }
 
+
+/* =====================================================
+   RENEW
+===================================================== */
 
 async function renew(id){
 
-let c =
+const c =
 customers.find(
-x=>
-Number(x.id)===
-Number(id)
+x => Number(x.id) === Number(id)
 );
 
+
+if(!c)
+return;
+
+
 if(
-!c ||
 !confirm(
 "🔄 تجديد "+
 c.subscriber_name+
 " بمبلغ "+
-money(
-c.last_price
-)+
+money(c.last_price)+
 " جنيه؟"
 )
 )
 return;
 
 
-let d =
+const d =
 new Date();
 
 
 if(
-c.renewal_type===
-"day_1"
+c.renewal_type === "day_1"
 ){
 
 d.setMonth(
@@ -2886,8 +3049,7 @@ d.setDate(1);
 }
 
 else if(
-c.renewal_type===
-"day_16"
+c.renewal_type === "day_16"
 ){
 
 d.setMonth(
@@ -2914,35 +3076,26 @@ await api(
 {
 method:"PATCH",
 
-body:
-JSON.stringify({
+body:JSON.stringify({
 
 last_renewed_at:
-new Date()
-.toISOString(),
+new Date().toISOString(),
 
 last_order_at:
-new Date()
-.toISOString(),
+new Date().toISOString(),
 
 next_renewal_date:
-d.toISOString()
-.split("T")[0],
+d.toISOString().split("T")[0],
 
 total_orders:
 (
-Number(
-c.total_orders
-) ||
-0
+Number(c.total_orders) || 0
 )+1,
 
-status:
-"active",
+status:"active",
 
 updated_at:
-new Date()
-.toISOString()
+new Date().toISOString()
 
 })
 
@@ -2952,15 +3105,17 @@ new Date()
 
 await loadCustomers();
 
+
 alert(
 "✅ تم التجديد بنجاح"
 );
 
-}catch(e){
+
+}catch(error){
 
 alert(
-"❌ "+
-e.message
+"❌ " +
+error.message
 );
 
 }
@@ -2968,33 +3123,38 @@ e.message
 }
 
 
+/* =====================================================
+   PAYMENTS
+===================================================== */
+
 async function loadPayments(){
 
-$("payments")
-.innerHTML=
+$("payments").innerHTML =
 '<div class="loading">⏳ جاري تحميل طلبات الدفع...</div>';
 
 
 try{
 
-let a =
+const orders =
 (
 await api(
 "orders?select=*"
-) ||
-[]
 )
-.filter(
-x=>
-x.status===
+|| []
+);
+
+
+const pending =
+orders.filter(
+x =>
+x.status ===
 "payment_submitted"
 );
 
 
-if(!a.length){
+if(!pending.length){
 
-$("payments")
-.innerHTML=
+$("payments").innerHTML =
 '<div class="empty">📭 لا توجد طلبات دفع معلقة</div>';
 
 return;
@@ -3002,11 +3162,9 @@ return;
 }
 
 
-$("payments")
-.innerHTML=
-
-a.map(
-o=>`
+$("payments").innerHTML =
+pending.map(
+order => `
 
 <div class="pay">
 
@@ -3014,8 +3172,7 @@ o=>`
 
 📋
 ${esc(
-o.order_number ||
-"-"
+order.order_number || "-"
 )}
 
 </div>
@@ -3026,119 +3183,110 @@ o.order_number ||
 👤
 <b>العميل:</b>
 ${esc(
-o.subscriber_name ||
-"-"
+order.subscriber_name || "-"
 )}
 
 <br>
+
 
 📱
 <b>الرقم:</b>
 ${esc(
-o.phone ||
-"-"
+order.phone || "-"
 )}
 
 <br>
+
 
 📦
 <b>الباقة:</b>
 ${esc(
-o.package_name ||
-o.package ||
+order.package_name ||
+order.package ||
 "-"
 )}
 
 <br>
 
+
 💰
 <b>السعر:</b>
 ${money(
-o.final_price ??
-o.total_price ??
-o.amount ??
+order.final_price ??
+order.total_price ??
+order.amount ??
 0
 )}
 جنيه
 
 <br>
 
+
 💳
 <b>الدفع:</b>
 ${esc(
-o.payment_method ||
-"-"
+order.payment_method || "-"
 )}
 
 </div>
 
 
 ${
-o.payment_screenshot
-
+order.payment_screenshot
 ?
-
 `
 
 <a
-href="${esc(
-o.payment_screenshot
-)}"
+href="${esc(order.payment_screenshot)}"
 target="_blank"
 >
 
 <img
 class="proof"
-src="${esc(
-o.payment_screenshot
-)}"
+src="${esc(order.payment_screenshot)}"
+alt="إثبات الدفع"
 >
 
 </a>
 
 `
-
 :
-
 ""
-
 }
 
 
 <div class="payactions">
 
+
 <button
 class="approve"
-onclick="approve('${esc(
-o.order_number
-)}')"
+onclick="approve('${esc(order.order_number)}')"
 >
 ✅ تأكيد الدفع
 </button>
 
+
 <button
 class="reject"
-onclick="reject('${esc(
-o.order_number
-)}')"
+onclick="reject('${esc(order.order_number)}')"
 >
 ❌ رفض التحويل
 </button>
+
 
 </div>
 
 </div>
 
 `
-)
-.join("");
+).join("");
 
-}catch(e){
 
-$("payments")
-.innerHTML=
+}catch(error){
+
+$("payments").innerHTML =
 '<div class="error">❌ '+
-esc(e.message)+
+esc(error.message)+
 '</div>';
 
 }
@@ -3146,25 +3294,35 @@ esc(e.message)+
 }
 
 
+/* =====================================================
+   APPROVE
+===================================================== */
+
 async function approve(no){
 
-let p =
+let phone =
 prompt(
 "📱 اكتب الرقم الأساسي الذي سيتم عمل الباقة عليه:"
 );
 
-if(p===null)
+
+if(phone === null)
 return;
 
 
-p =
-clean(p);
+phone =
+clean(phone);
 
 
-if(!valid(p))
-return alert(
+if(!valid(phone)){
+
+alert(
 "❌ الرقم الأساسي غير صحيح"
 );
+
+return;
+
+}
 
 
 if(
@@ -3179,16 +3337,16 @@ return;
 
 try{
 
-let r =
+const result =
 await api(
 "rpc/approve_order_payment",
 {
 method:"POST",
 
-body:
-JSON.stringify({
-input_order_number:
-no
+body:JSON.stringify({
+
+input_order_number:no
+
 })
 
 }
@@ -3196,33 +3354,42 @@ no
 
 
 if(
-r?.success!==true
-)
-throw Error(
-r?.message ||
+result?.success !== true
+){
+
+throw new Error(
+result?.message ||
 "لم يتم تأكيد الدفع"
 );
+
+}
 
 
 alert(
 "✅ تم تأكيد الدفع"
 );
 
+
 await loadPayments();
 
 await loadCustomers();
 
-}catch(e){
+
+}catch(error){
 
 alert(
 "❌ "+
-e.message
+error.message
 );
 
 }
 
 }
 
+
+/* =====================================================
+   REJECT
+===================================================== */
 
 async function reject(no){
 
@@ -3236,16 +3403,16 @@ return;
 
 try{
 
-let r =
+const result =
 await api(
 "rpc/reject_order_payment",
 {
 method:"POST",
 
-body:
-JSON.stringify({
-input_order_number:
-no
+body:JSON.stringify({
+
+input_order_number:no
+
 })
 
 }
@@ -3253,31 +3420,40 @@ no
 
 
 if(
-r?.success!==true
-)
-throw Error(
-r?.message ||
+result?.success !== true
+){
+
+throw new Error(
+result?.message ||
 "لم يتم رفض الطلب"
 );
+
+}
 
 
 alert(
 "❌ تم رفض التحويل"
 );
 
+
 await loadPayments();
 
-}catch(e){
+
+}catch(error){
 
 alert(
 "❌ "+
-e.message
+error.message
 );
 
 }
 
 }
 
+
+/* =====================================================
+   FILTER EVENTS
+===================================================== */
 
 $("search")
 .addEventListener(
@@ -3300,189 +3476,36 @@ render
 );
 
 
+/* =====================================================
+   MODAL CLICK
+===================================================== */
+
 $("modal")
 .addEventListener(
 "click",
-e=>{
+function(event){
 
 if(
-e.target===
-e.currentTarget
-)
+event.target ===
+event.currentTarget
+){
+
 closeModal();
+
+}
 
 }
 );
 
+
+/* =====================================================
+   START
+===================================================== */
 
 check();
 
 </script>
-<script>
-/* =====================================================
-   FIX LOGIN - CASH BACK
-===================================================== */
-
-async function login(){
-
-  const email =
-    document.getElementById("email").value.trim();
-
-  const password =
-    document.getElementById("password").value;
-
-  const message =
-    document.getElementById("loginMessage");
-
-  message.style.color = "#c73542";
-  message.textContent = "⏳ جاري تسجيل الدخول...";
-
-
-  if(!email || !password){
-
-    message.textContent =
-      "❌ اكتب البريد الإلكتروني وكلمة المرور";
-
-    return;
-  }
-
-
-  try{
-
-    const { data, error } =
-      await db.auth.signInWithPassword({
-
-        email: email,
-
-        password: password
-
-      });
-
-
-    if(error){
-
-      throw new Error(
-        error.message ||
-        "فشل تسجيل الدخول"
-      );
-
-    }
-
-
-    if(
-      !data ||
-      !data.user
-    ){
-
-      throw new Error(
-        "لم يتم العثور على بيانات الحساب"
-      );
-
-    }
-
-
-    const userEmail =
-      String(
-        data.user.email || ""
-      ).toLowerCase();
-
-
-    if(
-      userEmail !==
-      ADMIN.toLowerCase()
-    ){
-
-      await db.auth.signOut();
-
-      throw new Error(
-        "هذا الحساب غير مسموح له بالدخول"
-      );
-
-    }
-
-
-    message.style.color =
-      "#159447";
-
-    message.textContent =
-      "✅ تم تسجيل الدخول بنجاح";
-
-
-    $("loginScreen").style.display =
-      "none";
-
-    $("app").style.display =
-      "block";
-
-
-    /*
-     * تحميل بيانات الصفحة
-     */
-
-    loadCustomers();
-
-    loadPayments();
-
-
-  }catch(error){
-
-    console.error(
-      "LOGIN ERROR:",
-      error
-    );
-
-
-    message.style.color =
-      "#d93645";
-
-    message.textContent =
-      "❌ " +
-      (
-        error.message ||
-        "حدث خطأ أثناء تسجيل الدخول"
-      );
-
-  }
-
-}
-
-
-/* =====================================================
-   ENTER KEY
-===================================================== */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function(){
-
-    const password =
-      document.getElementById(
-        "password"
-      );
-
-    if(password){
-
-      password.addEventListener(
-        "keydown",
-        function(event){
-
-          if(
-            event.key === "Enter"
-          ){
-
-            login();
-
-          }
-
-        }
-      );
-
-    }
-
-  }
-);
-
-</script>
 
 </body>
+
 </html>
