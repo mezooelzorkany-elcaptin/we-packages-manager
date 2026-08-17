@@ -1,546 +1,490 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1"
->
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>العملاء | CASH BACK</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
 *{
-box-sizing:border-box;
-font-family:Arial,Tahoma,sans-serif
+  box-sizing:border-box;
+  font-family:Arial,Tahoma,sans-serif
 }
 
 body{
-margin:0;
-background:#f7f6fb;
-color:#1d2435
+  margin:0;
+  background:#f7f6fb;
+  color:#1d2435
 }
 
 button,input,select{
-font:inherit
+  font:inherit
+}
+
+button{
+  cursor:pointer
 }
 
 /* ================= LOGIN ================= */
 
 .login{
-min-height:100vh;
-display:grid;
-place-items:center;
-background:linear-gradient(135deg,#171a31,#6428bd);
-padding:20px
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#171a31,#6428bd);
+  padding:20px
 }
 
 .loginbox{
-width:min(420px,100%);
-background:#fff;
-border-radius:28px;
-padding:30px;
-text-align:center;
-box-shadow:0 25px 70px #0005
+  width:min(420px,100%);
+  background:#fff;
+  border-radius:28px;
+  padding:30px;
+  text-align:center;
+  box-shadow:0 25px 70px #0005
 }
 
 .loginbox img{
-width:120px;
-height:120px;
-object-fit:contain;
-margin:auto;
-display:block
+  width:125px;
+  height:125px;
+  object-fit:contain;
+  margin:auto;
+  display:block
 }
 
 .loginbox h2{
-font-size:30px;
-margin:10px 0
+  margin:10px 0 5px
 }
 
 .loginbox p{
-color:#666;
-margin-bottom:20px
+  color:#777;
+  margin-bottom:22px
 }
 
 .loginbox input{
-width:100%;
-height:52px;
-border:1px solid #ddd;
-border-radius:14px;
-padding:0 14px;
-margin:6px 0;
-outline:none
+  width:100%;
+  height:52px;
+  border:1px solid #ddd;
+  border-radius:14px;
+  padding:0 14px;
+  margin:6px 0;
+  outline:none
 }
 
 .loginbox input:focus{
-border-color:#5420b8;
-box-shadow:0 0 0 3px #5420b822
+  border-color:#5420b8
 }
 
 .loginbox button{
-width:100%;
-height:52px;
-border:0;
-border-radius:14px;
-background:#5420b8;
-color:#fff;
-font-weight:bold;
-margin-top:8px;
-cursor:pointer
+  width:100%;
+  height:52px;
+  border:0;
+  border-radius:14px;
+  background:#5420b8;
+  color:#fff;
+  font-weight:bold;
+  margin-top:8px
 }
 
 .loginbox button:disabled{
-opacity:.7;
-cursor:not-allowed
+  opacity:.6;
+  cursor:not-allowed
 }
 
 #loginMessage{
-min-height:25px;
-margin-top:12px;
-font-weight:bold
+  min-height:22px;
+  margin-top:14px;
+  font-size:14px;
+  font-weight:bold
 }
 
 #app{
-display:none
+  display:none
 }
 
 /* ================= SIDEBAR ================= */
 
 .side{
-position:fixed;
-right:0;
-top:0;
-bottom:0;
-width:245px;
-background:#fff;
-border-left:1px solid #eee;
-z-index:5
+  position:fixed;
+  right:0;
+  top:0;
+  bottom:0;
+  width:245px;
+  background:#fff;
+  border-left:1px solid #eee;
+  z-index:5
 }
 
 .logo{
-height:175px;
-background:#111318;
-display:grid;
-place-items:center;
-overflow:hidden
+  height:175px;
+  background:#111318;
+  display:grid;
+  place-items:center;
+  overflow:hidden
 }
 
 .logo img{
-width:100%;
-height:100%;
-object-fit:cover
+  width:100%;
+  height:100%;
+  object-fit:contain
 }
 
 .nav{
-padding:14px
+  padding:14px
 }
 
 .nav a{
-display:flex;
-align-items:center;
-gap:13px;
-padding:14px;
-border-radius:13px;
-margin:5px 0;
-text-decoration:none;
-color:#333;
-font-weight:bold
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:14px;
+  border-radius:13px;
+  margin:5px 0;
+  text-decoration:none;
+  color:#333;
+  font-weight:bold
+}
+
+.nav a:hover{
+  background:#f1ecff
 }
 
 .nav a.active{
-background:linear-gradient(90deg,#7034d2,#5420b8);
-color:#fff
+  background:linear-gradient(90deg,#7034d2,#5420b8);
+  color:#fff
 }
 
 .nav i{
-font-style:normal;
-font-size:20px;
-width:25px;
-text-align:center
+  font-style:normal;
+  font-size:20px;
+  width:25px;
+  text-align:center
 }
 
 .logout{
-position:absolute;
-bottom:15px;
-right:14px;
-left:14px;
-height:48px;
-border:0;
-border-radius:13px;
-background:#fff0f2;
-color:#d93645;
-font-weight:bold;
-cursor:pointer
+  position:absolute;
+  bottom:15px;
+  right:14px;
+  left:14px;
+  height:48px;
+  border:0;
+  border-radius:13px;
+  background:#fff0f2;
+  color:#d93645;
+  font-weight:bold
 }
 
 /* ================= MAIN ================= */
 
 .main{
-margin-right:245px
+  margin-right:245px
 }
 
 .top{
-height:82px;
-background:#fff;
-border-bottom:1px solid #eee;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 30px
+  height:82px;
+  background:#fff;
+  border-bottom:1px solid #eee;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 30px
 }
 
 .top b{
-font-size:20px
+  font-size:20px
 }
 
 .top small{
-display:block;
-color:#858b9b;
-margin-top:4px
+  display:block;
+  color:#858b9b;
+  margin-top:4px
 }
 
 .avatar{
-width:42px;
-height:42px;
-border-radius:50%;
-background:#eee4ff;
-display:grid;
-place-items:center
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#eee4ff;
+  display:grid;
+  place-items:center
 }
 
 .content{
-max-width:1500px;
-margin:auto;
-padding:28px
+  max-width:1500px;
+  margin:auto;
+  padding:28px
 }
 
 .heading{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:22px
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:22px
 }
 
 .heading h1{
-margin:0;
-color:#4f2692
+  margin:0;
+  color:#4f2692
 }
 
 .heading p{
-margin:7px 0;
-color:#858b9b
+  margin:7px 0;
+  color:#858b9b
 }
 
 .btn{
-height:50px;
-border:0;
-border-radius:13px;
-padding:0 18px;
-font-weight:bold;
-cursor:pointer
+  height:50px;
+  border:0;
+  border-radius:13px;
+  padding:0 18px;
+  font-weight:bold
 }
 
 .purple{
-background:#5420b8;
-color:#fff
+  background:#5420b8;
+  color:#fff
 }
 
 .soft{
-background:#eee4ff;
-color:#5420b8
+  background:#eee4ff;
+  color:#5420b8
 }
 
 /* ================= STATS ================= */
 
 .stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:18px;
-margin-bottom:22px
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-bottom:22px
 }
 
 .stat{
-background:#fff;
-border:1px solid #eee;
-border-radius:20px;
-padding:20px;
-box-shadow:0 5px 22px #00000009
+  background:#fff;
+  border:1px solid #eee;
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 5px 22px #00000009
 }
 
 .stat:nth-child(1){
-background:#fff8ff
+  background:#fff8ff
 }
 
 .stat:nth-child(2){
-background:#f6fff8
+  background:#f6fff8
 }
 
 .stat:nth-child(3){
-background:#fffaf1
+  background:#fffaf1
 }
 
 .stat:nth-child(4){
-background:#fff7f8
+  background:#fff7f8
 }
 
 .st{
-display:flex;
-justify-content:space-between;
-font-weight:bold
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:bold
 }
 
 .ico{
-width:45px;
-height:45px;
-border-radius:50%;
-display:grid;
-place-items:center;
-background:#eee4ff
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#eee4ff
 }
 
 .num{
-font-size:34px;
-font-weight:900;
-margin-top:13px
+  font-size:34px;
+  font-weight:900;
+  margin-top:13px
 }
 
 .label{
-font-size:13px;
-color:#858b9b
+  font-size:13px;
+  color:#858b9b
 }
 
 /* ================= PANELS ================= */
 
 .panel{
-background:#fff;
-border:1px solid #eee;
-border-radius:22px;
-padding:20px;
-margin-bottom:22px;
-box-shadow:0 5px 22px #00000008
+  background:#fff;
+  border:1px solid #eee;
+  border-radius:22px;
+  padding:20px;
+  margin-bottom:22px;
+  box-shadow:0 5px 22px #00000008
 }
 
 .ph{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:15px
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px
 }
 
 .pt{
-font-size:21px;
-font-weight:900;
-color:#5420b8
+  font-size:21px;
+  font-weight:900;
+  color:#5420b8
 }
 
 .ps{
-font-size:13px;
-color:#858b9b;
-margin-top:4px
+  font-size:13px;
+  color:#858b9b;
+  margin-top:4px
 }
 
 /* ================= SEARCH ================= */
 
 .toolbar{
-display:flex;
-gap:10px;
-flex-wrap:wrap
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap
 }
 
 .search{
-flex:1;
-min-width:250px;
-height:50px;
-border:1px solid #ddd;
-border-radius:14px;
-padding:0 15px
+  flex:1;
+  min-width:250px;
+  height:50px;
+  border:1px solid #ddd;
+  border-radius:14px;
+  padding:0 15px;
+  outline:none
 }
 
 .select{
-height:50px;
-border:1px solid #ddd;
-border-radius:14px;
-background:#fff;
-padding:0 14px
+  height:50px;
+  border:1px solid #ddd;
+  border-radius:14px;
+  background:#fff;
+  padding:0 14px;
+  outline:none
 }
 
 /* ================= CUSTOMERS ================= */
 
 .list{
-display:grid;
-gap:16px
+  display:grid;
+  gap:16px
 }
 
 .card{
-background:#fff;
-border:1px solid #eee;
-border-radius:20px;
-padding:19px
+  background:#fff;
+  border:1px solid #eee;
+  border-radius:20px;
+  padding:19px;
+  box-shadow:0 5px 22px #00000008
 }
 
 .ch{
-display:flex;
-justify-content:space-between
+  display:flex;
+  justify-content:space-between;
+  gap:15px
 }
 
 .name{
-font-size:21px;
-font-weight:900
+  font-size:21px;
+  font-weight:900
 }
 
 .phone{
-color:#777;
-margin-top:6px
+  color:#777;
+  margin-top:6px
 }
 
 .internal{
-color:#5420b8;
-font-size:13px;
-font-weight:bold;
-margin-top:6px
+  color:#5420b8;
+  font-size:13px;
+  font-weight:bold;
+  margin-top:6px
 }
 
 .badge{
-padding:8px 13px;
-border-radius:20px;
-height:max-content;
-font-size:12px;
-font-weight:bold
+  padding:8px 13px;
+  border-radius:20px;
+  height:max-content;
+  font-size:12px;
+  font-weight:bold;
+  white-space:nowrap
 }
 
 .ok{
-background:#e4f8ec;
-color:#159447
+  background:#e4f8ec;
+  color:#159447
 }
 
 .bad{
-background:#fde8ea;
-color:#d93645
+  background:#fde8ea;
+  color:#d93645
 }
 
 .grid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:11px;
-margin-top:17px
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:11px;
+  margin-top:17px
 }
 
 .box{
-background:#f8f8fb;
-border-radius:14px;
-padding:13px
+  background:#f8f8fb;
+  border-radius:14px;
+  padding:13px
 }
 
 .box small{
-display:block;
-color:#8991a2;
-font-size:11px;
-margin-bottom:7px
+  display:block;
+  color:#8991a2;
+  font-size:11px;
+  margin-bottom:7px
 }
 
 .box strong{
-font-size:14px;
-word-break:break-word
+  font-size:14px;
+  word-break:break-word
 }
 
 .promo{
-background:#eee4ff
+  background:#eee4ff
 }
 
 .promo strong{
-color:#5420b8
+  color:#5420b8
 }
 
 .actions{
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-margin-top:17px
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:17px
 }
 
 .action{
-border:0;
-border-radius:12px;
-padding:11px 16px;
-font-weight:bold;
-cursor:pointer
+  border:0;
+  border-radius:12px;
+  padding:11px 16px;
+  font-weight:bold
 }
 
 .edit{
-background:#293160;
-color:#fff
+  background:#293160;
+  color:#fff
 }
 
 .renew{
-background:#eef0f6
+  background:#eef0f6
 }
 
 .delete{
-background:#fde8ea;
-color:#d93645
-}
-
-/* ================= PAYMENTS ================= */
-
-.payments{
-display:grid;
-gap:12px
-}
-
-.pay{
-background:#fafafd;
-border:1px solid #eee;
-border-radius:18px;
-padding:16px
-}
-
-.payno{
-font-size:18px;
-font-weight:900;
-color:#5420b8
-}
-
-.payinfo{
-line-height:2
-}
-
-.proof{
-display:block;
-width:min(330px,100%);
-max-height:400px;
-object-fit:contain;
-margin:12px auto
-}
-
-.payactions{
-display:flex;
-gap:9px
-}
-
-.approve,
-.reject{
-flex:1;
-border:0;
-border-radius:12px;
-padding:12px;
-font-weight:bold;
-cursor:pointer
-}
-
-.approve{
-background:#dff8e8;
-color:#08752d
-}
-
-.reject{
-background:#ffe2e2;
-color:#a00000
+  background:#fde8ea;
+  color:#d93645
 }
 
 /* ================= STATES ================= */
@@ -548,272 +492,271 @@ color:#a00000
 .loading,
 .empty,
 .error{
-text-align:center;
-padding:30px;
-background:#fff;
-border-radius:18px;
-color:#777
+  text-align:center;
+  padding:30px;
+  background:#fff;
+  border-radius:18px;
+  color:#777
 }
 
 .error{
-color:#d93645
+  color:#d93645
 }
 
 /* ================= MODAL ================= */
 
 .modal{
-display:none;
-position:fixed;
-inset:0;
-background:#0008;
-z-index:20;
-padding:15px
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#0008;
+  z-index:20;
+  padding:15px
 }
 
 .modal.show{
-display:flex;
-align-items:center;
-justify-content:center
+  display:flex;
+  align-items:center;
+  justify-content:center
 }
 
 .modalbox{
-width:min(620px,100%);
-max-height:95vh;
-overflow:auto;
-background:#fff;
-border-radius:24px;
-padding:22px
+  width:min(620px,100%);
+  max-height:95vh;
+  overflow:auto;
+  background:#fff;
+  border-radius:24px;
+  padding:22px
 }
 
 .mh{
-display:flex;
-justify-content:space-between
+  display:flex;
+  justify-content:space-between;
+  align-items:center
+}
+
+.mh h2{
+  margin:0
 }
 
 .close{
-border:0;
-background:#eee;
-border-radius:10px;
-padding:8px;
-cursor:pointer
+  border:0;
+  background:#eee;
+  border-radius:10px;
+  padding:8px 12px
 }
 
 .field{
-margin:13px 0
+  margin:13px 0
 }
 
 .field label{
-display:block;
-font-weight:bold;
-font-size:13px;
-margin-bottom:7px
+  display:block;
+  font-weight:bold;
+  font-size:13px;
+  margin-bottom:7px
 }
 
 .field input,
 .field select{
-width:100%;
-height:47px;
-border:1px solid #ddd;
-border-radius:12px;
-padding:0 12px
+  width:100%;
+  height:47px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:0 12px;
+  outline:none;
+  background:#fff
+}
+
+.field input:focus,
+.field select:focus{
+  border-color:#5420b8
 }
 
 .ma{
-display:flex;
-gap:10px
+  display:flex;
+  gap:10px;
+  margin-top:18px
 }
 
 .ma button{
-flex:1;
-height:49px;
-border:0;
-border-radius:13px;
-font-weight:bold;
-cursor:pointer
+  flex:1;
+  height:49px;
+  border:0;
+  border-radius:13px;
+  font-weight:bold
 }
 
 .cancel{
-background:#eee
+  background:#eee
 }
 
 .save{
-background:#5420b8;
-color:#fff
+  background:#5420b8;
+  color:#fff
 }
 
 /* ================= RESPONSIVE ================= */
 
 @media(max-width:950px){
 
-.side{
-width:78px
-}
+  .side{
+    width:78px
+  }
 
-.logo{
-height:90px
-}
+  .logo{
+    height:90px
+  }
 
-.logo img{
-object-fit:contain
-}
+  .nav span{
+    display:none
+  }
 
-.nav span{
-display:none
-}
+  .nav a{
+    justify-content:center
+  }
 
-.nav a{
-justify-content:center
-}
+  .main{
+    margin-right:78px
+  }
 
-.main{
-margin-right:78px
-}
-
-.grid{
-grid-template-columns:repeat(2,1fr)
-}
+  .grid{
+    grid-template-columns:repeat(2,1fr)
+  }
 
 }
 
 @media(max-width:650px){
 
-.side{
-top:auto;
-bottom:0;
-width:100%;
-height:65px
-}
+  .side{
+    top:auto;
+    bottom:0;
+    width:100%;
+    height:65px
+  }
 
-.logo,
-.logout{
-display:none
-}
+  .logo,
+  .logout{
+    display:none
+  }
 
-.nav{
-display:flex;
-width:100%;
-padding:4px
-}
+  .nav{
+    display:flex;
+    width:100%;
+    padding:4px
+  }
 
-.nav a{
-flex:1;
-margin:0;
-padding:6px
-}
+  .nav a{
+    flex:1;
+    margin:0;
+    padding:6px
+  }
 
-.main{
-margin-right:0;
-padding-bottom:70px
-}
+  .main{
+    margin-right:0;
+    padding-bottom:70px
+  }
 
-.top{
-height:70px;
-padding:0 15px
-}
+  .top{
+    height:70px;
+    padding:0 15px
+  }
 
-.content{
-padding:15px
-}
+  .content{
+    padding:15px
+  }
 
-.stats{
-grid-template-columns:repeat(2,1fr);
-gap:10px
-}
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+    gap:10px
+  }
 
-.stat{
-padding:15px
-}
+  .stat{
+    padding:15px
+  }
 
-.num{
-font-size:27px
-}
+  .num{
+    font-size:27px
+  }
 
-.heading{
-display:block
-}
+  .heading{
+    display:block
+  }
 
-.heading .btn{
-width:100%;
-margin-top:15px
-}
+  .heading .btn{
+    width:100%;
+    margin-top:15px
+  }
 
-.toolbar{
-display:grid
-}
+  .toolbar{
+    display:grid
+  }
 
-.search,
-.select{
-width:100%
-}
+  .search,
+  .select{
+    width:100%
+  }
 
-.ch{
-display:block
-}
+  .ch{
+    display:block
+  }
 
-.badge{
-display:inline-block;
-margin-top:10px
-}
+  .badge{
+    display:inline-block;
+    margin-top:10px
+  }
 
-.payactions{
-flex-direction:column
+  .ma{
+    flex-direction:column
+  }
 }
-
-}
-
 </style>
-
 </head>
 
 <body>
 
-
 <!-- ================= LOGIN ================= -->
 
-<div
-id="loginScreen"
-class="login"
->
+<div id="loginScreen" class="login">
 
-<div class="loginbox">
+  <div class="loginbox">
 
-<img
-src="logo.png"
-alt="CASH BACK"
-onerror="this.style.display='none'"
->
+    <img
+      src="logo.png"
+      alt="CASH BACK"
+      onerror="this.style.display='none'"
+    >
 
-<h2>CASH BACK</h2>
+    <h2>CASH BACK</h2>
 
-<p>
-تسجيل الدخول إلى لوحة الإدارة
-</p>
+    <p>تسجيل الدخول إلى لوحة الإدارة</p>
 
-<input
-id="email"
-type="email"
-value="mezooelzorkany@gmail.com"
-autocomplete="username"
->
+    <input
+      id="email"
+      type="email"
+      value="mezooelzorkany@gmail.com"
+      autocomplete="username"
+      placeholder="البريد الإلكتروني"
+    >
 
-<input
-id="password"
-type="password"
-placeholder="كلمة المرور"
-autocomplete="current-password"
->
+    <input
+      id="password"
+      type="password"
+      autocomplete="current-password"
+      placeholder="كلمة المرور"
+    >
 
-<button
-id="loginButton"
-type="button"
-onclick="login()"
->
-تسجيل الدخول
-</button>
+    <button
+      id="loginButton"
+      type="button"
+      onclick="login()"
+    >
+      🔐 تسجيل الدخول
+    </button>
 
-<div id="loginMessage"></div>
+    <div id="loginMessage"></div>
 
-</div>
+  </div>
 
 </div>
 
@@ -822,126 +765,112 @@ onclick="login()"
 
 <div id="app">
 
-
 <aside class="side">
 
+  <div class="logo">
 
-<div class="logo">
+    <img
+      src="logo.png"
+      alt="CASH BACK"
+      onerror="this.style.display='none'"
+    >
 
-<img
-src="logo.png"
-alt="CASH BACK"
-onerror="this.style.display='none'"
->
+  </div>
 
-</div>
+  <nav class="nav">
 
+    <a
+      class="active"
+      href="customers.html"
+    >
+      <i>👥</i>
+      <span>العملاء</span>
+    </a>
 
-<nav class="nav">
+    <a href="packages.html">
+      <i>📦</i>
+      <span>الباقات</span>
+    </a>
 
+    <a href="payment.html">
+      <i>💳</i>
+      <span>طلبات الدفع</span>
+    </a>
 
-<a
-class="active"
-href="customers.html"
->
-<i>👥</i>
-<span>العملاء</span>
-</a>
+    <a href="admin.html">
+      <i>🔢</i>
+      <span>الأكواد</span>
+    </a>
 
+    <a href="numbers.html">
+      <i>📱</i>
+      <span>الأرقام الأساسية</span>
+    </a>
 
-<a href="packages.html">
-<i>📦</i>
-<span>الباقات</span>
-</a>
+    <a href="finances.html">
+      <i>💰</i>
+      <span>الماليات</span>
+    </a>
 
+  </nav>
 
-<a href="payment.html">
-<i>💳</i>
-<span>طلبات الدفع</span>
-</a>
-
-
-<a href="admin.html">
-<i>🔢</i>
-<span>الأكواد</span>
-</a>
-
-
-<a href="numbers.html">
-<i>📱</i>
-<span>الأرقام الأساسية</span>
-</a>
-
-
-<a href="finances.html">
-<i>💰</i>
-<span>الماليات</span>
-</a>
-
-
-</nav>
-
-
-<button
-class="logout"
-onclick="logout()"
->
-🚪 تسجيل الخروج
-</button>
-
+  <button
+    class="logout"
+    type="button"
+    onclick="logout()"
+  >
+    🚪 تسجيل الخروج
+  </button>
 
 </aside>
 
 
 <main class="main">
 
-
 <header class="top">
 
-<div>
+  <div>
 
-<b>
-مرحبًا بك، مدير النظام 👋
-</b>
+    <b>
+      مرحبًا بك، مدير النظام 👋
+    </b>
 
-<small>
-CASH BACK — إدارة العملاء والباقات
-</small>
+    <small>
+      CASH BACK — إدارة العملاء والباقات
+    </small>
 
-</div>
+  </div>
 
-<div class="avatar">
-👨‍💼
-</div>
+  <div class="avatar">
+    👨‍💼
+  </div>
 
 </header>
 
 
 <section class="content">
 
-
 <div class="heading">
 
-<div>
+  <div>
 
-<h1>
-👥 العملاء
-</h1>
+    <h1>
+      👥 العملاء
+    </h1>
 
-<p>
-إدارة العملاء والتجديدات والاشتراكات
-</p>
+    <p>
+      إدارة العملاء والتجديدات والاشتراكات
+    </p>
 
-</div>
+  </div>
 
-
-<button
-class="btn purple"
-onclick="openAdd()"
->
-➕ إضافة عميل
-</button>
-
+  <button
+    class="btn purple"
+    type="button"
+    onclick="openAdd()"
+  >
+    ➕ إضافة عميل
+  </button>
 
 </div>
 
@@ -950,90 +879,88 @@ onclick="openAdd()"
 
 <div class="stats">
 
+  <div class="stat">
 
-<div class="stat">
+    <div class="st">
+      إجمالي العملاء
+      <span class="ico">👥</span>
+    </div>
 
-<div class="st">
-إجمالي العملاء
-<span class="ico">👥</span>
-</div>
+    <div
+      class="num"
+      id="total"
+    >
+      0
+    </div>
 
-<div
-class="num"
-id="total"
->
-0
-</div>
+    <div class="label">
+      عميل مسجل
+    </div>
 
-<div class="label">
-عميل مسجل
-</div>
-
-</div>
-
-
-<div class="stat">
-
-<div class="st">
-العملاء النشطين
-<span class="ico">🟢</span>
-</div>
-
-<div
-class="num"
-id="active"
->
-0
-</div>
-
-<div class="label">
-عميل نشط
-</div>
-
-</div>
+  </div>
 
 
-<div class="stat">
+  <div class="stat">
 
-<div class="st">
-تجديد قريب
-<span class="ico">🕐</span>
-</div>
+    <div class="st">
+      العملاء النشطين
+      <span class="ico">🟢</span>
+    </div>
 
-<div
-class="num"
-id="soon"
->
-0
-</div>
+    <div
+      class="num"
+      id="active"
+    >
+      0
+    </div>
 
-<div class="label">
-خلال 7 أيام
-</div>
+    <div class="label">
+      عميل نشط
+    </div>
 
-</div>
+  </div>
 
 
-<div class="stat">
+  <div class="stat">
 
-<div class="st">
-منتهية
-<span class="ico">⚠️</span>
-</div>
+    <div class="st">
+      تجديد قريب
+      <span class="ico">🕐</span>
+    </div>
 
-<div
-class="num"
-id="expired"
->
-0
-</div>
+    <div
+      class="num"
+      id="soon"
+    >
+      0
+    </div>
 
-<div class="label">
-منتهية الصلاحية
-</div>
+    <div class="label">
+      خلال 7 أيام
+    </div>
 
-</div>
+  </div>
 
+
+  <div class="stat">
+
+    <div class="st">
+      منتهية
+      <span class="ico">⚠️</span>
+    </div>
+
+    <div
+      class="num"
+      id="expired"
+    >
+      0
+    </div>
+
+    <div class="label">
+      منتهية الصلاحية
+    </div>
+
+  </div>
 
 </div>
 
@@ -1042,133 +969,84 @@ id="expired"
 
 <div class="panel">
 
+  <div class="ph">
 
-<div class="ph">
+    <div>
 
-<div>
+      <div class="pt">
+        🔎 البحث والتصفية
+      </div>
 
-<div class="pt">
-🔎 البحث والتصفية
-</div>
+      <div class="ps">
+        ابحث بالاسم أو الرقم أو الرقم الأساسي
+      </div>
 
-<div class="ps">
-ابحث بالاسم أو الرقم أو الرقم الأساسي أو كود الخصم
-</div>
+    </div>
 
-</div>
-
-</div>
-
-
-<div class="toolbar">
+  </div>
 
 
-<input
-id="search"
-class="search"
-placeholder="🔎 ابحث عن عميل..."
->
+  <div class="toolbar">
+
+    <input
+      id="search"
+      class="search"
+      type="search"
+      placeholder="🔎 ابحث عن عميل..."
+    >
+
+    <select
+      id="renewalFilter"
+      class="select"
+    >
+
+      <option value="all">
+        كل مواعيد التجديد
+      </option>
+
+      <option value="1">
+        تجديد يوم 1
+      </option>
+
+      <option value="16">
+        تجديد يوم 16
+      </option>
+
+      <option value="custom">
+        تاريخ مخصص
+      </option>
+
+    </select>
 
 
-<select
-id="renewalFilter"
-class="select"
->
+    <select
+      id="statusFilter"
+      class="select"
+    >
 
-<option value="all">
-كل مواعيد التجديد
-</option>
+      <option value="all">
+        كل الحالات
+      </option>
 
-<option value="1">
-تجديد يوم 1
-</option>
+      <option value="active">
+        🟢 نشط
+      </option>
 
-<option value="16">
-تجديد يوم 16
-</option>
+      <option value="inactive">
+        🔴 موقوف
+      </option>
 
-<option value="custom">
-تاريخ مخصص
-</option>
+      <option value="soon">
+        🟠 قرب التجديد
+      </option>
 
-</select>
+      <option value="expired">
+        🔴 منتهي
+      </option>
 
+    </select>
 
-<select
-id="statusFilter"
-class="select"
->
-
-<option value="all">
-كل الحالات
-</option>
-
-<option value="active">
-🟢 نشط
-</option>
-
-<option value="inactive">
-🔴 موقوف
-</option>
-
-<option value="soon">
-🟠 قرب التجديد
-</option>
-
-<option value="expired">
-🔴 منتهي
-</option>
-
-</select>
-
-
-</div>
-
-</div>
-
-
-<!-- PAYMENTS -->
-
-<div class="panel">
-
-
-<div class="ph">
-
-<div>
-
-<div class="pt">
-💳 طلبات الدفع المعلقة
-</div>
-
-<div class="ps">
-التحويلات التي تنتظر مراجعتك
-</div>
-
-</div>
-
-
-<button
-class="btn soft"
-onclick="loadPayments()"
->
-🔄 تحديث
-</button>
-
-
-</div>
-
-
-<div
-id="payments"
-class="payments"
->
-
-<div class="loading">
-⏳ جاري التحميل...
-</div>
-
-</div>
-
+  </div>
 
 </div>
 
@@ -1176,16 +1054,15 @@ class="payments"
 <!-- CUSTOMERS -->
 
 <div
-id="list"
-class="list"
+  id="list"
+  class="list"
 >
 
-<div class="loading">
-⏳ جاري تحميل العملاء...
-</div>
+  <div class="loading">
+    ⏳ جاري تحميل العملاء...
+  </div>
 
 </div>
-
 
 </section>
 
@@ -1197,295 +1074,343 @@ class="list"
 <!-- ================= MODAL ================= -->
 
 <div
-id="modal"
-class="modal"
+  id="modal"
+  class="modal"
 >
 
-<div class="modalbox">
+  <div class="modalbox">
 
+    <div class="mh">
 
-<div class="mh">
+      <h2 id="modalTitle">
+        ➕ إضافة عميل
+      </h2>
 
-<h2 id="modalTitle">
-➕ إضافة عميل
-</h2>
+      <button
+        class="close"
+        type="button"
+        onclick="closeModal()"
+      >
+        ✕
+      </button>
 
-<button
-class="close"
-onclick="closeModal()"
->
-✕
-</button>
+    </div>
 
-</div>
 
+    <input
+      type="hidden"
+      id="customerId"
+    >
 
-<input
-type="hidden"
-id="customerId"
->
 
+    <div class="field">
 
-<div class="field">
+      <label>
+        اسم العميل *
+      </label>
 
-<label>
-اسم العميل *
-</label>
+      <input
+        id="customerName"
+        placeholder="مثال: محمد"
+      >
 
-<input
-id="customerName"
-placeholder="مثال: محمد"
->
+    </div>
 
-</div>
 
+    <div class="field">
 
-<div class="field">
+      <label>
+        🏷️ الاسم عندي
+      </label>
 
-<label>
-🏷️ الاسم عندي
-</label>
+      <input
+        id="internalName"
+        placeholder="الاسم اللي مسجله بيه عندك"
+      >
 
-<input
-id="internalName"
-placeholder="الاسم اللي مسجله بيه عندك"
->
+    </div>
 
-</div>
 
+    <div class="field">
 
-<div class="field">
+      <label>
+        رقم العميل *
+      </label>
 
-<label>
-رقم العميل *
-</label>
+      <input
+        id="customerPhone"
+        inputmode="numeric"
+        placeholder="01xxxxxxxxx"
+      >
 
-<input
-id="customerPhone"
-inputmode="numeric"
-placeholder="01xxxxxxxxx"
->
+    </div>
 
-</div>
 
+    <div class="field">
 
-<div class="field">
+      <label>
+        الرقم الأساسي
+      </label>
 
-<label>
-الرقم الأساسي
-</label>
+      <input
+        id="primaryNumber"
+        inputmode="numeric"
+        placeholder="الرقم اللي اتعملت منه الباقة"
+      >
 
-<input
-id="primaryNumber"
-inputmode="numeric"
-placeholder="الرقم اللي اتعملت منه الباقة"
->
+    </div>
 
-</div>
 
+    <div class="field">
 
-<div class="field">
+      <label>
+        📦 الجيجا
+      </label>
 
-<label>
-📦 الجيجا
-</label>
+      <input
+        id="allocatedGB"
+        type="number"
+        min="0"
+        step=".01"
+        value="0"
+      >
 
-<input
-id="allocatedGB"
-type="number"
-min="0"
-step=".01"
->
+    </div>
 
-</div>
 
+    <div class="field">
 
-<div class="field">
+      <label>
+        الباقة
+      </label>
 
-<label>
-الباقة
-</label>
+      <select
+        id="packageName"
+        onchange="packageData()"
+      >
 
-<select
-id="packageName"
-onchange="packageData()"
->
+        <option value="">
+          اختر الباقة
+        </option>
 
-<option value="">
-اختر الباقة
-</option>
+        <option value="20 جيجا">
+          20 جيجا
+        </option>
 
-<option>20 جيجا</option>
-<option>25 جيجا</option>
-<option>30 جيجا</option>
-<option>35 جيجا</option>
-<option>40 جيجا</option>
-<option>45 جيجا</option>
-<option>50 جيجا</option>
-<option>55 جيجا</option>
-<option>60 جيجا</option>
+        <option value="25 جيجا">
+          25 جيجا
+        </option>
 
-</select>
+        <option value="30 جيجا">
+          30 جيجا
+        </option>
 
-</div>
+        <option value="35 جيجا">
+          35 جيجا
+        </option>
 
+        <option value="40 جيجا">
+          40 جيجا
+        </option>
 
-<div class="field">
+        <option value="45 جيجا">
+          45 جيجا
+        </option>
 
-<label>
-السعر
-</label>
+        <option value="50 جيجا">
+          50 جيجا
+        </option>
 
-<input
-id="lastPrice"
-type="number"
-min="0"
->
+        <option value="55 جيجا">
+          55 جيجا
+        </option>
 
-</div>
+        <option value="60 جيجا">
+          60 جيجا
+        </option>
 
+      </select>
 
-<div class="field">
+    </div>
 
-<label>
-طريقة الدفع
-</label>
 
-<select id="paymentMethod">
+    <div class="field">
 
-<option value="">
-غير محدد
-</option>
+      <label>
+        السعر
+      </label>
 
-<option>Vodafone Cash</option>
-<option>Etisalat Cash</option>
-<option>WE Pay</option>
-<option>Orange Cash</option>
-<option>InstaPay</option>
-<option>كاش</option>
-<option>تحويل بنكي</option>
+      <input
+        id="lastPrice"
+        type="number"
+        min="0"
+      >
 
-</select>
+    </div>
 
-</div>
 
+    <div class="field">
 
-<div class="field">
+      <label>
+        طريقة الدفع
+      </label>
 
-<label>
-الحالة
-</label>
+      <select id="paymentMethod">
 
-<select id="status">
+        <option value="">
+          غير محدد
+        </option>
 
-<option value="active">
-🟢 نشط
-</option>
+        <option value="Vodafone Cash">
+          Vodafone Cash
+        </option>
 
-<option value="inactive">
-🔴 موقوف
-</option>
+        <option value="Etisalat Cash">
+          Etisalat Cash
+        </option>
 
-</select>
+        <option value="WE Pay">
+          WE Pay
+        </option>
 
-</div>
+        <option value="Orange Cash">
+          Orange Cash
+        </option>
 
+        <option value="InstaPay">
+          InstaPay
+        </option>
 
-<div class="field">
+        <option value="كاش">
+          كاش
+        </option>
 
-<label>
-نظام التجديد
-</label>
+        <option value="تحويل بنكي">
+          تحويل بنكي
+        </option>
 
-<select
-id="renewalType"
-onchange="renewalData()"
->
+      </select>
 
-<option value="day_1">
-يوم 1
-</option>
+    </div>
 
-<option value="day_16">
-يوم 16
-</option>
 
-<option value="custom">
-تاريخ مخصص
-</option>
+    <div class="field">
 
-</select>
+      <label>
+        الحالة
+      </label>
 
-</div>
+      <select id="status">
 
+        <option value="active">
+          🟢 نشط
+        </option>
 
-<div class="field">
+        <option value="inactive">
+          🔴 موقوف
+        </option>
 
-<label>
-يوم التجديد
-</label>
+      </select>
 
-<input
-id="renewalDay"
-type="number"
-min="1"
-max="31"
-value="1"
->
+    </div>
 
-</div>
 
+    <div class="field">
 
-<div class="field">
+      <label>
+        نظام التجديد
+      </label>
 
-<label>
-التجديد القادم *
-</label>
+      <select
+        id="renewalType"
+        onchange="renewalData()"
+      >
 
-<input
-id="nextRenewal"
-type="date"
->
+        <option value="day_1">
+          يوم 1
+        </option>
 
-</div>
+        <option value="day_16">
+          يوم 16
+        </option>
 
+        <option value="custom">
+          تاريخ مخصص
+        </option>
 
-<div class="field">
+      </select>
 
-<label>
-عدد الطلبات
-</label>
+    </div>
 
-<input
-id="totalOrders"
-type="number"
-min="0"
-value="0"
->
 
-</div>
+    <div class="field">
 
+      <label>
+        يوم التجديد
+      </label>
 
-<div class="ma">
+      <input
+        id="renewalDay"
+        type="number"
+        min="1"
+        max="31"
+        value="1"
+      >
 
-<button
-class="cancel"
-onclick="closeModal()"
->
-إلغاء
-</button>
+    </div>
 
-<button
-class="save"
-onclick="saveCustomer()"
->
-💾 حفظ
-</button>
 
-</div>
+    <div class="field">
 
+      <label>
+        التجديد القادم *
+      </label>
 
-</div>
+      <input
+        id="nextRenewal"
+        type="date"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        عدد الطلبات
+      </label>
+
+      <input
+        id="totalOrders"
+        type="number"
+        min="0"
+        value="0"
+      >
+
+    </div>
+
+
+    <div class="ma">
+
+      <button
+        class="cancel"
+        type="button"
+        onclick="closeModal()"
+      >
+        إلغاء
+      </button>
+
+      <button
+        class="save"
+        type="button"
+        onclick="saveCustomer()"
+      >
+        💾 حفظ
+      </button>
+
+    </div>
+
+  </div>
 
 </div>
 
@@ -1496,49 +1421,28 @@ onclick="saveCustomer()"
    SUPABASE
 ===================================================== */
 
-const URL =
+const SUPABASE_URL =
 "https://pgvbynefhqmyzjtccttl.supabase.co";
 
-const KEY =
+const SUPABASE_KEY =
 "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 
-const ADMIN =
+const ADMIN_EMAIL =
 "mezooelzorkany@gmail.com";
-
 
 const db =
 supabase.createClient(
-URL,
-KEY
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
 
 /* =====================================================
-   PRICES
-===================================================== */
-
-const prices = {
-
-"20 جيجا":270,
-"25 جيجا":300,
-"30 جيجا":340,
-"35 جيجا":380,
-"40 جيجا":430,
-"45 جيجا":450,
-"50 جيجا":480,
-"55 جيجا":520,
-"60 جيجا":570
-
-};
-
-
-/* =====================================================
-   GLOBALS
+   DATA
 ===================================================== */
 
 let customers = [];
-
-let edit = false;
+let editMode = false;
 
 
 /* =====================================================
@@ -1550,172 +1454,197 @@ id =>
 document.getElementById(id);
 
 
-function esc(v){
+function escapeHtml(value){
 
-return String(v ?? "")
-.replace(
-/[&<>"']/g,
-c => ({
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-}[c])
-);
+  return String(value ?? "")
+    .replace(/[&<>"']/g, char => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    }[char]));
 
 }
 
 
-function clean(v){
+function cleanPhone(value){
 
-return String(v || "")
-.replace(/[^\d]/g,"");
-
-}
-
-
-function valid(v){
-
-return /^01[0125]\d{8}$/.test(
-clean(v)
-);
+  return String(value || "")
+    .replace(/[^\d]/g,"");
 
 }
 
 
-function date(v){
+function validPhone(value){
 
-let m =
-String(v || "")
-.match(
-/\d{4}-\d{2}-\d{2}/
-);
-
-return m ? m[0] : null;
+  return /^01[0125]\d{8}$/
+    .test(cleanPhone(value));
 
 }
 
 
-function days(v){
+function extractDate(value){
 
-let d = date(v);
+  const match =
+    String(value || "")
+      .match(/\d{4}-\d{2}-\d{2}/);
 
-if(!d)
-return null;
-
-let a = new Date();
-
-a.setHours(0,0,0,0);
-
-return Math.ceil(
-(
-new Date(d+"T00:00:00") - a
-) / 86400000
-);
+  return match
+    ? match[0]
+    : null;
 
 }
 
 
-function gb(v){
+function daysUntil(value){
 
-let m =
-String(v || "")
-.match(
-/(\d+(?:\.\d+)?)/
-);
+  const d =
+    extractDate(value);
 
-return m ? Number(m[1]) : 0;
+  if(!d)
+    return null;
+
+  const today =
+    new Date();
+
+  today.setHours(
+    0,0,0,0
+  );
+
+  const target =
+    new Date(
+      d + "T00:00:00"
+    );
+
+  return Math.ceil(
+    (target - today) /
+    86400000
+  );
 
 }
 
 
-function money(v){
+function getGB(value){
 
-return Number(v || 0)
-.toLocaleString(
-"ar-EG",
-{
-maximumFractionDigits:2
+  const match =
+    String(value || "")
+      .match(/(\d+(?:\.\d+)?)/);
+
+  return match
+    ? Number(match[1])
+    : 0;
+
 }
-);
+
+
+function money(value){
+
+  return Number(value || 0)
+    .toLocaleString(
+      "ar-EG",
+      {
+        maximumFractionDigits:2
+      }
+    );
 
 }
 
 
 /* =====================================================
-   DATABASE API
+   PRICES
 ===================================================== */
 
-async function api(path,opt={}){
+const prices = {
 
-const session =
-await db.auth.getSession();
+  "20 جيجا":270,
+  "25 جيجا":300,
+  "30 جيجا":340,
+  "35 جيجا":380,
+  "40 جيجا":430,
+  "45 جيجا":450,
+  "50 جيجا":480,
+  "55 جيجا":520,
+  "60 جيجا":570
 
-const token =
-session.data.session?.access_token || KEY;
-
-
-const response =
-await fetch(
-URL + "/rest/v1/" + path,
-{
-...opt,
-
-headers:{
-apikey:KEY,
-
-Authorization:
-"Bearer " + token,
-
-"Content-Type":
-"application/json",
-
-Prefer:
-"return=representation",
-
-...(opt.headers || {})
-
-}
-
-}
-);
+};
 
 
-const text =
-await response.text();
+/* =====================================================
+   SUPABASE REQUEST
+===================================================== */
 
+async function api(
+  path,
+  options={}
+){
 
-let data = null;
+  const sessionResult =
+    await db.auth.getSession();
 
-try{
+  const token =
+    sessionResult.data.session?.access_token ||
+    SUPABASE_KEY;
 
-data =
-text ? JSON.parse(text) : null;
+  const response =
+    await fetch(
+      SUPABASE_URL +
+      "/rest/v1/" +
+      path,
+      {
+        ...options,
 
-}catch{
+        headers:{
+          "apikey":SUPABASE_KEY,
 
-data = text;
+          "Authorization":
+            "Bearer " + token,
 
-}
+          "Content-Type":
+            "application/json",
 
+          "Prefer":
+            "return=representation",
 
-if(!response.ok){
+          ...(options.headers || {})
+        }
+      }
+    );
 
-throw new Error(
-data?.message ||
-data?.hint ||
-data?.details ||
-String(
-data ||
-"خطأ في قاعدة البيانات"
-)
-);
+  const text =
+    await response.text();
 
-}
+  let data = null;
 
+  try{
 
-return data;
+    data =
+      text
+      ? JSON.parse(text)
+      : null;
+
+  }catch{
+
+    data = text;
+
+  }
+
+  if(!response.ok){
+
+    throw new Error(
+      data?.message ||
+      data?.hint ||
+      data?.details ||
+      data?.error_description ||
+      String(
+        data ||
+        "خطأ في قاعدة البيانات"
+      )
+    );
+
+  }
+
+  return data;
 
 }
 
@@ -1726,146 +1655,130 @@ return data;
 
 async function login(){
 
-const email =
-$("email").value.trim();
+  const email =
+    $("email")
+      .value
+      .trim();
 
-const password =
-$("password").value;
+  const password =
+    $("password")
+      .value;
 
-const message =
-$("loginMessage");
+  const message =
+    $("loginMessage");
 
-const button =
-$("loginButton");
-
-
-message.style.color =
-"#c73542";
-
-message.textContent =
-"⏳ جاري تسجيل الدخول...";
+  const button =
+    $("loginButton");
 
 
-if(!email || !password){
+  message.style.color =
+    "#c73542";
 
-message.textContent =
-"❌ اكتب البريد الإلكتروني وكلمة المرور";
+  message.textContent =
+    "⏳ جاري تسجيل الدخول...";
 
-return;
-
-}
-
-
-button.disabled = true;
+  button.disabled = true;
 
 
-try{
+  if(!email || !password){
 
-const result =
-await db.auth.signInWithPassword({
+    message.textContent =
+      "❌ اكتب البريد الإلكتروني وكلمة المرور";
 
-email:email,
+    button.disabled = false;
 
-password:password
+    return;
 
-});
-
-
-if(result.error){
-
-throw new Error(
-result.error.message ||
-"فشل تسجيل الدخول"
-);
-
-}
+  }
 
 
-if(
-!result.data ||
-!result.data.user
-){
+  try{
 
-throw new Error(
-"لم يتم العثور على بيانات الحساب"
-);
+    const result =
+      await db.auth.signInWithPassword({
 
-}
+        email:email,
 
+        password:password
 
-const userEmail =
-String(
-result.data.user.email || ""
-).toLowerCase();
+      });
 
 
-if(
-userEmail !==
-ADMIN.toLowerCase()
-){
+    if(result.error){
 
-await db.auth.signOut();
+      throw result.error;
 
-throw new Error(
-"هذا الحساب غير مسموح له بالدخول"
-);
-
-}
+    }
 
 
-message.style.color =
-"#159447";
+    if(
+      !result.data ||
+      !result.data.user
+    ){
 
-message.textContent =
-"✅ تم تسجيل الدخول بنجاح";
+      throw new Error(
+        "لم يتم تسجيل الدخول"
+      );
 
-
-showApp();
-
-
-}catch(error){
-
-console.error(
-"LOGIN ERROR:",
-error
-);
-
-message.style.color =
-"#d93645";
-
-message.textContent =
-"❌ " +
-(
-error.message ||
-"حدث خطأ أثناء تسجيل الدخول"
-);
+    }
 
 
-}finally{
+    const userEmail =
+      String(
+        result.data.user.email || ""
+      )
+      .trim()
+      .toLowerCase();
 
-button.disabled = false;
 
-}
+    if(
+      userEmail !==
+      ADMIN_EMAIL.toLowerCase()
+    ){
 
-}
+      await db.auth.signOut();
+
+      throw new Error(
+        "هذا الحساب غير مسموح له بالدخول"
+      );
+
+    }
 
 
-/* =====================================================
-   ENTER KEY
-===================================================== */
+    message.style.color =
+      "#159447";
 
-$("password").addEventListener(
-"keydown",
-function(event){
+    message.textContent =
+      "✅ تم تسجيل الدخول بنجاح";
 
-if(event.key === "Enter"){
 
-login();
+    showApp();
+
+
+  }catch(error){
+
+    console.error(
+      "LOGIN ERROR:",
+      error
+    );
+
+    message.style.color =
+      "#d93645";
+
+    message.textContent =
+      "❌ " +
+      (
+        error.message ||
+        "حدث خطأ أثناء تسجيل الدخول"
+      );
+
+  }finally{
+
+    button.disabled = false;
+
+  }
 
 }
-
-}
-);
 
 
 /* =====================================================
@@ -1874,15 +1787,15 @@ login();
 
 function showApp(){
 
-$("loginScreen").style.display =
-"none";
+  $("loginScreen")
+    .style.display =
+    "none";
 
-$("app").style.display =
-"block";
+  $("app")
+    .style.display =
+    "block";
 
-loadCustomers();
-
-loadPayments();
+  loadCustomers();
 
 }
 
@@ -1891,38 +1804,53 @@ loadPayments();
    CHECK SESSION
 ===================================================== */
 
-async function check(){
+async function checkSession(){
 
-try{
+  try{
 
-const result =
-await db.auth.getSession();
+    const result =
+      await db.auth.getSession();
 
-const session =
-result.data.session;
+    const session =
+      result.data.session;
 
 
-if(
-session &&
-session.user &&
-String(
-session.user.email || ""
-).toLowerCase() ===
-ADMIN.toLowerCase()
-){
+    if(!session){
 
-showApp();
+      return;
 
-}
+    }
 
-}catch(error){
 
-console.error(
-"SESSION CHECK ERROR:",
-error
-);
+    const email =
+      String(
+        session.user?.email || ""
+      )
+      .toLowerCase();
 
-}
+
+    if(
+      email !==
+      ADMIN_EMAIL.toLowerCase()
+    ){
+
+      await db.auth.signOut();
+
+      return;
+
+    }
+
+
+    showApp();
+
+  }catch(error){
+
+    console.error(
+      "SESSION ERROR:",
+      error
+    );
+
+  }
 
 }
 
@@ -1933,17 +1861,17 @@ error
 
 async function logout(){
 
-try{
+  try{
 
-await db.auth.signOut();
+    await db.auth.signOut();
 
-}catch(error){
+  }catch(error){
 
-console.error(error);
+    console.error(error);
 
-}
+  }
 
-location.reload();
+  location.reload();
 
 }
 
@@ -1954,151 +1882,65 @@ location.reload();
 
 async function loadCustomers(){
 
-$("list").innerHTML =
-'<div class="loading">⏳ جاري تحميل العملاء...</div>';
+  $("list").innerHTML =
+    `
+    <div class="loading">
+      ⏳ جاري تحميل العملاء...
+    </div>
+    `;
 
 
-try{
+  try{
 
-const result =
-await Promise.all([
-
-api(
-"customers?select=*&deleted_at=is.null"
-),
-
-api(
-"orders?select=*"
-).catch(
-() => []
-)
-
-]);
+    const data =
+      await api(
+        "customers?select=*&deleted_at=is.null&order=next_renewal_date.asc"
+      );
 
 
-const cs =
-result[0] || [];
-
-const os =
-result[1] || [];
-
-
-const map = {};
+    customers =
+      Array.isArray(data)
+      ? data
+      : [];
 
 
-os.forEach(
-order => {
+    updateStats();
 
-const phone =
-clean(
-order.phone ||
-order.customer_phone
-);
-
-if(phone){
-
-if(!map[phone])
-map[phone] = [];
-
-map[phone].push(order);
-
-}
-
-}
-);
+    render();
 
 
-customers =
-cs.map(
-customer => {
+  }catch(error){
 
-const orders =
-map[
-clean(customer.phone)
-] || [];
+    console.error(
+      "LOAD CUSTOMERS ERROR:",
+      error
+    );
 
 
-const order =
-orders[0];
+    $("list").innerHTML =
+      `
+      <div class="error">
 
+        ❌ حصل خطأ في تحميل العملاء
 
-const packageName =
-order?.package_name ||
-order?.package ||
-customer.package_name ||
-"";
+        <br><br>
 
+        ${escapeHtml(error.message)}
 
-return {
+        <br><br>
 
-...customer,
+        <button
+          class="action edit"
+          type="button"
+          onclick="loadCustomers()"
+        >
+          🔄 إعادة المحاولة
+        </button>
 
-package_name:
-packageName,
+      </div>
+      `;
 
-last_price:
-Number(
-order?.final_price ??
-order?.total_price ??
-order?.amount ??
-customer.last_price ??
-0
-),
-
-allocated_gb:
-Number(
-order?.package_gb ??
-order?.allocated_gb ??
-customer.allocated_gb ??
-gb(packageName)
-),
-
-next_renewal_date:
-date(
-order?.next_renewal_date ||
-order?.renewal_date ||
-customer.next_renewal_date
-),
-
-payment_method:
-order?.payment_method ||
-customer.payment_method,
-
-total_orders:
-orders.length ||
-Number(customer.total_orders) ||
-0,
-
-promo_code:
-order?.promo_code ||
-order?.discount_code ||
-customer.promo_code ||
-""
-
-};
-
-}
-);
-
-
-stats();
-
-render();
-
-
-}catch(error){
-
-console.error(
-"LOAD CUSTOMERS ERROR:",
-error
-);
-
-$("list").innerHTML =
-'<div class="error">❌ '+
-esc(error.message)+
-'</div>';
-
-}
+  }
 
 }
 
@@ -2107,49 +1949,50 @@ esc(error.message)+
    STATS
 ===================================================== */
 
-function stats(){
+function updateStats(){
 
-$("total").textContent =
-customers.length;
-
-
-$("active").textContent =
-customers.filter(
-c => c.status === "active"
-).length;
+  $("total").textContent =
+    customers.length;
 
 
-$("soon").textContent =
-customers.filter(
-c => {
-
-const d =
-days(c.next_renewal_date);
-
-return(
-d !== null &&
-d >= 0 &&
-d <= 7
-);
-
-}
-).length;
+  $("active").textContent =
+    customers.filter(
+      c =>
+        c.status === "active"
+    ).length;
 
 
-$("expired").textContent =
-customers.filter(
-c => {
+  $("soon").textContent =
+    customers.filter(c => {
 
-const d =
-days(c.next_renewal_date);
+      const d =
+        daysUntil(
+          c.next_renewal_date
+        );
 
-return(
-d !== null &&
-d < 0
-);
+      return(
+        d !== null &&
+        d >= 0 &&
+        d <= 7
+      );
 
-}
-).length;
+    }).length;
+
+
+  $("expired").textContent =
+    customers.filter(c => {
+
+      const d =
+        daysUntil(
+          c.next_renewal_date
+        );
+
+      return(
+        d !== null &&
+        d < 0
+      );
+
+    }).length;
 
 }
 
@@ -2160,124 +2003,155 @@ d < 0
 
 function render(){
 
-const q =
-$("search")
-.value
-.trim()
-.toLowerCase();
+  const q =
+    $("search")
+      .value
+      .trim()
+      .toLowerCase();
 
 
-const renewalFilter =
-$("renewalFilter").value;
+  const renewal =
+    $("renewalFilter")
+      .value;
 
 
-const statusFilter =
-$("statusFilter").value;
+  const status =
+    $("statusFilter")
+      .value;
 
 
-const filtered =
-customers.filter(
-c => {
+  const filtered =
+    customers.filter(c => {
+
+      const text =
+        [
+          c.subscriber_name,
+          c.internal_name,
+          c.phone,
+          c.primary_number,
+          c.package_name,
+          c.promo_code
+        ]
+        .join(" ")
+        .toLowerCase();
 
 
-if(q){
+      if(
+        q &&
+        !text.includes(q)
+      ){
 
-const text =
-[
-c.subscriber_name,
-c.internal_name,
-c.phone,
-c.primary_number,
-c.package_name,
-c.promo_code
-]
-.join(" ")
-.toLowerCase();
+        return false;
+
+      }
 
 
-if(!text.includes(q))
-return false;
+      if(
+        renewal === "1" &&
+        Number(c.renewal_day) !== 1
+      ){
 
-}
+        return false;
 
-
-if(
-renewalFilter !== "all"
-){
-
-if(
-renewalFilter === "custom"
-){
-
-if(
-c.renewal_type !== "custom"
-)
-return false;
-
-}else{
-
-if(
-String(c.renewal_day) !==
-renewalFilter
-)
-return false;
-
-}
-
-}
+      }
 
 
-const d =
-days(c.next_renewal_date);
+      if(
+        renewal === "16" &&
+        Number(c.renewal_day) !== 16
+      ){
+
+        return false;
+
+      }
 
 
-if(
-statusFilter === "active" &&
-c.status !== "active"
-)
-return false;
+      if(
+        renewal === "custom" &&
+        c.renewal_type !== "custom"
+      ){
+
+        return false;
+
+      }
 
 
-if(
-statusFilter === "inactive" &&
-c.status !== "inactive"
-)
-return false;
+      const d =
+        daysUntil(
+          c.next_renewal_date
+        );
 
 
-if(
-statusFilter === "soon" &&
-!(
-d !== null &&
-d >= 0 &&
-d <= 7
-)
-)
-return false;
+      if(
+        status === "active" &&
+        c.status !== "active"
+      ){
+
+        return false;
+
+      }
 
 
-if(
-statusFilter === "expired" &&
-!(
-d !== null &&
-d < 0
-)
-)
-return false;
+      if(
+        status === "inactive" &&
+        c.status !== "inactive"
+      ){
+
+        return false;
+
+      }
 
 
-return true;
+      if(
+        status === "soon" &&
+        !(
+          d !== null &&
+          d >= 0 &&
+          d <= 7
+        )
+      ){
 
-}
-);
+        return false;
+
+      }
 
 
-$("list").innerHTML =
-filtered.length
-?
-filtered.map(card).join("")
-:
-'<div class="empty">📭 لا يوجد عملاء مطابقين.</div>';
+      if(
+        status === "expired" &&
+        !(
+          d !== null &&
+          d < 0
+        )
+      ){
+
+        return false;
+
+      }
+
+
+      return true;
+
+    });
+
+
+  if(!filtered.length){
+
+    $("list").innerHTML =
+      `
+      <div class="empty">
+        📭 لا يوجد عملاء مطابقين.
+      </div>
+      `;
+
+    return;
+
+  }
+
+
+  $("list").innerHTML =
+    filtered
+      .map(card)
+      .join("");
 
 }
 
@@ -2288,287 +2162,316 @@ filtered.map(card).join("")
 
 function card(c){
 
-const d =
-days(c.next_renewal_date);
+  const d =
+    daysUntil(
+      c.next_renewal_date
+    );
 
 
-const renewalStatus =
-d !== null
-?
-(
-d >= 0
-?
-'<span style="color:#159447">🟢 مجدد</span>'
-:
-'<span style="color:#d93645">🔴 غير مجدد</span>'
-)
-:
-"-";
+  let renewalStatus =
+    "-";
 
 
-return `
+  if(d !== null){
 
-<div class="card">
+    if(d < 0){
 
-<div class="ch">
+      renewalStatus =
+        '<span style="color:#d93645">🔴 منتهي</span>';
 
-<div>
+    }else if(d <= 7){
 
-<div class="name">
-${esc(
-c.subscriber_name ||
-"بدون اسم"
-)}
-</div>
+      renewalStatus =
+        '<span style="color:#d98a00">🟠 قرب التجديد</span>';
 
-<div class="phone">
-📱 ${esc(
-c.phone || "-"
-)}
-</div>
+    }else{
 
-<div class="internal">
-🏷️ عندي:
-${
-c.internal_name
-?
-esc(c.internal_name)
-:
-'<span style="color:#999">لم يتم تحديده</span>'
-}
-</div>
+      renewalStatus =
+        '<span style="color:#159447">🟢 ساري</span>';
 
-</div>
+    }
 
+  }
 
-<span
-class="badge ${
-c.status === "inactive"
-?
-"bad"
-:
-"ok"
-}"
->
 
-${
-c.status === "inactive"
-?
-"🔴 موقوف"
-:
-"🟢 نشط"
-}
+  return `
 
-</span>
+  <div class="card">
 
-</div>
+    <div class="ch">
 
+      <div>
 
-<div class="grid">
+        <div class="name">
 
+          ${escapeHtml(
+            c.subscriber_name ||
+            "بدون اسم"
+          )}
 
-<div class="box">
+        </div>
 
-<small>
-الرقم الأساسي
-</small>
 
-<strong>
-${esc(
-c.primary_number || "-"
-)}
-</strong>
+        <div class="phone">
 
-</div>
+          📱
+          ${escapeHtml(
+            c.phone || "-"
+          )}
 
+        </div>
 
-<div class="box">
 
-<small>
-📦 الجيجا
-</small>
+        <div class="internal">
 
-<strong>
-${esc(
-c.allocated_gb || 0
-)}
-GB
-</strong>
+          🏷️ عندي:
 
-</div>
+          ${
+            c.internal_name
+            ?
+            escapeHtml(
+              c.internal_name
+            )
+            :
+            '<span style="color:#999">لم يتم تحديده</span>'
+          }
 
+        </div>
 
-<div class="box">
+      </div>
 
-<small>
-الباقة
-</small>
 
-<strong>
-${esc(
-c.package_name || "-"
-)}
-</strong>
+      <span
+        class="badge ${
+          c.status === "inactive"
+          ? "bad"
+          : "ok"
+        }"
+      >
 
-</div>
+        ${
+          c.status === "inactive"
+          ? "🔴 موقوف"
+          : "🟢 نشط"
+        }
 
+      </span>
 
-<div class="box">
+    </div>
 
-<small>
-السعر النهائي
-</small>
 
-<strong>
-${money(c.last_price)}
-جنيه
-</strong>
+    <div class="grid">
 
-</div>
 
+      <div class="box">
 
-<div class="box">
+        <small>
+          الرقم الأساسي
+        </small>
 
-<small>
-موعد التجديد
-</small>
+        <strong>
+          ${escapeHtml(
+            c.primary_number || "-"
+          )}
+        </strong>
 
-<strong>
-${esc(
-c.next_renewal_date || "-"
-)}
-</strong>
+      </div>
 
-</div>
 
+      <div class="box">
 
-<div class="box">
+        <small>
+          📦 الجيجا
+        </small>
 
-<small>
-حالة التجديد
-</small>
+        <strong>
+          ${escapeHtml(
+            c.allocated_gb ?? 0
+          )}
+          GB
+        </strong>
 
-<strong>
-${renewalStatus}
-</strong>
+      </div>
 
-</div>
 
+      <div class="box">
 
-<div class="box promo">
+        <small>
+          الباقة
+        </small>
 
-<small>
-🎁 كود الخصم
-</small>
+        <strong>
+          ${escapeHtml(
+            c.package_name || "-"
+          )}
+        </strong>
 
-<strong>
-${esc(
-c.promo_code || "لا يوجد"
-)}
-</strong>
+      </div>
 
-</div>
 
+      <div class="box">
 
-<div class="box">
+        <small>
+          السعر النهائي
+        </small>
 
-<small>
-عدد الطلبات
-</small>
+        <strong>
+          ${money(
+            c.last_price
+          )}
+          جنيه
+        </strong>
 
-<strong>
-${c.total_orders || 0}
-</strong>
+      </div>
 
-</div>
 
+      <div class="box">
 
-<div class="box">
+        <small>
+          موعد التجديد
+        </small>
 
-<small>
-طريقة الدفع
-</small>
+        <strong>
+          ${escapeHtml(
+            c.next_renewal_date || "-"
+          )}
+        </strong>
 
-<strong>
-${esc(
-c.payment_method || "-"
-)}
-</strong>
+      </div>
 
-</div>
 
+      <div class="box">
 
-</div>
+        <small>
+          حالة التجديد
+        </small>
 
+        <strong>
+          ${renewalStatus}
+        </strong>
 
-<div class="actions">
+      </div>
 
 
-<button
-class="action edit"
-onclick="openEdit(${Number(c.id)})"
->
-✏️ تعديل
-</button>
+      <div class="box promo">
 
+        <small>
+          🎁 كود الخصم
+        </small>
 
-<button
-class="action renew"
-onclick="renew(${Number(c.id)})"
->
-🔄 تجديد الآن
-</button>
+        <strong>
+          ${escapeHtml(
+            c.promo_code ||
+            "لا يوجد"
+          )}
+        </strong>
 
+      </div>
 
-<button
-class="action delete"
-onclick="removeCustomer(${Number(c.id)})"
->
-🗑️ حذف
-</button>
 
+      <div class="box">
 
-</div>
+        <small>
+          عدد الطلبات
+        </small>
 
-</div>
+        <strong>
+          ${Number(
+            c.total_orders || 0
+          )}
+        </strong>
 
-`;
+      </div>
+
+
+      <div class="box">
+
+        <small>
+          طريقة الدفع
+        </small>
+
+        <strong>
+          ${escapeHtml(
+            c.payment_method || "-"
+          )}
+        </strong>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="actions">
+
+      <button
+        class="action edit"
+        type="button"
+        onclick="openEdit(${Number(c.id)})"
+      >
+        ✏️ تعديل
+      </button>
+
+
+      <button
+        class="action renew"
+        type="button"
+        onclick="renew(${Number(c.id)})"
+      >
+        🔄 تجديد الآن
+      </button>
+
+
+      <button
+        class="action delete"
+        type="button"
+        onclick="removeCustomer(${Number(c.id)})"
+      >
+        🗑️ حذف
+      </button>
+
+    </div>
+
+  </div>
+
+  `;
 
 }
 
 
 /* =====================================================
-   FORM
+   CLEAR FORM
 ===================================================== */
 
 function clearForm(){
 
-[
-"customerId",
-"customerName",
-"internalName",
-"customerPhone",
-"primaryNumber",
-"packageName",
-"lastPrice",
-"nextRenewal"
-]
-.forEach(
-id => $(id).value = ""
-);
+  $("customerId").value = "";
 
+  $("customerName").value = "";
 
-$("allocatedGB").value = 0;
+  $("internalName").value = "";
 
-$("paymentMethod").value = "";
+  $("customerPhone").value = "";
 
-$("status").value = "active";
+  $("primaryNumber").value = "";
 
-$("renewalType").value = "day_1";
+  $("allocatedGB").value = 0;
 
-$("renewalDay").value = 1;
+  $("packageName").value = "";
 
-$("totalOrders").value = 0;
+  $("lastPrice").value = "";
+
+  $("paymentMethod").value = "";
+
+  $("status").value = "active";
+
+  $("renewalType").value = "day_1";
+
+  $("renewalDay").value = 1;
+
+  $("nextRenewal").value = "";
+
+  $("totalOrders").value = 0;
 
 }
 
@@ -2579,14 +2482,16 @@ $("totalOrders").value = 0;
 
 function openAdd(){
 
-edit = false;
+  editMode = false;
 
-$("modalTitle").textContent =
-"➕ إضافة عميل";
+  $("modalTitle").textContent =
+    "➕ إضافة عميل";
 
-clearForm();
+  clearForm();
 
-$("modal").classList.add("show");
+  $("modal")
+    .classList
+    .add("show");
 
 }
 
@@ -2597,81 +2502,89 @@ $("modal").classList.add("show");
 
 function openEdit(id){
 
-const c =
-customers.find(
-x => Number(x.id) === Number(id)
-);
+  const customer =
+    customers.find(
+      c =>
+        Number(c.id) ===
+        Number(id)
+    );
 
 
-if(!c)
-return;
+  if(!customer)
+    return;
 
 
-edit = true;
+  editMode = true;
 
 
-$("modalTitle").textContent =
-"✏️ تعديل بيانات العميل";
+  $("modalTitle").textContent =
+    "✏️ تعديل بيانات العميل";
 
 
-$("customerId").value =
-c.id;
+  $("customerId").value =
+    customer.id;
 
 
-$("customerName").value =
-c.subscriber_name || "";
+  $("customerName").value =
+    customer.subscriber_name || "";
 
 
-$("internalName").value =
-c.internal_name || "";
+  $("internalName").value =
+    customer.internal_name || "";
 
 
-$("customerPhone").value =
-c.phone || "";
+  $("customerPhone").value =
+    customer.phone || "";
 
 
-$("primaryNumber").value =
-c.primary_number || "";
+  $("primaryNumber").value =
+    customer.primary_number || "";
 
 
-$("allocatedGB").value =
-c.allocated_gb ||
-gb(c.package_name);
+  $("allocatedGB").value =
+    customer.allocated_gb ||
+    getGB(
+      customer.package_name
+    );
 
 
-$("packageName").value =
-c.package_name || "";
+  $("packageName").value =
+    customer.package_name || "";
 
 
-$("lastPrice").value =
-c.last_price || "";
+  $("lastPrice").value =
+    customer.last_price || "";
 
 
-$("paymentMethod").value =
-c.payment_method || "";
+  $("paymentMethod").value =
+    customer.payment_method || "";
 
 
-$("status").value =
-c.status || "active";
+  $("status").value =
+    customer.status || "active";
 
 
-$("renewalType").value =
-c.renewal_type || "day_1";
+  $("renewalType").value =
+    customer.renewal_type || "day_1";
 
 
-$("renewalDay").value =
-c.renewal_day || 1;
+  $("renewalDay").value =
+    customer.renewal_day || 1;
 
 
-$("nextRenewal").value =
-date(c.next_renewal_date) || "";
+  $("nextRenewal").value =
+    extractDate(
+      customer.next_renewal_date
+    ) || "";
 
 
-$("totalOrders").value =
-c.total_orders || 0;
+  $("totalOrders").value =
+    customer.total_orders || 0;
 
 
-$("modal").classList.add("show");
+  $("modal")
+    .classList
+    .add("show");
 
 }
 
@@ -2682,7 +2595,9 @@ $("modal").classList.add("show");
 
 function closeModal(){
 
-$("modal").classList.remove("show");
+  $("modal")
+    .classList
+    .remove("show");
 
 }
 
@@ -2693,19 +2608,20 @@ $("modal").classList.remove("show");
 
 function packageData(){
 
-const packageName =
-$("packageName").value;
+  const packageName =
+    $("packageName").value;
 
 
-if(packageName){
+  if(!packageName)
+    return;
 
-$("allocatedGB").value =
-gb(packageName);
 
-$("lastPrice").value =
-prices[packageName] || "";
+  $("allocatedGB").value =
+    getGB(packageName);
 
-}
+
+  $("lastPrice").value =
+    prices[packageName] || "";
 
 }
 
@@ -2716,21 +2632,23 @@ prices[packageName] || "";
 
 function renewalData(){
 
-const type =
-$("renewalType").value;
+  const type =
+    $("renewalType").value;
 
 
-$("renewalDay").value =
+  if(type === "day_1"){
 
-type === "day_1"
-?
-1
-:
-type === "day_16"
-?
-16
-:
-"";
+    $("renewalDay").value = 1;
+
+  }else if(type === "day_16"){
+
+    $("renewalDay").value = 16;
+
+  }else{
+
+    $("renewalDay").value = "";
+
+  }
 
 }
 
@@ -2741,265 +2659,297 @@ type === "day_16"
 
 async function saveCustomer(){
 
-const name =
-$("customerName")
-.value
-.trim();
+  const name =
+    $("customerName")
+      .value
+      .trim();
 
 
-const phone =
-clean(
-$("customerPhone").value
-);
+  const phone =
+    cleanPhone(
+      $("customerPhone").value
+    );
 
 
-const primary =
-clean(
-$("primaryNumber").value
-);
+  const primary =
+    cleanPhone(
+      $("primaryNumber").value
+    );
 
 
-if(!name){
+  if(!name){
 
-alert(
-"⚠️ اكتب اسم العميل"
-);
+    alert(
+      "⚠️ اكتب اسم العميل"
+    );
 
-return;
+    return;
 
-}
+  }
 
 
-if(!valid(phone)){
+  if(!validPhone(phone)){
 
-alert(
-"⚠️ رقم العميل غير صحيح"
-);
+    alert(
+      "⚠️ رقم العميل غير صحيح"
+    );
 
-return;
+    return;
 
-}
+  }
 
 
-if(
-primary &&
-!valid(primary)
-){
+  if(
+    primary &&
+    !validPhone(primary)
+  ){
 
-alert(
-"⚠️ الرقم الأساسي غير صحيح"
-);
+    alert(
+      "⚠️ الرقم الأساسي غير صحيح"
+    );
 
-return;
+    return;
 
-}
+  }
 
 
-if(
-!$("nextRenewal").value
-){
+  if(
+    !$("nextRenewal").value
+  ){
 
-alert(
-"⚠️ اختر موعد التجديد"
-);
+    alert(
+      "⚠️ اختر موعد التجديد"
+    );
 
-return;
+    return;
 
-}
+  }
 
 
-const data = {
+  const data = {
 
-subscriber_name:name,
+    subscriber_name:name,
 
-internal_name:
-$("internalName")
-.value
-.trim() || null,
+    internal_name:
+      $("internalName")
+        .value
+        .trim() ||
+      null,
 
-phone:phone,
+    phone:phone,
 
-primary_number:
-primary || null,
+    primary_number:
+      primary ||
+      null,
 
-allocated_gb:
-Number(
-$("allocatedGB").value
-) ||
-gb(
-$("packageName").value
-),
+    allocated_gb:
+      Number(
+        $("allocatedGB").value
+      ) ||
+      getGB(
+        $("packageName").value
+      ),
 
-package_name:
-$("packageName").value ||
-null,
+    package_name:
+      $("packageName").value ||
+      null,
 
-last_price:
-Number(
-$("lastPrice").value
-) || 0,
+    last_price:
+      Number(
+        $("lastPrice").value
+      ) || 0,
 
-payment_method:
-$("paymentMethod").value ||
-null,
+    payment_method:
+      $("paymentMethod").value ||
+      null,
 
-status:
-$("status").value,
+    status:
+      $("status").value,
 
-renewal_type:
-$("renewalType").value,
+    renewal_type:
+      $("renewalType").value,
 
-renewal_day:
-Number(
-$("renewalDay").value
-) || null,
+    renewal_day:
+      Number(
+        $("renewalDay").value
+      ) ||
+      null,
 
-next_renewal_date:
-$("nextRenewal").value,
+    next_renewal_date:
+      $("nextRenewal").value,
 
-total_orders:
-Number(
-$("totalOrders").value
-) || 0,
+    total_orders:
+      Number(
+        $("totalOrders").value
+      ) || 0,
 
-updated_at:
-new Date().toISOString()
+    updated_at:
+      new Date().toISOString()
 
-};
+  };
 
 
-try{
+  try{
 
-if(edit){
+    if(editMode){
 
-await api(
-"customers?id=eq."+
-encodeURIComponent(
-$("customerId").value
-),
-{
-method:"PATCH",
-body:JSON.stringify(data)
-}
-);
+      await api(
+        "customers?id=eq." +
+        encodeURIComponent(
+          $("customerId").value
+        ),
+        {
+          method:"PATCH",
+          body:
+            JSON.stringify(data)
+        }
+      );
 
-}else{
 
-const existing =
-await api(
-"customers?select=id&phone=eq."+
-encodeURIComponent(phone)+
-"&deleted_at=is.null&limit=1"
-);
+    }else{
 
+      const existing =
+        await api(
+          "customers?select=id&phone=eq." +
+          encodeURIComponent(phone) +
+          "&deleted_at=is.null&limit=1"
+        );
 
-if(existing?.length){
 
-throw new Error(
-"الرقم ده موجود بالفعل."
-);
+      if(
+        Array.isArray(existing) &&
+        existing.length
+      ){
 
-}
+        throw new Error(
+          "الرقم ده موجود بالفعل."
+        );
 
+      }
 
-data.created_at =
-new Date().toISOString();
 
+      data.created_at =
+        new Date().toISOString();
 
-await api(
-"customers",
-{
-method:"POST",
-body:JSON.stringify(data)
-}
-);
 
-}
+      await api(
+        "customers",
+        {
+          method:"POST",
+          body:
+            JSON.stringify(data)
+        }
+      );
 
+    }
 
-closeModal();
 
-await loadCustomers();
+    closeModal();
 
+    await loadCustomers();
 
-alert(
-edit
-?
-"✅ تم تعديل بيانات العميل بنجاح"
-:
-"✅ تم إضافة العميل بنجاح"
-);
 
+    alert(
+      editMode
+      ?
+      "✅ تم تعديل بيانات العميل بنجاح"
+      :
+      "✅ تم إضافة العميل بنجاح"
+    );
 
-}catch(error){
 
-alert(
-"❌ لم يتم الحفظ\n\n"+
-error.message
-);
+  }catch(error){
 
-}
+    console.error(
+      "SAVE ERROR:",
+      error
+    );
+
+
+    alert(
+      "❌ لم يتم الحفظ\n\n" +
+      (
+        error.message ||
+        "حدث خطأ"
+      )
+    );
+
+  }
 
 }
 
 
 /* =====================================================
-   DELETE
+   DELETE CUSTOMER
 ===================================================== */
 
 async function removeCustomer(id){
 
-const c =
-customers.find(
-x => Number(x.id) === Number(id)
-);
+  const customer =
+    customers.find(
+      c =>
+        Number(c.id) ===
+        Number(id)
+    );
 
 
-if(
-!c ||
-!confirm(
-"⚠️ حذف العميل\n\n"+
-c.subscriber_name+
-"\n"+
-c.phone+
-"\n\nهل أنت متأكد؟"
-)
-)
-return;
+  if(!customer)
+    return;
 
 
-try{
-
-await api(
-"customers?id=eq."+id,
-{
-method:"PATCH",
-
-body:JSON.stringify({
-
-deleted_at:
-new Date().toISOString(),
-
-updated_at:
-new Date().toISOString()
-
-})
-
-}
-);
+  const confirmed =
+    confirm(
+      "⚠️ حذف العميل\n\n" +
+      customer.subscriber_name +
+      "\n" +
+      customer.phone +
+      "\n\n" +
+      "هل أنت متأكد؟"
+    );
 
 
-await loadCustomers();
+  if(!confirmed)
+    return;
 
 
-}catch(error){
+  try{
 
-alert(
-"❌ " +
-error.message
-);
+    await api(
+      "customers?id=eq." +
+      encodeURIComponent(id),
+      {
+        method:"PATCH",
 
-}
+        body:
+          JSON.stringify({
+
+            deleted_at:
+              new Date()
+                .toISOString(),
+
+            updated_at:
+              new Date()
+                .toISOString()
+
+          })
+      }
+    );
+
+
+    await loadCustomers();
+
+
+  }catch(error){
+
+    alert(
+      "❌ " +
+      (
+        error.message ||
+        "لم يتم الحذف"
+      )
+    );
+
+  }
 
 }
 
@@ -3010,502 +2960,209 @@ error.message
 
 async function renew(id){
 
-const c =
-customers.find(
-x => Number(x.id) === Number(id)
-);
+  const customer =
+    customers.find(
+      c =>
+        Number(c.id) ===
+        Number(id)
+    );
 
 
-if(!c)
-return;
+  if(!customer)
+    return;
 
 
-if(
-!confirm(
-"🔄 تجديد "+
-c.subscriber_name+
-" بمبلغ "+
-money(c.last_price)+
-" جنيه؟"
-)
-)
-return;
+  const confirmed =
+    confirm(
+      "🔄 تجديد " +
+      customer.subscriber_name +
+      "\n\nالمبلغ: " +
+      money(
+        customer.last_price
+      ) +
+      " جنيه\n\n" +
+      "هل تريد تأكيد التجديد؟"
+    );
 
 
-const d =
-new Date();
+  if(!confirmed)
+    return;
 
 
-if(
-c.renewal_type === "day_1"
-){
-
-d.setMonth(
-d.getMonth()+1
-);
-
-d.setDate(1);
-
-}
-
-else if(
-c.renewal_type === "day_16"
-){
-
-d.setMonth(
-d.getMonth()+1
-);
-
-d.setDate(16);
-
-}
-
-else{
-
-d.setMonth(
-d.getMonth()+1
-);
-
-}
+  const date =
+    new Date();
 
 
-try{
+  if(
+    customer.renewal_type ===
+    "day_1"
+  ){
 
-await api(
-"customers?id=eq."+id,
-{
-method:"PATCH",
+    date.setMonth(
+      date.getMonth() + 1
+    );
 
-body:JSON.stringify({
+    date.setDate(1);
 
-last_renewed_at:
-new Date().toISOString(),
+  }else if(
+    customer.renewal_type ===
+    "day_16"
+  ){
 
-last_order_at:
-new Date().toISOString(),
+    date.setMonth(
+      date.getMonth() + 1
+    );
 
-next_renewal_date:
-d.toISOString().split("T")[0],
+    date.setDate(16);
 
-total_orders:
-(
-Number(c.total_orders) || 0
-)+1,
+  }else{
 
-status:"active",
+    date.setMonth(
+      date.getMonth() + 1
+    );
 
-updated_at:
-new Date().toISOString()
-
-})
-
-}
-);
+  }
 
 
-await loadCustomers();
+  const nextDate =
+    date
+      .toISOString()
+      .split("T")[0];
 
 
-alert(
-"✅ تم التجديد بنجاح"
-);
+  try{
+
+    await api(
+      "customers?id=eq." +
+      encodeURIComponent(id),
+      {
+        method:"PATCH",
+
+        body:
+          JSON.stringify({
+
+            last_renewed_at:
+              new Date()
+                .toISOString(),
+
+            last_order_at:
+              new Date()
+                .toISOString(),
+
+            next_renewal_date:
+              nextDate,
+
+            total_orders:
+              (
+                Number(
+                  customer.total_orders
+                ) || 0
+              ) + 1,
+
+            status:
+              "active",
+
+            updated_at:
+              new Date()
+                .toISOString()
+
+          })
+      }
+    );
 
 
-}catch(error){
+    await loadCustomers();
 
-alert(
-"❌ " +
-error.message
-);
 
-}
+    alert(
+      "✅ تم التجديد بنجاح"
+    );
+
+
+  }catch(error){
+
+    alert(
+      "❌ " +
+      (
+        error.message ||
+        "لم يتم التجديد"
+      )
+    );
+
+  }
 
 }
 
 
 /* =====================================================
-   PAYMENTS
-===================================================== */
-
-async function loadPayments(){
-
-$("payments").innerHTML =
-'<div class="loading">⏳ جاري تحميل طلبات الدفع...</div>';
-
-
-try{
-
-const orders =
-(
-await api(
-"orders?select=*"
-)
-|| []
-);
-
-
-const pending =
-orders.filter(
-x =>
-x.status ===
-"payment_submitted"
-);
-
-
-if(!pending.length){
-
-$("payments").innerHTML =
-'<div class="empty">📭 لا توجد طلبات دفع معلقة</div>';
-
-return;
-
-}
-
-
-$("payments").innerHTML =
-pending.map(
-order => `
-
-<div class="pay">
-
-<div class="payno">
-
-📋
-${esc(
-order.order_number || "-"
-)}
-
-</div>
-
-
-<div class="payinfo">
-
-👤
-<b>العميل:</b>
-${esc(
-order.subscriber_name || "-"
-)}
-
-<br>
-
-
-📱
-<b>الرقم:</b>
-${esc(
-order.phone || "-"
-)}
-
-<br>
-
-
-📦
-<b>الباقة:</b>
-${esc(
-order.package_name ||
-order.package ||
-"-"
-)}
-
-<br>
-
-
-💰
-<b>السعر:</b>
-${money(
-order.final_price ??
-order.total_price ??
-order.amount ??
-0
-)}
-جنيه
-
-<br>
-
-
-💳
-<b>الدفع:</b>
-${esc(
-order.payment_method || "-"
-)}
-
-</div>
-
-
-${
-order.payment_screenshot
-?
-`
-
-<a
-href="${esc(order.payment_screenshot)}"
-target="_blank"
->
-
-<img
-class="proof"
-src="${esc(order.payment_screenshot)}"
-alt="إثبات الدفع"
->
-
-</a>
-
-`
-:
-""
-}
-
-
-<div class="payactions">
-
-
-<button
-class="approve"
-onclick="approve('${esc(order.order_number)}')"
->
-✅ تأكيد الدفع
-</button>
-
-
-<button
-class="reject"
-onclick="reject('${esc(order.order_number)}')"
->
-❌ رفض التحويل
-</button>
-
-
-</div>
-
-</div>
-
-`
-).join("");
-
-
-}catch(error){
-
-$("payments").innerHTML =
-'<div class="error">❌ '+
-esc(error.message)+
-'</div>';
-
-}
-
-}
-
-
-/* =====================================================
-   APPROVE
-===================================================== */
-
-async function approve(no){
-
-let phone =
-prompt(
-"📱 اكتب الرقم الأساسي الذي سيتم عمل الباقة عليه:"
-);
-
-
-if(phone === null)
-return;
-
-
-phone =
-clean(phone);
-
-
-if(!valid(phone)){
-
-alert(
-"❌ الرقم الأساسي غير صحيح"
-);
-
-return;
-
-}
-
-
-if(
-!confirm(
-"هل أنت متأكد من تأكيد الطلب "+
-no+
-"؟"
-)
-)
-return;
-
-
-try{
-
-const result =
-await api(
-"rpc/approve_order_payment",
-{
-method:"POST",
-
-body:JSON.stringify({
-
-input_order_number:no
-
-})
-
-}
-);
-
-
-if(
-result?.success !== true
-){
-
-throw new Error(
-result?.message ||
-"لم يتم تأكيد الدفع"
-);
-
-}
-
-
-alert(
-"✅ تم تأكيد الدفع"
-);
-
-
-await loadPayments();
-
-await loadCustomers();
-
-
-}catch(error){
-
-alert(
-"❌ "+
-error.message
-);
-
-}
-
-}
-
-
-/* =====================================================
-   REJECT
-===================================================== */
-
-async function reject(no){
-
-if(
-!confirm(
-"هل أنت متأكد من رفض التحويل؟"
-)
-)
-return;
-
-
-try{
-
-const result =
-await api(
-"rpc/reject_order_payment",
-{
-method:"POST",
-
-body:JSON.stringify({
-
-input_order_number:no
-
-})
-
-}
-);
-
-
-if(
-result?.success !== true
-){
-
-throw new Error(
-result?.message ||
-"لم يتم رفض الطلب"
-);
-
-}
-
-
-alert(
-"❌ تم رفض التحويل"
-);
-
-
-await loadPayments();
-
-
-}catch(error){
-
-alert(
-"❌ "+
-error.message
-);
-
-}
-
-}
-
-
-/* =====================================================
-   FILTER EVENTS
+   EVENTS
 ===================================================== */
 
 $("search")
-.addEventListener(
-"input",
-render
-);
+  .addEventListener(
+    "input",
+    render
+  );
 
 
 $("renewalFilter")
-.addEventListener(
-"change",
-render
-);
+  .addEventListener(
+    "change",
+    render
+  );
 
 
 $("statusFilter")
-.addEventListener(
-"change",
-render
-);
+  .addEventListener(
+    "change",
+    render
+  );
 
 
-/* =====================================================
-   MODAL CLICK
-===================================================== */
+$("password")
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if(
+        event.key === "Enter"
+      ){
+
+        event.preventDefault();
+
+        login();
+
+      }
+
+    }
+  );
+
 
 $("modal")
-.addEventListener(
-"click",
-function(event){
+  .addEventListener(
+    "click",
+    event => {
 
-if(
-event.target ===
-event.currentTarget
-){
+      if(
+        event.target ===
+        event.currentTarget
+      ){
 
-closeModal();
+        closeModal();
 
-}
+      }
 
-}
-);
+    }
+  );
 
 
 /* =====================================================
    START
 ===================================================== */
 
-check();
+checkSession();
 
 </script>
 
 </body>
-
 </html>
