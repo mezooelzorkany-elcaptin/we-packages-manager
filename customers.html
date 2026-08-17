@@ -1,40 +1,68 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1,viewport-fit=cover"
+>
+
 <title>العملاء | CASH BACK</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
 <style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
 *{
   box-sizing:border-box;
-  font-family:Arial,Tahoma,sans-serif
+  font-family:Arial,Tahoma,sans-serif;
+}
+
+html{
+  min-height:100%;
 }
 
 body{
   margin:0;
+  min-height:100vh;
   background:#f7f6fb;
-  color:#1d2435
+  color:#1d2435;
 }
 
-button,input,select{
-  font:inherit
+button,
+input,
+select{
+  font:inherit;
 }
 
 button{
-  cursor:pointer
+  cursor:pointer;
 }
 
-/* ================= LOGIN ================= */
+
+/* =====================================================
+   LOGIN
+===================================================== */
 
 .login{
   min-height:100vh;
   display:grid;
   place-items:center;
-  background:linear-gradient(135deg,#171a31,#6428bd);
-  padding:20px
+  background:
+    linear-gradient(
+      135deg,
+      #171a31,
+      #6428bd
+    );
+  padding:20px;
 }
 
 .loginbox{
@@ -43,7 +71,7 @@ button{
   border-radius:28px;
   padding:30px;
   text-align:center;
-  box-shadow:0 25px 70px #0005
+  box-shadow:0 25px 70px #0005;
 }
 
 .loginbox img{
@@ -51,16 +79,16 @@ button{
   height:125px;
   object-fit:contain;
   margin:auto;
-  display:block
+  display:block;
 }
 
 .loginbox h2{
-  margin:10px 0 5px
+  margin:10px 0 5px;
 }
 
 .loginbox p{
   color:#777;
-  margin-bottom:22px
+  margin-bottom:22px;
 }
 
 .loginbox input{
@@ -70,11 +98,11 @@ button{
   border-radius:14px;
   padding:0 14px;
   margin:6px 0;
-  outline:none
+  outline:none;
 }
 
 .loginbox input:focus{
-  border-color:#5420b8
+  border-color:#5420b8;
 }
 
 .loginbox button{
@@ -85,26 +113,29 @@ button{
   background:#5420b8;
   color:#fff;
   font-weight:bold;
-  margin-top:8px
+  margin-top:8px;
 }
 
 .loginbox button:disabled{
   opacity:.6;
-  cursor:not-allowed
+  cursor:not-allowed;
 }
 
 #loginMessage{
   min-height:22px;
   margin-top:14px;
   font-size:14px;
-  font-weight:bold
+  font-weight:bold;
 }
 
 #app{
-  display:none
+  display:none;
 }
 
-/* ================= SIDEBAR ================= */
+
+/* =====================================================
+   DESKTOP SIDEBAR
+===================================================== */
 
 .side{
   position:fixed;
@@ -114,7 +145,7 @@ button{
   width:245px;
   background:#fff;
   border-left:1px solid #eee;
-  z-index:5
+  z-index:60;
 }
 
 .logo{
@@ -122,17 +153,17 @@ button{
   background:#111318;
   display:grid;
   place-items:center;
-  overflow:hidden
+  overflow:hidden;
 }
 
 .logo img{
   width:100%;
   height:100%;
-  object-fit:contain
+  object-fit:contain;
 }
 
 .nav{
-  padding:14px
+  padding:14px;
 }
 
 .nav a{
@@ -144,23 +175,28 @@ button{
   margin:5px 0;
   text-decoration:none;
   color:#333;
-  font-weight:bold
+  font-weight:bold;
 }
 
 .nav a:hover{
-  background:#f1ecff
+  background:#f1ecff;
 }
 
 .nav a.active{
-  background:linear-gradient(90deg,#7034d2,#5420b8);
-  color:#fff
+  background:
+    linear-gradient(
+      90deg,
+      #7034d2,
+      #5420b8
+    );
+  color:#fff;
 }
 
 .nav i{
   font-style:normal;
   font-size:20px;
   width:25px;
-  text-align:center
+  text-align:center;
 }
 
 .logout{
@@ -173,13 +209,17 @@ button{
   border-radius:13px;
   background:#fff0f2;
   color:#d93645;
-  font-weight:bold
+  font-weight:bold;
 }
 
-/* ================= MAIN ================= */
+
+/* =====================================================
+   MAIN
+===================================================== */
 
 .main{
-  margin-right:245px
+  margin-right:245px;
+  min-height:100vh;
 }
 
 .top{
@@ -189,17 +229,17 @@ button{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 30px
+  padding:0 30px;
 }
 
 .top b{
-  font-size:20px
+  font-size:20px;
 }
 
 .top small{
   display:block;
   color:#858b9b;
-  margin-top:4px
+  margin-top:4px;
 }
 
 .avatar{
@@ -208,30 +248,36 @@ button{
   border-radius:50%;
   background:#eee4ff;
   display:grid;
-  place-items:center
+  place-items:center;
 }
 
 .content{
   max-width:1500px;
   margin:auto;
-  padding:28px
+  padding:28px;
+  padding-bottom:130px;
 }
+
+
+/* =====================================================
+   HEADING
+===================================================== */
 
 .heading{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:22px
+  margin-bottom:22px;
 }
 
 .heading h1{
   margin:0;
-  color:#4f2692
+  color:#4f2692;
 }
 
 .heading p{
   margin:7px 0;
-  color:#858b9b
+  color:#858b9b;
 }
 
 .btn{
@@ -239,26 +285,29 @@ button{
   border:0;
   border-radius:13px;
   padding:0 18px;
-  font-weight:bold
+  font-weight:bold;
 }
 
 .purple{
   background:#5420b8;
-  color:#fff
+  color:#fff;
 }
 
 .soft{
   background:#eee4ff;
-  color:#5420b8
+  color:#5420b8;
 }
 
-/* ================= STATS ================= */
+
+/* =====================================================
+   STATS
+===================================================== */
 
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:18px;
-  margin-bottom:22px
+  margin-bottom:22px;
 }
 
 .stat{
@@ -266,30 +315,30 @@ button{
   border:1px solid #eee;
   border-radius:20px;
   padding:20px;
-  box-shadow:0 5px 22px #00000009
+  box-shadow:0 5px 22px #00000009;
 }
 
 .stat:nth-child(1){
-  background:#fff8ff
+  background:#fff8ff;
 }
 
 .stat:nth-child(2){
-  background:#f6fff8
+  background:#f6fff8;
 }
 
 .stat:nth-child(3){
-  background:#fffaf1
+  background:#fffaf1;
 }
 
 .stat:nth-child(4){
-  background:#fff7f8
+  background:#fff7f8;
 }
 
 .st{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  font-weight:bold
+  font-weight:bold;
 }
 
 .ico{
@@ -298,21 +347,24 @@ button{
   border-radius:50%;
   display:grid;
   place-items:center;
-  background:#eee4ff
+  background:#eee4ff;
 }
 
 .num{
   font-size:34px;
   font-weight:900;
-  margin-top:13px
+  margin-top:13px;
 }
 
 .label{
   font-size:13px;
-  color:#858b9b
+  color:#858b9b;
 }
 
-/* ================= PANELS ================= */
+
+/* =====================================================
+   PANELS
+===================================================== */
 
 .panel{
   background:#fff;
@@ -320,34 +372,37 @@ button{
   border-radius:22px;
   padding:20px;
   margin-bottom:22px;
-  box-shadow:0 5px 22px #00000008
+  box-shadow:0 5px 22px #00000008;
 }
 
 .ph{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:15px
+  margin-bottom:15px;
 }
 
 .pt{
   font-size:21px;
   font-weight:900;
-  color:#5420b8
+  color:#5420b8;
 }
 
 .ps{
   font-size:13px;
   color:#858b9b;
-  margin-top:4px
+  margin-top:4px;
 }
 
-/* ================= SEARCH ================= */
+
+/* =====================================================
+   SEARCH
+===================================================== */
 
 .toolbar{
   display:flex;
   gap:10px;
-  flex-wrap:wrap
+  flex-wrap:wrap;
 }
 
 .search{
@@ -357,7 +412,7 @@ button{
   border:1px solid #ddd;
   border-radius:14px;
   padding:0 15px;
-  outline:none
+  outline:none;
 }
 
 .select{
@@ -366,14 +421,17 @@ button{
   border-radius:14px;
   background:#fff;
   padding:0 14px;
-  outline:none
+  outline:none;
 }
 
-/* ================= CUSTOMERS ================= */
+
+/* =====================================================
+   CUSTOMERS
+===================================================== */
 
 .list{
   display:grid;
-  gap:16px
+  gap:16px;
 }
 
 .card{
@@ -381,30 +439,30 @@ button{
   border:1px solid #eee;
   border-radius:20px;
   padding:19px;
-  box-shadow:0 5px 22px #00000008
+  box-shadow:0 5px 22px #00000008;
 }
 
 .ch{
   display:flex;
   justify-content:space-between;
-  gap:15px
+  gap:15px;
 }
 
 .name{
   font-size:21px;
-  font-weight:900
+  font-weight:900;
 }
 
 .phone{
   color:#777;
-  margin-top:6px
+  margin-top:6px;
 }
 
 .internal{
   color:#5420b8;
   font-size:13px;
   font-weight:bold;
-  margin-top:6px
+  margin-top:6px;
 }
 
 .badge{
@@ -413,81 +471,84 @@ button{
   height:max-content;
   font-size:12px;
   font-weight:bold;
-  white-space:nowrap
+  white-space:nowrap;
 }
 
 .ok{
   background:#e4f8ec;
-  color:#159447
+  color:#159447;
 }
 
 .bad{
   background:#fde8ea;
-  color:#d93645
+  color:#d93645;
 }
 
 .grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:11px;
-  margin-top:17px
+  margin-top:17px;
 }
 
 .box{
   background:#f8f8fb;
   border-radius:14px;
-  padding:13px
+  padding:13px;
 }
 
 .box small{
   display:block;
   color:#8991a2;
   font-size:11px;
-  margin-bottom:7px
+  margin-bottom:7px;
 }
 
 .box strong{
   font-size:14px;
-  word-break:break-word
+  word-break:break-word;
 }
 
 .promo{
-  background:#eee4ff
+  background:#eee4ff;
 }
 
 .promo strong{
-  color:#5420b8
+  color:#5420b8;
 }
 
 .actions{
   display:flex;
   gap:8px;
   flex-wrap:wrap;
-  margin-top:17px
+  margin-top:17px;
 }
 
 .action{
   border:0;
   border-radius:12px;
   padding:11px 16px;
-  font-weight:bold
+  font-weight:bold;
 }
 
 .edit{
   background:#293160;
-  color:#fff
+  color:#fff;
 }
 
 .renew{
-  background:#eef0f6
+  background:#eef0f6;
 }
 
 .delete{
   background:#fde8ea;
-  color:#d93645
+  color:#d93645;
 }
 
-/* ================= STATES ================= */
+
+/* =====================================================
+   STATES
+===================================================== */
 
 .loading,
 .empty,
@@ -496,28 +557,31 @@ button{
   padding:30px;
   background:#fff;
   border-radius:18px;
-  color:#777
+  color:#777;
 }
 
 .error{
-  color:#d93645
+  color:#d93645;
 }
 
-/* ================= MODAL ================= */
+
+/* =====================================================
+   MODAL
+===================================================== */
 
 .modal{
   display:none;
   position:fixed;
   inset:0;
-  background:#0008;
-  z-index:20;
-  padding:15px
+  background:#0009;
+  z-index:2000;
+  padding:15px;
 }
 
 .modal.show{
   display:flex;
   align-items:center;
-  justify-content:center
+  justify-content:center;
 }
 
 .modalbox{
@@ -526,35 +590,36 @@ button{
   overflow:auto;
   background:#fff;
   border-radius:24px;
-  padding:22px
+  padding:22px;
+  box-shadow:0 30px 80px #0006;
 }
 
 .mh{
   display:flex;
   justify-content:space-between;
-  align-items:center
+  align-items:center;
 }
 
 .mh h2{
-  margin:0
+  margin:0;
 }
 
 .close{
   border:0;
   background:#eee;
   border-radius:10px;
-  padding:8px 12px
+  padding:8px 12px;
 }
 
 .field{
-  margin:13px 0
+  margin:13px 0;
 }
 
 .field label{
   display:block;
   font-weight:bold;
   font-size:13px;
-  margin-bottom:7px
+  margin-bottom:7px;
 }
 
 .field input,
@@ -565,18 +630,18 @@ button{
   border-radius:12px;
   padding:0 12px;
   outline:none;
-  background:#fff
+  background:#fff;
 }
 
 .field input:focus,
 .field select:focus{
-  border-color:#5420b8
+  border-color:#5420b8;
 }
 
 .ma{
   display:flex;
   gap:10px;
-  margin-top:18px
+  margin-top:18px;
 }
 
 .ma button{
@@ -584,138 +649,397 @@ button{
   height:49px;
   border:0;
   border-radius:13px;
-  font-weight:bold
+  font-weight:bold;
 }
 
 .cancel{
-  background:#eee
+  background:#eee;
 }
 
 .save{
   background:#5420b8;
-  color:#fff
+  color:#fff;
 }
 
-/* ================= RESPONSIVE ================= */
+
+/* =====================================================
+   BOTTOM ADMIN NAV
+===================================================== */
+
+#adminBottomNav{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+
+  min-height:92px;
+
+  background:rgba(255,255,255,.98);
+
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+
+  border-top:1px solid #e8e3f2;
+
+  box-shadow:
+    0 -8px 35px rgba(50,20,100,.13);
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  gap:10px;
+
+  padding:
+    8px 14px
+    calc(8px + env(safe-area-inset-bottom))
+    14px;
+
+  z-index:100;
+
+  direction:rtl;
+}
+
+
+/* NAV ITEM */
+
+#adminBottomNav a{
+
+  flex:1;
+
+  max-width:190px;
+
+  height:78px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:5px;
+
+  text-decoration:none;
+
+  color:#77758a;
+
+  border-radius:20px;
+
+  font-weight:bold;
+
+  transition:
+    transform .18s ease,
+    background .18s ease,
+    color .18s ease,
+    box-shadow .18s ease;
+
+}
+
+
+/* ICON */
+
+#adminBottomNav .navIcon{
+
+  width:43px;
+  height:43px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  font-size:27px;
+
+  border-radius:14px;
+
+  background:#f4f0fb;
+
+}
+
+
+/* TEXT */
+
+#adminBottomNav .navText{
+
+  font-size:12px;
+
+  white-space:nowrap;
+
+}
+
+
+/* ACTIVE */
+
+#adminBottomNav a.active{
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7135d7,
+      #5420b8
+    );
+
+  box-shadow:
+    0 9px 24px
+    rgba(84,32,184,.28);
+
+  transform:translateY(-4px);
+
+}
+
+#adminBottomNav a.active .navIcon{
+
+  background:
+    rgba(255,255,255,.18);
+
+}
+
+
+/* HOVER */
+
+#adminBottomNav a:not(.active):hover{
+
+  background:#f5f0ff;
+
+  color:#5420b8;
+
+  transform:translateY(-2px);
+
+}
+
+#adminBottomNav a:not(.active):hover .navIcon{
+
+  background:#e9ddff;
+
+}
+
+
+/* =====================================================
+   MODAL OPEN
+   IMPORTANT: NAV STAYS BEHIND MODAL
+===================================================== */
+
+.modal.show ~ #adminBottomNav{
+  display:none !important;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
 
 @media(max-width:950px){
 
   .side{
-    width:78px
+    width:78px;
   }
 
   .logo{
-    height:90px
+    height:90px;
   }
 
   .nav span{
-    display:none
+    display:none;
   }
 
   .nav a{
-    justify-content:center
+    justify-content:center;
   }
 
   .main{
-    margin-right:78px
+    margin-right:78px;
   }
 
   .grid{
-    grid-template-columns:repeat(2,1fr)
+    grid-template-columns:repeat(2,1fr);
   }
 
 }
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media(max-width:650px){
 
   .side{
-    top:auto;
-    bottom:0;
-    width:100%;
-    height:65px
-  }
-
-  .logo,
-  .logout{
-    display:none
-  }
-
-  .nav{
-    display:flex;
-    width:100%;
-    padding:4px
-  }
-
-  .nav a{
-    flex:1;
-    margin:0;
-    padding:6px
+    display:none;
   }
 
   .main{
     margin-right:0;
-    padding-bottom:70px
+    min-height:100vh;
   }
 
   .top{
     height:70px;
-    padding:0 15px
+    padding:0 15px;
+  }
+
+  .top b{
+    font-size:16px;
+  }
+
+  .top small{
+    font-size:11px;
   }
 
   .content{
-    padding:15px
+    padding:15px;
+    padding-bottom:120px;
   }
 
   .stats{
     grid-template-columns:repeat(2,1fr);
-    gap:10px
+    gap:10px;
   }
 
   .stat{
-    padding:15px
+    padding:15px;
+    border-radius:18px;
   }
 
   .num{
-    font-size:27px
+    font-size:27px;
   }
 
   .heading{
-    display:block
+    display:block;
   }
 
   .heading .btn{
     width:100%;
-    margin-top:15px
+    margin-top:15px;
   }
 
   .toolbar{
-    display:grid
+    display:grid;
   }
 
   .search,
   .select{
-    width:100%
+    width:100%;
   }
 
   .ch{
-    display:block
+    display:block;
   }
 
   .badge{
     display:inline-block;
-    margin-top:10px
+    margin-top:10px;
   }
 
   .ma{
-    flex-direction:column
+    flex-direction:column;
   }
+
+
+  /* BOTTOM NAV */
+
+  #adminBottomNav{
+
+    min-height:94px;
+
+    padding:
+      7px 5px
+      calc(7px + env(safe-area-inset-bottom))
+      5px;
+
+    gap:3px;
+
+  }
+
+
+  #adminBottomNav a{
+
+    height:78px;
+
+    max-width:none;
+
+    border-radius:18px;
+
+    gap:4px;
+
+  }
+
+
+  #adminBottomNav .navIcon{
+
+    width:42px;
+    height:42px;
+
+    border-radius:13px;
+
+    font-size:25px;
+
+  }
+
+
+  #adminBottomNav .navText{
+
+    font-size:10px;
+
+  }
+
 }
+
+
+/* =====================================================
+   SMALL PHONES
+===================================================== */
+
+@media(max-width:390px){
+
+  #adminBottomNav{
+
+    gap:1px;
+
+    padding-left:2px;
+    padding-right:2px;
+
+  }
+
+  #adminBottomNav a{
+
+    height:76px;
+
+  }
+
+  #adminBottomNav .navIcon{
+
+    width:37px;
+    height:37px;
+
+    font-size:22px;
+
+  }
+
+  #adminBottomNav .navText{
+
+    font-size:9px;
+
+  }
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
-<!-- ================= LOGIN ================= -->
+
+<!-- =====================================================
+     LOGIN
+===================================================== -->
 
 <div id="loginScreen" class="login">
 
@@ -729,7 +1053,9 @@ button{
 
     <h2>CASH BACK</h2>
 
-    <p>تسجيل الدخول إلى لوحة الإدارة</p>
+    <p>
+      تسجيل الدخول إلى لوحة الإدارة
+    </p>
 
     <input
       id="email"
@@ -761,317 +1087,473 @@ button{
 </div>
 
 
-<!-- ================= APP ================= -->
+<!-- =====================================================
+     APP
+===================================================== -->
 
 <div id="app">
 
-<aside class="side">
 
-  <div class="logo">
+  <!-- ===================================================
+       SIDEBAR
+  ==================================================== -->
 
-    <img
-      src="logo.png"
-      alt="CASH BACK"
-      onerror="this.style.display='none'"
+  <aside class="side">
+
+    <div class="logo">
+
+      <img
+        src="logo.png"
+        alt="CASH BACK"
+        onerror="this.style.display='none'"
+      >
+
+    </div>
+
+
+    <nav class="nav">
+
+      <a
+        class="active"
+        href="customers.html"
+      >
+        <i>👥</i>
+        <span>العملاء</span>
+      </a>
+
+
+      <a href="packages.html">
+        <i>📦</i>
+        <span>الباقات</span>
+      </a>
+
+
+      <a href="admin.html">
+        <i>🔢</i>
+        <span>الأكواد</span>
+      </a>
+
+
+      <a href="numbers.html">
+        <i>📱</i>
+        <span>الأرقام الأساسية</span>
+      </a>
+
+
+      <a href="finances.html">
+        <i>💰</i>
+        <span>الماليات</span>
+      </a>
+
+    </nav>
+
+
+    <button
+      class="logout"
+      type="button"
+      onclick="logout()"
     >
+      🚪 تسجيل الخروج
+    </button>
 
-  </div>
+  </aside>
 
-  <nav class="nav">
+
+
+  <!-- ===================================================
+       MAIN
+  ==================================================== -->
+
+  <main class="main">
+
+
+    <header class="top">
+
+      <div>
+
+        <b>
+          مرحبًا بك، مدير النظام 👋
+        </b>
+
+        <small>
+          CASH BACK — إدارة العملاء والباقات
+        </small>
+
+      </div>
+
+
+      <div class="avatar">
+        👨‍💼
+      </div>
+
+    </header>
+
+
+
+    <section class="content">
+
+
+      <!-- HEADING -->
+
+      <div class="heading">
+
+        <div>
+
+          <h1>
+            👥 العملاء
+          </h1>
+
+          <p>
+            إدارة العملاء والتجديدات والاشتراكات
+          </p>
+
+        </div>
+
+
+        <button
+          class="btn purple"
+          type="button"
+          onclick="openAdd()"
+        >
+          ➕ إضافة عميل
+        </button>
+
+      </div>
+
+
+
+      <!-- STATS -->
+
+      <div class="stats">
+
+
+        <div class="stat">
+
+          <div class="st">
+
+            إجمالي العملاء
+
+            <span class="ico">
+              👥
+            </span>
+
+          </div>
+
+
+          <div
+            class="num"
+            id="total"
+          >
+            0
+          </div>
+
+
+          <div class="label">
+            عميل مسجل
+          </div>
+
+        </div>
+
+
+
+        <div class="stat">
+
+          <div class="st">
+
+            العملاء النشطين
+
+            <span class="ico">
+              🟢
+            </span>
+
+          </div>
+
+
+          <div
+            class="num"
+            id="active"
+          >
+            0
+          </div>
+
+
+          <div class="label">
+            عميل نشط
+          </div>
+
+        </div>
+
+
+
+        <div class="stat">
+
+          <div class="st">
+
+            تجديد قريب
+
+            <span class="ico">
+              🕐
+            </span>
+
+          </div>
+
+
+          <div
+            class="num"
+            id="soon"
+          >
+            0
+          </div>
+
+
+          <div class="label">
+            خلال 7 أيام
+          </div>
+
+        </div>
+
+
+
+        <div class="stat">
+
+          <div class="st">
+
+            منتهية
+
+            <span class="ico">
+              ⚠️
+            </span>
+
+          </div>
+
+
+          <div
+            class="num"
+            id="expired"
+          >
+            0
+          </div>
+
+
+          <div class="label">
+            منتهية الصلاحية
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+
+      <!-- SEARCH -->
+
+      <div class="panel">
+
+        <div class="ph">
+
+          <div>
+
+            <div class="pt">
+              🔎 البحث والتصفية
+            </div>
+
+            <div class="ps">
+              ابحث بالاسم أو الرقم أو الرقم الأساسي
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="toolbar">
+
+
+          <input
+            id="search"
+            class="search"
+            type="search"
+            placeholder="🔎 ابحث عن عميل..."
+          >
+
+
+          <select
+            id="renewalFilter"
+            class="select"
+          >
+
+            <option value="all">
+              كل مواعيد التجديد
+            </option>
+
+            <option value="1">
+              تجديد يوم 1
+            </option>
+
+            <option value="16">
+              تجديد يوم 16
+            </option>
+
+            <option value="custom">
+              تاريخ مخصص
+            </option>
+
+          </select>
+
+
+          <select
+            id="statusFilter"
+            class="select"
+          >
+
+            <option value="all">
+              كل الحالات
+            </option>
+
+            <option value="active">
+              🟢 نشط
+            </option>
+
+            <option value="inactive">
+              🔴 موقوف
+            </option>
+
+            <option value="soon">
+              🟠 قرب التجديد
+            </option>
+
+            <option value="expired">
+              🔴 منتهي
+            </option>
+
+          </select>
+
+
+        </div>
+
+      </div>
+
+
+
+      <!-- CUSTOMER LIST -->
+
+      <div
+        id="list"
+        class="list"
+      >
+
+        <div class="loading">
+          ⏳ جاري تحميل العملاء...
+        </div>
+
+      </div>
+
+
+    </section>
+
+
+  </main>
+
+
+
+  <!-- ===================================================
+       BOTTOM ADMIN NAV
+       NO PAYMENT PAGE
+  ==================================================== -->
+
+  <nav id="adminBottomNav">
+
 
     <a
-      class="active"
-      href="customers.html"
+      href="finances.html"
+      data-page="finances.html"
     >
-      <i>👥</i>
-      <span>العملاء</span>
+
+      <span class="navIcon">
+        💰
+      </span>
+
+      <span class="navText">
+        الماليات
+      </span>
+
     </a>
 
-    <a href="packages.html">
-      <i>📦</i>
-      <span>الباقات</span>
+
+    <a
+      href="numbers.html"
+      data-page="numbers.html"
+    >
+
+      <span class="navIcon">
+        📱
+      </span>
+
+      <span class="navText">
+        الأرقام الأساسية
+      </span>
+
     </a>
 
-    <a href="payment.html">
-      <i>💳</i>
-      <span>طلبات الدفع</span>
+
+    <a
+      href="admin.html"
+      data-page="admin.html"
+    >
+
+      <span class="navIcon">
+        🔢
+      </span>
+
+      <span class="navText">
+        الأكواد
+      </span>
+
     </a>
 
-    <a href="admin.html">
-      <i>🔢</i>
-      <span>الأكواد</span>
+
+    <a
+      href="packages.html"
+      data-page="packages.html"
+    >
+
+      <span class="navIcon">
+        📦
+      </span>
+
+      <span class="navText">
+        الباقات
+      </span>
+
     </a>
 
-    <a href="numbers.html">
-      <i>📱</i>
-      <span>الأرقام الأساسية</span>
+
+    <a
+      href="customers.html"
+      data-page="customers.html"
+    >
+
+      <span class="navIcon">
+        👥
+      </span>
+
+      <span class="navText">
+        العملاء
+      </span>
+
     </a>
 
-    <a href="finances.html">
-      <i>💰</i>
-      <span>الماليات</span>
-    </a>
 
   </nav>
 
-  <button
-    class="logout"
-    type="button"
-    onclick="logout()"
-  >
-    🚪 تسجيل الخروج
-  </button>
-
-</aside>
-
-
-<main class="main">
-
-<header class="top">
-
-  <div>
-
-    <b>
-      مرحبًا بك، مدير النظام 👋
-    </b>
-
-    <small>
-      CASH BACK — إدارة العملاء والباقات
-    </small>
-
-  </div>
-
-  <div class="avatar">
-    👨‍💼
-  </div>
-
-</header>
-
-
-<section class="content">
-
-<div class="heading">
-
-  <div>
-
-    <h1>
-      👥 العملاء
-    </h1>
-
-    <p>
-      إدارة العملاء والتجديدات والاشتراكات
-    </p>
-
-  </div>
-
-  <button
-    class="btn purple"
-    type="button"
-    onclick="openAdd()"
-  >
-    ➕ إضافة عميل
-  </button>
 
 </div>
 
 
-<!-- STATS -->
-
-<div class="stats">
-
-  <div class="stat">
-
-    <div class="st">
-      إجمالي العملاء
-      <span class="ico">👥</span>
-    </div>
-
-    <div
-      class="num"
-      id="total"
-    >
-      0
-    </div>
-
-    <div class="label">
-      عميل مسجل
-    </div>
-
-  </div>
-
-
-  <div class="stat">
-
-    <div class="st">
-      العملاء النشطين
-      <span class="ico">🟢</span>
-    </div>
-
-    <div
-      class="num"
-      id="active"
-    >
-      0
-    </div>
-
-    <div class="label">
-      عميل نشط
-    </div>
-
-  </div>
-
-
-  <div class="stat">
-
-    <div class="st">
-      تجديد قريب
-      <span class="ico">🕐</span>
-    </div>
-
-    <div
-      class="num"
-      id="soon"
-    >
-      0
-    </div>
-
-    <div class="label">
-      خلال 7 أيام
-    </div>
-
-  </div>
-
-
-  <div class="stat">
-
-    <div class="st">
-      منتهية
-      <span class="ico">⚠️</span>
-    </div>
-
-    <div
-      class="num"
-      id="expired"
-    >
-      0
-    </div>
-
-    <div class="label">
-      منتهية الصلاحية
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- SEARCH -->
-
-<div class="panel">
-
-  <div class="ph">
-
-    <div>
-
-      <div class="pt">
-        🔎 البحث والتصفية
-      </div>
-
-      <div class="ps">
-        ابحث بالاسم أو الرقم أو الرقم الأساسي
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="toolbar">
-
-    <input
-      id="search"
-      class="search"
-      type="search"
-      placeholder="🔎 ابحث عن عميل..."
-    >
-
-    <select
-      id="renewalFilter"
-      class="select"
-    >
-
-      <option value="all">
-        كل مواعيد التجديد
-      </option>
-
-      <option value="1">
-        تجديد يوم 1
-      </option>
-
-      <option value="16">
-        تجديد يوم 16
-      </option>
-
-      <option value="custom">
-        تاريخ مخصص
-      </option>
-
-    </select>
-
-
-    <select
-      id="statusFilter"
-      class="select"
-    >
-
-      <option value="all">
-        كل الحالات
-      </option>
-
-      <option value="active">
-        🟢 نشط
-      </option>
-
-      <option value="inactive">
-        🔴 موقوف
-      </option>
-
-      <option value="soon">
-        🟠 قرب التجديد
-      </option>
-
-      <option value="expired">
-        🔴 منتهي
-      </option>
-
-    </select>
-
-  </div>
-
-</div>
-
-
-<!-- CUSTOMERS -->
-
-<div
-  id="list"
-  class="list"
->
-
-  <div class="loading">
-    ⏳ جاري تحميل العملاء...
-  </div>
-
-</div>
-
-</section>
-
-</main>
-
-</div>
-
-
-<!-- ================= MODAL ================= -->
+<!-- =====================================================
+     CUSTOMER MODAL
+===================================================== -->
 
 <div
   id="modal"
@@ -1079,6 +1561,7 @@ button{
 >
 
   <div class="modalbox">
+
 
     <div class="mh">
 
@@ -1410,6 +1893,7 @@ button{
 
     </div>
 
+
   </div>
 
 </div>
@@ -1430,6 +1914,7 @@ const SUPABASE_KEY =
 const ADMIN_EMAIL =
 "mezooelzorkany@gmail.com";
 
+
 const db =
 supabase.createClient(
   SUPABASE_URL,
@@ -1442,6 +1927,7 @@ supabase.createClient(
 ===================================================== */
 
 let customers = [];
+
 let editMode = false;
 
 
@@ -1457,13 +1943,16 @@ document.getElementById(id);
 function escapeHtml(value){
 
   return String(value ?? "")
-    .replace(/[&<>"']/g, char => ({
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#039;"
-    }[char]));
+    .replace(
+      /[&<>"']/g,
+      char => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+      }[char])
+    );
 
 }
 
@@ -1479,7 +1968,9 @@ function cleanPhone(value){
 function validPhone(value){
 
   return /^01[0125]\d{8}$/
-    .test(cleanPhone(value));
+    .test(
+      cleanPhone(value)
+    );
 
 }
 
@@ -1488,7 +1979,9 @@ function extractDate(value){
 
   const match =
     String(value || "")
-      .match(/\d{4}-\d{2}-\d{2}/);
+      .match(
+        /\d{4}-\d{2}-\d{2}/
+      );
 
   return match
     ? match[0]
@@ -1505,20 +1998,29 @@ function daysUntil(value){
   if(!d)
     return null;
 
+
   const today =
     new Date();
 
   today.setHours(
-    0,0,0,0
+    0,
+    0,
+    0,
+    0
   );
+
 
   const target =
     new Date(
       d + "T00:00:00"
     );
 
+
   return Math.ceil(
-    (target - today) /
+    (
+      target -
+      today
+    ) /
     86400000
   );
 
@@ -1529,7 +2031,9 @@ function getGB(value){
 
   const match =
     String(value || "")
-      .match(/(\d+(?:\.\d+)?)/);
+      .match(
+        /(\d+(?:\.\d+)?)/
+      );
 
   return match
     ? Number(match[1])
@@ -1571,7 +2075,7 @@ const prices = {
 
 
 /* =====================================================
-   SUPABASE REQUEST
+   API
 ===================================================== */
 
 async function api(
@@ -1582,9 +2086,14 @@ async function api(
   const sessionResult =
     await db.auth.getSession();
 
+
   const token =
-    sessionResult.data.session?.access_token ||
+    sessionResult
+      .data
+      .session
+      ?.access_token ||
     SUPABASE_KEY;
+
 
   const response =
     await fetch(
@@ -1595,10 +2104,13 @@ async function api(
         ...options,
 
         headers:{
-          "apikey":SUPABASE_KEY,
+
+          "apikey":
+            SUPABASE_KEY,
 
           "Authorization":
-            "Bearer " + token,
+            "Bearer " +
+            token,
 
           "Content-Type":
             "application/json",
@@ -1607,14 +2119,19 @@ async function api(
             "return=representation",
 
           ...(options.headers || {})
+
         }
+
       }
     );
+
 
   const text =
     await response.text();
 
+
   let data = null;
+
 
   try{
 
@@ -1628,6 +2145,7 @@ async function api(
     data = text;
 
   }
+
 
   if(!response.ok){
 
@@ -1643,6 +2161,7 @@ async function api(
     );
 
   }
+
 
   return data;
 
@@ -1660,12 +2179,15 @@ async function login(){
       .value
       .trim();
 
+
   const password =
     $("password")
       .value;
 
+
   const message =
     $("loginMessage");
+
 
   const button =
     $("loginButton");
@@ -1674,8 +2196,10 @@ async function login(){
   message.style.color =
     "#c73542";
 
+
   message.textContent =
     "⏳ جاري تسجيل الدخول...";
+
 
   button.disabled = true;
 
@@ -1684,6 +2208,7 @@ async function login(){
 
     message.textContent =
       "❌ اكتب البريد الإلكتروني وكلمة المرور";
+
 
     button.disabled = false;
 
@@ -1748,6 +2273,7 @@ async function login(){
     message.style.color =
       "#159447";
 
+
     message.textContent =
       "✅ تم تسجيل الدخول بنجاح";
 
@@ -1762,8 +2288,10 @@ async function login(){
       error
     );
 
+
     message.style.color =
       "#d93645";
+
 
     message.textContent =
       "❌ " +
@@ -1791,9 +2319,11 @@ function showApp(){
     .style.display =
     "none";
 
+
   $("app")
     .style.display =
     "block";
+
 
   loadCustomers();
 
@@ -1801,7 +2331,7 @@ function showApp(){
 
 
 /* =====================================================
-   CHECK SESSION
+   SESSION
 ===================================================== */
 
 async function checkSession(){
@@ -1811,15 +2341,13 @@ async function checkSession(){
     const result =
       await db.auth.getSession();
 
+
     const session =
       result.data.session;
 
 
-    if(!session){
-
+    if(!session)
       return;
-
-    }
 
 
     const email =
@@ -1842,6 +2370,7 @@ async function checkSession(){
 
 
     showApp();
+
 
   }catch(error){
 
@@ -1870,6 +2399,7 @@ async function logout(){
     console.error(error);
 
   }
+
 
   location.reload();
 
@@ -1925,7 +2455,9 @@ async function loadCustomers(){
 
         <br><br>
 
-        ${escapeHtml(error.message)}
+        ${escapeHtml(
+          error.message
+        )}
 
         <br><br>
 
@@ -1963,36 +2495,42 @@ function updateStats(){
 
 
   $("soon").textContent =
-    customers.filter(c => {
+    customers.filter(
+      c => {
 
-      const d =
-        daysUntil(
-          c.next_renewal_date
+        const d =
+          daysUntil(
+            c.next_renewal_date
+          );
+
+
+        return(
+          d !== null &&
+          d >= 0 &&
+          d <= 7
         );
 
-      return(
-        d !== null &&
-        d >= 0 &&
-        d <= 7
-      );
-
-    }).length;
+      }
+    ).length;
 
 
   $("expired").textContent =
-    customers.filter(c => {
+    customers.filter(
+      c => {
 
-      const d =
-        daysUntil(
-          c.next_renewal_date
+        const d =
+          daysUntil(
+            c.next_renewal_date
+          );
+
+
+        return(
+          d !== null &&
+          d < 0
         );
 
-      return(
-        d !== null &&
-        d < 0
-      );
-
-    }).length;
+      }
+    ).length;
 
 }
 
@@ -2021,117 +2559,123 @@ function render(){
 
 
   const filtered =
-    customers.filter(c => {
+    customers.filter(
+      c => {
 
-      const text =
-        [
-          c.subscriber_name,
-          c.internal_name,
-          c.phone,
-          c.primary_number,
-          c.package_name,
-          c.promo_code
-        ]
-        .join(" ")
-        .toLowerCase();
+        const text =
+          [
+            c.subscriber_name,
+            c.internal_name,
+            c.phone,
+            c.primary_number,
+            c.package_name,
+            c.promo_code
+          ]
+          .join(" ")
+          .toLowerCase();
 
 
-      if(
-        q &&
-        !text.includes(q)
-      ){
+        if(
+          q &&
+          !text.includes(q)
+        ){
 
-        return false;
+          return false;
+
+        }
+
+
+        if(
+          renewal === "1" &&
+          Number(
+            c.renewal_day
+          ) !== 1
+        ){
+
+          return false;
+
+        }
+
+
+        if(
+          renewal === "16" &&
+          Number(
+            c.renewal_day
+          ) !== 16
+        ){
+
+          return false;
+
+        }
+
+
+        if(
+          renewal === "custom" &&
+          c.renewal_type !== "custom"
+        ){
+
+          return false;
+
+        }
+
+
+        const d =
+          daysUntil(
+            c.next_renewal_date
+          );
+
+
+        if(
+          status === "active" &&
+          c.status !== "active"
+        ){
+
+          return false;
+
+        }
+
+
+        if(
+          status === "inactive" &&
+          c.status !== "inactive"
+        ){
+
+          return false;
+
+        }
+
+
+        if(
+          status === "soon" &&
+          !(
+            d !== null &&
+            d >= 0 &&
+            d <= 7
+          )
+        ){
+
+          return false;
+
+        }
+
+
+        if(
+          status === "expired" &&
+          !(
+            d !== null &&
+            d < 0
+          )
+        ){
+
+          return false;
+
+        }
+
+
+        return true;
 
       }
-
-
-      if(
-        renewal === "1" &&
-        Number(c.renewal_day) !== 1
-      ){
-
-        return false;
-
-      }
-
-
-      if(
-        renewal === "16" &&
-        Number(c.renewal_day) !== 16
-      ){
-
-        return false;
-
-      }
-
-
-      if(
-        renewal === "custom" &&
-        c.renewal_type !== "custom"
-      ){
-
-        return false;
-
-      }
-
-
-      const d =
-        daysUntil(
-          c.next_renewal_date
-        );
-
-
-      if(
-        status === "active" &&
-        c.status !== "active"
-      ){
-
-        return false;
-
-      }
-
-
-      if(
-        status === "inactive" &&
-        c.status !== "inactive"
-      ){
-
-        return false;
-
-      }
-
-
-      if(
-        status === "soon" &&
-        !(
-          d !== null &&
-          d >= 0 &&
-          d <= 7
-        )
-      ){
-
-        return false;
-
-      }
-
-
-      if(
-        status === "expired" &&
-        !(
-          d !== null &&
-          d < 0
-        )
-      ){
-
-        return false;
-
-      }
-
-
-      return true;
-
-    });
+    );
 
 
   if(!filtered.length){
@@ -2157,7 +2701,7 @@ function render(){
 
 
 /* =====================================================
-   CUSTOMER CARD
+   CARD
 ===================================================== */
 
 function card(c){
@@ -2198,9 +2742,12 @@ function card(c){
 
   <div class="card">
 
+
     <div class="ch">
 
+
       <div>
+
 
         <div class="name">
 
@@ -2238,6 +2785,7 @@ function card(c){
 
         </div>
 
+
       </div>
 
 
@@ -2256,6 +2804,7 @@ function card(c){
         }
 
       </span>
+
 
     </div>
 
@@ -2404,6 +2953,7 @@ function card(c){
 
     <div class="actions">
 
+
       <button
         class="action edit"
         type="button"
@@ -2430,7 +2980,9 @@ function card(c){
         🗑️ حذف
       </button>
 
+
     </div>
+
 
   </div>
 
@@ -2484,10 +3036,13 @@ function openAdd(){
 
   editMode = false;
 
+
   $("modalTitle").textContent =
     "➕ إضافة عميل";
 
+
   clearForm();
+
 
   $("modal")
     .classList
@@ -2603,7 +3158,7 @@ function closeModal(){
 
 
 /* =====================================================
-   PACKAGE DATA
+   PACKAGE
 ===================================================== */
 
 function packageData(){
@@ -2627,7 +3182,7 @@ function packageData(){
 
 
 /* =====================================================
-   RENEWAL DATA
+   RENEWAL
 ===================================================== */
 
 function renewalData(){
@@ -2654,7 +3209,7 @@ function renewalData(){
 
 
 /* =====================================================
-   SAVE CUSTOMER
+   SAVE
 ===================================================== */
 
 async function saveCustomer(){
@@ -2791,7 +3346,9 @@ async function saveCustomer(){
 
   try{
 
+
     if(editMode){
+
 
       await api(
         "customers?id=eq." +
@@ -2800,13 +3357,17 @@ async function saveCustomer(){
         ),
         {
           method:"PATCH",
+
           body:
-            JSON.stringify(data)
+            JSON.stringify(
+              data
+            )
         }
       );
 
 
     }else{
+
 
       const existing =
         await api(
@@ -2836,8 +3397,11 @@ async function saveCustomer(){
         "customers",
         {
           method:"POST",
+
           body:
-            JSON.stringify(data)
+            JSON.stringify(
+              data
+            )
         }
       );
 
@@ -2845,6 +3409,7 @@ async function saveCustomer(){
 
 
     closeModal();
+
 
     await loadCustomers();
 
@@ -2880,7 +3445,7 @@ async function saveCustomer(){
 
 
 /* =====================================================
-   DELETE CUSTOMER
+   DELETE
 ===================================================== */
 
 async function removeCustomer(id){
@@ -2913,6 +3478,7 @@ async function removeCustomer(id){
 
 
   try{
+
 
     await api(
       "customers?id=eq." +
@@ -2989,7 +3555,7 @@ async function renew(id){
     return;
 
 
-  const date =
+  const renewalDate =
     new Date();
 
 
@@ -2998,39 +3564,42 @@ async function renew(id){
     "day_1"
   ){
 
-    date.setMonth(
-      date.getMonth() + 1
+    renewalDate.setMonth(
+      renewalDate.getMonth() + 1
     );
 
-    date.setDate(1);
+    renewalDate.setDate(1);
+
 
   }else if(
     customer.renewal_type ===
     "day_16"
   ){
 
-    date.setMonth(
-      date.getMonth() + 1
+    renewalDate.setMonth(
+      renewalDate.getMonth() + 1
     );
 
-    date.setDate(16);
+    renewalDate.setDate(16);
+
 
   }else{
 
-    date.setMonth(
-      date.getMonth() + 1
+    renewalDate.setMonth(
+      renewalDate.getMonth() + 1
     );
 
   }
 
 
   const nextDate =
-    date
+    renewalDate
       .toISOString()
       .split("T")[0];
 
 
   try{
+
 
     await api(
       "customers?id=eq." +
@@ -3157,360 +3726,8 @@ $("modal")
 
 
 /* =====================================================
-   START
+   ACTIVE BOTTOM NAV
 ===================================================== */
-
-checkSession();
-
-</script>
-<!-- =====================================================
-     CASH BACK — ADMIN BOTTOM NAV
-===================================================== -->
-
-<style>
-
-#adminBottomNav{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-
-  height:100px;
-
-  background:rgba(255,255,255,.97);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-
-  border-top:1px solid #e8e3f2;
-
-  box-shadow:
-    0 -8px 35px rgba(50,20,100,.12);
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  gap:12px;
-
-  padding:10px 18px;
-
-  z-index:99999;
-
-  direction:rtl;
-}
-
-
-/* ===============================
-   NAV ITEM
-================================ */
-
-#adminBottomNav a{
-
-  flex:1;
-
-  max-width:190px;
-
-  height:78px;
-
-  display:flex;
-
-  flex-direction:column;
-
-  align-items:center;
-
-  justify-content:center;
-
-  gap:6px;
-
-  text-decoration:none;
-
-  color:#77758a;
-
-  border-radius:20px;
-
-  font-family:
-    Arial,
-    Tahoma,
-    sans-serif;
-
-  font-weight:bold;
-
-  transition:
-    transform .18s ease,
-    background .18s ease,
-    color .18s ease,
-    box-shadow .18s ease;
-
-}
-
-
-/* ===============================
-   ICON
-================================ */
-
-#adminBottomNav .navIcon{
-
-  width:42px;
-  height:42px;
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  font-size:27px;
-
-  border-radius:14px;
-
-  background:#f4f0fb;
-
-  transition:.18s;
-
-}
-
-
-/* ===============================
-   TEXT
-================================ */
-
-#adminBottomNav .navText{
-
-  font-size:12px;
-
-  white-space:nowrap;
-
-}
-
-
-/* ===============================
-   ACTIVE
-================================ */
-
-#adminBottomNav a.active{
-
-  color:#fff;
-
-  background:
-    linear-gradient(
-      135deg,
-      #7135d7,
-      #5420b8
-    );
-
-  box-shadow:
-    0 9px 24px
-    rgba(84,32,184,.28);
-
-  transform:
-    translateY(-4px);
-
-}
-
-
-#adminBottomNav a.active .navIcon{
-
-  background:
-    rgba(255,255,255,.18);
-
-}
-
-
-/* ===============================
-   HOVER
-================================ */
-
-#adminBottomNav a:not(.active):hover{
-
-  background:#f5f0ff;
-
-  color:#5420b8;
-
-  transform:
-    translateY(-2px);
-
-}
-
-
-#adminBottomNav a:not(.active):hover .navIcon{
-
-  background:#e9ddff;
-
-}
-
-
-/* ===============================
-   BODY SPACE
-================================ */
-
-body{
-
-  padding-bottom:
-    115px !important;
-
-}
-
-
-/* ===============================
-   MOBILE
-================================ */
-
-@media(max-width:650px){
-
-  #adminBottomNav{
-
-    height:92px;
-
-    padding:
-      7px 6px
-      calc(7px + env(safe-area-inset-bottom))
-      6px;
-
-    gap:4px;
-
-  }
-
-
-  #adminBottomNav a{
-
-    height:76px;
-
-    border-radius:18px;
-
-    max-width:none;
-
-    gap:4px;
-
-  }
-
-
-  #adminBottomNav .navIcon{
-
-    width:40px;
-    height:40px;
-
-    border-radius:13px;
-
-    font-size:25px;
-
-  }
-
-
-  #adminBottomNav .navText{
-
-    font-size:10px;
-
-  }
-
-
-  body{
-
-    padding-bottom:
-      105px !important;
-
-  }
-
-}
-
-
-/* ===============================
-   VERY SMALL PHONES
-================================ */
-
-@media(max-width:390px){
-
-  #adminBottomNav{
-
-    gap:2px;
-
-    padding-left:3px;
-    padding-right:3px;
-
-  }
-
-
-  #adminBottomNav a{
-
-    height:74px;
-
-  }
-
-
-  #adminBottomNav .navIcon{
-
-    width:36px;
-    height:36px;
-
-    font-size:22px;
-
-  }
-
-
-  #adminBottomNav .navText{
-
-    font-size:9px;
-
-  }
-
-}
-
-</style>
-
-
-<nav id="adminBottomNav">
-
-  <!-- الماليات -->
-  <a
-    href="finances.html"
-    data-page="finances.html"
-  >
-    <span class="navIcon">💰</span>
-    <span class="navText">الماليات</span>
-  </a>
-
-
-  <!-- الأرقام الأساسية -->
-  <a
-    href="numbers.html"
-    data-page="numbers.html"
-  >
-    <span class="navIcon">📱</span>
-    <span class="navText">الأرقام الأساسية</span>
-  </a>
-
-
-  <!-- الأكواد -->
-  <a
-    href="admin.html"
-    data-page="admin.html"
-  >
-    <span class="navIcon">🔢</span>
-    <span class="navText">الأكواد</span>
-  </a>
-
-
-  <!-- الباقات -->
-  <a
-    href="packages.html"
-    data-page="packages.html"
-  >
-    <span class="navIcon">📦</span>
-    <span class="navText">الباقات</span>
-  </a>
-
-
-  <!-- العملاء -->
-  <a
-    href="customers.html"
-    data-page="customers.html"
-  >
-    <span class="navIcon">👥</span>
-    <span class="navText">العملاء</span>
-  </a>
-
-</nav>
-
-
-<script>
 
 (function(){
 
@@ -3525,26 +3742,42 @@ body{
     .querySelectorAll(
       "#adminBottomNav a"
     )
-    .forEach(function(link){
+    .forEach(
+      link => {
 
-      const page =
-        link
-          .getAttribute("data-page")
+        const page =
+          (
+            link.getAttribute(
+              "data-page"
+            ) || ""
+          )
           .toLowerCase();
 
 
-      if(page === currentPage){
+        if(
+          page === currentPage
+        ){
 
-        link.classList.add(
-          "active"
-        );
+          link.classList.add(
+            "active"
+          );
+
+        }
 
       }
-
-    });
+    );
 
 })();
 
+
+/* =====================================================
+   START
+===================================================== */
+
+checkSession();
+
 </script>
+
+
 </body>
 </html>
