@@ -3318,6 +3318,116 @@ closeModal();
 check();
 
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
+  const loginButton = document.querySelector(
+    '#loginScreen button'
+  );
+
+  if (!loginButton) {
+    console.error("Login button not found");
+    return;
+  }
+
+  loginButton.onclick = async function () {
+
+    const emailInput =
+      document.getElementById("loginEmail");
+
+    const passwordInput =
+      document.getElementById("loginPassword");
+
+    const message =
+      document.getElementById("loginMessage");
+
+    const email =
+      emailInput.value.trim();
+
+    const password =
+      passwordInput.value;
+
+    message.style.color = "#c73542";
+    message.textContent =
+      "⏳ جاري تسجيل الدخول...";
+
+    if (!email || !password) {
+      message.textContent =
+        "❌ اكتب البريد الإلكتروني وكلمة المرور";
+      return;
+    }
+
+    try {
+
+      const result =
+        await authClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+      if (result.error) {
+        throw result.error;
+      }
+
+      if (!result.data || !result.data.user) {
+        throw new Error(
+          "لم يتم تسجيل الدخول"
+        );
+      }
+
+      const userEmail =
+        String(
+          result.data.user.email || ""
+        ).toLowerCase();
+
+      if (
+        userEmail !==
+        ADMIN_EMAIL.toLowerCase()
+      ) {
+
+        await authClient.auth.signOut();
+
+        throw new Error(
+          "هذا الحساب غير مسموح له بالدخول"
+        );
+      }
+
+      message.style.color = "#159447";
+      message.textContent =
+        "✅ تم تسجيل الدخول";
+
+      document.getElementById(
+        "loginScreen"
+      ).style.display = "none";
+
+      document.getElementById(
+        "app"
+      ).style.display = "block";
+
+      loadPaymentOrders();
+      loadCustomers();
+
+    } catch (error) {
+
+      console.error(
+        "LOGIN ERROR:",
+        error
+      );
+
+      message.style.color = "#c73542";
+
+      message.textContent =
+        "❌ " +
+        (
+          error.message ||
+          "حصل خطأ أثناء تسجيل الدخول"
+        );
+
+    }
+
+  };
+
+});
+</script>
 </body>
 </html>
