@@ -1,2404 +1,1653 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1,viewport-fit=cover"
->
-
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>العملاء | CASH BACK</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-
 <style>
-
-/* =====================================================
-   RESET
-===================================================== */
-
-*{
-  box-sizing:border-box;
-  font-family:Arial,Tahoma,sans-serif;
-}
-
-html{
-  min-height:100%;
-}
-
-body{
-  margin:0;
-  min-height:100vh;
-  background:#f7f6fb;
-  color:#1d2435;
-}
-
-button,
-input,
-select{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-
-/* =====================================================
-   LOGIN
-===================================================== */
-
-.login{
-  min-height:100vh;
-  display:grid;
-  place-items:center;
-  background:
-    linear-gradient(
-      135deg,
-      #171a31,
-      #6428bd
-    );
-  padding:20px;
-}
-
-.loginbox{
-  width:min(420px,100%);
-  background:#fff;
-  border-radius:28px;
-  padding:30px;
-  text-align:center;
-  box-shadow:0 25px 70px #0005;
-}
-
-.loginbox img{
-  width:125px;
-  height:125px;
-  object-fit:contain;
-  margin:auto;
-  display:block;
-}
-
-.loginbox h2{
-  margin:10px 0 5px;
-}
-
-.loginbox p{
-  color:#777;
-  margin-bottom:22px;
-}
-
-.loginbox input{
-  width:100%;
-  height:52px;
-  border:1px solid #ddd;
-  border-radius:14px;
-  padding:0 14px;
-  margin:6px 0;
-  outline:none;
-}
-
-.loginbox input:focus{
-  border-color:#5420b8;
-}
-
-.loginbox button{
-  width:100%;
-  height:52px;
-  border:0;
-  border-radius:14px;
-  background:#5420b8;
-  color:#fff;
-  font-weight:bold;
-  margin-top:8px;
-}
-
-.loginbox button:disabled{
-  opacity:.6;
-  cursor:not-allowed;
-}
-
-#loginMessage{
-  min-height:22px;
-  margin-top:14px;
-  font-size:14px;
-  font-weight:bold;
-}
-
-#app{
-  display:none;
-}
-
-
-/* =====================================================
-   DESKTOP SIDEBAR
-===================================================== */
-
-.side{
-  position:fixed;
-  right:0;
-  top:0;
-  bottom:0;
-  width:245px;
-  background:#fff;
-  border-left:1px solid #eee;
-  z-index:60;
-}
-
-.logo{
-  height:175px;
-  background:#111318;
-  display:grid;
-  place-items:center;
-  overflow:hidden;
-}
-
-.logo img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-}
-
-.nav{
-  padding:14px;
-}
-
-.nav a{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  padding:14px;
-  border-radius:13px;
-  margin:5px 0;
-  text-decoration:none;
-  color:#333;
-  font-weight:bold;
-}
-
-.nav a:hover{
-  background:#f1ecff;
-}
-
-.nav a.active{
-  background:
-    linear-gradient(
-      90deg,
-      #7034d2,
-      #5420b8
-    );
-  color:#fff;
-}
-
-.nav i{
-  font-style:normal;
-  font-size:20px;
-  width:25px;
-  text-align:center;
-}
-
-.logout{
-  position:absolute;
-  bottom:15px;
-  right:14px;
-  left:14px;
-  height:48px;
-  border:0;
-  border-radius:13px;
-  background:#fff0f2;
-  color:#d93645;
-  font-weight:bold;
-}
-
-
-/* =====================================================
-   MAIN
-===================================================== */
-
-.main{
-  margin-right:245px;
-  min-height:100vh;
-}
-
-.top{
-  height:82px;
-  background:#fff;
-  border-bottom:1px solid #eee;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 30px;
-}
-
-.top b{
-  font-size:20px;
-}
-
-.top small{
-  display:block;
-  color:#858b9b;
-  margin-top:4px;
-}
-
-.avatar{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  background:#eee4ff;
-  display:grid;
-  place-items:center;
-}
-
-.content{
-  max-width:1500px;
-  margin:auto;
-  padding:28px;
-  padding-bottom:130px;
-}
-
-
-/* =====================================================
-   HEADING
-===================================================== */
-
-.heading{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:22px;
-}
-
-.heading h1{
-  margin:0;
-  color:#4f2692;
-}
-
-.heading p{
-  margin:7px 0;
-  color:#858b9b;
-}
-
-.btn{
-  height:50px;
-  border:0;
-  border-radius:13px;
-  padding:0 18px;
-  font-weight:bold;
-}
-
-.purple{
-  background:#5420b8;
-  color:#fff;
-}
-
-.soft{
-  background:#eee4ff;
-  color:#5420b8;
-}
-
-
-/* =====================================================
-   STATS
-===================================================== */
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:18px;
-  margin-bottom:22px;
-}
-
-.stat{
-  background:#fff;
-  border:1px solid #eee;
-  border-radius:20px;
-  padding:20px;
-  box-shadow:0 5px 22px #00000009;
-}
-
-.stat:nth-child(1){
-  background:#fff8ff;
-}
-
-.stat:nth-child(2){
-  background:#f6fff8;
-}
-
-.stat:nth-child(3){
-  background:#fffaf1;
-}
-
-.stat:nth-child(4){
-  background:#fff7f8;
-}
-
-.st{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-weight:bold;
-}
-
-.ico{
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  background:#eee4ff;
-}
-
-.num{
-  font-size:34px;
-  font-weight:900;
-  margin-top:13px;
-}
-
-.label{
-  font-size:13px;
-  color:#858b9b;
-}
-
-
-/* =====================================================
-   PANELS
-===================================================== */
-
-.panel{
-  background:#fff;
-  border:1px solid #eee;
-  border-radius:22px;
-  padding:20px;
-  margin-bottom:22px;
-  box-shadow:0 5px 22px #00000008;
-}
-
-.ph{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:15px;
-}
-
-.pt{
-  font-size:21px;
-  font-weight:900;
-  color:#5420b8;
-}
-
-.ps{
-  font-size:13px;
-  color:#858b9b;
-  margin-top:4px;
-}
-
-
-/* =====================================================
-   SEARCH
-===================================================== */
-
-.toolbar{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.search{
-  flex:1;
-  min-width:250px;
-  height:50px;
-  border:1px solid #ddd;
-  border-radius:14px;
-  padding:0 15px;
-  outline:none;
-}
-
-.select{
-  height:50px;
-  border:1px solid #ddd;
-  border-radius:14px;
-  background:#fff;
-  padding:0 14px;
-  outline:none;
-}
-
-
-/* =====================================================
-   CUSTOMERS
-===================================================== */
-
-.list{
-  display:grid;
-  gap:16px;
-}
-
-.card{
-  background:#fff;
-  border:1px solid #eee;
-  border-radius:20px;
-  padding:19px;
-  box-shadow:0 5px 22px #00000008;
-}
-
-.ch{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-}
-
-.name{
-  font-size:21px;
-  font-weight:900;
-}
-
-.phone{
-  color:#777;
-  margin-top:6px;
-}
-
-.internal{
-  color:#5420b8;
-  font-size:13px;
-  font-weight:bold;
-  margin-top:6px;
-}
-
-.badge{
-  padding:8px 13px;
-  border-radius:20px;
-  height:max-content;
-  font-size:12px;
-  font-weight:bold;
-  white-space:nowrap;
-}
-
-.ok{
-  background:#e4f8ec;
-  color:#159447;
-}
-
-.bad{
-  background:#fde8ea;
-  color:#d93645;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:11px;
-  margin-top:17px;
-}
-
-.box{
-  background:#f8f8fb;
-  border-radius:14px;
-  padding:13px;
-}
-
-.box small{
-  display:block;
-  color:#8991a2;
-  font-size:11px;
-  margin-bottom:7px;
-}
-
-.box strong{
-  font-size:14px;
-  word-break:break-word;
-}
-
-.promo{
-  background:#eee4ff;
-}
-
-.promo strong{
-  color:#5420b8;
-}
-
-.actions{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-top:17px;
-}
-
-.action{
-  border:0;
-  border-radius:12px;
-  padding:11px 16px;
-  font-weight:bold;
-}
-
-.edit{
-  background:#293160;
-  color:#fff;
-}
-
-.renew{
-  background:#eef0f6;
-}
-
-.delete{
-  background:#fde8ea;
-  color:#d93645;
-}
-
-.invoice-action{
-  background:#fff3d6;
-  color:#9a6500;
-  border:1px solid #f0c85c;
-}
-
-
-/* =====================================================
-   STATES
-===================================================== */
-
-.loading,
-.empty,
-.error{
-  text-align:center;
-  padding:30px;
-  background:#fff;
-  border-radius:18px;
-  color:#777;
-}
-
-.error{
-  color:#d93645;
-}
-
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:#0009;
-  z-index:2000;
-  padding:15px;
-}
-
-.modal.show{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.modalbox{
-  width:min(620px,100%);
-  max-height:95vh;
-  overflow:auto;
-  background:#fff;
-  border-radius:24px;
-  padding:22px;
-  box-shadow:0 30px 80px #0006;
-}
-
-.mh{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.mh h2{
-  margin:0;
-}
-
-.close{
-  border:0;
-  background:#eee;
-  border-radius:10px;
-  padding:8px 12px;
-}
-
-.field{
-  margin:13px 0;
-}
-
-.field label{
-  display:block;
-  font-weight:bold;
-  font-size:13px;
-  margin-bottom:7px;
-}
-
-.field input,
-.field select{
-  width:100%;
-  height:47px;
-  border:1px solid #ddd;
-  border-radius:12px;
-  padding:0 12px;
-  outline:none;
-  background:#fff;
-}
-
-.field input:focus,
-.field select:focus{
-  border-color:#5420b8;
-}
-
-.ma{
-  display:flex;
-  gap:10px;
-  margin-top:18px;
-}
-
-.ma button{
-  flex:1;
-  height:49px;
-  border:0;
-  border-radius:13px;
-  font-weight:bold;
-}
-
-.cancel{
-  background:#eee;
-}
-
-.save{
-  background:#5420b8;
-  color:#fff;
-}
-
-
-/* =====================================================
-   BOTTOM ADMIN NAV
-===================================================== */
+*{box-sizing:border-box;font-family:Arial,Tahoma,sans-serif}
+html{min-height:100%}
+body{margin:0;min-height:100vh;background:#f7f6fb;color:#1d2435}
+button,input,select{font:inherit}
+button{cursor:pointer}
+
+.login{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#171a31,#6428bd);padding:20px}
+.loginbox{width:min(420px,100%);background:#fff;border-radius:28px;padding:30px;text-align:center;box-shadow:0 25px 70px #0005}
+.loginbox img{width:125px;height:125px;object-fit:contain;margin:auto;display:block}
+.loginbox h2{margin:10px 0 5px}
+.loginbox p{color:#777;margin-bottom:22px}
+.loginbox input{width:100%;height:52px;border:1px solid #ddd;border-radius:14px;padding:0 14px;margin:6px 0;outline:none}
+.loginbox input:focus{border-color:#5420b8}
+.loginbox button{width:100%;height:52px;border:0;border-radius:14px;background:#5420b8;color:#fff;font-weight:bold;margin-top:8px}
+.loginbox button:disabled{opacity:.6;cursor:not-allowed}
+#loginMessage{min-height:22px;margin-top:14px;font-size:14px;font-weight:bold}
+#app{display:none}
+
+.side{position:fixed;right:0;top:0;bottom:0;width:245px;background:#fff;border-left:1px solid #eee;z-index:60}
+.logo{height:175px;background:#111318;display:grid;place-items:center;overflow:hidden}
+.logo img{width:100%;height:100%;object-fit:contain}
+.nav{padding:14px}
+.nav a{display:flex;align-items:center;gap:13px;padding:14px;border-radius:13px;margin:5px 0;text-decoration:none;color:#333;font-weight:bold}
+.nav a:hover{background:#f1ecff}
+.nav a.active{background:linear-gradient(90deg,#7034d2,#5420b8);color:#fff}
+.nav i{font-style:normal;font-size:20px;width:25px;text-align:center}
+.logout{position:absolute;bottom:15px;right:14px;left:14px;height:48px;border:0;border-radius:13px;background:#fff0f2;color:#d93645;font-weight:bold}
+
+.main{margin-right:245px;min-height:100vh}
+.top{height:82px;background:#fff;border-bottom:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 30px}
+.top b{font-size:20px}
+.top small{display:block;color:#858b9b;margin-top:4px}
+.avatar{width:42px;height:42px;border-radius:50%;background:#eee4ff;display:grid;place-items:center}
+.content{max-width:1500px;margin:auto;padding:28px;padding-bottom:130px}
+
+.heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.heading h1{margin:0;color:#4f2692}
+.heading p{margin:7px 0;color:#858b9b}
+.btn{height:50px;border:0;border-radius:13px;padding:0 18px;font-weight:bold}
+.purple{background:#5420b8;color:#fff}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:22px}
+.stat{background:#fff;border:1px solid #eee;border-radius:20px;padding:20px;box-shadow:0 5px 22px #00000009}
+.stat:nth-child(1){background:#fff8ff}
+.stat:nth-child(2){background:#f6fff8}
+.stat:nth-child(3){background:#fffaf1}
+.stat:nth-child(4){background:#fff7f8}
+.st{display:flex;justify-content:space-between;align-items:center;font-weight:bold}
+.ico{width:45px;height:45px;border-radius:50%;display:grid;place-items:center;background:#eee4ff}
+.num{font-size:34px;font-weight:900;margin-top:13px}
+.label{font-size:13px;color:#858b9b}
+
+.panel,.card{background:#fff;border:1px solid #eee;border-radius:22px;box-shadow:0 5px 22px #00000008}
+.panel{padding:20px;margin-bottom:22px}
+.ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.pt{font-size:21px;font-weight:900;color:#5420b8}
+.ps{font-size:13px;color:#858b9b;margin-top:4px}
+
+.toolbar{display:flex;gap:10px;flex-wrap:wrap}
+.search{flex:1;min-width:250px;height:50px;border:1px solid #ddd;border-radius:14px;padding:0 15px;outline:none}
+.select{height:50px;border:1px solid #ddd;border-radius:14px;background:#fff;padding:0 14px;outline:none}
+
+.list{display:grid;gap:16px}
+.card{padding:19px}
+.ch{display:flex;justify-content:space-between;gap:15px}
+.name{font-size:21px;font-weight:900}
+.phone{color:#777;margin-top:6px}
+.internal{color:#5420b8;font-size:13px;font-weight:bold;margin-top:6px}
+.badge{padding:8px 13px;border-radius:20px;height:max-content;font-size:12px;font-weight:bold;white-space:nowrap}
+.ok{background:#e4f8ec;color:#159447}
+.bad{background:#fde8ea;color:#d93645}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-top:17px}
+.box{background:#f8f8fb;border-radius:14px;padding:13px}
+.box small{display:block;color:#8991a2;font-size:11px;margin-bottom:7px}
+.box strong{font-size:14px;word-break:break-word}
+.promo{background:#eee4ff}
+.promo strong{color:#5420b8}
+.discount-box{background:#fff0f2}
+.discount-box strong{color:#d93645}
+
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}
+.action{border:0;border-radius:12px;padding:11px 16px;font-weight:bold}
+.edit{background:#293160;color:#fff}
+.renew{background:#eef0f6}
+.delete{background:#fde8ea;color:#d93645}
+.invoice-action{background:#fff3d6;color:#9a6500;border:1px solid #f0c85c}
+
+.loading,.empty,.error{text-align:center;padding:30px;background:#fff;border-radius:18px;color:#777}
+.error{color:#d93645}
+
+.modal,.invoice-overlay{display:none;position:fixed;inset:0;background:#0009;z-index:2000;padding:15px}
+.modal.show,.invoice-overlay.show{display:flex;align-items:center;justify-content:center}
+
+.modalbox{width:min(620px,100%);max-height:95vh;overflow:auto;background:#fff;border-radius:24px;padding:22px;box-shadow:0 30px 80px #0006}
+.mh{display:flex;justify-content:space-between;align-items:center}
+.mh h2{margin:0}
+.close{border:0;background:#eee;border-radius:10px;padding:8px 12px}
+.field{margin:13px 0}
+.field label{display:block;font-weight:bold;font-size:13px;margin-bottom:7px}
+.field input,.field select{width:100%;height:47px;border:1px solid #ddd;border-radius:12px;padding:0 12px;outline:none;background:#fff}
+.field input:focus,.field select:focus{border-color:#5420b8}
+.ma{display:flex;gap:10px;margin-top:18px}
+.ma button{flex:1;height:49px;border:0;border-radius:13px;font-weight:bold}
+.cancel{background:#eee}
+.save{background:#5420b8;color:#fff}
 
 #adminBottomNav{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  min-height:92px;
-  background:rgba(255,255,255,.98);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  border-top:1px solid #e8e3f2;
-  box-shadow:0 -8px 35px rgba(50,20,100,.13);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  padding:
-    8px 14px
-    calc(8px + env(safe-area-inset-bottom))
-    14px;
-  z-index:100;
-  direction:rtl;
+position:fixed;left:0;right:0;bottom:0;min-height:92px;
+background:rgba(255,255,255,.98);
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+border-top:1px solid #e8e3f2;
+box-shadow:0 -8px 35px rgba(50,20,100,.13);
+display:flex;align-items:center;justify-content:center;gap:10px;
+padding:8px 14px calc(8px + env(safe-area-inset-bottom)) 14px;
+z-index:100;direction:rtl
 }
 
 #adminBottomNav a{
-  flex:1;
-  max-width:190px;
-  height:78px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:5px;
-  text-decoration:none;
-  color:#77758a;
-  border-radius:20px;
-  font-weight:bold;
-  transition:
-    transform .18s ease,
-    background .18s ease,
-    color .18s ease,
-    box-shadow .18s ease;
+flex:1;max-width:190px;height:78px;display:flex;
+flex-direction:column;align-items:center;justify-content:center;
+gap:5px;text-decoration:none;color:#77758a;border-radius:20px;font-weight:bold
 }
 
 #adminBottomNav .navIcon{
-  width:43px;
-  height:43px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:27px;
-  border-radius:14px;
-  background:#f4f0fb;
+width:43px;height:43px;display:flex;align-items:center;
+justify-content:center;font-size:27px;border-radius:14px;background:#f4f0fb
 }
 
-#adminBottomNav .navText{
-  font-size:12px;
-  white-space:nowrap;
-}
+#adminBottomNav .navText{font-size:12px;white-space:nowrap}
 
 #adminBottomNav a.active{
-  color:#fff;
-  background:
-    linear-gradient(
-      135deg,
-      #7135d7,
-      #5420b8
-    );
-  box-shadow:
-    0 9px 24px
-    rgba(84,32,184,.28);
-  transform:translateY(-4px);
+color:#fff;background:linear-gradient(135deg,#7135d7,#5420b8);
+box-shadow:0 9px 24px rgba(84,32,184,.28);
+transform:translateY(-4px)
 }
 
 #adminBottomNav a.active .navIcon{
-  background:rgba(255,255,255,.18);
+background:rgba(255,255,255,.18)
 }
 
-#adminBottomNav a:not(.active):hover{
-  background:#f5f0ff;
-  color:#5420b8;
-  transform:translateY(-2px);
-}
-
-#adminBottomNav a:not(.active):hover .navIcon{
-  background:#e9ddff;
-}
-
-.modal.show ~ #adminBottomNav{
-  display:none !important;
-}
-
-
-/* =====================================================
+/* =========================
    INVOICE
-===================================================== */
+========================= */
 
 .invoice-overlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:5000;
-  background:rgba(0,0,0,.72);
-  padding:15px;
-  overflow:auto;
-}
-
-.invoice-overlay.show{
-  display:flex;
-  align-items:center;
-  justify-content:center;
+z-index:5000;
+background:rgba(0,0,0,.72);
+overflow:auto
 }
 
 .invoice-modal{
-  width:min(760px,100%);
-  max-height:95vh;
-  overflow:auto;
-  background:#fff;
-  border-radius:24px;
-  box-shadow:0 30px 90px #0008;
+width:min(760px,100%);
+max-height:95vh;
+overflow:auto;
+background:#fff;
+border-radius:24px;
+box-shadow:0 30px 90px #0008
 }
 
 .invoice-topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:16px 20px;
-  border-bottom:1px solid #eee;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:16px 20px;
+border-bottom:1px solid #eee
 }
 
 .invoice-topbar h2{
-  margin:0;
-  color:#5420b8;
+margin:0;
+color:#5420b8
 }
 
 .invoice-close{
-  width:40px;
-  height:40px;
-  border:0;
-  border-radius:12px;
-  background:#eee;
-  font-size:20px;
+width:40px;
+height:40px;
+border:0;
+border-radius:12px;
+background:#eee;
+font-size:20px
 }
 
 .invoice-paper{
-  background:#fff;
-  padding:30px;
-  color:#171a31;
+background:#fff;
+padding:30px;
+color:#171a31
 }
 
 .invoice-brand{
-  text-align:center;
-  margin-bottom:10px;
+text-align:center;
+margin-bottom:8px
 }
 
 .invoice-brand img{
-  width:250px;
-  max-width:80%;
-  height:130px;
-  object-fit:contain;
+width:280px;
+max-width:85%;
+height:auto;
+max-height:150px;
+object-fit:contain;
+display:block;
+margin:0 auto 8px
 }
 
 .invoice-title{
-  text-align:center;
-  font-size:27px;
-  font-weight:900;
-  margin:8px 0 25px;
+text-align:center;
+font-size:27px;
+font-weight:900;
+margin:8px 0 25px
 }
 
 .invoice-meta{
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  margin-bottom:18px;
-  font-size:14px;
+display:flex;
+justify-content:space-between;
+gap:20px;
+margin-bottom:18px;
+font-size:14px
 }
 
 .invoice-meta strong{
-  color:#5420b8;
+color:#5420b8
 }
 
 .invoice-section{
-  border:1px solid #e5e5e5;
-  border-radius:15px;
-  padding:16px;
-  margin-bottom:15px;
+border:1px solid #e5e5e5;
+border-radius:15px;
+padding:16px;
+margin-bottom:15px
 }
 
 .invoice-row{
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  padding:10px 0;
-  border-bottom:1px dashed #ddd;
+display:flex;
+justify-content:space-between;
+gap:20px;
+padding:10px 0;
+border-bottom:1px dashed #ddd
 }
 
 .invoice-row:last-child{
-  border-bottom:0;
+border-bottom:0
 }
 
 .invoice-label{
-  font-weight:bold;
-  color:#555;
+font-weight:bold;
+color:#555
 }
 
 .invoice-value{
-  font-weight:bold;
-  text-align:left;
+font-weight:bold;
+text-align:left
 }
 
 .invoice-discount{
-  color:#d93645;
+color:#d93645
 }
 
 .invoice-code{
-  color:#159447;
+color:#159447
 }
 
 .invoice-total{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:#111827;
-  color:#fff;
-  border-radius:15px;
-  padding:18px 20px;
-  margin-top:18px;
-  font-size:20px;
-  font-weight:900;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#111827;
+color:#fff;
+border-radius:15px;
+padding:18px 20px;
+margin-top:18px;
+font-size:20px;
+font-weight:900
 }
 
 .invoice-total strong{
-  color:#ffd84d;
-  font-size:28px;
+color:#ffd84d;
+font-size:28px
 }
 
 .invoice-footer{
-  text-align:center;
-  border-top:1px dashed #bbb;
-  margin-top:25px;
-  padding-top:20px;
+text-align:center;
+border-top:1px dashed #bbb;
+margin-top:25px;
+padding-top:20px
 }
 
 .invoice-footer strong{
-  display:block;
-  font-size:17px;
-  margin-bottom:8px;
+display:block;
+font-size:17px;
+margin-bottom:8px
 }
 
 .invoice-actions{
-  display:flex;
-  gap:10px;
-  padding:18px 20px;
-  border-top:1px solid #eee;
-  background:#fafafa;
+display:flex;
+gap:10px;
+padding:18px 20px;
+border-top:1px solid #eee;
+background:#fafafa
 }
 
 .invoice-actions button{
-  flex:1;
-  height:52px;
-  border:0;
-  border-radius:13px;
-  color:#fff;
-  font-weight:bold;
+flex:1;
+height:52px;
+border:0;
+border-radius:13px;
+color:#fff;
+font-weight:bold
 }
 
-.invoice-image{
-  background:#7c3aed;
-}
-
-.invoice-pdf{
-  background:#159447;
-}
-
-.invoice-print{
-  background:#2563eb;
-}
-
-
-/* =====================================================
-   TABLET
-===================================================== */
+.invoice-image{background:#7c3aed}
+.invoice-pdf{background:#159447}
+.invoice-print{background:#2563eb}
 
 @media(max-width:950px){
-
-  .side{
-    width:78px;
-  }
-
-  .logo{
-    height:90px;
-  }
-
-  .nav span{
-    display:none;
-  }
-
-  .nav a{
-    justify-content:center;
-  }
-
-  .main{
-    margin-right:78px;
-  }
-
-  .grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
+.side{width:78px}
+.logo{height:90px}
+.nav span{display:none}
+.nav a{justify-content:center}
+.main{margin-right:78px}
+.grid{grid-template-columns:repeat(2,1fr)}
 }
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
 
 @media(max-width:650px){
+.side{display:none}
+.main{margin-right:0}
+.top{height:70px;padding:0 15px}
+.top b{font-size:16px}
+.top small{font-size:11px}
+.content{padding:15px;padding-bottom:120px}
+.stats{grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{padding:15px;border-radius:18px}
+.num{font-size:27px}
+.heading{display:block}
+.heading .btn{width:100%;margin-top:15px}
+.toolbar{display:grid}
+.search,.select{width:100%}
+.ch{display:block}
+.badge{display:inline-block;margin-top:10px}
+.ma{flex-direction:column}
 
-  .side{
-    display:none;
-  }
-
-  .main{
-    margin-right:0;
-    min-height:100vh;
-  }
-
-  .top{
-    height:70px;
-    padding:0 15px;
-  }
-
-  .top b{
-    font-size:16px;
-  }
-
-  .top small{
-    font-size:11px;
-  }
-
-  .content{
-    padding:15px;
-    padding-bottom:120px;
-  }
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-  }
-
-  .stat{
-    padding:15px;
-    border-radius:18px;
-  }
-
-  .num{
-    font-size:27px;
-  }
-
-  .heading{
-    display:block;
-  }
-
-  .heading .btn{
-    width:100%;
-    margin-top:15px;
-  }
-
-  .toolbar{
-    display:grid;
-  }
-
-  .search,
-  .select{
-    width:100%;
-  }
-
-  .ch{
-    display:block;
-  }
-
-  .badge{
-    display:inline-block;
-    margin-top:10px;
-  }
-
-  .ma{
-    flex-direction:column;
-  }
-
-  .invoice-paper{
-    padding:18px 13px;
-  }
-
-  .invoice-meta{
-    flex-direction:column;
-    gap:6px;
-  }
-
-  .invoice-actions{
-    flex-direction:column;
-  }
-
-  .invoice-row{
-    font-size:13px;
-  }
-
-  #adminBottomNav{
-    min-height:94px;
-    padding:
-      7px 5px
-      calc(7px + env(safe-area-inset-bottom))
-      5px;
-    gap:3px;
-  }
-
-  #adminBottomNav a{
-    height:78px;
-    max-width:none;
-    border-radius:18px;
-    gap:4px;
-  }
-
-  #adminBottomNav .navIcon{
-    width:42px;
-    height:42px;
-    border-radius:13px;
-    font-size:25px;
-  }
-
-  #adminBottomNav .navText{
-    font-size:10px;
-  }
-
+.invoice-paper{
+padding:18px 13px
 }
 
+.invoice-meta{
+flex-direction:column;
+gap:6px
+}
 
-/* =====================================================
-   SMALL PHONES
-===================================================== */
+.invoice-actions{
+flex-direction:column
+}
+
+.invoice-row{
+font-size:13px
+}
+
+#adminBottomNav{
+min-height:94px;
+padding:7px 5px calc(7px + env(safe-area-inset-bottom)) 5px;
+gap:3px
+}
+
+#adminBottomNav a{
+height:78px;
+max-width:none;
+border-radius:18px;
+gap:4px
+}
+
+#adminBottomNav .navIcon{
+width:42px;
+height:42px;
+border-radius:13px;
+font-size:25px
+}
+
+#adminBottomNav .navText{
+font-size:10px
+}
+}
 
 @media(max-width:390px){
-
-  #adminBottomNav{
-    gap:1px;
-    padding-left:2px;
-    padding-right:2px;
-  }
-
-  #adminBottomNav a{
-    height:76px;
-  }
-
-  #adminBottomNav .navIcon{
-    width:37px;
-    height:37px;
-    font-size:22px;
-  }
-
-  #adminBottomNav .navText{
-    font-size:9px;
-  }
-
+#adminBottomNav{
+gap:1px;
+padding-left:2px;
+padding-right:2px
 }
 
+#adminBottomNav a{
+height:76px
+}
 
-/* =====================================================
-   PRINT
-===================================================== */
+#adminBottomNav .navIcon{
+width:37px;
+height:37px;
+font-size:22px
+}
+
+#adminBottomNav .navText{
+font-size:9px
+}
+}
 
 @media print{
-
-  body *{
-    visibility:hidden !important;
-  }
-
-  #invoiceOverlay,
-  #invoiceOverlay *{
-    visibility:visible !important;
-  }
-
-  #invoiceOverlay{
-    position:absolute !important;
-    inset:0 !important;
-    background:#fff !important;
-    padding:0 !important;
-  }
-
-  .invoice-modal{
-    width:100% !important;
-    max-height:none !important;
-    box-shadow:none !important;
-    border-radius:0 !important;
-  }
-
-  .invoice-topbar,
-  .invoice-actions{
-    display:none !important;
-  }
-
-  .invoice-paper{
-    padding:25px !important;
-  }
-
+body *{
+visibility:hidden!important
 }
 
+#invoiceOverlay,
+#invoiceOverlay *{
+visibility:visible!important
+}
+
+#invoiceOverlay{
+position:absolute!important;
+inset:0!important;
+background:#fff!important;
+padding:0!important
+}
+
+.invoice-modal{
+width:100%!important;
+max-height:none!important;
+box-shadow:none!important;
+border-radius:0!important
+}
+
+.invoice-topbar,
+.invoice-actions{
+display:none!important
+}
+
+.invoice-paper{
+padding:25px!important
+}
+}
 </style>
-
 </head>
-
 
 <body>
 
-
-<!-- =====================================================
-     LOGIN
-===================================================== -->
-
 <div id="loginScreen" class="login">
 
-  <div class="loginbox">
+<div class="loginbox">
 
-    <img
-      src="logo.png"
-      alt="CASH BACK"
-      onerror="this.style.display='none'"
-    >
+<img
+src="logo.png"
+alt="CASH BACK"
+onerror="this.style.display='none'"
+>
 
-    <h2>CASH BACK</h2>
+<h2>CASH BACK</h2>
 
-    <p>
-      تسجيل الدخول إلى لوحة الإدارة
-    </p>
+<p>
+تسجيل الدخول إلى لوحة الإدارة
+</p>
 
-    <input
-      id="email"
-      type="email"
-      value="mezooelzorkany@gmail.com"
-      autocomplete="username"
-      placeholder="البريد الإلكتروني"
-    >
+<input
+id="email"
+type="email"
+value="mezooelzorkany@gmail.com"
+autocomplete="username"
+placeholder="البريد الإلكتروني"
+>
 
-    <input
-      id="password"
-      type="password"
-      autocomplete="current-password"
-      placeholder="كلمة المرور"
-    >
+<input
+id="password"
+type="password"
+autocomplete="current-password"
+placeholder="كلمة المرور"
+>
 
-    <button
-      id="loginButton"
-      type="button"
-      onclick="login()"
-    >
-      🔐 تسجيل الدخول
-    </button>
+<button
+id="loginButton"
+type="button"
+onclick="login()"
+>
+🔐 تسجيل الدخول
+</button>
 
-    <div id="loginMessage"></div>
-
-  </div>
+<div id="loginMessage"></div>
 
 </div>
 
+</div>
 
-<!-- =====================================================
-     APP
-===================================================== -->
 
 <div id="app">
 
 
-  <aside class="side">
+<aside class="side">
 
-    <div class="logo">
+<div class="logo">
 
-      <img
-        src="logo.png"
-        alt="CASH BACK"
-        onerror="this.style.display='none'"
-      >
+<img
+src="logo.png"
+alt="CASH BACK"
+onerror="this.style.display='none'"
+>
 
-    </div>
+</div>
 
 
-    <nav class="nav">
+<nav class="nav">
 
-      <a
-        class="active"
-        href="customers.html"
-      >
-        <i>👥</i>
-        <span>العملاء</span>
-      </a>
+<a
+class="active"
+href="customers.html"
+>
+<i>👥</i>
+<span>العملاء</span>
+</a>
 
 
-      <a href="packages.html">
-        <i>📦</i>
-        <span>الباقات</span>
-      </a>
+<a href="packages.html">
 
+<i>📦</i>
 
-      <a href="admin.html">
-        <i>🔢</i>
-        <span>الأكواد</span>
-      </a>
+<span>
+الباقات
+</span>
 
+</a>
 
-      <a href="numbers.html">
-        <i>📱</i>
-        <span>الأرقام الأساسية</span>
-      </a>
 
+<a href="admin.html">
 
-      <a href="finances.html">
-        <i>💰</i>
-        <span>الماليات</span>
-      </a>
+<i>🔢</i>
 
-    </nav>
+<span>
+الأكواد
+</span>
 
+</a>
 
-    <button
-      class="logout"
-      type="button"
-      onclick="logout()"
-    >
-      🚪 تسجيل الخروج
-    </button>
 
-  </aside>
+<a href="numbers.html">
 
+<i>📱</i>
 
-  <main class="main">
+<span>
+الأرقام الأساسية
+</span>
 
+</a>
 
-    <header class="top">
 
-      <div>
+<a href="finances.html">
 
-        <b>
-          مرحبًا بك، مدير النظام 👋
-        </b>
+<i>💰</i>
 
-        <small>
-          CASH BACK — إدارة العملاء والباقات
-        </small>
+<span>
+الماليات
+</span>
 
-      </div>
+</a>
 
+</nav>
 
-      <div class="avatar">
-        👨‍💼
-      </div>
 
-    </header>
+<button
+class="logout"
+type="button"
+onclick="logout()"
+>
+🚪 تسجيل الخروج
+</button>
 
+</aside>
 
-    <section class="content">
 
+<main class="main">
 
-      <div class="heading">
 
-        <div>
+<header class="top">
 
-          <h1>
-            👥 العملاء
-          </h1>
+<div>
 
-          <p>
-            إدارة العملاء والتجديدات والاشتراكات
-          </p>
+<b>
+مرحبًا بك، مدير النظام 👋
+</b>
 
-        </div>
+<small>
+CASH BACK — إدارة العملاء والباقات
+</small>
 
+</div>
 
-        <button
-          class="btn purple"
-          type="button"
-          onclick="openAdd()"
-        >
-          ➕ إضافة عميل
-        </button>
 
-      </div>
+<div class="avatar">
+👨‍💼
+</div>
 
+</header>
 
-      <div class="stats">
 
+<section class="content">
 
-        <div class="stat">
 
-          <div class="st">
+<div class="heading">
 
-            إجمالي العملاء
+<div>
 
-            <span class="ico">
-              👥
-            </span>
+<h1>
+👥 العملاء
+</h1>
 
-          </div>
+<p>
+إدارة العملاء والتجديدات والاشتراكات
+</p>
 
-          <div
-            class="num"
-            id="total"
-          >
-            0
-          </div>
+</div>
 
-          <div class="label">
-            عميل مسجل
-          </div>
 
-        </div>
+<button
+class="btn purple"
+type="button"
+onclick="openAdd()"
+>
+➕ إضافة عميل
+</button>
 
+</div>
 
-        <div class="stat">
 
-          <div class="st">
+<div class="stats">
 
-            العملاء النشطين
 
-            <span class="ico">
-              🟢
-            </span>
+<div class="stat">
 
-          </div>
+<div class="st">
 
-          <div
-            class="num"
-            id="active"
-          >
-            0
-          </div>
+إجمالي العملاء
 
-          <div class="label">
-            عميل نشط
-          </div>
+<span class="ico">
+👥
+</span>
 
-        </div>
+</div>
 
+<div
+class="num"
+id="total"
+>
+0
+</div>
 
-        <div class="stat">
+<div class="label">
+عميل مسجل
+</div>
 
-          <div class="st">
+</div>
 
-            تجديد قريب
 
-            <span class="ico">
-              🕐
-            </span>
+<div class="stat">
 
-          </div>
+<div class="st">
 
-          <div
-            class="num"
-            id="soon"
-          >
-            0
-          </div>
+العملاء النشطين
 
-          <div class="label">
-            خلال 7 أيام
-          </div>
+<span class="ico">
+🟢
+</span>
 
-        </div>
+</div>
 
+<div
+class="num"
+id="active"
+>
+0
+</div>
 
-        <div class="stat">
+<div class="label">
+عميل نشط
+</div>
 
-          <div class="st">
+</div>
 
-            منتهية
 
-            <span class="ico">
-              ⚠️
-            </span>
+<div class="stat">
 
-          </div>
+<div class="st">
 
-          <div
-            class="num"
-            id="expired"
-          >
-            0
-          </div>
+تجديد قريب
 
-          <div class="label">
-            منتهية الصلاحية
-          </div>
+<span class="ico">
+🕐
+</span>
 
-        </div>
+</div>
 
+<div
+class="num"
+id="soon"
+>
+0
+</div>
 
-      </div>
+<div class="label">
+خلال 7 أيام
+</div>
 
+</div>
 
-      <div class="panel">
 
-        <div class="ph">
+<div class="stat">
 
-          <div>
+<div class="st">
 
-            <div class="pt">
-              🔎 البحث والتصفية
-            </div>
+منتهية
 
-            <div class="ps">
-              ابحث بالاسم أو الرقم أو الرقم الأساسي
-            </div>
+<span class="ico">
+⚠️
+</span>
 
-          </div>
+</div>
 
-        </div>
+<div
+class="num"
+id="expired"
+>
+0
+</div>
 
+<div class="label">
+منتهية الصلاحية
+</div>
 
-        <div class="toolbar">
-
-
-          <input
-            id="search"
-            class="search"
-            type="search"
-            placeholder="🔎 ابحث عن عميل..."
-          >
-
-
-          <select
-            id="renewalFilter"
-            class="select"
-          >
-
-            <option value="all">
-              كل مواعيد التجديد
-            </option>
-
-            <option value="1">
-              تجديد يوم 1
-            </option>
-
-            <option value="16">
-              تجديد يوم 16
-            </option>
-
-            <option value="custom">
-              تاريخ مخصص
-            </option>
-
-          </select>
-
-
-          <select
-            id="statusFilter"
-            class="select"
-          >
-
-            <option value="all">
-              كل الحالات
-            </option>
-
-            <option value="active">
-              🟢 نشط
-            </option>
-
-            <option value="inactive">
-              🔴 موقوف
-            </option>
-
-            <option value="soon">
-              🟠 قرب التجديد
-            </option>
-
-            <option value="expired">
-              🔴 منتهي
-            </option>
-
-          </select>
-
-
-        </div>
-
-      </div>
-
-
-      <div
-        id="list"
-        class="list"
-      >
-
-        <div class="loading">
-          ⏳ جاري تحميل العملاء...
-        </div>
-
-      </div>
-
-
-    </section>
-
-
-  </main>
-
-
-  <nav id="adminBottomNav">
-
-
-    <a
-      href="finances.html"
-      data-page="finances.html"
-    >
-
-      <span class="navIcon">
-        💰
-      </span>
-
-      <span class="navText">
-        الماليات
-      </span>
-
-    </a>
-
-
-    <a
-      href="numbers.html"
-      data-page="numbers.html"
-    >
-
-      <span class="navIcon">
-        📱
-      </span>
-
-      <span class="navText">
-        الأرقام الأساسية
-      </span>
-
-    </a>
-
-
-    <a
-      href="admin.html"
-      data-page="admin.html"
-    >
-
-      <span class="navIcon">
-        🔢
-      </span>
-
-      <span class="navText">
-        الأكواد
-      </span>
-
-    </a>
-
-
-    <a
-      href="packages.html"
-      data-page="packages.html"
-    >
-
-      <span class="navIcon">
-        📦
-      </span>
-
-      <span class="navText">
-        الباقات
-      </span>
-
-    </a>
-
-
-    <a
-      href="customers.html"
-      data-page="customers.html"
-    >
-
-      <span class="navIcon">
-        👥
-      </span>
-
-      <span class="navText">
-        العملاء
-      </span>
-
-    </a>
-
-
-  </nav>
+</div>
 
 
 </div>
 
 
-<!-- =====================================================
-     CUSTOMER MODAL
-===================================================== -->
+<div class="panel">
 
-<div
-  id="modal"
-  class="modal"
->
+<div class="ph">
 
-  <div class="modalbox">
+<div>
 
+<div class="pt">
+🔎 البحث والتصفية
+</div>
 
-    <div class="mh">
+<div class="ps">
+ابحث بالاسم أو الرقم أو الرقم الأساسي
+</div>
 
-      <h2 id="modalTitle">
-        ➕ إضافة عميل
-      </h2>
-
-      <button
-        class="close"
-        type="button"
-        onclick="closeModal()"
-      >
-        ✕
-      </button>
-
-    </div>
-
-
-    <input
-      type="hidden"
-      id="customerId"
-    >
-
-
-    <div class="field">
-
-      <label>
-        اسم العميل *
-      </label>
-
-      <input
-        id="customerName"
-        placeholder="مثال: محمد"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        🏷️ الاسم عندي
-      </label>
-
-      <input
-        id="internalName"
-        placeholder="الاسم اللي مسجله بيه عندك"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        رقم العميل *
-      </label>
-
-      <input
-        id="customerPhone"
-        inputmode="numeric"
-        placeholder="01xxxxxxxxx"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        الرقم الأساسي
-      </label>
-
-      <input
-        id="primaryNumber"
-        inputmode="numeric"
-        placeholder="الرقم اللي اتعملت منه الباقة"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        📦 الجيجا
-      </label>
-
-      <input
-        id="allocatedGB"
-        type="number"
-        min="0"
-        step=".01"
-        value="0"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        الباقة
-      </label>
-
-      <select
-        id="packageName"
-        onchange="packageData()"
-      >
-
-        <option value="">
-          اختر الباقة
-        </option>
-
-        <option value="20 جيجا">
-          20 جيجا
-        </option>
-
-        <option value="25 جيجا">
-          25 جيجا
-        </option>
-
-        <option value="30 جيجا">
-          30 جيجا
-        </option>
-
-        <option value="35 جيجا">
-          35 جيجا
-        </option>
-
-        <option value="40 جيجا">
-          40 جيجا
-        </option>
-
-        <option value="45 جيجا">
-          45 جيجا
-        </option>
-
-        <option value="50 جيجا">
-          50 جيجا
-        </option>
-
-        <option value="55 جيجا">
-          55 جيجا
-        </option>
-
-        <option value="60 جيجا">
-          60 جيجا
-        </option>
-
-      </select>
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        السعر
-      </label>
-
-      <input
-        id="lastPrice"
-        type="number"
-        min="0"
-      >
-
-    </div>
-
-
-    <!-- DISCOUNT -->
-
-    <div class="field">
-
-      <label>
-        💸 قيمة الخصم
-      </label>
-
-      <input
-        id="discountAmount"
-        type="number"
-        min="0"
-        step=".01"
-        value="0"
-        placeholder="مثال: 40"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        🎁 كود الخصم
-      </label>
-
-      <input
-        id="promoCode"
-        type="text"
-        maxlength="50"
-        placeholder="مثال: MAWLID26"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        طريقة الدفع
-      </label>
-
-      <select id="paymentMethod">
-
-        <option value="">
-          غير محدد
-        </option>
-
-        <option value="Vodafone Cash">
-          Vodafone Cash
-        </option>
-
-        <option value="Etisalat Cash">
-          Etisalat Cash
-        </option>
-
-        <option value="WE Pay">
-          WE Pay
-        </option>
-
-        <option value="Orange Cash">
-          Orange Cash
-        </option>
-
-        <option value="InstaPay">
-          InstaPay
-        </option>
-
-        <option value="كاش">
-          كاش
-        </option>
-
-        <option value="تحويل بنكي">
-          تحويل بنكي
-        </option>
-
-      </select>
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        الحالة
-      </label>
-
-      <select id="status">
-
-        <option value="active">
-          🟢 نشط
-        </option>
-
-        <option value="inactive">
-          🔴 موقوف
-        </option>
-
-      </select>
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        نظام التجديد
-      </label>
-
-      <select
-        id="renewalType"
-        onchange="renewalData()"
-      >
-
-        <option value="day_1">
-          يوم 1
-        </option>
-
-        <option value="day_16">
-          يوم 16
-        </option>
-
-        <option value="custom">
-          تاريخ مخصص
-        </option>
-
-      </select>
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        يوم التجديد
-      </label>
-
-      <input
-        id="renewalDay"
-        type="number"
-        min="1"
-        max="31"
-        value="1"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        التجديد القادم *
-      </label>
-
-      <input
-        id="nextRenewal"
-        type="date"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        عدد الطلبات
-      </label>
-
-      <input
-        id="totalOrders"
-        type="number"
-        min="0"
-        value="0"
-      >
-
-    </div>
-
-
-    <div class="ma">
-
-      <button
-        class="cancel"
-        type="button"
-        onclick="closeModal()"
-      >
-        إلغاء
-      </button>
-
-      <button
-        class="save"
-        type="button"
-        onclick="saveCustomer()"
-      >
-        💾 حفظ
-      </button>
-
-    </div>
-
-
-  </div>
+</div>
 
 </div>
 
 
-<!-- =====================================================
-     INVOICE MODAL
-===================================================== -->
+<div class="toolbar">
 
-<div
-  id="invoiceOverlay"
-  class="invoice-overlay"
+<input
+id="search"
+class="search"
+type="search"
+placeholder="🔎 ابحث عن عميل..."
 >
 
-  <div class="invoice-modal">
 
+<select
+id="renewalFilter"
+class="select"
+>
 
-    <div class="invoice-topbar">
+<option value="all">
+كل مواعيد التجديد
+</option>
 
-      <h2>
-        🧾 معاينة الفاتورة
-      </h2>
+<option value="1">
+تجديد يوم 1
+</option>
 
-      <button
-        class="invoice-close"
-        type="button"
-        onclick="closeInvoice()"
-      >
-        ✕
-      </button>
+<option value="16">
+تجديد يوم 16
+</option>
 
-    </div>
+<option value="custom">
+تاريخ مخصص
+</option>
 
+</select>
 
-    <div
-      id="invoicePaper"
-      class="invoice-paper"
-    >
 
+<select
+id="statusFilter"
+class="select"
+>
 
-      <div class="invoice-brand">
+<option value="all">
+كل الحالات
+</option>
 
-        <img
-          src="cashback-logo.png"
-          alt="CASH BACK"
-          onerror="this.style.display='none'"
-        >
+<option value="active">
+🟢 نشط
+</option>
 
-      </div>
+<option value="inactive">
+🔴 موقوف
+</option>
 
+<option value="soon">
+🟠 قرب التجديد
+</option>
 
-      <div class="invoice-meta">
+<option value="expired">
+🔴 منتهي
+</option>
 
-        <div>
-          رقم الفاتورة:
-          <strong id="invoiceNumber">
-            -
-          </strong>
-        </div>
+</select>
 
-        <div>
-          تاريخ الفاتورة:
-          <strong id="invoiceDate">
-            -
-          </strong>
-        </div>
+</div>
 
-      </div>
+</div>
 
 
-      <div class="invoice-title">
-        فاتورة اشتراك WE
-      </div>
+<div
+id="list"
+class="list"
+>
 
+<div class="loading">
+⏳ جاري تحميل العملاء...
+</div>
 
-      <!-- CUSTOMER -->
+</div>
 
-      <div class="invoice-section">
 
+</section>
 
-        <div class="invoice-row">
+</main>
 
-          <span class="invoice-label">
-            اسم العميل
-          </span>
 
-          <span
-            class="invoice-value"
-            id="invoiceCustomerName"
-          >
-            -
-          </span>
+<nav id="adminBottomNav">
 
-        </div>
 
+<a
+href="finances.html"
+data-page="finances.html"
+>
 
-        <div class="invoice-row">
+<span class="navIcon">
+💰
+</span>
 
-          <span class="invoice-label">
-            رقم العميل
-          </span>
+<span class="navText">
+الماليات
+</span>
 
-          <span
-            class="invoice-value"
-            id="invoicePhone"
-          >
-            -
-          </span>
+</a>
 
-        </div>
 
+<a
+href="numbers.html"
+data-page="numbers.html"
+>
 
-        <div class="invoice-row">
+<span class="navIcon">
+📱
+</span>
 
-          <span class="invoice-label">
-            الرقم الأساسي
-          </span>
+<span class="navText">
+الأرقام الأساسية
+</span>
 
-          <span
-            class="invoice-value"
-            id="invoicePrimary"
-          >
-            -
-          </span>
+</a>
 
-        </div>
 
+<a
+href="admin.html"
+data-page="admin.html"
+>
 
-      </div>
+<span class="navIcon">
+🔢
+</span>
 
+<span class="navText">
+الأكواد
+</span>
 
-      <!-- PACKAGE -->
+</a>
 
-      <div class="invoice-section">
 
+<a
+href="packages.html"
+data-page="packages.html"
+>
 
-        <div class="invoice-row">
+<span class="navIcon">
+📦
+</span>
 
-          <span class="invoice-label">
-            الباقة
-          </span>
+<span class="navText">
+الباقات
+</span>
 
-          <span
-            class="invoice-value"
-            id="invoicePackage"
-          >
-            -
-          </span>
+</a>
 
-        </div>
 
+<a
+href="customers.html"
+data-page="customers.html"
+>
 
-        <div class="invoice-row">
+<span class="navIcon">
+👥
+</span>
 
-          <span class="invoice-label">
-            الجيجا
-          </span>
+<span class="navText">
+العملاء
+</span>
 
-          <span
-            class="invoice-value"
-            id="invoiceGB"
-          >
-            -
-          </span>
+</a>
 
-        </div>
 
+</nav>
 
-        <div class="invoice-row">
+</div>
 
-          <span class="invoice-label">
-            فترة الاشتراك
-          </span>
 
-          <span
-            class="invoice-value"
-            id="invoicePeriod"
-          >
-            -
-          </span>
+<div
+id="modal"
+class="modal"
+>
 
-        </div>
+<div class="modalbox">
 
 
-        <div class="invoice-row">
+<div class="mh">
 
-          <span class="invoice-label">
-            طريقة الدفع
-          </span>
+<h2 id="modalTitle">
+➕ إضافة عميل
+</h2>
 
-          <span
-            class="invoice-value"
-            id="invoicePayment"
-          >
-            -
-          </span>
+<button
+class="close"
+type="button"
+onclick="closeModal()"
+>
+✕
+</button>
 
-        </div>
+</div>
 
 
-      </div>
+<input
+type="hidden"
+id="customerId"
+>
 
 
-      <!-- PRICE -->
+<div class="field">
 
-      <div class="invoice-section">
+<label>
+اسم العميل *
+</label>
 
+<input
+id="customerName"
+placeholder="مثال: محمد"
+>
 
-        <div class="invoice-row">
+</div>
 
-          <span class="invoice-label">
-            قيمة الباقة الأساسية
-          </span>
 
-          <span
-            class="invoice-value"
-            id="invoiceBasePrice"
-          >
-            0 جنيه
-          </span>
+<div class="field">
 
-        </div>
+<label>
+🏷️ الاسم عندي
+</label>
 
+<input
+id="internalName"
+placeholder="الاسم اللي مسجله بيه عندك"
+>
 
-        <div class="invoice-row">
+</div>
 
-          <span class="invoice-label">
-            الإجمالي قبل الخصم
-          </span>
 
-          <span
-            class="invoice-value"
-            id="invoiceBeforeDiscount"
-          >
-            0 جنيه
-          </span>
+<div class="field">
 
-        </div>
+<label>
+رقم العميل *
+</label>
 
+<input
+id="customerPhone"
+inputmode="numeric"
+placeholder="01xxxxxxxxx"
+>
 
-        <div
-          id="invoiceDiscountRow"
-          class="invoice-row"
-          style="display:none"
-        >
+</div>
 
-          <span class="invoice-label invoice-discount">
-            الخصم
-          </span>
 
-          <span
-            class="invoice-value invoice-discount"
-            id="invoiceDiscount"
-          >
-            - 0 جنيه
-          </span>
+<div class="field">
 
-        </div>
+<label>
+الرقم الأساسي
+</label>
 
+<input
+id="primaryNumber"
+inputmode="numeric"
+placeholder="الرقم اللي اتعملت منه الباقة"
+>
 
-        <div
-          id="invoicePromoRow"
-          class="invoice-row"
-          style="display:none"
-        >
+</div>
 
-          <span class="invoice-label invoice-code">
-            كود الخصم
-          </span>
 
-          <span
-            class="invoice-value invoice-code"
-            id="invoicePromo"
-          >
-            -
-          </span>
+<div class="field">
 
-        </div>
+<label>
+📦 الجيجا
+</label>
 
+<input
+id="allocatedGB"
+type="number"
+min="0"
+step=".01"
+value="0"
+>
 
-        <div class="invoice-total">
+</div>
 
-          <span>
-            الإجمالي النهائي
-          </span>
 
-          <strong id="invoiceFinalTotal">
-            0 جنيه
-          </strong>
+<div class="field">
 
-        </div>
+<label>
+الباقة
+</label>
 
+<select
+id="packageName"
+onchange="packageData()"
+>
 
-      </div>
+<option value="">
+اختر الباقة
+</option>
 
+<option value="20 جيجا">
+20 جيجا
+</option>
 
-      <div class="invoice-footer">
+<option value="25 جيجا">
+25 جيجا
+</option>
 
-        <strong>
-          شكرًا لاختياركم CASH BACK
-        </strong>
+<option value="30 جيجا">
+30 جيجا
+</option>
 
-        <div>
-          للتواصل والاستفسار
-        </div>
+<option value="35 جيجا">
+35 جيجا
+</option>
 
-      </div>
+<option value="40 جيجا">
+40 جيجا
+</option>
 
+<option value="45 جيجا">
+45 جيجا
+</option>
 
-    </div>
+<option value="50 جيجا">
+50 جيجا
+</option>
 
+<option value="55 جيجا">
+55 جيجا
+</option>
 
-    <div class="invoice-actions">
+<option value="60 جيجا">
+60 جيجا
+</option>
 
+</select>
 
-      <button
-        class="invoice-image"
-        type="button"
-        onclick="saveInvoiceImage()"
-      >
-        🖼️ حفظ كصورة
-      </button>
+</div>
 
 
-      <button
-        class="invoice-pdf"
-        type="button"
-        onclick="saveInvoicePDF()"
-      >
-        📄 حفظ PDF
-      </button>
+<div class="field">
 
+<label>
+السعر
+</label>
 
-      <button
-        class="invoice-print"
-        type="button"
-        onclick="printInvoice()"
-      >
-        🖨️ طباعة
-      </button>
+<input
+id="lastPrice"
+type="number"
+min="0"
+>
 
+</div>
 
-    </div>
 
+<div class="field">
 
-  </div>
+<label>
+💸 قيمة الخصم
+</label>
+
+<input
+id="discountAmount"
+type="number"
+min="0"
+step=".01"
+value="0"
+placeholder="مثال: 40"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+🎁 كود الخصم
+</label>
+
+<input
+id="promoCode"
+type="text"
+maxlength="50"
+placeholder="مثال: MAWLID26"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+طريقة الدفع
+</label>
+
+<select id="paymentMethod">
+
+<option value="">
+غير محدد
+</option>
+
+<option value="Vodafone Cash">
+Vodafone Cash
+</option>
+
+<option value="Etisalat Cash">
+Etisalat Cash
+</option>
+
+<option value="WE Pay">
+WE Pay
+</option>
+
+<option value="Orange Cash">
+Orange Cash
+</option>
+
+<option value="InstaPay">
+InstaPay
+</option>
+
+<option value="كاش">
+كاش
+</option>
+
+<option value="تحويل بنكي">
+تحويل بنكي
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+الحالة
+</label>
+
+<select id="status">
+
+<option value="active">
+🟢 نشط
+</option>
+
+<option value="inactive">
+🔴 موقوف
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+نظام التجديد
+</label>
+
+<select
+id="renewalType"
+onchange="renewalData()"
+>
+
+<option value="day_1">
+يوم 1
+</option>
+
+<option value="day_16">
+يوم 16
+</option>
+
+<option value="custom">
+تاريخ مخصص
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+يوم التجديد
+</label>
+
+<input
+id="renewalDay"
+type="number"
+min="1"
+max="31"
+value="1"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+التجديد القادم *
+</label>
+
+<input
+id="nextRenewal"
+type="date"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+عدد الطلبات
+</label>
+
+<input
+id="totalOrders"
+type="number"
+min="0"
+value="0"
+>
+
+</div>
+
+
+<div class="ma">
+
+<button
+class="cancel"
+type="button"
+onclick="closeModal()"
+>
+إلغاء
+</button>
+
+<button
+class="save"
+type="button"
+onclick="saveCustomer()"
+>
+💾 حفظ
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<div
+id="invoiceOverlay"
+class="invoice-overlay"
+>
+
+<div class="invoice-modal">
+
+
+<div class="invoice-topbar">
+
+<h2>
+🧾 معاينة الفاتورة
+</h2>
+
+<button
+class="invoice-close"
+type="button"
+onclick="closeInvoice()"
+>
+✕
+</button>
+
+</div>
+
+
+<div
+id="invoicePaper"
+class="invoice-paper"
+>
+
+
+<div class="invoice-brand">
+
+<img
+src="logo.png"
+alt="CASH BACK"
+>
+
+</div>
+
+
+<div class="invoice-title">
+فاتورة اشتراك WE
+</div>
+
+
+<div class="invoice-meta">
+
+<div>
+رقم الفاتورة:
+<strong id="invoiceNumber">
+-
+</strong>
+</div>
+
+<div>
+تاريخ الفاتورة:
+<strong id="invoiceDate">
+-
+</strong>
+</div>
+
+</div>
+
+
+<div class="invoice-section">
+
+
+<div class="invoice-row">
+
+<span class="invoice-label">
+اسم العميل
+</span>
+
+<span
+class="invoice-value"
+id="invoiceCustomerName"
+>
+-
+</span>
+
+</div>
+
+
+<div class="invoice-row">
+
+<span class="invoice-label">
+رقم العميل
+</span>
+
+<span
+class="invoice-value"
+id="invoicePhone"
+>
+-
+</span>
+
+</div>
+
+
+<div class="invoice-row">
+
+<span class="invoice-label">
+الرقم الأساسي
+</span>
+
+<span
+class="invoice-value"
+id="invoicePrimary"
+>
+-
+</span>
+
+</div>
+
+
+</div>
+
+
+<div class="invoice-section">
+
+
+<div class="invoice-row">
+
+<span class="invoice-label">
+الباقة
+</span>
+
+<span
+class="invoice-value"
+id="invoicePackage"
+>
+-
+</span>
+
+</div>
+
+
+<div class="invoice-row">
+
+<span class="invoice-label">
+الجيجا
+</span>
+
+<span
+class="invoice-value"
+id="invoiceGB"
+>
+-
+</span>
+
+</div>
+
+
+<div class="invoice-row">
+
+<span class="invoice-label">
+فترة الاشتراك
+</span>
+
+<span
+class="invoice-value"
+id="invoicePeriod"
+>
+-
+</span>
+
+</div>
+
+
+<div class="invoice-row">
+
+<span class="invoice-label">
+طريقة الدفع
+</span>
+
+<span
+class="invoice-value"
+id="invoicePayment"
+>
+-
+</span>
+
+</div>
+
+
+</div>
+
+
+<div class="invoice-section">
+
+
+<div class="invoice-row">
+
+<span class="invoice-label">
+السعر الأساسي
+</span>
+
+<span
+class="invoice-value"
+id="invoiceBasePrice"
+>
+0 جنيه
+</span>
+
+</div>
+
+
+<div class="invoice-row">
+
+<span class="invoice-label">
+الإجمالي قبل الخصم
+</span>
+
+<span
+class="invoice-value"
+id="invoiceBeforeDiscount"
+>
+0 جنيه
+</span>
+
+</div>
+
+
+<div
+id="invoiceDiscountRow"
+class="invoice-row"
+style="display:none"
+>
+
+<span class="invoice-label invoice-discount">
+الخصم
+</span>
+
+<span
+class="invoice-value invoice-discount"
+id="invoiceDiscount"
+>
+- 0 جنيه
+</span>
+
+</div>
+
+
+<div
+id="invoicePromoRow"
+class="invoice-row"
+style="display:none"
+>
+
+<span class="invoice-label invoice-code">
+كود الخصم
+</span>
+
+<span
+class="invoice-value invoice-code"
+id="invoicePromo"
+>
+-
+</span>
+
+</div>
+
+
+<div class="invoice-total">
+
+<span>
+الإجمالي النهائي
+</span>
+
+<strong id="invoiceFinalTotal">
+0 جنيه
+</strong>
+
+</div>
+
+
+</div>
+
+
+<div class="invoice-footer">
+
+<strong>
+شكرًا لاختياركم CASH BACK
+</strong>
+
+<div>
+للتواصل والاستفسار
+</div>
+
+</div>
+
+
+</div>
+
+
+<div class="invoice-actions">
+
+
+<button
+class="invoice-image"
+type="button"
+onclick="saveInvoiceImage()"
+>
+🖼️ حفظ كصورة
+</button>
+
+
+<button
+class="invoice-pdf"
+type="button"
+onclick="saveInvoicePDF()"
+>
+📄 حفظ PDF
+</button>
+
+
+<button
+class="invoice-print"
+type="button"
+onclick="printInvoice()"
+>
+🖨️ طباعة
+</button>
+
+
+</div>
+
+
+</div>
 
 </div>
 
 
 <script>
-
-/* =====================================================
-   SUPABASE
-===================================================== */
 
 const SUPABASE_URL =
 "https://pgvbynefhqmyzjtccttl.supabase.co";
@@ -2412,14 +1661,10 @@ const ADMIN_EMAIL =
 
 const db =
 supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+SUPABASE_URL,
+SUPABASE_KEY
 );
 
-
-/* =====================================================
-   DATA
-===================================================== */
 
 let customers = [];
 
@@ -2428,10 +1673,6 @@ let editMode = false;
 let currentInvoiceCustomer = null;
 
 
-/* =====================================================
-   HELPERS
-===================================================== */
-
 const $ =
 id =>
 document.getElementById(id);
@@ -2439,1792 +1680,1713 @@ document.getElementById(id);
 
 function escapeHtml(value){
 
-  return String(value ?? "")
-    .replace(
-      /[&<>"']/g,
-      char => ({
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#039;"
-      }[char])
-    );
+return String(value ?? "")
+.replace(
+/[&<>"']/g,
+c =>
+({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+}[c])
+);
 
 }
 
 
 function cleanPhone(value){
 
-  return String(value || "")
-    .replace(/[^\d]/g,"");
+return String(value || "")
+.replace(/[^\d]/g,"");
 
 }
 
 
 function validPhone(value){
 
-  return /^01[0125]\d{8}$/
-    .test(
-      cleanPhone(value)
-    );
+return /^01[0125]\d{8}$/
+.test(
+cleanPhone(value)
+);
 
 }
 
 
 function extractDate(value){
 
-  const match =
-    String(value || "")
-      .match(
-        /\d{4}-\d{2}-\d{2}/
-      );
+const m =
+String(value || "")
+.match(
+/\d{4}-\d{2}-\d{2}/
+);
 
-  return match
-    ? match[0]
-    : null;
+return m
+? m[0]
+: null;
 
 }
 
 
 function daysUntil(value){
 
-  const d =
-    extractDate(value);
+const d =
+extractDate(value);
 
-  if(!d)
-    return null;
-
-
-  const today =
-    new Date();
-
-  today.setHours(
-    0,
-    0,
-    0,
-    0
-  );
+if(!d)
+return null;
 
 
-  const target =
-    new Date(
-      d + "T00:00:00"
-    );
+const today =
+new Date();
+
+today.setHours(
+0,
+0,
+0,
+0
+);
 
 
-  return Math.ceil(
-    (
-      target -
-      today
-    ) /
-    86400000
-  );
+return Math.ceil(
+(
+new Date(
+d +
+"T00:00:00"
+) -
+today
+) /
+86400000
+);
 
 }
 
 
 function getGB(value){
 
-  const match =
-    String(value || "")
-      .match(
-        /(\d+(?:\.\d+)?)/
-      );
+const m =
+String(value || "")
+.match(
+/(\d+(?:\.\d+)?)/
+);
 
-  return match
-    ? Number(match[1])
-    : 0;
+return m
+? Number(m[1])
+: 0;
 
 }
 
 
 function money(value){
 
-  return Number(value || 0)
-    .toLocaleString(
-      "ar-EG",
-      {
-        maximumFractionDigits:2
-      }
-    );
+return Number(value || 0)
+.toLocaleString(
+"ar-EG",
+{
+maximumFractionDigits:2
+}
+);
 
 }
 
 
-/* =====================================================
-   PRICES
-===================================================== */
+function finalPrice(c){
+
+return Math.max(
+0,
+Number(c?.last_price || 0) -
+Number(c?.discount_amount || 0)
+);
+
+}
+
+
+function formatDate(value){
+
+const d =
+extractDate(value);
+
+return d
+?
+new Date(
+d +
+"T00:00:00"
+)
+.toLocaleDateString(
+"ar-EG"
+)
+:
+"-";
+
+}
+
 
 const prices = {
 
-  "20 جيجا":270,
-  "25 جيجا":300,
-  "30 جيجا":340,
-  "35 جيجا":380,
-  "40 جيجا":430,
-  "45 جيجا":450,
-  "50 جيجا":480,
-  "55 جيجا":520,
-  "60 جيجا":570
+"20 جيجا":270,
+"25 جيجا":300,
+"30 جيجا":340,
+"35 جيجا":380,
+"40 جيجا":430,
+"45 جيجا":450,
+"50 جيجا":480,
+"55 جيجا":520,
+"60 جيجا":570
 
 };
 
 
-/* =====================================================
-   API
-===================================================== */
-
 async function api(
-  path,
-  options={}
+path,
+options={}
 ){
 
-  const sessionResult =
-    await db.auth.getSession();
+const sessionResult =
+await db.auth.getSession();
 
 
-  const token =
-    sessionResult
-      .data
-      .session
-      ?.access_token ||
-    SUPABASE_KEY;
+const token =
+sessionResult
+.data
+.session
+?.access_token ||
+SUPABASE_KEY;
 
 
-  const response =
-    await fetch(
-      SUPABASE_URL +
-      "/rest/v1/" +
-      path,
-      {
-        ...options,
+const response =
+await fetch(
+SUPABASE_URL +
+"/rest/v1/" +
+path,
+{
+...options,
 
-        headers:{
+headers:{
 
-          "apikey":
-            SUPABASE_KEY,
+"apikey":
+SUPABASE_KEY,
 
-          "Authorization":
-            "Bearer " +
-            token,
+"Authorization":
+"Bearer " +
+token,
 
-          "Content-Type":
-            "application/json",
+"Content-Type":
+"application/json",
 
-          "Prefer":
-            "return=representation",
+"Prefer":
+"return=representation",
 
-          ...(options.headers || {})
+...(options.headers || {})
 
-        }
+}
 
-      }
-    );
-
-
-  const text =
-    await response.text();
+}
+);
 
 
-  let data = null;
+const text =
+await response.text();
 
 
-  try{
-
-    data =
-      text
-      ? JSON.parse(text)
-      : null;
-
-  }catch{
-
-    data = text;
-
-  }
+let data = null;
 
 
-  if(!response.ok){
+try{
 
-    throw new Error(
-      data?.message ||
-      data?.hint ||
-      data?.details ||
-      data?.error_description ||
-      String(
-        data ||
-        "خطأ في قاعدة البيانات"
-      )
-    );
+data =
+text
+? JSON.parse(text)
+: null;
 
-  }
+}catch{
 
-
-  return data;
+data = text;
 
 }
 
 
-/* =====================================================
-   LOGIN
-===================================================== */
+if(!response.ok){
+
+throw new Error(
+data?.message ||
+data?.hint ||
+data?.details ||
+String(
+data ||
+"خطأ في قاعدة البيانات"
+)
+);
+
+}
+
+
+return data;
+
+}
+
 
 async function login(){
 
-  const email =
-    $("email")
-      .value
-      .trim();
+const email =
+$("email")
+.value
+.trim();
+
+const password =
+$("password")
+.value;
+
+const message =
+$("loginMessage");
+
+const button =
+$("loginButton");
 
 
-  const password =
-    $("password")
-      .value;
+message.style.color =
+"#c73542";
+
+message.textContent =
+"⏳ جاري تسجيل الدخول...";
+
+button.disabled = true;
 
 
-  const message =
-    $("loginMessage");
+if(
+!email ||
+!password
+){
 
+message.textContent =
+"❌ اكتب البريد الإلكتروني وكلمة المرور";
 
-  const button =
-    $("loginButton");
+button.disabled = false;
 
-
-  message.style.color =
-    "#c73542";
-
-
-  message.textContent =
-    "⏳ جاري تسجيل الدخول...";
-
-
-  button.disabled = true;
-
-
-  if(!email || !password){
-
-    message.textContent =
-      "❌ اكتب البريد الإلكتروني وكلمة المرور";
-
-
-    button.disabled = false;
-
-    return;
-
-  }
-
-
-  try{
-
-    const result =
-      await db.auth.signInWithPassword({
-
-        email:email,
-
-        password:password
-
-      });
-
-
-    if(result.error){
-
-      throw result.error;
-
-    }
-
-
-    if(
-      !result.data ||
-      !result.data.user
-    ){
-
-      throw new Error(
-        "لم يتم تسجيل الدخول"
-      );
-
-    }
-
-
-    const userEmail =
-      String(
-        result.data.user.email || ""
-      )
-      .trim()
-      .toLowerCase();
-
-
-    if(
-      userEmail !==
-      ADMIN_EMAIL.toLowerCase()
-    ){
-
-      await db.auth.signOut();
-
-      throw new Error(
-        "هذا الحساب غير مسموح له بالدخول"
-      );
-
-    }
-
-
-    message.style.color =
-      "#159447";
-
-
-    message.textContent =
-      "✅ تم تسجيل الدخول بنجاح";
-
-
-    showApp();
-
-
-  }catch(error){
-
-    console.error(
-      "LOGIN ERROR:",
-      error
-    );
-
-
-    message.style.color =
-      "#d93645";
-
-
-    message.textContent =
-      "❌ " +
-      (
-        error.message ||
-        "حدث خطأ أثناء تسجيل الدخول"
-      );
-
-  }finally{
-
-    button.disabled = false;
-
-  }
+return;
 
 }
 
 
-/* =====================================================
-   SHOW APP
-===================================================== */
+try{
+
+const result =
+await db.auth
+.signInWithPassword({
+
+email,
+password
+
+});
+
+
+if(result.error)
+throw result.error;
+
+
+const userEmail =
+String(
+result.data.user?.email ||
+""
+)
+.trim()
+.toLowerCase();
+
+
+if(
+userEmail !==
+ADMIN_EMAIL.toLowerCase()
+){
+
+await db.auth.signOut();
+
+throw new Error(
+"هذا الحساب غير مسموح له بالدخول"
+);
+
+}
+
+
+message.style.color =
+"#159447";
+
+message.textContent =
+"✅ تم تسجيل الدخول بنجاح";
+
+showApp();
+
+
+}catch(error){
+
+message.style.color =
+"#d93645";
+
+message.textContent =
+"❌ " +
+(
+error.message ||
+"حدث خطأ أثناء تسجيل الدخول"
+);
+
+}finally{
+
+button.disabled = false;
+
+}
+
+}
+
 
 function showApp(){
 
-  $("loginScreen")
-    .style.display =
-    "none";
+$("loginScreen")
+.style.display =
+"none";
 
+$("app")
+.style.display =
+"block";
 
-  $("app")
-    .style.display =
-    "block";
-
-
-  loadCustomers();
+loadCustomers();
 
 }
 
-
-/* =====================================================
-   SESSION
-===================================================== */
 
 async function checkSession(){
 
-  try{
+try{
 
-    const result =
-      await db.auth.getSession();
+const result =
+await db.auth.getSession();
 
+const session =
+result.data.session;
 
-    const session =
-      result.data.session;
-
-
-    if(!session)
-      return;
+if(!session)
+return;
 
 
-    const email =
-      String(
-        session.user?.email || ""
-      )
-      .toLowerCase();
+const email =
+String(
+session.user?.email ||
+""
+)
+.toLowerCase();
 
 
-    if(
-      email !==
-      ADMIN_EMAIL.toLowerCase()
-    ){
+if(
+email !==
+ADMIN_EMAIL.toLowerCase()
+){
 
-      await db.auth.signOut();
+await db.auth.signOut();
 
-      return;
-
-    }
-
-
-    showApp();
-
-
-  }catch(error){
-
-    console.error(
-      "SESSION ERROR:",
-      error
-    );
-
-  }
+return;
 
 }
 
 
-/* =====================================================
-   LOGOUT
-===================================================== */
+showApp();
+
+
+}catch(error){
+
+console.error(error);
+
+}
+
+}
+
 
 async function logout(){
 
-  try{
+try{
 
-    await db.auth.signOut();
+await db.auth.signOut();
 
-  }catch(error){
+}catch(e){}
 
-    console.error(error);
-
-  }
-
-
-  location.reload();
+location.reload();
 
 }
 
-
-/* =====================================================
-   LOAD CUSTOMERS
-===================================================== */
 
 async function loadCustomers(){
 
-  $("list").innerHTML =
-    `
-    <div class="loading">
-      ⏳ جاري تحميل العملاء...
-    </div>
-    `;
+$("list").innerHTML =
+`
+<div class="loading">
+⏳ جاري تحميل العملاء...
+</div>
+`;
 
 
-  try{
+try{
 
-    const data =
-      await api(
-        "customers?select=*&deleted_at=is.null&order=next_renewal_date.asc"
-      );
-
-
-    customers =
-      Array.isArray(data)
-      ? data
-      : [];
+const data =
+await api(
+"customers?select=*&deleted_at=is.null&order=next_renewal_date.asc"
+);
 
 
-    updateStats();
-
-    render();
-
-
-  }catch(error){
-
-    console.error(
-      "LOAD CUSTOMERS ERROR:",
-      error
-    );
+customers =
+Array.isArray(data)
+? data
+: [];
 
 
-    $("list").innerHTML =
-      `
-      <div class="error">
+updateStats();
 
-        ❌ حصل خطأ في تحميل العملاء
+render();
 
-        <br><br>
 
-        ${escapeHtml(
-          error.message
-        )}
+}catch(error){
 
-        <br><br>
+console.error(error);
 
-        <button
-          class="action edit"
-          type="button"
-          onclick="loadCustomers()"
-        >
-          🔄 إعادة المحاولة
-        </button>
 
-      </div>
-      `;
+$("list").innerHTML =
+`
+<div class="error">
 
-  }
+❌ حصل خطأ في تحميل العملاء
+
+<br><br>
+
+${escapeHtml(
+error.message
+)}
+
+<br><br>
+
+<button
+class="action edit"
+onclick="loadCustomers()"
+>
+🔄 إعادة المحاولة
+</button>
+
+</div>
+`;
 
 }
 
+}
 
-/* =====================================================
-   STATS
-===================================================== */
 
 function updateStats(){
 
-  $("total").textContent =
-    customers.length;
+$("total").textContent =
+customers.length;
 
 
-  $("active").textContent =
-    customers.filter(
-      c =>
-        c.status === "active"
-    ).length;
+$("active").textContent =
+customers.filter(
+c =>
+c.status ===
+"active"
+).length;
 
 
-  $("soon").textContent =
-    customers.filter(
-      c => {
+$("soon").textContent =
+customers.filter(
+c => {
 
-        const d =
-          daysUntil(
-            c.next_renewal_date
-          );
+const d =
+daysUntil(
+c.next_renewal_date
+);
 
+return(
+d !== null &&
+d >= 0 &&
+d <= 7
+);
 
-        return(
-          d !== null &&
-          d >= 0 &&
-          d <= 7
-        );
-
-      }
-    ).length;
-
-
-  $("expired").textContent =
-    customers.filter(
-      c => {
-
-        const d =
-          daysUntil(
-            c.next_renewal_date
-          );
+}
+).length;
 
 
-        return(
-          d !== null &&
-          d < 0
-        );
+$("expired").textContent =
+customers.filter(
+c => {
 
-      }
-    ).length;
+const d =
+daysUntil(
+c.next_renewal_date
+);
+
+return(
+d !== null &&
+d < 0
+);
+
+}
+).length;
 
 }
 
-
-/* =====================================================
-   RENDER
-===================================================== */
 
 function render(){
 
-  const q =
-    $("search")
-      .value
-      .trim()
-      .toLowerCase();
+const q =
+$("search")
+.value
+.trim()
+.toLowerCase();
 
 
-  const renewal =
-    $("renewalFilter")
-      .value;
+const renewal =
+$("renewalFilter")
+.value;
 
 
-  const status =
-    $("statusFilter")
-      .value;
+const status =
+$("statusFilter")
+.value;
 
 
-  const filtered =
-    customers.filter(
-      c => {
+const filtered =
+customers.filter(
+c => {
 
-        const text =
-          [
-            c.subscriber_name,
-            c.internal_name,
-            c.phone,
-            c.primary_number,
-            c.package_name,
-            c.promo_code
-          ]
-          .join(" ")
-          .toLowerCase();
-
-
-        if(
-          q &&
-          !text.includes(q)
-        ){
-
-          return false;
-
-        }
+const text =
+[
+c.subscriber_name,
+c.internal_name,
+c.phone,
+c.primary_number,
+c.package_name,
+c.promo_code
+]
+.join(" ")
+.toLowerCase();
 
 
-        if(
-          renewal === "1" &&
-          Number(
-            c.renewal_day
-          ) !== 1
-        ){
-
-          return false;
-
-        }
+if(
+q &&
+!text.includes(q)
+)
+return false;
 
 
-        if(
-          renewal === "16" &&
-          Number(
-            c.renewal_day
-          ) !== 16
-        ){
-
-          return false;
-
-        }
+if(
+renewal === "1" &&
+Number(
+c.renewal_day
+) !== 1
+)
+return false;
 
 
-        if(
-          renewal === "custom" &&
-          c.renewal_type !== "custom"
-        ){
-
-          return false;
-
-        }
-
-
-        const d =
-          daysUntil(
-            c.next_renewal_date
-          );
+if(
+renewal === "16" &&
+Number(
+c.renewal_day
+) !== 16
+)
+return false;
 
 
-        if(
-          status === "active" &&
-          c.status !== "active"
-        ){
-
-          return false;
-
-        }
+if(
+renewal === "custom" &&
+c.renewal_type !==
+"custom"
+)
+return false;
 
 
-        if(
-          status === "inactive" &&
-          c.status !== "inactive"
-        ){
-
-          return false;
-
-        }
+const d =
+daysUntil(
+c.next_renewal_date
+);
 
 
-        if(
-          status === "soon" &&
-          !(
-            d !== null &&
-            d >= 0 &&
-            d <= 7
-          )
-        ){
-
-          return false;
-
-        }
+if(
+status === "active" &&
+c.status !==
+"active"
+)
+return false;
 
 
-        if(
-          status === "expired" &&
-          !(
-            d !== null &&
-            d < 0
-          )
-        ){
-
-          return false;
-
-        }
+if(
+status === "inactive" &&
+c.status !==
+"inactive"
+)
+return false;
 
 
-        return true;
-
-      }
-    );
-
-
-  if(!filtered.length){
-
-    $("list").innerHTML =
-      `
-      <div class="empty">
-        📭 لا يوجد عملاء مطابقين.
-      </div>
-      `;
-
-    return;
-
-  }
+if(
+status === "soon" &&
+!(
+d !== null &&
+d >= 0 &&
+d <= 7
+)
+)
+return false;
 
 
-  $("list").innerHTML =
-    filtered
-      .map(card)
-      .join("");
+if(
+status === "expired" &&
+!(
+d !== null &&
+d < 0
+)
+)
+return false;
+
+
+return true;
+
+}
+);
+
+
+$("list").innerHTML =
+filtered.length
+?
+filtered
+.map(card)
+.join("")
+:
+`
+<div class="empty">
+📭 لا يوجد عملاء مطابقين.
+</div>
+`;
 
 }
 
-
-/* =====================================================
-   CARD
-===================================================== */
 
 function card(c){
 
-  const d =
-    daysUntil(
-      c.next_renewal_date
-    );
-
-
-  let renewalStatus =
-    "-";
-
-
-  if(d !== null){
-
-    if(d < 0){
-
-      renewalStatus =
-        '<span style="color:#d93645">🔴 منتهي</span>';
-
-    }else if(d <= 7){
-
-      renewalStatus =
-        '<span style="color:#d98a00">🟠 قرب التجديد</span>';
-
-    }else{
-
-      renewalStatus =
-        '<span style="color:#159447">🟢 ساري</span>';
-
-    }
-
-  }
-
-
-  return `
-
-  <div class="card">
-
-
-    <div class="ch">
-
-
-      <div>
-
-
-        <div class="name">
-
-          ${escapeHtml(
-            c.subscriber_name ||
-            "بدون اسم"
-          )}
-
-        </div>
-
-
-        <div class="phone">
-
-          📱
-          ${escapeHtml(
-            c.phone || "-"
-          )}
-
-        </div>
-
-
-        <div class="internal">
-
-          🏷️ عندي:
-
-          ${
-            c.internal_name
-            ?
-            escapeHtml(
-              c.internal_name
-            )
-            :
-            '<span style="color:#999">لم يتم تحديده</span>'
-          }
-
-        </div>
-
-
-      </div>
-
-
-      <span
-        class="badge ${
-          c.status === "inactive"
-          ? "bad"
-          : "ok"
-        }"
-      >
-
-        ${
-          c.status === "inactive"
-          ? "🔴 موقوف"
-          : "🟢 نشط"
-        }
-
-      </span>
-
-
-    </div>
-
-
-    <div class="grid">
-
-
-      <div class="box">
-
-        <small>
-          الرقم الأساسي
-        </small>
-
-        <strong>
-          ${escapeHtml(
-            c.primary_number || "-"
-          )}
-        </strong>
-
-      </div>
-
-
-      <div class="box">
-
-        <small>
-          📦 الجيجا
-        </small>
-
-        <strong>
-          ${escapeHtml(
-            c.allocated_gb ?? 0
-          )}
-          GB
-        </strong>
-
-      </div>
-
-
-      <div class="box">
-
-        <small>
-          الباقة
-        </small>
-
-        <strong>
-          ${escapeHtml(
-            c.package_name || "-"
-          )}
-        </strong>
-
-      </div>
-
-
-      <div class="box">
-
-        <small>
-          السعر النهائي
-        </small>
-
-        <strong>
-          ${money(
-            Math.max(
-              0,
-              Number(
-                c.last_price || 0
-              ) -
-              Number(
-                c.discount_amount || 0
-              )
-            )
-          )}
-          جنيه
-        </strong>
-
-      </div>
-
-
-      <div class="box">
-
-        <small>
-          موعد التجديد
-        </small>
-
-        <strong>
-          ${escapeHtml(
-            c.next_renewal_date || "-"
-          )}
-        </strong>
-
-      </div>
-
-
-      <div class="box">
-
-        <small>
-          حالة التجديد
-        </small>
-
-        <strong>
-          ${renewalStatus}
-        </strong>
-
-      </div>
-
-
-      <div class="box promo">
-
-        <small>
-          🎁 كود الخصم
-        </small>
-
-        <strong>
-          ${escapeHtml(
-            c.promo_code ||
-            "لا يوجد"
-          )}
-        </strong>
-
-      </div>
-
-
-      <div class="box">
-
-        <small>
-          عدد الطلبات
-        </small>
-
-        <strong>
-          ${Number(
-            c.total_orders || 0
-          )}
-        </strong>
-
-      </div>
-
-
-      <div class="box">
-
-        <small>
-          طريقة الدفع
-        </small>
-
-        <strong>
-          ${escapeHtml(
-            c.payment_method || "-"
-          )}
-        </strong>
-
-      </div>
-
-
-    </div>
-
-
-    <div class="actions">
-
-
-      <button
-        class="action invoice-action"
-        type="button"
-        onclick="openInvoice(${Number(c.id)})"
-      >
-        🧾 فاتورة
-      </button>
-
-
-      <button
-        class="action edit"
-        type="button"
-        onclick="openEdit(${Number(c.id)})"
-      >
-        ✏️ تعديل
-      </button>
-
-
-      <button
-        class="action renew"
-        type="button"
-        onclick="renew(${Number(c.id)})"
-      >
-        🔄 تجديد الآن
-      </button>
-
-
-      <button
-        class="action delete"
-        type="button"
-        onclick="removeCustomer(${Number(c.id)})"
-      >
-        🗑️ حذف
-      </button>
-
-
-    </div>
-
-
-  </div>
-
-  `;
+const d =
+daysUntil(
+c.next_renewal_date
+);
+
+
+let renewalStatus =
+"-";
+
+
+if(d !== null){
+
+renewalStatus =
+d < 0
+?
+'<span style="color:#d93645">🔴 منتهي</span>'
+:
+d <= 7
+?
+'<span style="color:#d98a00">🟠 قرب التجديد</span>'
+:
+'<span style="color:#159447">🟢 ساري</span>';
 
 }
 
 
-/* =====================================================
-   CLEAR FORM
-===================================================== */
+const discount =
+Number(
+c.discount_amount ||
+0
+);
+
+
+const price =
+finalPrice(c);
+
+
+return `
+
+<div class="card">
+
+<div class="ch">
+
+<div>
+
+<div class="name">
+
+${escapeHtml(
+c.subscriber_name ||
+"بدون اسم"
+)}
+
+</div>
+
+<div class="phone">
+
+📱
+
+${escapeHtml(
+c.phone ||
+"-"
+)}
+
+</div>
+
+<div class="internal">
+
+🏷️ عندي:
+
+${
+c.internal_name
+?
+escapeHtml(
+c.internal_name
+)
+:
+'<span style="color:#999">لم يتم تحديده</span>'
+}
+
+</div>
+
+</div>
+
+
+<span
+class="badge ${
+c.status === "inactive"
+? "bad"
+: "ok"
+}"
+>
+
+${
+c.status === "inactive"
+? "🔴 موقوف"
+: "🟢 نشط"
+}
+
+</span>
+
+</div>
+
+
+<div class="grid">
+
+
+<div class="box">
+
+<small>
+الرقم الأساسي
+</small>
+
+<strong>
+
+${escapeHtml(
+c.primary_number ||
+"-"
+)}
+
+</strong>
+
+</div>
+
+
+<div class="box">
+
+<small>
+📦 الجيجا
+</small>
+
+<strong>
+
+${escapeHtml(
+c.allocated_gb ??
+0
+)}
+GB
+
+</strong>
+
+</div>
+
+
+<div class="box">
+
+<small>
+الباقة
+</small>
+
+<strong>
+
+${escapeHtml(
+c.package_name ||
+"-"
+)}
+
+</strong>
+
+</div>
+
+
+<div class="box">
+
+<small>
+السعر النهائي
+</small>
+
+<strong>
+
+${money(
+price
+)}
+جنيه
+
+</strong>
+
+</div>
+
+
+<div class="box">
+
+<small>
+موعد التجديد
+</small>
+
+<strong>
+
+${escapeHtml(
+c.next_renewal_date ||
+"-"
+)}
+
+</strong>
+
+</div>
+
+
+<div class="box">
+
+<small>
+حالة التجديد
+</small>
+
+<strong>
+
+${renewalStatus}
+
+</strong>
+
+</div>
+
+
+<div class="box promo">
+
+<small>
+🎁 كود الخصم
+</small>
+
+<strong>
+
+${
+c.promo_code
+?
+escapeHtml(
+c.promo_code
+)
+:
+"لا يوجد"
+}
+
+</strong>
+
+</div>
+
+
+<div class="box discount-box">
+
+<small>
+💸 قيمة الخصم
+</small>
+
+<strong>
+
+${
+discount > 0
+?
+"-" +
+money(discount) +
+" جنيه"
+:
+"لا يوجد"
+}
+
+</strong>
+
+</div>
+
+
+<div class="box">
+
+<small>
+عدد الطلبات
+</small>
+
+<strong>
+
+${Number(
+c.total_orders ||
+0
+)}
+
+</strong>
+
+</div>
+
+
+<div class="box">
+
+<small>
+طريقة الدفع
+</small>
+
+<strong>
+
+${escapeHtml(
+c.payment_method ||
+"-"
+)}
+
+</strong>
+
+</div>
+
+
+</div>
+
+
+<div class="actions">
+
+
+<button
+class="action invoice-action"
+onclick="openInvoice(${Number(c.id)})"
+>
+🧾 فاتورة
+</button>
+
+
+<button
+class="action edit"
+onclick="openEdit(${Number(c.id)})"
+>
+✏️ تعديل
+</button>
+
+
+<button
+class="action renew"
+onclick="renew(${Number(c.id)})"
+>
+🔄 تجديد الآن
+</button>
+
+
+<button
+class="action delete"
+onclick="removeCustomer(${Number(c.id)})"
+>
+🗑️ حذف
+</button>
+
+
+</div>
+
+
+</div>
+
+`;
+
+}
+
 
 function clearForm(){
 
-  $("customerId").value = "";
+$("customerId").value = "";
 
-  $("customerName").value = "";
+$("customerName").value = "";
 
-  $("internalName").value = "";
+$("internalName").value = "";
 
-  $("customerPhone").value = "";
+$("customerPhone").value = "";
 
-  $("primaryNumber").value = "";
+$("primaryNumber").value = "";
 
-  $("allocatedGB").value = 0;
+$("allocatedGB").value = 0;
 
-  $("packageName").value = "";
+$("packageName").value = "";
 
-  $("lastPrice").value = "";
+$("lastPrice").value = "";
 
-  $("discountAmount").value = 0;
+$("discountAmount").value = 0;
 
-  $("promoCode").value = "";
+$("promoCode").value = "";
 
-  $("paymentMethod").value = "";
+$("paymentMethod").value = "";
 
-  $("status").value = "active";
+$("status").value = "active";
 
-  $("renewalType").value = "day_1";
+$("renewalType").value = "day_1";
 
-  $("renewalDay").value = 1;
+$("renewalDay").value = 1;
 
-  $("nextRenewal").value = "";
+$("nextRenewal").value = "";
 
-  $("totalOrders").value = 0;
+$("totalOrders").value = 0;
 
 }
 
-
-/* =====================================================
-   ADD
-===================================================== */
 
 function openAdd(){
 
-  editMode = false;
+editMode = false;
 
+$("modalTitle").textContent =
+"➕ إضافة عميل";
 
-  $("modalTitle").textContent =
-    "➕ إضافة عميل";
+clearForm();
 
-
-  clearForm();
-
-
-  $("modal")
-    .classList
-    .add("show");
+$("modal")
+.classList
+.add("show");
 
 }
 
-
-/* =====================================================
-   EDIT
-===================================================== */
 
 function openEdit(id){
 
-  const customer =
-    customers.find(
-      c =>
-        Number(c.id) ===
-        Number(id)
-    );
+const c =
+customers.find(
+x =>
+Number(x.id) ===
+Number(id)
+);
 
 
-  if(!customer)
-    return;
+if(!c)
+return;
 
 
-  editMode = true;
+editMode = true;
+
+$("modalTitle").textContent =
+"✏️ تعديل بيانات العميل";
 
 
-  $("modalTitle").textContent =
-    "✏️ تعديل بيانات العميل";
+$("customerId").value =
+c.id;
+
+$("customerName").value =
+c.subscriber_name ||
+"";
+
+$("internalName").value =
+c.internal_name ||
+"";
+
+$("customerPhone").value =
+c.phone ||
+"";
+
+$("primaryNumber").value =
+c.primary_number ||
+"";
+
+$("allocatedGB").value =
+c.allocated_gb ||
+getGB(
+c.package_name
+);
+
+$("packageName").value =
+c.package_name ||
+"";
+
+$("lastPrice").value =
+c.last_price ||
+"";
+
+$("discountAmount").value =
+c.discount_amount ||
+0;
+
+$("promoCode").value =
+c.promo_code ||
+"";
+
+$("paymentMethod").value =
+c.payment_method ||
+"";
+
+$("status").value =
+c.status ||
+"active";
+
+$("renewalType").value =
+c.renewal_type ||
+"day_1";
+
+$("renewalDay").value =
+c.renewal_day ||
+1;
+
+$("nextRenewal").value =
+extractDate(
+c.next_renewal_date
+) ||
+"";
+
+$("totalOrders").value =
+c.total_orders ||
+0;
 
 
-  $("customerId").value =
-    customer.id;
-
-
-  $("customerName").value =
-    customer.subscriber_name || "";
-
-
-  $("internalName").value =
-    customer.internal_name || "";
-
-
-  $("customerPhone").value =
-    customer.phone || "";
-
-
-  $("primaryNumber").value =
-    customer.primary_number || "";
-
-
-  $("allocatedGB").value =
-    customer.allocated_gb ||
-    getGB(
-      customer.package_name
-    );
-
-
-  $("packageName").value =
-    customer.package_name || "";
-
-
-  $("lastPrice").value =
-    customer.last_price || "";
-
-
-  $("discountAmount").value =
-    customer.discount_amount || 0;
-
-
-  $("promoCode").value =
-    customer.promo_code || "";
-
-
-  $("paymentMethod").value =
-    customer.payment_method || "";
-
-
-  $("status").value =
-    customer.status || "active";
-
-
-  $("renewalType").value =
-    customer.renewal_type || "day_1";
-
-
-  $("renewalDay").value =
-    customer.renewal_day || 1;
-
-
-  $("nextRenewal").value =
-    extractDate(
-      customer.next_renewal_date
-    ) || "";
-
-
-  $("totalOrders").value =
-    customer.total_orders || 0;
-
-
-  $("modal")
-    .classList
-    .add("show");
+$("modal")
+.classList
+.add("show");
 
 }
 
-
-/* =====================================================
-   CLOSE MODAL
-===================================================== */
 
 function closeModal(){
 
-  $("modal")
-    .classList
-    .remove("show");
+$("modal")
+.classList
+.remove("show");
 
 }
 
-
-/* =====================================================
-   PACKAGE
-===================================================== */
 
 function packageData(){
 
-  const packageName =
-    $("packageName").value;
+const p =
+$("packageName")
+.value;
 
 
-  if(!packageName)
-    return;
+if(!p)
+return;
 
 
-  $("allocatedGB").value =
-    getGB(packageName);
+$("allocatedGB").value =
+getGB(p);
 
-
-  $("lastPrice").value =
-    prices[packageName] || "";
+$("lastPrice").value =
+prices[p] ||
+"";
 
 }
 
-
-/* =====================================================
-   RENEWAL
-===================================================== */
 
 function renewalData(){
 
-  const type =
-    $("renewalType").value;
+const t =
+$("renewalType")
+.value;
 
 
-  if(type === "day_1"){
-
-    $("renewalDay").value = 1;
-
-  }else if(type === "day_16"){
-
-    $("renewalDay").value = 16;
-
-  }else{
-
-    $("renewalDay").value = "";
-
-  }
+$("renewalDay").value =
+t === "day_1"
+?
+1
+:
+t === "day_16"
+?
+16
+:
+"";
 
 }
 
-
-/* =====================================================
-   SAVE CUSTOMER
-===================================================== */
 
 async function saveCustomer(){
 
-  const name =
-    $("customerName")
-      .value
-      .trim();
+const name =
+$("customerName")
+.value
+.trim();
 
 
-  const phone =
-    cleanPhone(
-      $("customerPhone").value
-    );
+const phone =
+cleanPhone(
+$("customerPhone")
+.value
+);
 
 
-  const primary =
-    cleanPhone(
-      $("primaryNumber").value
-    );
+const primary =
+cleanPhone(
+$("primaryNumber")
+.value
+);
 
 
-  if(!name){
+if(!name){
 
-    alert(
-      "⚠️ اكتب اسم العميل"
-    );
+alert(
+"⚠️ اكتب اسم العميل"
+);
 
-    return;
-
-  }
-
-
-  if(!validPhone(phone)){
-
-    alert(
-      "⚠️ رقم العميل غير صحيح"
-    );
-
-    return;
-
-  }
-
-
-  if(
-    primary &&
-    !validPhone(primary)
-  ){
-
-    alert(
-      "⚠️ الرقم الأساسي غير صحيح"
-    );
-
-    return;
-
-  }
-
-
-  if(
-    !$("nextRenewal").value
-  ){
-
-    alert(
-      "⚠️ اختر موعد التجديد"
-    );
-
-    return;
-
-  }
-
-
-  const price =
-    Number(
-      $("lastPrice").value
-    ) || 0;
-
-
-  let discount =
-    Number(
-      $("discountAmount").value
-    ) || 0;
-
-
-  if(discount < 0)
-    discount = 0;
-
-
-  if(discount > price)
-    discount = price;
-
-
-  const data = {
-
-    subscriber_name:
-      name,
-
-    internal_name:
-      $("internalName")
-        .value
-        .trim() ||
-      null,
-
-    phone:
-      phone,
-
-    primary_number:
-      primary ||
-      null,
-
-    allocated_gb:
-      Number(
-        $("allocatedGB").value
-      ) ||
-      getGB(
-        $("packageName").value
-      ),
-
-    package_name:
-      $("packageName").value ||
-      null,
-
-    last_price:
-      price,
-
-    discount_amount:
-      discount,
-
-    promo_code:
-      $("promoCode")
-        .value
-        .trim()
-        .toUpperCase() ||
-      null,
-
-    payment_method:
-      $("paymentMethod").value ||
-      null,
-
-    status:
-      $("status").value,
-
-    renewal_type:
-      $("renewalType").value,
-
-    renewal_day:
-      Number(
-        $("renewalDay").value
-      ) ||
-      null,
-
-    next_renewal_date:
-      $("nextRenewal").value,
-
-    total_orders:
-      Number(
-        $("totalOrders").value
-      ) || 0,
-
-    updated_at:
-      new Date().toISOString()
-
-  };
-
-
-  try{
-
-
-    if(editMode){
-
-
-      await api(
-        "customers?id=eq." +
-        encodeURIComponent(
-          $("customerId").value
-        ),
-        {
-          method:"PATCH",
-
-          body:
-            JSON.stringify(
-              data
-            )
-        }
-      );
-
-
-    }else{
-
-
-      const existing =
-        await api(
-          "customers?select=id&phone=eq." +
-          encodeURIComponent(phone) +
-          "&deleted_at=is.null&limit=1"
-        );
-
-
-      if(
-        Array.isArray(existing) &&
-        existing.length
-      ){
-
-        throw new Error(
-          "الرقم ده موجود بالفعل."
-        );
-
-      }
-
-
-      data.created_at =
-        new Date().toISOString();
-
-
-      await api(
-        "customers",
-        {
-          method:"POST",
-
-          body:
-            JSON.stringify(
-              data
-            )
-        }
-      );
-
-    }
-
-
-    closeModal();
-
-
-    await loadCustomers();
-
-
-    alert(
-      editMode
-      ?
-      "✅ تم تعديل بيانات العميل بنجاح"
-      :
-      "✅ تم إضافة العميل بنجاح"
-    );
-
-
-  }catch(error){
-
-    console.error(
-      "SAVE ERROR:",
-      error
-    );
-
-
-    alert(
-      "❌ لم يتم الحفظ\n\n" +
-      (
-        error.message ||
-        "حدث خطأ"
-      )
-    );
-
-  }
+return;
 
 }
 
 
-/* =====================================================
-   DELETE
-===================================================== */
+if(!validPhone(phone)){
+
+alert(
+"⚠️ رقم العميل غير صحيح"
+);
+
+return;
+
+}
+
+
+if(
+primary &&
+!validPhone(primary)
+){
+
+alert(
+"⚠️ الرقم الأساسي غير صحيح"
+);
+
+return;
+
+}
+
+
+if(
+!$("nextRenewal").value
+){
+
+alert(
+"⚠️ اختر موعد التجديد"
+);
+
+return;
+
+}
+
+
+const price =
+Math.max(
+0,
+Number(
+$("lastPrice").value
+) || 0
+);
+
+
+const discount =
+Math.min(
+price,
+Math.max(
+0,
+Number(
+$("discountAmount")
+.value
+) || 0
+)
+);
+
+
+const promoCode =
+$("promoCode")
+.value
+.trim()
+.toUpperCase();
+
+
+const data = {
+
+subscriber_name:
+name,
+
+internal_name:
+$("internalName")
+.value
+.trim() ||
+null,
+
+phone:
+phone,
+
+primary_number:
+primary ||
+null,
+
+allocated_gb:
+Number(
+$("allocatedGB")
+.value
+) ||
+getGB(
+$("packageName")
+.value
+),
+
+package_name:
+$("packageName")
+.value ||
+null,
+
+last_price:
+price,
+
+discount_amount:
+discount,
+
+promo_code:
+promoCode ||
+null,
+
+payment_method:
+$("paymentMethod")
+.value ||
+null,
+
+status:
+$("status")
+.value,
+
+renewal_type:
+$("renewalType")
+.value,
+
+renewal_day:
+Number(
+$("renewalDay")
+.value
+) ||
+null,
+
+next_renewal_date:
+$("nextRenewal")
+.value,
+
+total_orders:
+Number(
+$("totalOrders")
+.value
+) ||
+0,
+
+updated_at:
+new Date()
+.toISOString()
+
+};
+
+
+try{
+
+if(editMode){
+
+await api(
+"customers?id=eq." +
+encodeURIComponent(
+$("customerId")
+.value
+),
+{
+method:"PATCH",
+
+body:
+JSON.stringify(
+data
+)
+}
+);
+
+}else{
+
+const existing =
+await api(
+"customers?select=id&phone=eq." +
+encodeURIComponent(phone) +
+"&deleted_at=is.null&limit=1"
+);
+
+
+if(
+Array.isArray(existing) &&
+existing.length
+){
+
+throw new Error(
+"الرقم ده موجود بالفعل."
+);
+
+}
+
+
+data.created_at =
+new Date()
+.toISOString();
+
+
+await api(
+"customers",
+{
+method:"POST",
+
+body:
+JSON.stringify(
+data
+)
+}
+);
+
+}
+
+
+closeModal();
+
+await loadCustomers();
+
+
+alert(
+editMode
+?
+"✅ تم تعديل بيانات العميل بنجاح"
+:
+"✅ تم إضافة العميل بنجاح"
+);
+
+
+}catch(error){
+
+console.error(error);
+
+
+alert(
+"❌ لم يتم الحفظ\n\n" +
+(
+error.message ||
+"حدث خطأ"
+)
+);
+
+}
+
+}
+
 
 async function removeCustomer(id){
 
-  const customer =
-    customers.find(
-      c =>
-        Number(c.id) ===
-        Number(id)
-    );
+const c =
+customers.find(
+x =>
+Number(x.id) ===
+Number(id)
+);
 
 
-  if(!customer)
-    return;
+if(!c)
+return;
 
 
-  const confirmed =
-    confirm(
-      "⚠️ حذف العميل\n\n" +
-      customer.subscriber_name +
-      "\n" +
-      customer.phone +
-      "\n\n" +
-      "هل أنت متأكد؟"
-    );
+if(
+!confirm(
+"⚠️ حذف العميل\n\n" +
+c.subscriber_name +
+"\n" +
+c.phone +
+"\n\n" +
+"هل أنت متأكد؟"
+)
+)
+return;
 
 
-  if(!confirmed)
-    return;
+try{
+
+await api(
+"customers?id=eq." +
+encodeURIComponent(id),
+{
+method:"PATCH",
+
+body:
+JSON.stringify({
+
+deleted_at:
+new Date()
+.toISOString(),
+
+updated_at:
+new Date()
+.toISOString()
+
+})
+}
+);
 
 
-  try{
+await loadCustomers();
 
 
-    await api(
-      "customers?id=eq." +
-      encodeURIComponent(id),
-      {
-        method:"PATCH",
+}catch(error){
 
-        body:
-          JSON.stringify({
+alert(
+"❌ " +
+(
+error.message ||
+"لم يتم الحذف"
+)
+);
 
-            deleted_at:
-              new Date()
-                .toISOString(),
-
-            updated_at:
-              new Date()
-                .toISOString()
-
-          })
-      }
-    );
-
-
-    await loadCustomers();
-
-
-  }catch(error){
-
-    alert(
-      "❌ " +
-      (
-        error.message ||
-        "لم يتم الحذف"
-      )
-    );
-
-  }
+}
 
 }
 
 
-/* =====================================================
-   RENEW
-===================================================== */
-
 async function renew(id){
 
-  const customer =
-    customers.find(
-      c =>
-        Number(c.id) ===
-        Number(id)
-    );
+const c =
+customers.find(
+x =>
+Number(x.id) ===
+Number(id)
+);
 
 
-  if(!customer)
-    return;
+if(!c)
+return;
 
 
-  const finalPrice =
-    Math.max(
-      0,
-      Number(
-        customer.last_price || 0
-      ) -
-      Number(
-        customer.discount_amount || 0
-      )
-    );
+const amount =
+finalPrice(c);
 
 
-  const confirmed =
-    confirm(
-      "🔄 تجديد " +
-      customer.subscriber_name +
-      "\n\nالمبلغ: " +
-      money(finalPrice) +
-      " جنيه\n\n" +
-      "هل تريد تأكيد التجديد؟"
-    );
+if(
+!confirm(
+"🔄 تجديد " +
+c.subscriber_name +
+"\n\nالمبلغ: " +
+money(amount) +
+" جنيه\n\n" +
+"هل تريد تأكيد التجديد؟"
+)
+)
+return;
 
 
-  if(!confirmed)
-    return;
+const date =
+new Date();
 
 
-  const renewalDate =
-    new Date();
+if(
+c.renewal_type ===
+"day_1"
+){
+
+date.setMonth(
+date.getMonth() +
+1
+);
+
+date.setDate(1);
 
 
-  if(
-    customer.renewal_type ===
-    "day_1"
-  ){
+}else if(
+c.renewal_type ===
+"day_16"
+){
 
-    renewalDate.setMonth(
-      renewalDate.getMonth() + 1
-    );
+date.setMonth(
+date.getMonth() +
+1
+);
 
-    renewalDate.setDate(1);
-
-
-  }else if(
-    customer.renewal_type ===
-    "day_16"
-  ){
-
-    renewalDate.setMonth(
-      renewalDate.getMonth() + 1
-    );
-
-    renewalDate.setDate(16);
+date.setDate(16);
 
 
-  }else{
+}else{
 
-    renewalDate.setMonth(
-      renewalDate.getMonth() + 1
-    );
+date.setMonth(
+date.getMonth() +
+1
+);
 
-  }
-
-
-  const nextDate =
-    renewalDate
-      .toISOString()
-      .split("T")[0];
+}
 
 
-  try{
+const nextDate =
+date
+.toISOString()
+.split("T")[0];
 
 
-    await api(
-      "customers?id=eq." +
-      encodeURIComponent(id),
-      {
-        method:"PATCH",
+try{
 
-        body:
-          JSON.stringify({
+await api(
+"customers?id=eq." +
+encodeURIComponent(id),
+{
+method:"PATCH",
 
-            last_renewed_at:
-              new Date()
-                .toISOString(),
+body:
+JSON.stringify({
 
-            last_order_at:
-              new Date()
-                .toISOString(),
+last_renewed_at:
+new Date()
+.toISOString(),
 
-            next_renewal_date:
-              nextDate,
+last_order_at:
+new Date()
+.toISOString(),
 
-            total_orders:
-              (
-                Number(
-                  customer.total_orders
-                ) || 0
-              ) + 1,
+next_renewal_date:
+nextDate,
 
-            status:
-              "active",
+total_orders:
+(
+Number(
+c.total_orders
+) ||
+0
+) +
+1,
 
-            updated_at:
-              new Date()
-                .toISOString()
+status:
+"active",
 
-          })
-      }
-    );
+updated_at:
+new Date()
+.toISOString()
 
-
-    await loadCustomers();
-
-
-    alert(
-      "✅ تم التجديد بنجاح"
-    );
+})
+}
+);
 
 
-  }catch(error){
+await loadCustomers();
 
-    alert(
-      "❌ " +
-      (
-        error.message ||
-        "لم يتم التجديد"
-      )
-    );
 
-  }
+alert(
+"✅ تم التجديد بنجاح"
+);
+
+
+}catch(error){
+
+alert(
+"❌ " +
+(
+error.message ||
+"لم يتم التجديد"
+)
+);
+
+}
 
 }
 
@@ -4235,541 +3397,404 @@ async function renew(id){
 
 function openInvoice(id){
 
-  const customer =
-    customers.find(
-      c =>
-        Number(c.id) ===
-        Number(id)
-    );
+const c =
+customers.find(
+x =>
+Number(x.id) ===
+Number(id)
+);
+
+
+if(!c)
+return;
+
+
+currentInvoiceCustomer =
+c;
+
+
+const base =
+Number(
+c.last_price ||
+0
+);
+
+
+const discount =
+Math.min(
+base,
+Math.max(
+0,
+Number(
+c.discount_amount ||
+0
+)
+)
+);
 
 
-  if(!customer){
+const total =
+Math.max(
+0,
+base -
+discount
+);
 
-    alert(
-      "❌ لم يتم العثور على العميل"
-    );
 
-    return;
+$("invoiceNumber")
+.textContent =
+"INV-" +
+new Date()
+.getFullYear() +
+"-" +
+String(c.id)
+.padStart(
+5,
+"0"
+);
 
-  }
 
+$("invoiceDate")
+.textContent =
+new Date()
+.toLocaleDateString(
+"ar-EG"
+);
 
-  currentInvoiceCustomer =
-    customer;
 
+$("invoiceCustomerName")
+.textContent =
+c.subscriber_name ||
+"-";
 
-  const basePrice =
-    Number(
-      customer.last_price || 0
-    );
 
+$("invoicePhone")
+.textContent =
+c.phone ||
+"-";
 
-  let discount =
-    Number(
-      customer.discount_amount || 0
-    );
 
+$("invoicePrimary")
+.textContent =
+c.primary_number ||
+"-";
 
-  if(discount < 0)
-    discount = 0;
 
+$("invoicePackage")
+.textContent =
+c.package_name ||
+"-";
 
-  if(discount > basePrice)
-    discount = basePrice;
 
+$("invoiceGB")
+.textContent =
+(
+c.allocated_gb ??
+getGB(
+c.package_name
+) ??
+0
+) +
+" GB";
 
-  const finalPrice =
-    Math.max(
-      0,
-      basePrice - discount
-    );
 
+$("invoicePeriod")
+.textContent =
+formatDate(
+c.last_renewed_at
+) +
+" → " +
+formatDate(
+c.next_renewal_date
+);
 
-  const promoCode =
-    String(
-      customer.promo_code || ""
-    )
-    .trim();
 
+$("invoicePayment")
+.textContent =
+c.payment_method ||
+"غير محدد";
 
-  const invoiceNumber =
-    "INV-" +
-    new Date()
-      .getFullYear() +
-    "-" +
-    String(
-      customer.id
-    )
-    .padStart(5,"0");
 
+$("invoiceBasePrice")
+.textContent =
+money(base) +
+" جنيه";
 
-  const today =
-    new Date()
-      .toLocaleDateString(
-        "ar-EG"
-      );
 
+$("invoiceBeforeDiscount")
+.textContent =
+money(base) +
+" جنيه";
 
-  const startDate =
-    customer.last_renewed_at
-    ? formatInvoiceDate(
-        customer.last_renewed_at
-      )
-    : today;
 
+$("invoiceDiscountRow")
+.style.display =
+discount > 0
+?
+"flex"
+:
+"none";
 
-  const endDate =
-    customer.next_renewal_date
-    ? formatInvoiceDate(
-        customer.next_renewal_date
-      )
-    : "-";
 
+$("invoiceDiscount")
+.textContent =
+"- " +
+money(discount) +
+" جنيه";
 
-  $("invoiceNumber")
-    .textContent =
-    invoiceNumber;
 
+const code =
+String(
+c.promo_code ||
+""
+)
+.trim();
 
-  $("invoiceDate")
-    .textContent =
-    today;
 
+$("invoicePromoRow")
+.style.display =
+code
+?
+"flex"
+:
+"none";
 
-  $("invoiceCustomerName")
-    .textContent =
-    customer.subscriber_name ||
-    "-";
 
+$("invoicePromo")
+.textContent =
+code ||
+"-";
 
-  $("invoicePhone")
-    .textContent =
-    customer.phone ||
-    "-";
 
+$("invoiceFinalTotal")
+.textContent =
+money(total) +
+" جنيه";
 
-  $("invoicePrimary")
-    .textContent =
-    customer.primary_number ||
-    "-";
 
-
-  $("invoicePackage")
-    .textContent =
-    customer.package_name ||
-    "-";
-
-
-  $("invoiceGB")
-    .textContent =
-    (
-      customer.allocated_gb ??
-      getGB(
-        customer.package_name
-      ) ??
-      0
-    ) +
-    " GB";
-
-
-  $("invoicePeriod")
-    .textContent =
-    startDate +
-    " → " +
-    endDate;
-
-
-  $("invoicePayment")
-    .textContent =
-    customer.payment_method ||
-    "غير محدد";
-
-
-  $("invoiceBasePrice")
-    .textContent =
-    money(basePrice) +
-    " جنيه";
-
-
-  $("invoiceBeforeDiscount")
-    .textContent =
-    money(basePrice) +
-    " جنيه";
-
-
-  if(discount > 0){
-
-    $("invoiceDiscountRow")
-      .style.display =
-      "flex";
-
-
-    $("invoiceDiscount")
-      .textContent =
-      "- " +
-      money(discount) +
-      " جنيه";
-
-  }else{
-
-    $("invoiceDiscountRow")
-      .style.display =
-      "none";
-
-  }
-
-
-  if(promoCode){
-
-    $("invoicePromoRow")
-      .style.display =
-      "flex";
-
-
-    $("invoicePromo")
-      .textContent =
-      promoCode;
-
-  }else{
-
-    $("invoicePromoRow")
-      .style.display =
-      "none";
-
-  }
-
-
-  $("invoiceFinalTotal")
-    .textContent =
-    money(finalPrice) +
-    " جنيه";
-
-
-  $("invoiceOverlay")
-    .classList
-    .add("show");
+$("invoiceOverlay")
+.classList
+.add("show");
 
 }
 
-
-/* =====================================================
-   INVOICE DATE
-===================================================== */
-
-function formatInvoiceDate(value){
-
-  const date =
-    extractDate(value);
-
-
-  if(!date)
-    return "-";
-
-
-  return new Date(
-    date +
-    "T00:00:00"
-  )
-  .toLocaleDateString(
-    "ar-EG"
-  );
-
-}
-
-
-/* =====================================================
-   CLOSE INVOICE
-===================================================== */
 
 function closeInvoice(){
 
-  $("invoiceOverlay")
-    .classList
-    .remove("show");
+$("invoiceOverlay")
+.classList
+.remove("show");
 
 }
 
-
-/* =====================================================
-   PRINT INVOICE
-===================================================== */
 
 function printInvoice(){
 
-  window.print();
+window.print();
 
 }
 
-
-/* =====================================================
-   SAVE IMAGE
-===================================================== */
 
 async function saveInvoiceImage(){
 
-  if(
-    typeof html2canvas ===
-    "undefined"
-  ){
+try{
 
-    alert(
-      "❌ مكتبة حفظ الصورة غير متاحة"
-    );
-
-    return;
-
-  }
-
-
-  try{
+const canvas =
+await html2canvas(
+$("invoicePaper"),
+{
+scale:2,
+backgroundColor:"#fff",
+useCORS:true
+}
+);
 
 
-    const canvas =
-      await html2canvas(
-        $("invoicePaper"),
-        {
-          scale:2,
-          backgroundColor:"#ffffff",
-          useCORS:true
-        }
-      );
+const link =
+document.createElement(
+"a"
+);
 
 
-    const link =
-      document.createElement(
-        "a"
-      );
+const name =
+(
+currentInvoiceCustomer
+?.subscriber_name ||
+"customer"
+)
+.replace(
+/[\\/:*?"<>|]/g,
+"-"
+);
 
 
-    const name =
-      (
-        currentInvoiceCustomer
-          ?.subscriber_name ||
-        "customer"
-      )
-      .replace(
-        /[\\/:*?"<>|]/g,
-        "-"
-      );
+link.download =
+"CashBack-Invoice-" +
+name +
+".png";
 
 
-    link.download =
-      "CashBack-Invoice-" +
-      name +
-      ".png";
+link.href =
+canvas.toDataURL(
+"image/png"
+);
 
 
-    link.href =
-      canvas.toDataURL(
-        "image/png"
-      );
+link.click();
 
 
-    link.click();
+}catch(error){
 
-
-  }catch(error){
-
-    console.error(
-      "IMAGE ERROR:",
-      error
-    );
-
-
-    alert(
-      "❌ حصل خطأ أثناء حفظ الفاتورة كصورة"
-    );
-
-  }
+alert(
+"❌ حصل خطأ أثناء حفظ الفاتورة كصورة"
+);
 
 }
 
+}
 
-/* =====================================================
-   SAVE PDF
-===================================================== */
 
 async function saveInvoicePDF(){
 
-  if(
-    typeof html2canvas ===
-    "undefined" ||
-    !window.jspdf
-  ){
+try{
 
-    alert(
-      "❌ مكتبات PDF غير متاحة"
-    );
-
-    return;
-
-  }
+const canvas =
+await html2canvas(
+$("invoicePaper"),
+{
+scale:2,
+backgroundColor:"#fff",
+useCORS:true
+}
+);
 
 
-  try{
+const {
+jsPDF
+} =
+window.jspdf;
 
 
-    const canvas =
-      await html2canvas(
-        $("invoicePaper"),
-        {
-          scale:2,
-          backgroundColor:"#ffffff",
-          useCORS:true
-        }
-      );
+const pdf =
+new jsPDF({
+orientation:"portrait",
+unit:"mm",
+format:"a4"
+});
 
 
-    const {
-      jsPDF
-    } =
-    window.jspdf;
+const pageW =
+pdf.internal.pageSize.getWidth();
 
 
-    const pdf =
-      new jsPDF({
-        orientation:"portrait",
-        unit:"mm",
-        format:"a4"
-      });
+const pageH =
+pdf.internal.pageSize.getHeight();
 
 
-    const imgData =
-      canvas.toDataURL(
-        "image/png"
-      );
+const margin = 8;
 
 
-    const pageWidth =
-      pdf.internal.pageSize.getWidth();
+const width =
+pageW -
+margin *
+2;
 
 
-    const pageHeight =
-      pdf.internal.pageSize.getHeight();
+const height =
+canvas.height *
+width /
+canvas.width;
 
 
-    const margin = 8;
+const img =
+canvas.toDataURL(
+"image/png"
+);
 
 
-    const width =
-      pageWidth -
-      margin * 2;
+let position =
+margin;
 
 
-    const height =
-      canvas.height *
-      width /
-      canvas.width;
+let remaining =
+height;
 
 
-    let position =
-      margin;
+pdf.addImage(
+img,
+"PNG",
+margin,
+position,
+width,
+height
+);
 
 
-    let remaining =
-      height;
+remaining -=
+pageH -
+margin *
+2;
 
 
-    pdf.addImage(
-      imgData,
-      "PNG",
-      margin,
-      position,
-      width,
-      height
-    );
+while(
+remaining > 0
+){
+
+position -=
+pageH -
+margin *
+2;
 
 
-    remaining -=
-      pageHeight -
-      margin * 2;
+pdf.addPage();
 
 
-    while(
-      remaining > 0
-    ){
-
-      position -=
-        pageHeight -
-        margin * 2;
-
-
-      pdf.addPage();
+pdf.addImage(
+img,
+"PNG",
+margin,
+position,
+width,
+height
+);
 
 
-      pdf.addImage(
-        imgData,
-        "PNG",
-        margin,
-        position,
-        width,
-        height
-      );
-
-
-      remaining -=
-        pageHeight -
-        margin * 2;
-
-    }
-
-
-    const name =
-      (
-        currentInvoiceCustomer
-          ?.subscriber_name ||
-        "customer"
-      )
-      .replace(
-        /[\\/:*?"<>|]/g,
-        "-"
-      );
-
-
-    pdf.save(
-      "CashBack-Invoice-" +
-      name +
-      ".pdf"
-    );
-
-
-  }catch(error){
-
-    console.error(
-      "PDF ERROR:",
-      error
-    );
-
-
-    alert(
-      "❌ حصل خطأ أثناء إنشاء ملف PDF"
-    );
-
-  }
+remaining -=
+pageH -
+margin *
+2;
 
 }
 
 
-/* =====================================================
-   INVOICE OUTSIDE CLICK
-===================================================== */
+const name =
+(
+currentInvoiceCustomer
+?.subscriber_name ||
+"customer"
+)
+.replace(
+/[\\/:*?"<>|]/g,
+"-"
+);
 
-$("invoiceOverlay")
-  .addEventListener(
-    "click",
-    event => {
 
-      if(
-        event.target ===
-        event.currentTarget
-      ){
+pdf.save(
+"CashBack-Invoice-" +
+name +
+".pdf"
+);
 
-        closeInvoice();
 
-      }
+}catch(error){
 
-    }
-  );
+alert(
+"❌ حصل خطأ أثناء إنشاء ملف PDF"
+);
+
+}
+
+}
 
 
 /* =====================================================
@@ -4777,104 +3802,120 @@ $("invoiceOverlay")
 ===================================================== */
 
 $("search")
-  .addEventListener(
-    "input",
-    render
-  );
+.addEventListener(
+"input",
+render
+);
 
 
 $("renewalFilter")
-  .addEventListener(
-    "change",
-    render
-  );
+.addEventListener(
+"change",
+render
+);
 
 
 $("statusFilter")
-  .addEventListener(
-    "change",
-    render
-  );
+.addEventListener(
+"change",
+render
+);
 
 
 $("password")
-  .addEventListener(
-    "keydown",
-    event => {
+.addEventListener(
+"keydown",
+e => {
 
-      if(
-        event.key === "Enter"
-      ){
+if(
+e.key === "Enter"
+){
 
-        event.preventDefault();
+e.preventDefault();
 
-        login();
+login();
 
-      }
+}
 
-    }
-  );
+}
+);
 
 
 $("modal")
-  .addEventListener(
-    "click",
-    event => {
+.addEventListener(
+"click",
+e => {
 
-      if(
-        event.target ===
-        event.currentTarget
-      ){
+if(
+e.target ===
+e.currentTarget
+){
 
-        closeModal();
+closeModal();
 
-      }
+}
 
-    }
-  );
+}
+);
+
+
+$("invoiceOverlay")
+.addEventListener(
+"click",
+e => {
+
+if(
+e.target ===
+e.currentTarget
+){
+
+closeInvoice();
+
+}
+
+}
+);
 
 
 /* =====================================================
-   ACTIVE BOTTOM NAV
+   ACTIVE NAV
 ===================================================== */
 
 (function(){
 
-  const currentPage =
-    location.pathname
-      .split("/")
-      .pop()
-      .toLowerCase();
+const current =
+location.pathname
+.split("/")
+.pop()
+.toLowerCase();
 
 
-  document
-    .querySelectorAll(
-      "#adminBottomNav a"
-    )
-    .forEach(
-      link => {
+document
+.querySelectorAll(
+"#adminBottomNav a"
+)
+.forEach(
+link => {
 
-        const page =
-          (
-            link.getAttribute(
-              "data-page"
-            ) || ""
-          )
-          .toLowerCase();
+if(
+(
+link.getAttribute(
+"data-page"
+) ||
+""
+)
+.toLowerCase() ===
+current
+){
 
+link.classList.add(
+"active"
+);
 
-        if(
-          page === currentPage
-        ){
+}
 
-          link.classList.add(
-            "active"
-          );
-
-        }
-
-      }
-    );
+}
+);
 
 })();
 
@@ -4887,7 +3928,5 @@ checkSession();
 
 </script>
 
-
 </body>
-
 </html>
