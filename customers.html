@@ -14,6 +14,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 
 <style>
 
@@ -545,6 +549,12 @@ button{
   color:#d93645;
 }
 
+.invoice-action{
+  background:#fff3d6;
+  color:#9a6500;
+  border:1px solid #f0c85c;
+}
+
 
 /* =====================================================
    STATES
@@ -671,161 +681,276 @@ button{
   left:0;
   right:0;
   bottom:0;
-
   min-height:92px;
-
   background:rgba(255,255,255,.98);
-
   backdrop-filter:blur(18px);
   -webkit-backdrop-filter:blur(18px);
-
   border-top:1px solid #e8e3f2;
-
-  box-shadow:
-    0 -8px 35px rgba(50,20,100,.13);
-
+  box-shadow:0 -8px 35px rgba(50,20,100,.13);
   display:flex;
-
   align-items:center;
   justify-content:center;
-
   gap:10px;
-
   padding:
     8px 14px
     calc(8px + env(safe-area-inset-bottom))
     14px;
-
   z-index:100;
-
   direction:rtl;
 }
 
-
-/* NAV ITEM */
-
 #adminBottomNav a{
-
   flex:1;
-
   max-width:190px;
-
   height:78px;
-
   display:flex;
-
   flex-direction:column;
-
   align-items:center;
-
   justify-content:center;
-
   gap:5px;
-
   text-decoration:none;
-
   color:#77758a;
-
   border-radius:20px;
-
   font-weight:bold;
-
   transition:
     transform .18s ease,
     background .18s ease,
     color .18s ease,
     box-shadow .18s ease;
-
 }
-
-
-/* ICON */
 
 #adminBottomNav .navIcon{
-
   width:43px;
   height:43px;
-
   display:flex;
-
   align-items:center;
   justify-content:center;
-
   font-size:27px;
-
   border-radius:14px;
-
   background:#f4f0fb;
-
 }
-
-
-/* TEXT */
 
 #adminBottomNav .navText{
-
   font-size:12px;
-
   white-space:nowrap;
-
 }
 
-
-/* ACTIVE */
-
 #adminBottomNav a.active{
-
   color:#fff;
-
   background:
     linear-gradient(
       135deg,
       #7135d7,
       #5420b8
     );
-
   box-shadow:
     0 9px 24px
     rgba(84,32,184,.28);
-
   transform:translateY(-4px);
-
 }
 
 #adminBottomNav a.active .navIcon{
-
-  background:
-    rgba(255,255,255,.18);
-
+  background:rgba(255,255,255,.18);
 }
 
-
-/* HOVER */
-
 #adminBottomNav a:not(.active):hover{
-
   background:#f5f0ff;
-
   color:#5420b8;
-
   transform:translateY(-2px);
-
 }
 
 #adminBottomNav a:not(.active):hover .navIcon{
-
   background:#e9ddff;
+}
 
+.modal.show ~ #adminBottomNav{
+  display:none !important;
 }
 
 
 /* =====================================================
-   MODAL OPEN
-   IMPORTANT: NAV STAYS BEHIND MODAL
+   INVOICE
 ===================================================== */
 
-.modal.show ~ #adminBottomNav{
-  display:none !important;
+.invoice-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  background:rgba(0,0,0,.72);
+  padding:15px;
+  overflow:auto;
+}
+
+.invoice-overlay.show{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.invoice-modal{
+  width:min(760px,100%);
+  max-height:95vh;
+  overflow:auto;
+  background:#fff;
+  border-radius:24px;
+  box-shadow:0 30px 90px #0008;
+}
+
+.invoice-topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 20px;
+  border-bottom:1px solid #eee;
+}
+
+.invoice-topbar h2{
+  margin:0;
+  color:#5420b8;
+}
+
+.invoice-close{
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:12px;
+  background:#eee;
+  font-size:20px;
+}
+
+.invoice-paper{
+  background:#fff;
+  padding:30px;
+  color:#171a31;
+}
+
+.invoice-brand{
+  text-align:center;
+  margin-bottom:10px;
+}
+
+.invoice-brand img{
+  width:250px;
+  max-width:80%;
+  height:130px;
+  object-fit:contain;
+}
+
+.invoice-title{
+  text-align:center;
+  font-size:27px;
+  font-weight:900;
+  margin:8px 0 25px;
+}
+
+.invoice-meta{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:18px;
+  font-size:14px;
+}
+
+.invoice-meta strong{
+  color:#5420b8;
+}
+
+.invoice-section{
+  border:1px solid #e5e5e5;
+  border-radius:15px;
+  padding:16px;
+  margin-bottom:15px;
+}
+
+.invoice-row{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  padding:10px 0;
+  border-bottom:1px dashed #ddd;
+}
+
+.invoice-row:last-child{
+  border-bottom:0;
+}
+
+.invoice-label{
+  font-weight:bold;
+  color:#555;
+}
+
+.invoice-value{
+  font-weight:bold;
+  text-align:left;
+}
+
+.invoice-discount{
+  color:#d93645;
+}
+
+.invoice-code{
+  color:#159447;
+}
+
+.invoice-total{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#111827;
+  color:#fff;
+  border-radius:15px;
+  padding:18px 20px;
+  margin-top:18px;
+  font-size:20px;
+  font-weight:900;
+}
+
+.invoice-total strong{
+  color:#ffd84d;
+  font-size:28px;
+}
+
+.invoice-footer{
+  text-align:center;
+  border-top:1px dashed #bbb;
+  margin-top:25px;
+  padding-top:20px;
+}
+
+.invoice-footer strong{
+  display:block;
+  font-size:17px;
+  margin-bottom:8px;
+}
+
+.invoice-actions{
+  display:flex;
+  gap:10px;
+  padding:18px 20px;
+  border-top:1px solid #eee;
+  background:#fafafa;
+}
+
+.invoice-actions button{
+  flex:1;
+  height:52px;
+  border:0;
+  border-radius:13px;
+  color:#fff;
+  font-weight:bold;
+}
+
+.invoice-image{
+  background:#7c3aed;
+}
+
+.invoice-pdf{
+  background:#159447;
+}
+
+.invoice-print{
+  background:#2563eb;
 }
 
 
@@ -940,52 +1065,48 @@ button{
     flex-direction:column;
   }
 
+  .invoice-paper{
+    padding:18px 13px;
+  }
 
-  /* BOTTOM NAV */
+  .invoice-meta{
+    flex-direction:column;
+    gap:6px;
+  }
+
+  .invoice-actions{
+    flex-direction:column;
+  }
+
+  .invoice-row{
+    font-size:13px;
+  }
 
   #adminBottomNav{
-
     min-height:94px;
-
     padding:
       7px 5px
       calc(7px + env(safe-area-inset-bottom))
       5px;
-
     gap:3px;
-
   }
-
 
   #adminBottomNav a{
-
     height:78px;
-
     max-width:none;
-
     border-radius:18px;
-
     gap:4px;
-
   }
-
 
   #adminBottomNav .navIcon{
-
     width:42px;
     height:42px;
-
     border-radius:13px;
-
     font-size:25px;
-
   }
 
-
   #adminBottomNav .navText{
-
     font-size:10px;
-
   }
 
 }
@@ -998,33 +1119,64 @@ button{
 @media(max-width:390px){
 
   #adminBottomNav{
-
     gap:1px;
-
     padding-left:2px;
     padding-right:2px;
-
   }
 
   #adminBottomNav a{
-
     height:76px;
-
   }
 
   #adminBottomNav .navIcon{
-
     width:37px;
     height:37px;
-
     font-size:22px;
-
   }
 
   #adminBottomNav .navText{
-
     font-size:9px;
+  }
 
+}
+
+
+/* =====================================================
+   PRINT
+===================================================== */
+
+@media print{
+
+  body *{
+    visibility:hidden !important;
+  }
+
+  #invoiceOverlay,
+  #invoiceOverlay *{
+    visibility:visible !important;
+  }
+
+  #invoiceOverlay{
+    position:absolute !important;
+    inset:0 !important;
+    background:#fff !important;
+    padding:0 !important;
+  }
+
+  .invoice-modal{
+    width:100% !important;
+    max-height:none !important;
+    box-shadow:none !important;
+    border-radius:0 !important;
+  }
+
+  .invoice-topbar,
+  .invoice-actions{
+    display:none !important;
+  }
+
+  .invoice-paper{
+    padding:25px !important;
   }
 
 }
@@ -1094,10 +1246,6 @@ button{
 <div id="app">
 
 
-  <!-- ===================================================
-       SIDEBAR
-  ==================================================== -->
-
   <aside class="side">
 
     <div class="logo">
@@ -1159,11 +1307,6 @@ button{
   </aside>
 
 
-
-  <!-- ===================================================
-       MAIN
-  ==================================================== -->
-
   <main class="main">
 
 
@@ -1189,11 +1332,8 @@ button{
     </header>
 
 
-
     <section class="content">
 
-
-      <!-- HEADING -->
 
       <div class="heading">
 
@@ -1221,9 +1361,6 @@ button{
       </div>
 
 
-
-      <!-- STATS -->
-
       <div class="stats">
 
 
@@ -1239,7 +1376,6 @@ button{
 
           </div>
 
-
           <div
             class="num"
             id="total"
@@ -1247,13 +1383,11 @@ button{
             0
           </div>
 
-
           <div class="label">
             عميل مسجل
           </div>
 
         </div>
-
 
 
         <div class="stat">
@@ -1268,7 +1402,6 @@ button{
 
           </div>
 
-
           <div
             class="num"
             id="active"
@@ -1276,13 +1409,11 @@ button{
             0
           </div>
 
-
           <div class="label">
             عميل نشط
           </div>
 
         </div>
-
 
 
         <div class="stat">
@@ -1297,7 +1428,6 @@ button{
 
           </div>
 
-
           <div
             class="num"
             id="soon"
@@ -1305,13 +1435,11 @@ button{
             0
           </div>
 
-
           <div class="label">
             خلال 7 أيام
           </div>
 
         </div>
-
 
 
         <div class="stat">
@@ -1326,14 +1454,12 @@ button{
 
           </div>
 
-
           <div
             class="num"
             id="expired"
           >
             0
           </div>
-
 
           <div class="label">
             منتهية الصلاحية
@@ -1344,9 +1470,6 @@ button{
 
       </div>
 
-
-
-      <!-- SEARCH -->
 
       <div class="panel">
 
@@ -1435,9 +1558,6 @@ button{
       </div>
 
 
-
-      <!-- CUSTOMER LIST -->
-
       <div
         id="list"
         class="list"
@@ -1455,12 +1575,6 @@ button{
 
   </main>
 
-
-
-  <!-- ===================================================
-       BOTTOM ADMIN NAV
-       NO PAYMENT PAGE
-  ==================================================== -->
 
   <nav id="adminBottomNav">
 
@@ -1732,6 +1846,42 @@ button{
     </div>
 
 
+    <!-- DISCOUNT -->
+
+    <div class="field">
+
+      <label>
+        💸 قيمة الخصم
+      </label>
+
+      <input
+        id="discountAmount"
+        type="number"
+        min="0"
+        step=".01"
+        value="0"
+        placeholder="مثال: 40"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        🎁 كود الخصم
+      </label>
+
+      <input
+        id="promoCode"
+        type="text"
+        maxlength="50"
+        placeholder="مثال: MAWLID26"
+      >
+
+    </div>
+
+
     <div class="field">
 
       <label>
@@ -1899,6 +2049,351 @@ button{
 </div>
 
 
+<!-- =====================================================
+     INVOICE MODAL
+===================================================== -->
+
+<div
+  id="invoiceOverlay"
+  class="invoice-overlay"
+>
+
+  <div class="invoice-modal">
+
+
+    <div class="invoice-topbar">
+
+      <h2>
+        🧾 معاينة الفاتورة
+      </h2>
+
+      <button
+        class="invoice-close"
+        type="button"
+        onclick="closeInvoice()"
+      >
+        ✕
+      </button>
+
+    </div>
+
+
+    <div
+      id="invoicePaper"
+      class="invoice-paper"
+    >
+
+
+      <div class="invoice-brand">
+
+        <img
+          src="cashback-logo.png"
+          alt="CASH BACK"
+          onerror="this.style.display='none'"
+        >
+
+      </div>
+
+
+      <div class="invoice-meta">
+
+        <div>
+          رقم الفاتورة:
+          <strong id="invoiceNumber">
+            -
+          </strong>
+        </div>
+
+        <div>
+          تاريخ الفاتورة:
+          <strong id="invoiceDate">
+            -
+          </strong>
+        </div>
+
+      </div>
+
+
+      <div class="invoice-title">
+        فاتورة اشتراك WE
+      </div>
+
+
+      <!-- CUSTOMER -->
+
+      <div class="invoice-section">
+
+
+        <div class="invoice-row">
+
+          <span class="invoice-label">
+            اسم العميل
+          </span>
+
+          <span
+            class="invoice-value"
+            id="invoiceCustomerName"
+          >
+            -
+          </span>
+
+        </div>
+
+
+        <div class="invoice-row">
+
+          <span class="invoice-label">
+            رقم العميل
+          </span>
+
+          <span
+            class="invoice-value"
+            id="invoicePhone"
+          >
+            -
+          </span>
+
+        </div>
+
+
+        <div class="invoice-row">
+
+          <span class="invoice-label">
+            الرقم الأساسي
+          </span>
+
+          <span
+            class="invoice-value"
+            id="invoicePrimary"
+          >
+            -
+          </span>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- PACKAGE -->
+
+      <div class="invoice-section">
+
+
+        <div class="invoice-row">
+
+          <span class="invoice-label">
+            الباقة
+          </span>
+
+          <span
+            class="invoice-value"
+            id="invoicePackage"
+          >
+            -
+          </span>
+
+        </div>
+
+
+        <div class="invoice-row">
+
+          <span class="invoice-label">
+            الجيجا
+          </span>
+
+          <span
+            class="invoice-value"
+            id="invoiceGB"
+          >
+            -
+          </span>
+
+        </div>
+
+
+        <div class="invoice-row">
+
+          <span class="invoice-label">
+            فترة الاشتراك
+          </span>
+
+          <span
+            class="invoice-value"
+            id="invoicePeriod"
+          >
+            -
+          </span>
+
+        </div>
+
+
+        <div class="invoice-row">
+
+          <span class="invoice-label">
+            طريقة الدفع
+          </span>
+
+          <span
+            class="invoice-value"
+            id="invoicePayment"
+          >
+            -
+          </span>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- PRICE -->
+
+      <div class="invoice-section">
+
+
+        <div class="invoice-row">
+
+          <span class="invoice-label">
+            قيمة الباقة الأساسية
+          </span>
+
+          <span
+            class="invoice-value"
+            id="invoiceBasePrice"
+          >
+            0 جنيه
+          </span>
+
+        </div>
+
+
+        <div class="invoice-row">
+
+          <span class="invoice-label">
+            الإجمالي قبل الخصم
+          </span>
+
+          <span
+            class="invoice-value"
+            id="invoiceBeforeDiscount"
+          >
+            0 جنيه
+          </span>
+
+        </div>
+
+
+        <div
+          id="invoiceDiscountRow"
+          class="invoice-row"
+          style="display:none"
+        >
+
+          <span class="invoice-label invoice-discount">
+            الخصم
+          </span>
+
+          <span
+            class="invoice-value invoice-discount"
+            id="invoiceDiscount"
+          >
+            - 0 جنيه
+          </span>
+
+        </div>
+
+
+        <div
+          id="invoicePromoRow"
+          class="invoice-row"
+          style="display:none"
+        >
+
+          <span class="invoice-label invoice-code">
+            كود الخصم
+          </span>
+
+          <span
+            class="invoice-value invoice-code"
+            id="invoicePromo"
+          >
+            -
+          </span>
+
+        </div>
+
+
+        <div class="invoice-total">
+
+          <span>
+            الإجمالي النهائي
+          </span>
+
+          <strong id="invoiceFinalTotal">
+            0 جنيه
+          </strong>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="invoice-footer">
+
+        <strong>
+          شكرًا لاختياركم CASH BACK
+        </strong>
+
+        <div>
+          للتواصل والاستفسار
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="invoice-actions">
+
+
+      <button
+        class="invoice-image"
+        type="button"
+        onclick="saveInvoiceImage()"
+      >
+        🖼️ حفظ كصورة
+      </button>
+
+
+      <button
+        class="invoice-pdf"
+        type="button"
+        onclick="saveInvoicePDF()"
+      >
+        📄 حفظ PDF
+      </button>
+
+
+      <button
+        class="invoice-print"
+        type="button"
+        onclick="printInvoice()"
+      >
+        🖨️ طباعة
+      </button>
+
+
+    </div>
+
+
+  </div>
+
+</div>
+
+
 <script>
 
 /* =====================================================
@@ -1929,6 +2424,8 @@ supabase.createClient(
 let customers = [];
 
 let editMode = false;
+
+let currentInvoiceCustomer = null;
 
 
 /* =====================================================
@@ -2866,7 +3363,15 @@ function card(c){
 
         <strong>
           ${money(
-            c.last_price
+            Math.max(
+              0,
+              Number(
+                c.last_price || 0
+              ) -
+              Number(
+                c.discount_amount || 0
+              )
+            )
           )}
           جنيه
         </strong>
@@ -2955,6 +3460,15 @@ function card(c){
 
 
       <button
+        class="action invoice-action"
+        type="button"
+        onclick="openInvoice(${Number(c.id)})"
+      >
+        🧾 فاتورة
+      </button>
+
+
+      <button
         class="action edit"
         type="button"
         onclick="openEdit(${Number(c.id)})"
@@ -3012,6 +3526,10 @@ function clearForm(){
   $("packageName").value = "";
 
   $("lastPrice").value = "";
+
+  $("discountAmount").value = 0;
+
+  $("promoCode").value = "";
 
   $("paymentMethod").value = "";
 
@@ -3109,6 +3627,14 @@ function openEdit(id){
 
   $("lastPrice").value =
     customer.last_price || "";
+
+
+  $("discountAmount").value =
+    customer.discount_amount || 0;
+
+
+  $("promoCode").value =
+    customer.promo_code || "";
 
 
   $("paymentMethod").value =
@@ -3209,7 +3735,7 @@ function renewalData(){
 
 
 /* =====================================================
-   SAVE
+   SAVE CUSTOMER
 ===================================================== */
 
 async function saveCustomer(){
@@ -3281,9 +3807,30 @@ async function saveCustomer(){
   }
 
 
+  const price =
+    Number(
+      $("lastPrice").value
+    ) || 0;
+
+
+  let discount =
+    Number(
+      $("discountAmount").value
+    ) || 0;
+
+
+  if(discount < 0)
+    discount = 0;
+
+
+  if(discount > price)
+    discount = price;
+
+
   const data = {
 
-    subscriber_name:name,
+    subscriber_name:
+      name,
 
     internal_name:
       $("internalName")
@@ -3291,7 +3838,8 @@ async function saveCustomer(){
         .trim() ||
       null,
 
-    phone:phone,
+    phone:
+      phone,
 
     primary_number:
       primary ||
@@ -3310,9 +3858,17 @@ async function saveCustomer(){
       null,
 
     last_price:
-      Number(
-        $("lastPrice").value
-      ) || 0,
+      price,
+
+    discount_amount:
+      discount,
+
+    promo_code:
+      $("promoCode")
+        .value
+        .trim()
+        .toUpperCase() ||
+      null,
 
     payment_method:
       $("paymentMethod").value ||
@@ -3538,14 +4094,24 @@ async function renew(id){
     return;
 
 
+  const finalPrice =
+    Math.max(
+      0,
+      Number(
+        customer.last_price || 0
+      ) -
+      Number(
+        customer.discount_amount || 0
+      )
+    );
+
+
   const confirmed =
     confirm(
       "🔄 تجديد " +
       customer.subscriber_name +
       "\n\nالمبلغ: " +
-      money(
-        customer.last_price
-      ) +
+      money(finalPrice) +
       " جنيه\n\n" +
       "هل تريد تأكيد التجديد؟"
     );
@@ -3661,6 +4227,549 @@ async function renew(id){
   }
 
 }
+
+
+/* =====================================================
+   INVOICE
+===================================================== */
+
+function openInvoice(id){
+
+  const customer =
+    customers.find(
+      c =>
+        Number(c.id) ===
+        Number(id)
+    );
+
+
+  if(!customer){
+
+    alert(
+      "❌ لم يتم العثور على العميل"
+    );
+
+    return;
+
+  }
+
+
+  currentInvoiceCustomer =
+    customer;
+
+
+  const basePrice =
+    Number(
+      customer.last_price || 0
+    );
+
+
+  let discount =
+    Number(
+      customer.discount_amount || 0
+    );
+
+
+  if(discount < 0)
+    discount = 0;
+
+
+  if(discount > basePrice)
+    discount = basePrice;
+
+
+  const finalPrice =
+    Math.max(
+      0,
+      basePrice - discount
+    );
+
+
+  const promoCode =
+    String(
+      customer.promo_code || ""
+    )
+    .trim();
+
+
+  const invoiceNumber =
+    "INV-" +
+    new Date()
+      .getFullYear() +
+    "-" +
+    String(
+      customer.id
+    )
+    .padStart(5,"0");
+
+
+  const today =
+    new Date()
+      .toLocaleDateString(
+        "ar-EG"
+      );
+
+
+  const startDate =
+    customer.last_renewed_at
+    ? formatInvoiceDate(
+        customer.last_renewed_at
+      )
+    : today;
+
+
+  const endDate =
+    customer.next_renewal_date
+    ? formatInvoiceDate(
+        customer.next_renewal_date
+      )
+    : "-";
+
+
+  $("invoiceNumber")
+    .textContent =
+    invoiceNumber;
+
+
+  $("invoiceDate")
+    .textContent =
+    today;
+
+
+  $("invoiceCustomerName")
+    .textContent =
+    customer.subscriber_name ||
+    "-";
+
+
+  $("invoicePhone")
+    .textContent =
+    customer.phone ||
+    "-";
+
+
+  $("invoicePrimary")
+    .textContent =
+    customer.primary_number ||
+    "-";
+
+
+  $("invoicePackage")
+    .textContent =
+    customer.package_name ||
+    "-";
+
+
+  $("invoiceGB")
+    .textContent =
+    (
+      customer.allocated_gb ??
+      getGB(
+        customer.package_name
+      ) ??
+      0
+    ) +
+    " GB";
+
+
+  $("invoicePeriod")
+    .textContent =
+    startDate +
+    " → " +
+    endDate;
+
+
+  $("invoicePayment")
+    .textContent =
+    customer.payment_method ||
+    "غير محدد";
+
+
+  $("invoiceBasePrice")
+    .textContent =
+    money(basePrice) +
+    " جنيه";
+
+
+  $("invoiceBeforeDiscount")
+    .textContent =
+    money(basePrice) +
+    " جنيه";
+
+
+  if(discount > 0){
+
+    $("invoiceDiscountRow")
+      .style.display =
+      "flex";
+
+
+    $("invoiceDiscount")
+      .textContent =
+      "- " +
+      money(discount) +
+      " جنيه";
+
+  }else{
+
+    $("invoiceDiscountRow")
+      .style.display =
+      "none";
+
+  }
+
+
+  if(promoCode){
+
+    $("invoicePromoRow")
+      .style.display =
+      "flex";
+
+
+    $("invoicePromo")
+      .textContent =
+      promoCode;
+
+  }else{
+
+    $("invoicePromoRow")
+      .style.display =
+      "none";
+
+  }
+
+
+  $("invoiceFinalTotal")
+    .textContent =
+    money(finalPrice) +
+    " جنيه";
+
+
+  $("invoiceOverlay")
+    .classList
+    .add("show");
+
+}
+
+
+/* =====================================================
+   INVOICE DATE
+===================================================== */
+
+function formatInvoiceDate(value){
+
+  const date =
+    extractDate(value);
+
+
+  if(!date)
+    return "-";
+
+
+  return new Date(
+    date +
+    "T00:00:00"
+  )
+  .toLocaleDateString(
+    "ar-EG"
+  );
+
+}
+
+
+/* =====================================================
+   CLOSE INVOICE
+===================================================== */
+
+function closeInvoice(){
+
+  $("invoiceOverlay")
+    .classList
+    .remove("show");
+
+}
+
+
+/* =====================================================
+   PRINT INVOICE
+===================================================== */
+
+function printInvoice(){
+
+  window.print();
+
+}
+
+
+/* =====================================================
+   SAVE IMAGE
+===================================================== */
+
+async function saveInvoiceImage(){
+
+  if(
+    typeof html2canvas ===
+    "undefined"
+  ){
+
+    alert(
+      "❌ مكتبة حفظ الصورة غير متاحة"
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+
+    const canvas =
+      await html2canvas(
+        $("invoicePaper"),
+        {
+          scale:2,
+          backgroundColor:"#ffffff",
+          useCORS:true
+        }
+      );
+
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+
+    const name =
+      (
+        currentInvoiceCustomer
+          ?.subscriber_name ||
+        "customer"
+      )
+      .replace(
+        /[\\/:*?"<>|]/g,
+        "-"
+      );
+
+
+    link.download =
+      "CashBack-Invoice-" +
+      name +
+      ".png";
+
+
+    link.href =
+      canvas.toDataURL(
+        "image/png"
+      );
+
+
+    link.click();
+
+
+  }catch(error){
+
+    console.error(
+      "IMAGE ERROR:",
+      error
+    );
+
+
+    alert(
+      "❌ حصل خطأ أثناء حفظ الفاتورة كصورة"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   SAVE PDF
+===================================================== */
+
+async function saveInvoicePDF(){
+
+  if(
+    typeof html2canvas ===
+    "undefined" ||
+    !window.jspdf
+  ){
+
+    alert(
+      "❌ مكتبات PDF غير متاحة"
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+
+    const canvas =
+      await html2canvas(
+        $("invoicePaper"),
+        {
+          scale:2,
+          backgroundColor:"#ffffff",
+          useCORS:true
+        }
+      );
+
+
+    const {
+      jsPDF
+    } =
+    window.jspdf;
+
+
+    const pdf =
+      new jsPDF({
+        orientation:"portrait",
+        unit:"mm",
+        format:"a4"
+      });
+
+
+    const imgData =
+      canvas.toDataURL(
+        "image/png"
+      );
+
+
+    const pageWidth =
+      pdf.internal.pageSize.getWidth();
+
+
+    const pageHeight =
+      pdf.internal.pageSize.getHeight();
+
+
+    const margin = 8;
+
+
+    const width =
+      pageWidth -
+      margin * 2;
+
+
+    const height =
+      canvas.height *
+      width /
+      canvas.width;
+
+
+    let position =
+      margin;
+
+
+    let remaining =
+      height;
+
+
+    pdf.addImage(
+      imgData,
+      "PNG",
+      margin,
+      position,
+      width,
+      height
+    );
+
+
+    remaining -=
+      pageHeight -
+      margin * 2;
+
+
+    while(
+      remaining > 0
+    ){
+
+      position -=
+        pageHeight -
+        margin * 2;
+
+
+      pdf.addPage();
+
+
+      pdf.addImage(
+        imgData,
+        "PNG",
+        margin,
+        position,
+        width,
+        height
+      );
+
+
+      remaining -=
+        pageHeight -
+        margin * 2;
+
+    }
+
+
+    const name =
+      (
+        currentInvoiceCustomer
+          ?.subscriber_name ||
+        "customer"
+      )
+      .replace(
+        /[\\/:*?"<>|]/g,
+        "-"
+      );
+
+
+    pdf.save(
+      "CashBack-Invoice-" +
+      name +
+      ".pdf"
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "PDF ERROR:",
+      error
+    );
+
+
+    alert(
+      "❌ حصل خطأ أثناء إنشاء ملف PDF"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   INVOICE OUTSIDE CLICK
+===================================================== */
+
+$("invoiceOverlay")
+  .addEventListener(
+    "click",
+    event => {
+
+      if(
+        event.target ===
+        event.currentTarget
+      ){
+
+        closeInvoice();
+
+      }
+
+    }
+  );
 
 
 /* =====================================================
@@ -3780,4 +4889,5 @@ checkSession();
 
 
 </body>
+
 </html>
