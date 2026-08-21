@@ -12,16 +12,10 @@
 <title>العملاء | CASH BACK</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
-
-/* =====================================================
-   GENERAL
-===================================================== */
 
 *{
   box-sizing:border-box;
@@ -51,6 +45,36 @@ button{
 
 
 /* =====================================================
+   GENERAL LOGO FIX
+===================================================== */
+
+.logo-img{
+  display:block;
+  object-fit:contain;
+  object-position:center;
+}
+
+.logo-fallback{
+  display:none;
+  text-align:center;
+  font-weight:900;
+  color:#fff;
+  line-height:1;
+}
+
+.logo-fallback .cash{
+  font-size:28px;
+  letter-spacing:1px;
+}
+
+.logo-fallback .back{
+  font-size:28px;
+  color:#d7a72f;
+  letter-spacing:1px;
+}
+
+
+/* =====================================================
    LOGIN
 ===================================================== */
 
@@ -71,13 +95,21 @@ button{
   box-shadow:0 25px 70px #0005;
 }
 
+.login-logo-wrap{
+  width:220px;
+  height:150px;
+  margin:0 auto 8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
 .loginbox img{
-  width:180px;
-  height:140px;
+  width:100%;
+  height:100%;
   object-fit:contain;
-  margin:auto;
   display:block;
-  border-radius:15px;
 }
 
 .loginbox h2{
@@ -155,8 +187,9 @@ button{
 .logo{
   height:175px;
   background:#111318;
-  display:grid;
-  place-items:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   overflow:hidden;
   padding:10px;
 }
@@ -165,6 +198,7 @@ button{
   width:100%;
   height:100%;
   object-fit:contain;
+  object-position:center;
   display:block;
 }
 
@@ -727,7 +761,7 @@ button{
 
 
 /* =====================================================
-   INVOICE PREVIEW
+   INVOICE
 ===================================================== */
 
 .invoice-overlay{
@@ -947,7 +981,6 @@ button{
 
 }
 
-
 @media(max-width:650px){
 
   .side{
@@ -1069,7 +1102,6 @@ button{
 
 }
 
-
 @media(max-width:390px){
 
   #adminBottomNav{
@@ -1096,20 +1128,13 @@ button{
 
 
 /* =====================================================
-   PRINT - PREVIEW PAGE
+   PRINT
 ===================================================== */
 
 @page{
   size:A4 portrait;
   margin:0;
 }
-
-
-/*
-   مهم:
-   الطباعة الحقيقية تتم من نافذة منفصلة في printInvoice()
-   لذلك مش بنخلي الصفحة الأساسية تدخل في الطباعة.
-*/
 
 @media print{
 
@@ -1126,29 +1151,36 @@ button{
 
 }
 
-
-/* =====================================================
-   END CSS
-===================================================== */
-
 </style>
 </head>
 
 <body>
 
 
-<!-- =====================================================
-     LOGIN
-===================================================== -->
+<!-- LOGIN -->
 
 <div id="loginScreen" class="login">
 
   <div class="loginbox">
 
-    <img
-      src="./logo.png"
-      alt="CASH BACK"
-    >
+    <div class="login-logo-wrap">
+
+      <img
+        id="loginLogo"
+        class="logo-img"
+        src="logo.png"
+        alt="CASH BACK"
+      >
+
+      <div
+        id="loginLogoFallback"
+        class="logo-fallback"
+      >
+        <div class="cash">CASH</div>
+        <div class="back">BACK</div>
+      </div>
+
+    </div>
 
     <h2>CASH BACK</h2>
 
@@ -1186,9 +1218,7 @@ button{
 </div>
 
 
-<!-- =====================================================
-     APP
-===================================================== -->
+<!-- APP -->
 
 <div id="app">
 
@@ -1200,41 +1230,44 @@ button{
     <div class="logo">
 
       <img
-        src="./logo.png"
+        id="sideLogo"
+        class="logo-img"
+        src="logo.png"
         alt="CASH BACK"
       >
+
+      <div
+        id="sideLogoFallback"
+        class="logo-fallback"
+      >
+        <div class="cash">CASH</div>
+        <div class="back">BACK</div>
+      </div>
 
     </div>
 
 
     <nav class="nav">
 
-      <a
-        class="active"
-        href="customers.html"
-      >
+      <a class="active" href="customers.html">
         <i>👥</i>
         <span>العملاء</span>
       </a>
-
 
       <a href="packages.html">
         <i>📦</i>
         <span>الباقات</span>
       </a>
 
-
       <a href="admin.html">
         <i>🔢</i>
         <span>الأكواد</span>
       </a>
 
-
       <a href="numbers.html">
         <i>📱</i>
         <span>الأرقام الأساسية</span>
       </a>
-
 
       <a href="finances.html">
         <i>💰</i>
@@ -1273,7 +1306,6 @@ button{
 
       </div>
 
-
       <div class="avatar">
         👨‍💼
       </div>
@@ -1310,10 +1342,7 @@ button{
       </div>
 
 
-      <!-- STATS -->
-
       <div class="stats">
-
 
         <div class="stat">
 
@@ -1322,9 +1351,7 @@ button{
             <span class="ico">👥</span>
           </div>
 
-          <div class="num" id="total">
-            0
-          </div>
+          <div class="num" id="total">0</div>
 
           <div class="label">
             عميل مسجل
@@ -1340,9 +1367,7 @@ button{
             <span class="ico">🟢</span>
           </div>
 
-          <div class="num" id="active">
-            0
-          </div>
+          <div class="num" id="active">0</div>
 
           <div class="label">
             عميل نشط
@@ -1358,9 +1383,7 @@ button{
             <span class="ico">🕐</span>
           </div>
 
-          <div class="num" id="soon">
-            0
-          </div>
+          <div class="num" id="soon">0</div>
 
           <div class="label">
             خلال 7 أيام
@@ -1376,9 +1399,7 @@ button{
             <span class="ico">⚠️</span>
           </div>
 
-          <div class="num" id="expired">
-            0
-          </div>
+          <div class="num" id="expired">0</div>
 
           <div class="label">
             منتهية الصلاحية
@@ -1386,11 +1407,8 @@ button{
 
         </div>
 
-
       </div>
 
-
-      <!-- SEARCH -->
 
       <div class="panel">
 
@@ -1477,12 +1495,7 @@ button{
       </div>
 
 
-      <!-- LIST -->
-
-      <div
-        id="list"
-        class="list"
-      >
+      <div id="list" class="list">
 
         <div class="loading">
           ⏳ جاري تحميل العملاء...
@@ -1500,103 +1513,41 @@ button{
 
   <nav id="adminBottomNav">
 
-
-    <a
-      href="finances.html"
-      data-page="finances.html"
-    >
-
-      <span class="navIcon">
-        💰
-      </span>
-
-      <span class="navText">
-        الماليات
-      </span>
-
+    <a href="finances.html" data-page="finances.html">
+      <span class="navIcon">💰</span>
+      <span class="navText">الماليات</span>
     </a>
 
-
-    <a
-      href="numbers.html"
-      data-page="numbers.html"
-    >
-
-      <span class="navIcon">
-        📱
-      </span>
-
-      <span class="navText">
-        الأرقام الأساسية
-      </span>
-
+    <a href="numbers.html" data-page="numbers.html">
+      <span class="navIcon">📱</span>
+      <span class="navText">الأرقام الأساسية</span>
     </a>
 
-
-    <a
-      href="admin.html"
-      data-page="admin.html"
-    >
-
-      <span class="navIcon">
-        🔢
-      </span>
-
-      <span class="navText">
-        الأكواد
-      </span>
-
+    <a href="admin.html" data-page="admin.html">
+      <span class="navIcon">🔢</span>
+      <span class="navText">الأكواد</span>
     </a>
 
-
-    <a
-      href="packages.html"
-      data-page="packages.html"
-    >
-
-      <span class="navIcon">
-        📦
-      </span>
-
-      <span class="navText">
-        الباقات
-      </span>
-
+    <a href="packages.html" data-page="packages.html">
+      <span class="navIcon">📦</span>
+      <span class="navText">الباقات</span>
     </a>
 
-
-    <a
-      href="customers.html"
-      data-page="customers.html"
-    >
-
-      <span class="navIcon">
-        👥
-      </span>
-
-      <span class="navText">
-        العملاء
-      </span>
-
+    <a href="customers.html" data-page="customers.html">
+      <span class="navIcon">👥</span>
+      <span class="navText">العملاء</span>
     </a>
-
 
   </nav>
 
 </div>
 
 
-<!-- =====================================================
-     CUSTOMER MODAL
-===================================================== -->
+<!-- CUSTOMER MODAL -->
 
-<div
-  id="modal"
-  class="modal"
->
+<div id="modal" class="modal">
 
   <div class="modalbox">
-
 
     <div class="mh">
 
@@ -1615,137 +1566,55 @@ button{
     </div>
 
 
-    <input
-      type="hidden"
-      id="customerId"
-    >
+    <input type="hidden" id="customerId">
 
 
     <div class="field">
+      <label>اسم العميل *</label>
+      <input id="customerName" placeholder="مثال: محمد">
+    </div>
 
-      <label>
-        اسم العميل *
-      </label>
 
-      <input
-        id="customerName"
-        placeholder="مثال: محمد"
-      >
+    <div class="field">
+      <label>🏷️ الاسم عندي</label>
+      <input id="internalName" placeholder="الاسم اللي مسجله بيه عندك">
+    </div>
 
+
+    <div class="field">
+      <label>رقم العميل *</label>
+      <input id="customerPhone" inputmode="numeric" placeholder="01xxxxxxxxx">
+    </div>
+
+
+    <div class="field">
+      <label>الرقم الأساسي</label>
+      <input id="primaryNumber" inputmode="numeric" placeholder="الرقم اللي اتعملت منه الباقة">
+    </div>
+
+
+    <div class="field">
+      <label>📦 الجيجا</label>
+      <input id="allocatedGB" type="number" min="0" step=".01" value="0">
     </div>
 
 
     <div class="field">
 
-      <label>
-        🏷️ الاسم عندي
-      </label>
+      <label>الباقة</label>
 
-      <input
-        id="internalName"
-        placeholder="الاسم اللي مسجله بيه عندك"
-      >
+      <select id="packageName" onchange="packageData()">
 
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        رقم العميل *
-      </label>
-
-      <input
-        id="customerPhone"
-        inputmode="numeric"
-        placeholder="01xxxxxxxxx"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        الرقم الأساسي
-      </label>
-
-      <input
-        id="primaryNumber"
-        inputmode="numeric"
-        placeholder="الرقم اللي اتعملت منه الباقة"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        📦 الجيجا
-      </label>
-
-      <input
-        id="allocatedGB"
-        type="number"
-        min="0"
-        step=".01"
-        value="0"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        الباقة
-      </label>
-
-      <select
-        id="packageName"
-        onchange="packageData()"
-      >
-
-        <option value="">
-          اختر الباقة
-        </option>
-
-        <option value="20 جيجا">
-          20 جيجا
-        </option>
-
-        <option value="25 جيجا">
-          25 جيجا
-        </option>
-
-        <option value="30 جيجا">
-          30 جيجا
-        </option>
-
-        <option value="35 جيجا">
-          35 جيجا
-        </option>
-
-        <option value="40 جيجا">
-          40 جيجا
-        </option>
-
-        <option value="45 جيجا">
-          45 جيجا
-        </option>
-
-        <option value="50 جيجا">
-          50 جيجا
-        </option>
-
-        <option value="55 جيجا">
-          55 جيجا
-        </option>
-
-        <option value="60 جيجا">
-          60 جيجا
-        </option>
+        <option value="">اختر الباقة</option>
+        <option value="20 جيجا">20 جيجا</option>
+        <option value="25 جيجا">25 جيجا</option>
+        <option value="30 جيجا">30 جيجا</option>
+        <option value="35 جيجا">35 جيجا</option>
+        <option value="40 جيجا">40 جيجا</option>
+        <option value="45 جيجا">45 جيجا</option>
+        <option value="50 جيجا">50 جيجا</option>
+        <option value="55 جيجا">55 جيجا</option>
+        <option value="60 جيجا">60 جيجا</option>
 
       </select>
 
@@ -1753,93 +1622,37 @@ button{
 
 
     <div class="field">
+      <label>السعر</label>
+      <input id="lastPrice" type="number" min="0">
+    </div>
 
-      <label>
-        السعر
-      </label>
 
-      <input
-        id="lastPrice"
-        type="number"
-        min="0"
-      >
+    <div class="field">
+      <label>💸 قيمة الخصم</label>
+      <input id="discountAmount" type="number" min="0" step=".01" value="0" placeholder="مثال: 40">
+    </div>
 
+
+    <div class="field">
+      <label>🎁 كود الخصم</label>
+      <input id="promoCode" type="text" maxlength="50" placeholder="مثال: MAWLID26">
     </div>
 
 
     <div class="field">
 
-      <label>
-        💸 قيمة الخصم
-      </label>
-
-      <input
-        id="discountAmount"
-        type="number"
-        min="0"
-        step=".01"
-        value="0"
-        placeholder="مثال: 40"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        🎁 كود الخصم
-      </label>
-
-      <input
-        id="promoCode"
-        type="text"
-        maxlength="50"
-        placeholder="مثال: MAWLID26"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        طريقة الدفع
-      </label>
+      <label>طريقة الدفع</label>
 
       <select id="paymentMethod">
 
-        <option value="">
-          غير محدد
-        </option>
-
-        <option value="Vodafone Cash">
-          Vodafone Cash
-        </option>
-
-        <option value="Etisalat Cash">
-          Etisalat Cash
-        </option>
-
-        <option value="WE Pay">
-          WE Pay
-        </option>
-
-        <option value="Orange Cash">
-          Orange Cash
-        </option>
-
-        <option value="InstaPay">
-          InstaPay
-        </option>
-
-        <option value="كاش">
-          كاش
-        </option>
-
-        <option value="تحويل بنكي">
-          تحويل بنكي
-        </option>
+        <option value="">غير محدد</option>
+        <option value="Vodafone Cash">Vodafone Cash</option>
+        <option value="Etisalat Cash">Etisalat Cash</option>
+        <option value="WE Pay">WE Pay</option>
+        <option value="Orange Cash">Orange Cash</option>
+        <option value="InstaPay">InstaPay</option>
+        <option value="كاش">كاش</option>
+        <option value="تحويل بنكي">تحويل بنكي</option>
 
       </select>
 
@@ -1848,19 +1661,12 @@ button{
 
     <div class="field">
 
-      <label>
-        الحالة
-      </label>
+      <label>الحالة</label>
 
       <select id="status">
 
-        <option value="active">
-          🟢 نشط
-        </option>
-
-        <option value="inactive">
-          🔴 موقوف
-        </option>
+        <option value="active">🟢 نشط</option>
+        <option value="inactive">🔴 موقوف</option>
 
       </select>
 
@@ -1869,26 +1675,13 @@ button{
 
     <div class="field">
 
-      <label>
-        نظام التجديد
-      </label>
+      <label>نظام التجديد</label>
 
-      <select
-        id="renewalType"
-        onchange="renewalData()"
-      >
+      <select id="renewalType" onchange="renewalData()">
 
-        <option value="day_1">
-          يوم 1
-        </option>
-
-        <option value="day_16">
-          يوم 16
-        </option>
-
-        <option value="custom">
-          تاريخ مخصص
-        </option>
+        <option value="day_1">يوم 1</option>
+        <option value="day_16">يوم 16</option>
+        <option value="custom">تاريخ مخصص</option>
 
       </select>
 
@@ -1896,89 +1689,45 @@ button{
 
 
     <div class="field">
-
-      <label>
-        يوم التجديد
-      </label>
-
-      <input
-        id="renewalDay"
-        type="number"
-        min="1"
-        max="31"
-        value="1"
-      >
-
+      <label>يوم التجديد</label>
+      <input id="renewalDay" type="number" min="1" max="31" value="1">
     </div>
 
 
     <div class="field">
-
-      <label>
-        التجديد القادم *
-      </label>
-
-      <input
-        id="nextRenewal"
-        type="date"
-      >
-
+      <label>التجديد القادم *</label>
+      <input id="nextRenewal" type="date">
     </div>
 
 
     <div class="field">
-
-      <label>
-        عدد الطلبات
-      </label>
-
-      <input
-        id="totalOrders"
-        type="number"
-        min="0"
-        value="0"
-      >
-
+      <label>عدد الطلبات</label>
+      <input id="totalOrders" type="number" min="0" value="0">
     </div>
 
 
     <div class="ma">
 
-      <button
-        class="cancel"
-        type="button"
-        onclick="closeModal()"
-      >
+      <button class="cancel" type="button" onclick="closeModal()">
         إلغاء
       </button>
 
-      <button
-        class="save"
-        type="button"
-        onclick="saveCustomer()"
-      >
+      <button class="save" type="button" onclick="saveCustomer()">
         💾 حفظ
       </button>
 
     </div>
-
 
   </div>
 
 </div>
 
 
-<!-- =====================================================
-     INVOICE
-===================================================== -->
+<!-- INVOICE -->
 
-<div
-  id="invoiceOverlay"
-  class="invoice-overlay"
->
+<div id="invoiceOverlay" class="invoice-overlay">
 
   <div class="invoice-modal">
-
 
     <div class="invoice-topbar">
 
@@ -1997,17 +1746,14 @@ button{
     </div>
 
 
-    <div
-      id="invoicePaper"
-      class="invoice-paper"
-    >
-
+    <div id="invoicePaper" class="invoice-paper">
 
       <div class="invoice-brand">
 
         <img
           id="invoiceLogo"
-          src="./logo.png"
+          class="logo-img"
+          src="logo.png"
           alt="CASH BACK"
         >
 
@@ -2036,162 +1782,60 @@ button{
 
       <div class="invoice-section">
 
-
         <div class="invoice-row">
-
-          <span class="invoice-label">
-            اسم العميل
-          </span>
-
-          <span
-            class="invoice-value"
-            id="invoiceCustomerName"
-          >
-            -
-          </span>
-
+          <span class="invoice-label">اسم العميل</span>
+          <span class="invoice-value" id="invoiceCustomerName">-</span>
         </div>
 
-
         <div class="invoice-row">
-
-          <span class="invoice-label">
-            رقم العميل
-          </span>
-
-          <span
-            class="invoice-value"
-            id="invoicePhone"
-          >
-            -
-          </span>
-
+          <span class="invoice-label">رقم العميل</span>
+          <span class="invoice-value" id="invoicePhone">-</span>
         </div>
 
-
         <div class="invoice-row">
-
-          <span class="invoice-label">
-            الرقم الأساسي
-          </span>
-
-          <span
-            class="invoice-value"
-            id="invoicePrimary"
-          >
-            -
-          </span>
-
+          <span class="invoice-label">الرقم الأساسي</span>
+          <span class="invoice-value" id="invoicePrimary">-</span>
         </div>
-
 
       </div>
 
 
       <div class="invoice-section">
 
-
         <div class="invoice-row">
-
-          <span class="invoice-label">
-            الباقة
-          </span>
-
-          <span
-            class="invoice-value"
-            id="invoicePackage"
-          >
-            -
-          </span>
-
+          <span class="invoice-label">الباقة</span>
+          <span class="invoice-value" id="invoicePackage">-</span>
         </div>
 
-
         <div class="invoice-row">
-
-          <span class="invoice-label">
-            الجيجا
-          </span>
-
-          <span
-            class="invoice-value"
-            id="invoiceGB"
-          >
-            -
-          </span>
-
+          <span class="invoice-label">الجيجا</span>
+          <span class="invoice-value" id="invoiceGB">-</span>
         </div>
 
-
         <div class="invoice-row">
-
-          <span class="invoice-label">
-            فترة الاشتراك
-          </span>
-
-          <span
-            class="invoice-value"
-            id="invoicePeriod"
-          >
-            -
-          </span>
-
+          <span class="invoice-label">فترة الاشتراك</span>
+          <span class="invoice-value" id="invoicePeriod">-</span>
         </div>
 
-
         <div class="invoice-row">
-
-          <span class="invoice-label">
-            طريقة الدفع
-          </span>
-
-          <span
-            class="invoice-value"
-            id="invoicePayment"
-          >
-            -
-          </span>
-
+          <span class="invoice-label">طريقة الدفع</span>
+          <span class="invoice-value" id="invoicePayment">-</span>
         </div>
-
 
       </div>
 
 
       <div class="invoice-section">
 
-
         <div class="invoice-row">
-
-          <span class="invoice-label">
-            السعر الأساسي
-          </span>
-
-          <span
-            class="invoice-value"
-            id="invoiceBasePrice"
-          >
-            0 جنيه
-          </span>
-
+          <span class="invoice-label">السعر الأساسي</span>
+          <span class="invoice-value" id="invoiceBasePrice">0 جنيه</span>
         </div>
 
-
         <div class="invoice-row">
-
-          <span class="invoice-label">
-            الإجمالي قبل الخصم
-          </span>
-
-          <span
-            class="invoice-value"
-            id="invoiceBeforeDiscount"
-          >
-            0 جنيه
-          </span>
-
+          <span class="invoice-label">الإجمالي قبل الخصم</span>
+          <span class="invoice-value" id="invoiceBeforeDiscount">0 جنيه</span>
         </div>
-
 
         <div
           id="invoiceDiscountRow"
@@ -2245,7 +1889,6 @@ button{
 
         </div>
 
-
       </div>
 
 
@@ -2265,7 +1908,6 @@ button{
 
       </div>
 
-
     </div>
 
 
@@ -2279,7 +1921,6 @@ button{
         🖼️ حفظ كصورة
       </button>
 
-
       <button
         class="invoice-pdf"
         type="button"
@@ -2287,7 +1928,6 @@ button{
       >
         📄 حفظ PDF
       </button>
-
 
       <button
         class="invoice-print"
@@ -2299,13 +1939,87 @@ button{
 
     </div>
 
-
   </div>
 
 </div>
 
 
 <script>
+
+/* =====================================================
+   LOGO
+   مهم: logo.png لازم يكون بجانب customers.html
+===================================================== */
+
+const LOGO_URL =
+  new URL(
+    "logo.png",
+    document.baseURI
+  ).href;
+
+
+/* =====================================================
+   LOGO ERROR HANDLING
+===================================================== */
+
+function setupLogo(imgId, fallbackId){
+
+  const img =
+    document.getElementById(imgId);
+
+  const fallback =
+    document.getElementById(fallbackId);
+
+  if(!img)
+    return;
+
+
+  img.src =
+    LOGO_URL;
+
+
+  img.addEventListener(
+    "error",
+    function(){
+
+      img.style.display =
+        "none";
+
+      if(fallback)
+        fallback.style.display =
+          "block";
+
+    }
+  );
+
+
+  img.addEventListener(
+    "load",
+    function(){
+
+      img.style.display =
+        "block";
+
+      if(fallback)
+        fallback.style.display =
+          "none";
+
+    }
+  );
+
+}
+
+
+setupLogo(
+  "loginLogo",
+  "loginLogoFallback"
+);
+
+setupLogo(
+  "sideLogo",
+  "sideLogoFallback"
+);
+
 
 /* =====================================================
    SUPABASE
@@ -2329,9 +2043,7 @@ supabase.createClient(
 
 
 let customers = [];
-
 let editMode = false;
-
 let currentInvoiceCustomer = null;
 
 
@@ -2401,12 +2113,7 @@ function daysUntil(value){
   const today =
     new Date();
 
-  today.setHours(
-    0,
-    0,
-    0,
-    0
-  );
+  today.setHours(0,0,0,0);
 
   return Math.ceil(
     (
@@ -2425,9 +2132,7 @@ function getGB(value){
 
   const m =
     String(value || "")
-      .match(
-        /(\d+(?:\.\d+)?)/
-      );
+      .match(/(\d+(?:\.\d+)?)/);
 
   return m
     ? Number(m[1])
@@ -2596,13 +2301,10 @@ async function api(
 async function login(){
 
   const email =
-    $("email")
-      .value
-      .trim();
+    $("email").value.trim();
 
   const password =
-    $("password")
-      .value;
+    $("password").value;
 
   const message =
     $("loginMessage");
@@ -2621,10 +2323,7 @@ async function login(){
     true;
 
 
-  if(
-    !email ||
-    !password
-  ){
+  if(!email || !password){
 
     message.textContent =
       "❌ اكتب البريد الإلكتروني وكلمة المرور";
@@ -2640,11 +2339,10 @@ async function login(){
   try{
 
     const result =
-      await db.auth
-        .signInWithPassword({
-          email,
-          password
-        });
+      await db.auth.signInWithPassword({
+        email,
+        password
+      });
 
 
     if(result.error)
@@ -2708,12 +2406,10 @@ async function login(){
 
 function showApp(){
 
-  $("loginScreen")
-    .style.display =
+  $("loginScreen").style.display =
     "none";
 
-  $("app")
-    .style.display =
+  $("app").style.display =
     "block";
 
   loadCustomers();
@@ -2808,7 +2504,6 @@ async function loadCustomers(){
 
 
     updateStats();
-
     render();
 
 
@@ -2825,9 +2520,7 @@ async function loadCustomers(){
 
         <br><br>
 
-        ${escapeHtml(
-          error.message
-        )}
+        ${escapeHtml(error.message)}
 
         <br><br>
 
@@ -2855,8 +2548,7 @@ function updateStats(){
   $("active").textContent =
     customers.filter(
       c =>
-      c.status ===
-      "active"
+      c.status === "active"
     ).length;
 
 
@@ -2909,13 +2601,11 @@ function render(){
 
 
   const renewal =
-    $("renewalFilter")
-      .value;
+    $("renewalFilter").value;
 
 
   const status =
-    $("statusFilter")
-      .value;
+    $("statusFilter").value;
 
 
   const filtered =
@@ -2935,10 +2625,7 @@ function render(){
         .toLowerCase();
 
 
-        if(
-          q &&
-          !text.includes(q)
-        )
+        if(q && !text.includes(q))
           return false;
 
 
@@ -3013,9 +2700,7 @@ function render(){
   $("list").innerHTML =
     filtered.length
     ?
-    filtered
-      .map(card)
-      .join("")
+    filtered.map(card).join("")
     :
     `
       <div class="empty">
@@ -3034,8 +2719,7 @@ function card(c){
     );
 
 
-  let renewalStatus =
-    "-";
+  let renewalStatus = "-";
 
 
   if(d !== null){
@@ -3068,7 +2752,6 @@ function card(c){
 
     <div class="card">
 
-
       <div class="ch">
 
         <div>
@@ -3081,26 +2764,18 @@ function card(c){
           </div>
 
           <div class="phone">
-            📱
-            ${escapeHtml(
-              c.phone || "-"
-            )}
+            📱 ${escapeHtml(c.phone || "-")}
           </div>
 
           <div class="internal">
-
             🏷️ عندي:
-
             ${
               c.internal_name
               ?
-              escapeHtml(
-                c.internal_name
-              )
+              escapeHtml(c.internal_name)
               :
               '<span style="color:#999">لم يتم تحديده</span>'
             }
-
           </div>
 
         </div>
@@ -3113,13 +2788,11 @@ function card(c){
             : "ok"
           }"
         >
-
           ${
             c.status === "inactive"
             ? "🔴 موقوف"
             : "🟢 نشط"
           }
-
         </span>
 
       </div>
@@ -3127,188 +2800,99 @@ function card(c){
 
       <div class="grid">
 
-
         <div class="box">
-
-          <small>
-            الرقم الأساسي
-          </small>
-
+          <small>الرقم الأساسي</small>
           <strong>
-            ${escapeHtml(
-              c.primary_number || "-"
-            )}
+            ${escapeHtml(c.primary_number || "-")}
           </strong>
-
         </div>
 
 
         <div class="box">
-
-          <small>
-            📦 الجيجا
-          </small>
-
+          <small>📦 الجيجا</small>
           <strong>
-
-            ${escapeHtml(
-              c.allocated_gb ?? 0
-            )}
-            GB
-
+            ${escapeHtml(c.allocated_gb ?? 0)} GB
           </strong>
-
         </div>
 
 
         <div class="box">
-
-          <small>
-            الباقة
-          </small>
-
+          <small>الباقة</small>
           <strong>
-
-            ${escapeHtml(
-              c.package_name || "-"
-            )}
-
+            ${escapeHtml(c.package_name || "-")}
           </strong>
-
         </div>
 
 
         <div class="box">
-
-          <small>
-            السعر النهائي
-          </small>
-
+          <small>السعر النهائي</small>
           <strong>
-
-            ${money(price)}
-            جنيه
-
+            ${money(price)} جنيه
           </strong>
-
         </div>
 
 
         <div class="box">
-
-          <small>
-            موعد التجديد
-          </small>
-
+          <small>موعد التجديد</small>
           <strong>
-
-            ${escapeHtml(
-              c.next_renewal_date || "-"
-            )}
-
+            ${escapeHtml(c.next_renewal_date || "-")}
           </strong>
-
         </div>
 
 
         <div class="box">
-
-          <small>
-            حالة التجديد
-          </small>
-
-          <strong>
-            ${renewalStatus}
-          </strong>
-
+          <small>حالة التجديد</small>
+          <strong>${renewalStatus}</strong>
         </div>
 
 
         <div class="box promo">
-
-          <small>
-            🎁 كود الخصم
-          </small>
-
+          <small>🎁 كود الخصم</small>
           <strong>
-
             ${
               c.promo_code
               ?
-              escapeHtml(
-                c.promo_code
-              )
+              escapeHtml(c.promo_code)
               :
               "لا يوجد"
             }
-
           </strong>
-
         </div>
 
 
         <div class="box discount-box">
-
-          <small>
-            💸 قيمة الخصم
-          </small>
-
+          <small>💸 قيمة الخصم</small>
           <strong>
-
             ${
               discount > 0
               ?
-              "-" +
-              money(discount) +
-              " جنيه"
+              "-" + money(discount) + " جنيه"
               :
               "لا يوجد"
             }
-
           </strong>
-
         </div>
 
 
         <div class="box">
-
-          <small>
-            عدد الطلبات
-          </small>
-
+          <small>عدد الطلبات</small>
           <strong>
-
-            ${Number(
-              c.total_orders || 0
-            )}
-
+            ${Number(c.total_orders || 0)}
           </strong>
-
         </div>
 
 
         <div class="box">
-
-          <small>
-            طريقة الدفع
-          </small>
-
+          <small>طريقة الدفع</small>
           <strong>
-
-            ${escapeHtml(
-              c.payment_method || "-"
-            )}
-
+            ${escapeHtml(c.payment_method || "-")}
           </strong>
-
         </div>
-
 
       </div>
 
 
       <div class="actions">
-
 
         <button
           class="action invoice-action"
@@ -3317,14 +2901,12 @@ function card(c){
           🧾 فاتورة
         </button>
 
-
         <button
           class="action edit"
           onclick="openEdit(${Number(c.id)})"
         >
           ✏️ تعديل
         </button>
-
 
         <button
           class="action renew"
@@ -3333,7 +2915,6 @@ function card(c){
           🔄 تجديد الآن
         </button>
 
-
         <button
           class="action delete"
           onclick="removeCustomer(${Number(c.id)})"
@@ -3341,9 +2922,7 @@ function card(c){
           🗑️ حذف
         </button>
 
-
       </div>
-
 
     </div>
 
@@ -3359,35 +2938,20 @@ function card(c){
 function clearForm(){
 
   $("customerId").value = "";
-
   $("customerName").value = "";
-
   $("internalName").value = "";
-
   $("customerPhone").value = "";
-
   $("primaryNumber").value = "";
-
   $("allocatedGB").value = 0;
-
   $("packageName").value = "";
-
   $("lastPrice").value = "";
-
   $("discountAmount").value = 0;
-
   $("promoCode").value = "";
-
   $("paymentMethod").value = "";
-
   $("status").value = "active";
-
   $("renewalType").value = "day_1";
-
   $("renewalDay").value = 1;
-
   $("nextRenewal").value = "";
-
   $("totalOrders").value = 0;
 
 }
@@ -3402,9 +2966,7 @@ function openAdd(){
 
   clearForm();
 
-  $("modal")
-    .classList
-    .add("show");
+  $("modal").classList.add("show");
 
 }
 
@@ -3414,8 +2976,7 @@ function openEdit(id){
   const c =
     customers.find(
       x =>
-      Number(x.id) ===
-      Number(id)
+      Number(x.id) === Number(id)
     );
 
 
@@ -3429,20 +2990,11 @@ function openEdit(id){
     "✏️ تعديل بيانات العميل";
 
 
-  $("customerId").value =
-    c.id;
-
-  $("customerName").value =
-    c.subscriber_name || "";
-
-  $("internalName").value =
-    c.internal_name || "";
-
-  $("customerPhone").value =
-    c.phone || "";
-
-  $("primaryNumber").value =
-    c.primary_number || "";
+  $("customerId").value = c.id;
+  $("customerName").value = c.subscriber_name || "";
+  $("internalName").value = c.internal_name || "";
+  $("customerPhone").value = c.phone || "";
+  $("primaryNumber").value = c.primary_number || "";
 
   $("allocatedGB").value =
     c.allocated_gb ||
@@ -3481,18 +3033,14 @@ function openEdit(id){
     c.total_orders || 0;
 
 
-  $("modal")
-    .classList
-    .add("show");
+  $("modal").classList.add("show");
 
 }
 
 
 function closeModal(){
 
-  $("modal")
-    .classList
-    .remove("show");
+  $("modal").classList.remove("show");
 
 }
 
@@ -3502,10 +3050,8 @@ function packageData(){
   const p =
     $("packageName").value;
 
-
   if(!p)
     return;
-
 
   $("allocatedGB").value =
     getGB(p);
@@ -3520,7 +3066,6 @@ function renewalData(){
 
   const t =
     $("renewalType").value;
-
 
   $("renewalDay").value =
     t === "day_1"
@@ -3550,24 +3095,19 @@ async function saveCustomer(){
 
   const phone =
     cleanPhone(
-      $("customerPhone")
-        .value
+      $("customerPhone").value
     );
 
 
   const primary =
     cleanPhone(
-      $("primaryNumber")
-        .value
+      $("primaryNumber").value
     );
 
 
   if(!name){
 
-    alert(
-      "⚠️ اكتب اسم العميل"
-    );
-
+    alert("⚠️ اكتب اسم العميل");
     return;
 
   }
@@ -3575,37 +3115,23 @@ async function saveCustomer(){
 
   if(!validPhone(phone)){
 
-    alert(
-      "⚠️ رقم العميل غير صحيح"
-    );
-
+    alert("⚠️ رقم العميل غير صحيح");
     return;
 
   }
 
 
-  if(
-    primary &&
-    !validPhone(primary)
-  ){
+  if(primary && !validPhone(primary)){
 
-    alert(
-      "⚠️ الرقم الأساسي غير صحيح"
-    );
-
+    alert("⚠️ الرقم الأساسي غير صحيح");
     return;
 
   }
 
 
-  if(
-    !$("nextRenewal").value
-  ){
+  if(!$("nextRenewal").value){
 
-    alert(
-      "⚠️ اختر موعد التجديد"
-    );
-
+    alert("⚠️ اختر موعد التجديد");
     return;
 
   }
@@ -3614,9 +3140,7 @@ async function saveCustomer(){
   const price =
     Math.max(
       0,
-      Number(
-        $("lastPrice").value
-      ) || 0
+      Number($("lastPrice").value) || 0
     );
 
 
@@ -3626,8 +3150,7 @@ async function saveCustomer(){
       Math.max(
         0,
         Number(
-          $("discountAmount")
-            .value
+          $("discountAmount").value
         ) || 0
       )
     );
@@ -3642,47 +3165,33 @@ async function saveCustomer(){
 
   const data = {
 
-    subscriber_name:
-      name,
+    subscriber_name:name,
 
     internal_name:
-      $("internalName")
-        .value
-        .trim() ||
+      $("internalName").value.trim() ||
       null,
 
-    phone:
-      phone,
+    phone,
 
     primary_number:
-      primary ||
-      null,
+      primary || null,
 
     allocated_gb:
-      Number(
-        $("allocatedGB").value
-      ) ||
-      getGB(
-        $("packageName").value
-      ),
+      Number($("allocatedGB").value) ||
+      getGB($("packageName").value),
 
     package_name:
-      $("packageName").value ||
-      null,
+      $("packageName").value || null,
 
-    last_price:
-      price,
+    last_price:price,
 
-    discount_amount:
-      discount,
+    discount_amount:discount,
 
     promo_code:
-      promoCode ||
-      null,
+      promoCode || null,
 
     payment_method:
-      $("paymentMethod").value ||
-      null,
+      $("paymentMethod").value || null,
 
     status:
       $("status").value,
@@ -3691,19 +3200,13 @@ async function saveCustomer(){
       $("renewalType").value,
 
     renewal_day:
-      Number(
-        $("renewalDay").value
-      ) ||
-      null,
+      Number($("renewalDay").value) || null,
 
     next_renewal_date:
       $("nextRenewal").value,
 
     total_orders:
-      Number(
-        $("totalOrders").value
-      ) ||
-      0,
+      Number($("totalOrders").value) || 0,
 
     updated_at:
       new Date().toISOString()
@@ -3722,8 +3225,7 @@ async function saveCustomer(){
         ),
         {
           method:"PATCH",
-          body:
-          JSON.stringify(data)
+          body:JSON.stringify(data)
         }
       );
 
@@ -3757,8 +3259,7 @@ async function saveCustomer(){
         "customers",
         {
           method:"POST",
-          body:
-          JSON.stringify(data)
+          body:JSON.stringify(data)
         }
       );
 
@@ -3783,7 +3284,6 @@ async function saveCustomer(){
 
     console.error(error);
 
-
     alert(
       "❌ لم يتم الحفظ\n\n" +
       (
@@ -3806,8 +3306,7 @@ async function removeCustomer(id){
   const c =
     customers.find(
       x =>
-      Number(x.id) ===
-      Number(id)
+      Number(x.id) === Number(id)
     );
 
 
@@ -3835,18 +3334,12 @@ async function removeCustomer(id){
       encodeURIComponent(id),
       {
         method:"PATCH",
-
-        body:
-        JSON.stringify({
-
+        body:JSON.stringify({
           deleted_at:
-            new Date()
-              .toISOString(),
+            new Date().toISOString(),
 
           updated_at:
-            new Date()
-              .toISOString()
-
+            new Date().toISOString()
         })
       }
     );
@@ -3879,8 +3372,7 @@ async function renew(id){
   const c =
     customers.find(
       x =>
-      Number(x.id) ===
-      Number(id)
+      Number(x.id) === Number(id)
     );
 
 
@@ -3909,10 +3401,7 @@ async function renew(id){
     new Date();
 
 
-  if(
-    c.renewal_type ===
-    "day_1"
-  ){
+  if(c.renewal_type === "day_1"){
 
     date.setMonth(
       date.getMonth() + 1
@@ -3920,10 +3409,7 @@ async function renew(id){
 
     date.setDate(1);
 
-  }else if(
-    c.renewal_type ===
-    "day_16"
-  ){
+  }else if(c.renewal_type === "day_16"){
 
     date.setMonth(
       date.getMonth() + 1
@@ -3941,9 +3427,7 @@ async function renew(id){
 
 
   const nextDate =
-    date
-      .toISOString()
-      .split("T")[0];
+    date.toISOString().split("T")[0];
 
 
   try{
@@ -3954,34 +3438,26 @@ async function renew(id){
       {
         method:"PATCH",
 
-        body:
-        JSON.stringify({
+        body:JSON.stringify({
 
           last_renewed_at:
-            new Date()
-              .toISOString(),
+            new Date().toISOString(),
 
           last_order_at:
-            new Date()
-              .toISOString(),
+            new Date().toISOString(),
 
           next_renewal_date:
             nextDate,
 
           total_orders:
             (
-              Number(
-                c.total_orders
-              ) ||
-              0
+              Number(c.total_orders) || 0
             ) + 1,
 
-          status:
-            "active",
+          status:"active",
 
           updated_at:
-            new Date()
-              .toISOString()
+            new Date().toISOString()
 
         })
       }
@@ -3990,10 +3466,7 @@ async function renew(id){
 
     await loadCustomers();
 
-
-    alert(
-      "✅ تم التجديد بنجاح"
-    );
+    alert("✅ تم التجديد بنجاح");
 
 
   }catch(error){
@@ -4020,8 +3493,7 @@ function openInvoice(id){
   const c =
     customers.find(
       x =>
-      Number(x.id) ===
-      Number(id)
+      Number(x.id) === Number(id)
     );
 
 
@@ -4034,9 +3506,7 @@ function openInvoice(id){
 
 
   const base =
-    Number(
-      c.last_price || 0
-    );
+    Number(c.last_price || 0);
 
 
   const discount =
@@ -4044,9 +3514,7 @@ function openInvoice(id){
       base,
       Math.max(
         0,
-        Number(
-          c.discount_amount || 0
-        )
+        Number(c.discount_amount || 0)
       )
     );
 
@@ -4058,130 +3526,84 @@ function openInvoice(id){
     );
 
 
-  $("invoiceNumber")
-    .textContent =
+  $("invoiceNumber").textContent =
     "INV-" +
     new Date().getFullYear() +
     "-" +
-    String(c.id)
-      .padStart(5,"0");
+    String(c.id).padStart(5,"0");
 
 
-  $("invoiceDate")
-    .textContent =
-    new Date()
-      .toLocaleDateString(
-        "ar-EG"
-      );
+  $("invoiceDate").textContent =
+    new Date().toLocaleDateString("ar-EG");
 
 
-  $("invoiceCustomerName")
-    .textContent =
-    c.subscriber_name ||
-    "-";
+  $("invoiceCustomerName").textContent =
+    c.subscriber_name || "-";
 
 
-  $("invoicePhone")
-    .textContent =
-    c.phone ||
-    "-";
+  $("invoicePhone").textContent =
+    c.phone || "-";
 
 
-  $("invoicePrimary")
-    .textContent =
-    c.primary_number ||
-    "-";
+  $("invoicePrimary").textContent =
+    c.primary_number || "-";
 
 
-  $("invoicePackage")
-    .textContent =
-    c.package_name ||
-    "-";
+  $("invoicePackage").textContent =
+    c.package_name || "-";
 
 
-  $("invoiceGB")
-    .textContent =
+  $("invoiceGB").textContent =
     (
       c.allocated_gb ??
-      getGB(
-        c.package_name
-      ) ??
+      getGB(c.package_name) ??
       0
     ) +
     " GB";
 
 
-  $("invoicePeriod")
-    .textContent =
-    formatDate(
-      c.last_renewed_at
-    ) +
+  $("invoicePeriod").textContent =
+    formatDate(c.last_renewed_at) +
     " → " +
-    formatDate(
-      c.next_renewal_date
-    );
+    formatDate(c.next_renewal_date);
 
 
-  $("invoicePayment")
-    .textContent =
-    c.payment_method ||
-    "غير محدد";
+  $("invoicePayment").textContent =
+    c.payment_method || "غير محدد";
 
 
-  $("invoiceBasePrice")
-    .textContent =
-    money(base) +
-    " جنيه";
+  $("invoiceBasePrice").textContent =
+    money(base) + " جنيه";
 
 
-  $("invoiceBeforeDiscount")
-    .textContent =
-    money(base) +
-    " جنيه";
+  $("invoiceBeforeDiscount").textContent =
+    money(base) + " جنيه";
 
 
-  $("invoiceDiscountRow")
-    .style.display =
-    discount > 0
-    ?
-    "flex"
-    :
-    "none";
+  $("invoiceDiscountRow").style.display =
+    discount > 0 ? "flex" : "none";
 
 
-  $("invoiceDiscount")
-    .textContent =
+  $("invoiceDiscount").textContent =
     "- " +
     money(discount) +
     " جنيه";
 
 
   const code =
-    String(
-      c.promo_code || ""
-    )
-    .trim();
+    String(c.promo_code || "").trim();
 
 
-  $("invoicePromoRow")
-    .style.display =
-    code
-    ?
-    "flex"
-    :
-    "none";
+  $("invoicePromoRow").style.display =
+    code ? "flex" : "none";
 
 
-  $("invoicePromo")
-    .textContent =
-    code ||
-    "-";
+  $("invoicePromo").textContent =
+    code || "-";
 
 
-  $("invoiceFinalTotal")
-    .textContent =
-    money(total) +
-    " جنيه";
+  $("invoiceFinalTotal").textContent =
+    money(total) + " جنيه";
 
 
   $("invoiceOverlay")
@@ -4202,17 +3624,13 @@ function closeInvoice(){
 
 /* =====================================================
    PRINT INVOICE
-   ONE A4 PAGE
 ===================================================== */
 
 function printInvoice(){
 
   if(!currentInvoiceCustomer){
 
-    alert(
-      "❌ لا توجد فاتورة للطباعة"
-    );
-
+    alert("❌ لا توجد فاتورة للطباعة");
     return;
 
   }
@@ -4223,9 +3641,7 @@ function printInvoice(){
 
 
   const base =
-    Number(
-      c.last_price || 0
-    );
+    Number(c.last_price || 0);
 
 
   const discount =
@@ -4233,9 +3649,7 @@ function printInvoice(){
       base,
       Math.max(
         0,
-        Number(
-          c.discount_amount || 0
-        )
+        Number(c.discount_amount || 0)
       )
     );
 
@@ -4251,20 +3665,15 @@ function printInvoice(){
     "INV-" +
     new Date().getFullYear() +
     "-" +
-    String(c.id)
-      .padStart(5,"0");
+    String(c.id).padStart(5,"0");
 
 
   const invoiceDate =
-    new Date()
-      .toLocaleDateString(
-        "ar-EG"
-      );
+    new Date().toLocaleDateString("ar-EG");
 
 
   const packageName =
-    c.package_name ||
-    "-";
+    c.package_name || "-";
 
 
   const gb =
@@ -4283,10 +3692,9 @@ function printInvoice(){
 
 
     const match =
-      String(value)
-        .match(
-          /\d{4}-\d{2}-\d{2}/
-        );
+      String(value).match(
+        /\d{4}-\d{2}-\d{2}/
+      );
 
 
     if(!match)
@@ -4294,8 +3702,7 @@ function printInvoice(){
 
 
     const parts =
-      match[0]
-        .split("-");
+      match[0].split("-");
 
 
     return (
@@ -4310,32 +3717,19 @@ function printInvoice(){
 
 
   const period =
-    invoiceDateFormat(
-      c.last_renewed_at
-    ) +
+    invoiceDateFormat(c.last_renewed_at) +
     " → " +
-    invoiceDateFormat(
-      c.next_renewal_date
-    );
+    invoiceDateFormat(c.next_renewal_date);
 
 
   const promo =
-    String(
-      c.promo_code || ""
-    )
-    .trim();
+    String(c.promo_code || "")
+      .trim();
 
 
-  /*
-    اللوجو من نفس مكان customers.html
-    وبهذا الشكل يشتغل على GitHub Pages
-  */
-
+  /* نفس اللوجو بالضبط */
   const logoURL =
-    new URL(
-      "./logo.png",
-      window.location.href
-    ).href;
+    LOGO_URL;
 
 
   const printWindow =
@@ -4363,10 +3757,7 @@ function printInvoice(){
 
 <!doctype html>
 
-<html
-  lang="ar"
-  dir="rtl"
->
+<html lang="ar" dir="rtl">
 
 <head>
 
@@ -4378,487 +3769,196 @@ function printInvoice(){
 >
 
 <title>
-  فاتورة ${escapeHtml(invoiceNumber)}
+فاتورة ${escapeHtml(invoiceNumber)}
 </title>
-
 
 <style>
 
-/* =====================================================
-   A4 EXACT
-===================================================== */
-
 @page{
-
   size:A4 portrait;
-
   margin:0;
-
 }
 
-
-html{
-
+html,
+body{
   width:210mm;
-
   height:297mm;
-
   margin:0!important;
-
   padding:0!important;
-
 }
-
 
 body{
-
-  width:210mm;
-
-  height:297mm;
-
-  min-width:210mm;
-
-  max-width:210mm;
-
-  min-height:297mm;
-
-  max-height:297mm;
-
-  margin:0!important;
-
-  padding:0!important;
-
   background:#fff;
-
   overflow:hidden!important;
-
-  font-family:
-    Arial,
-    Tahoma,
-    sans-serif;
-
+  font-family:Arial,Tahoma,sans-serif;
   color:#171a31;
-
 }
-
-
-/* =====================================================
-   ONE INVOICE
-===================================================== */
 
 .invoice{
-
   width:210mm;
-
   height:297mm;
-
-  min-width:210mm;
-
-  max-width:210mm;
-
-  min-height:297mm;
-
-  max-height:297mm;
-
-  margin:0;
-
-  padding:
-    9mm
-    12mm;
-
-  background:#fff;
-
   box-sizing:border-box;
-
+  padding:9mm 12mm;
+  background:#fff;
   overflow:hidden!important;
-
   page-break-before:avoid!important;
-
   page-break-after:avoid!important;
-
   page-break-inside:avoid!important;
-
-  break-before:avoid!important;
-
-  break-after:avoid!important;
-
-  break-inside:avoid!important;
-
 }
-
-
-/* =====================================================
-   LOGO
-===================================================== */
 
 .brand{
-
   width:100%;
-
   height:30mm;
-
   display:flex;
-
   justify-content:center;
-
   align-items:center;
-
   text-align:center;
-
   margin:0 0 2mm;
-
   overflow:hidden;
-
 }
-
 
 .brand img{
-
   display:block;
-
   width:62mm;
-
   height:28mm;
-
   max-width:62mm;
-
   max-height:28mm;
-
   object-fit:contain;
-
+  object-position:center;
   margin:0 auto;
-
 }
-
-
-/* =====================================================
-   TITLE
-===================================================== */
 
 .title{
-
   text-align:center;
-
   font-size:22px;
-
   font-weight:900;
-
   line-height:1.2;
-
-  margin:
-    1mm
-    0
-    4mm;
-
+  margin:1mm 0 4mm;
 }
-
-
-/* =====================================================
-   META
-===================================================== */
 
 .meta{
-
   display:flex;
-
   justify-content:space-between;
-
   align-items:center;
-
   gap:8mm;
-
   margin-bottom:4mm;
-
   font-size:11px;
-
 }
-
 
 .meta strong{
-
   color:#5420b8;
-
 }
-
-
-/* =====================================================
-   SECTIONS
-===================================================== */
 
 .section{
-
-  border:
-    1px solid #dedede;
-
+  border:1px solid #dedede;
   border-radius:3mm;
-
-  padding:
-    3mm
-    4mm;
-
+  padding:3mm 4mm;
   margin-bottom:3mm;
-
   page-break-inside:avoid!important;
-
   break-inside:avoid!important;
-
 }
-
-
-/* =====================================================
-   ROWS
-===================================================== */
 
 .row{
-
   display:flex;
-
   justify-content:space-between;
-
   align-items:center;
-
   gap:10mm;
-
   min-height:7mm;
-
-  padding:
-    1.3mm
-    0;
-
-  border-bottom:
-    1px dashed #ddd;
-
+  padding:1.3mm 0;
+  border-bottom:1px dashed #ddd;
   font-size:11.5px;
-
   line-height:1.2;
-
 }
-
 
 .row:last-child{
-
   border-bottom:0;
-
 }
-
 
 .label{
-
   color:#666;
-
   font-weight:bold;
-
 }
-
 
 .value{
-
   color:#171a31;
-
   font-weight:900;
-
   text-align:left;
-
 }
-
-
-/* =====================================================
-   COLORS
-===================================================== */
 
 .discount{
-
   color:#d93645!important;
-
 }
-
 
 .promo{
-
   color:#159447!important;
-
 }
-
-
-/* =====================================================
-   TOTAL
-===================================================== */
 
 .total{
-
   display:flex;
-
   justify-content:space-between;
-
   align-items:center;
-
   background:#171a31;
-
   color:#fff;
-
   border-radius:3mm;
-
-  padding:
-    4mm
-    5mm;
-
+  padding:4mm 5mm;
   margin-top:3mm;
-
   font-size:15px;
-
   font-weight:900;
-
 }
-
 
 .total strong{
-
   color:#ffd84d;
-
   font-size:21px;
-
 }
-
-
-/* =====================================================
-   FOOTER
-===================================================== */
 
 .thanks{
-
   text-align:center;
-
   margin-top:4mm;
-
   padding-top:3mm;
-
-  border-top:
-    1px dashed #bbb;
-
+  border-top:1px dashed #bbb;
   font-size:10.5px;
-
   line-height:1.6;
-
 }
-
 
 .thanks strong{
-
   display:block;
-
   font-size:14px;
-
   margin-bottom:1mm;
-
 }
-
 
 .contact{
-
   display:block;
-
   margin-top:1mm;
-
   font-size:14px;
-
   font-weight:900;
-
   color:#5420b8;
-
   direction:ltr;
-
 }
-
-
-/* =====================================================
-   PRINT
-===================================================== */
 
 @media print{
 
-  html{
-
-    width:210mm!important;
-
-    height:297mm!important;
-
-    margin:0!important;
-
-    padding:0!important;
-
-    overflow:hidden!important;
-
-  }
-
-
+  html,
   body{
-
     width:210mm!important;
-
     height:297mm!important;
-
-    min-width:210mm!important;
-
-    max-width:210mm!important;
-
-    min-height:297mm!important;
-
-    max-height:297mm!important;
-
     margin:0!important;
-
     padding:0!important;
-
     overflow:hidden!important;
-
-    background:#fff!important;
-
   }
-
 
   .invoice{
-
     width:210mm!important;
-
     height:297mm!important;
-
-    min-width:210mm!important;
-
-    max-width:210mm!important;
-
-    min-height:297mm!important;
-
-    max-height:297mm!important;
-
     margin:0!important;
-
-    padding:
-      9mm
-      12mm!important;
-
     overflow:hidden!important;
-
     page-break-before:avoid!important;
-
     page-break-after:avoid!important;
-
     page-break-inside:avoid!important;
-
-    break-before:avoid!important;
-
-    break-after:avoid!important;
-
-    break-inside:avoid!important;
-
   }
 
-
   *{
-
     -webkit-print-color-adjust:exact!important;
-
     print-color-adjust:exact!important;
-
   }
 
 }
@@ -4867,17 +3967,14 @@ body{
 
 </head>
 
-
 <body>
 
-
 <div class="invoice">
-
 
   <div class="brand">
 
     <img
-      src="${logoURL}"
+      src="${escapeHtml(logoURL)}"
       alt="CASH BACK"
     >
 
@@ -4892,24 +3989,17 @@ body{
   <div class="meta">
 
     <div>
-
       رقم الفاتورة:
-
       <strong>
         ${escapeHtml(invoiceNumber)}
       </strong>
-
     </div>
 
-
     <div>
-
       التاريخ:
-
       <strong>
         ${escapeHtml(invoiceDate)}
       </strong>
-
     </div>
 
   </div>
@@ -4917,144 +4007,79 @@ body{
 
   <div class="section">
 
-
     <div class="row">
-
-      <span class="label">
-        اسم العميل
-      </span>
-
+      <span class="label">اسم العميل</span>
       <span class="value">
-        ${escapeHtml(
-          c.subscriber_name || "-"
-        )}
+        ${escapeHtml(c.subscriber_name || "-")}
       </span>
-
     </div>
 
-
     <div class="row">
-
-      <span class="label">
-        رقم العميل
-      </span>
-
+      <span class="label">رقم العميل</span>
       <span class="value">
-        ${escapeHtml(
-          c.phone || "-"
-        )}
+        ${escapeHtml(c.phone || "-")}
       </span>
-
     </div>
 
-
     <div class="row">
-
-      <span class="label">
-        الرقم الأساسي
-      </span>
-
+      <span class="label">الرقم الأساسي</span>
       <span class="value">
-        ${escapeHtml(
-          c.primary_number || "-"
-        )}
+        ${escapeHtml(c.primary_number || "-")}
       </span>
-
     </div>
-
 
   </div>
 
 
   <div class="section">
 
-
     <div class="row">
-
-      <span class="label">
-        الباقة
-      </span>
-
+      <span class="label">الباقة</span>
       <span class="value">
         ${escapeHtml(packageName)}
       </span>
-
     </div>
 
-
     <div class="row">
-
-      <span class="label">
-        الجيجا
-      </span>
-
+      <span class="label">الجيجا</span>
       <span class="value">
         ${escapeHtml(gb)}
       </span>
-
     </div>
 
-
     <div class="row">
-
-      <span class="label">
-        فترة الاشتراك
-      </span>
-
+      <span class="label">فترة الاشتراك</span>
       <span class="value">
         ${escapeHtml(period)}
       </span>
-
     </div>
-
 
     <div class="row">
-
-      <span class="label">
-        طريقة الدفع
-      </span>
-
+      <span class="label">طريقة الدفع</span>
       <span class="value">
         ${escapeHtml(
-          c.payment_method ||
-          "غير محدد"
+          c.payment_method || "غير محدد"
         )}
       </span>
-
     </div>
-
 
   </div>
 
 
   <div class="section">
 
-
     <div class="row">
-
-      <span class="label">
-        السعر الأساسي
-      </span>
-
+      <span class="label">السعر الأساسي</span>
       <span class="value">
-        ${money(base)}
-        جنيه
+        ${money(base)} جنيه
       </span>
-
     </div>
 
-
     <div class="row">
-
-      <span class="label">
-        الإجمالي قبل الخصم
-      </span>
-
+      <span class="label">الإجمالي قبل الخصم</span>
       <span class="value">
-        ${money(base)}
-        جنيه
+        ${money(base)} جنيه
       </span>
-
     </div>
 
 
@@ -5062,20 +4087,14 @@ body{
       discount > 0
       ?
       `
-
       <div class="row">
-
         <span class="label discount">
           الخصم
         </span>
-
         <span class="value discount">
-          - ${money(discount)}
-          جنيه
+          - ${money(discount)} جنيه
         </span>
-
       </div>
-
       `
       :
       ""
@@ -5086,19 +4105,14 @@ body{
       promo
       ?
       `
-
       <div class="row">
-
         <span class="label promo">
           كود الخصم
         </span>
-
         <span class="value promo">
           ${escapeHtml(promo)}
         </span>
-
       </div>
-
       `
       :
       ""
@@ -5112,12 +4126,10 @@ body{
       </span>
 
       <strong>
-        ${money(total)}
-        جنيه
+        ${money(total)} جنيه
       </strong>
 
     </div>
-
 
   </div>
 
@@ -5136,19 +4148,14 @@ body{
 
   </div>
 
-
 </div>
 
 
 <script>
 
-/*
-  ننتظر تحميل اللوجو قبل إظهار نافذة الطباعة
-  عشان ما يظهرش مربع صورة مكسورة.
-*/
-
 const logo =
 document.querySelector(".brand img");
+
 
 function startPrint(){
 
@@ -5156,11 +4163,10 @@ function startPrint(){
     function(){
 
       window.focus();
-
       window.print();
 
     },
-    300
+    400
   );
 
 }
@@ -5168,7 +4174,7 @@ function startPrint(){
 
 if(logo){
 
-  if(logo.complete){
+  if(logo.complete && logo.naturalWidth > 0){
 
     startPrint();
 
@@ -5194,17 +4200,14 @@ function(){
 
   setTimeout(
     function(){
-
       window.close();
-
     },
     300
   );
 
 };
 
-</script>
-
+<\/script>
 
 </body>
 
@@ -5225,6 +4228,30 @@ function(){
 async function saveInvoiceImage(){
 
   try{
+
+    const logo =
+      $("invoiceLogo");
+
+
+    if(
+      logo &&
+      !logo.complete
+    ){
+
+      await new Promise(
+        resolve => {
+
+          logo.onload =
+            resolve;
+
+          logo.onerror =
+            resolve;
+
+        }
+      );
+
+    }
+
 
     const canvas =
       await html2canvas(
@@ -5262,9 +4289,7 @@ async function saveInvoiceImage(){
 
 
     link.href =
-      canvas.toDataURL(
-        "image/png"
-      );
+      canvas.toDataURL("image/png");
 
 
     link.click();
@@ -5284,12 +4309,36 @@ async function saveInvoiceImage(){
 
 
 /* =====================================================
-   SAVE PDF - ONE PAGE
+   SAVE PDF
 ===================================================== */
 
 async function saveInvoicePDF(){
 
   try{
+
+    const logo =
+      $("invoiceLogo");
+
+
+    if(
+      logo &&
+      !logo.complete
+    ){
+
+      await new Promise(
+        resolve => {
+
+          logo.onload =
+            resolve;
+
+          logo.onerror =
+            resolve;
+
+        }
+      );
+
+    }
+
 
     const canvas =
       await html2canvas(
@@ -5327,10 +4376,6 @@ async function saveInvoicePDF(){
       pdf.internal.pageSize.getHeight();
 
 
-    const margin =
-      0;
-
-
     const canvasRatio =
       canvas.width /
       canvas.height;
@@ -5344,13 +4389,6 @@ async function saveInvoicePDF(){
       width /
       canvasRatio;
 
-
-    /*
-      أهم نقطة:
-      ممنوع إنشاء صفحة ثانية.
-      لو الارتفاع أكبر من A4،
-      نصغّر الصورة كلها لتدخل في صفحة واحدة.
-    */
 
     if(height > pageH){
 
@@ -5453,9 +4491,7 @@ $("password")
     "keydown",
     e => {
 
-      if(
-        e.key === "Enter"
-      ){
+      if(e.key === "Enter"){
 
         e.preventDefault();
 
