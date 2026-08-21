@@ -3747,26 +3747,40 @@ $("invoiceOverlay")
 }
 
 
-async function printInvoice(){
+function printInvoice(){
 
   if(!currentInvoiceCustomer){
+
     alert("❌ لا توجد فاتورة للطباعة");
+
     return;
+
   }
 
-  const c = currentInvoiceCustomer;
+
+  const c =
+    currentInvoiceCustomer;
+
+
+  /* =========================
+     DATA
+  ========================= */
 
   const base =
     Number(c.last_price || 0);
+
 
   const discount =
     Math.min(
       base,
       Math.max(
         0,
-        Number(c.discount_amount || 0)
+        Number(
+          c.discount_amount || 0
+        )
       )
     );
+
 
   const total =
     Math.max(
@@ -3774,61 +3788,118 @@ async function printInvoice(){
       base - discount
     );
 
+
   const invoiceNumber =
     "INV-" +
     new Date().getFullYear() +
     "-" +
-    String(c.id).padStart(5,"0");
+    String(
+      c.id
+    ).padStart(
+      5,
+      "0"
+    );
+
 
   const invoiceDate =
-    new Date().toLocaleDateString("ar-EG");
+    new Date()
+      .toLocaleDateString(
+        "ar-EG"
+      );
+
 
   const packageName =
-    c.package_name || "-";
+    c.package_name ||
+    "-";
+
 
   const gb =
-    (c.allocated_gb ??
-      getGB(c.package_name) ??
-      0) + " GB";
+    (
+      c.allocated_gb ??
+      getGB(
+        c.package_name
+      ) ??
+      0
+    ) +
+    " GB";
+
+
+  function invoiceDateFormat(value){
+
+    if(!value)
+      return "-";
+
+
+    const match =
+      String(value)
+        .match(
+          /\d{4}-\d{2}-\d{2}/
+        );
+
+
+    if(!match)
+      return "-";
+
+
+    const parts =
+      match[0].split("-");
+
+
+    return (
+      parts[2] +
+      "/" +
+      parts[1] +
+      "/" +
+      parts[0]
+    );
+
+  }
+
 
   const period =
-    formatDate(c.last_renewed_at) +
+    invoiceDateFormat(
+      c.last_renewed_at
+    ) +
     " → " +
-    formatDate(c.next_renewal_date);
+    invoiceDateFormat(
+      c.next_renewal_date
+    );
+
 
   const promo =
-    String(c.promo_code || "").trim();
+    String(
+      c.promo_code || ""
+    ).trim();
 
-  const logoHTML = `
-    <div class="brand">
-      <div class="brandCash">CASH</div>
-      <div class="brandBack">BACK</div>
-      <div class="brandSub">باقات واتصالات</div>
-    </div>
-  `;
+
+  /* =========================
+     OPEN PRINT WINDOW
+  ========================= */
 
   const printWindow =
     window.open(
       "",
-      "_blank",
-      "width=800,height=1100"
+      "_blank"
     );
+
 
   if(!printWindow){
 
     alert(
-      "❌ الآيفون منع نافذة الطباعة. اسمح بفتح النوافذ المنبثقة."
+      "❌ الآيفون منع فتح نافذة الطباعة.\n\nاسمح بالنوافذ المنبثقة ثم حاول مرة أخرى."
     );
 
     return;
 
   }
 
+
   printWindow.document.open();
+
 
   printWindow.document.write(`
 
-<!doctype html>
+<!DOCTYPE html>
 
 <html
 lang="ar"
@@ -3839,29 +3910,49 @@ dir="rtl"
 
 <meta charset="UTF-8">
 
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1"
+>
+
 <title>
 فاتورة ${invoiceNumber}
 </title>
 
+
 <style>
 
+/* =====================================
+   PAGE
+===================================== */
+
 @page{
-  size:A4;
+
+  size:A4 portrait;
+
   margin:0;
+
 }
 
-*{
-  box-sizing:border-box;
+
+/* =====================================
+   RESET
+===================================== */
+
+html{
+
+  margin:0;
+
+  padding:0;
+
 }
 
-html,
+
 body{
 
   margin:0;
-  padding:0;
 
-  width:210mm;
-  height:297mm;
+  padding:0;
 
   background:#fff;
 
@@ -3870,101 +3961,125 @@ body{
     Tahoma,
     sans-serif;
 
-  color:#151a32;
+  color:#171a31;
 
 }
 
-body{
 
-  overflow:hidden;
-
-}
+/* =====================================
+   ONE PAGE ONLY
+===================================== */
 
 .invoice{
 
   width:210mm;
-  height:297mm;
+
+  height:280mm;
+
+  max-height:280mm;
+
+  box-sizing:border-box;
 
   padding:
-    12mm
-    14mm;
+    9mm
+    12mm;
+
+  margin:0;
 
   background:#fff;
 
   overflow:hidden;
 
+  page-break-after:avoid;
+
+  page-break-before:avoid;
+
+  page-break-inside:avoid;
+
+  break-after:avoid;
+
+  break-before:avoid;
+
+  break-inside:avoid;
+
 }
 
-/* =========================
-   BRAND
-========================= */
+
+/* =====================================
+   LOGO
+===================================== */
 
 .brand{
 
-  width:100%;
-
   text-align:center;
 
-  margin-bottom:5mm;
+  margin:0 0 3mm;
 
   line-height:.85;
 
 }
 
+
 .brandCash{
 
-  font-size:32px;
+  font-size:30px;
 
   font-weight:900;
 
-  letter-spacing:4px;
+  letter-spacing:3px;
 
   color:#171a31;
 
 }
 
+
 .brandBack{
 
-  font-size:32px;
+  font-size:30px;
 
   font-weight:900;
 
-  letter-spacing:4px;
+  letter-spacing:3px;
 
   color:#5420b8;
 
 }
 
+
 .brandSub{
 
-  margin-top:4px;
+  margin-top:3px;
 
-  font-size:12px;
+  font-size:10px;
 
   color:#777;
 
 }
 
-/* ========================= */
+
+/* =====================================
+   TITLE
+===================================== */
 
 .title{
 
   text-align:center;
 
-  font-size:25px;
+  font-size:23px;
 
   font-weight:900;
 
-  color:#171a31;
-
   margin:
-    5mm
+    3mm
     0
-    6mm;
+    4mm;
 
 }
 
-/* ========================= */
+
+/* =====================================
+   META
+===================================== */
 
 .meta{
 
@@ -3972,13 +4087,16 @@ body{
 
   justify-content:space-between;
 
-  gap:10mm;
+  align-items:center;
 
-  margin-bottom:5mm;
+  gap:8mm;
 
-  font-size:12px;
+  margin-bottom:4mm;
+
+  font-size:11px;
 
 }
+
 
 .meta strong{
 
@@ -3986,22 +4104,34 @@ body{
 
 }
 
-/* ========================= */
+
+/* =====================================
+   SECTION
+===================================== */
 
 .section{
 
   border:
     1px solid #dedede;
 
-  border-radius:4mm;
+  border-radius:3mm;
 
-  padding:4mm 5mm;
+  padding:
+    3mm
+    4mm;
 
-  margin-bottom:4mm;
+  margin-bottom:3mm;
+
+  page-break-inside:avoid;
+
+  break-inside:avoid;
 
 }
 
-/* ========================= */
+
+/* =====================================
+   ROW
+===================================== */
 
 .row{
 
@@ -4011,24 +4141,28 @@ body{
 
   align-items:center;
 
-  gap:15mm;
+  gap:10mm;
 
-  min-height:9mm;
+  min-height:7mm;
 
-  padding:2mm 0;
+  padding:
+    1.5mm
+    0;
 
   border-bottom:
     1px dashed #ddd;
 
-  font-size:13px;
+  font-size:11.5px;
 
 }
+
 
 .row:last-child{
 
   border-bottom:0;
 
 }
+
 
 .label{
 
@@ -4038,7 +4172,10 @@ body{
 
 }
 
+
 .value{
+
+  color:#171a31;
 
   font-weight:900;
 
@@ -4046,21 +4183,28 @@ body{
 
 }
 
-/* ========================= */
+
+/* =====================================
+   DISCOUNT
+===================================== */
 
 .discount{
 
-  color:#d93645;
+  color:#d93645!important;
 
 }
+
 
 .promo{
 
-  color:#159447;
+  color:#159447!important;
 
 }
 
-/* ========================= */
+
+/* =====================================
+   TOTAL
+===================================== */
 
 .total{
 
@@ -4074,52 +4218,150 @@ body{
 
   color:#fff;
 
-  border-radius:4mm;
+  border-radius:3mm;
 
   padding:
-    5mm
-    6mm;
+    4mm
+    5mm;
 
-  margin-top:5mm;
+  margin-top:3mm;
 
-  font-size:17px;
+  font-size:15px;
 
   font-weight:900;
 
 }
 
+
 .total strong{
 
   color:#ffd84d;
 
-  font-size:25px;
+  font-size:21px;
 
 }
 
-/* ========================= */
+
+/* =====================================
+   FOOTER
+===================================== */
 
 .thanks{
 
   text-align:center;
 
-  margin-top:7mm;
+  margin-top:4mm;
 
-  padding-top:4mm;
+  padding-top:3mm;
 
   border-top:
     1px dashed #bbb;
 
-  font-size:12px;
+  font-size:10.5px;
+
+  line-height:1.6;
 
 }
+
 
 .thanks strong{
 
   display:block;
 
-  font-size:15px;
+  font-size:14px;
 
-  margin-bottom:2mm;
+  margin-bottom:1mm;
+
+}
+
+
+.contact{
+
+  display:block;
+
+  margin-top:1mm;
+
+  font-size:14px;
+
+  font-weight:900;
+
+  color:#5420b8;
+
+  direction:ltr;
+
+}
+
+
+/* =====================================
+   PRINT
+===================================== */
+
+@media print{
+
+  html{
+
+    width:210mm;
+
+    margin:0;
+
+    padding:0;
+
+  }
+
+
+  body{
+
+    width:210mm;
+
+    margin:0;
+
+    padding:0;
+
+    background:#fff;
+
+    overflow:hidden;
+
+  }
+
+
+  .invoice{
+
+    width:210mm;
+
+    height:280mm;
+
+    max-height:280mm;
+
+    overflow:hidden;
+
+    margin:0;
+
+    padding:
+      9mm
+      12mm;
+
+    page-break-after:avoid!important;
+
+    page-break-before:avoid!important;
+
+    page-break-inside:avoid!important;
+
+    break-after:avoid!important;
+
+    break-before:avoid!important;
+
+    break-inside:avoid!important;
+
+  }
+
+
+  *{
+
+    -webkit-print-color-adjust:exact!important;
+
+    print-color-adjust:exact!important;
+
+  }
 
 }
 
@@ -4127,230 +4369,304 @@ body{
 
 </head>
 
+
 <body>
+
 
 <div class="invoice">
 
-${logoHTML}
 
-<div class="title">
-فاتورة اشتراك WE
+  <!-- LOGO -->
+
+  <div class="brand">
+
+    <div class="brandCash">
+      CASH
+    </div>
+
+    <div class="brandBack">
+      BACK
+    </div>
+
+    <div class="brandSub">
+      باقات واتصالات
+    </div>
+
+  </div>
+
+
+  <!-- TITLE -->
+
+  <div class="title">
+
+    فاتورة اشتراك WE
+
+  </div>
+
+
+  <!-- META -->
+
+  <div class="meta">
+
+    <div>
+
+      رقم الفاتورة:
+
+      <strong>
+        ${invoiceNumber}
+      </strong>
+
+    </div>
+
+
+    <div>
+
+      التاريخ:
+
+      <strong>
+        ${invoiceDate}
+      </strong>
+
+    </div>
+
+  </div>
+
+
+  <!-- CUSTOMER -->
+
+  <div class="section">
+
+
+    <div class="row">
+
+      <span class="label">
+        اسم العميل
+      </span>
+
+      <span class="value">
+        ${escapeHtml(
+          c.subscriber_name ||
+          "-"
+        )}
+      </span>
+
+    </div>
+
+
+    <div class="row">
+
+      <span class="label">
+        رقم العميل
+      </span>
+
+      <span class="value">
+        ${escapeHtml(
+          c.phone ||
+          "-"
+        )}
+      </span>
+
+    </div>
+
+
+    <div class="row">
+
+      <span class="label">
+        الرقم الأساسي
+      </span>
+
+      <span class="value">
+        ${escapeHtml(
+          c.primary_number ||
+          "-"
+        )}
+      </span>
+
+    </div>
+
+
+  </div>
+
+
+  <!-- PACKAGE -->
+
+  <div class="section">
+
+
+    <div class="row">
+
+      <span class="label">
+        الباقة
+      </span>
+
+      <span class="value">
+        ${escapeHtml(
+          packageName
+        )}
+      </span>
+
+    </div>
+
+
+    <div class="row">
+
+      <span class="label">
+        الجيجا
+      </span>
+
+      <span class="value">
+        ${escapeHtml(
+          gb
+        )}
+      </span>
+
+    </div>
+
+
+    <div class="row">
+
+      <span class="label">
+        فترة الاشتراك
+      </span>
+
+      <span class="value">
+        ${escapeHtml(
+          period
+        )}
+      </span>
+
+    </div>
+
+
+    <div class="row">
+
+      <span class="label">
+        طريقة الدفع
+      </span>
+
+      <span class="value">
+        ${escapeHtml(
+          c.payment_method ||
+          "غير محدد"
+        )}
+      </span>
+
+    </div>
+
+
+  </div>
+
+
+  <!-- MONEY -->
+
+  <div class="section">
+
+
+    <div class="row">
+
+      <span class="label">
+        السعر الأساسي
+      </span>
+
+      <span class="value">
+        ${money(base)}
+        جنيه
+      </span>
+
+    </div>
+
+
+    ${
+      discount > 0
+      ?
+      `
+
+      <div class="row">
+
+        <span class="label discount">
+          الخصم
+        </span>
+
+        <span class="value discount">
+
+          - ${money(discount)}
+          جنيه
+
+        </span>
+
+      </div>
+
+      `
+      :
+      ""
+    }
+
+
+    ${
+      promo
+      ?
+      `
+
+      <div class="row">
+
+        <span class="label promo">
+          كود الخصم
+        </span>
+
+        <span class="value promo">
+
+          ${escapeHtml(
+            promo
+          )}
+
+        </span>
+
+      </div>
+
+      `
+      :
+      ""
+    }
+
+
+    <div class="total">
+
+      <span>
+        الإجمالي النهائي
+      </span>
+
+      <strong>
+
+        ${money(total)}
+        جنيه
+
+      </strong>
+
+    </div>
+
+
+  </div>
+
+
+  <!-- FOOTER -->
+
+  <div class="thanks">
+
+    <strong>
+      شكرًا لاختياركم CASH BACK
+    </strong>
+
+    للاستفسار والتواصل
+
+    <span class="contact">
+      01090532469
+    </span>
+
+  </div>
+
+
 </div>
 
-<div class="meta">
-
-<div>
-رقم الفاتورة:
-<strong>
-${invoiceNumber}
-</strong>
-</div>
-
-<div>
-تاريخ الفاتورة:
-<strong>
-${invoiceDate}
-</strong>
-</div>
-
-</div>
-
-
-<div class="section">
-
-<div class="row">
-
-<span class="label">
-اسم العميل
-</span>
-
-<span class="value">
-${escapeHtml(c.subscriber_name || "-")}
-</span>
-
-</div>
-
-
-<div class="row">
-
-<span class="label">
-رقم العميل
-</span>
-
-<span class="value">
-${escapeHtml(c.phone || "-")}
-</span>
-
-</div>
-
-
-<div class="row">
-
-<span class="label">
-الرقم الأساسي
-</span>
-
-<span class="value">
-${escapeHtml(c.primary_number || "-")}
-</span>
-
-</div>
-
-</div>
-
-
-<div class="section">
-
-<div class="row">
-
-<span class="label">
-الباقة
-</span>
-
-<span class="value">
-${escapeHtml(packageName)}
-</span>
-
-</div>
-
-
-<div class="row">
-
-<span class="label">
-الجيجا
-</span>
-
-<span class="value">
-${escapeHtml(gb)}
-</span>
-
-</div>
-
-
-<div class="row">
-
-<span class="label">
-فترة الاشتراك
-</span>
-
-<span class="value">
-${escapeHtml(period)}
-</span>
-
-</div>
-
-
-<div class="row">
-
-<span class="label">
-طريقة الدفع
-</span>
-
-<span class="value">
-${escapeHtml(c.payment_method || "غير محدد")}
-</span>
-
-</div>
-
-</div>
-
-
-<div class="section">
-
-<div class="row">
-
-<span class="label">
-السعر الأساسي
-</span>
-
-<span class="value">
-${money(base)} جنيه
-</span>
-
-</div>
-
-
-<div class="row">
-
-<span class="label">
-الإجمالي قبل الخصم
-</span>
-
-<span class="value">
-${money(base)} جنيه
-</span>
-
-</div>
-
-
-${
-discount > 0
-?
-`
-<div class="row">
-
-<span class="label discount">
-الخصم
-</span>
-
-<span class="value discount">
-- ${money(discount)} جنيه
-</span>
-
-</div>
-`
-:
-""
-}
-
-
-${
-promo
-?
-`
-<div class="row">
-
-<span class="label promo">
-كود الخصم
-</span>
-
-<span class="value promo">
-${escapeHtml(promo)}
-</span>
-
-</div>
-`
-:
-""
-}
-
-
-<div class="total">
-
-<span>
-الإجمالي النهائي
-</span>
-
-<strong>
-${money(total)} جنيه
-</strong>
-
-</div>
-
-</div>
-
-
-<div class="thanks">
-
-<strong>
-شكرًا لاختياركم CASH BACK
-</strong>
-
-للاستفسار والتواصل مع CASH BACK
-
-</div>
-
-</div>
 
 </body>
 
@@ -4358,7 +4674,13 @@ ${money(total)} جنيه
 
 `);
 
+
   printWindow.document.close();
+
+
+  /* =====================================
+     PRINT AFTER FULL LOAD
+  ===================================== */
 
   setTimeout(
     function(){
@@ -4368,8 +4690,27 @@ ${money(total)} جنيه
       printWindow.print();
 
     },
-    700
+    800
   );
+
+
+  /* =====================================
+     CLOSE AFTER PRINT
+  ===================================== */
+
+  printWindow.onafterprint =
+    function(){
+
+      setTimeout(
+        function(){
+
+          printWindow.close();
+
+        },
+        300
+      );
+
+    };
 
 }
 
