@@ -413,38 +413,125 @@ font-size:9px
 }
 }
 
+@page{
+  size:A4;
+  margin:0;
+}
+
 @media print{
-body *{
-visibility:hidden!important
-}
 
-#invoiceOverlay,
-#invoiceOverlay *{
-visibility:visible!important
-}
+  html,
+  body{
+    width:210mm!important;
+    height:297mm!important;
+    margin:0!important;
+    padding:0!important;
+    background:#fff!important;
+    overflow:hidden!important;
+  }
 
-#invoiceOverlay{
-position:absolute!important;
-inset:0!important;
-background:#fff!important;
-padding:0!important
-}
+  body > *{
+    display:none!important;
+  }
 
-.invoice-modal{
-width:100%!important;
-max-height:none!important;
-box-shadow:none!important;
-border-radius:0!important
-}
+  #invoiceOverlay{
+    display:block!important;
+    position:static!important;
+    inset:auto!important;
+    width:210mm!important;
+    height:297mm!important;
+    min-height:297mm!important;
+    max-height:297mm!important;
+    overflow:hidden!important;
+    background:#fff!important;
+    padding:0!important;
+    margin:0!important;
+  }
 
-.invoice-topbar,
-.invoice-actions{
-display:none!important
-}
+  #invoiceOverlay .invoice-modal{
+    display:block!important;
+    width:210mm!important;
+    height:297mm!important;
+    min-height:297mm!important;
+    max-height:297mm!important;
+    overflow:hidden!important;
+    margin:0!important;
+    padding:0!important;
+    border:0!important;
+    border-radius:0!important;
+    box-shadow:none!important;
+    background:#fff!important;
+  }
 
-.invoice-paper{
-padding:25px!important
-}
+  #invoiceOverlay .invoice-topbar,
+  #invoiceOverlay .invoice-actions{
+    display:none!important;
+  }
+
+  #invoicePaper{
+    display:block!important;
+    width:210mm!important;
+    height:297mm!important;
+    min-height:297mm!important;
+    max-height:297mm!important;
+    overflow:hidden!important;
+    margin:0!important;
+    padding:14mm!important;
+    background:#fff!important;
+    page-break-after:avoid!important;
+    break-after:avoid!important;
+  }
+
+  #invoicePaper *{
+    visibility:visible!important;
+  }
+
+  .invoice-brand{
+    display:block!important;
+    text-align:center!important;
+    height:38mm!important;
+    margin:0 0 4mm!important;
+  }
+
+  .invoice-brand img{
+    display:block!important;
+    width:75mm!important;
+    max-width:75mm!important;
+    height:32mm!important;
+    max-height:32mm!important;
+    object-fit:contain!important;
+    margin:0 auto!important;
+  }
+
+  .invoice-title{
+    font-size:24px!important;
+    margin:3mm 0 8mm!important;
+  }
+
+  .invoice-meta{
+    margin-bottom:6mm!important;
+  }
+
+  .invoice-section{
+    padding:5mm!important;
+    margin-bottom:5mm!important;
+    border-radius:4mm!important;
+  }
+
+  .invoice-row{
+    padding:3mm 0!important;
+  }
+
+  .invoice-total{
+    padding:5mm!important;
+    margin-top:5mm!important;
+  }
+
+  .invoice-footer{
+    margin-top:7mm!important;
+    padding-top:5mm!important;
+  }
+
 }
 </style>
 </head>
@@ -456,11 +543,9 @@ padding:25px!important
 <div class="loginbox">
 
 <img
-src="logo.png"
+src="https://mezooelzorkany-elcaptin.github.io/we-packages-manager/logo.PNG"
 alt="CASH BACK"
-onerror="this.style.display='none'"
 >
-
 <h2>CASH BACK</h2>
 
 <p>
@@ -505,7 +590,7 @@ onclick="login()"
 <div class="logo">
 
 <img
-src="logo.png"
+src="logo.PNG"
 alt="CASH BACK"
 onerror="this.style.display='none'"
 >
@@ -3708,7 +3793,7 @@ canvas.width;
 
 const img =
 canvas.toDataURL(
-"image/png"
+"image/PNG"
 );
 
 
