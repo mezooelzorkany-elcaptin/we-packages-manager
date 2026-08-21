@@ -3749,7 +3749,36 @@ $("invoiceOverlay")
 
 function printInvoice(){
 
-window.print();
+  const logo =
+    document.getElementById("invoiceLogo");
+
+  if(logo){
+
+    logo.onload = function(){
+
+      setTimeout(function(){
+
+        window.print();
+
+      },300);
+
+    };
+
+    if(logo.complete){
+
+      setTimeout(function(){
+
+        window.print();
+
+      },300);
+
+    }
+
+  }else{
+
+    window.print();
+
+  }
 
 }
 
