@@ -11,6 +11,9 @@
 
 <title>العملاء | CASH BACK</title>
 
+<!-- سكريبت الدارك مود لتفادي الوميض الأبيض -->
+<script src="theme.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -31,6 +34,7 @@ body{
   min-height:100vh;
   background:#f7f6fb;
   color:#1d2435;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 button,
@@ -41,6 +45,80 @@ select{
 
 button{
   cursor:pointer;
+}
+
+/* =====================================================
+   DARK MODE STYLES
+===================================================== */
+html.dark-mode {
+  --bg-main: #0f172a;
+  --bg-card: #1e293b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-color: #334155;
+  --input-bg: #334155;
+}
+
+html.dark-mode body {
+  background-color: var(--bg-main) !important;
+  color: var(--text-main) !important;
+}
+
+html.dark-mode .main,
+html.dark-mode .top,
+html.dark-mode .side,
+html.dark-mode .stat,
+html.dark-mode .panel,
+html.dark-mode .card,
+html.dark-mode .modalbox,
+html.dark-mode .invoice-modal,
+html.dark-mode #adminBottomNav {
+  background-color: var(--bg-card) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark-mode input,
+html.dark-mode select,
+html.dark-mode .box {
+  background-color: var(--input-bg) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark-mode .nav a {
+  color: var(--text-main) !important;
+}
+
+html.dark-mode .top small,
+html.dark-mode .label,
+html.dark-mode .ps,
+html.dark-mode .phone,
+html.dark-mode .box small {
+  color: var(--text-muted) !important;
+}
+
+/* زر التبديل */
+.theme-btn {
+  background: transparent;
+  border: 1px solid #ddd;
+  padding: 6px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-left: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+html.dark-mode .theme-btn {
+  border-color: var(--border-color);
+}
+
+.theme-btn:hover {
+  opacity: 0.8;
 }
 
 
@@ -224,7 +302,7 @@ button{
 
 .nav a.active{
   background:linear-gradient(90deg,#7034d2,#5420b8);
-  color:#fff;
+  color:#fff !important;
 }
 
 .nav i{
@@ -362,6 +440,13 @@ button{
 
 .stat:nth-child(4){
   background:#fff7f8;
+}
+
+html.dark-mode .stat:nth-child(1),
+html.dark-mode .stat:nth-child(2),
+html.dark-mode .stat:nth-child(3),
+html.dark-mode .stat:nth-child(4) {
+  background: var(--bg-card) !important;
 }
 
 .st{
@@ -1306,8 +1391,15 @@ button{
 
       </div>
 
-      <div class="avatar">
-        👨‍💼
+      <div style="display: flex; align-items: center;">
+        <!-- زر التبديل للوضع الليلي -->
+        <button id="theme-toggle" class="theme-btn" title="تبديل الوضع">
+          <span id="theme-icon">🌙</span>
+        </button>
+
+        <div class="avatar">
+          👨‍💼
+        </div>
       </div>
 
     </header>
