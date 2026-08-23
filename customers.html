@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
+
 <head>
 
 <meta charset="UTF-8">
@@ -11,12 +12,14 @@
 
 <title>العملاء | CASH BACK</title>
 
-<!-- سكريبت الدارك مود لتفادي الوميض الأبيض -->
 <script src="theme.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 
 <style>
 
@@ -29,12 +32,25 @@ html{
   min-height:100%;
 }
 
+:root{
+  --bg-main:#f7f6fb;
+  --bg-card:#fff;
+  --text-main:#1d2435;
+  --text-muted:#858b9b;
+  --border:#eee;
+  --input:#fff;
+  --soft:#f8f8fb;
+  --purple:#5420b8;
+}
+
 body{
   margin:0;
   min-height:100vh;
-  background:#f7f6fb;
-  color:#1d2435;
-  transition: background-color 0.2s, color 0.2s;
+  background:var(--bg-main);
+  color:var(--text-main);
+  transition:
+    background-color .2s,
+    color .2s;
 }
 
 button,
@@ -47,21 +63,24 @@ button{
   cursor:pointer;
 }
 
+
 /* =====================================================
-   DARK MODE STYLES
+   DARK MODE
 ===================================================== */
-html.dark-mode {
-  --bg-main: #0f172a;
-  --bg-card: #1e293b;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --border-color: #334155;
-  --input-bg: #334155;
+
+html.dark-mode{
+  --bg-main:#0f172a;
+  --bg-card:#1e293b;
+  --text-main:#f8fafc;
+  --text-muted:#94a3b8;
+  --border:#334155;
+  --input:#334155;
+  --soft:#263449;
 }
 
-html.dark-mode body {
-  background-color: var(--bg-main) !important;
-  color: var(--text-main) !important;
+html.dark-mode body{
+  background:var(--bg-main)!important;
+  color:var(--text-main)!important;
 }
 
 html.dark-mode .main,
@@ -72,58 +91,161 @@ html.dark-mode .panel,
 html.dark-mode .card,
 html.dark-mode .modalbox,
 html.dark-mode .invoice-modal,
-html.dark-mode #adminBottomNav {
-  background-color: var(--bg-card) !important;
-  color: var(--text-main) !important;
-  border-color: var(--border-color) !important;
+html.dark-mode #adminBottomNav{
+  background:var(--bg-card)!important;
+  color:var(--text-main)!important;
+  border-color:var(--border)!important;
+}
+
+html.dark-mode .loginbox{
+  background:#1e293b!important;
+  color:#f8fafc!important;
+}
+
+html.dark-mode .loginbox p,
+html.dark-mode .heading p{
+  color:var(--text-muted)!important;
 }
 
 html.dark-mode input,
 html.dark-mode select,
-html.dark-mode .box {
-  background-color: var(--input-bg) !important;
-  color: var(--text-main) !important;
-  border-color: var(--border-color) !important;
+html.dark-mode .box,
+html.dark-mode .field input,
+html.dark-mode .field select{
+  background:var(--input)!important;
+  color:var(--text-main)!important;
+  border-color:var(--border)!important;
 }
 
-html.dark-mode .nav a {
-  color: var(--text-main) !important;
+html.dark-mode input::placeholder{
+  color:#94a3b8!important;
+}
+
+html.dark-mode .nav a{
+  color:var(--text-main)!important;
+}
+
+html.dark-mode .nav a:hover{
+  background:#293449!important;
 }
 
 html.dark-mode .top small,
 html.dark-mode .label,
 html.dark-mode .ps,
 html.dark-mode .phone,
-html.dark-mode .box small {
-  color: var(--text-muted) !important;
+html.dark-mode .box small{
+  color:var(--text-muted)!important;
 }
 
-/* زر التبديل */
-.theme-btn {
-  background: transparent;
-  border: 1px solid #ddd;
-  padding: 6px 12px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 1.2rem;
-  margin-left: 10px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
+html.dark-mode .pt,
+html.dark-mode .heading h1{
+  color:#c4a5ff!important;
 }
 
-html.dark-mode .theme-btn {
-  border-color: var(--border-color);
+html.dark-mode .promo{
+  background:#302451!important;
 }
 
-.theme-btn:hover {
-  opacity: 0.8;
+html.dark-mode .discount-box{
+  background:#3a252c!important;
+}
+
+html.dark-mode .promo strong{
+  color:#c4a5ff!important;
+}
+
+html.dark-mode .discount-box strong{
+  color:#ff8c9a!important;
+}
+
+html.dark-mode .renew{
+  background:#334155!important;
+  color:#f8fafc!important;
+}
+
+html.dark-mode .cancel,
+html.dark-mode .close,
+html.dark-mode .invoice-close{
+  background:#334155!important;
+  color:#f8fafc!important;
+}
+
+html.dark-mode .invoice-actions{
+  background:#172033!important;
+  border-color:var(--border)!important;
+}
+
+html.dark-mode .invoice-topbar{
+  border-color:var(--border)!important;
+}
+
+html.dark-mode .invoice-section{
+  border-color:#475569!important;
+}
+
+html.dark-mode .invoice-label{
+  color:#cbd5e1!important;
+}
+
+html.dark-mode .loading,
+html.dark-mode .empty,
+html.dark-mode .error{
+  background:var(--bg-card)!important;
+  color:var(--text-muted)!important;
+}
+
+html.dark-mode .avatar{
+  background:#302451!important;
+}
+
+html.dark-mode .theme-btn{
+  border-color:#475569!important;
+}
+
+html.dark-mode #adminBottomNav a{
+  color:#94a3b8!important;
+}
+
+html.dark-mode #adminBottomNav .navIcon{
+  background:#293449!important;
+}
+
+html.dark-mode #adminBottomNav a.active{
+  color:#fff!important;
+}
+
+html.dark-mode .loginbox input{
+  background:#334155!important;
+  color:#fff!important;
+  border-color:#475569!important;
 }
 
 
 /* =====================================================
-   GENERAL LOGO FIX
+   THEME BUTTON
+===================================================== */
+
+.theme-btn{
+  background:transparent;
+  border:1px solid #ddd;
+  padding:6px 12px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:1.2rem;
+  margin-left:10px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  transition:.2s;
+}
+
+.theme-btn:hover{
+  opacity:.8;
+}
+
+
+/* =====================================================
+   LOGO
 ===================================================== */
 
 .logo-img{
@@ -302,7 +424,7 @@ html.dark-mode .theme-btn {
 
 .nav a.active{
   background:linear-gradient(90deg,#7034d2,#5420b8);
-  color:#fff !important;
+  color:#fff!important;
 }
 
 .nav i{
@@ -445,8 +567,8 @@ html.dark-mode .theme-btn {
 html.dark-mode .stat:nth-child(1),
 html.dark-mode .stat:nth-child(2),
 html.dark-mode .stat:nth-child(3),
-html.dark-mode .stat:nth-child(4) {
-  background: var(--bg-card) !important;
+html.dark-mode .stat:nth-child(4){
+  background:var(--bg-card)!important;
 }
 
 .st{
@@ -775,6 +897,49 @@ html.dark-mode .stat:nth-child(4) {
 .save{
   background:#5420b8;
   color:#fff;
+}
+
+
+/* =====================================================
+   PROMO
+===================================================== */
+
+.promo-row{
+  display:flex;
+  gap:8px;
+  align-items:stretch;
+}
+
+.promo-row input{
+  flex:1;
+}
+
+.apply-promo{
+  min-width:125px;
+  border:0;
+  border-radius:12px;
+  background:#7c3aed;
+  color:#fff;
+  font-weight:bold;
+}
+
+.promo-status{
+  min-height:24px;
+  margin-top:7px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.promo-status.success{
+  color:#159447;
+}
+
+.promo-status.error{
+  color:#d93645;
+}
+
+.promo-status.info{
+  color:#5420b8;
 }
 
 
@@ -1139,6 +1304,14 @@ html.dark-mode .stat:nth-child(4) {
     flex-direction:column;
   }
 
+  .promo-row{
+    flex-direction:column;
+  }
+
+  .apply-promo{
+    height:47px;
+  }
+
   .invoice-paper{
     padding:18px 13px;
   }
@@ -1237,12 +1410,16 @@ html.dark-mode .stat:nth-child(4) {
 }
 
 </style>
+
 </head>
+
 
 <body>
 
 
-<!-- LOGIN -->
+<!-- =====================================================
+     LOGIN
+===================================================== -->
 
 <div id="loginScreen" class="login">
 
@@ -1303,735 +1480,1044 @@ html.dark-mode .stat:nth-child(4) {
 </div>
 
 
-<!-- APP -->
+<!-- =====================================================
+     APP
+===================================================== -->
 
 <div id="app">
 
 
-  <!-- SIDE -->
+<!-- SIDE -->
 
-  <aside class="side">
+<aside class="side">
 
-    <div class="logo">
+  <div class="logo">
 
-      <img
-        id="sideLogo"
-        class="logo-img"
-        src="logo.png"
-        alt="CASH BACK"
-      >
+    <img
+      id="sideLogo"
+      class="logo-img"
+      src="logo.png"
+      alt="CASH BACK"
+    >
 
-      <div
-        id="sideLogoFallback"
-        class="logo-fallback"
-      >
-        <div class="cash">CASH</div>
-        <div class="back">BACK</div>
-      </div>
-
+    <div
+      id="sideLogoFallback"
+      class="logo-fallback"
+    >
+      <div class="cash">CASH</div>
+      <div class="back">BACK</div>
     </div>
 
+  </div>
 
-    <nav class="nav">
 
-      <a class="active" href="customers.html">
-        <i>👥</i>
-        <span>العملاء</span>
-      </a>
+  <nav class="nav">
 
-      <a href="packages.html">
-        <i>📦</i>
-        <span>الباقات</span>
-      </a>
-
-      <a href="admin.html">
-        <i>🔢</i>
-        <span>الأكواد</span>
-      </a>
-
-      <a href="numbers.html">
-        <i>📱</i>
-        <span>الأرقام الأساسية</span>
-      </a>
-
-      <a href="finances.html">
-        <i>💰</i>
-        <span>الماليات</span>
-      </a>
-
-    </nav>
-
-
-    <button
-      class="logout"
-      type="button"
-      onclick="logout()"
-    >
-      🚪 تسجيل الخروج
-    </button>
-
-  </aside>
-
-
-  <!-- MAIN -->
-
-  <main class="main">
-
-    <header class="top">
-
-      <div>
-
-        <b>
-          مرحبًا بك، مدير النظام 👋
-        </b>
-
-        <small>
-          CASH BACK — إدارة العملاء والباقات
-        </small>
-
-      </div>
-
-      <div style="display: flex; align-items: center;">
-        <!-- زر التبديل للوضع الليلي -->
-        <button id="theme-toggle" class="theme-btn" title="تبديل الوضع">
-          <span id="theme-icon">🌙</span>
-        </button>
-
-        <div class="avatar">
-          👨‍💼
-        </div>
-      </div>
-
-    </header>
-
-
-    <section class="content">
-
-
-      <div class="heading">
-
-        <div>
-
-          <h1>
-            👥 العملاء
-          </h1>
-
-          <p>
-            إدارة العملاء والتجديدات والاشتراكات
-          </p>
-
-        </div>
-
-
-        <button
-          class="btn purple"
-          type="button"
-          onclick="openAdd()"
-        >
-          ➕ إضافة عميل
-        </button>
-
-      </div>
-
-
-      <div class="stats">
-
-        <div class="stat">
-
-          <div class="st">
-            إجمالي العملاء
-            <span class="ico">👥</span>
-          </div>
-
-          <div class="num" id="total">0</div>
-
-          <div class="label">
-            عميل مسجل
-          </div>
-
-        </div>
-
-
-        <div class="stat">
-
-          <div class="st">
-            العملاء النشطين
-            <span class="ico">🟢</span>
-          </div>
-
-          <div class="num" id="active">0</div>
-
-          <div class="label">
-            عميل نشط
-          </div>
-
-        </div>
-
-
-        <div class="stat">
-
-          <div class="st">
-            تجديد قريب
-            <span class="ico">🕐</span>
-          </div>
-
-          <div class="num" id="soon">0</div>
-
-          <div class="label">
-            خلال 7 أيام
-          </div>
-
-        </div>
-
-
-        <div class="stat">
-
-          <div class="st">
-            منتهية
-            <span class="ico">⚠️</span>
-          </div>
-
-          <div class="num" id="expired">0</div>
-
-          <div class="label">
-            منتهية الصلاحية
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="panel">
-
-        <div class="ph">
-
-          <div>
-
-            <div class="pt">
-              🔎 البحث والتصفية
-            </div>
-
-            <div class="ps">
-              ابحث بالاسم أو الرقم أو الرقم الأساسي
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="toolbar">
-
-          <input
-            id="search"
-            class="search"
-            type="search"
-            placeholder="🔎 ابحث عن عميل..."
-          >
-
-
-          <select
-            id="renewalFilter"
-            class="select"
-          >
-
-            <option value="all">
-              كل مواعيد التجديد
-            </option>
-
-            <option value="1">
-              تجديد يوم 1
-            </option>
-
-            <option value="16">
-              تجديد يوم 16
-            </option>
-
-            <option value="custom">
-              تاريخ مخصص
-            </option>
-
-          </select>
-
-
-          <select
-            id="statusFilter"
-            class="select"
-          >
-
-            <option value="all">
-              كل الحالات
-            </option>
-
-            <option value="active">
-              🟢 نشط
-            </option>
-
-            <option value="inactive">
-              🔴 موقوف
-            </option>
-
-            <option value="soon">
-              🟠 قرب التجديد
-            </option>
-
-            <option value="expired">
-              🔴 منتهي
-            </option>
-
-          </select>
-
-        </div>
-
-      </div>
-
-
-      <div id="list" class="list">
-
-        <div class="loading">
-          ⏳ جاري تحميل العملاء...
-        </div>
-
-      </div>
-
-
-    </section>
-
-  </main>
-
-
-  <!-- BOTTOM NAV -->
-
-  <nav id="adminBottomNav">
-
-    <a href="finances.html" data-page="finances.html">
-      <span class="navIcon">💰</span>
-      <span class="navText">الماليات</span>
+    <a class="active" href="customers.html">
+      <i>👥</i>
+      <span>العملاء</span>
     </a>
 
-    <a href="numbers.html" data-page="numbers.html">
-      <span class="navIcon">📱</span>
-      <span class="navText">الأرقام الأساسية</span>
+    <a href="packages.html">
+      <i>📦</i>
+      <span>الباقات</span>
     </a>
 
-    <a href="admin.html" data-page="admin.html">
-      <span class="navIcon">🔢</span>
-      <span class="navText">الأكواد</span>
+    <a href="admin.html">
+      <i>🔢</i>
+      <span>الأكواد</span>
     </a>
 
-    <a href="packages.html" data-page="packages.html">
-      <span class="navIcon">📦</span>
-      <span class="navText">الباقات</span>
+    <a href="numbers.html">
+      <i>📱</i>
+      <span>الأرقام الأساسية</span>
     </a>
 
-    <a href="customers.html" data-page="customers.html">
-      <span class="navIcon">👥</span>
-      <span class="navText">العملاء</span>
+    <a href="finances.html">
+      <i>💰</i>
+      <span>الماليات</span>
     </a>
 
   </nav>
 
+
+  <button
+    class="logout"
+    type="button"
+    onclick="logout()"
+  >
+    🚪 تسجيل الخروج
+  </button>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="top">
+
+  <div>
+
+    <b>
+      مرحبًا بك، مدير النظام 👋
+    </b>
+
+    <small>
+      CASH BACK — إدارة العملاء والباقات
+    </small>
+
+  </div>
+
+  <div style="display:flex;align-items:center;">
+
+    <button
+      id="theme-toggle"
+      class="theme-btn"
+      title="تبديل الوضع"
+      type="button"
+    >
+      <span id="theme-icon">🌙</span>
+    </button>
+
+    <div class="avatar">
+      👨‍💼
+    </div>
+
+  </div>
+
+</header>
+
+
+<section class="content">
+
+
+<div class="heading">
+
+  <div>
+
+    <h1>
+      👥 العملاء
+    </h1>
+
+    <p>
+      إدارة العملاء والتجديدات والاشتراكات
+    </p>
+
+  </div>
+
+
+  <button
+    class="btn purple"
+    type="button"
+    onclick="openAdd()"
+  >
+    ➕ إضافة عميل
+  </button>
+
 </div>
 
 
-<!-- CUSTOMER MODAL -->
+<!-- STATS -->
+
+<div class="stats">
+
+  <div class="stat">
+
+    <div class="st">
+      إجمالي العملاء
+      <span class="ico">👥</span>
+    </div>
+
+    <div class="num" id="total">0</div>
+
+    <div class="label">
+      عميل مسجل
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="st">
+      العملاء النشطين
+      <span class="ico">🟢</span>
+    </div>
+
+    <div class="num" id="active">0</div>
+
+    <div class="label">
+      عميل نشط
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="st">
+      تجديد قريب
+      <span class="ico">🕐</span>
+    </div>
+
+    <div class="num" id="soon">0</div>
+
+    <div class="label">
+      خلال 7 أيام
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="st">
+      منتهية
+      <span class="ico">⚠️</span>
+    </div>
+
+    <div class="num" id="expired">0</div>
+
+    <div class="label">
+      منتهية الصلاحية
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- SEARCH -->
+
+<div class="panel">
+
+  <div class="ph">
+
+    <div>
+
+      <div class="pt">
+        🔎 البحث والتصفية
+      </div>
+
+      <div class="ps">
+        ابحث بالاسم أو الرقم أو الرقم الأساسي
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="toolbar">
+
+    <input
+      id="search"
+      class="search"
+      type="search"
+      placeholder="🔎 ابحث عن عميل..."
+    >
+
+
+    <select
+      id="renewalFilter"
+      class="select"
+    >
+
+      <option value="all">
+        كل مواعيد التجديد
+      </option>
+
+      <option value="1">
+        تجديد يوم 1
+      </option>
+
+      <option value="16">
+        تجديد يوم 16
+      </option>
+
+      <option value="custom">
+        تاريخ مخصص
+      </option>
+
+    </select>
+
+
+    <select
+      id="statusFilter"
+      class="select"
+    >
+
+      <option value="all">
+        كل الحالات
+      </option>
+
+      <option value="active">
+        🟢 نشط
+      </option>
+
+      <option value="inactive">
+        🔴 موقوف
+      </option>
+
+      <option value="soon">
+        🟠 قرب التجديد
+      </option>
+
+      <option value="expired">
+        🔴 منتهي
+      </option>
+
+    </select>
+
+  </div>
+
+</div>
+
+
+<div id="list" class="list">
+
+  <div class="loading">
+    ⏳ جاري تحميل العملاء...
+  </div>
+
+</div>
+
+
+</section>
+
+</main>
+
+
+<!-- BOTTOM NAV -->
+
+<nav id="adminBottomNav">
+
+  <a href="finances.html" data-page="finances.html">
+    <span class="navIcon">💰</span>
+    <span class="navText">الماليات</span>
+  </a>
+
+  <a href="numbers.html" data-page="numbers.html">
+    <span class="navIcon">📱</span>
+    <span class="navText">الأرقام الأساسية</span>
+  </a>
+
+  <a href="admin.html" data-page="admin.html">
+    <span class="navIcon">🔢</span>
+    <span class="navText">الأكواد</span>
+  </a>
+
+  <a href="packages.html" data-page="packages.html">
+    <span class="navIcon">📦</span>
+    <span class="navText">الباقات</span>
+  </a>
+
+  <a href="customers.html" data-page="customers.html">
+    <span class="navIcon">👥</span>
+    <span class="navText">العملاء</span>
+  </a>
+
+</nav>
+
+</div>
+
+
+<!-- =====================================================
+     CUSTOMER MODAL
+===================================================== -->
 
 <div id="modal" class="modal">
 
-  <div class="modalbox">
+<div class="modalbox">
 
-    <div class="mh">
+<div class="mh">
 
-      <h2 id="modalTitle">
-        ➕ إضافة عميل
-      </h2>
+<h2 id="modalTitle">
+➕ إضافة عميل
+</h2>
 
-      <button
-        class="close"
-        type="button"
-        onclick="closeModal()"
-      >
-        ✕
-      </button>
-
-    </div>
-
-
-    <input type="hidden" id="customerId">
-
-
-    <div class="field">
-      <label>اسم العميل *</label>
-      <input id="customerName" placeholder="مثال: محمد">
-    </div>
-
-
-    <div class="field">
-      <label>🏷️ الاسم عندي</label>
-      <input id="internalName" placeholder="الاسم اللي مسجله بيه عندك">
-    </div>
-
-
-    <div class="field">
-      <label>رقم العميل *</label>
-      <input id="customerPhone" inputmode="numeric" placeholder="01xxxxxxxxx">
-    </div>
-
-
-    <div class="field">
-      <label>الرقم الأساسي</label>
-      <input id="primaryNumber" inputmode="numeric" placeholder="الرقم اللي اتعملت منه الباقة">
-    </div>
-
-
-    <div class="field">
-      <label>📦 الجيجا</label>
-      <input id="allocatedGB" type="number" min="0" step=".01" value="0">
-    </div>
-
-
-    <div class="field">
-
-      <label>الباقة</label>
-
-      <select id="packageName" onchange="packageData()">
-
-        <option value="">اختر الباقة</option>
-        <option value="20 جيجا">20 جيجا</option>
-        <option value="25 جيجا">25 جيجا</option>
-        <option value="30 جيجا">30 جيجا</option>
-        <option value="35 جيجا">35 جيجا</option>
-        <option value="40 جيجا">40 جيجا</option>
-        <option value="45 جيجا">45 جيجا</option>
-        <option value="50 جيجا">50 جيجا</option>
-        <option value="55 جيجا">55 جيجا</option>
-        <option value="60 جيجا">60 جيجا</option>
-
-      </select>
-
-    </div>
-
-
-    <div class="field">
-      <label>السعر</label>
-      <input id="lastPrice" type="number" min="0">
-    </div>
-
-
-    <div class="field">
-      <label>💸 قيمة الخصم</label>
-      <input id="discountAmount" type="number" min="0" step=".01" value="0" placeholder="مثال: 40">
-    </div>
-
-
-    <div class="field">
-      <label>🎁 كود الخصم</label>
-      <input id="promoCode" type="text" maxlength="50" placeholder="مثال: MAWLID26">
-    </div>
-
-
-    <div class="field">
-
-      <label>طريقة الدفع</label>
-
-      <select id="paymentMethod">
-
-        <option value="">غير محدد</option>
-        <option value="Vodafone Cash">Vodafone Cash</option>
-        <option value="Etisalat Cash">Etisalat Cash</option>
-        <option value="WE Pay">WE Pay</option>
-        <option value="Orange Cash">Orange Cash</option>
-        <option value="InstaPay">InstaPay</option>
-        <option value="كاش">كاش</option>
-        <option value="تحويل بنكي">تحويل بنكي</option>
-
-      </select>
-
-    </div>
-
-
-    <div class="field">
-
-      <label>الحالة</label>
-
-      <select id="status">
-
-        <option value="active">🟢 نشط</option>
-        <option value="inactive">🔴 موقوف</option>
-
-      </select>
-
-    </div>
-
-
-    <div class="field">
-
-      <label>نظام التجديد</label>
-
-      <select id="renewalType" onchange="renewalData()">
-
-        <option value="day_1">يوم 1</option>
-        <option value="day_16">يوم 16</option>
-        <option value="custom">تاريخ مخصص</option>
-
-      </select>
-
-    </div>
-
-
-    <div class="field">
-      <label>يوم التجديد</label>
-      <input id="renewalDay" type="number" min="1" max="31" value="1">
-    </div>
-
-
-    <div class="field">
-      <label>التجديد القادم *</label>
-      <input id="nextRenewal" type="date">
-    </div>
-
-
-    <div class="field">
-      <label>عدد الطلبات</label>
-      <input id="totalOrders" type="number" min="0" value="0">
-    </div>
-
-
-    <div class="ma">
-
-      <button class="cancel" type="button" onclick="closeModal()">
-        إلغاء
-      </button>
-
-      <button class="save" type="button" onclick="saveCustomer()">
-        💾 حفظ
-      </button>
-
-    </div>
-
-  </div>
+<button
+class="close"
+type="button"
+onclick="closeModal()"
+>
+✕
+</button>
 
 </div>
 
 
-<!-- INVOICE -->
+<input
+type="hidden"
+id="customerId"
+>
 
-<div id="invoiceOverlay" class="invoice-overlay">
 
-  <div class="invoice-modal">
+<div class="field">
 
-    <div class="invoice-topbar">
+<label>
+اسم العميل *
+</label>
 
-      <h2>
-        🧾 معاينة الفاتورة
-      </h2>
+<input
+id="customerName"
+placeholder="مثال: محمد"
+>
 
-      <button
-        class="invoice-close"
-        type="button"
-        onclick="closeInvoice()"
-      >
-        ✕
-      </button>
+</div>
 
-    </div>
 
+<div class="field">
 
-    <div id="invoicePaper" class="invoice-paper">
+<label>
+🏷️ الاسم عندي
+</label>
 
-      <div class="invoice-brand">
+<input
+id="internalName"
+placeholder="الاسم اللي مسجله بيه عندك"
+>
 
-        <img
-          id="invoiceLogo"
-          class="logo-img"
-          src="logo.png"
-          alt="CASH BACK"
-        >
+</div>
 
-      </div>
 
+<div class="field">
 
-      <div class="invoice-title">
-        فاتورة اشتراك WE
-      </div>
+<label>
+رقم العميل *
+</label>
 
+<input
+id="customerPhone"
+inputmode="numeric"
+placeholder="01xxxxxxxxx"
+>
 
-      <div class="invoice-meta">
+</div>
 
-        <div>
-          رقم الفاتورة:
-          <strong id="invoiceNumber">-</strong>
-        </div>
 
-        <div>
-          تاريخ الفاتورة:
-          <strong id="invoiceDate">-</strong>
-        </div>
+<div class="field">
 
-      </div>
+<label>
+الرقم الأساسي
+</label>
 
+<input
+id="primaryNumber"
+inputmode="numeric"
+placeholder="الرقم اللي اتعملت منه الباقة"
+>
 
-      <div class="invoice-section">
+</div>
 
-        <div class="invoice-row">
-          <span class="invoice-label">اسم العميل</span>
-          <span class="invoice-value" id="invoiceCustomerName">-</span>
-        </div>
 
-        <div class="invoice-row">
-          <span class="invoice-label">رقم العميل</span>
-          <span class="invoice-value" id="invoicePhone">-</span>
-        </div>
+<div class="field">
 
-        <div class="invoice-row">
-          <span class="invoice-label">الرقم الأساسي</span>
-          <span class="invoice-value" id="invoicePrimary">-</span>
-        </div>
+<label>
+📦 الجيجا
+</label>
 
-      </div>
+<input
+id="allocatedGB"
+type="number"
+min="0"
+step=".01"
+value="0"
+>
 
+</div>
 
-      <div class="invoice-section">
 
-        <div class="invoice-row">
-          <span class="invoice-label">الباقة</span>
-          <span class="invoice-value" id="invoicePackage">-</span>
-        </div>
+<div class="field">
 
-        <div class="invoice-row">
-          <span class="invoice-label">الجيجا</span>
-          <span class="invoice-value" id="invoiceGB">-</span>
-        </div>
+<label>
+الباقة
+</label>
 
-        <div class="invoice-row">
-          <span class="invoice-label">فترة الاشتراك</span>
-          <span class="invoice-value" id="invoicePeriod">-</span>
-        </div>
+<select
+id="packageName"
+onchange="packageData()"
+>
 
-        <div class="invoice-row">
-          <span class="invoice-label">طريقة الدفع</span>
-          <span class="invoice-value" id="invoicePayment">-</span>
-        </div>
+<option value="">
+اختر الباقة
+</option>
 
-      </div>
+<option value="20 جيجا">
+20 جيجا
+</option>
 
+<option value="25 جيجا">
+25 جيجا
+</option>
 
-      <div class="invoice-section">
+<option value="30 جيجا">
+30 جيجا
+</option>
 
-        <div class="invoice-row">
-          <span class="invoice-label">السعر الأساسي</span>
-          <span class="invoice-value" id="invoiceBasePrice">0 جنيه</span>
-        </div>
+<option value="35 جيجا">
+35 جيجا
+</option>
 
-        <div class="invoice-row">
-          <span class="invoice-label">الإجمالي قبل الخصم</span>
-          <span class="invoice-value" id="invoiceBeforeDiscount">0 جنيه</span>
-        </div>
+<option value="40 جيجا">
+40 جيجا
+</option>
 
-        <div
-          id="invoiceDiscountRow"
-          class="invoice-row"
-          style="display:none"
-        >
+<option value="45 جيجا">
+45 جيجا
+</option>
 
-          <span class="invoice-label invoice-discount">
-            الخصم
-          </span>
+<option value="50 جيجا">
+50 جيجا
+</option>
 
-          <span
-            class="invoice-value invoice-discount"
-            id="invoiceDiscount"
-          >
-            - 0 جنيه
-          </span>
+<option value="55 جيجا">
+55 جيجا
+</option>
 
-        </div>
+<option value="60 جيجا">
+60 جيجا
+</option>
 
+</select>
 
-        <div
-          id="invoicePromoRow"
-          class="invoice-row"
-          style="display:none"
-        >
+</div>
 
-          <span class="invoice-label invoice-code">
-            كود الخصم
-          </span>
 
-          <span
-            class="invoice-value invoice-code"
-            id="invoicePromo"
-          >
-            -
-          </span>
+<div class="field">
 
-        </div>
+<label>
+السعر
+</label>
 
+<input
+id="lastPrice"
+type="number"
+min="0"
+>
 
-        <div class="invoice-total">
+</div>
 
-          <span>
-            الإجمالي النهائي
-          </span>
 
-          <strong id="invoiceFinalTotal">
-            0 جنيه
-          </strong>
+<div class="field">
 
-        </div>
+<label>
+💸 قيمة الخصم
+</label>
 
-      </div>
+<input
+id="discountAmount"
+type="number"
+min="0"
+step=".01"
+value="0"
+placeholder="مثال: 40"
+>
 
+</div>
 
-      <div class="invoice-footer">
 
-        <strong>
-          شكرًا لاختياركم CASH BACK
-        </strong>
+<div class="field">
 
-        <div>
-          للاستفسار والتواصل
-        </div>
+<label>
+🎁 كود الخصم
+</label>
 
-        <span class="invoice-contact">
-          01090532469
-        </span>
 
-      </div>
+<div class="promo-row">
 
-    </div>
+<input
+id="promoCode"
+type="text"
+maxlength="50"
+placeholder="مثال: MAWLID26"
+autocomplete="off"
+>
 
+<button
+type="button"
+class="apply-promo"
+onclick="applyPromoCode()"
+>
+تطبيق الكود
+</button>
 
-    <div class="invoice-actions">
+</div>
 
-      <button
-        class="invoice-image"
-        type="button"
-        onclick="saveInvoiceImage()"
-      >
-        🖼️ حفظ كصورة
-      </button>
 
-      <button
-        class="invoice-pdf"
-        type="button"
-        onclick="saveInvoicePDF()"
-      >
-        📄 حفظ PDF
-      </button>
+<div
+id="promoStatus"
+class="promo-status"
+></div>
 
-      <button
-        class="invoice-print"
-        type="button"
-        onclick="printInvoice()"
-      >
-        🖨️ طباعة
-      </button>
+</div>
 
-    </div>
 
-  </div>
+<div class="field">
+
+<label>
+طريقة الدفع
+</label>
+
+<select id="paymentMethod">
+
+<option value="">
+غير محدد
+</option>
+
+<option value="Vodafone Cash">
+Vodafone Cash
+</option>
+
+<option value="Etisalat Cash">
+Etisalat Cash
+</option>
+
+<option value="WE Pay">
+WE Pay
+</option>
+
+<option value="Orange Cash">
+Orange Cash
+</option>
+
+<option value="InstaPay">
+InstaPay
+</option>
+
+<option value="كاش">
+كاش
+</option>
+
+<option value="تحويل بنكي">
+تحويل بنكي
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+الحالة
+</label>
+
+<select id="status">
+
+<option value="active">
+🟢 نشط
+</option>
+
+<option value="inactive">
+🔴 موقوف
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+نظام التجديد
+</label>
+
+<select
+id="renewalType"
+onchange="renewalData()"
+>
+
+<option value="day_1">
+يوم 1
+</option>
+
+<option value="day_16">
+يوم 16
+</option>
+
+<option value="custom">
+تاريخ مخصص
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+يوم التجديد
+</label>
+
+<input
+id="renewalDay"
+type="number"
+min="1"
+max="31"
+value="1"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+التجديد القادم *
+</label>
+
+<input
+id="nextRenewal"
+type="date"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+عدد الطلبات
+</label>
+
+<input
+id="totalOrders"
+type="number"
+min="0"
+value="0"
+>
+
+</div>
+
+
+<div class="ma">
+
+<button
+class="cancel"
+type="button"
+onclick="closeModal()"
+>
+إلغاء
+</button>
+
+<button
+class="save"
+type="button"
+onclick="saveCustomer()"
+>
+💾 حفظ
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     INVOICE
+===================================================== -->
+
+<div
+id="invoiceOverlay"
+class="invoice-overlay"
+>
+
+<div class="invoice-modal">
+
+
+<div class="invoice-topbar">
+
+<h2>
+🧾 معاينة الفاتورة
+</h2>
+
+<button
+class="invoice-close"
+type="button"
+onclick="closeInvoice()"
+>
+✕
+</button>
+
+</div>
+
+
+<div
+id="invoicePaper"
+class="invoice-paper"
+>
+
+<div class="invoice-brand">
+
+<img
+id="invoiceLogo"
+class="logo-img"
+src="logo.png"
+alt="CASH BACK"
+>
+
+</div>
+
+
+<div class="invoice-title">
+فاتورة اشتراك WE
+</div>
+
+
+<div class="invoice-meta">
+
+<div>
+رقم الفاتورة:
+<strong id="invoiceNumber">-</strong>
+</div>
+
+<div>
+تاريخ الفاتورة:
+<strong id="invoiceDate">-</strong>
+</div>
+
+</div>
+
+
+<div class="invoice-section">
+
+<div class="invoice-row">
+<span class="invoice-label">
+اسم العميل
+</span>
+<span
+class="invoice-value"
+id="invoiceCustomerName"
+>
+-
+</span>
+</div>
+
+<div class="invoice-row">
+<span class="invoice-label">
+رقم العميل
+</span>
+<span
+class="invoice-value"
+id="invoicePhone"
+>
+-
+</span>
+</div>
+
+<div class="invoice-row">
+<span class="invoice-label">
+الرقم الأساسي
+</span>
+<span
+class="invoice-value"
+id="invoicePrimary"
+>
+-
+</span>
+</div>
+
+</div>
+
+
+<div class="invoice-section">
+
+<div class="invoice-row">
+<span class="invoice-label">
+الباقة
+</span>
+<span
+class="invoice-value"
+id="invoicePackage"
+>
+-
+</span>
+</div>
+
+<div class="invoice-row">
+<span class="invoice-label">
+الجيجا
+</span>
+<span
+class="invoice-value"
+id="invoiceGB"
+>
+-
+</span>
+</div>
+
+<div class="invoice-row">
+<span class="invoice-label">
+فترة الاشتراك
+</span>
+<span
+class="invoice-value"
+id="invoicePeriod"
+>
+-
+</span>
+</div>
+
+<div class="invoice-row">
+<span class="invoice-label">
+طريقة الدفع
+</span>
+<span
+class="invoice-value"
+id="invoicePayment"
+>
+-
+</span>
+</div>
+
+</div>
+
+
+<div class="invoice-section">
+
+<div class="invoice-row">
+
+<span class="invoice-label">
+السعر الأساسي
+</span>
+
+<span
+class="invoice-value"
+id="invoiceBasePrice"
+>
+0 جنيه
+</span>
+
+</div>
+
+
+<div class="invoice-row">
+
+<span class="invoice-label">
+الإجمالي قبل الخصم
+</span>
+
+<span
+class="invoice-value"
+id="invoiceBeforeDiscount"
+>
+0 جنيه
+</span>
+
+</div>
+
+
+<div
+id="invoiceDiscountRow"
+class="invoice-row"
+style="display:none"
+>
+
+<span class="invoice-label invoice-discount">
+الخصم
+</span>
+
+<span
+class="invoice-value invoice-discount"
+id="invoiceDiscount"
+>
+- 0 جنيه
+</span>
+
+</div>
+
+
+<div
+id="invoicePromoRow"
+class="invoice-row"
+style="display:none"
+>
+
+<span class="invoice-label invoice-code">
+كود الخصم
+</span>
+
+<span
+class="invoice-value invoice-code"
+id="invoicePromo"
+>
+-
+</span>
+
+</div>
+
+
+<div class="invoice-total">
+
+<span>
+الإجمالي النهائي
+</span>
+
+<strong id="invoiceFinalTotal">
+0 جنيه
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="invoice-footer">
+
+<strong>
+شكرًا لاختياركم CASH BACK
+</strong>
+
+<div>
+للاستفسار والتواصل
+</div>
+
+<span class="invoice-contact">
+01090532469
+</span>
+
+</div>
+
+</div>
+
+
+<div class="invoice-actions">
+
+<button
+class="invoice-image"
+type="button"
+onclick="saveInvoiceImage()"
+>
+🖼️ حفظ كصورة
+</button>
+
+<button
+class="invoice-pdf"
+type="button"
+onclick="saveInvoicePDF()"
+>
+📄 حفظ PDF
+</button>
+
+<button
+class="invoice-print"
+type="button"
+onclick="printInvoice()"
+>
+🖨️ طباعة
+</button>
+
+</div>
+
+</div>
 
 </div>
 
@@ -2040,21 +2526,19 @@ html.dark-mode .stat:nth-child(4) {
 
 /* =====================================================
    LOGO
-   مهم: logo.png لازم يكون بجانب customers.html
 ===================================================== */
 
 const LOGO_URL =
-  new URL(
-    "logo.png",
-    document.baseURI
-  ).href;
+new URL(
+  "logo.png",
+  document.baseURI
+).href;
 
 
-/* =====================================================
-   LOGO ERROR HANDLING
-===================================================== */
-
-function setupLogo(imgId, fallbackId){
+function setupLogo(
+  imgId,
+  fallbackId
+){
 
   const img =
     document.getElementById(imgId);
@@ -2135,8 +2619,17 @@ supabase.createClient(
 
 
 let customers = [];
+
 let editMode = false;
+
 let currentInvoiceCustomer = null;
+
+
+/* =====================================================
+   PROMO STATE
+===================================================== */
+
+let appliedPromo = null;
 
 
 /* =====================================================
@@ -2144,7 +2637,8 @@ let currentInvoiceCustomer = null;
 ===================================================== */
 
 const $ =
-id => document.getElementById(id);
+id =>
+document.getElementById(id);
 
 
 function escapeHtml(value){
@@ -2356,8 +2850,10 @@ async function api(
 
     data =
       text
-      ? JSON.parse(text)
-      : null;
+      ?
+      JSON.parse(text)
+      :
+      null;
 
   }catch{
 
@@ -2382,6 +2878,512 @@ async function api(
 
 
   return data;
+
+}
+
+
+/* =====================================================
+   PROMO API
+===================================================== */
+
+async function getPromoCode(code){
+
+  const normalized =
+    String(code || "")
+      .trim()
+      .toUpperCase();
+
+
+  if(!normalized)
+    return null;
+
+
+  const data =
+    await api(
+      "promo_codes?select=*&code=eq." +
+      encodeURIComponent(normalized) +
+      "&limit=1"
+    );
+
+
+  if(
+    !Array.isArray(data) ||
+    !data.length
+  ){
+
+    return null;
+
+  }
+
+
+  return data[0];
+
+}
+
+
+function validatePromo(
+  promo,
+  price
+){
+
+  if(!promo){
+
+    return {
+      ok:false,
+      message:"❌ كود الخصم غير موجود"
+    };
+
+  }
+
+
+  if(!promo.is_active){
+
+    return {
+      ok:false,
+      message:"❌ كود الخصم متوقف"
+    };
+
+  }
+
+
+  if(
+    promo.expires_at &&
+    new Date(promo.expires_at) <= new Date()
+  ){
+
+    return {
+      ok:false,
+      message:"❌ كود الخصم منتهي"
+    };
+
+  }
+
+
+  const maxUses =
+    Number(promo.max_uses) || 0;
+
+  const usedCount =
+    Number(promo.used_count) || 0;
+
+
+  if(
+    maxUses > 0 &&
+    usedCount >= maxUses
+  ){
+
+    return {
+      ok:false,
+      message:"❌ كود الخصم استنفد كل الاستخدامات"
+    };
+
+  }
+
+
+  const base =
+    Math.max(
+      0,
+      Number(price) || 0
+    );
+
+
+  let discount = 0;
+
+
+  if(
+    promo.discount_type ===
+    "percent"
+  ){
+
+    discount =
+      base *
+      (
+        Number(
+          promo.discount_value
+        ) || 0
+      ) /
+      100;
+
+  }else{
+
+    discount =
+      Number(
+        promo.discount_value
+      ) || 0;
+
+  }
+
+
+  discount =
+    Math.min(
+      base,
+      Math.max(0,discount)
+    );
+
+
+  return {
+    ok:true,
+    discount,
+    finalPrice:
+      Math.max(
+        0,
+        base - discount
+      ),
+    message:
+      "✅ الكود صالح — الخصم " +
+      money(discount) +
+      " جنيه"
+  };
+
+}
+
+
+/* =====================================================
+   PROMO USAGE
+   CASCADE-SAFE COMPARE AND SWAP
+===================================================== */
+
+async function incrementPromoUsage(
+  promoId
+){
+
+  for(
+    let attempt=0;
+    attempt<5;
+    attempt++
+  ){
+
+    const current =
+      await api(
+        "promo_codes?select=id,used_count,max_uses,is_active,expires_at&id=eq." +
+        encodeURIComponent(promoId) +
+        "&limit=1"
+      );
+
+
+    if(
+      !Array.isArray(current) ||
+      !current.length
+    ){
+
+      throw new Error(
+        "كود الخصم غير موجود"
+      );
+
+    }
+
+
+    const row =
+      current[0];
+
+
+    const oldCount =
+      Number(row.used_count) || 0;
+
+    const maxUses =
+      Number(row.max_uses) || 0;
+
+
+    if(
+      !row.is_active
+    ){
+
+      throw new Error(
+        "كود الخصم متوقف"
+      );
+
+    }
+
+
+    if(
+      row.expires_at &&
+      new Date(row.expires_at) <= new Date()
+    ){
+
+      throw new Error(
+        "كود الخصم منتهي"
+      );
+
+    }
+
+
+    if(
+      maxUses > 0 &&
+      oldCount >= maxUses
+    ){
+
+      throw new Error(
+        "كود الخصم استنفد كل الاستخدامات"
+      );
+
+    }
+
+
+    const newCount =
+      oldCount + 1;
+
+
+    const result =
+      await api(
+        "promo_codes?id=eq." +
+        encodeURIComponent(promoId) +
+        "&used_count=eq." +
+        encodeURIComponent(oldCount),
+        {
+          method:"PATCH",
+          body:JSON.stringify({
+            used_count:newCount
+          })
+        }
+      );
+
+
+    if(
+      Array.isArray(result) &&
+      result.length
+    ){
+
+      return {
+        oldCount,
+        newCount
+      };
+
+    }
+
+  }
+
+
+  throw new Error(
+    "تعذر تحديث عدد استخدامات الكود، حاول مرة أخرى"
+  );
+
+}
+
+
+async function decrementPromoUsage(
+  promoId
+){
+
+  for(
+    let attempt=0;
+    attempt<5;
+    attempt++
+  ){
+
+    const current =
+      await api(
+        "promo_codes?select=id,used_count&id=eq." +
+        encodeURIComponent(promoId) +
+        "&limit=1"
+      );
+
+
+    if(
+      !Array.isArray(current) ||
+      !current.length
+    )
+      return;
+
+
+    const row =
+      current[0];
+
+
+    const oldCount =
+      Number(row.used_count) || 0;
+
+
+    const newCount =
+      Math.max(
+        0,
+        oldCount - 1
+      );
+
+
+    if(oldCount <= 0)
+      return;
+
+
+    const result =
+      await api(
+        "promo_codes?id=eq." +
+        encodeURIComponent(promoId) +
+        "&used_count=eq." +
+        encodeURIComponent(oldCount),
+        {
+          method:"PATCH",
+          body:JSON.stringify({
+            used_count:newCount
+          })
+        }
+      );
+
+
+    if(
+      Array.isArray(result) &&
+      result.length
+    ){
+
+      return;
+
+    }
+
+  }
+
+}
+
+
+/* =====================================================
+   APPLY PROMO CODE
+===================================================== */
+
+async function applyPromoCode(){
+
+  const input =
+    $("promoCode");
+
+
+  const status =
+    $("promoStatus");
+
+
+  const code =
+    input.value
+      .trim()
+      .toUpperCase();
+
+
+  const price =
+    Math.max(
+      0,
+      Number(
+        $("lastPrice").value
+      ) || 0
+    );
+
+
+  appliedPromo = null;
+
+
+  status.className =
+    "promo-status";
+
+
+  if(!code){
+
+    $("discountAmount").value =
+      0;
+
+    status.textContent =
+      "ℹ️ اكتب كود الخصم أولًا";
+
+    status.classList.add(
+      "info"
+    );
+
+    return false;
+
+  }
+
+
+  if(price <= 0){
+
+    status.textContent =
+      "❌ اكتب سعر الباقة أولًا";
+
+    status.classList.add(
+      "error"
+    );
+
+    return false;
+
+  }
+
+
+  status.textContent =
+    "⏳ جاري التحقق من الكود...";
+
+  status.classList.add(
+    "info"
+  );
+
+
+  try{
+
+    const promo =
+      await getPromoCode(code);
+
+
+    const validation =
+      validatePromo(
+        promo,
+        price
+      );
+
+
+    if(!validation.ok){
+
+      status.textContent =
+        validation.message;
+
+      status.className =
+        "promo-status error";
+
+      $("discountAmount").value =
+        0;
+
+      return false;
+
+    }
+
+
+    appliedPromo = {
+      ...promo,
+      calculated_discount:
+        validation.discount
+    };
+
+
+    $("discountAmount").value =
+      validation.discount;
+
+
+    status.textContent =
+      validation.message +
+      " — المتبقي: " +
+      (
+        Math.max(
+          Number(promo.max_uses || 0) -
+          Number(promo.used_count || 0),
+          0
+        )
+      );
+
+
+    status.className =
+      "promo-status success";
+
+
+    return true;
+
+
+  }catch(error){
+
+    console.error(error);
+
+    status.textContent =
+      "❌ " +
+      (
+        error.message ||
+        "تعذر التحقق من الكود"
+      );
+
+    status.className =
+      "promo-status error";
+
+
+    return false;
+
+  }
 
 }
 
@@ -2596,6 +3598,7 @@ async function loadCustomers(){
 
 
     updateStats();
+
     render();
 
 
@@ -2717,7 +3720,10 @@ function render(){
         .toLowerCase();
 
 
-        if(q && !text.includes(q))
+        if(
+          q &&
+          !text.includes(q)
+        )
           return false;
 
 
@@ -2939,7 +3945,11 @@ function card(c){
 
 
         <div class="box promo">
-          <small>🎁 كود الخصم</small>
+
+          <small>
+            🎁 كود الخصم
+          </small>
+
           <strong>
             ${
               c.promo_code
@@ -2949,36 +3959,54 @@ function card(c){
               "لا يوجد"
             }
           </strong>
+
         </div>
 
 
         <div class="box discount-box">
-          <small>💸 قيمة الخصم</small>
+
+          <small>
+            💸 قيمة الخصم
+          </small>
+
           <strong>
             ${
               discount > 0
               ?
-              "-" + money(discount) + " جنيه"
+              "-" +
+              money(discount) +
+              " جنيه"
               :
               "لا يوجد"
             }
           </strong>
+
         </div>
 
 
         <div class="box">
-          <small>عدد الطلبات</small>
+
+          <small>
+            عدد الطلبات
+          </small>
+
           <strong>
             ${Number(c.total_orders || 0)}
           </strong>
+
         </div>
 
 
         <div class="box">
-          <small>طريقة الدفع</small>
+
+          <small>
+            طريقة الدفع
+          </small>
+
           <strong>
             ${escapeHtml(c.payment_method || "-")}
           </strong>
+
         </div>
 
       </div>
@@ -3030,21 +4058,43 @@ function card(c){
 function clearForm(){
 
   $("customerId").value = "";
+
   $("customerName").value = "";
+
   $("internalName").value = "";
+
   $("customerPhone").value = "";
+
   $("primaryNumber").value = "";
+
   $("allocatedGB").value = 0;
+
   $("packageName").value = "";
+
   $("lastPrice").value = "";
+
   $("discountAmount").value = 0;
+
   $("promoCode").value = "";
+
   $("paymentMethod").value = "";
+
   $("status").value = "active";
+
   $("renewalType").value = "day_1";
+
   $("renewalDay").value = 1;
+
   $("nextRenewal").value = "";
+
   $("totalOrders").value = 0;
+
+  appliedPromo = null;
+
+  $("promoStatus").textContent = "";
+
+  $("promoStatus").className =
+    "promo-status";
 
 }
 
@@ -3082,47 +4132,86 @@ function openEdit(id){
     "✏️ تعديل بيانات العميل";
 
 
-  $("customerId").value = c.id;
-  $("customerName").value = c.subscriber_name || "";
-  $("internalName").value = c.internal_name || "";
-  $("customerPhone").value = c.phone || "";
-  $("primaryNumber").value = c.primary_number || "";
+  $("customerId").value =
+    c.id;
+
+  $("customerName").value =
+    c.subscriber_name || "";
+
+  $("internalName").value =
+    c.internal_name || "";
+
+  $("customerPhone").value =
+    c.phone || "";
+
+  $("primaryNumber").value =
+    c.primary_number || "";
+
 
   $("allocatedGB").value =
     c.allocated_gb ||
     getGB(c.package_name);
 
+
   $("packageName").value =
     c.package_name || "";
+
 
   $("lastPrice").value =
     c.last_price || "";
 
+
   $("discountAmount").value =
     c.discount_amount || 0;
+
 
   $("promoCode").value =
     c.promo_code || "";
 
+
   $("paymentMethod").value =
     c.payment_method || "";
+
 
   $("status").value =
     c.status || "active";
 
+
   $("renewalType").value =
     c.renewal_type || "day_1";
 
+
   $("renewalDay").value =
     c.renewal_day || 1;
+
 
   $("nextRenewal").value =
     extractDate(
       c.next_renewal_date
     ) || "";
 
+
   $("totalOrders").value =
     c.total_orders || 0;
+
+
+  appliedPromo = null;
+
+
+  $("promoStatus").textContent =
+    c.promo_code
+    ?
+    "ℹ️ الكود محفوظ بالفعل — اضغط تطبيق الكود لإعادة التحقق"
+    :
+    "";
+
+
+  $("promoStatus").className =
+    c.promo_code
+    ?
+    "promo-status info"
+    :
+    "promo-status";
 
 
   $("modal").classList.add("show");
@@ -3132,7 +4221,9 @@ function openEdit(id){
 
 function closeModal(){
 
-  $("modal").classList.remove("show");
+  $("modal")
+    .classList
+    .remove("show");
 
 }
 
@@ -3145,11 +4236,27 @@ function packageData(){
   if(!p)
     return;
 
+
   $("allocatedGB").value =
     getGB(p);
 
+
   $("lastPrice").value =
     prices[p] || "";
+
+
+  /*
+    لو الكود موجود بالفعل،
+    أعد حساب الخصم مع السعر الجديد
+  */
+
+  if(
+    $("promoCode").value.trim()
+  ){
+
+    applyPromoCode();
+
+  }
 
 }
 
@@ -3158,6 +4265,7 @@ function renewalData(){
 
   const t =
     $("renewalType").value;
+
 
   $("renewalDay").value =
     t === "day_1"
@@ -3199,7 +4307,10 @@ async function saveCustomer(){
 
   if(!name){
 
-    alert("⚠️ اكتب اسم العميل");
+    alert(
+      "⚠️ اكتب اسم العميل"
+    );
+
     return;
 
   }
@@ -3207,15 +4318,24 @@ async function saveCustomer(){
 
   if(!validPhone(phone)){
 
-    alert("⚠️ رقم العميل غير صحيح");
+    alert(
+      "⚠️ رقم العميل غير صحيح"
+    );
+
     return;
 
   }
 
 
-  if(primary && !validPhone(primary)){
+  if(
+    primary &&
+    !validPhone(primary)
+  ){
 
-    alert("⚠️ الرقم الأساسي غير صحيح");
+    alert(
+      "⚠️ الرقم الأساسي غير صحيح"
+    );
+
     return;
 
   }
@@ -3223,7 +4343,10 @@ async function saveCustomer(){
 
   if(!$("nextRenewal").value){
 
-    alert("⚠️ اختر موعد التجديد");
+    alert(
+      "⚠️ اختر موعد التجديد"
+    );
+
     return;
 
   }
@@ -3232,27 +4355,184 @@ async function saveCustomer(){
   const price =
     Math.max(
       0,
-      Number($("lastPrice").value) || 0
+      Number(
+        $("lastPrice").value
+      ) || 0
     );
 
 
-  const discount =
-    Math.min(
-      price,
-      Math.max(
-        0,
-        Number(
-          $("discountAmount").value
-        ) || 0
-      )
-    );
+  /*
+    ===============================
+    PROMO VALIDATION
+    ===============================
+  */
 
-
-  const promoCode =
+  const enteredPromo =
     $("promoCode")
       .value
       .trim()
       .toUpperCase();
+
+
+  let promoForSave = null;
+
+  let discount = 0;
+
+
+  if(enteredPromo){
+
+    const promo =
+      await getPromoCode(
+        enteredPromo
+      );
+
+
+    const validation =
+      validatePromo(
+        promo,
+        price
+      );
+
+
+    /*
+      لو تعديل بنفس الكود القديم:
+      نسمح له حتى لو وصل للحد الأقصى،
+      لأنه مش استخدام جديد.
+    */
+
+    let sameOldPromo = false;
+
+
+    if(editMode){
+
+      const oldCustomer =
+        customers.find(
+          c =>
+          Number(c.id) ===
+          Number(
+            $("customerId").value
+          )
+        );
+
+
+      sameOldPromo =
+        String(
+          oldCustomer?.promo_code || ""
+        )
+        .trim()
+        .toUpperCase() ===
+        enteredPromo;
+
+    }
+
+
+    if(!validation.ok){
+
+      if(
+        sameOldPromo &&
+        promo
+      ){
+
+        /*
+          إعادة حساب الخصم من الكود القديم
+          بدون استهلاك استخدام جديد
+        */
+
+        let oldDiscount = 0;
+
+
+        if(
+          promo.discount_type ===
+          "percent"
+        ){
+
+          oldDiscount =
+            price *
+            (
+              Number(
+                promo.discount_value
+              ) || 0
+            ) /
+            100;
+
+        }else{
+
+          oldDiscount =
+            Number(
+              promo.discount_value
+            ) || 0;
+
+        }
+
+
+        discount =
+          Math.min(
+            price,
+            Math.max(
+              0,
+              oldDiscount
+            )
+          );
+
+
+        promoForSave =
+          promo;
+
+      }else{
+
+        alert(
+          validation.message
+        );
+
+        return;
+
+      }
+
+    }else{
+
+      discount =
+        validation.discount;
+
+      promoForSave =
+        promo;
+
+    }
+
+  }else{
+
+    discount =
+      Math.min(
+        price,
+        Math.max(
+          0,
+          Number(
+            $("discountAmount").value
+          ) || 0
+        )
+      );
+
+  }
+
+
+  /*
+    لو الكود موجود:
+    قيمة الخصم لازم تكون محسوبة من الكود
+  */
+
+  if(promoForSave){
+
+    discount =
+      Math.min(
+        price,
+        Math.max(
+          0,
+          Number(
+            discount
+          ) || 0
+        )
+      );
+
+  }
 
 
   const data = {
@@ -3260,30 +4540,42 @@ async function saveCustomer(){
     subscriber_name:name,
 
     internal_name:
-      $("internalName").value.trim() ||
+      $("internalName")
+        .value
+        .trim() ||
       null,
 
     phone,
 
     primary_number:
-      primary || null,
+      primary ||
+      null,
 
     allocated_gb:
-      Number($("allocatedGB").value) ||
-      getGB($("packageName").value),
+      Number(
+        $("allocatedGB").value
+      ) ||
+      getGB(
+        $("packageName").value
+      ),
 
     package_name:
-      $("packageName").value || null,
+      $("packageName").value ||
+      null,
 
-    last_price:price,
+    last_price:
+      price,
 
-    discount_amount:discount,
+    discount_amount:
+      discount,
 
     promo_code:
-      promoCode || null,
+      enteredPromo ||
+      null,
 
     payment_method:
-      $("paymentMethod").value || null,
+      $("paymentMethod").value ||
+      null,
 
     status:
       $("status").value,
@@ -3292,13 +4584,19 @@ async function saveCustomer(){
       $("renewalType").value,
 
     renewal_day:
-      Number($("renewalDay").value) || null,
+      Number(
+        $("renewalDay").value
+      ) ||
+      null,
 
     next_renewal_date:
       $("nextRenewal").value,
 
     total_orders:
-      Number($("totalOrders").value) || 0,
+      Number(
+        $("totalOrders").value
+      ) ||
+      0,
 
     updated_at:
       new Date().toISOString()
@@ -3306,7 +4604,99 @@ async function saveCustomer(){
   };
 
 
+  /*
+    ===============================
+    GET OLD CUSTOMER
+    ===============================
+  */
+
+  let oldCustomer = null;
+
+
+  if(editMode){
+
+    oldCustomer =
+      customers.find(
+        c =>
+        Number(c.id) ===
+        Number(
+          $("customerId").value
+        )
+      );
+
+  }
+
+
+  const oldPromoCode =
+    String(
+      oldCustomer?.promo_code || ""
+    )
+    .trim()
+    .toUpperCase();
+
+
+  const newPromoCode =
+    enteredPromo;
+
+
+  const promoChanged =
+    oldPromoCode !==
+    newPromoCode;
+
+
+  let newPromoIncremented =
+    false;
+
+  let oldPromoDecremented =
+    false;
+
+
   try{
+
+    /*
+      ======================================
+      لو الكود جديد أو اتغير:
+      زود استخدام للكود الجديد أولًا
+      ======================================
+    */
+
+    if(
+      newPromoCode &&
+      promoChanged
+    ){
+
+      const promo =
+        promoForSave ||
+        await getPromoCode(
+          newPromoCode
+        );
+
+
+      if(!promo){
+
+        throw new Error(
+          "كود الخصم غير موجود"
+        );
+
+      }
+
+
+      await incrementPromoUsage(
+        promo.id
+      );
+
+
+      newPromoIncremented =
+        true;
+
+    }
+
+
+    /*
+      ======================================
+      حفظ العميل
+      ======================================
+    */
 
     if(editMode){
 
@@ -3358,7 +4748,42 @@ async function saveCustomer(){
     }
 
 
+    /*
+      ======================================
+      لو تعديل وتم تغيير الكود:
+      رجّع استخدام الكود القديم
+      ======================================
+    */
+
+    if(
+      editMode &&
+      oldPromoCode &&
+      promoChanged
+    ){
+
+      const oldPromo =
+        await getPromoCode(
+          oldPromoCode
+        );
+
+
+      if(oldPromo){
+
+        await decrementPromoUsage(
+          oldPromo.id
+        );
+
+
+        oldPromoDecremented =
+          true;
+
+      }
+
+    }
+
+
     closeModal();
+
 
     await loadCustomers();
 
@@ -3375,6 +4800,36 @@ async function saveCustomer(){
   }catch(error){
 
     console.error(error);
+
+
+    /*
+      لو زودنا الكود الجديد
+      وبعدها حفظ العميل فشل:
+      رجع الاستخدام
+    */
+
+    if(
+      newPromoIncremented &&
+      promoForSave
+    ){
+
+      try{
+
+        await decrementPromoUsage(
+          promoForSave.id
+        );
+
+      }catch(rollbackError){
+
+        console.error(
+          "Promo rollback failed:",
+          rollbackError
+        );
+
+      }
+
+    }
+
 
     alert(
       "❌ لم يتم الحفظ\n\n" +
@@ -3398,7 +4853,8 @@ async function removeCustomer(id){
   const c =
     customers.find(
       x =>
-      Number(x.id) === Number(id)
+      Number(x.id) ===
+      Number(id)
     );
 
 
@@ -3427,14 +4883,22 @@ async function removeCustomer(id){
       {
         method:"PATCH",
         body:JSON.stringify({
+
           deleted_at:
             new Date().toISOString(),
 
           updated_at:
             new Date().toISOString()
+
         })
       }
     );
+
+
+    /*
+      حذف العميل لا نرجع استخدام الكود
+      لأن الاستخدام حصل بالفعل.
+    */
 
 
     await loadCustomers();
@@ -3464,7 +4928,8 @@ async function renew(id){
   const c =
     customers.find(
       x =>
-      Number(x.id) === Number(id)
+      Number(x.id) ===
+      Number(id)
     );
 
 
@@ -3493,7 +4958,10 @@ async function renew(id){
     new Date();
 
 
-  if(c.renewal_type === "day_1"){
+  if(
+    c.renewal_type ===
+    "day_1"
+  ){
 
     date.setMonth(
       date.getMonth() + 1
@@ -3501,7 +4969,10 @@ async function renew(id){
 
     date.setDate(1);
 
-  }else if(c.renewal_type === "day_16"){
+  }else if(
+    c.renewal_type ===
+    "day_16"
+  ){
 
     date.setMonth(
       date.getMonth() + 1
@@ -3519,7 +4990,9 @@ async function renew(id){
 
 
   const nextDate =
-    date.toISOString().split("T")[0];
+    date
+      .toISOString()
+      .split("T")[0];
 
 
   try{
@@ -3543,10 +5016,13 @@ async function renew(id){
 
           total_orders:
             (
-              Number(c.total_orders) || 0
+              Number(
+                c.total_orders
+              ) || 0
             ) + 1,
 
-          status:"active",
+          status:
+            "active",
 
           updated_at:
             new Date().toISOString()
@@ -3558,7 +5034,10 @@ async function renew(id){
 
     await loadCustomers();
 
-    alert("✅ تم التجديد بنجاح");
+
+    alert(
+      "✅ تم التجديد بنجاح"
+    );
 
 
   }catch(error){
@@ -3585,7 +5064,8 @@ function openInvoice(id){
   const c =
     customers.find(
       x =>
-      Number(x.id) === Number(id)
+      Number(x.id) ===
+      Number(id)
     );
 
 
@@ -3598,7 +5078,9 @@ function openInvoice(id){
 
 
   const base =
-    Number(c.last_price || 0);
+    Number(
+      c.last_price || 0
+    );
 
 
   const discount =
@@ -3606,7 +5088,9 @@ function openInvoice(id){
       base,
       Math.max(
         0,
-        Number(c.discount_amount || 0)
+        Number(
+          c.discount_amount || 0
+        )
       )
     );
 
@@ -3622,27 +5106,33 @@ function openInvoice(id){
     "INV-" +
     new Date().getFullYear() +
     "-" +
-    String(c.id).padStart(5,"0");
+    String(c.id)
+      .padStart(5,"0");
 
 
   $("invoiceDate").textContent =
-    new Date().toLocaleDateString("ar-EG");
+    new Date()
+      .toLocaleDateString("ar-EG");
 
 
   $("invoiceCustomerName").textContent =
-    c.subscriber_name || "-";
+    c.subscriber_name ||
+    "-";
 
 
   $("invoicePhone").textContent =
-    c.phone || "-";
+    c.phone ||
+    "-";
 
 
   $("invoicePrimary").textContent =
-    c.primary_number || "-";
+    c.primary_number ||
+    "-";
 
 
   $("invoicePackage").textContent =
-    c.package_name || "-";
+    c.package_name ||
+    "-";
 
 
   $("invoiceGB").textContent =
@@ -3655,25 +5145,36 @@ function openInvoice(id){
 
 
   $("invoicePeriod").textContent =
-    formatDate(c.last_renewed_at) +
+    formatDate(
+      c.last_renewed_at
+    ) +
     " → " +
-    formatDate(c.next_renewal_date);
+    formatDate(
+      c.next_renewal_date
+    );
 
 
   $("invoicePayment").textContent =
-    c.payment_method || "غير محدد";
+    c.payment_method ||
+    "غير محدد";
 
 
   $("invoiceBasePrice").textContent =
-    money(base) + " جنيه";
+    money(base) +
+    " جنيه";
 
 
   $("invoiceBeforeDiscount").textContent =
-    money(base) + " جنيه";
+    money(base) +
+    " جنيه";
 
 
   $("invoiceDiscountRow").style.display =
-    discount > 0 ? "flex" : "none";
+    discount > 0
+    ?
+    "flex"
+    :
+    "none";
 
 
   $("invoiceDiscount").textContent =
@@ -3683,19 +5184,27 @@ function openInvoice(id){
 
 
   const code =
-    String(c.promo_code || "").trim();
+    String(
+      c.promo_code || ""
+    ).trim();
 
 
   $("invoicePromoRow").style.display =
-    code ? "flex" : "none";
+    code
+    ?
+    "flex"
+    :
+    "none";
 
 
   $("invoicePromo").textContent =
-    code || "-";
+    code ||
+    "-";
 
 
   $("invoiceFinalTotal").textContent =
-    money(total) + " جنيه";
+    money(total) +
+    " جنيه";
 
 
   $("invoiceOverlay")
@@ -3722,7 +5231,10 @@ function printInvoice(){
 
   if(!currentInvoiceCustomer){
 
-    alert("❌ لا توجد فاتورة للطباعة");
+    alert(
+      "❌ لا توجد فاتورة للطباعة"
+    );
+
     return;
 
   }
@@ -3733,7 +5245,9 @@ function printInvoice(){
 
 
   const base =
-    Number(c.last_price || 0);
+    Number(
+      c.last_price || 0
+    );
 
 
   const discount =
@@ -3741,7 +5255,9 @@ function printInvoice(){
       base,
       Math.max(
         0,
-        Number(c.discount_amount || 0)
+        Number(
+          c.discount_amount || 0
+        )
       )
     );
 
@@ -3757,15 +5273,20 @@ function printInvoice(){
     "INV-" +
     new Date().getFullYear() +
     "-" +
-    String(c.id).padStart(5,"0");
+    String(c.id)
+      .padStart(5,"0");
 
 
   const invoiceDate =
-    new Date().toLocaleDateString("ar-EG");
+    new Date()
+      .toLocaleDateString(
+        "ar-EG"
+      );
 
 
   const packageName =
-    c.package_name || "-";
+    c.package_name ||
+    "-";
 
 
   const gb =
@@ -3777,16 +5298,19 @@ function printInvoice(){
     " GB";
 
 
-  function invoiceDateFormat(value){
+  function invoiceDateFormat(
+    value
+  ){
 
     if(!value)
       return "-";
 
 
     const match =
-      String(value).match(
-        /\d{4}-\d{2}-\d{2}/
-      );
+      String(value)
+        .match(
+          /\d{4}-\d{2}-\d{2}/
+        );
 
 
     if(!match)
@@ -3797,7 +5321,7 @@ function printInvoice(){
       match[0].split("-");
 
 
-    return (
+    return(
       parts[2] +
       "/" +
       parts[1] +
@@ -3809,17 +5333,22 @@ function printInvoice(){
 
 
   const period =
-    invoiceDateFormat(c.last_renewed_at) +
+    invoiceDateFormat(
+      c.last_renewed_at
+    ) +
     " → " +
-    invoiceDateFormat(c.next_renewal_date);
+    invoiceDateFormat(
+      c.next_renewal_date
+    );
 
 
   const promo =
-    String(c.promo_code || "")
-      .trim();
+    String(
+      c.promo_code || ""
+    )
+    .trim();
 
 
-  /* نفس اللوجو بالضبط */
   const logoURL =
     LOGO_URL;
 
@@ -4063,182 +5592,246 @@ body{
 
 <div class="invoice">
 
-  <div class="brand">
+<div class="brand">
 
-    <img
-      src="${escapeHtml(logoURL)}"
-      alt="CASH BACK"
-    >
+<img
+src="${escapeHtml(logoURL)}"
+alt="CASH BACK"
+>
 
-  </div>
-
-
-  <div class="title">
-    فاتورة اشتراك WE
-  </div>
+</div>
 
 
-  <div class="meta">
-
-    <div>
-      رقم الفاتورة:
-      <strong>
-        ${escapeHtml(invoiceNumber)}
-      </strong>
-    </div>
-
-    <div>
-      التاريخ:
-      <strong>
-        ${escapeHtml(invoiceDate)}
-      </strong>
-    </div>
-
-  </div>
+<div class="title">
+فاتورة اشتراك WE
+</div>
 
 
-  <div class="section">
+<div class="meta">
 
-    <div class="row">
-      <span class="label">اسم العميل</span>
-      <span class="value">
-        ${escapeHtml(c.subscriber_name || "-")}
-      </span>
-    </div>
+<div>
+رقم الفاتورة:
+<strong>
+${escapeHtml(invoiceNumber)}
+</strong>
+</div>
 
-    <div class="row">
-      <span class="label">رقم العميل</span>
-      <span class="value">
-        ${escapeHtml(c.phone || "-")}
-      </span>
-    </div>
+<div>
+التاريخ:
+<strong>
+${escapeHtml(invoiceDate)}
+</strong>
+</div>
 
-    <div class="row">
-      <span class="label">الرقم الأساسي</span>
-      <span class="value">
-        ${escapeHtml(c.primary_number || "-")}
-      </span>
-    </div>
-
-  </div>
+</div>
 
 
-  <div class="section">
+<div class="section">
 
-    <div class="row">
-      <span class="label">الباقة</span>
-      <span class="value">
-        ${escapeHtml(packageName)}
-      </span>
-    </div>
+<div class="row">
 
-    <div class="row">
-      <span class="label">الجيجا</span>
-      <span class="value">
-        ${escapeHtml(gb)}
-      </span>
-    </div>
+<span class="label">
+اسم العميل
+</span>
 
-    <div class="row">
-      <span class="label">فترة الاشتراك</span>
-      <span class="value">
-        ${escapeHtml(period)}
-      </span>
-    </div>
+<span class="value">
+${escapeHtml(
+  c.subscriber_name || "-"
+)}
+</span>
 
-    <div class="row">
-      <span class="label">طريقة الدفع</span>
-      <span class="value">
-        ${escapeHtml(
-          c.payment_method || "غير محدد"
-        )}
-      </span>
-    </div>
-
-  </div>
+</div>
 
 
-  <div class="section">
+<div class="row">
 
-    <div class="row">
-      <span class="label">السعر الأساسي</span>
-      <span class="value">
-        ${money(base)} جنيه
-      </span>
-    </div>
+<span class="label">
+رقم العميل
+</span>
 
-    <div class="row">
-      <span class="label">الإجمالي قبل الخصم</span>
-      <span class="value">
-        ${money(base)} جنيه
-      </span>
-    </div>
+<span class="value">
+${escapeHtml(
+  c.phone || "-"
+)}
+</span>
+
+</div>
 
 
-    ${
-      discount > 0
-      ?
-      `
-      <div class="row">
-        <span class="label discount">
-          الخصم
-        </span>
-        <span class="value discount">
-          - ${money(discount)} جنيه
-        </span>
-      </div>
-      `
-      :
-      ""
-    }
+<div class="row">
+
+<span class="label">
+الرقم الأساسي
+</span>
+
+<span class="value">
+${escapeHtml(
+  c.primary_number || "-"
+)}
+</span>
+
+</div>
+
+</div>
 
 
-    ${
-      promo
-      ?
-      `
-      <div class="row">
-        <span class="label promo">
-          كود الخصم
-        </span>
-        <span class="value promo">
-          ${escapeHtml(promo)}
-        </span>
-      </div>
-      `
-      :
-      ""
-    }
+<div class="section">
+
+<div class="row">
+
+<span class="label">
+الباقة
+</span>
+
+<span class="value">
+${escapeHtml(packageName)}
+</span>
+
+</div>
 
 
-    <div class="total">
+<div class="row">
 
-      <span>
-        الإجمالي النهائي
-      </span>
+<span class="label">
+الجيجا
+</span>
 
-      <strong>
-        ${money(total)} جنيه
-      </strong>
+<span class="value">
+${escapeHtml(gb)}
+</span>
 
-    </div>
-
-  </div>
+</div>
 
 
-  <div class="thanks">
+<div class="row">
 
-    <strong>
-      شكرًا لاختياركم CASH BACK
-    </strong>
+<span class="label">
+فترة الاشتراك
+</span>
 
-    للاستفسار والتواصل
+<span class="value">
+${escapeHtml(period)}
+</span>
 
-    <span class="contact">
-      01090532469
-    </span>
+</div>
 
-  </div>
+
+<div class="row">
+
+<span class="label">
+طريقة الدفع
+</span>
+
+<span class="value">
+${escapeHtml(
+  c.payment_method ||
+  "غير محدد"
+)}
+</span>
+
+</div>
+
+</div>
+
+
+<div class="section">
+
+<div class="row">
+
+<span class="label">
+السعر الأساسي
+</span>
+
+<span class="value">
+${money(base)} جنيه
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span class="label">
+الإجمالي قبل الخصم
+</span>
+
+<span class="value">
+${money(base)} جنيه
+</span>
+
+</div>
+
+
+${
+discount > 0
+?
+`
+<div class="row">
+
+<span class="label discount">
+الخصم
+</span>
+
+<span class="value discount">
+- ${money(discount)} جنيه
+</span>
+
+</div>
+`
+:
+""
+}
+
+
+${
+promo
+?
+`
+<div class="row">
+
+<span class="label promo">
+كود الخصم
+</span>
+
+<span class="value promo">
+${escapeHtml(promo)}
+</span>
+
+</div>
+`
+:
+""
+}
+
+
+<div class="total">
+
+<span>
+الإجمالي النهائي
+</span>
+
+<strong>
+${money(total)} جنيه
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="thanks">
+
+<strong>
+شكرًا لاختياركم CASH BACK
+</strong>
+
+للاستفسار والتواصل
+
+<span class="contact">
+01090532469
+</span>
+
+</div>
 
 </div>
 
@@ -4251,38 +5844,41 @@ document.querySelector(".brand img");
 
 function startPrint(){
 
-  setTimeout(
-    function(){
+setTimeout(
+function(){
 
-      window.focus();
-      window.print();
+window.focus();
+window.print();
 
-    },
-    400
-  );
+},
+400
+);
 
 }
 
 
 if(logo){
 
-  if(logo.complete && logo.naturalWidth > 0){
+if(
+logo.complete &&
+logo.naturalWidth > 0
+){
 
-    startPrint();
-
-  }else{
-
-    logo.onload =
-      startPrint;
-
-    logo.onerror =
-      startPrint;
-
-  }
+startPrint();
 
 }else{
 
-  startPrint();
+logo.onload =
+startPrint;
+
+logo.onerror =
+startPrint;
+
+}
+
+}else{
+
+startPrint();
 
 }
 
@@ -4290,12 +5886,14 @@ if(logo){
 window.onafterprint =
 function(){
 
-  setTimeout(
-    function(){
-      window.close();
-    },
-    300
-  );
+setTimeout(
+function(){
+
+window.close();
+
+},
+300
+);
 
 };
 
@@ -4381,7 +5979,9 @@ async function saveInvoiceImage(){
 
 
     link.href =
-      canvas.toDataURL("image/png");
+      canvas.toDataURL(
+        "image/png"
+      );
 
 
     link.click();
@@ -4558,77 +6158,131 @@ async function saveInvoicePDF(){
 ===================================================== */
 
 $("search")
-  .addEventListener(
-    "input",
-    render
-  );
+.addEventListener(
+  "input",
+  render
+);
 
 
 $("renewalFilter")
-  .addEventListener(
-    "change",
-    render
-  );
+.addEventListener(
+  "change",
+  render
+);
 
 
 $("statusFilter")
-  .addEventListener(
-    "change",
-    render
-  );
+.addEventListener(
+  "change",
+  render
+);
+
+
+/*
+  تطبيق الكود بمجرد الضغط Enter
+*/
+
+$("promoCode")
+.addEventListener(
+  "keydown",
+  function(e){
+
+    if(e.key === "Enter"){
+
+      e.preventDefault();
+
+      applyPromoCode();
+
+    }
+
+  }
+);
+
+
+/*
+  لو السعر اتغير والكود موجود:
+  إعادة حساب الخصم
+*/
+
+$("lastPrice")
+.addEventListener(
+  "input",
+  function(){
+
+    if(
+      $("promoCode")
+        .value
+        .trim()
+    ){
+
+      clearTimeout(
+        window.__promoTimer
+      );
+
+
+      window.__promoTimer =
+        setTimeout(
+          applyPromoCode,
+          350
+        );
+
+    }
+
+  }
+);
 
 
 $("password")
-  .addEventListener(
-    "keydown",
-    e => {
+.addEventListener(
+  "keydown",
+  e => {
 
-      if(e.key === "Enter"){
+    if(e.key === "Enter"){
 
-        e.preventDefault();
+      e.preventDefault();
 
-        login();
-
-      }
+      login();
 
     }
-  );
+
+  }
+);
 
 
 $("modal")
-  .addEventListener(
-    "click",
-    e => {
+.addEventListener(
+  "click",
+  e => {
 
-      if(
-        e.target ===
-        e.currentTarget
-      ){
+    if(
+      e.target ===
+      e.currentTarget
+    ){
 
-        closeModal();
-
-      }
+      closeModal();
 
     }
-  );
+
+  }
+);
 
 
 $("invoiceOverlay")
-  .addEventListener(
-    "click",
-    e => {
+.addEventListener(
+  "click",
+  e => {
 
-      if(
-        e.target ===
-        e.currentTarget
-      ){
+    if(
+      e.target ===
+      e.currentTarget
+    ){
 
-        closeInvoice();
-
-      }
+      closeInvoice();
 
     }
-  );
+
+  }
+);
 
 
 /* =====================================================
@@ -4675,6 +6329,80 @@ $("invoiceOverlay")
 
 
 /* =====================================================
+   THEME TOGGLE
+===================================================== */
+
+(function(){
+
+  const button =
+    $("theme-toggle");
+
+  const icon =
+    $("theme-icon");
+
+
+  if(!button)
+    return;
+
+
+  function updateIcon(){
+
+    if(
+      document.documentElement
+        .classList
+        .contains("dark-mode")
+    ){
+
+      icon.textContent =
+        "☀️";
+
+    }else{
+
+      icon.textContent =
+        "🌙";
+
+    }
+
+  }
+
+
+  updateIcon();
+
+
+  button.addEventListener(
+    "click",
+    function(){
+
+      document.documentElement
+        .classList
+        .toggle("dark-mode");
+
+
+      const isDark =
+        document.documentElement
+          .classList
+          .contains("dark-mode");
+
+
+      localStorage.setItem(
+        "cashback-theme",
+        isDark
+        ?
+        "dark"
+        :
+        "light"
+      );
+
+
+      updateIcon();
+
+    }
+  );
+
+})();
+
+
+/* =====================================================
    START
 ===================================================== */
 
@@ -4683,4 +6411,5 @@ checkSession();
 </script>
 
 </body>
+
 </html>
