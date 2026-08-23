@@ -298,3 +298,71 @@ footer {
     font-size: 35px;
   }
 }
+/* ==================== DARK MODE VARIABLES & STYLES ==================== */
+:root {
+  --bg-main: #f8f9fa;
+  --bg-card: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --input-bg: #ffffff;
+}
+
+html.dark-mode {
+  --bg-main: #0f172a;
+  --bg-card: #1e293b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-color: #334155;
+  --input-bg: #334155;
+}
+
+/* تطبيق الثيم على جسم الصفحة والعناصر الأساسية */
+html.dark-mode body {
+  background-color: var(--bg-main) !important;
+  color: var(--text-main) !important;
+}
+
+html.dark-mode main,
+html.dark-mode header,
+html.dark-mode section,
+html.dark-mode div.card,
+html.dark-mode div.modal-content,
+html.dark-mode aside {
+  background-color: var(--bg-card) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark-mode select,
+html.dark-mode input,
+html.dark-mode textarea {
+  background-color: var(--input-bg) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark-mode small,
+html.dark-mode p,
+html.dark-mode .text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* زر التبديل */
+.theme-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  margin-right: 10px;
+}
+
+.theme-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
