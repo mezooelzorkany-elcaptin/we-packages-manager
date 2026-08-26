@@ -31,6 +31,25 @@ jobs:
         run: npm install
       - name: Add Android platform
         run: npx cap add android
+      - name: Add CASH BACK native printer bridge
+        run: |
+          mkdir -p android/app/src/main/java/com/cashback/admin
+          cp native/CashBackPrinterPlugin.java android/app/src/main/java/com/cashback/admin/CashBackPrinterPlugin.java
+          cat > android/app/src/main/java/com/cashback/admin/MainActivity.java <<'JAVA'
+          package com.cashback.admin;
+          import android.os.Bundle;
+          import com.getcapacitor.BridgeActivity;
+          public class MainActivity extends BridgeActivity {
+            @Override public void onCreate(Bundle savedInstanceState) {
+              registerPlugin(CashBackPrinterPlugin.class);
+              super.onCreate(savedInstanceState);
+            }
+          }
+          JAVA
+          sed -i '/<manifest /a\    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />' android/app/src/main/AndroidManifest.xml
+          mkdir -p android/app/src/main/res/drawable
+          cp ../logo.png android/app/src/main/res/drawable/cash_back_logo.png
+          sed -i 's|android:icon="@mipmap/ic_launcher"|android:icon="@drawable/cash_back_logo"|' android/app/src/main/AndroidManifest.xml
       - name: Sync Capacitor
         run: npx cap sync android
       - name: Build debug APK
