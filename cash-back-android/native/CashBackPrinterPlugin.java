@@ -4,34 +4,47 @@ import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
+import com.getcapacitor.PermissionState;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import com.getcapacitor.annotation.Permission;
+import com.getcapacitor.annotation.PermissionCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.util.Set;
 import java.util.UUID;
 
-@CapacitorPlugin(name = "CashBackPrinter")
+@CapacitorPlugin(name = "CashBackPrinter", permissions = {
+    @Permission(alias = "bluetooth", strings = { Manifest.permission.BLUETOOTH_CONNECT })
+})
 public class CashBackPrinterPlugin extends Plugin {
-    private static final int REQ_BT = 7001;
     private static final UUID SPP_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     @PluginMethod
     public void list(PluginCall call) {
-        if (android.os.Build.VERSION.SDK_INT >= 31 && getContext().checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(call, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, REQ_BT);
+        if (getPermissionState("bluetooth") != PermissionState.GRANTED) {
+            requestPermissionForAlias("bluetooth", call, "listPermissionCallback");
             return;
         }
+        listDevices(call);
+    }
+
+    @PermissionCallback
+    private void listPermissionCallback(PluginCall call) {
+        if (getPermissionState("bluetooth") == PermissionState.GRANTED) listDevices(call);
+        else call.reject("اسمح للتطبيق بالوصول إلى Bluetooth أولاً");
+    }
+
+    private void listDevices(PluginCall call) {
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
         if (adapter == null) { call.reject("Bluetooth غير متاح على الجهاز"); return; }
         JSArray arr = new JSArray();
@@ -47,12 +60,23 @@ public class CashBackPrinterPlugin extends Plugin {
 
     @PluginMethod
     public void printImage(PluginCall call) {
+        if (getPermissionState("bluetooth") != PermissionState.GRANTED) {
+            requestPermissionForAlias("bluetooth", call, "printPermissionCallback");
+            return;
+        }
+        printImageNow(call);
+    }
+
+    @PermissionCallback
+    private void printPermissionCallback(PluginCall call) {
+        if (getPermissionState("bluetooth") == PermissionState.GRANTED) printImageNow(call);
+        else call.reject("اسمح للتطبيق بالوصول إلى Bluetooth أولاً");
+    }
+
+    private void printImageNow(PluginCall call) {
         String address = call.getString("address");
         String base64 = call.getString("base64");
         if (address == null || base64 == null) { call.reject("بيانات الطابعة ناقصة"); return; }
-        if (android.os.Build.VERSION.SDK_INT >= 31 && getContext().checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(call, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, REQ_BT); return;
-        }
         getBridge().executeOnMainThread(() -> {
             try {
                 byte[] imageBytes = Base64.decode(base64, Base64.DEFAULT);
