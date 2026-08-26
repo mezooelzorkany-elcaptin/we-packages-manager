@@ -20,11 +20,12 @@ jobs:
           npm init -y
           npm install @capacitor/core@8.5.0 @capacitor/cli@8.5.0 @capacitor/ios@8.5.0
 
-      - name: Prepare V1 web app
+      - name: Prepare V1 admin web app
         run: |
           rm -rf www
           mkdir -p www
           find . -maxdepth 1 -type f \( -name '*.html' -o -name '*.js' -o -name '*.css' -o -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.webp' -o -name '*.svg' \) -exec cp {} www/ \;
+          cp customers.html www/index.html
 
       - name: Create Capacitor config
         run: |
