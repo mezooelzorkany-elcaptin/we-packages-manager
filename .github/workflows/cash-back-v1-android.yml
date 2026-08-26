@@ -1,0 +1,58 @@
+name: CASH BACK V1 Android APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cash-back-android
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+      - run: sdkmanager 'platform-tools' 'platforms;android-35' 'build-tools;35.0.0'
+      - run: npm install
+      - name: Prepare V1 web app
+        run: |
+          rm -rf www
+          mkdir -p www
+          find .. -maxdepth 1 -type f \( -name '*.html' -o -name '*.js' -o -name '*.css' -o -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.webp' -o -name '*.svg' \) -exec cp {} www/ \;
+      - name: Add Android platform
+        run: npx cap add android
+      - name: Add native printer bridge
+        run: |
+          mkdir -p android/app/src/main/java/com/cashback/admin
+          cp native/CashBackPrinterPlugin.java android/app/src/main/java/com/cashback/admin/CashBackPrinterPlugin.java
+          cat > android/app/src/main/java/com/cashback/admin/MainActivity.java <<'JAVA'
+          package com.cashback.admin;
+          import android.os.Bundle;
+          import com.getcapacitor.BridgeActivity;
+          public class MainActivity extends BridgeActivity {
+            @Override public void onCreate(Bundle savedInstanceState) {
+              registerPlugin(CashBackPrinterPlugin.class);
+              super.onCreate(savedInstanceState);
+            }
+          }
+          JAVA
+          sed -i '/<manifest /a\    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />' android/app/src/main/AndroidManifest.xml
+          mkdir -p android/app/src/main/res/drawable
+          cp ../logo.png android/app/src/main/res/drawable/cash_back_logo.png
+          sed -i 's|android:icon="@mipmap/ic_launcher"|android:icon="@drawable/cash_back_logo"|' android/app/src/main/AndroidManifest.xml
+      - run: npx cap sync android
+      - run: cd android && ./gradlew assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cash-back-v1-debug-apk
+          path: cash-back-android/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
