@@ -29,6 +29,34 @@ jobs:
         run: sdkmanager 'platform-tools' 'platforms;android-35' 'build-tools;35.0.0'
       - name: Install dependencies
         run: npm install
+      - name: Prepare local CASH BACK web app
+        run: |
+          rm -rf www
+          mkdir -p www
+          find .. -maxdepth 1 -type f \( -name '*.html' -o -name '*.js' -o -name '*.css' -o -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.webp' -o -name '*.svg' \) -exec cp {} www/ \;
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('www/cash-back-mobile.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace("const BASE='https://mezooelzorkany-elcaptin.github.io/we-packages-manager/';", "const BASE='./';")
+          s = s.replace("status=eq.payment_submitted&order_number=like.REN-*", "order_number=like.REN-*&status=not.in.(approved,payment_rejected)")
+          old = "async function setOrder(order,status){const r=await fetch(SUPA+'/rest/v1/orders?order_number=eq.'+encodeURIComponent(order),{method:'PATCH',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({status})});if(!r.ok){alert('تعذر تحديث الطلب');return}openRenewals(document.querySelector('[data-page=\"renewals\"]'))}"
+          new = "async function setOrder(order,status){let orderData=null;if(status==='approved'){try{const q=await fetch(SUPA+'/rest/v1/orders?select=order_number,subscriber_name,phone,package_name,final_price,payment_method&order_number=eq.'+encodeURIComponent(order),{headers:{apikey:KEY,Authorization:'Bearer '+KEY}});const rows=await q.json();orderData=Array.isArray(rows)?rows[0]:null}catch(e){}}const r=await fetch(SUPA+'/rest/v1/orders?order_number=eq.'+encodeURIComponent(order),{method:'PATCH',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({status})});if(!r.ok){alert('تعذر تحديث الطلب');return}if(status==='approved'&&orderData){const tx=await fetch(SUPA+'/rest/v1/financial_transactions',{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=ignore-duplicates,return=minimal'},body:JSON.stringify({customer_name:orderData.subscriber_name||'',customer_phone:orderData.phone||'',package_name:orderData.package_name||'',amount:Number(orderData.final_price)||0,transaction_type:'تجديد',transaction_date:new Date().toISOString(),notes:'تجديد من طلب '+orderData.order_number,order_number:orderData.order_number})});if(!tx.ok){console.warn('Financial transaction was not recorded',await tx.text())}}openRenewals(document.querySelector('[data-page=\"renewals\"]'))}"
+          if old not in s:
+              raise SystemExit('Expected setOrder function was not found')
+          s = s.replace(old, new)
+          p.write_text(s, encoding='utf-8')
+          f = Path('www/finances.html')
+          if f.exists():
+              t=f.read_text(encoding='utf-8')
+              t=t.replace('</style>', '.nav{display:none!important}</style>', 1)
+              f.write_text(t, encoding='utf-8')
+          a = Path('www/admin.html')
+          if a.exists():
+              t=a.read_text(encoding='utf-8')
+              t=t.replace('</style>', '.customers-navigation{display:none!important}.customers-top-btn{display:none!important}</style>', 1)
+              a.write_text(t, encoding='utf-8')
+          PY
       - name: Add Android platform
         run: npx cap add android
       - name: Add CASH BACK native printer bridge
