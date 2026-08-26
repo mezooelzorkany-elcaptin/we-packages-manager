@@ -23,11 +23,12 @@ jobs:
       - uses: android-actions/setup-android@v3
       - run: sdkmanager 'platform-tools' 'platforms;android-35' 'build-tools;35.0.0'
       - run: npm install
-      - name: Prepare V1 web app
+      - name: Prepare V1 admin web app
         run: |
           rm -rf www
           mkdir -p www
           find .. -maxdepth 1 -type f \( -name '*.html' -o -name '*.js' -o -name '*.css' -o -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.webp' -o -name '*.svg' \) -exec cp {} www/ \;
+          cp ../customers.html www/index.html
       - name: Add Android platform
         run: npx cap add android
       - name: Add native printer bridge
