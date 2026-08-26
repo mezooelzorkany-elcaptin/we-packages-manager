@@ -1,0 +1,63 @@
+name: CASH BACK V1 fixes
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Apply V1 fixes
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          # Remove the old page-to-page navigation from finance and codes only.
+          p=Path('finances.html')
+          s=p.read_text()
+          s=re.sub(r'\s*<div class="nav">.*?</div>\s*', '\n', s, count=1, flags=re.S)
+          if '<script src="theme.js"></script>' not in s:
+              s=s.replace('<title>الماليات | WE Packages</title>', '<title>الماليات | WE Packages</title>\n<script src="theme.js"></script>')
+          dark='''\nhtml.dark-mode body{background:#0f172a!important;color:#f8fafc!important}\nhtml.dark-mode .glass,html.dark-mode .section,html.dark-mode .stat{background:#1e293b!important;color:#f8fafc!important;border-color:#334155!important}\nhtml.dark-mode input,html.dark-mode select,html.dark-mode textarea,html.dark-mode .type-btn{background:#334155!important;color:#f8fafc!important;border-color:#475569!important}\nhtml.dark-mode th{background:#263449!important;color:#cbd5e1!important;border-color:#334155!important}\nhtml.dark-mode td{border-color:#334155!important}\n'''
+          if 'html.dark-mode body{background:#0f172a' not in s:
+              s=s.replace('</style>', dark+'\n</style>', 1)
+          p.write_text(s)
+
+          p=Path('admin.html')
+          s=p.read_text()
+          s=re.sub(r'\s*<div class="customers-navigation">.*?</div>\s*', '\n', s, count=1, flags=re.S)
+          if '<script src="theme.js"></script>' not in s:
+              s=s.replace('<title>WE Packages - الأكواد</title>', '<title>WE Packages - الأكواد</title>\n<script src="theme.js"></script>')
+          p.write_text(s)
+
+          # Keep Supabase auth persistent in the V1 admin page.
+          p=Path('customers.html')
+          s=p.read_text()
+          old='supabase.createClient(\n  SUPABASE_URL,\n  SUPABASE_KEY\n);'
+          new='supabase.createClient(\n  SUPABASE_URL,\n  SUPABASE_KEY,\n  {\n    auth:{\n      persistSession:true,\n      autoRefreshToken:true,\n      detectSessionInUrl:false\n    }\n  }\n);'
+          if old in s and new not in s:
+              s=s.replace(old,new,1)
+          p.write_text(s)
+          PY
+
+      - name: Commit V1 fixes
+        run: |
+          git config user.name 'CASH BACK Bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add finances.html admin.html customers.html
+          if git diff --cached --quiet; then
+            echo 'No changes needed'
+            exit 0
+          fi
+          git commit -m 'Fix CASH BACK V1 navigation dark mode and session'
+          git push
