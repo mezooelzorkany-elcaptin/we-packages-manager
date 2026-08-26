@@ -1,0 +1,60 @@
+name: CASH BACK V1 iOS IPA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout V1
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Capacitor iOS dependencies
+        run: |
+          npm init -y
+          npm install @capacitor/core@8.5.0 @capacitor/cli@8.5.0 @capacitor/ios@8.5.0
+
+      - name: Prepare V1 web app
+        run: |
+          rm -rf www
+          mkdir -p www
+          find . -maxdepth 1 -type f \( -name '*.html' -o -name '*.js' -o -name '*.css' -o -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.webp' -o -name '*.svg' \) -exec cp {} www/ \;
+
+      - name: Create Capacitor config
+        run: |
+          cat > capacitor.config.json <<'EOF'
+          {
+            "appId": "com.cashback.admin",
+            "appName": "CASH BACK Admin",
+            "webDir": "www"
+          }
+          EOF
+
+      - name: Add iOS platform
+        run: npx cap add ios
+
+      - name: Sync iOS
+        run: npx cap sync ios
+
+      - name: Build unsigned iOS app
+        run: |
+          xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Debug -sdk iphoneos -derivedDataPath build CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO
+
+      - name: Package IPA
+        run: |
+          mkdir -p Payload
+          cp -R build/Build/Products/Debug-iphoneos/App.app Payload/CASHBACK.app
+          /usr/bin/zip -r CASH-BACK-V1-unsigned.ipa Payload
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: cash-back-v1-ios-unsigned-ipa
+          path: CASH-BACK-V1-unsigned.ipa
+          if-no-files-found: error
