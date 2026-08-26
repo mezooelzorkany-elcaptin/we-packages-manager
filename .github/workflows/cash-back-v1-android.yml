@@ -23,7 +23,7 @@ jobs:
       - uses: android-actions/setup-android@v3
       - run: sdkmanager 'platform-tools' 'platforms;android-35' 'build-tools;35.0.0'
       - run: npm install
-      - name: Prepare V1 admin web app
+      - name: Prepare CASH BACK admin only
         run: |
           rm -rf www
           mkdir -p www
@@ -54,6 +54,6 @@ jobs:
       - run: cd android && ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: cash-back-v1-debug-apk
+          name: cash-back-v1-admin-apk
           path: cash-back-android/android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
