@@ -1,1 +1,1 @@
-{"appId":"com.cashback.admin","appName":"CASH BACK Admin","webDir":"www","server":{"url":"https://we-packages-manager-lel1sg.v2.appdeploy.ai/","cleartext":false,"allowNavigation":["we-packages-manager-lel1sg.v2.appdeploy.ai"]}}
+{"appId":"com.cashback.admin","appName":"CASH BACK Admin","webDir":"www","android":{"allowMixedContent":false}}
