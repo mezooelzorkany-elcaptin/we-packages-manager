@@ -1,34 +1,24 @@
-// تطبيق الثيم فوراً لتفادي الوميض الأبيض عند التنقل بين الصفحات
-(function initTheme() {
-  const savedTheme = localStorage.getItem('app_theme');
-  if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.classList.add('dark-mode');
-  } else {
-    document.documentElement.classList.remove('dark-mode');
-  }
+// CASH BACK — unified theme persistence across all admin pages
+(function initTheme(){
+  const saved = localStorage.getItem('cashback-theme') || localStorage.getItem('app_theme');
+  const dark = saved === 'dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.classList.toggle('dark-mode', dark);
 })();
 
-// تفعيل زر التبديل عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
   const toggleBtn = document.getElementById('theme-toggle');
   const themeIcon = document.getElementById('theme-icon');
-
-  function updateIcon() {
-    const isDark = document.documentElement.classList.contains('dark-mode');
-    if (themeIcon) {
-      themeIcon.textContent = isDark ? '☀️' : '🌙';
-    }
+  function updateIcon(){
+    if(themeIcon) themeIcon.textContent = document.documentElement.classList.contains('dark-mode') ? '☀️' : '🌙';
   }
-
   updateIcon();
-
-  if (toggleBtn) {
+  if(toggleBtn && !toggleBtn.dataset.themeBound){
+    toggleBtn.dataset.themeBound = '1';
     toggleBtn.addEventListener('click', () => {
-      document.documentElement.classList.toggle('dark-mode');
-      const isDark = document.documentElement.classList.contains('dark-mode');
-      
-      // حفظ الإعداد ليطبق في جميع الصفحات
-      localStorage.setItem('app_theme', isDark ? 'dark' : 'light');
+      const dark = !document.documentElement.classList.contains('dark-mode');
+      document.documentElement.classList.toggle('dark-mode', dark);
+      localStorage.setItem('cashback-theme', dark ? 'dark' : 'light');
+      localStorage.setItem('app_theme', dark ? 'dark' : 'light');
       updateIcon();
     });
   }
