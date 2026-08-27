@@ -1,1 +1,1 @@
-{"appId":"com.cashback.admin","appName":"CASH BACK Admin","webDir":"www","android":{"allowMixedContent":false}}
+{"appId":"com.cashback.admin","appName":"CASH BACK Admin","webDir":"www","server":{"url":"https://mezooelzorkany-elcaptin.github.io/we-packages-manager/customers.html","cleartext":false},"android":{"allowMixedContent":false}}
