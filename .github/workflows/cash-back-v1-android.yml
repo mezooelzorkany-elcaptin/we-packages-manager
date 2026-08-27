@@ -29,6 +29,7 @@ jobs:
           mkdir -p www
           find .. -maxdepth 1 -type f \( -name '*.html' -o -name '*.js' -o -name '*.css' -o -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.webp' -o -name '*.svg' \) -exec cp {} www/ \;
           cp ../customers.html www/index.html
+          for f in www/*.html; do printf '\n<script src="admin-v1-fixes.js"></script>\n' >> "$f"; done
       - name: Add Android platform
         run: npx cap add android
       - name: Add native printer bridge
@@ -54,6 +55,6 @@ jobs:
       - run: cd android && ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: cash-back-v1-admin-apk
+          name: cash-back-v1-admin-fixed-apk
           path: cash-back-android/android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
