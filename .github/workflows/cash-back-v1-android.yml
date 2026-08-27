@@ -55,6 +55,6 @@ jobs:
       - run: cd android && ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: cash-back-v1-admin-fixed-apk
+          name: cash-back-v1-admin-fixed-v2-apk
           path: cash-back-android/android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
