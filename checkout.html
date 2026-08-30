@@ -749,6 +749,16 @@ autocomplete="tel"
 الرقم الذي سيتم تفعيل الباقة عليه
 </div>
 
+<div id="renewalField" style="margin-bottom:25px">
+<label class="label">📅 موعد التجديد</label>
+<select id="renewalType" style="width:100%;padding:17px;border:1px solid #ddd;border-radius:17px;background:#fff;font-size:18px;text-align:center">
+<option value="">اختار موعد التجديد</option>
+<option value="day_1">يوم 1 من كل شهر</option>
+<option value="day_16">يوم 16 من كل شهر</option>
+</select>
+<div class="hint" style="margin-bottom:0">التجديد يتم بداية يوم 1 أو بداية يوم 16.</div>
+</div>
+
 
 <!-- ==============================
      SUBMIT
@@ -1753,8 +1763,7 @@ async function submitOrder(){
        ORDER NUMBER
     ========================== */
 
-    const orderNumber =
-        createOrderNumber();
+    let orderNumber = null;
 
 
     /* ==========================
@@ -1778,168 +1787,72 @@ async function submitOrder(){
        لأن جدول orders عندك لا يحتوي هذا العمود.
     ================================================== */
 
-    const orderData = {
+    const renewalType =
+        orderType === "renewal"
+        ? null
+        : document.getElementById("renewalType")?.value || "";
 
-        subscriber_name:
-            name,
+    if(orderType !== "renewal" && !["day_1","day_16"].includes(renewalType)){
+        showError("❌ اختار موعد التجديد أولاً");
+        return;
+    }
 
-        order_number:
-            orderNumber,
+    const promoCodeToUse =
+        promoApplied && activePromo
+        ? activePromo.code
+        : "";
 
-        phone:
-            phone,
-
-        package_name:
-            "باقة " +
-            cleanGB +
-            " جيجا",
-
-        package_gb:
-            Number(
-                cleanGB
-            ),
-
-        original_price:
-            Number(
-                originalPrice
-            ),
-
-        final_price:
-            Number(
-                orderFinalPrice
-            ),
-
-        promo_code:
-            promoApplied &&
-            activePromo
-            ?
-            activePromo.code
-            :
-            "",
-
-        payment_method:
-            "لم يتم التحويل بعد",
-
-        status:
-            "pending"
-
-    };
-
-
-    console.log(
-        "ORDER DATA:",
-        orderData
-    );
-
-
-    button.disabled =
-        true;
-
-
-    button.textContent =
-        "⏳ جاري تجهيز الطلب...";
-
+    button.disabled = true;
+    button.textContent = "⏳ جاري تجهيز الطلب...";
 
     try{
-
-        const response =
-            await fetch(
-
-                SUPABASE_URL +
-                "/rest/v1/orders",
-
-                {
-
-                    method:
-                        "POST",
-
-                    headers:{
-
-                        "apikey":
-                            SUPABASE_KEY,
-
-                        "Authorization":
-                            "Bearer " +
-                            SUPABASE_KEY,
-
-                        "Content-Type":
-                            "application/json",
-
-                        "Prefer":
-                            "return=representation"
-
-                    },
-
-                    body:
-                        JSON.stringify(
-                            orderData
-                        )
-
-                }
-
-            );
-
-
-        const responseText =
-            await response.text();
-
-
-        console.log(
-            "SUPABASE STATUS:",
-            response.status
-        );
-
-
-        console.log(
-            "SUPABASE RESPONSE:",
-            responseText
-        );
-
-
-        /* ==========================
-           DATABASE ERROR
-        ========================== */
-
-        if(
-            !response.ok
-        ){
-
-            let message =
-                responseText;
-
-
-            try{
-
-                const json =
-                    JSON.parse(
-                        responseText
-                    );
-
-
-                message =
-                    json.message ||
-                    json.details ||
-                    json.hint ||
-                    json.error ||
-                    responseText;
-
+        const response = await fetch(
+            SUPABASE_URL + "/rest/v1/rpc/create_customer_order",
+            {
+                method:"POST",
+                headers:{
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": "Bearer " + SUPABASE_KEY,
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({
+                    input_name: name,
+                    input_phone: phone,
+                    input_package_gb: Number(cleanGB),
+                    input_renewal_type: renewalType || null,
+                    input_customer_id: customerId ? Number(customerId) : null,
+                    input_promo_code: promoCodeToUse || null
+                })
             }
-
-            catch{
-
-                /* response not JSON */
-
-            }
-
-
-            throw new Error(
-                message
-            );
-
+        );
+        const responseText = await response.text();
+        let result = null;
+        try { result = responseText ? JSON.parse(responseText) : null; } catch {}
+        if(!response.ok){
+            throw new Error(result?.message || result?.details || responseText || "تعذر إنشاء الطلب");
         }
+        const created = Array.isArray(result) ? result[0] : result;
+        if(!created?.success || !created?.order_number){
+            throw new Error(created?.message || "تعذر إنشاء الطلب");
+        }
+        orderNumber = created.order_number;
+        document.getElementById("orderForm").style.display = "none";
+        document.getElementById("successBox").style.display = "block";
+        document.getElementById("orderNumber").textContent = "رقم الطلب: " + orderNumber;
+        setTimeout(function(){
+            window.location.href = "payment.html?order=" + encodeURIComponent(orderNumber);
+        }, 500);
+        return;
+    } catch(error){
+        console.error("ORDER ERROR:", error);
+        showError("❌ لم يتم إنشاء الطلب: " + (error.message || "حصل خطأ"));
+        button.disabled = false;
+        button.textContent = "متابعة للدفع";
+        return;
+    }
 
 
-        /* ==========================
+    /* ==========================
            SUCCESS
         ========================== */
 
@@ -2043,6 +1956,9 @@ function formatMoney(
 ================================================== */
 
 setupCustomerType();
+
+const renewalField = document.getElementById("renewalField");
+if(renewalField){ renewalField.style.display = orderType === "renewal" ? "none" : "block"; }
 
 fillCustomerData();
 

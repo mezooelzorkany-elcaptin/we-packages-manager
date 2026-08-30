@@ -4961,39 +4961,9 @@ async function renew(id){
     return;
 
 
-  const date =
-    new Date();
-
-
-  if(
-    c.renewal_type ===
-    "day_1"
-  ){
-
-    date.setMonth(
-      date.getMonth() + 1
-    );
-
-    date.setDate(1);
-
-  }else if(
-    c.renewal_type ===
-    "day_16"
-  ){
-
-    date.setMonth(
-      date.getMonth() + 1
-    );
-
-    date.setDate(16);
-
-  }else{
-
-    date.setMonth(
-      date.getMonth() + 1
-    );
-
-  }
+  const now = new Date();
+  const renewalDay = Number(c.renewal_day) === 16 ? 16 : 1;
+  const date = new Date(now.getFullYear(), now.getMonth() + 1, renewalDay);
 
 
   const nextDate =

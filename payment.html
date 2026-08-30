@@ -1539,9 +1539,8 @@ async function confirmPayment(){
 
                 SUPABASE_URL +
                 "/rest/v1/orders?order_number=eq." +
-                encodeURIComponent(
-                    orderNumber
-                ),
+                encodeURIComponent(orderNumber) +
+                "&status=eq.pending",
 
                 {
                     method:"PATCH",
