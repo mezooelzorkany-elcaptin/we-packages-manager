@@ -1,0 +1,74 @@
+name: Production hardening
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  patch-production:
+    if: "!contains(github.event.head_commit.message, '[production-hardening]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch customer-facing production flow
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          # checkout: require renewal day for new customers and create orders through the
+          # server-side RPC so URL parameters cannot change the real price.
+          p = Path('checkout.html')
+          s = p.read_text()
+          marker = '''<div class="hint">\nالرقم الذي سيتم تفعيل الباقة عليه\n</div>\n\n\n<!-- ==============================\n     SUBMIT\n============================== -->'''
+          insert = '''<div class="hint">\nالرقم الذي سيتم تفعيل الباقة عليه\n</div>\n\n\n<div id="renewalField" style="margin-bottom:25px">\n<label class="label">📅 موعد التجديد</label>\n<select id="renewalType" style="width:100%;padding:17px;border:1px solid #ddd;border-radius:17px;background:#fff;font-size:18px;text-align:center">\n<option value="">اختار موعد التجديد</option>\n<option value="day_1">يوم 1 من كل شهر</option>\n<option value="day_16">يوم 16 من كل شهر</option>\n</select>\n<div class="hint" style="margin-bottom:0">التجديد يتم بداية يوم 1 أو بداية يوم 16.</div>\n</div>\n\n\n<!-- ==============================\n     SUBMIT\n============================== -->'''
+          if marker in s and 'id="renewalField"' not in s:
+              s = s.replace(marker, insert, 1)
+
+          s = s.replace('''const orderNumber =\n        createOrderNumber();''', '''let orderNumber = null;''')
+
+          old = '''    /* ==========================\n       ORDER DATA\n\n       مهم:\n       لا يوجد customer_id هنا.\n       لأن جدول orders عندك لا يحتوي هذا العمود.\n    ========================== */\n\n    const orderData = {'''
+          start = s.find(old)
+          if start == -1:
+              raise SystemExit('checkout orderData marker not found')
+          end = s.find('''    /* ==========================\n           SUCCESS\n        ========================== */''', start)
+          if end == -1:
+              raise SystemExit('checkout success marker not found')
+          replacement = '''    const renewalType =\n        orderType === "renewal"\n        ? null\n        : document.getElementById("renewalType")?.value || "";\n\n    if(orderType !== "renewal" && !["day_1","day_16"].includes(renewalType)){\n        showError("❌ اختار موعد التجديد أولاً");\n        return;\n    }\n\n    const promoCodeToUse =\n        promoApplied && activePromo\n        ? activePromo.code\n        : "";\n\n    button.disabled = true;\n    button.textContent = "⏳ جاري تجهيز الطلب...";\n\n    try{\n        const response = await fetch(\n            SUPABASE_URL + "/rest/v1/rpc/create_customer_order",\n            {\n                method:"POST",\n                headers:{\n                    "apikey": SUPABASE_KEY,\n                    "Authorization": "Bearer " + SUPABASE_KEY,\n                    "Content-Type":"application/json"\n                },\n                body: JSON.stringify({\n                    input_name: name,\n                    input_phone: phone,\n                    input_package_gb: Number(cleanGB),\n                    input_renewal_type: renewalType || null,\n                    input_customer_id: customerId ? Number(customerId) : null,\n                    input_promo_code: promoCodeToUse || null\n                })\n            }\n        );\n\n        const responseText = await response.text();\n        let result = null;\n        try { result = responseText ? JSON.parse(responseText) : null; } catch {}\n        if(!response.ok){\n            throw new Error(result?.message || result?.details || responseText || "تعذر إنشاء الطلب");\n        }\n\n        const created = Array.isArray(result) ? result[0] : result;\n        if(!created?.success || !created?.order_number){\n            throw new Error(created?.message || "تعذر إنشاء الطلب");\n        }\n\n        orderNumber = created.order_number;\n        document.getElementById("orderForm").style.display = "none";\n        document.getElementById("successBox").style.display = "block";\n        document.getElementById("orderNumber").textContent = "رقم الطلب: " + orderNumber;\n        setTimeout(function(){\n            window.location.href = "payment.html?order=" + encodeURIComponent(orderNumber);\n        }, 500);\n        return;\n\n    } catch(error){\n        console.error("ORDER ERROR:", error);\n        showError("❌ لم يتم إنشاء الطلب: " + (error.message || "حصل خطأ"));\n        button.disabled = false;\n        button.textContent = "متابعة للدفع";\n        return;\n    }\n\n\n'''
+          s = s[:start] + replacement + s[end:]
+
+          # show/hide renewal selector; renewals get the day from the customer server-side.
+          marker2 = '''setupCustomerType();\n\nfillCustomerData();'''
+          repl2 = '''setupCustomerType();\n\nconst renewalField = document.getElementById("renewalField");\nif(renewalField){ renewalField.style.display = orderType === "renewal" ? "none" : "block"; }\n\nfillCustomerData();'''
+          if marker2 in s and 'const renewalField = document.getElementById("renewalField")' not in s:
+              s = s.replace(marker2, repl2, 1)
+          p.write_text(s)
+
+          # payment: only a still-pending order may be submitted as payment_submitted.
+          p = Path('payment.html')
+          s = p.read_text()
+          s = s.replace('''/rest/v1/orders?order_number=eq." +\n                encodeURIComponent(\n                    orderNumber\n                ),''', '''/rest/v1/orders?order_number=eq." +\n                encodeURIComponent(orderNumber) +\n                "&status=eq.pending",''', 1)
+          p.write_text(s)
+
+          # admin manual renewal: avoid JS month rollover bugs around month-end.
+          p = Path('customers.html')
+          s = p.read_text()
+          old = '''  const date =\n    new Date();\n\n\n  if(\n    c.renewal_type ===\n    "day_1"\n  ){\n\n    date.setMonth(\n      date.getMonth() + 1\n    );\n\n    date.setDate(1);\n\n  }else if(\n    c.renewal_type ===\n    "day_16"\n  ){\n\n    date.setMonth(\n      date.getMonth() + 1\n    );\n\n    date.setDate(16);\n\n  }else{\n\n    date.setMonth(\n      date.getMonth() + 1\n    );\n\n  }'''
+          new = '''  const now = new Date();\n  const renewalDay = Number(c.renewal_day) === 16 ? 16 : 1;\n  const date = new Date(now.getFullYear(), now.getMonth() + 1, renewalDay);'''
+          if old not in s:
+              raise SystemExit('customers renew date block not found')
+          s = s.replace(old, new, 1)
+          p.write_text(s)
+          PY
+
+      - name: Commit hardening changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add checkout.html payment.html customers.html
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Apply production hardening [production-hardening]"
+          git push
