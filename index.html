@@ -6,203 +6,683 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>WE Packages</title>
+<title>CASH BACK</title>
 
 <style>
 
 *{
-box-sizing:border-box;
-margin:0;
-padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
 }
 
 body{
-font-family:Arial,sans-serif;
-background:#f5f7fb;
-color:#111827;
+    font-family:Arial,Tahoma,sans-serif;
+    min-height:100vh;
+    color:#fff;
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            #8b5cf6 0%,
+            transparent 42%
+        ),
+        linear-gradient(
+            135deg,
+            #0f172a 0%,
+            #312e81 45%,
+            #6d28d9 100%
+        );
+    transition:.35s ease;
 }
+
+
+/* =========================
+   TOP BAR
+========================= */
 
 .top{
-height:85px;
-background:#101828;
-color:white;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:28px;
-font-weight:bold;
+
+    min-height:85px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:15px 20px;
+
+    background:rgba(10,12,25,.35);
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.12);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    position:relative;
 }
 
+.brand-top{
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:12px;
+
+    font-size:27px;
+    font-weight:900;
+}
+
+.top-logo{
+
+    width:52px;
+    height:52px;
+
+    object-fit:contain;
+
+    border-radius:15px;
+
+    background:#fff;
+
+    padding:6px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0,0,0,.25);
+}
+
+
+/* =========================
+   THEME BUTTON
+========================= */
+
+.theme-toggle{
+
+    position:absolute;
+
+    left:20px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:50px;
+    height:50px;
+
+    border-radius:15px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.25);
+
+    background:
+        rgba(255,255,255,.12);
+
+    color:#fff;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    backdrop-filter:blur(12px);
+
+    transition:.25s ease;
+}
+
+.theme-toggle:hover{
+    transform:
+        translateY(-50%)
+        scale(1.05);
+}
+
+.theme-toggle:active{
+    transform:
+        translateY(-50%)
+        scale(.94);
+}
+
+
+/* =========================
+   HERO
+========================= */
+
 .hero{
-min-height:650px;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-padding:60px 20px;
 
-background:
-radial-gradient(
-circle at top right,
-#7c3aed,
-transparent 45%
-),
-linear-gradient(
-135deg,
-#111827,
-#312e81,
-#6d28d9
-);
+    min-height:650px;
 
-color:white;
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    padding:65px 20px 90px;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.hero::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:350px;
+    height:350px;
+
+    border-radius:50%;
+
+    top:-180px;
+    left:-120px;
+
+    background:
+        rgba(167,139,250,.22);
+
+    filter:blur(30px);
+
+    pointer-events:none;
 }
 
 .hero-content{
-max-width:850px;
+
+    max-width:850px;
+
+    width:100%;
+
+    position:relative;
+
+    z-index:2;
 }
+
+
+/* =========================
+   MAIN LOGO
+========================= */
+
+.main-logo{
+
+    width:155px;
+    height:155px;
+
+    object-fit:contain;
+
+    background:#fff;
+
+    padding:14px;
+
+    border-radius:38px;
+
+    box-shadow:
+
+        0 25px 70px
+        rgba(0,0,0,.30),
+
+        0 0 0 1px
+        rgba(255,255,255,.25);
+
+    margin:0 auto 28px;
+
+    display:block;
+
+    transition:.3s ease;
+}
+
+.main-logo:hover{
+
+    transform:
+        translateY(-5px)
+        scale(1.02);
+}
+
+
+/* =========================
+   BADGE
+========================= */
 
 .badge{
-display:inline-block;
-padding:12px 25px;
-border:1px solid rgba(255,255,255,.35);
-background:rgba(255,255,255,.12);
-border-radius:50px;
-margin-bottom:28px;
-font-size:18px;
+
+    display:inline-block;
+
+    padding:11px 24px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.30);
+
+    background:
+        rgba(255,255,255,.10);
+
+    border-radius:50px;
+
+    margin-bottom:24px;
+
+    font-size:17px;
+
+    backdrop-filter:blur(12px);
 }
 
+
+/* =========================
+   TITLE
+========================= */
+
 h1{
-font-size:55px;
-line-height:1.35;
-margin-bottom:22px;
+
+    font-size:56px;
+
+    line-height:1.3;
+
+    margin-bottom:20px;
+
+    font-weight:900;
 }
 
 h1 span{
-color:#c4b5fd;
+
+    color:#c4b5fd;
+
+    text-shadow:
+        0 8px 30px
+        rgba(196,181,253,.20);
 }
+
+
+/* =========================
+   DESCRIPTION
+========================= */
 
 .hero p{
-font-size:22px;
-line-height:1.8;
-color:#e5e7eb;
-margin-bottom:35px;
+
+    font-size:21px;
+
+    line-height:1.9;
+
+    color:#e5e7eb;
+
+    margin-bottom:38px;
 }
 
+
+/* =========================
+   BUTTONS
+========================= */
+
 .customer-actions{
-display:flex;
-justify-content:center;
-gap:15px;
-flex-wrap:wrap;
-margin-top:10px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:15px;
+
+    flex-wrap:wrap;
 }
 
 .customer-btn{
-display:flex;
-align-items:center;
-justify-content:center;
-padding:18px 28px;
-border-radius:16px;
-text-decoration:none;
-font-size:18px;
-font-weight:bold;
-transition:.3s;
-min-width:250px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:18px 28px;
+
+    border-radius:17px;
+
+    text-decoration:none;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    transition:.25s ease;
+
+    min-width:250px;
 }
 
 .customer-btn:hover{
-transform:translateY(-4px);
+
+    transform:
+        translateY(-4px);
 }
 
 .current-btn{
-background:rgba(255,255,255,.15);
-color:white;
-border:1px solid rgba(255,255,255,.45);
-backdrop-filter:blur(10px);
+
+    background:
+        rgba(255,255,255,.12);
+
+    color:#fff;
+
+    border:
+        1px solid
+        rgba(255,255,255,.38);
+
+    backdrop-filter:blur(12px);
 }
 
 .new-btn{
-background:white;
-color:#5b21b6;
-box-shadow:
-0 10px 30px rgba(0,0,0,.15);
+
+    background:#fff;
+
+    color:#5b21b6;
+
+    box-shadow:
+        0 12px 35px
+        rgba(0,0,0,.18);
 }
 
+.customer-btn:active{
+
+    transform:
+        scale(.98);
+}
+
+
+/* =========================
+   FEATURES
+========================= */
+
 .features{
-max-width:1050px;
-margin:-65px auto 70px;
-position:relative;
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:22px;
-padding:0 20px;
+
+    max-width:1050px;
+
+    margin:-65px auto 70px;
+
+    position:relative;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:22px;
+
+    padding:0 20px;
 }
 
 .card{
-background:white;
-padding:40px 25px;
-text-align:center;
-border-radius:25px;
-box-shadow:
-0 15px 40px rgba(0,0,0,.08);
+
+    background:
+        rgba(255,255,255,.94);
+
+    color:#171b35;
+
+    padding:38px 25px;
+
+    text-align:center;
+
+    border-radius:25px;
+
+    box-shadow:
+        0 18px 45px
+        rgba(0,0,0,.13);
+
+    border:
+        1px solid
+        rgba(255,255,255,.85);
+
+    transition:.25s ease;
+}
+
+.card:hover{
+
+    transform:
+        translateY(-5px);
 }
 
 .icon{
-font-size:45px;
-margin-bottom:18px;
+
+    font-size:45px;
+
+    margin-bottom:17px;
 }
 
 .card h2{
-font-size:24px;
-margin-bottom:12px;
+
+    font-size:23px;
+
+    margin-bottom:12px;
 }
 
 .card p{
-color:#6b7280;
-font-size:17px;
-line-height:1.7;
+
+    color:#6b7280;
+
+    font-size:16px;
+
+    line-height:1.7;
 }
 
+
+/* =========================
+   FOOTER
+========================= */
+
 footer{
-text-align:center;
-padding:30px;
-color:#6b7280;
+
+    text-align:center;
+
+    padding:25px 20px 35px;
+
+    color:
+        rgba(255,255,255,.70);
+
+    font-size:15px;
 }
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+body.light-mode{
+
+    background:
+
+        radial-gradient(
+            circle at 100% 0%,
+            #a78bfa 0%,
+            transparent 45%
+        ),
+
+        linear-gradient(
+            135deg,
+            #f8f7fc 0%,
+            #e9e3f7 48%,
+            #d8c9ef 100%
+        );
+
+    color:#171b35;
+}
+
+body.light-mode .top{
+
+    background:
+        rgba(255,255,255,.38);
+
+    border-color:
+        rgba(255,255,255,.65);
+}
+
+body.light-mode .brand-top{
+
+    color:#3f2474;
+}
+
+body.light-mode .theme-toggle{
+
+    color:#3f2474;
+
+    background:
+        rgba(255,255,255,.65);
+
+    border-color:
+        rgba(255,255,255,.75);
+}
+
+body.light-mode .hero p{
+
+    color:#403b55;
+}
+
+body.light-mode .badge{
+
+    color:#5b35a8;
+
+    background:
+        rgba(255,255,255,.55);
+
+    border-color:
+        rgba(255,255,255,.80);
+}
+
+body.light-mode h1{
+
+    color:#171b35;
+}
+
+body.light-mode h1 span{
+
+    color:#6d28d9;
+}
+
+body.light-mode .current-btn{
+
+    color:#4c1d95;
+
+    background:
+        rgba(255,255,255,.50);
+
+    border-color:
+        rgba(255,255,255,.80);
+}
+
+body.light-mode footer{
+
+    color:#625b72;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:700px){
 
-.top{
-height:75px;
-font-size:25px;
-}
+    .top{
 
-.hero{
-min-height:650px;
-padding:50px 18px;
-}
+        min-height:75px;
 
-h1{
-font-size:40px;
-}
+        padding:12px 75px 12px 75px;
+    }
 
-.hero p{
-font-size:18px;
-margin-bottom:28px;
-}
+    .brand-top{
 
-.customer-actions{
-flex-direction:column;
-width:100%;
-}
+        font-size:22px;
+    }
 
-.customer-btn{
-width:100%;
-min-width:0;
-}
+    .top-logo{
 
-.features{
-grid-template-columns:1fr;
-margin-top:-40px;
-}
+        width:46px;
+        height:46px;
+    }
+
+    .theme-toggle{
+
+        left:15px;
+
+        width:46px;
+        height:46px;
+
+        font-size:20px;
+    }
+
+    .hero{
+
+        min-height:620px;
+
+        padding:
+            50px 18px 80px;
+    }
+
+    .main-logo{
+
+        width:125px;
+        height:125px;
+
+        padding:11px;
+
+        border-radius:30px;
+
+        margin-bottom:25px;
+    }
+
+    h1{
+
+        font-size:39px;
+
+        line-height:1.4;
+    }
+
+    .hero p{
+
+        font-size:17px;
+
+        line-height:1.8;
+
+        margin-bottom:30px;
+    }
+
+    .badge{
+
+        font-size:15px;
+
+        padding:9px 19px;
+    }
+
+    .customer-actions{
+
+        flex-direction:column;
+
+        width:100%;
+
+        gap:12px;
+    }
+
+    .customer-btn{
+
+        width:100%;
+
+        min-width:0;
+
+        padding:17px;
+    }
+
+    .features{
+
+        grid-template-columns:1fr;
+
+        margin-top:-40px;
+
+        padding:0 18px;
+
+        gap:15px;
+    }
+
+    .card{
+
+        padding:30px 20px;
+    }
 
 }
 
@@ -211,41 +691,89 @@ margin-top:-40px;
 </head>
 
 
-<body>
+<body class="dark-mode">
 
+
+<!-- =========================
+     TOP
+========================= -->
 
 <div class="top">
 
-💜 WE Packages
+    <div class="brand-top">
+
+        <img
+            src="logo.png"
+            class="top-logo"
+            alt="CASH BACK"
+            onerror="this.style.display='none'"
+        >
+
+        <span>
+            CASH BACK
+        </span>
+
+    </div>
+
+
+    <button
+        class="theme-toggle"
+        id="themeToggle"
+        type="button"
+        aria-label="تغيير الوضع"
+    >
+        ☀️
+    </button>
 
 </div>
 
+
+<!-- =========================
+     HERO
+========================= -->
 
 <section class="hero">
 
 <div class="hero-content">
 
 
+<img
+    src="logo.png"
+    class="main-logo"
+    alt="CASH BACK"
+    onerror="this.style.display='none'"
+>
+
+
 <div class="badge">
 
-⚡ تفعيل سريع وآمن
+    ⚡ تفعيل سريع وآمن
 
 </div>
 
 
 <h1>
 
-أفضل باقات <span>WE</span><br>
+    أهلاً بيك في
+    <span>
+        CASH BACK
+    </span>
 
-بأفضل الأسعار
+    <br>
+
+    <span>
+        أفضل مكان لباقاتك
+    </span>
 
 </h1>
 
 
 <p>
 
-اختار نوع الخدمة المناسب ليك
-واكمل طلبك بسهولة من الموقع
+    اختار الخدمة المناسبة ليك
+    <br>
+
+    وكمّل طلبك بسهولة وسرعة
 
 </p>
 
@@ -254,21 +782,21 @@ margin-top:-40px;
 
 
 <a
-href="client.html"
-class="customer-btn current-btn"
+    href="client.html"
+    class="customer-btn current-btn"
 >
 
-👤 أنا عميل حالي
+    👤 أنا عميل حالي
 
 </a>
 
 
 <a
-href="packages.html"
-class="customer-btn new-btn"
+    href="packages.html"
+    class="customer-btn new-btn"
 >
 
-🆕 أنا عميل جديد
+    🛒 استعرض الباقات
 
 </a>
 
@@ -280,57 +808,64 @@ class="customer-btn new-btn"
 
 </section>
 
+
+<!-- =========================
+     FEATURES
+========================= -->
 
 <section class="features">
 
 
 <div class="card">
 
-<div class="icon">
-⚡
-</div>
+    <div class="icon">
+        ⚡
+    </div>
 
-<h2>
-تفعيل سريع
-</h2>
+    <h2>
+        تفعيل سريع
+    </h2>
 
-<p>
-تفعيل الباقة خلال دقائق.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">
-💎
-</div>
-
-<h2>
-أفضل الأسعار
-</h2>
-
-<p>
-باقات متنوعة بأسعار مناسبة.
-</p>
+    <p>
+        فعّل باقتك بسهولة
+        وفي أسرع وقت.
+    </p>
 
 </div>
 
 
 <div class="card">
 
-<div class="icon">
-💬
+    <div class="icon">
+        💎
+    </div>
+
+    <h2>
+        أفضل الأسعار
+    </h2>
+
+    <p>
+        اختار من مجموعة
+        متنوعة من الباقات.
+    </p>
+
 </div>
 
-<h2>
-دعم سريع
-</h2>
 
-<p>
-تواصل معنا بسهولة عبر واتساب.
-</p>
+<div class="card">
+
+    <div class="icon">
+        💬
+    </div>
+
+    <h2>
+        دعم سريع
+    </h2>
+
+    <p>
+        لو احتجت أي مساعدة
+        تواصل معنا بسهولة.
+    </p>
 
 </div>
 
@@ -338,11 +873,99 @@ class="customer-btn new-btn"
 </section>
 
 
+<!-- =========================
+     FOOTER
+========================= -->
+
 <footer>
 
-WE Packages © 2026
+    CASH BACK © 2026
 
 </footer>
+
+
+<script>
+
+/* =========================
+   THEME SWITCHER
+========================= */
+
+(function(){
+
+    const key =
+        "cashback_home_theme";
+
+    const body =
+        document.body;
+
+    const button =
+        document.getElementById(
+            "themeToggle"
+        );
+
+
+    let theme =
+        localStorage.getItem(key)
+        || "dark";
+
+
+    function render(){
+
+        const light =
+            theme === "light";
+
+
+        body.classList.toggle(
+            "light-mode",
+            light
+        );
+
+        body.classList.toggle(
+            "dark-mode",
+            !light
+        );
+
+
+        button.textContent =
+            light
+                ? "🌙"
+                : "☀️";
+
+
+        button.title =
+            light
+                ? "الوضع الليلي"
+                : "الوضع الفاتح";
+    }
+
+
+    button.addEventListener(
+        "click",
+        function(){
+
+            theme =
+                theme === "dark"
+                    ? "light"
+                    : "dark";
+
+
+            localStorage.setItem(
+                key,
+                theme
+            );
+
+
+            render();
+
+        }
+    );
+
+
+    render();
+
+})();
+
+</script>
 
 
 </body>
