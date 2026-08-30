@@ -6,9 +6,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>باقات WE</title>
+<title>باقات CASH BACK</title>
 
 <style>
+
+/* =========================
+   RESET
+========================= */
 
 *{
     margin:0;
@@ -23,7 +27,6 @@ html{
 body{
     direction:rtl;
     min-height:100vh;
-
     font-family:Arial,Tahoma,sans-serif;
 
     background:
@@ -33,7 +36,6 @@ body{
             #925be8 22%,
             transparent 55%
         ),
-
         linear-gradient(
             135deg,
             #f1eff9 0%,
@@ -43,6 +45,102 @@ body{
         );
 
     color:#171b35;
+
+    transition:
+        background .35s ease,
+        color .35s ease;
+}
+
+
+/* =========================
+   BRAND BAR
+========================= */
+
+.brand-bar{
+
+    width:92%;
+    max-width:700px;
+
+    margin:18px auto 0;
+
+    display:flex;
+    align-items:center;
+
+    gap:14px;
+}
+
+.brand-logo{
+
+    width:64px;
+    height:64px;
+
+    object-fit:contain;
+
+    border-radius:18px;
+
+    background:#fff;
+
+    padding:7px;
+
+    border:1px solid
+        rgba(255,255,255,.8);
+
+    box-shadow:
+        0 10px 30px
+        rgba(60,40,120,.16);
+}
+
+.brand-name{
+
+    flex:1;
+
+    text-align:right;
+
+    font-size:21px;
+
+    font-weight:900;
+
+    color:#3d2475;
+}
+
+
+/* =========================
+   THEME BUTTON
+========================= */
+
+.theme-toggle{
+
+    width:52px;
+    height:52px;
+
+    flex-shrink:0;
+
+    border:1px solid
+        rgba(255,255,255,.75);
+
+    border-radius:16px;
+
+    background:
+        rgba(255,255,255,.65);
+
+    color:#3d2475;
+
+    font-size:23px;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 8px 25px
+        rgba(60,40,120,.13);
+
+    transition:
+        transform .2s ease,
+        background .3s ease,
+        color .3s ease;
+}
+
+.theme-toggle:active{
+    transform:scale(.94);
 }
 
 
@@ -51,11 +149,14 @@ body{
 ========================= */
 
 .header{
+
     text-align:center;
-    padding:45px 18px 30px;
+
+    padding:38px 18px 30px;
 }
 
 .badge-top{
+
     display:inline-block;
 
     padding:10px 24px;
@@ -64,21 +165,26 @@ body{
 
     color:#5b35a8;
 
-    background:rgba(255,255,255,.55);
+    background:
+        rgba(255,255,255,.55);
 
-    border:1px solid rgba(255,255,255,.85);
+    border:1px solid
+        rgba(255,255,255,.85);
 
     backdrop-filter:blur(15px);
     -webkit-backdrop-filter:blur(15px);
 
     font-size:18px;
+
     font-weight:bold;
 
     margin-bottom:20px;
 }
 
 .header h1{
+
     font-size:40px;
+
     font-weight:900;
 
     color:#171b35;
@@ -87,7 +193,9 @@ body{
 }
 
 .header p{
+
     font-size:18px;
+
     line-height:1.8;
 
     color:#403b55;
@@ -99,6 +207,7 @@ body{
 ========================= */
 
 .promo{
+
     width:92%;
     max-width:700px;
 
@@ -108,9 +217,11 @@ body{
 
     text-align:center;
 
-    background:rgba(255,255,255,.23);
+    background:
+        rgba(255,255,255,.23);
 
-    border:1px solid rgba(255,255,255,.55);
+    border:1px solid
+        rgba(255,255,255,.55);
 
     border-radius:30px;
 
@@ -118,15 +229,19 @@ body{
     -webkit-backdrop-filter:blur(20px);
 
     box-shadow:
-        0 18px 45px rgba(65,35,130,.14);
+        0 18px 45px
+        rgba(65,35,130,.14);
 }
 
 .promo-icon{
+
     font-size:42px;
+
     margin-bottom:8px;
 }
 
 .promo h2{
+
     color:#fff;
 
     font-size:27px;
@@ -135,7 +250,9 @@ body{
 }
 
 .promo p{
-    color:rgba(255,255,255,.88);
+
+    color:
+        rgba(255,255,255,.88);
 
     font-size:17px;
 
@@ -143,11 +260,14 @@ body{
 }
 
 .promo-box{
+
     display:flex;
+
     gap:12px;
 }
 
 .promo-box input{
+
     flex:1;
 
     min-width:0;
@@ -155,11 +275,13 @@ body{
     padding:17px;
 
     border:none;
+
     outline:none;
 
     border-radius:16px;
 
-    background:rgba(255,255,255,.94);
+    background:
+        rgba(255,255,255,.94);
 
     color:#222;
 
@@ -169,6 +291,7 @@ body{
 }
 
 .promo-box button{
+
     border:none;
 
     cursor:pointer;
@@ -184,13 +307,18 @@ body{
     font-size:18px;
 
     font-weight:bold;
+
+    transition:
+        transform .2s ease;
 }
 
 .promo-box button:active{
-    transform:scale(.98);
+
+    transform:scale(.97);
 }
 
 .promo-success{
+
     margin-top:16px;
 
     color:#d9ffd9;
@@ -201,6 +329,7 @@ body{
 }
 
 .promo-error{
+
     margin-top:16px;
 
     color:#ffd4d4;
@@ -216,6 +345,7 @@ body{
 ========================= */
 
 .packages{
+
     width:92%;
     max-width:700px;
 
@@ -225,6 +355,7 @@ body{
 }
 
 .package{
+
     position:relative;
 
     overflow:hidden;
@@ -239,9 +370,11 @@ body{
 
     border-radius:30px;
 
-    border:1px solid rgba(255,255,255,.38);
+    border:1px solid
+        rgba(255,255,255,.38);
 
     background:
+
         radial-gradient(
             circle at 100% 0%,
             #925bea 0%,
@@ -258,11 +391,16 @@ body{
         );
 
     box-shadow:
-        0 18px 45px rgba(60,40,120,.20),
-        inset 0 1px 0 rgba(255,255,255,.22);
+
+        0 18px 45px
+        rgba(60,40,120,.20),
+
+        inset 0 1px 0
+        rgba(255,255,255,.22);
 }
 
 .package::before{
+
     content:"";
 
     position:absolute;
@@ -275,7 +413,8 @@ body{
 
     border-radius:50%;
 
-    background:rgba(255,255,255,.13);
+    background:
+        rgba(255,255,255,.13);
 
     filter:blur(25px);
 
@@ -283,7 +422,9 @@ body{
 }
 
 .package h2{
+
     position:relative;
+
     z-index:2;
 
     color:#fff;
@@ -296,7 +437,9 @@ body{
 }
 
 .gb{
+
     position:relative;
+
     z-index:2;
 
     color:#fff;
@@ -309,10 +452,13 @@ body{
 }
 
 .minutes{
+
     position:relative;
+
     z-index:2;
 
-    color:rgba(255,255,255,.82);
+    color:
+        rgba(255,255,255,.82);
 
     font-size:18px;
 
@@ -320,7 +466,9 @@ body{
 }
 
 .price{
+
     position:relative;
+
     z-index:2;
 
     color:#fff;
@@ -333,7 +481,9 @@ body{
 }
 
 .subscribe{
+
     position:relative;
+
     z-index:3;
 
     display:block;
@@ -348,9 +498,11 @@ body{
 
     color:#fff;
 
-    background:rgba(255,255,255,.14);
+    background:
+        rgba(255,255,255,.14);
 
-    border:1px solid rgba(255,255,255,.48);
+    border:1px solid
+        rgba(255,255,255,.48);
 
     backdrop-filter:blur(14px);
     -webkit-backdrop-filter:blur(14px);
@@ -360,9 +512,20 @@ body{
     font-weight:bold;
 
     cursor:pointer;
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
+}
+
+.subscribe:hover{
+
+    background:
+        rgba(255,255,255,.20);
 }
 
 .subscribe:active{
+
     transform:scale(.99);
 }
 
@@ -372,7 +535,9 @@ body{
 ========================= */
 
 .featured{
+
     background:
+
         radial-gradient(
             circle at 100% 0%,
             #a06aff 0%,
@@ -388,15 +553,23 @@ body{
             #8951e5 100%
         );
 
-    border:2px solid rgba(255,255,255,.45);
+    border:
+        2px solid
+        rgba(255,255,255,.45);
 
     box-shadow:
-        0 20px 50px rgba(75,40,150,.25),
-        inset 0 1px 0 rgba(255,255,255,.30);
+
+        0 20px 50px
+        rgba(75,40,150,.25),
+
+        inset 0 1px 0
+        rgba(255,255,255,.30);
 }
 
 .popular{
+
     position:relative;
+
     z-index:2;
 
     display:inline-block;
@@ -407,9 +580,11 @@ body{
 
     border-radius:50px;
 
-    background:rgba(255,255,255,.16);
+    background:
+        rgba(255,255,255,.16);
 
-    border:1px solid rgba(255,255,255,.42);
+    border:1px solid
+        rgba(255,255,255,.42);
 
     color:#fff;
 
@@ -419,6 +594,7 @@ body{
 }
 
 .old-price{
+
     text-decoration:line-through;
 
     opacity:.55;
@@ -434,6 +610,7 @@ body{
 ========================= */
 
 .home-button{
+
     display:block;
 
     width:92%;
@@ -446,6 +623,7 @@ body{
     border-radius:20px;
 
     background:
+
         linear-gradient(
             135deg,
             #5b21b6,
@@ -472,13 +650,126 @@ body{
 
 
 /* =========================
+   DARK MODE
+========================= */
+
+body.dark-mode{
+
+    background:
+
+        radial-gradient(
+            circle at 100% 0%,
+            #5a328e 0%,
+            #342052 25%,
+            transparent 60%
+        ),
+
+        linear-gradient(
+            135deg,
+            #090b13 0%,
+            #101222 45%,
+            #171429 100%
+        );
+
+    color:#f5f3ff;
+}
+
+body.dark-mode .brand-name{
+    color:#fff;
+}
+
+body.dark-mode .theme-toggle{
+
+    background:
+        rgba(35,28,55,.88);
+
+    color:#fff;
+
+    border-color:
+        rgba(255,255,255,.18);
+
+    box-shadow:
+        0 8px 25px
+        rgba(0,0,0,.25);
+}
+
+body.dark-mode .header h1{
+    color:#fff;
+}
+
+body.dark-mode .header p{
+    color:#d6d0e5;
+}
+
+body.dark-mode .badge-top{
+
+    background:
+        rgba(30,25,48,.72);
+
+    color:#e6d8ff;
+
+    border-color:
+        rgba(255,255,255,.16);
+}
+
+body.dark-mode .promo{
+
+    background:
+        rgba(31,24,49,.68);
+
+    border-color:
+        rgba(255,255,255,.13);
+
+    box-shadow:
+        0 18px 45px
+        rgba(0,0,0,.30);
+}
+
+body.dark-mode .promo h2{
+    color:#fff;
+}
+
+body.dark-mode .promo p{
+    color:#dcd5e9;
+}
+
+body.dark-mode .home-button{
+
+    box-shadow:
+        0 12px 35px
+        rgba(0,0,0,.35);
+}
+
+
+/* =========================
    MOBILE
 ========================= */
 
 @media(max-width:600px){
 
+    .brand-bar{
+        margin-top:15px;
+    }
+
+    .brand-logo{
+        width:58px;
+        height:58px;
+        border-radius:16px;
+    }
+
+    .brand-name{
+        font-size:17px;
+    }
+
+    .theme-toggle{
+        width:48px;
+        height:48px;
+        font-size:21px;
+        border-radius:15px;
+    }
+
     .header{
-        padding:42px 18px 25px;
+        padding:38px 18px 25px;
     }
 
     .header h1{
@@ -530,6 +821,35 @@ body{
 
 
 <body>
+
+
+<!-- =========================
+     BRAND
+========================= -->
+
+<div class="brand-bar">
+
+    <img
+        class="brand-logo"
+        src="logo.png"
+        alt="CASH BACK"
+        onerror="this.style.display='none'"
+    >
+
+    <div class="brand-name">
+        CASH BACK
+    </div>
+
+    <button
+        class="theme-toggle"
+        id="themeToggle"
+        type="button"
+        aria-label="تغيير المظهر"
+    >
+        🌙
+    </button>
+
+</div>
 
 
 <!-- =========================
@@ -963,6 +1283,82 @@ let activePromo = null;
 
 
 /* =========================
+   THEME
+========================= */
+
+(function(){
+
+    const themeKey =
+        "cashback_packages_theme";
+
+    const body =
+        document.body;
+
+    const button =
+        document.getElementById(
+            "themeToggle"
+        );
+
+
+    let theme =
+        localStorage.getItem(
+            themeKey
+        ) || "light";
+
+
+    function renderTheme(){
+
+        const dark =
+            theme === "dark";
+
+
+        body.classList.toggle(
+            "dark-mode",
+            dark
+        );
+
+
+        button.textContent =
+            dark
+                ? "☀️"
+                : "🌙";
+
+
+        button.title =
+            dark
+                ? "الوضع الفاتح"
+                : "الوضع الليلي";
+    }
+
+
+    button.addEventListener(
+        "click",
+        function(){
+
+            theme =
+                theme === "dark"
+                    ? "light"
+                    : "dark";
+
+
+            localStorage.setItem(
+                themeKey,
+                theme
+            );
+
+
+            renderTheme();
+
+        }
+    );
+
+
+    renderTheme();
+
+})();
+
+
+/* =========================
    APPLY PROMO
 ========================= */
 
@@ -1277,11 +1673,6 @@ function buyPackage(
     let promo = "";
 
 
-    /* =========================
-       الخصم يظهر فقط في السعر
-       ولا يتم استهلاكه هنا
-    ========================= */
-
     if(activePromo){
 
         promo =
@@ -1323,10 +1714,6 @@ function buyPackage(
     }
 
 
-    /* =========================
-       الانتقال إلى Checkout
-    ========================= */
-
     const url =
 
         "checkout.html" +
@@ -1359,7 +1746,7 @@ function buyPackage(
 
 
 /* =========================
-   ENTER
+   ENTER KEY
 ========================= */
 
 document
