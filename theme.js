@@ -8,7 +8,6 @@
 
   function setup(){
     let button = document.getElementById('theme-toggle');
-    const hasOwnButton = !!button;
 
     if(!button){
       button = document.createElement('button');
@@ -42,28 +41,38 @@
       });
     }
 
-    /* IMPORTANT:
-       customers.html is the admin home.
-       The old admin Packages shortcut is now the Invoices page.
-       admin.html remains the Codes page only. */
-    document.querySelectorAll('a[href]').forEach(function(a){
-      const raw = a.getAttribute('href') || '';
-      const clean = raw.split('?')[0].split('#')[0].toLowerCase();
-      const text = (a.textContent || '').trim();
+    /* ADMIN NAVIGATION RULES
+       customers.html = administration home
+       admin.html = codes only
+       packages.html shortcut = invoices.html */
+    const currentFile = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
 
-      // In the admin navigation, packages.html is replaced by invoices.html.
-      if(clean === 'packages.html'){
-        a.setAttribute('href','invoices.html');
-        const span = a.querySelector('span');
-        if(span) span.textContent = 'الفواتير';
-        else if(/الباقات/.test(text)) a.textContent = text.replace('الباقات','الفواتير');
-      }
+    if(currentFile !== 'index.html'){
+      document.querySelectorAll('a[href]').forEach(function(a){
+        const raw = a.getAttribute('href') || '';
+        const clean = raw.split('?')[0].split('#')[0].toLowerCase();
+        const text = (a.textContent || '').trim();
 
-      // Any explicit Administration/Home link must always return to customers.
-      if(clean === 'admin.html' && /الإدارة|الرئيسية|home|admin/i.test(text)){
-        a.setAttribute('href','customers.html');
-      }
-    });
+        if(clean === 'packages.html'){
+          a.setAttribute('href','invoices.html');
+
+          // Only change the navigation text; never overwrite the icon.
+          const navText = a.querySelector('.navText');
+          if(navText) navText.textContent = 'الفواتير';
+          else if(/الباقات/.test(text)){
+            const icon = a.querySelector('.navIcon');
+            if(icon){
+              const oldLabel = Array.from(a.childNodes).find(n => n.nodeType === 3 && /الباقات/.test(n.textContent || ''));
+              if(oldLabel) oldLabel.textContent = oldLabel.textContent.replace('الباقات','الفواتير');
+            }
+          }
+        }
+
+        if(clean === 'admin.html' && /الإدارة|الرئيسية|home|admin/i.test(text)){
+          a.setAttribute('href','customers.html');
+        }
+      });
+    }
   }
 
   if(document.readyState === 'loading'){
