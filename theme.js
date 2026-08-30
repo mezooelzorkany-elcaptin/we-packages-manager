@@ -50,3 +50,58 @@
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
+
+/* FIX: delegated customers toggle, works even when the customer list is rendered later */
+(function(){
+  if(!/customers\.html$/i.test(location.pathname))return;
+  const css=document.createElement('style');css.textContent=`
+    .cb-customer-panel.cb-open{display:block!important}
+    .cb-customer-panel.cb-closed{display:none!important}
+  `;document.head.appendChild(css);
+  function getTotal(){
+    const stats=document.querySelector('.stats');
+    if(!stats)return null;
+    return Array.from(stats.querySelectorAll('.stat')).find(c=>/إجمالي\s*العملاء/.test(c.textContent||'')) || null;
+  }
+  function getPanel(){
+    return Array.from(document.querySelectorAll('.panel')).find(p=>p.querySelector('.list .card') || p.querySelector('.list')) || null;
+  }
+  function setup(){
+    const total=getTotal(), panel=getPanel();
+    if(!total || !panel)return;
+    total.classList.add('cb-total-customers');
+    total.setAttribute('role','button');
+    total.setAttribute('tabindex','0');
+    total.title='عرض العملاء';
+    panel.classList.add('cb-customer-panel');
+    if(!panel.dataset.cbFixed){
+      panel.dataset.cbFixed='1';
+      panel.classList.add('cb-closed');
+    }
+  }
+  function toggle(){
+    const total=getTotal(),panel=getPanel();
+    if(!total || !panel)return;
+    panel.classList.toggle('cb-closed');
+    panel.classList.toggle('cb-open');
+    const open=panel.classList.contains('cb-open');
+    total.classList.toggle('open',open);
+    total.setAttribute('aria-expanded',String(open));
+    if(open)panel.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  document.addEventListener('click',function(e){
+    const total=e.target.closest&&e.target.closest('.cb-total-customers');
+    if(!total)return;
+    e.preventDefault();
+    e.stopPropagation();
+    toggle();
+  });
+  document.addEventListener('keydown',function(e){
+    const total=e.target.closest&&e.target.closest('.cb-total-customers');
+    if(!total)return;
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}
+  });
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
+  const observer=new MutationObserver(setup);
+  if(document.body)observer.observe(document.body,{childList:true,subtree:true});
+})();
