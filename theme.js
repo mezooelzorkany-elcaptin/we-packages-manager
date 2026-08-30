@@ -120,7 +120,6 @@
     if(!stats||!list)return null;
     const total=Array.from(stats.querySelectorAll('.stat')).find(c=>/إجمالي\s*العملاء/.test(c.textContent||''))||stats.querySelector('.stat');
     if(!total)return null;
-    // In customers.html the search panel and #list are separate siblings.
     const searchPanel=Array.from(document.querySelectorAll('.panel')).find(p=>p.querySelector('#search'))||null;
     return {stats,total,list,searchPanel};
   }
@@ -183,10 +182,104 @@
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
-  // Customers are loaded from Supabase asynchronously; retry until the DOM exists.
   let tries=0;
   const timer=setInterval(function(){
     setup();
     if(document.getElementById('cbCustomerArea')||++tries>40)clearInterval(timer);
+  },250);
+})();
+
+// CASH BACK — dashboard stat cards: compact filtered views
+(function(){
+  if(!/customers\.html$/i.test(location.pathname))return;
+
+  const STYLE_ID='cashback-stat-filter-style';
+  function installStyle(){
+    if(document.getElementById(STYLE_ID))return;
+    const s=document.createElement('style');
+    s.id=STYLE_ID;
+    s.textContent=`
+      .cb-filter-stat{cursor:pointer;position:relative;transition:transform .18s ease,box-shadow .18s ease}
+      .cb-filter-stat:hover{transform:translateY(-2px)}
+      .cb-filter-stat.cb-selected{outline:2px solid #8b5cf6;outline-offset:2px}
+      .cb-filter-stat::after{content:'‹';position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:28px;color:#8b5cf6;font-weight:900;transition:.2s}
+      .cb-filter-stat.cb-selected::after{transform:translateY(-50%) rotate(-90deg)}
+      #cbCustomerArea.cb-filtered-area .panel:first-child{margin-bottom:12px}
+      #cbCustomerArea .cb-filter-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;font-weight:900;color:#5420b8}
+      #cbCustomerArea .cb-filter-clear{border:0;background:#eee4ff;color:#5420b8;border-radius:10px;padding:7px 12px;font-weight:bold;cursor:pointer}
+    `;
+    document.head.appendChild(s);
+  }
+
+  function setup(){
+    const stats=document.querySelector('.stats');
+    const area=document.getElementById('cbCustomerArea');
+    const list=document.getElementById('list');
+    if(!stats||!area||!list)return;
+    installStyle();
+
+    const cards=Array.from(stats.querySelectorAll('.stat'));
+    const total=cards.find(c=>/إجمالي\s*العملاء/.test(c.textContent||''));
+    const soon=cards.find(c=>/تجديد\s*قريب/.test(c.textContent||''));
+    if(!soon)return;
+
+    soon.classList.add('cb-filter-stat');
+    soon.title='عرض التجديدات القريبة';
+    soon.setAttribute('role','button');
+    soon.setAttribute('tabindex','0');
+    soon.setAttribute('aria-controls','cbCustomerArea');
+
+    let title=area.querySelector('.cb-filter-title');
+    if(!title){
+      title=document.createElement('div');
+      title.className='cb-filter-title';
+      title.innerHTML='<span id="cbFilterTitleText">👥 العملاء</span><button type="button" class="cb-filter-clear" id="cbFilterClear">عرض الكل</button>';
+      const firstPanel=area.querySelector('.panel');
+      if(firstPanel)firstPanel.insertAdjacentElement('beforebegin',title);
+      else area.insertBefore(title,area.firstChild);
+      title.querySelector('#cbFilterClear').addEventListener('click',function(e){
+        e.stopPropagation();
+        setFilter('all');
+      });
+    }
+
+    function setFilter(type){
+      const search=document.getElementById('search');
+      const status=document.getElementById('statusFilter');
+      const renewal=document.getElementById('renewalFilter');
+      if(type==='soon'){
+        if(search)search.value='';
+        if(renewal)renewal.value='all';
+        if(status)status.value='soon';
+        soon.classList.add('cb-selected');
+        if(total)total.classList.remove('cb-selected');
+        title.querySelector('#cbFilterTitleText').textContent='🕐 التجديدات القريبة — خلال 7 أيام';
+      }else{
+        if(status)status.value='all';
+        if(renewal)renewal.value='all';
+        soon.classList.remove('cb-selected');
+        if(total)total.classList.remove('cb-selected');
+        title.querySelector('#cbFilterTitleText').textContent='👥 العملاء';
+      }
+      area.classList.add('cb-open','cb-filtered-area');
+      const totalCard=total;
+      if(totalCard){totalCard.classList.add('cb-total-customers');totalCard.setAttribute('aria-expanded','true');}
+      if(typeof window.render==='function')window.render();
+      else list.dispatchEvent(new Event('input',{bubbles:true}));
+      setTimeout(()=>area.scrollIntoView({behavior:'smooth',block:'start'}),60);
+    }
+
+    if(!soon.dataset.cbSoonBound){
+      soon.dataset.cbSoonBound='1';
+      soon.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();setFilter('soon');});
+      soon.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();setFilter('soon');}});
+    }
+  }
+
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
+  let tries=0;
+  const timer=setInterval(function(){
+    setup();
+    if((document.getElementById('cbCustomerArea')&&document.querySelector('.cb-filter-stat'))||++tries>50)clearInterval(timer);
   },250);
 })();
