@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// CASH BACK thermal invoice printing: print the existing invoice in-place.
-// No new tab, no separate print page. Browser print dialog opens directly.
+// CASH BACK thermal invoice printing — print the existing invoice in-place.
+// The invoice overlay lives outside #app, so it must be explicitly preserved in print mode.
 (function installThermalPrint(){
   function add(){
     if(document.getElementById('cashback-thermal-print-style')) return;
@@ -34,38 +34,38 @@ document.addEventListener('DOMContentLoaded', () => {
     style.textContent=`
       @page{size:80mm auto;margin:0!important}
       @media print{
-        html,body{width:80mm!important;min-width:80mm!important;margin:0!important;padding:0!important;background:#fff!important}
-        body>*{display:none!important}
-        #app{display:block!important;width:80mm!important;margin:0!important;padding:0!important}
-        .invoice-overlay{display:flex!important;position:static!important;width:80mm!important;height:auto!important;min-height:0!important;padding:0!important;margin:0!important;background:#fff!important;overflow:visible!important}
-        .invoice-overlay .invoice-modal{display:block!important;width:80mm!important;max-width:80mm!important;max-height:none!important;height:auto!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:visible!important;background:#fff!important}
-        .invoice-overlay .invoice-topbar,.invoice-overlay .invoice-actions,.invoice-overlay .invoice-close{display:none!important}
-        .invoice-overlay .invoice-paper{display:block!important;width:80mm!important;max-width:80mm!important;margin:0!important;padding:4mm 3mm!important;border:0!important;border-radius:0!important;background:#fff!important;color:#000!important;box-shadow:none!important;overflow:visible!important}
-        .invoice-paper *{max-width:100%!important;box-shadow:none!important}
-        .invoice-brand img{width:52mm!important;height:auto!important;max-height:24mm!important;object-fit:contain!important;margin:0 auto 2mm!important}
-        .invoice-title{font-size:18px!important;margin:2mm 0 4mm!important}
-        .invoice-meta{font-size:11px!important;gap:2mm!important;margin-bottom:3mm!important}
-        .invoice-section{border:1px solid #bbb!important;border-radius:0!important;padding:2.5mm!important;margin-bottom:2.5mm!important}
-        .invoice-row{font-size:11px!important;padding:1.7mm 0!important;border-bottom:1px dashed #aaa!important}
-        .invoice-label,.invoice-value{font-size:11px!important}
-        .invoice-total{border-radius:0!important;padding:3mm!important;margin-top:3mm!important;font-size:14px!important;background:#000!important;color:#fff!important}
-        .invoice-total strong{font-size:18px!important;color:#fff!important}
-        .invoice-footer{margin-top:4mm!important;padding-top:3mm!important;font-size:10px!important}
-        .invoice-contact{font-size:12px!important}
+        html,body{width:80mm!important;min-width:80mm!important;margin:0!important;padding:0!important;background:#fff!important;overflow:visible!important}
+        body > *:not(#invoiceOverlay){display:none!important}
+        #invoiceOverlay{display:flex!important;position:static!important;width:80mm!important;height:auto!important;min-height:0!important;margin:0!important;padding:0!important;background:#fff!important;overflow:visible!important}
+        #invoiceOverlay .invoice-modal{display:block!important;width:80mm!important;max-width:80mm!important;max-height:none!important;height:auto!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:visible!important;background:#fff!important}
+        #invoiceOverlay .invoice-topbar,#invoiceOverlay .invoice-actions,#invoiceOverlay .invoice-close{display:none!important}
+        #invoiceOverlay .invoice-paper{display:block!important;width:80mm!important;max-width:80mm!important;height:auto!important;min-height:0!important;margin:0!important;padding:4mm 3mm!important;border:0!important;border-radius:0!important;background:#fff!important;color:#000!important;box-shadow:none!important;overflow:visible!important}
+        #invoiceOverlay .invoice-paper *{max-width:100%!important;box-shadow:none!important}
+        #invoiceOverlay .invoice-brand img{width:52mm!important;height:auto!important;max-height:24mm!important;object-fit:contain!important;margin:0 auto 2mm!important}
+        #invoiceOverlay .invoice-title{font-size:18px!important;line-height:1.2!important;margin:2mm 0 4mm!important}
+        #invoiceOverlay .invoice-meta{font-size:11px!important;gap:2mm!important;margin-bottom:3mm!important}
+        #invoiceOverlay .invoice-section{border:1px solid #bbb!important;border-radius:0!important;padding:2.5mm!important;margin-bottom:2.5mm!important}
+        #invoiceOverlay .invoice-row{font-size:11px!important;padding:1.7mm 0!important;border-bottom:1px dashed #aaa!important}
+        #invoiceOverlay .invoice-label,#invoiceOverlay .invoice-value{font-size:11px!important}
+        #invoiceOverlay .invoice-total{border-radius:0!important;padding:3mm!important;margin-top:3mm!important;font-size:14px!important;background:#000!important;color:#fff!important}
+        #invoiceOverlay .invoice-total strong{font-size:18px!important;color:#fff!important}
+        #invoiceOverlay .invoice-footer{margin-top:4mm!important;padding-top:3mm!important;font-size:10px!important}
+        #invoiceOverlay .invoice-contact{font-size:12px!important}
       }
     `;
     document.head.appendChild(style);
   }
 
-  // Capture the existing print button before any old handler can open another page.
+  // Intercept the old print button before its inline printInvoice() handler can open a new tab.
   document.addEventListener('click',function(e){
     const btn=e.target.closest && e.target.closest('.invoice-print');
     if(!btn) return;
     e.preventDefault();
     e.stopImmediatePropagation();
     add();
-    const overlay=btn.closest('.invoice-overlay') || document.querySelector('.invoice-overlay.show');
-    if(overlay) overlay.classList.add('show');
+    const overlay=document.getElementById('invoiceOverlay');
+    if(!overlay) return;
+    overlay.classList.add('show');
     setTimeout(()=>window.print(),80);
   },true);
 
