@@ -1,0 +1,1 @@
+/* Dashboard customer links are wired in the page itself. */
