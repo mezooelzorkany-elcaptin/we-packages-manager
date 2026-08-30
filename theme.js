@@ -24,10 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Thermal invoice printing — Xprinter / 80mm rolls.
-// Injected globally so the existing invoice component prints as a receipt,
-// never as an A4 document. Screen layout remains unchanged.
-(function installThermalPrintStyle(){
+// CASH BACK thermal invoice printing: print the existing invoice in-place.
+// No new tab, no separate print page. Browser print dialog opens directly.
+(function installThermalPrint(){
   function add(){
     if(document.getElementById('cashback-thermal-print-style')) return;
     const style=document.createElement('style');
@@ -37,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
       @media print{
         html,body{width:80mm!important;min-width:80mm!important;margin:0!important;padding:0!important;background:#fff!important}
         body>*{display:none!important}
+        #app{display:block!important;width:80mm!important;margin:0!important;padding:0!important}
         .invoice-overlay{display:flex!important;position:static!important;width:80mm!important;height:auto!important;min-height:0!important;padding:0!important;margin:0!important;background:#fff!important;overflow:visible!important}
         .invoice-overlay .invoice-modal{display:block!important;width:80mm!important;max-width:80mm!important;max-height:none!important;height:auto!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:visible!important;background:#fff!important}
         .invoice-overlay .invoice-topbar,.invoice-overlay .invoice-actions,.invoice-overlay .invoice-close{display:none!important}
@@ -52,11 +52,23 @@ document.addEventListener('DOMContentLoaded', () => {
         .invoice-total strong{font-size:18px!important;color:#fff!important}
         .invoice-footer{margin-top:4mm!important;padding-top:3mm!important;font-size:10px!important}
         .invoice-contact{font-size:12px!important}
-        .invoice-overlay~*{display:none!important}
       }
     `;
     document.head.appendChild(style);
   }
+
+  // Capture the existing print button before any old handler can open another page.
+  document.addEventListener('click',function(e){
+    const btn=e.target.closest && e.target.closest('.invoice-print');
+    if(!btn) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    add();
+    const overlay=btn.closest('.invoice-overlay') || document.querySelector('.invoice-overlay.show');
+    if(overlay) overlay.classList.add('show');
+    setTimeout(()=>window.print(),80);
+  },true);
+
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',add,{once:true});
   else add();
 })();
