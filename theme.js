@@ -207,79 +207,181 @@
       #cbCustomerArea.cb-filtered-area .panel:first-child{margin-bottom:12px}
       #cbCustomerArea .cb-filter-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;font-weight:900;color:#5420b8}
       #cbCustomerArea .cb-filter-clear{border:0;background:#eee4ff;color:#5420b8;border-radius:10px;padding:7px 12px;font-weight:bold;cursor:pointer}
+      .cb-extra-stat{min-width:0}
+      .cb-extra-stat .label{white-space:nowrap}
+      #cbOrdersArea{display:none;margin-top:22px}
+      #cbOrdersArea.cb-open{display:block}
+      #cbOrdersArea .cb-orders-box{background:var(--bg-card);border:1px solid var(--border);border-radius:22px;box-shadow:0 5px 22px #00000008;padding:18px}
+      #cbOrdersArea .cb-orders-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+      #cbOrdersArea .cb-orders-title{font-size:20px;font-weight:900;color:#5420b8}
+      #cbOrdersArea .cb-orders-clear{border:0;background:#eee4ff;color:#5420b8;border-radius:10px;padding:8px 12px;font-weight:bold;cursor:pointer}
+      #cbOrdersArea .cb-order-row{border:1px solid var(--border);border-radius:15px;margin:8px 0;overflow:hidden;background:var(--soft)}
+      #cbOrdersArea .cb-order-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px;cursor:pointer;position:relative;padding-left:45px}
+      #cbOrdersArea .cb-order-head::after{content:'⌄';position:absolute;left:13px;top:50%;transform:translateY(-50%);width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#eee4ff;color:#5420b8;font-weight:900}
+      #cbOrdersArea .cb-order-row.open .cb-order-head::after{transform:translateY(-50%) rotate(180deg);background:#5420b8;color:#fff}
+      #cbOrdersArea .cb-order-name{font-weight:900}
+      #cbOrdersArea .cb-order-meta{font-size:12px;color:var(--text-muted);margin-top:3px}
+      #cbOrdersArea .cb-order-details{display:none;padding:12px 14px;border-top:1px solid var(--border);line-height:1.9;font-size:13px}
+      #cbOrdersArea .cb-order-row.open .cb-order-details{display:block}
+      @media(max-width:650px){.cb-extra-stat .num{font-size:25px}.cb-extra-stat .label{font-size:11px}#cbOrdersArea .cb-order-head{padding-right:12px}}
     `;
     document.head.appendChild(s);
   }
 
-  function setup(){
+  function getStats(){
     const stats=document.querySelector('.stats');
+    if(!stats)return null;
+    const cards=Array.from(stats.querySelectorAll('.stat'));
+    return {
+      stats,
+      cards,
+      total:cards.find(c=>/إجمالي\s*العملاء/.test(c.textContent||'')),
+      soon:cards.find(c=>/تجديد\s*قريب/.test(c.textContent||''))
+    };
+  }
+
+  function addStat(stats,label,icon,id,number){
+    let card=document.getElementById(id);
+    if(card)return card;
+    card=document.createElement('div');
+    card.className='stat cb-filter-stat cb-extra-stat';
+    card.id=id;
+    card.innerHTML='<div class="st">'+icon+'<span class="ico">'+icon+'</span></div><div class="num" id="'+id+'Num">'+(number??0)+'</div><div class="label">'+label+'</div>';
+    stats.appendChild(card);
+    return card;
+  }
+
+  function setCustomerFilter(type,titleText){
     const area=document.getElementById('cbCustomerArea');
     const list=document.getElementById('list');
-    if(!stats||!area||!list)return;
+    const search=document.getElementById('search');
+    const renewal=document.getElementById('renewalFilter');
+    const status=document.getElementById('statusFilter');
+    if(!area||!list)return;
+    if(search)search.value='';
+    if(type==='day1'||type==='day16'){
+      if(renewal)renewal.value=type==='day1'?'1':'16';
+      if(status)status.value='all';
+    }else if(type==='soon'){
+      if(renewal)renewal.value='all';
+      if(status)status.value='soon';
+    }else{
+      if(renewal)renewal.value='all';
+      if(status)status.value='all';
+    }
+    area.classList.add('cb-open','cb-filtered-area');
+    const total=document.querySelector('.cb-total-customers');
+    if(total)total.setAttribute('aria-expanded','true');
+    const title=area.querySelector('#cbFilterTitleText');
+    if(title)title.textContent=titleText;
+    if(typeof window.render==='function')window.render();
+    setTimeout(()=>area.scrollIntoView({behavior:'smooth',block:'start'}),60);
+  }
+
+  function setupOrdersArea(){
+    if(document.getElementById('cbOrdersArea'))return;
+    const stats=getStats();
+    if(!stats)return;
+    const ordersArea=document.createElement('div');
+    ordersArea.id='cbOrdersArea';
+    ordersArea.innerHTML='<div class="cb-orders-box"><div class="cb-orders-head"><div class="cb-orders-title">🆕 طلبات الباقات الجديدة</div><button type="button" class="cb-orders-clear">إغلاق</button></div><div id="cbOrdersList"><div class="loading">⏳ جاري تحميل الطلبات...</div></div></div>';
+    stats.stats.insertAdjacentElement('afterend',ordersArea);
+    ordersArea.querySelector('.cb-orders-clear').addEventListener('click',()=>ordersArea.classList.remove('cb-open'));
+  }
+
+  async function loadNewOrders(){
+    const box=document.getElementById('cbOrdersList');
+    if(!box)return;
+    try{
+      const url='https://pgvbynefhqmyzjtccttl.supabase.co';
+      const key='sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY';
+      let token=key;
+      try{
+        if(window.supabase){
+          const client=window.__cashbackThemeDb||(window.__cashbackThemeDb=window.supabase.createClient(url,key));
+          const session=await client.auth.getSession();
+          token=session?.data?.session?.access_token||key;
+        }
+      }catch(e){}
+      const r=await fetch(url+'/rest/v1/orders?select=*&status=in.(pending,payment_submitted)&order=order_number.desc',{headers:{apikey:key,Authorization:'Bearer '+token}});
+      if(!r.ok)throw new Error('تعذر تحميل الطلبات الجديدة');
+      const rows=await r.json();
+      const list=Array.isArray(rows)?rows:[];
+      const num=document.getElementById('cbNewOrdersNum');
+      if(num)num.textContent=list.length;
+      if(!list.length){box.innerHTML='<div class="empty">لا توجد طلبات جديدة حاليًا ✅</div>';return;}
+      box.innerHTML=list.map(o=>{
+        const status=o.status==='payment_submitted'?'💳 تم إرسال الدفع':'⏳ في انتظار الدفع';
+        return '<div class="cb-order-row"><div class="cb-order-head"><div><div class="cb-order-name">'+esc(o.subscriber_name||'بدون اسم')+'</div><div class="cb-order-meta">#'+esc(o.order_number||'-')+' · '+esc(o.package_name||((o.package_gb||'-')+' جيجا'))+' · '+status+'</div></div><strong>'+money(o.final_price||o.original_price||0)+' ج</strong></div><div class="cb-order-details">📱 الرقم: <b>'+esc(o.phone||'-')+'</b><br>📦 الباقة: <b>'+esc(o.package_name||((o.package_gb||'-')+' جيجا'))+'</b><br>💰 السعر: <b>'+money(o.final_price||o.original_price||0)+' جنيه</b><br>🎁 الكود: <b>'+esc(o.promo_code||'لا يوجد')+'</b><br>🕒 الحالة: <b>'+status+'</b></div></div>';
+      }).join('');
+      box.querySelectorAll('.cb-order-head').forEach(h=>h.addEventListener('click',()=>h.parentElement.classList.toggle('open')));
+    }catch(e){box.innerHTML='<div class="error">❌ '+esc(e.message||'تعذر تحميل الطلبات')+'</div>';}
+  }
+
+  function setup(){
+    const s=getStats();
+    if(!s)return;
     installStyle();
+    const day1=addStat(s.stats,'تجديد يوم 1','1️⃣','cbDay1Stat',0);
+    const day16=addStat(s.stats,'تجديد يوم 16','1️⃣6️⃣','cbDay16Stat',0);
+    const newOrders=addStat(s.stats,'طلبات جديدة','🆕','cbNewOrdersStat',0);
 
-    const cards=Array.from(stats.querySelectorAll('.stat'));
-    const total=cards.find(c=>/إجمالي\s*العملاء/.test(c.textContent||''));
-    const soon=cards.find(c=>/تجديد\s*قريب/.test(c.textContent||''));
-    if(!soon)return;
-
-    soon.classList.add('cb-filter-stat');
-    soon.title='عرض التجديدات القريبة';
-    soon.setAttribute('role','button');
-    soon.setAttribute('tabindex','0');
-    soon.setAttribute('aria-controls','cbCustomerArea');
-
-    let title=area.querySelector('.cb-filter-title');
-    if(!title){
-      title=document.createElement('div');
-      title.className='cb-filter-title';
-      title.innerHTML='<span id="cbFilterTitleText">👥 العملاء</span><button type="button" class="cb-filter-clear" id="cbFilterClear">عرض الكل</button>';
-      const firstPanel=area.querySelector('.panel');
-      if(firstPanel)firstPanel.insertAdjacentElement('beforebegin',title);
-      else area.insertBefore(title,area.firstChild);
-      title.querySelector('#cbFilterClear').addEventListener('click',function(e){
-        e.stopPropagation();
-        setFilter('all');
-      });
+    function countDay(day){
+      const rows=window.__cashbackCustomers||[];
+      return rows.filter(c=>Number(c.renewal_day)===day).length;
     }
 
-    function setFilter(type){
-      const search=document.getElementById('search');
-      const status=document.getElementById('statusFilter');
-      const renewal=document.getElementById('renewalFilter');
-      if(type==='soon'){
-        if(search)search.value='';
-        if(renewal)renewal.value='all';
-        if(status)status.value='soon';
-        soon.classList.add('cb-selected');
-        if(total)total.classList.remove('cb-selected');
-        title.querySelector('#cbFilterTitleText').textContent='🕐 التجديدات القريبة — خلال 7 أيام';
-      }else{
-        if(status)status.value='all';
-        if(renewal)renewal.value='all';
-        soon.classList.remove('cb-selected');
-        if(total)total.classList.remove('cb-selected');
-        title.querySelector('#cbFilterTitleText').textContent='👥 العملاء';
+    function refreshCounts(){
+      const rows=window.__cashbackCustomers||[];
+      const a=document.getElementById('cbDay1StatNum');
+      const b=document.getElementById('cbDay16StatNum');
+      if(a)a.textContent=rows.filter(c=>Number(c.renewal_day)===1).length;
+      if(b)b.textContent=rows.filter(c=>Number(c.renewal_day)===16).length;
+    }
+
+    // Capture customers loaded by the existing customers page without changing its data logic.
+    if(!window.__cashbackCustomersHooked){
+      window.__cashbackCustomersHooked=true;
+      const originalFetch=window.fetch;
+      window.fetch=async function(...args){
+        const response=await originalFetch.apply(this,args);
+        try{
+          const url=String(args[0]?.url||args[0]||'');
+          if(url.includes('/rest/v1/customers?')||url.includes('/rest/v1/customers')){
+            const clone=response.clone();
+            const data=await clone.json();
+            if(Array.isArray(data)){window.__cashbackCustomers=data;setTimeout(refreshCounts,0);}
+          }
+        }catch(e){}
+        return response;
+      };
+    }
+
+    day1.title='عرض عملاء تجديد يوم 1';
+    day16.title='عرض عملاء تجديد يوم 16';
+    newOrders.title='عرض الطلبات الجديدة من موقع الباقات';
+
+    if(!day1.dataset.bound){
+      day1.dataset.bound='1';
+      day1.addEventListener('click',()=>setCustomerFilter('day1','📅 تجديد يوم 1'));
+      day16.addEventListener('click',()=>setCustomerFilter('day16','📅 تجديد يوم 16'));
+      const soon=s.soon;
+      if(soon&&!soon.dataset.cbSoonUnified){
+        soon.dataset.cbSoonUnified='1';
+        soon.classList.add('cb-filter-stat');
+        soon.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();setCustomerFilter('soon','🕐 التجديدات القريبة — خلال 7 أيام');});
       }
-      area.classList.add('cb-open','cb-filtered-area');
-      const totalCard=total;
-      if(totalCard){totalCard.classList.add('cb-total-customers');totalCard.setAttribute('aria-expanded','true');}
-      if(typeof window.render==='function')window.render();
-      else list.dispatchEvent(new Event('input',{bubbles:true}));
-      setTimeout(()=>area.scrollIntoView({behavior:'smooth',block:'start'}),60);
+      newOrders.addEventListener('click',async()=>{setupOrdersArea();const area=document.getElementById('cbOrdersArea');if(area){area.classList.add('cb-open');setTimeout(()=>area.scrollIntoView({behavior:'smooth',block:'start'}),60);await loadNewOrders();}});
     }
 
-    if(!soon.dataset.cbSoonBound){
-      soon.dataset.cbSoonBound='1';
-      soon.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();setFilter('soon');});
-      soon.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();setFilter('soon');}});
-    }
+    setupOrdersArea();
+    refreshCounts();
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
   let tries=0;
   const timer=setInterval(function(){
     setup();
-    if((document.getElementById('cbCustomerArea')&&document.querySelector('.cb-filter-stat'))||++tries>50)clearInterval(timer);
-  },250);
+    if(document.getElementById('cbNewOrdersStat')||++tries>50)clearInterval(timer);
+  },300);
 })();
