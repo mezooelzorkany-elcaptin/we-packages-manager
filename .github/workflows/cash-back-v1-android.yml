@@ -20,7 +20,7 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
-      - uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@v4
       - run: sdkmanager 'platform-tools' 'platforms;android-35' 'build-tools;35.0.0'
       - run: npm install
       - name: Prepare CASH BACK admin only
