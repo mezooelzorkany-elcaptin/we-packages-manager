@@ -1686,6 +1686,22 @@ html.dark-mode .stat:nth-child(4){
 
   </div>
 
+
+  <div class="stat">
+
+    <div class="st">
+      مش هيجدد
+      <span class="ico">⏸️</span>
+    </div>
+
+    <div class="num" id="skipped">0</div>
+
+    <div class="label">
+      الشهر ده
+    </div>
+
+  </div>
+
 </div>
 
 
@@ -3667,6 +3683,12 @@ function updateStats(){
       }
     ).length;
 
+
+  $("skipped").textContent =
+    customers.filter(
+      c => isSkippedThisMonth(c)
+    ).length;
+
 }
 
 
@@ -5002,7 +5024,7 @@ async function removeCustomer(id){
    RENEW
 ===================================================== */
 
-async function renew(id){
+function renew(id){
 
   const c =
     customers.find(
@@ -5011,98 +5033,12 @@ async function renew(id){
       Number(id)
     );
 
-
   if(!c)
     return;
 
-
-  const amount =
-    finalPrice(c);
-
-
-  if(
-    !confirm(
-      "🔄 تجديد " +
-      c.subscriber_name +
-      "\n\nالمبلغ: " +
-      money(amount) +
-      " جنيه\n\n" +
-      "هل تريد تأكيد التجديد؟"
-    )
-  )
-    return;
-
-
-  const now = new Date();
-  const renewalDay = Number(c.renewal_day) === 16 ? 16 : 1;
-  const date = new Date(now.getFullYear(), now.getMonth() + 1, renewalDay);
-
-
-  const nextDate =
-    date
-      .toISOString()
-      .split("T")[0];
-
-
-  try{
-
-    await api(
-      "customers?id=eq." +
-      encodeURIComponent(id),
-      {
-        method:"PATCH",
-
-        body:JSON.stringify({
-
-          last_renewed_at:
-            new Date().toISOString(),
-
-          last_order_at:
-            new Date().toISOString(),
-
-          next_renewal_date:
-            nextDate,
-
-          skip_renewal_month:
-            null,
-
-          total_orders:
-            (
-              Number(
-                c.total_orders
-              ) || 0
-            ) + 1,
-
-          status:
-            "active",
-
-          updated_at:
-            new Date().toISOString()
-
-        })
-      }
-    );
-
-
-    await loadCustomers();
-
-
-    alert(
-      "✅ تم التجديد بنجاح"
-    );
-
-
-  }catch(error){
-
-    alert(
-      "❌ " +
-      (
-        error.message ||
-        "لم يتم التجديد"
-      )
-    );
-
-  }
+  location.href =
+    "admin-renew.html?id=" +
+    encodeURIComponent(id);
 
 }
 
