@@ -1741,6 +1741,10 @@ html.dark-mode .stat:nth-child(4){
         تاريخ مخصص
       </option>
 
+      <option value="skip_month">
+        ⏸️ مش هيجدد الشهر ده
+      </option>
+
     </select>
 
 
@@ -3728,6 +3732,13 @@ function render(){
           return false;
 
 
+        if(
+          renewal === "skip_month" &&
+          !isSkippedThisMonth(c)
+        )
+          return false;
+
+
         const d =
           daysUntil(
             c.next_renewal_date
@@ -3789,6 +3800,77 @@ function render(){
 }
 
 
+function isSkippedThisMonth(c){
+
+  if(!c?.skip_renewal_month)
+    return false;
+
+  const now = new Date();
+
+  const month =
+    now.getFullYear() +
+    "-" +
+    String(now.getMonth() + 1).padStart(2,"0") +
+    "-01";
+
+  return String(c.skip_renewal_month).slice(0,10) === month;
+
+}
+
+
+async function toggleSkipRenewal(id){
+
+  const c =
+    customers.find(
+      x => Number(x.id) === Number(id)
+    );
+
+  if(!c)
+    return;
+
+  const skipped =
+    isSkippedThisMonth(c);
+
+  const month =
+    new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      1
+    ).toISOString().slice(0,10);
+
+  try{
+
+    await api(
+      "customers?id=eq." +
+      encodeURIComponent(id),
+      {
+        method:"PATCH",
+        body:JSON.stringify({
+          skip_renewal_month:
+            skipped ? null : month,
+          updated_at:
+            new Date().toISOString()
+        })
+      }
+    );
+
+    await loadCustomers();
+
+  }catch(error){
+
+    alert(
+      "❌ " +
+      (
+        error.message ||
+        "لم يتم تحديث حالة التجديد"
+      )
+    );
+
+  }
+
+}
+
+
 function card(c){
 
   const d =
@@ -3797,10 +3879,19 @@ function card(c){
     );
 
 
+  const skippedThisMonth =
+    isSkippedThisMonth(c);
+
+
   let renewalStatus = "-";
 
 
-  if(d !== null){
+  if(skippedThisMonth){
+
+    renewalStatus =
+      '<span style="color:#7c3aed">⏸️ مش هيجدد الشهر ده</span>';
+
+  }else if(d !== null){
 
     renewalStatus =
       d < 0
@@ -4963,6 +5054,9 @@ async function renew(id){
 
           next_renewal_date:
             nextDate,
+
+          skip_renewal_month:
+            null,
 
           total_orders:
             (
