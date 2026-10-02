@@ -5040,11 +5040,6 @@ function renew(id){
     "renew_customer_id",
     String(id)
   );
-  sessionStorage.setItem(
-    "renew_customer_snapshot",
-    JSON.stringify(c)
-  );
-
   location.href =
     "admin-renew-v2.html?customer_id=" +
     encodeURIComponent(id) +
