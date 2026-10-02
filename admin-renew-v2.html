@@ -80,10 +80,6 @@ var K='sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY';
 var $=function(id){return document.getElementById(id);};
 var params=new URLSearchParams(window.location.search);
 var customerId=params.get('customer_id') || params.get('id') || sessionStorage.getItem('renew_customer_id');
-var customerSnapshot=null;
-try{
-  customerSnapshot=JSON.parse(sessionStorage.getItem('renew_customer_snapshot')||'null');
-}catch(e){ customerSnapshot=null; }
 var customer=null;
 var payment='الدفع النقدي';
 var db=supabase.createClient(U,K,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
@@ -115,25 +111,6 @@ async function requireAdmin(){
   if(email!=='mezooelzorkany@gmail.com') throw new Error('الحساب الحالي غير مصرح له بإدارة العملاء.');
   return session;
 }
-async function api(path,options){
-  options=options||{};
-  var session=await requireAdmin();
-  var headers=Object.assign({
-    'apikey':K,
-    'Authorization':'Bearer '+session.access_token,
-    'Content-Type':'application/json',
-    'Prefer':'return=representation'
-  },options.headers||{});
-  var response=await fetch(U+'/rest/v1/'+path,Object.assign({},options,{headers:headers}));
-  var raw=await response.text();
-  var data;
-  try{data=raw?JSON.parse(raw):null;}catch(e){data=raw;}
-  if(!response.ok){
-    var detail=(data&&data.message)||(data&&data.details)||(data&&data.hint)||String(data||'');
-    throw new Error('HTTP '+response.status+(detail?': '+detail:''));
-  }
-  return data;
-}
 async function dbSelectCustomer(){
   await requireAdmin();
   var result=await db.from('customers').select('*').eq('id',customerId).is('deleted_at',null).maybeSingle();
@@ -158,7 +135,6 @@ async function load(){
   try{
     if(!customerId) throw new Error('لم يتم تمرير رقم العميل. ارجع لصفحة العملاء واضغط «تجديد الآن» من نفس العميل.');
     await requireAdmin();
-    if(!customerId) throw new Error('لم يتم تمرير رقم العميل. ارجع لصفحة العملاء واضغط «تجديد الآن» من نفس العميل.');
     customer=await dbSelectCustomer();
     sessionStorage.removeItem('renew_customer_id');
     sessionStorage.removeItem('renew_customer_snapshot');
