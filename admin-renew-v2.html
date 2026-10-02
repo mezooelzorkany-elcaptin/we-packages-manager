@@ -2,7 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>تجديد العميل | CASH BACK V2</title>
+<title>تجديد العميل | CASH BACK V3</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{box-sizing:border-box;font-family:Arial,Tahoma,sans-serif}
@@ -81,6 +82,7 @@ var params=new URLSearchParams(window.location.search);
 var customerId=params.get('customer_id') || params.get('id') || sessionStorage.getItem('renew_customer_id');
 var customer=null;
 var payment='الدفع النقدي';
+var db=supabase.createClient(U,K,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
 
 function esc(v){
   return String(v==null?'':v).replace(/[&<>"']/g,function(c){
@@ -103,9 +105,11 @@ function showError(message){
 }
 async function api(path,options){
   options=options||{};
+  var sessionResult=await db.auth.getSession();
+  var token=(sessionResult.data&&sessionResult.data.session&&sessionResult.data.session.access_token)||K;
   var headers=Object.assign({
     'apikey':K,
-    'Authorization':'Bearer '+K,
+    'Authorization':'Bearer '+token,
     'Content-Type':'application/json',
     'Prefer':'return=representation'
   },options.headers||{});
