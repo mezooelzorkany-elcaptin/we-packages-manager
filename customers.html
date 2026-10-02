@@ -4107,6 +4107,14 @@ function card(c){
         </button>
 
         <button
+          class="action"
+          style="${skippedThisMonth ? "background:#ede9fe;color:#6d28d9;" : "background:#fff7ed;color:#c2410c;"}"
+          onclick="toggleSkipRenewal(${Number(c.id)})"
+        >
+          ${skippedThisMonth ? "↩️ إلغاء عدم التجديد" : "⏸️ مش هيجدد الشهر ده"}
+        </button>
+
+        <button
           class="action delete"
           onclick="removeCustomer(${Number(c.id)})"
         >
