@@ -4,7 +4,6 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>تجديد العميل | CASH BACK</title>
 <script src="theme.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;font-family:Arial,Tahoma,sans-serif}
 body{margin:0;background:linear-gradient(180deg,#f7f6fb 0%,#f1eef9 100%);color:#1d2435}
@@ -67,19 +66,11 @@ const $=id=>document.getElementById(id);
 const params=new URLSearchParams(location.search);
 const id=params.get('id') || params.get('customer_id') || sessionStorage.getItem('renew_customer_id');
 let customer=null,payment='الدفع النقدي';
-const supa=supabase.createClient(U,K,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
 function pad(n){return String(n).padStart(2,'0')}
 function fmtDate(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
 function nextDate(day){const d=new Date();d.setHours(0,0,0,0);let y=d.getFullYear(),m=d.getMonth();if(day<=d.getDate())m++;return new Date(y,m,day)}
 async function api(path,options={}){
-  const sessionResult =
-    await supa.auth.getSession();
-
-  const token =
-    sessionResult.data.session?.access_token ||
-    K;
-
   const r =
     await fetch(
       U + '/rest/v1/' + path,
@@ -87,7 +78,7 @@ async function api(path,options={}){
         ...options,
         headers:{
           apikey:K,
-          Authorization:'Bearer ' + token,
+          Authorization:'Bearer ' + K,
           'Content-Type':'application/json',
           Prefer:'return=representation',
           ...(options.headers||{})
@@ -95,9 +86,7 @@ async function api(path,options={}){
       }
     );
 
-  const text =
-    await r.text();
-
+  const text=await r.text();
   let data=null;
 
   try{
