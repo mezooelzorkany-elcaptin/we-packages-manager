@@ -5036,9 +5036,16 @@ function renew(id){
   if(!c)
     return;
 
+  sessionStorage.setItem(
+    "renew_customer_id",
+    String(id)
+  );
+
   location.href =
-    "admin-renew.html?id=" +
-    encodeURIComponent(id);
+    "admin-renew.html?customer_id=" +
+    encodeURIComponent(id) +
+    "&v=" +
+    Date.now();
 
 }
 
