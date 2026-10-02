@@ -80,6 +80,10 @@ var K='sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY';
 var $=function(id){return document.getElementById(id);};
 var params=new URLSearchParams(window.location.search);
 var customerId=params.get('customer_id') || params.get('id') || sessionStorage.getItem('renew_customer_id');
+var customerSnapshot=null;
+try{
+  customerSnapshot=JSON.parse(sessionStorage.getItem('renew_customer_snapshot')||'null');
+}catch(e){ customerSnapshot=null; }
 var customer=null;
 var payment='الدفع النقدي';
 var db=supabase.createClient(U,K,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
@@ -103,13 +107,20 @@ function showError(message){
   if($('customerCard')) $('customerCard').innerHTML='<h2>❌ تعذر تحميل العميل</h2><p>'+esc(message)+'</p>';
   if($('formCard')) $('formCard').style.display='none';
 }
+async function requireAdmin(){
+  var sessionResult=await db.auth.getSession();
+  var session=sessionResult.data&&sessionResult.data.session;
+  var email=String(session&&session.user&&session.user.email||'').toLowerCase();
+  if(!session) throw new Error('جلسة الإدارة غير موجودة. ارجع لصفحة الإدارة وسجل الدخول من جديد.');
+  if(email!=='mezooelzorkany@gmail.com') throw new Error('الحساب الحالي غير مصرح له بإدارة العملاء.');
+  return session;
+}
 async function api(path,options){
   options=options||{};
-  var sessionResult=await db.auth.getSession();
-  var token=(sessionResult.data&&sessionResult.data.session&&sessionResult.data.session.access_token)||K;
+  var session=await requireAdmin();
   var headers=Object.assign({
     'apikey':K,
-    'Authorization':'Bearer '+token,
+    'Authorization':'Bearer '+session.access_token,
     'Content-Type':'application/json',
     'Prefer':'return=representation'
   },options.headers||{});
@@ -118,17 +129,39 @@ async function api(path,options){
   var data;
   try{data=raw?JSON.parse(raw):null;}catch(e){data=raw;}
   if(!response.ok){
-    throw new Error((data&&data.message)|| (data&&data.details)|| (data&&data.hint)|| String(data||('HTTP '+response.status)));
+    var detail=(data&&data.message)||(data&&data.details)||(data&&data.hint)||String(data||'');
+    throw new Error('HTTP '+response.status+(detail?': '+detail:''));
   }
   return data;
+}
+async function dbSelectCustomer(){
+  await requireAdmin();
+  var result=await db.from('customers').select('*').eq('id',customerId).is('deleted_at',null).maybeSingle();
+  if(result.error) throw new Error('تعذر قراءة العميل: '+result.error.message);
+  if(!result.data) throw new Error('العميل رقم '+customerId+' غير موجود أو محذوف.');
+  return result.data;
+}
+async function dbInsert(table,row){
+  await requireAdmin();
+  var result=await db.from(table).insert(row).select().maybeSingle();
+  if(result.error) throw new Error('تعذر حفظ '+table+': '+result.error.message);
+  return result.data;
+}
+async function dbUpdateCustomer(row){
+  await requireAdmin();
+  var result=await db.from('customers').update(row).eq('id',customerId).is('deleted_at',null).select().maybeSingle();
+  if(result.error) throw new Error('تعذر تحديث العميل: '+result.error.message);
+  if(!result.data) throw new Error('لم يتم تحديث العميل رقم '+customerId+'.');
+  return result.data;
 }
 async function load(){
   try{
     if(!customerId) throw new Error('لم يتم تمرير رقم العميل. ارجع لصفحة العملاء واضغط «تجديد الآن» من نفس العميل.');
-    var rows=await api('customers?select=*&id=eq.'+encodeURIComponent(customerId)+'&deleted_at=is.null&limit=1');
-    if(!Array.isArray(rows)||rows.length===0) throw new Error('العميل غير موجود أو تم حذفه.');
-    customer=rows[0];
+    await requireAdmin();
+    if(!customerId) throw new Error('لم يتم تمرير رقم العميل. ارجع لصفحة العملاء واضغط «تجديد الآن» من نفس العميل.');
+    customer=await dbSelectCustomer();
     sessionStorage.removeItem('renew_customer_id');
+    sessionStorage.removeItem('renew_customer_snapshot');
     $('name').textContent='👤 '+(customer.subscriber_name||'بدون اسم');
     $('phone').textContent='📱 '+(customer.phone||'-');
     $('package').textContent='📦 '+(customer.package_name||'-')+' — '+(Number(customer.allocated_gb)||0)+' GB';
@@ -154,10 +187,7 @@ async function skipRenewal(){
   try{
     var d=new Date();
     var month=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-01';
-    await api('customers?id=eq.'+encodeURIComponent(customer.id),{
-      method:'PATCH',
-      body:JSON.stringify({skip_renewal_month:month,updated_at:new Date().toISOString()})
-    });
+    await dbUpdateCustomer({skip_renewal_month:month,updated_at:new Date().toISOString()});
     $('success').style.display='block';
     $('success').textContent='⏸️ تم تسجيل عدم التجديد لهذا الشهر.';
     b.textContent='تم الحفظ';
@@ -203,32 +233,23 @@ async function save(){
         reader.readAsDataURL(file);
       });
     }
-    await api('orders',{
-      method:'POST',
-      body:JSON.stringify({
-        order_number:order,customer_id:customer.id,subscriber_name:customer.subscriber_name,
-        phone:customer.phone,package_name:customer.package_name,package_gb:customer.allocated_gb,
-        original_price:amount,final_price:amount,payment_method:payment,payment_screenshot:shot,
-        renewal_type:$('renewalType').value,renewal_day:Number($('renewalDay').value)||null,status:'completed'
-      })
+    await dbInsert('orders',{
+      order_number:order,customer_id:customer.id,subscriber_name:customer.subscriber_name,
+      phone:customer.phone,package_name:customer.package_name,package_gb:customer.allocated_gb,
+      original_price:amount,final_price:amount,payment_method:payment,payment_screenshot:shot,
+      renewal_type:$('renewalType').value,renewal_day:Number($('renewalDay').value)||null,status:'completed'
     });
-    await api('invoices',{
-      method:'POST',
-      body:JSON.stringify({
-        order_number:order,customer_id:customer.id,customer_name:customer.subscriber_name,
-        phone:customer.phone,package_name:customer.package_name,package_gb:customer.allocated_gb,
-        original_price:amount,discount_code:null,discount_amount:0,amount:amount,
-        notes:'تجديد يدوي — '+payment+($('notes').value.trim()?' — '+$('notes').value.trim():'')
-      })
+    await dbInsert('invoices',{
+      order_number:order,customer_id:customer.id,customer_name:customer.subscriber_name,
+      phone:customer.phone,package_name:customer.package_name,package_gb:customer.allocated_gb,
+      original_price:amount,discount_code:null,discount_amount:0,amount:amount,
+      notes:'تجديد يدوي — '+payment+($('notes').value.trim()?' — '+$('notes').value.trim():'')
     });
-    await api('customers?id=eq.'+encodeURIComponent(customer.id),{
-      method:'PATCH',
-      body:JSON.stringify({
-        payment_method:payment,next_renewal_date:next,renewal_type:$('renewalType').value,
-        renewal_day:Number($('renewalDay').value)||null,last_renewed_at:now,last_order_at:now,
-        total_orders:Number(customer.total_orders||0)+1,updated_at:now,status:'active',
-        skip_renewal_month:null
-      })
+    await dbUpdateCustomer({
+      payment_method:payment,next_renewal_date:next,renewal_type:$('renewalType').value,
+      renewal_day:Number($('renewalDay').value)||null,last_renewed_at:now,last_order_at:now,
+      total_orders:Number(customer.total_orders||0)+1,updated_at:now,status:'active',
+      skip_renewal_month:null
     });
     $('success').style.display='block';
     $('success').innerHTML='✅ تم تجديد <b>'+esc(customer.subscriber_name||'العميل')+'</b> بنجاح<br>رقم العملية: <b>'+esc(order)+'</b>';
