@@ -3647,9 +3647,15 @@ function updateStats(){
     ).length;
 
 
+  // العميل الذي تم وضعه "مش هيجدد الشهر ده" يخرج من أرقام التجديد
+  // ومنتهي الصلاحية، ويظهر فقط في عداد "مش هيجدد — الشهر ده".
   $("soon").textContent =
     customers.filter(
       c => {
+
+        if(isSkippedThisMonth(c)){
+          return false;
+        }
 
         const d =
           daysUntil(
@@ -3669,6 +3675,10 @@ function updateStats(){
   $("expired").textContent =
     customers.filter(
       c => {
+
+        if(isSkippedThisMonth(c)){
+          return false;
+        }
 
         const d =
           daysUntil(
