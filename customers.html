@@ -3743,32 +3743,35 @@ function render(){
           return false;
 
 
-        if(
-          renewal === "1" &&
-          Number(c.renewal_day) !== 1
-        )
-          return false;
+        // فلاتر مواعيد التجديد تعرض فقط العملاء الذين سيجددون فعليًا.
+        // العميل الذي اختار "مش هيجدد الشهر ده" لا يظهر ضمن يوم 1 أو يوم 16 أو المخصص.
+        if(renewal === "skip_month"){
+          if(!isSkippedThisMonth(c))
+            return false;
+        }else{
+          if(isSkippedThisMonth(c))
+            return false;
+
+          if(
+            renewal === "1" &&
+            Number(c.renewal_day) !== 1
+          )
+            return false;
 
 
-        if(
-          renewal === "16" &&
-          Number(c.renewal_day) !== 16
-        )
-          return false;
+          if(
+            renewal === "16" &&
+            Number(c.renewal_day) !== 16
+          )
+            return false;
 
 
-        if(
-          renewal === "custom" &&
-          c.renewal_type !== "custom"
-        )
-          return false;
-
-
-        if(
-          renewal === "skip_month" &&
-          !isSkippedThisMonth(c)
-        )
-          return false;
+          if(
+            renewal === "custom" &&
+            c.renewal_type !== "custom"
+          )
+            return false;
+        }
 
 
         const d =
@@ -3793,10 +3796,13 @@ function render(){
 
         if(
           status === "soon" &&
-          !(
-            d !== null &&
-            d >= 0 &&
-            d <= 7
+          (
+            isSkippedThisMonth(c) ||
+            !(
+              d !== null &&
+              d >= 0 &&
+              d <= 7
+            )
           )
         )
           return false;
@@ -3804,9 +3810,12 @@ function render(){
 
         if(
           status === "expired" &&
-          !(
-            d !== null &&
-            d < 0
+          (
+            isSkippedThisMonth(c) ||
+            !(
+              d !== null &&
+              d < 0
+            )
           )
         )
           return false;
