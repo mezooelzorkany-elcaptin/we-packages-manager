@@ -1703,38 +1703,6 @@ html.dark-mode .stat:nth-child(4){
   </div>
 
 
-  <div class="stat" role="button" tabindex="0" style="cursor:pointer" onclick="setRenewalFilter('1')">
-
-    <div class="st">
-      تجديد يوم 1
-      <span class="ico">1️⃣</span>
-    </div>
-
-    <div class="num" id="day1Count">0</div>
-
-    <div class="label">
-      هيجددوا فعليًا
-    </div>
-
-  </div>
-
-
-  <div class="stat" role="button" tabindex="0" style="cursor:pointer" onclick="setRenewalFilter('16')">
-
-    <div class="st">
-      تجديد يوم 16
-      <span class="ico">1️⃣6️⃣</span>
-    </div>
-
-    <div class="num" id="day16Count">0</div>
-
-    <div class="label">
-      هيجددوا فعليًا
-    </div>
-
-  </div>
-
-
 
 <!-- SEARCH -->
 
@@ -3733,30 +3701,6 @@ function updateStats(){
       c => isSkippedThisMonth(c)
     ).length;
 
-
-  // نفس كروت يوم 1 ويوم 16 الموجودة في الواجهة:
-  // نحسب فقط العملاء الذين سيجددون فعلًا، ونستبعد "مش هيجدد الشهر ده".
-  $("day1Count").textContent =
-    customers.filter(
-      c =>
-        !isSkippedThisMonth(c) &&
-        (
-          Number(c.renewal_day) === 1 ||
-          String(c.renewal_type || "").toLowerCase() === "day_1"
-        )
-    ).length;
-
-
-  $("day16Count").textContent =
-    customers.filter(
-      c =>
-        !isSkippedThisMonth(c) &&
-        (
-          Number(c.renewal_day) === 16 ||
-          String(c.renewal_type || "").toLowerCase() === "day_16"
-        )
-    ).length;
-
 }
 
 
@@ -3895,20 +3839,6 @@ function render(){
         📭 لا يوجد عملاء مطابقين.
       </div>
     `;
-
-}
-
-
-function setRenewalFilter(value){
-
-  const filter = $("renewalFilter");
-
-  if(!filter)
-    return;
-
-  filter.value = value;
-
-  render();
 
 }
 
