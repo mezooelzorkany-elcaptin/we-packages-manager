@@ -1256,10 +1256,27 @@ function renderNumbers(){
         numbers.filter(
             number => {
 
+                const allLinked =
+                    customers.filter(
+                        customer =>
+                        cleanPhone(customer.primary_number) ===
+                        cleanPhone(number.phone)
+                    );
+
                 const linked =
                     getLinkedCustomers(
                         number.phone
                     );
+
+                // لو الرقم الأساسي كان مربوط بعملاء، وكلهم اختاروا
+                // "مش هيجدد الشهر ده"، نخفي الرقم نفسه من الأرقام الأساسية.
+                // لو عليه عميل واحد سيجدد، يفضل الرقم ظاهرًا.
+                if(
+                    allLinked.length > 0 &&
+                    linked.length === 0
+                ){
+                    return false;
+                }
 
 
                 const customerText =
@@ -1275,8 +1292,7 @@ function renderNumbers(){
                 const phone =
                     String(
                         number.phone || ""
-                    )
-                    .toLowerCase();
+                    ).toLowerCase();
 
 
                 const notes =
