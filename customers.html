@@ -3640,10 +3640,13 @@ function updateStats(){
     customers.length;
 
 
+  // "مش هيجدد الشهر ده" يفضل موجود كعميل في قاعدة البيانات،
+  // لكن لا يُحسب كعميل نشط أو ضمن أرقام التجديد الأساسية.
   $("active").textContent =
     customers.filter(
       c =>
-      c.status === "active"
+      c.status === "active" &&
+      !isSkippedThisMonth(c)
     ).length;
 
 
