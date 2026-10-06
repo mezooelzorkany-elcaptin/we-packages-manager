@@ -1702,38 +1702,6 @@ html.dark-mode .stat:nth-child(4){
 
   </div>
 
-
-  <div class="stat" role="button" tabindex="0" style="cursor:pointer" onclick="setRenewalFilter('1')">
-
-    <div class="st">
-      تجديد يوم 1
-      <span class="ico">1️⃣</span>
-    </div>
-
-    <div class="num" id="day1Count">0</div>
-
-    <div class="label">
-      هيجددوا فعليًا
-    </div>
-
-  </div>
-
-
-  <div class="stat" role="button" tabindex="0" style="cursor:pointer" onclick="setRenewalFilter('16')">
-
-    <div class="st">
-      تجديد يوم 16
-      <span class="ico">1️⃣6️⃣</span>
-    </div>
-
-    <div class="num" id="day16Count">0</div>
-
-    <div class="label">
-      هيجددوا فعليًا
-    </div>
-
-  </div>
-
 </div>
 
 
@@ -3734,29 +3702,6 @@ function updateStats(){
       c => isSkippedThisMonth(c)
     ).length;
 
-
-  // أعداد التجديد الحقيقية: نستبعد تمامًا من اختار "مش هيجدد الشهر ده".
-  $("day1Count").textContent =
-    customers.filter(
-      c =>
-        !isSkippedThisMonth(c) &&
-        (
-          Number(c.renewal_day) === 1 ||
-          String(c.renewal_type || "") === "day_1"
-        )
-    ).length;
-
-
-  $("day16Count").textContent =
-    customers.filter(
-      c =>
-        !isSkippedThisMonth(c) &&
-        (
-          Number(c.renewal_day) === 16 ||
-          String(c.renewal_type || "") === "day_16"
-        )
-    ).length;
-
 }
 
 
@@ -3895,27 +3840,6 @@ function render(){
         📭 لا يوجد عملاء مطابقين.
       </div>
     `;
-
-}
-
-
-function setRenewalFilter(value){
-
-  const filter = $("renewalFilter");
-
-  if(!filter)
-    return;
-
-  filter.value = value;
-
-  // عند الضغط على كارت يوم 1 أو يوم 16:
-  // اعرض فقط العملاء الذين سيجددون فعلًا هذا الشهر.
-  render();
-
-  window.scrollTo({
-    top: document.querySelector(".panel")?.offsetTop || 0,
-    behavior: "smooth"
-  });
 
 }
 
