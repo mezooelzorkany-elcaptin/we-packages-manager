@@ -1000,7 +1000,7 @@ async function loadData(){
             await supabaseClient
                 .from("customers")
                 .select(
-    "subscriber_name,internal_name,phone,primary_number,allocated_gb,deleted_at"
+    "subscriber_name,internal_name,phone,primary_number,allocated_gb,deleted_at,skip_renewal_month"
 )
                 .is("deleted_at",null);
 
@@ -1192,6 +1192,24 @@ function buildNotes(
    LINKED CUSTOMERS
 ===================================================== */
 
+function isSkippedThisMonth(customer){
+
+    if(!customer || !customer.skip_renewal_month)
+        return false;
+
+    const now = new Date();
+
+    const month =
+        now.getFullYear() +
+        "-" +
+        String(now.getMonth() + 1).padStart(2,"0") +
+        "-01";
+
+    return String(customer.skip_renewal_month).slice(0,10) === month;
+
+}
+
+
 function getLinkedCustomers(
     primaryNumber
 ){
@@ -1199,18 +1217,17 @@ function getLinkedCustomers(
     const primary =
         cleanPhone(primaryNumber);
 
-
     if(!primary)
         return [];
-
 
     return customers.filter(
         customer => {
 
+            if(isSkippedThisMonth(customer))
+                return false;
+
             return (
-                cleanPhone(
-                    customer.primary_number
-                ) === primary
+                cleanPhone(customer.primary_number) === primary
             );
 
         }
