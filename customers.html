@@ -1702,38 +1702,6 @@ html.dark-mode .stat:nth-child(4){
 
   </div>
 
-
-  <div class="stat">
-
-    <div class="st">
-      تجديد يوم 1
-      <span class="ico">1️⃣</span>
-    </div>
-
-    <div class="num" id="day1Count">0</div>
-
-    <div class="label">
-      هيجددوا فعليًا
-    </div>
-
-  </div>
-
-
-  <div class="stat">
-
-    <div class="st">
-      تجديد يوم 16
-      <span class="ico">1️⃣6️⃣</span>
-    </div>
-
-    <div class="num" id="day16Count">0</div>
-
-    <div class="label">
-      هيجددوا فعليًا
-    </div>
-
-  </div>
-
 </div>
 
 
@@ -3732,29 +3700,6 @@ function updateStats(){
   $("skipped").textContent =
     customers.filter(
       c => isSkippedThisMonth(c)
-    ).length;
-
-
-  // أعداد التجديد الفعلية: نستبعد أي عميل عليه "مش هيجدد الشهر ده".
-  $("day1Count").textContent =
-    customers.filter(
-      c =>
-        !isSkippedThisMonth(c) &&
-        (
-          Number(c.renewal_day) === 1 ||
-          String(c.renewal_type || "").toLowerCase() === "day_1"
-        )
-    ).length;
-
-
-  $("day16Count").textContent =
-    customers.filter(
-      c =>
-        !isSkippedThisMonth(c) &&
-        (
-          Number(c.renewal_day) === 16 ||
-          String(c.renewal_type || "").toLowerCase() === "day_16"
-        )
     ).length;
 
 }
