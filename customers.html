@@ -1898,6 +1898,25 @@ placeholder="01xxxxxxxxx"
 <div class="field">
 
 <label>
+💬 رقم واتساب للتجديد
+</label>
+
+<input
+id="whatsappPhone"
+inputmode="tel"
+placeholder="سيُستخدم رقم العميل لو سبت الخانة فاضية"
+>
+
+<small style="display:block;color:#858b9b;margin-top:6px">
+اكتب رقم الواتساب لو مختلف عن رقم الخط اللي عليه الباقة
+</small>
+
+</div>
+
+
+<div class="field">
+
+<label>
 الرقم الأساسي
 </label>
 
@@ -3735,6 +3754,7 @@ function render(){
           c.subscriber_name,
           c.internal_name,
           c.phone,
+          c.whatsapp_phone,
           c.primary_number,
           c.package_name,
           c.promo_code
@@ -3981,7 +4001,11 @@ function card(c){
           </div>
 
           <div class="phone">
-            📱 ${escapeHtml(c.phone || "-")}
+            📱 رقم الخط: ${escapeHtml(c.phone || "-")}
+          </div>
+
+          <div class="phone">
+            💬 واتساب التجديد: ${escapeHtml(c.whatsapp_phone || c.phone || "-")}
           </div>
 
           <div class="internal">
@@ -4192,6 +4216,8 @@ function clearForm(){
 
   $("customerPhone").value = "";
 
+  $("whatsappPhone").value = "";
+
   $("primaryNumber").value = "";
 
   $("allocatedGB").value = 0;
@@ -4270,6 +4296,9 @@ function openEdit(id){
 
   $("customerPhone").value =
     c.phone || "";
+
+  $("whatsappPhone").value =
+    c.whatsapp_phone || "";
 
   $("primaryNumber").value =
     c.primary_number || "";
@@ -4431,6 +4460,11 @@ async function saveCustomer(){
       $("primaryNumber").value
     );
 
+  const whatsappPhone =
+    cleanPhone(
+      $("whatsappPhone").value
+    );
+
 
   if(!name){
 
@@ -4461,6 +4495,19 @@ async function saveCustomer(){
 
     alert(
       "⚠️ الرقم الأساسي غير صحيح"
+    );
+
+    return;
+
+  }
+
+  if(
+    whatsappPhone &&
+    !validPhone(whatsappPhone)
+  ){
+
+    alert(
+      "⚠️ رقم واتساب غير صحيح"
     );
 
     return;
@@ -4673,6 +4720,10 @@ async function saveCustomer(){
       null,
 
     phone,
+
+    whatsapp_phone:
+      whatsappPhone ||
+      null,
 
     primary_number:
       primary ||
