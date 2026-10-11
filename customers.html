@@ -1904,11 +1904,11 @@ placeholder="01xxxxxxxxx"
 <input
 id="whatsappPhone"
 inputmode="tel"
-placeholder="سيُستخدم رقم العميل لو سبت الخانة فاضية"
+placeholder="أدخل رقم واتساب منفصلًا عن رقم الخط"
 >
 
 <small style="display:block;color:#858b9b;margin-top:6px">
-اكتب رقم الواتساب لو مختلف عن رقم الخط اللي عليه الباقة
+رقم واتساب مستقل لإرسال رسائل التجديد؛ لن يُستخدم رقم الخط تلقائيًا.
 </small>
 
 </div>
@@ -4005,7 +4005,7 @@ function card(c){
           </div>
 
           <div class="phone">
-            💬 واتساب التجديد: ${escapeHtml(c.whatsapp_phone || c.phone || "-")}
+            💬 واتساب التجديد: ${escapeHtml(c.whatsapp_phone || "غير مضاف") }
           </div>
 
           <div class="internal">
