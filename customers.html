@@ -1409,6 +1409,40 @@ html.dark-mode .stat:nth-child(4){
 
 }
 
+
+/* Responsive layout: laptop + phone */
+@media (max-width: 950px){
+  .side{width:78px}
+  .logo{height:90px}
+  .nav span{display:none}
+  .nav a{justify-content:center;padding:12px 6px}
+  .main{margin-right:78px}
+  .content{padding:20px 16px 120px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:650px){
+  html,body{width:100%;max-width:100%;overflow-x:hidden}
+  .side{display:none!important}
+  .main{margin-right:0!important;width:100%;min-width:0}
+  .top{padding:0 12px;height:66px}
+  .content{width:100%;padding:14px 10px calc(112px + env(safe-area-inset-bottom))}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .stat{min-width:0;padding:12px;border-radius:16px}
+  .st{gap:8px;align-items:flex-start}
+  .num{font-size:27px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  #adminBottomNav{display:flex!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;z-index:9999!important;min-height:84px;padding:5px 4px calc(5px + env(safe-area-inset-bottom));gap:2px}
+  #adminBottomNav a{flex:1;min-width:0;max-width:none;height:72px;padding:2px;border-radius:13px;gap:3px}
+  #adminBottomNav .navIcon{width:34px;height:34px;font-size:21px}
+  #adminBottomNav .navText{font-size:clamp(8px,2.6vw,11px);white-space:normal;text-align:center;line-height:1.1}
+}
+@media (max-width:390px){
+  .content{padding-left:8px;padding-right:8px}
+  .stats{gap:7px}
+  #adminBottomNav .navIcon{width:30px;height:30px;font-size:19px}
+}
+
 </style>
 
 </head>
