@@ -1895,20 +1895,24 @@ placeholder="01xxxxxxxxx"
 </div>
 
 
-<div class="field">
+<div class="field" style="padding:14px;border:2px solid #16a34a;border-radius:12px;background:rgba(22,163,74,.06);margin:12px 0">
 
-<label>
-💬 رقم واتساب للتجديد
+<label for="whatsappPhone" style="display:block;font-weight:800;color:#16a34a;margin-bottom:8px">
+💬 رقم واتساب العميل للتجديد (مستقل عن رقم الخط)
 </label>
 
 <input
 id="whatsappPhone"
+type="tel"
 inputmode="tel"
-placeholder="أدخل رقم واتساب منفصلًا عن رقم الخط"
+autocomplete="tel"
+dir="ltr"
+style="width:100%;min-height:46px;border:1px solid #16a34a;border-radius:9px;padding:10px;font-size:16px"
+placeholder="مثال: 01012345678"
 >
 
-<small style="display:block;color:#858b9b;margin-top:6px">
-رقم واتساب مستقل لإرسال رسائل التجديد؛ لن يُستخدم رقم الخط تلقائيًا.
+<small style="display:block;color:#858b9b;margin-top:8px;line-height:1.7">
+اكتب هنا الرقم اللي هتبعت عليه رسائل التجديد. يظهر الحقل عند إضافة عميل جديد وعند تعديل بيانات عميل. لا يتم استخدام رقم الخط بدلًا منه.
 </small>
 
 </div>
