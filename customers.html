@@ -12,7 +12,7 @@
 
 <title>العملاء | CASH BACK</title>
 
-<script src="theme.js?v=20261013-6"></script>
+<script src="theme.js?v=20261013-13"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -810,9 +810,11 @@ html.dark-mode .stat:nth-child(4){
   display:none;
   position:fixed;
   inset:0;
-  background:#0009;
-  z-index:2000;
-  padding:15px;
+  background:rgba(4,5,8,.82);
+  z-index:10050!important;
+  padding:16px 16px calc(110px + env(safe-area-inset-bottom));
+  overflow-y:auto;
+  overscroll-behavior:contain;
 }
 
 .modal.show,
@@ -823,8 +825,10 @@ html.dark-mode .stat:nth-child(4){
 }
 
 .modalbox{
+  position:relative;
+  z-index:10051;
   width:min(620px,100%);
-  max-height:95vh;
+  max-height:calc(100dvh - 140px);
   overflow:auto;
   background:#fff;
   border-radius:24px;
@@ -1021,8 +1025,10 @@ html.dark-mode .stat:nth-child(4){
 }
 
 .invoice-modal{
+  position:relative;
+  z-index:10051;
   width:min(760px,100%);
-  max-height:95vh;
+  max-height:calc(100dvh - 140px);
   overflow:auto;
   background:#fff;
   border-radius:24px;
