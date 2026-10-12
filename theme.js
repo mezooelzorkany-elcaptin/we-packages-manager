@@ -33,7 +33,7 @@ function styleAdminNavigation(){if(document.getElementById('cashback-admin-nav-r
 }`;document.head.appendChild(s)}
 function hidePackagesOnCustomersPage(){if(!/customers\.html$/i.test(location.pathname))return;document.querySelectorAll('a[href]').forEach(a=>{const href=(a.getAttribute('href')||'').split('?')[0].split('#')[0].toLowerCase();if(href==='packages.html')a.style.display='none'})}
 function ensureAdminBottomNav(){
-const allowed=/^(customers|renewal-whatsapp|whatsapp-import|numbers|invoices|finances|admin|client)\.html$/i;
+const allowed=/^(customers|renewal-whatsapp|whatsapp-import|numbers|invoices|finances|admin)\.html$/i;
 const page=(location.pathname.split('/').pop()||'').toLowerCase();
 if(!allowed.test(page))return;
 let nav=document.getElementById('adminBottomNav');
