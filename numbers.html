@@ -411,12 +411,13 @@ button,input{
 .modal{
     position:fixed;
     inset:0;
-    background:rgba(20,15,35,.6);
+    background:rgba(5,6,9,.82);
     display:none;
     align-items:center;
     justify-content:center;
-    padding:15px;
-    z-index:9999;
+    padding:16px 16px 112px;
+    z-index:10010;
+    overflow-y:auto;
 }
 
 .modal.show{
@@ -426,11 +427,16 @@ button,input{
 .modal-box{
     width:100%;
     max-width:500px;
-    max-height:94vh;
+    max-height:calc(100dvh - 140px);
     overflow:auto;
-    background:white;
-    border-radius:25px;
+    background:#17181c;
+    color:#f3f0e8;
+    border:1px solid #4b402b;
+    border-radius:22px;
     padding:22px;
+    margin:auto;
+    position:relative;
+    z-index:10011;
 }
 
 .modal-head{
@@ -442,15 +448,16 @@ button,input{
 
 .modal-head h2{
     margin:0;
-    color:#5420b8;
+    color:#e9bd55;
 }
 
 .close{
     width:40px;
     height:40px;
-    border:0;
+    border:1px solid #45403a;
     border-radius:12px;
-    background:#f0eef4;
+    background:#25262b;
+    color:#f3f0e8;
     cursor:pointer;
 }
 
@@ -462,22 +469,24 @@ button,input{
     display:block;
     font-weight:bold;
     font-size:13px;
-    color:#555;
+    color:#d8d1c2;
     margin-bottom:7px;
 }
 
 .field input{
     width:100%;
     height:50px;
-    border:2px solid #e4e0eb;
+    border:1px solid #45403a;
     border-radius:14px;
     padding:0 14px;
     font-size:16px;
+    color:#f4f0e8;
+    background:#101115;
     outline:none;
 }
 
 .hint{
-    color:#888;
+    color:#aaa69b;
     font-size:12px;
     margin-top:6px;
 }
@@ -492,8 +501,9 @@ button,input{
 .quick-option,
 .status-option{
     min-height:50px;
-    border:2px solid #e4e0eb;
-    background:#faf9fc;
+    border:1px solid #45403a;
+    background:#202126;
+    color:#f3f0e8;
     border-radius:14px;
     font-weight:bold;
     cursor:pointer;
@@ -534,12 +544,14 @@ button,input{
 }
 
 .save{
-    background:#5420b8;
-    color:white;
+    background:linear-gradient(135deg,#f0c35b,#b77a1b);
+    color:#17120a;
 }
 
 .cancel{
-    background:#eee;
+    background:#292a30;
+    color:#f3f0e8;
+    border:1px solid #45403a;
 }
 
 .message{
@@ -559,7 +571,7 @@ button,input{
     color:white;
     padding:13px 20px;
     border-radius:15px;
-    z-index:10000;
+    z-index:10020;
     opacity:0;
     transition:.3s;
 }
@@ -2446,7 +2458,7 @@ loadData();
 
   padding:10px 18px;
 
-  z-index:99999;
+  z-index:9000;
 
   direction:rtl;
 }
