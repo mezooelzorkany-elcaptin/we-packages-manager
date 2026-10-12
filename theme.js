@@ -31,6 +31,38 @@ function styleAdminNavigation(){if(document.getElementById('cashback-admin-nav-r
   #adminBottomNav a{flex:0 0 86px}
   #adminBottomNav .navText{font-size:10px}
 }`;document.head.appendChild(s)}
+function setupFinalDashboardStyle(){
+if(document.getElementById('cashback-final-dashboard-style'))return;
+const s=document.createElement('style');s.id='cashback-final-dashboard-style';
+s.textContent=`
+/* CASH BACK final centered brand + sidebar-free dashboard */
+.side,.sidebar,.admin-sidebar,#sidebar{display:none!important}
+body{margin:0!important;padding-bottom:98px!important}
+.main,.main-content,.content,.dashboard,.container,.wrap{max-width:none}
+#cashbackCenteredBrand{width:100%;display:flex;justify-content:center;align-items:center;min-height:126px;padding:12px 20px 4px;position:relative;isolation:isolate}
+#cashbackCenteredBrand:before{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(ellipse at center,rgba(202,150,44,.13),transparent 68%)}
+#cashbackCenteredBrand img{display:block;width:170px;height:108px;object-fit:contain;mix-blend-mode:screen;opacity:.97;filter:drop-shadow(0 5px 18px rgba(219,164,48,.22));background:transparent!important;border:0!important;box-shadow:none!important}
+body.dark-mode,#app.dark-mode{background:#090a0d!important;color:#f4f1e9!important}
+body.dark-mode header,body.dark-mode .header,body.dark-mode .topbar,body.dark-mode .navbar,body.dark-mode .panel,body.dark-mode .card,body.dark-mode .stat,body.dark-mode .box,body.dark-mode .table-wrap,body.dark-mode .modal-content,body.dark-mode .wrap>div:not(#cashbackCenteredBrand){border-color:#2a2b30}
+body.dark-mode header,body.dark-mode .header,body.dark-mode .topbar,body.dark-mode .navbar,body.dark-mode .panel,body.dark-mode .card,body.dark-mode .stat,body.dark-mode .box,body.dark-mode .modal-content{background:rgba(23,24,28,.94)!important;color:#f4f1e9!important}
+body.dark-mode h1,body.dark-mode h2,body.dark-mode h3,body.dark-mode p,body.dark-mode label,body.dark-mode td,body.dark-mode th,body.dark-mode .muted,body.dark-mode .label,body.dark-mode .title,body.dark-mode span{color:inherit}
+body.dark-mode input,body.dark-mode select,body.dark-mode textarea{background:#111216!important;color:#f5f5f5!important;border-color:#393a41!important}
+body.dark-mode table th{background:#1c1d22!important;color:#e8c36c!important}
+body.dark-mode table td{border-color:#303138!important}
+body.dark-mode a{color:inherit}
+body.dark-mode #adminBottomNav{background:rgba(16,17,20,.97)!important;border-color:#34343a!important}
+body.dark-mode #adminBottomNav a{color:#eee!important}
+body.dark-mode #adminBottomNav a.active{background:linear-gradient(135deg,#f0c15a,#a96b12)!important;color:#17120a!important}
+#adminBottomNav{background:rgba(18,18,21,.96)!important;border-top:1px solid rgba(210,162,58,.3)!important;backdrop-filter:blur(16px)}
+#adminBottomNav a{color:#eee!important}
+#adminBottomNav a.active{background:linear-gradient(135deg,#f3c55d,#b67a19)!important;color:#1a1407!important}
+#adminBottomNav .navText{font-weight:600}
+@media(max-width:650px){#cashbackCenteredBrand{min-height:95px}#cashbackCenteredBrand img{width:135px;height:82px}}
+@media print{#cashbackCenteredBrand,#adminBottomNav{display:none!important}}
+`;document.head.appendChild(s);
+let logo=document.querySelector('.side .logo img,.sidebar .logo img,.side img[alt*="CASH"],.sidebar img[alt*="CASH"],img[alt*="CASH BACK"]');
+if(logo){const wrap=document.createElement('div');wrap.id='cashbackCenteredBrand';const clone=logo.cloneNode(true);clone.removeAttribute('width');clone.removeAttribute('height');wrap.appendChild(clone);const first=document.body.firstElementChild;if(first)document.body.insertBefore(wrap,first);else document.body.appendChild(wrap)}
+}
 function hidePackagesOnCustomersPage(){if(!/customers\.html$/i.test(location.pathname))return;document.querySelectorAll('a[href]').forEach(a=>{const href=(a.getAttribute('href')||'').split('?')[0].split('#')[0].toLowerCase();if(href==='packages.html')a.style.display='none'})}
 function ensureAdminBottomNav(){
 const allowed=/^(customers|renewal-whatsapp|whatsapp-import|numbers|invoices|finances|admin)\.html$/i;
@@ -63,6 +95,6 @@ function hideCustomerList(){if(!/customers\.html$/i.test(location.pathname))retu
 function setupCustomerEditRoute(){if(!/customers\.html$/i.test(location.pathname))return;const id=new URLSearchParams(location.search).get('edit');if(!id)return;let tries=0;const timer=setInterval(()=>{tries++;const modal=document.getElementById('modal');const listReady=Array.isArray(window.customers)&&window.customers.some(x=>Number(x.id)===Number(id));if(typeof window.openEdit==='function'&&modal&&listReady){window.openEdit(Number(id));if(modal.classList.contains('show')){clearInterval(timer);return}}if(tries>150)clearInterval(timer)},200)}
 function setupCustomers(){if(!/customers\.html$/i.test(location.pathname))return;styleStats();hideCustomerList();hidePackagesOnCustomersPage();ensureAdminBottomNav();ensureRegistrationNav();setTimeout(ensureRegistrationNav,300);setTimeout(ensureRegistrationNav,1200);setupCustomerEditRoute();const stats=document.querySelector('.stats');if(!stats)return;const cards=Array.from(stats.querySelectorAll('.stat'));const find=t=>cards.find(c=>new RegExp(t).test(c.textContent||''));const total=find('إجمالي\\s*العملاء')||cards[0],soonCard=find('تجديد\\s*قريب'),skipCard=find('مش\\s*هيجدد'),day1=addStat('cbDay1Stat','تجديد يوم 1','1️⃣'),day16=addStat('cbDay16Stat','تجديد يوم 16','1️⃣6️⃣'),newOrders=addStat('cbNewOrdersStat','طلبات جديدة','🆕');const go=f=>{location.href='customers-list.html'+(f?'?filter='+encodeURIComponent(f):'')};if(total&&!total.dataset.cbBound){total.dataset.cbBound='1';total.classList.add('cb-nav-stat');total.addEventListener('click',()=>go('all'))}if(soonCard&&!soonCard.dataset.cbBound){soonCard.dataset.cbBound='1';soonCard.classList.add('cb-nav-stat');soonCard.addEventListener('click',()=>go('soon'))}if(skipCard&&!skipCard.dataset.cbBound){skipCard.dataset.cbBound='1';skipCard.classList.add('cb-nav-stat');skipCard.addEventListener('click',()=>go('skip_month'))}if(day1&&!day1.dataset.cbBound){day1.dataset.cbBound='1';day1.addEventListener('click',()=>go('1'))}if(day16&&!day16.dataset.cbBound){day16.dataset.cbBound='1';day16.addEventListener('click',()=>go('16'))}if(newOrders&&!newOrders.dataset.cbBound){newOrders.dataset.cbBound='1';newOrders.addEventListener('click',()=>location.href='new-orders.html')}refreshCustomerCounts();refreshCounts();setTimeout(refreshCustomerCounts,1000);setInterval(refreshCounts,15000);setInterval(refreshCustomerCounts,15000)}
 async function setupNewOrdersReset(){if(!/new-orders\.html$/i.test(location.pathname))return;styleStats();let resetAt=localStorage.getItem(ordersResetKey);if(!resetAt){resetAt=new Date().toISOString();localStorage.setItem(ordersResetKey,resetAt)}const c=await getAdminClient();if(!c)return;async function apply(){try{const s=await c.auth.getSession(),u=s.data.session?.user;if(!u||String(u.email||'').toLowerCase()!==ADMIN.toLowerCase())return;const {data,error}=await c.from('orders').select('order_number,created_at,status').in('status',['pending','payment_submitted']);if(error)return;const fresh=(data||[]).filter(x=>x.created_at&&new Date(x.created_at)>=new Date(resetAt));const allowed=new Set(fresh.map(x=>String(x.order_number)));document.querySelectorAll('.order').forEach(card=>card.classList.toggle('cb-old-order-hidden',!allowed.has(String(card.dataset.order||''))));const visible=[...document.querySelectorAll('.order')].filter(x=>!x.classList.contains('cb-old-order-hidden')).length;const count=document.getElementById('count');if(count)count.textContent=visible+' طلب جديد';if(!visible&&document.getElementById('list')){const any=[...document.querySelectorAll('.order')].length;if(any)document.getElementById('list').insertAdjacentHTML('beforeend','<div class="empty cb-reset-empty">لا توجد طلبات جديدة حاليًا ✅</div>')}document.querySelectorAll('.cb-reset-empty').forEach(x=>x.style.display=visible?'none':'')}catch(e){}}await apply();setInterval(apply,15000)}
-function init(){setupTheme();setupNavigation();styleAdminNavigation();ensureAdminBottomNav();setupPrint();setupCustomers();setupNewOrdersReset()}
+function init(){setupTheme();setupNavigation();styleAdminNavigation();setupFinalDashboardStyle();ensureAdminBottomNav();setupPrint();setupCustomers();setupNewOrdersReset()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
