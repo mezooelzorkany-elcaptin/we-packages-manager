@@ -951,6 +951,29 @@ html.dark-mode .invoice-modal .invoice-section{
 html.dark-mode .modalbox small,
 html.dark-mode .invoice-modal small{color:#b6b8c2!important}
 
+/* Final modal contrast fix: the form uses dark styling, so every control must match it */
+.modalbox{
+  background:#17191f!important;
+  color:#f3f0e8!important;
+  border:1px solid #343640!important;
+}
+.modalbox h2,.modalbox h3,.modalbox label{color:#f3f0e8!important}
+.modalbox .field input,.modalbox .field select,.modalbox textarea{
+  background:#101217!important;
+  color:#f3f0e8!important;
+  border-color:#454752!important;
+}
+.modalbox input::placeholder,.modalbox textarea::placeholder{color:#a8aab5!important}
+.modalbox .cancel,.modalbox .close{
+  background:#292b32!important;
+  color:#f3f0e8!important;
+  border:1px solid #454752!important;
+}
+.modalbox .save{
+  background:linear-gradient(135deg,#eac45e,#b77c20)!important;
+  color:#17130a!important;
+}
+.modalbox small{color:#b6b8c2!important}
 /* =====================================================
    PROMO
 ===================================================== */
