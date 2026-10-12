@@ -73,6 +73,28 @@ body .count,body .stat strong,body .value,body .balance-value{color:#f5d27a!impo
 @media(max-width:650px){body{padding-bottom:95px!important}}
 `;document.head.appendChild(s);
 }
+// Convert leftover hard-coded white surfaces from each legacy page into the same charcoal palette.
+const darkenWhiteSurfaces=()=>{
+document.querySelectorAll('body *').forEach(el=>{
+if(el.closest('#adminBottomNav')||el.id==='cashback-inner-theme-toggle'||el.tagName==='OPTION')return;
+const bg=getComputedStyle(el).backgroundColor;
+const m=bg.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\s*\)/i);
+if(!m)return;
+const r=+m[1],g=+m[2],bl=+m[3],a=m[4]===undefined?1:+m[4];
+if(a>.25&&r>205&&g>205&&bl>195){
+el.style.setProperty('background-color','#17181c','important');
+el.style.setProperty('background-image','none','important');
+const fg=getComputedStyle(el).color.match(/\d+/g);
+if(fg&&+fg[0]>95&&+fg[1]>95&&+fg[2]>95)el.style.setProperty('color','#f3f0e8','important');
+el.style.setProperty('border-color','#303136','important');
+}
+});
+};
+darkenWhiteSurfaces();
+if(!window.__cashbackDarkSurfaceObserver){
+window.__cashbackDarkSurfaceObserver=new MutationObserver(()=>darkenWhiteSurfaces());
+window.__cashbackDarkSurfaceObserver.observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style']});
+}
 let b=document.getElementById('cashback-inner-theme-toggle');
 if(!b){b=document.createElement('button');b.id='cashback-inner-theme-toggle';b.type='button';b.title='تبديل الوضع';b.setAttribute('aria-label','تبديل الوضع الداكن');document.body.appendChild(b)}
 const sync=()=>{const dark=document.documentElement.classList.contains('dark-mode');b.textContent=dark?'☀️':'🌙'};
