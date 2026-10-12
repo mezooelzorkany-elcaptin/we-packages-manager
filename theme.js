@@ -1,7 +1,16 @@
 // CASH BACK — theme + navigation
 (function(){
 const U='https://pgvbynefhqmyzjtccttl.supabase.co',K='sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY',ADMIN='mezooelzorkany@gmail.com',themeKey='cashback-theme',ordersResetKey='cashback-orders-reset-at';
-function setupTheme(){const saved=localStorage.getItem(themeKey)||localStorage.getItem('app_theme');document.documentElement.classList.toggle('dark-mode',saved==='dark');const b=document.getElementById('theme-toggle');if(!b||b.dataset.themeBound)return;const i=document.getElementById('theme-icon'),sync=()=>{const d=document.documentElement.classList.contains('dark-mode');document.body.classList.toggle('dark-mode',d);if(i)i.textContent=d?'☀️':'🌙'};sync();b.dataset.themeBound='1';b.addEventListener('click',()=>{const d=!document.documentElement.classList.contains('dark-mode');document.documentElement.classList.toggle('dark-mode',d);document.body.classList.toggle('dark-mode',d);localStorage.setItem(themeKey,d?'dark':'light');localStorage.setItem('app_theme',d?'dark':'light');sync()})}
+function setupTheme(){
+const saved=localStorage.getItem(themeKey)||localStorage.getItem('app_theme')||'dark';
+document.documentElement.classList.toggle('dark-mode',saved==='dark');
+if(saved==='dark')document.body.classList.add('dark-mode');
+const b=document.getElementById('theme-toggle');
+const i=document.getElementById('theme-icon');
+const sync=()=>{const d=document.documentElement.classList.contains('dark-mode');document.body.classList.toggle('dark-mode',d);if(i)i.textContent=d?'☀️':'🌙';if(b)b.setAttribute('aria-label',d?'تفعيل الوضع الفاتح':'تفعيل الوضع الداكن')};
+sync();
+if(b&&!b.dataset.themeBound){b.dataset.themeBound='1';b.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();const d=!document.documentElement.classList.contains('dark-mode');document.documentElement.classList.toggle('dark-mode',d);document.body.classList.toggle('dark-mode',d);localStorage.setItem(themeKey,d?'dark':'light');localStorage.setItem('app_theme',d?'dark':'light');sync()},true)}
+}
 function setupNavigation(){document.querySelectorAll('a[href]').forEach(a=>a.removeAttribute('data-cb-navigation-hijack'))}
 function styleAdminNavigation(){if(document.getElementById('cashback-admin-nav-responsive-style'))return;const s=document.createElement('style');s.id='cashback-admin-nav-responsive-style';s.textContent=`
 /* CASH BACK navigation: stable on laptop and smaller screens */
@@ -31,6 +40,33 @@ function styleAdminNavigation(){if(document.getElementById('cashback-admin-nav-r
   #adminBottomNav a{flex:0 0 86px}
   #adminBottomNav .navText{font-size:10px}
 }`;document.head.appendChild(s)}
+/* Strong, consistent black-and-gold palette across admin pages */
+function setupCashbackPalette(){
+if(document.getElementById('cashback-global-gold-palette'))return;
+const s=document.createElement('style');s.id='cashback-global-gold-palette';
+s.textContent=`
+:root{color-scheme:dark;--bg-main:#0a0b0e;--bg-card:#17181c;--text-main:#f4f1e9;--text-muted:#aaa69b;--border:#303136;--input:#111216;--soft:#202126;--purple:#d9a83f}
+html,body{background:#090a0d!important;color:#f3f0e8!important}
+body,body *{scrollbar-color:#5a4824 #111216}
+body header,body .header,body .topbar,body .navbar,body .panel,body .card,body .stat,body .box,body .glass,body .container>section,body .container>.section,body .summary,body .stat-card,body .table-container,body .table-wrap,body .form-card{background-color:#17181c!important;color:#f3f0e8!important;border-color:#303136!important;box-shadow:0 8px 28px rgba(0,0,0,.24)}
+body .container,body .main,body .main-content,body .content,body .wrap{background:transparent!important;color:#f3f0e8!important}
+body h1,body h2,body h3,body h4,body p,body label,body td,body th,body small,body .muted,body .label,body .title,body .subtitle,body span{color:inherit}
+body input,body select,body textarea{background:#101115!important;color:#f6f2e8!important;border:1px solid #45403a!important}
+body input::placeholder,body textarea::placeholder{color:#938d80!important}
+body button:not(.theme-toggle),body .btn,body .button{border-color:#9f7627}
+body .btn-primary,body .primary,body button.primary{background:linear-gradient(135deg,#f1c55d,#b67a19)!important;color:#17120a!important}
+body a{color:#e7bd5b}
+body table th{background:#202126!important;color:#e7bd5b!important}
+body table td{border-color:#303136!important}
+body .side,body .sidebar,body .admin-sidebar,body #sidebar{display:none!important}
+#adminBottomNav{background:rgba(15,16,19,.97)!important;border-top:1px solid rgba(219,173,69,.4)!important;box-shadow:0 -8px 28px #0008!important;backdrop-filter:blur(18px)}
+#adminBottomNav a{color:#d7d2c6!important}
+#adminBottomNav a.active{background:linear-gradient(135deg,#f2c75f,#b77a1b)!important;color:#17120a!important;box-shadow:0 3px 14px #c99a3833}
+#cashbackCenteredBrand{background:transparent!important}
+#cashbackCenteredBrand img{mix-blend-mode:screen;opacity:.98}
+@media(prefers-color-scheme:light){html,body{color-scheme:dark}}
+`;document.head.appendChild(s);
+}
 function setupFinalDashboardStyle(){
 if(document.getElementById('cashback-final-dashboard-style'))return;
 const s=document.createElement('style');s.id='cashback-final-dashboard-style';
@@ -95,6 +131,6 @@ function hideCustomerList(){if(!/customers\.html$/i.test(location.pathname))retu
 function setupCustomerEditRoute(){if(!/customers\.html$/i.test(location.pathname))return;const id=new URLSearchParams(location.search).get('edit');if(!id)return;let tries=0;const timer=setInterval(()=>{tries++;const modal=document.getElementById('modal');const listReady=Array.isArray(window.customers)&&window.customers.some(x=>Number(x.id)===Number(id));if(typeof window.openEdit==='function'&&modal&&listReady){window.openEdit(Number(id));if(modal.classList.contains('show')){clearInterval(timer);return}}if(tries>150)clearInterval(timer)},200)}
 function setupCustomers(){if(!/customers\.html$/i.test(location.pathname))return;styleStats();hideCustomerList();hidePackagesOnCustomersPage();ensureAdminBottomNav();ensureRegistrationNav();setTimeout(ensureRegistrationNav,300);setTimeout(ensureRegistrationNav,1200);setupCustomerEditRoute();const stats=document.querySelector('.stats');if(!stats)return;const cards=Array.from(stats.querySelectorAll('.stat'));const find=t=>cards.find(c=>new RegExp(t).test(c.textContent||''));const total=find('إجمالي\\s*العملاء')||cards[0],soonCard=find('تجديد\\s*قريب'),skipCard=find('مش\\s*هيجدد'),day1=addStat('cbDay1Stat','تجديد يوم 1','1️⃣'),day16=addStat('cbDay16Stat','تجديد يوم 16','1️⃣6️⃣'),newOrders=addStat('cbNewOrdersStat','طلبات جديدة','🆕');const go=f=>{location.href='customers-list.html'+(f?'?filter='+encodeURIComponent(f):'')};if(total&&!total.dataset.cbBound){total.dataset.cbBound='1';total.classList.add('cb-nav-stat');total.addEventListener('click',()=>go('all'))}if(soonCard&&!soonCard.dataset.cbBound){soonCard.dataset.cbBound='1';soonCard.classList.add('cb-nav-stat');soonCard.addEventListener('click',()=>go('soon'))}if(skipCard&&!skipCard.dataset.cbBound){skipCard.dataset.cbBound='1';skipCard.classList.add('cb-nav-stat');skipCard.addEventListener('click',()=>go('skip_month'))}if(day1&&!day1.dataset.cbBound){day1.dataset.cbBound='1';day1.addEventListener('click',()=>go('1'))}if(day16&&!day16.dataset.cbBound){day16.dataset.cbBound='1';day16.addEventListener('click',()=>go('16'))}if(newOrders&&!newOrders.dataset.cbBound){newOrders.dataset.cbBound='1';newOrders.addEventListener('click',()=>location.href='new-orders.html')}refreshCustomerCounts();refreshCounts();setTimeout(refreshCustomerCounts,1000);setInterval(refreshCounts,15000);setInterval(refreshCustomerCounts,15000)}
 async function setupNewOrdersReset(){if(!/new-orders\.html$/i.test(location.pathname))return;styleStats();let resetAt=localStorage.getItem(ordersResetKey);if(!resetAt){resetAt=new Date().toISOString();localStorage.setItem(ordersResetKey,resetAt)}const c=await getAdminClient();if(!c)return;async function apply(){try{const s=await c.auth.getSession(),u=s.data.session?.user;if(!u||String(u.email||'').toLowerCase()!==ADMIN.toLowerCase())return;const {data,error}=await c.from('orders').select('order_number,created_at,status').in('status',['pending','payment_submitted']);if(error)return;const fresh=(data||[]).filter(x=>x.created_at&&new Date(x.created_at)>=new Date(resetAt));const allowed=new Set(fresh.map(x=>String(x.order_number)));document.querySelectorAll('.order').forEach(card=>card.classList.toggle('cb-old-order-hidden',!allowed.has(String(card.dataset.order||''))));const visible=[...document.querySelectorAll('.order')].filter(x=>!x.classList.contains('cb-old-order-hidden')).length;const count=document.getElementById('count');if(count)count.textContent=visible+' طلب جديد';if(!visible&&document.getElementById('list')){const any=[...document.querySelectorAll('.order')].length;if(any)document.getElementById('list').insertAdjacentHTML('beforeend','<div class="empty cb-reset-empty">لا توجد طلبات جديدة حاليًا ✅</div>')}document.querySelectorAll('.cb-reset-empty').forEach(x=>x.style.display=visible?'none':'')}catch(e){}}await apply();setInterval(apply,15000)}
-function init(){setupTheme();setupNavigation();styleAdminNavigation();setupFinalDashboardStyle();ensureAdminBottomNav();setupPrint();setupCustomers();setupNewOrdersReset()}
+function init(){setupTheme();setupNavigation();styleAdminNavigation();setupCashbackPalette();setupFinalDashboardStyle();ensureAdminBottomNav();setupPrint();setupCustomers();setupNewOrdersReset()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
