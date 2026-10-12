@@ -904,6 +904,53 @@ html.dark-mode .stat:nth-child(4){
 }
 
 
+/* Modal dark palette: eliminate conflicting white surfaces */
+html.dark-mode .modalbox,
+html.dark-mode .invoice-modal{
+  background:#17191f!important;
+  color:#f3f0e8!important;
+  border:1px solid #343640!important;
+}
+html.dark-mode .modalbox h2,
+html.dark-mode .modalbox h3,
+html.dark-mode .modalbox label,
+html.dark-mode .invoice-modal h2,
+html.dark-mode .invoice-modal h3,
+html.dark-mode .invoice-modal label{color:#f3f0e8!important}
+html.dark-mode .modalbox .field input,
+html.dark-mode .modalbox .field select,
+html.dark-mode .invoice-modal input,
+html.dark-mode .invoice-modal select,
+html.dark-mode .invoice-modal textarea{
+  background:#101217!important;
+  color:#f3f0e8!important;
+  border-color:#454752!important;
+}
+html.dark-mode .modalbox input::placeholder,
+html.dark-mode .invoice-modal input::placeholder{color:#a8aab5!important}
+html.dark-mode .modalbox .close,
+html.dark-mode .modalbox .cancel,
+html.dark-mode .invoice-modal .invoice-close{
+  background:#292b32!important;
+  color:#f3f0e8!important;
+  border:1px solid #454752!important;
+}
+html.dark-mode .modalbox .save{
+  background:linear-gradient(135deg,#eac45e,#b77c20)!important;
+  color:#17130a!important;
+}
+html.dark-mode .modalbox .field[style*="background"]{
+  background:#202a25!important;
+}
+html.dark-mode .modalbox .price,
+html.dark-mode .invoice-modal .invoice-section{
+  background:#20232b!important;
+  color:#f3f0e8!important;
+  border-color:#343640!important;
+}
+html.dark-mode .modalbox small,
+html.dark-mode .invoice-modal small{color:#b6b8c2!important}
+
 /* =====================================================
    PROMO
 ===================================================== */
