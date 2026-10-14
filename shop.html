@@ -14,7 +14,7 @@
 <section id="expensesPanel" class="card hidden"><h2>تسجيل مصروف</h2><form onsubmit="addExpense(event)"><input id="expenseTitle" required placeholder="اسم المصروف"><input id="expenseAmount" required type="number" min=".01" step=".01" placeholder="المبلغ"><select id="expenseAccount"><option value="">الحساب (اختياري)</option></select><input id="expenseDate" type="date"><input id="expenseNotes" placeholder="ملاحظات"><button>حفظ المصروف</button></form><div id="expensesTable"></div></section>
 </div></div>
 <script>
-const URL='https://pgvbynefhqmyzjtccttl.supabase.co';
+const SUPABASE_URL='https://pgvbynefhqmyzjtccttl.supabase.co';
 const KEY='sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY';
 const ADMIN='mezooelzorkany@gmail.com';
 let db=null;
@@ -38,7 +38,7 @@ async function init(){
  try{
   msg('جاري تحميل مكتبة تسجيل الدخول...');
   await loadSupabase();
-  db=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+  db=window.supabase.createClient(SUPABASE_URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
   msg('جاري التحقق من تسجيل الدخول...');
   const result=await Promise.race([db.auth.getSession(),new Promise((_,reject)=>setTimeout(()=>reject(new Error('التحقق من تسجيل الدخول تأخر أكثر من 8 ثوانٍ. حدّث الصفحة ثم جرّب مرة أخرى.')),8000))]);
   if(result.error) throw result.error;
