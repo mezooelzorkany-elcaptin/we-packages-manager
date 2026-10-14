@@ -3749,12 +3749,15 @@ async function login(){
 
 function showApp(){
 
-  $("loginScreen").style.display =
-    "none";
+  const params = new URLSearchParams(window.location.search);
 
-  $("app").style.display =
-    "block";
+  if(params.get("module") !== "packages"){
+    window.location.replace("modules.html");
+    return;
+  }
 
+  $("loginScreen").style.display = "none";
+  $("app").style.display = "block";
   loadCustomers();
 
 }
