@@ -75,13 +75,12 @@ async function load(){
 function showRenewalStats(day){
  const box=document.getElementById('summary'),home=document.getElementById('renewalHome'),status=document.getElementById('status');
  const rows=allCustomers.filter(c=>renewalBucket(c)===day);
- const counts=new Map();let unknown=0;
- rows.forEach(c=>{const gb=getSize(c);if(gb&&Number.isFinite(gb))counts.set(String(gb),(counts.get(String(gb))||0)+1);else unknown++});
+ const counts=new Map();
+ rows.forEach(c=>{const gb=getSize(c);if(gb&&Number.isFinite(gb))counts.set(String(gb),(counts.get(String(gb))||0)+1);});
  const entries=[...counts.entries()].sort((a,b)=>Number(a[0])-Number(b[0]));
  box.hidden=false;home.hidden=true;
  box.innerHTML='<article class="tile"><h2>تجديد يوم '+day+'</h2><div class="count">'+rows.length+'</div><div class="unit">إجمالي العملاء</div></article>'+
  entries.map(([gb,count])=>'<button type="button" class="tile" data-size="'+esc(gb)+'" data-renewal="'+day+'"><h2>باقة '+esc(gb)+' جيجا</h2><div class="count">'+count+'</div><div class="unit">عميل · اضغط لعرض الأسماء</div><div class="bar"><span style="width:'+(count/Math.max(rows.length,1)*100)+'%"></span></div></button>').join('')+
- '<button type="button" class="tile" data-size="unknown" data-renewal="'+day+'"><h2>حجم غير محدد</h2><div class="count">'+unknown+'</div><div class="unit">عميل</div></button>'+
  '';
  status.textContent='إحصائيات التجديد يوم '+day+' فقط.';
  box.querySelectorAll('[data-size]').forEach(btn=>btn.addEventListener('click',()=>showCustomers(btn.dataset.size,btn.dataset.renewal||'')));
