@@ -191,13 +191,14 @@ if(logo){const wrap=document.createElement('div');wrap.id='cashbackCenteredBrand
 }
 function hidePackagesOnCustomersPage(){if(!/customers\.html$/i.test(location.pathname))return;document.querySelectorAll('a[href]').forEach(a=>{const href=(a.getAttribute('href')||'').split('?')[0].split('#')[0].toLowerCase();if(href==='packages.html')a.style.display='none'})}
 function ensureAdminBottomNav(){
-const allowed=/^(customers|inbox|renewal-whatsapp|whatsapp-import|numbers|invoices|finances|admin)\.html$/i;
+const allowed=/^(customers|inbox|renewal-whatsapp|whatsapp-import|numbers|invoices|finances|admin|package-stats)\.html$/i;
 const page=(location.pathname.split('/').pop()||'').toLowerCase();
 if(!allowed.test(page))return;
 let nav=document.getElementById('adminBottomNav');
 if(!nav){nav=document.createElement('nav');nav.id='adminBottomNav';nav.setAttribute('aria-label','التنقل الإداري');document.body.appendChild(nav)}
 const items=[
 ['customers.html','👥','العملاء'],
+['package-stats.html','📊','إحصائية الباقات'],
 ['inbox.html','💬','التواصل والمتابعة'],
 ['renewal-whatsapp.html','📲','تجديدات واتساب'],
 ['whatsapp-import.html','📥','استيراد أرقام واتساب'],
