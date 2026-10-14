@@ -1167,6 +1167,7 @@ async function loadData(){
 
 
         renderNumbers();
+        renderAllocationSuggestions();
 
     }
     catch(error){
@@ -2542,6 +2543,9 @@ document.addEventListener(
 /* =====================================================
    START
 ===================================================== */
+
+document.getElementById("allocationGB")?.addEventListener("input",renderAllocationSuggestions);
+document.getElementById("allocationGroup")?.addEventListener("change",renderAllocationSuggestions);
 
 loadData();
 
