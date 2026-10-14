@@ -104,7 +104,7 @@
       const full=x.linked.length>=MAX_CUSTOMERS;
       const enough=x.remaining!==null&&x.remaining>=target;
       const state=x.total===null?"السعة غير محددة":full?"اكتمل العدد":enough?"مناسب للحجم":"السعة غير كافية";
-      return '<article class="number"><div><h3>'+esc(x.n.phone||"رقم بدون بيانات")+'</h3><div class="chips"><span class="chip">'+(x.remaining===null?"إجمالي الباقة غير محدد":'متبقي '+fmt(x.remaining)+' جيجا')+'</span><span class="chip">'+x.linked.length+' / '+MAX_CUSTOMERS+' عملاء</span><span class="chip '+(x.slots>0?"good":"warn")+'">'+(x.slots>0?x.slots+" أماكن متاحة":"مكتمل — لا تضف عملاء")+'</span><span class="chip '+(enough&&x.slots>0?"good":"")+'">'+state+'</span></div></div><span class="tag">'+(x.total===null?"—":fmt(x.used)+" مستخدم")+'</span></article>';
+      return '<article class="number"><div><h3>'+esc(x.n.phone||"رقم بدون بيانات")+'</h3><div class="chips"><span class="chip">'+(x.remaining===null?"إجمالي الباقة غير محدد":'متبقي '+fmt(x.remaining)+' جيجا')+'</span><span class="chip">'+x.linked.length+' / '+MAX_CUSTOMERS+' عملاء</span><span class="chip '+(x.slots>0?"good":"warn")+'">'+(x.slots>0?x.slots+" أماكن متاحة":"مكتمل — لا تضف عملاء")+'</span><span class="chip '+(enough&&x.slots>0?"good":"")+'">'+state+'</span></div></div></article>';
     }).join(""):'<div class="empty">مفيش أرقام أساسية متسجلة.</div>';
   }
   async function load(){
