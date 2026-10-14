@@ -13,6 +13,15 @@ h1{font-size:25px;margin:0 0 8px}.muted{color:#b7b2c8;font-size:14px;line-height
 .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:22px}.tile,.summary-card{border:1px solid #4b405f;border-radius:16px;background:#201d2b;padding:18px;min-width:0;box-sizing:border-box}
 .tile{min-height:135px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:border-color .15s,transform .15s}.tile:hover{border-color:#bca0ff;transform:translateY(-2px)}.tile:focus-visible{outline:2px solid #ffe08a;outline-offset:2px}.tile.selected{border-color:#ffe08a;box-shadow:0 0 0 1px #ffe08a33}.tile h2{font-size:16px;margin:0;color:#d4c2ff}.count{font-size:38px;font-weight:900;color:#f5f1ff}.unit{font-size:13px;color:#b7b2c8}
 #status{margin:12px 0;color:#c8bfdc;line-height:1.8}.bar{height:7px;background:#383044;border-radius:20px;overflow:hidden;margin-top:10px}.bar span{display:block;height:100%;background:#bca0ff;border-radius:20px}
+
+.renewal-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:12px 0 22px}
+.renewal-group{border:1px solid #66538a;border-radius:16px;background:#1c1926;padding:16px;min-width:0}
+.renewal-group h2{font-size:18px;margin:0 0 12px;color:#e0d1ff}
+.renewal-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.renewal-card{border:1px solid #594876;border-radius:12px;background:#292438;color:#f5f1ff;padding:14px 10px;display:grid;gap:7px;text-align:center;min-width:0}
+.renewal-card.day1{border-color:#bda0ff}.renewal-card.day16{border-color:#e1b954}
+.renewal-card .count{font-size:30px}.renewal-card .unit{line-height:1.5}
+.renewal-card.selected{box-shadow:0 0 0 2px #ffe08a}
 @media(max-width:520px){main{padding:18px 12px 110px}.summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.tile{padding:12px;min-height:115px}.count{font-size:30px}}
 </style></head>
 <body><main>
@@ -24,7 +33,7 @@ h1{font-size:25px;margin:0 0 8px}.muted{color:#b7b2c8;font-size:14px;line-height
 const SUPABASE_URL="https://pgvbynefhqmyzjtccttl.supabase.co";
 const SUPABASE_KEY="sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
-let allCustomers=[];
+let allCustomers=[];\nfunction renewalBucket(c){const t=String(c.renewal_type||'').toLowerCase();const d=Number(c.renewal_day);if(t==='day_1'||d===1)return '1';if(t==='day_16'||d===16)return '16';return 'other';}
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function getSize(c){
  const n=Number(c.allocated_gb);if(c.allocated_gb!==null&&c.allocated_gb!==undefined&&String(c.allocated_gb).trim()!==''&&Number.isFinite(n)&&n>0)return n;
@@ -40,23 +49,28 @@ async function load(){
   const {data,error}=await db.from('customers').select('*').is('deleted_at',null).order('subscriber_name');
   if(error)throw error;
   allCustomers=data||[];
-  const counts=new Map();let unknown=0;
-  (data||[]).forEach(c=>{const gb=getSize(c);if(gb&&Number.isFinite(gb))counts.set(String(gb),(counts.get(String(gb))||0)+1);else unknown++});
-  const entries=[...counts.entries()].sort((a,b)=>Number(a[0])-Number(b[0]));
-  const known=entries.reduce((n,x)=>n+x[1],0);
-  box.innerHTML='<article class="tile"><h2>إجمالي العملاء</h2><div class="count">'+(data||[]).length+'</div><div class="unit">عميل مسجل</div></article>'+
-   entries.map(([gb,count])=>'<button type="button" class="tile" data-size="'+esc(gb)+'"><h2>باقة '+esc(gb)+' جيجا</h2><div class="count">'+count+'</div><div class="unit">عميل مشترك · اضغط لعرضهم</div><div class="bar"><span style="width:'+((count/Math.max(known,1))*100)+'%"></span></div></button>').join('')+
-   '<article class="tile"><h2>حجم غير محدد</h2><div class="count">'+unknown+'</div><div class="unit">عميل محتاج بيانات باقته تتراجع</div></article>';
-  status.textContent='تم حساب '+known+' عميل بأحجام باقات واضحة من أصل '+allCustomers.length+'. اضغط على أي باقة لعرض عملائها.';
-  box.querySelectorAll('[data-size]').forEach(btn=>btn.addEventListener('click',()=>showCustomers(btn.dataset.size)));
+  const counts=new Map();let unknown=0,otherRenewal=0;
+  allCustomers.forEach(c=>{const gb=getSize(c);if(gb&&Number.isFinite(gb)){const key=String(gb)+'|'+renewalBucket(c);counts.set(key,(counts.get(key)||0)+1);}else unknown++;if(renewalBucket(c)==='other')otherRenewal++;});
+  const sizes=[...new Set(allCustomers.map(getSize).filter(n=>n&&Number.isFinite(n)).map(String))].sort((a,b)=>Number(a)-Number(b));
+  const known=allCustomers.length-unknown;
+  const total1=allCustomers.filter(c=>renewalBucket(c)==='1').length;
+  const total16=allCustomers.filter(c=>renewalBucket(c)==='16').length;
+  box.innerHTML='<article class="tile"><h2>إجمالي العملاء</h2><div class="count">'+allCustomers.length+'</div><div class="unit">عميل مسجل</div></article>'+
+  '<article class="tile" style="border-color:#bda0ff"><h2>تجديد يوم 1</h2><div class="count">'+total1+'</div><div class="unit">عميل · كل أحجام الباقات</div></article>'+
+  '<article class="tile" style="border-color:#e1b954"><h2>تجديد يوم 16</h2><div class="count">'+total16+'</div><div class="unit">عميل · كل أحجام الباقات</div></article>'+
+  '<article class="tile"><h2>موعد تجديد غير محدد</h2><div class="count">'+otherRenewal+'</div><div class="unit">محتاج مراجعة</div></article>'+
+  '<div class="renewal-groups" style="grid-column:1/-1">'+sizes.map(gb=>{const n1=counts.get(gb+'|1')||0,n16=counts.get(gb+'|16')||0;return '<section class="renewal-group"><h2>باقة '+esc(gb)+' جيجا</h2><div class="renewal-cards"><button type="button" class="renewal-card day1" data-size="'+esc(gb)+'" data-renewal="1"><strong>تجديد يوم 1</strong><span class="count">'+n1+'</span><span class="unit">عميل · اضغط لعرضهم</span></button><button type="button" class="renewal-card day16" data-size="'+esc(gb)+'" data-renewal="16"><strong>تجديد يوم 16</strong><span class="count">'+n16+'</span><span class="unit">عميل · اضغط لعرضهم</span></button></div></section>';}).join('')+'</div>'+
+  '<button type="button" class="tile" data-size="unknown"><h2>حجم باقة غير محدد</h2><div class="count">'+unknown+'</div><div class="unit">اضغط لعرض العملاء</div></button>';
+  status.textContent='الإحصائيات مفصولة حسب حجم الباقة وموعد التجديد. إجمالي العملاء بأحجام معروفة: '+known+'.';
+  box.querySelectorAll('[data-size]').forEach(btn=>btn.addEventListener('click',()=>showCustomers(btn.dataset.size,btn.dataset.renewal||'')));
  }catch(e){box.innerHTML='<div class="summary-card">تعذر تحميل الإحصائية.</div>';status.textContent=e.message||'حدث خطأ أثناء التحميل';}
 }
 
-function showCustomers(size){
+function showCustomers(size,renewal=''){
  const panel=document.getElementById('customerResults');
  const list=document.getElementById('resultList');
- const rows=allCustomers.filter(c=>size==='unknown'?!getSize(c):String(getSize(c))===String(size));
- document.getElementById('resultTitle').textContent=size==='unknown'?'عملاء بحجم باقة غير محدد':'عملاء باقة '+size+' جيجا';
+ const rows=allCustomers.filter(c=>(size==='unknown'?!getSize(c):String(getSize(c))===String(size))&&(!renewal||renewalBucket(c)===renewal));
+ document.getElementById('resultTitle').textContent=(size==='unknown'?'عملاء بحجم باقة غير محدد':'عملاء باقة '+size+' جيجا')+(renewal?' — تجديد يوم '+renewal:'');
  document.getElementById('resultCount').textContent='عدد العملاء: '+rows.length;
  list.innerHTML=rows.length?rows.map(c=>{
   const renewal=String(c.renewal_type||'');
