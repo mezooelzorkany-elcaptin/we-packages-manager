@@ -58,7 +58,11 @@ function showCustomers(size){
  const rows=allCustomers.filter(c=>size==='unknown'?!getSize(c):String(getSize(c))===String(size));
  document.getElementById('resultTitle').textContent=size==='unknown'?'عملاء بحجم باقة غير محدد':'عملاء باقة '+size+' جيجا';
  document.getElementById('resultCount').textContent='عدد العملاء: '+rows.length;
- list.innerHTML=rows.length?rows.map(c=>'<article style="border:1px solid #4b405f;border-radius:12px;padding:14px;background:#181621;display:grid;gap:7px"><strong>'+esc(c.subscriber_name||'بدون اسم')+'</strong><span class="muted">📞 '+esc(c.phone||'لا يوجد رقم')+'</span><span class="muted">📱 الرقم الأساسي: '+esc(c.primary_number||c.main_number||'غير مسجل')+'</span><span class="muted">📦 الباقة: '+esc(c.package_name||c.package_size||'غير محدد')+'</span></article>').join(''):'<div class="muted">لا يوجد عملاء في هذه الفئة.</div>';
+ list.innerHTML=rows.length?rows.map(c=>{
+  const renewal=String(c.renewal_type||'');
+  const renewalLabel=renewal==='day_1'||Number(c.renewal_day)===1?'تجديد يوم 1':renewal==='day_16'||Number(c.renewal_day)===16?'تجديد يوم 16':renewal==='custom'?'تجديد بتاريخ مخصص'+(c.next_renewal_date?' ('+esc(c.next_renewal_date)+')':''):'موعد التجديد غير محدد';
+  return '<article style="border:1px solid #4b405f;border-radius:12px;padding:14px;background:#181621;display:grid;gap:7px"><strong>'+esc(c.subscriber_name||'بدون اسم')+'</strong><span class="muted">📞 رقم التواصل: '+esc(c.phone||'لا يوجد رقم')+'</span><span class="muted">📱 الرقم الأساسي: '+esc(c.primary_number||c.main_number||'غير مسجل')+'</span><span class="muted">📦 الباقة: '+esc(c.package_name||c.package_size||'غير محدد')+'</span><span style="display:inline-flex;align-self:start;border:1px solid #8066ad;background:#2a2339;border-radius:9px;padding:7px 10px;color:#e0d1ff;font-weight:700">🗓️ '+renewalLabel+'</span></article>';
+}).join(''):'<div class="muted">لا يوجد عملاء في هذه الفئة.</div>';
  panel.hidden=false;panel.scrollIntoView({behavior:'smooth',block:'start'});
 }
 document.getElementById('closeResults').addEventListener('click',()=>{document.getElementById('customerResults').hidden=true;});
