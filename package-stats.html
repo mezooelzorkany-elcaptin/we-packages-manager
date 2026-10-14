@@ -15,6 +15,15 @@ h1{font-size:25px;margin:0 0 8px}.muted{color:#b7b2c8;font-size:14px;line-height
 #status{margin:12px 0;color:#c8bfdc;line-height:1.8}.bar{height:7px;background:#383044;border-radius:20px;overflow:hidden;margin-top:10px}.bar span{display:block;height:100%;background:#bca0ff;border-radius:20px}
 
 .renewal-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:12px 0 22px}
+
+.renewal-home{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:22px 0}
+.renewal-home button{min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border-radius:20px;padding:22px;box-shadow:0 8px 22px #0002}
+.renewal-home .day1-home{border:2px solid #bda0ff;background:linear-gradient(145deg,#29213b,#201d2b)}
+.renewal-home .day16-home{border:2px solid #e1b954;background:linear-gradient(145deg,#352b17,#201d2b)}
+.renewal-home .big-title{font-size:24px;font-weight:900}
+.renewal-home .big-count{font-size:44px;font-weight:900}
+.renewal-home .hint{font-size:14px;color:#c5bdd6}
+@media(max-width:520px){.renewal-home{gap:10px}.renewal-home button{min-height:150px;padding:12px}.renewal-home .big-title{font-size:19px}.renewal-home .big-count{font-size:34px}}
 .renewal-group{border:1px solid #66538a;border-radius:16px;background:#1c1926;padding:16px;min-width:0}
 .renewal-group h2{font-size:18px;margin:0 0 12px;color:#e0d1ff}
 .renewal-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
@@ -26,7 +35,7 @@ h1{font-size:25px;margin:0 0 8px}.muted{color:#b7b2c8;font-size:14px;line-height
 </style></head>
 <body><main>
 <header class="heading"><div><h1>📊 إحصائية الباقات</h1><div class="muted">عدد العملاء في كل حجم باقة — من بيانات العملاء المسجلة</div></div><div class="actions"><button class="primary" id="refresh">↻ تحديث الإحصائية</button><button id="back" onclick="location.href='customers.html'">رجوع للعملاء</button></div></header>
-<section class="summary" id="summary"><div class="summary-card">جاري تحميل بيانات الباقات...</div></section>
+<section class="renewal-home" id="renewalHome" hidden></section><section class="summary" id="summary" hidden><div class="summary-card">جاري تحميل بيانات الباقات...</div></section>
 <div id="status"></div><section id="customerResults" hidden style="margin-top:24px;border:1px solid #4b405f;border-radius:16px;background:#201d2b;padding:18px"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><h2 id="resultTitle" style="margin:0 0 6px;font-size:20px">عملاء الباقة</h2><div id="resultCount" class="muted"></div></div><button id="closeResults">إغلاق القائمة</button></div><div id="resultList" style="display:grid;gap:10px;margin-top:16px"></div></section>
 </main>
 <script>
@@ -50,21 +59,32 @@ async function load(){
   const {data,error}=await db.from('customers').select('*').is('deleted_at',null).order('subscriber_name');
   if(error)throw error;
   allCustomers=data||[];
-  const counts=new Map();let unknown=0,otherRenewal=0;
-  allCustomers.forEach(c=>{const gb=getSize(c);if(gb&&Number.isFinite(gb)){const key=String(gb)+'|'+renewalBucket(c);counts.set(key,(counts.get(key)||0)+1);}else unknown++;if(renewalBucket(c)==='other')otherRenewal++;});
-  const sizes=[...new Set(allCustomers.map(getSize).filter(n=>n&&Number.isFinite(n)).map(String))].sort((a,b)=>Number(a)-Number(b));
-  const known=allCustomers.length-unknown;
   const total1=allCustomers.filter(c=>renewalBucket(c)==='1').length;
   const total16=allCustomers.filter(c=>renewalBucket(c)==='16').length;
-  box.innerHTML='<article class="tile"><h2>إجمالي العملاء</h2><div class="count">'+allCustomers.length+'</div><div class="unit">عميل مسجل</div></article>'+
-  '<article class="tile" style="border-color:#bda0ff"><h2>تجديد يوم 1</h2><div class="count">'+total1+'</div><div class="unit">عميل · كل أحجام الباقات</div></article>'+
-  '<article class="tile" style="border-color:#e1b954"><h2>تجديد يوم 16</h2><div class="count">'+total16+'</div><div class="unit">عميل · كل أحجام الباقات</div></article>'+
-  '<article class="tile"><h2>موعد تجديد غير محدد</h2><div class="count">'+otherRenewal+'</div><div class="unit">محتاج مراجعة</div></article>'+
-  '<div class="renewal-groups" style="grid-column:1/-1">'+sizes.map(gb=>{const n1=counts.get(gb+'|1')||0,n16=counts.get(gb+'|16')||0;return '<section class="renewal-group"><h2>باقة '+esc(gb)+' جيجا</h2><div class="renewal-cards"><button type="button" class="renewal-card day1" data-size="'+esc(gb)+'" data-renewal="1"><strong>تجديد يوم 1</strong><span class="count">'+n1+'</span><span class="unit">عميل · اضغط لعرضهم</span></button><button type="button" class="renewal-card day16" data-size="'+esc(gb)+'" data-renewal="16"><strong>تجديد يوم 16</strong><span class="count">'+n16+'</span><span class="unit">عميل · اضغط لعرضهم</span></button></div></section>';}).join('')+'</div>'+
-  '<button type="button" class="tile" data-size="unknown"><h2>حجم باقة غير محدد</h2><div class="count">'+unknown+'</div><div class="unit">اضغط لعرض العملاء</div></button>';
-  status.textContent='الإحصائيات مفصولة حسب حجم الباقة وموعد التجديد. إجمالي العملاء بأحجام معروفة: '+known+'.';
-  box.querySelectorAll('[data-size]').forEach(btn=>btn.addEventListener('click',()=>showCustomers(btn.dataset.size,btn.dataset.renewal||'')));
+  const home=document.getElementById('renewalHome');
+  home.hidden=false;box.hidden=true;
+  home.innerHTML='<button type="button" class="day16-home" data-open-renewal="16"><span class="big-title">📅 تجديد يوم 16</span><span class="big-count">'+total16+'</span><span class="hint">عميل · اضغط لعرض إحصائيات الباقات</span></button><button type="button" class="day1-home" data-open-renewal="1"><span class="big-title">📅 تجديد يوم 1</span><span class="big-count">'+total1+'</span><span class="hint">عميل · اضغط لعرض إحصائيات الباقات</span></button>';
+  home.querySelectorAll('[data-open-renewal]').forEach(btn=>btn.addEventListener('click',()=>showRenewalStats(btn.dataset.openRenewal)));
+  status.textContent='اختار موعد التجديد لعرض إحصائياته منفصلًا.';
+
  }catch(e){box.innerHTML='<div class="summary-card">تعذر تحميل الإحصائية.</div>';status.textContent=e.message||'حدث خطأ أثناء التحميل';}
+}
+
+
+function showRenewalStats(day){
+ const box=document.getElementById('summary'),home=document.getElementById('renewalHome'),status=document.getElementById('status');
+ const rows=allCustomers.filter(c=>renewalBucket(c)===day);
+ const counts=new Map();let unknown=0;
+ rows.forEach(c=>{const gb=getSize(c);if(gb&&Number.isFinite(gb))counts.set(String(gb),(counts.get(String(gb))||0)+1);else unknown++});
+ const entries=[...counts.entries()].sort((a,b)=>Number(a[0])-Number(b[0]));
+ box.hidden=false;home.hidden=true;
+ box.innerHTML='<article class="tile"><h2>تجديد يوم '+day+'</h2><div class="count">'+rows.length+'</div><div class="unit">إجمالي العملاء</div></article>'+
+ entries.map(([gb,count])=>'<button type="button" class="tile" data-size="'+esc(gb)+'" data-renewal="'+day+'"><h2>باقة '+esc(gb)+' جيجا</h2><div class="count">'+count+'</div><div class="unit">عميل · اضغط لعرض الأسماء</div><div class="bar"><span style="width:'+(count/Math.max(rows.length,1)*100)+'%"></span></div></button>').join('')+
+ '<button type="button" class="tile" data-size="unknown" data-renewal="'+day+'"><h2>حجم غير محدد</h2><div class="count">'+unknown+'</div><div class="unit">عميل</div></button>'+
+ '<button type="button" class="tile" id="backRenewalHome"><h2>← رجوع</h2><div class="unit">اختيار موعد التجديد</div></button>';
+ status.textContent='إحصائيات التجديد يوم '+day+' فقط.';
+ box.querySelectorAll('[data-size]').forEach(btn=>btn.addEventListener('click',()=>showCustomers(btn.dataset.size,btn.dataset.renewal||'')));
+ document.getElementById('backRenewalHome').addEventListener('click',()=>{box.hidden=true;home.hidden=false;status.textContent='اختار موعد التجديد لعرض إحصائياته منفصلًا.';});
 }
 
 function showCustomers(size,renewal=''){
