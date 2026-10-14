@@ -36,7 +36,10 @@ const $=id=>document.getElementById(id), money=n=>(Number(n)||0).toLocaleString(
 function msg(s){$('message').textContent=s}
 async function init(){
  try{
-  if(!db){msg('تعذر تحميل مكتبة تسجيل الدخول. حدّث الصفحة أو جرّب متصفحًا آخر.');return;}
+  msg('جاري تحميل مكتبة تسجيل الدخول...');
+  await loadSupabase();
+  db=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+  msg('جاري التحقق من تسجيل الدخول...');
   const result=await Promise.race([db.auth.getSession(),new Promise((_,reject)=>setTimeout(()=>reject(new Error('التحقق من تسجيل الدخول تأخر أكثر من 8 ثوانٍ. حدّث الصفحة ثم جرّب مرة أخرى.')),8000))]);
   if(result.error) throw result.error;
   if(!result.data.session){
