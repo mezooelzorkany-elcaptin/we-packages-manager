@@ -203,6 +203,7 @@ const items=[
 ['renewal-whatsapp.html','📲','تجديدات واتساب'],
 ['whatsapp-import.html','📥','استيراد أرقام واتساب'],
 ['numbers.html','📱','الأرقام الأساسية'],
+['allocation-helper/','🧮','مساعد التوزيع'],
 ['invoices.html','🧾','الفواتير'],
 ['finances.html','💰','الماليات'],
 ['admin.html','🔢','الأكواد'],
