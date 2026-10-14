@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مساعد توزيع الباقات | CASH BACK</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{color-scheme:dark;--bg:#100d1a;--panel:#1c1729;--panel2:#241d34;--gold:#e7bf66;--text:#f8f5ff;--muted:#b7aecb;--line:#3a304d;--green:#70d6a2;--red:#ff8585}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#2b2041 0%,var(--bg) 58%);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text);padding:22px 14px 40px}.wrap{max-width:950px;margin:auto}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}.brand{color:var(--gold);font-weight:800;letter-spacing:.3px}.tag{border:1px solid var(--line);padding:7px 11px;border-radius:999px;color:var(--muted);font-size:12px}.hero,.panel,.result{background:rgba(28,23,41,.94);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:15px;box-shadow:0 12px 35px #0002}.hero h1{margin:0 0 8px;font-size:clamp(23px,4vw,32px)}.hero p,.muted{color:var(--muted);line-height:1.8;margin:0}.formrow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end;margin-top:18px}.field label{display:block;color:var(--muted);font-size:13px;margin-bottom:8px}input{width:100%;background:#100d1a;color:var(--text);border:1px solid #514264;border-radius:12px;padding:13px;font:inherit;outline:none}input:focus{border-color:var(--gold)}button,.button{border:0;border-radius:12px;background:var(--gold);color:#1a1423;padding:13px 18px;font:inherit;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;justify-content:center;align-items:center}button:disabled{opacity:.55;cursor:wait}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:15px 0}.stat{background:var(--panel2);border:1px solid var(--line);padding:14px;border-radius:14px}.stat b{display:block;font-size:23px;color:var(--gold);margin-bottom:3px}.stat span{font-size:12px;color:var(--muted)}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}.sectionhead h2{font-size:18px;margin:0}.list{display:grid;gap:10px}.number{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:15px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center}.number.best{border-color:var(--gold);box-shadow:inset 0 0 0 1px #e7bf6622}.number h3{margin:0 0 7px;font-size:17px;direction:ltr;text-align:right}.chips{display:flex;gap:7px;flex-wrap:wrap}.chip{font-size:12px;padding:5px 8px;border-radius:999px;background:#171222;border:1px solid var(--line);color:var(--muted)}.chip.good{color:var(--green)}.chip.warn{color:var(--red)}.rec{color:var(--gold);font-size:12px;font-weight:800;margin-bottom:6px}.empty{padding:18px;text-align:center;border:1px dashed var(--line);border-radius:12px;color:var(--muted);line-height:1.8}.status{margin-top:12px;color:var(--muted);font-size:13px;line-height:1.8}.status.error{color:var(--red)}.foot{font-size:12px;color:var(--muted);line-height:1.8;text-align:center;margin-top:18px}.hidden{display:none!important}@media(max-width:560px){.formrow{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.number{grid-template-columns:1fr}.number button{width:100%}.hero,.panel,.result{padding:15px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div class="brand">CASH BACK · WE PACKAGES</div><div class="tag">أداة احتياطية مستقلة — لا تغيّر بيانات الموقع</div></div>
+  <section class="hero">
+    <h1>مساعد توزيع الباقات</h1>
+    <p>اختار حجم الباقة، والمساعد هيعرض أنسب رقم أساسي حسب الجيجابايت المتبقية وعدد العملاء المرتبطين به. الأداة للقراءة والاقتراح فقط؛ مش هتضيف عميل أو تعدّل أي بيانات.</p>
+    <div class="formrow">
+      <div class="field"><label for="targetGb">حجم الباقة المطلوب (جيجابايت)</label><input id="targetGb" type="number" min="1" step="1" value="50" inputmode="decimal"></div>
+      <button id="refreshBtn" type="button">تحديث البيانات والحساب</button>
+    </div>
+    <div id="status" class="status" role="status">جاري تحميل الأرقام والعملاء...</div>
+  </section>
+  <div id="summary" class="stats hidden"></div>
+  <section class="panel">
+    <div class="sectionhead"><h2>أفضل رقم مقترح</h2><span class="tag">حد أقصى 6 عملاء لكل رقم</span></div>
+    <div id="recommendation" class="empty">جاري تجهيز الاقتراح...</div>
+  </section>
+  <section class="panel">
+    <div class="sectionhead"><h2>كل الأرقام الأساسية</h2><span id="countLabel" class="tag">—</span></div>
+    <div id="allNumbers" class="list"><div class="empty">جاري تحميل الأرقام...</div></div>
+  </section>
+  <p class="foot">الأداة منفصلة عن صفحات الإدارة ولا تظهر داخل الموقع الأساسي. استخدمها وقت الحاجة فقط. الأرقام التي لا تحتوي على إجمالي باقة محفوظ في ملاحظاتها ستظهر بسعة غير محددة ولن يُقترح استخدامها تلقائيًا.</p>
+</div>
+<script>
+(() => {
+  const SUPABASE_URL = "https://pgvbynefhqmyzjtccttl.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
+  const MAX_CUSTOMERS = 6;
+  const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+  const $ = id => document.getElementById(id);
+  let numberRows = [];
+  let customerRows = [];
+
+  function cleanPhone(value){ return String(value || "").replace(/\\D/g, "").replace(/^002/, ""); }
+  function totalGB(n){
+    const match = String(n.notes || "").match(/\[TOTAL_GB:([0-9]+(?:\.[0-9]+)?)\]/);
+    return match ? Number(match[1]) : null;
+  }
+  function skippedThisMonth(c){
+    if(!c.skip_renewal_month) return false;
+    const now = new Date();
+    const month = now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-01";
+    return String(c.skip_renewal_month).slice(0,10) === month;
+  }
+  function customersFor(n){
+    const phone = cleanPhone(n.phone);
+    return customerRows.filter(c => !skippedThisMonth(c) && cleanPhone(c.primary_number) === phone);
+  }
+  function fmt(n){ return Number(n).toLocaleString("ar-EG",{maximumFractionDigits:2}); }
+  function esc(v){ return String(v ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch])); }
+  function setStatus(msg,error=false){ $("status").textContent=msg; $("status").className="status"+(error?" error":""); }
+  function capacity(n){
+    const linked=customersFor(n);
+    const used=linked.reduce((sum,c)=>sum+Math.max(0,Number(c.allocated_gb)||0),0);
+    const total=totalGB(n);
+    return {linked,used,total,remaining:total===null?null:Math.max(0,total-used),slots:Math.max(0,MAX_CUSTOMERS-linked.length)};
+  }
+  function render(){
+    const target=Number($("targetGb").value);
+    const rows=numberRows.map(n=>({n,...capacity(n)}));
+    const viable=rows.filter(x=>x.total!==null && x.remaining!==null && x.remaining>=target && x.slots>0);
+    viable.sort((a,b)=>{
+      const aWaste=a.remaining-target, bWaste=b.remaining-target;
+      return aWaste-bWaste || a.linked.length-b.linked.length || b.slots-a.slots;
+    });
+    const best=viable[0];
+    $("summary").classList.remove("hidden");
+    $("summary").innerHTML=[
+      [rows.length,"إجمالي الأرقام"],
+      [rows.filter(x=>x.slots>0).length,"أرقام بها أماكن"],
+      [viable.length,"أرقام مناسبة للحجم"]
+    ].map(([v,l])=>'<div class="stat"><b>'+fmt(v)+'</b><span>'+l+'</span></div>').join("");
+    $("countLabel").textContent=rows.length+" رقم";
+    if(!Number.isFinite(target)||target<=0){
+      $("recommendation").className="empty";$("recommendation").textContent="اكتب حجم باقة صحيح أكبر من صفر."; 
+    } else if(best){
+      $("recommendation").className="number best";
+      $("recommendation").innerHTML='<div><div class="rec">⭐ أفضل اختيار مبدئي</div><h3>'+esc(best.n.phone||"رقم بدون بيانات")+'</h3><div class="chips"><span class="chip good">متبقي '+fmt(best.remaining)+' جيجا</span><span class="chip">'+best.linked.length+' / '+MAX_CUSTOMERS+' عملاء</span><span class="chip good">'+best.slots+' أماكن متاحة</span><span class="chip">بعد التخصيص: '+fmt(best.remaining-target)+' جيجا</span></div></div><div><button type="button" id="copyBest">نسخ الرقم</button></div>';
+      $("copyBest").addEventListener("click",()=>navigator.clipboard?.writeText(String(best.n.phone||"")).then(()=>setStatus("تم نسخ الرقم المقترح."),()=>setStatus("تعذر النسخ تلقائيًا؛ يمكنك تحديد الرقم ونسخه.",true)));
+    } else {
+      $("recommendation").className="empty";
+      const known=rows.some(x=>x.total!==null);
+      $("recommendation").textContent=!rows.length?"لا توجد أرقام أساسية مسجلة.":!known?"لا يمكن اقتراح رقم تلقائيًا لأن إجمالي الباقات غير محفوظ في ملاحظات الأرقام بصيغة [TOTAL_GB:200].": "لا يوجد رقم لديه سعة كافية وأماكن متاحة لهذا الحجم. لن نقترح إضافة عميل سابع لأي رقم.";
+    }
+    $("allNumbers").innerHTML=rows.length?rows.map(x=>{
+      const full=x.linked.length>=MAX_CUSTOMERS;
+      const enough=x.remaining!==null&&x.remaining>=target;
+      const state=x.total===null?"السعة غير محددة":full?"اكتمل العدد":enough?"مناسب للحجم":"السعة غير كافية";
+      return '<article class="number"><div><h3>'+esc(x.n.phone||"رقم بدون بيانات")+'</h3><div class="chips"><span class="chip">'+(x.remaining===null?"إجمالي الباقة غير محدد":'متبقي '+fmt(x.remaining)+' جيجا')+'</span><span class="chip">'+x.linked.length+' / '+MAX_CUSTOMERS+' عملاء</span><span class="chip '+(x.slots>0?"good":"warn")+'">'+(x.slots>0?x.slots+" أماكن متاحة":"مكتمل — لا تضف عملاء")+'</span><span class="chip '+(enough&&x.slots>0?"good":"")+'">'+state+'</span></div></div><span class="tag">'+(x.total===null?"—":fmt(x.used)+" مستخدم")+'</span></article>';
+    }).join(""):'<div class="empty">مفيش أرقام أساسية متسجلة.</div>';
+  }
+  async function load(){
+    $("refreshBtn").disabled=true;
+    setStatus("جاري قراءة البيانات من قاعدة البيانات...");
+    try{
+      const [nr,cr]=await Promise.all([
+        client.from("primary_numbers").select("*").order("id",{ascending:false}),
+        client.from("customers").select("subscriber_name,internal_name,phone,primary_number,allocated_gb,deleted_at,skip_renewal_month").is("deleted_at",null)
+      ]);
+      if(nr.error) throw nr.error;
+      if(cr.error) throw cr.error;
+      numberRows=Array.isArray(nr.data)?nr.data:[];
+      customerRows=Array.isArray(cr.data)?cr.data:[];
+      render();
+      setStatus("تم تحديث البيانات. الأداة للعرض والاقتراح فقط ولم يتم تغيير أي سجل.");
+    }catch(e){
+      setStatus("تعذر تحميل البيانات: "+(e?.message||"خطأ غير معروف")+". تأكد من الاتصال وصلاحيات القراءة.",true);
+      $("recommendation").className="empty";
+      $("recommendation").textContent="لم يتم إنشاء اقتراح لأن البيانات لم تُحمّل بنجاح.";
+      $("allNumbers").innerHTML='<div class="empty">فشل تحميل الأرقام. جرّب التحديث مرة أخرى.</div>';
+    }finally{$("refreshBtn").disabled=false;}
+  }
+  $("refreshBtn").addEventListener("click",load);
+  $("targetGb").addEventListener("input",()=>{if(numberRows.length)render();});
+  load();
+})();
+</script>
+</body>
+</html>
