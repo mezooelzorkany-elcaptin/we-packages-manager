@@ -11,6 +11,23 @@
 <script>
 const db=supabase.createClient("https://pgvbynefhqmyzjtccttl.supabase.co","sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY",{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
 const ADMIN="mezooelzorkany@gmail.com";
-async function init(){try{const {data,error}=await db.auth.getSession();if(error)throw error;if(!data.session){document.getElementById("status").textContent="سجّل الدخول أولًا من صفحة الإدارة.";setTimeout(()=>location.replace("customers.html"),1200);return}if(String(data.session.user.email||"").toLowerCase()!==ADMIN){await db.auth.signOut();location.replace("customers.html");return}document.getElementById("status").textContent="تم تسجيل الدخول";document.getElementById("cards").hidden=false}catch(e){document.getElementById("status").textContent="تعذر التحقق من الدخول: "+e.message}}
+async function init(){
+ const status=document.getElementById("status");
+ const cards=document.getElementById("cards");
+ // Always keep the system chooser visible. A session-check failure must not
+ // redirect users back into the packages page and create a navigation loop.
+ cards.hidden=false;
+ try{
+  const {data,error}=await db.auth.getSession();
+  if(error) throw error;
+  if(data.session && String(data.session.user.email||"").toLowerCase()===ADMIN){
+   status.textContent="تم تسجيل الدخول — اختار النظام";
+  }else{
+   status.textContent="اختار النظام. لو طلب منك تسجيل الدخول، سجّل بحساب الإدارة.";
+  }
+ }catch(e){
+  status.textContent="اختار النظام — لو لم يفتح النظام، سجّل الدخول من جديد.";
+ }
+}
 async function logout(){await db.auth.signOut();location.href="customers.html"}init();
 </script></body></html>
