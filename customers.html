@@ -12,7 +12,7 @@
 
 <title>العملاء | CASH BACK</title>
 
-<script src="theme.js?v=20261013-13"></script>
+<script src="theme.js?v=20261014-1"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -1693,9 +1693,9 @@ html.dark-mode #adminBottomNav a.active{color:#f0d27a!important}
       <span>العملاء</span>
     </a>
 
-    <a href="inbox.html">
+    <a href="customers.html#communicationHub">
       <i>💬</i>
-      <span>مركز التواصل</span>
+      <span>التواصل والمتابعة</span>
     </a>
 
     <a href="renewal-whatsapp.html">
@@ -6750,6 +6750,7 @@ c$('cbList').querySelectorAll('[data-cbwa]').forEach(b=>b.onclick=()=>{const c=c
 }
 async function cLoad(){if(!c$('cbList'))return;c$('cbMessage').textContent='جاري تحميل بيانات العملاء والمتابعة...';try{const {data,error}=await db.from('customers').select('*').is('deleted_at',null).order('subscriber_name');if(error)throw error;cbRows=data||[];const a=await db.from('customer_contact_status').select('*');if(a.error)throw a.error;cbCRM=Object.fromEntries((a.data||[]).map(x=>[String(x.customer_id),x]));const b=await db.from('communication_templates').select('*').order('created_at',{ascending:false});if(!b.error)cbTemplates=b.data||[];cRenderTemplates();cRender();c$('cbMessage').textContent='تم تحميل العملاء. احفظ تغييرات المتابعة من بطاقة العميل.'}catch(e){c$('cbList').innerHTML='<div class="error">تعذر تحميل مركز التواصل: '+cEsc(e.message||'خطأ')+'</div>';c$('cbMessage').textContent='تأكد من تسجيل الدخول وصلاحيات قاعدة البيانات.';console.error(e)}}
 c$('cbToggle').onclick=()=>{const body=c$('cbBody'),open=body.hidden;body.hidden=!open;c$('cbToggle').setAttribute('aria-expanded',String(open));c$('cbChevron').textContent=open?'−':'＋';if(open&&cbRows.length===0)cLoad();};
+if(location.hash==='#communicationHub'){c$('cbBody').hidden=false;c$('cbToggle').setAttribute('aria-expanded','true');c$('cbChevron').textContent='−';setTimeout(()=>c$('communicationHub').scrollIntoView({behavior:'smooth',block:'start'}),300);}
 c$('cbPreset').onchange=()=>c$('cbTemplate').value=cbPresets[c$('cbPreset').value]||cbPresets.custom;
 c$('cbTemplate').value=cbPresets.booking;
 c$('cbSearch').addEventListener('input',cRender);
