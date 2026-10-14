@@ -81,10 +81,10 @@ function showRenewalStats(day){
  box.innerHTML='<article class="tile"><h2>تجديد يوم '+day+'</h2><div class="count">'+rows.length+'</div><div class="unit">إجمالي العملاء</div></article>'+
  entries.map(([gb,count])=>'<button type="button" class="tile" data-size="'+esc(gb)+'" data-renewal="'+day+'"><h2>باقة '+esc(gb)+' جيجا</h2><div class="count">'+count+'</div><div class="unit">عميل · اضغط لعرض الأسماء</div><div class="bar"><span style="width:'+(count/Math.max(rows.length,1)*100)+'%"></span></div></button>').join('')+
  '<button type="button" class="tile" data-size="unknown" data-renewal="'+day+'"><h2>حجم غير محدد</h2><div class="count">'+unknown+'</div><div class="unit">عميل</div></button>'+
- '<button type="button" class="tile" id="backRenewalHome"><h2>← رجوع</h2><div class="unit">اختيار موعد التجديد</div></button>';
+ '';
  status.textContent='إحصائيات التجديد يوم '+day+' فقط.';
  box.querySelectorAll('[data-size]').forEach(btn=>btn.addEventListener('click',()=>showCustomers(btn.dataset.size,btn.dataset.renewal||'')));
- document.getElementById('backRenewalHome').addEventListener('click',()=>{box.hidden=true;home.hidden=false;status.textContent='اختار موعد التجديد لعرض إحصائياته منفصلًا.';});
+
 }
 
 function showCustomers(size,renewal=''){
