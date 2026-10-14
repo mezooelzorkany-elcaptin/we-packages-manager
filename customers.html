@@ -3883,7 +3883,7 @@ async function loadCustomers(){
 function updateStats(){
 
   $("total").textContent =
-    customers.length;
+    customers.filter(c => !isSkippedThisMonth(c)).length;
 
 
   // "مش هيجدد الشهر ده" يفضل موجود كعميل في قاعدة البيانات،
