@@ -11,22 +11,22 @@ main{max-width:1100px;margin:0 auto;padding:24px 18px 120px}.heading{display:fle
 h1{font-size:25px;margin:0 0 8px}.muted{color:#b7b2c8;font-size:14px;line-height:1.8}
 .actions{display:flex;gap:10px;flex-wrap:wrap}button{cursor:pointer;border:1px solid #645181;border-radius:12px;padding:11px 15px;background:#292438;color:#f5f1ff;font-weight:700}button.primary{background:#ffe08a;color:#241a05;border-color:#ffe08a}
 .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:22px}.tile,.summary-card{border:1px solid #4b405f;border-radius:16px;background:#201d2b;padding:18px;min-width:0;box-sizing:border-box}
-.tile{min-height:135px;display:flex;flex-direction:column;justify-content:space-between}.tile h2{font-size:16px;margin:0;color:#d4c2ff}.count{font-size:38px;font-weight:900;color:#f5f1ff}.unit{font-size:13px;color:#b7b2c8}
+.tile{min-height:135px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:border-color .15s,transform .15s}.tile:hover{border-color:#bca0ff;transform:translateY(-2px)}.tile:focus-visible{outline:2px solid #ffe08a;outline-offset:2px}.tile.selected{border-color:#ffe08a;box-shadow:0 0 0 1px #ffe08a33}.tile h2{font-size:16px;margin:0;color:#d4c2ff}.count{font-size:38px;font-weight:900;color:#f5f1ff}.unit{font-size:13px;color:#b7b2c8}
 #status{margin:12px 0;color:#c8bfdc;line-height:1.8}.bar{height:7px;background:#383044;border-radius:20px;overflow:hidden;margin-top:10px}.bar span{display:block;height:100%;background:#bca0ff;border-radius:20px}
 @media(max-width:520px){main{padding:18px 12px 110px}.summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.tile{padding:12px;min-height:115px}.count{font-size:30px}}
 </style></head>
 <body><main>
 <header class="heading"><div><h1>📊 إحصائية الباقات</h1><div class="muted">عدد العملاء في كل حجم باقة — من بيانات العملاء المسجلة</div></div><div class="actions"><button class="primary" id="refresh">↻ تحديث الإحصائية</button><button id="back" onclick="location.href='customers.html'">رجوع للعملاء</button></div></header>
 <section class="summary" id="summary"><div class="summary-card">جاري تحميل بيانات الباقات...</div></section>
-<div id="status"></div>
+<div id="status"></div><section id="customerResults" hidden style="margin-top:24px;border:1px solid #4b405f;border-radius:16px;background:#201d2b;padding:18px"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><h2 id="resultTitle" style="margin:0 0 6px;font-size:20px">عملاء الباقة</h2><div id="resultCount" class="muted"></div></div><button id="closeResults">إغلاق القائمة</button></div><div id="resultList" style="display:grid;gap:10px;margin-top:16px"></div></section>
 </main>
 <script>
 const SUPABASE_URL="https://pgvbynefhqmyzjtccttl.supabase.co";
 const SUPABASE_KEY="sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
-const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let allCustomers=[];\nconst esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function getSize(c){
- const n=Number(c.allocated_gb);if(Number.isFinite(n)&&n>0)return n;
+ const n=Number(c.allocated_gb);if(c.allocated_gb!==null&&c.allocated_gb!==undefined&&String(c.allocated_gb).trim()!==''&&Number.isFinite(n)&&n>0)return n;
  const source=[c.package_name,c.package_size,c.package,c.plan_name].filter(Boolean).join(' ');
  const m=source.match(/(\d+(?:\.\d+)?)\s*(?:GB|جيجا|جيجابايت)/i)||source.match(/(?:باقة|حجم)\s*(\d+(?:\.\d+)?)/i);
  return m?Number(m[1]):null;
@@ -43,10 +43,21 @@ async function load(){
   const entries=[...counts.entries()].sort((a,b)=>Number(a[0])-Number(b[0]));
   const known=entries.reduce((n,x)=>n+x[1],0);
   box.innerHTML='<article class="tile"><h2>إجمالي العملاء</h2><div class="count">'+(data||[]).length+'</div><div class="unit">عميل مسجل</div></article>'+
-   entries.map(([gb,count])=>'<article class="tile"><h2>باقة '+esc(gb)+' جيجا</h2><div class="count">'+count+'</div><div class="unit">عميل مشترك</div><div class="bar"><span style="width:'+((count/Math.max(known,1))*100)+'%"></span></div></article>').join('')+
+   entries.map(([gb,count])=>'<button type="button" class="tile" data-size="'+esc(gb)+'"><h2>باقة '+esc(gb)+' جيجا</h2><div class="count">'+count+'</div><div class="unit">عميل مشترك · اضغط لعرضهم</div><div class="bar"><span style="width:'+((count/Math.max(known,1))*100)+'%"></span></div></button>').join('')+
    '<article class="tile"><h2>حجم غير محدد</h2><div class="count">'+unknown+'</div><div class="unit">عميل محتاج بيانات باقته تتراجع</div></article>';
-  status.textContent='تم حساب '+known+' عميل بأحجام باقات واضحة من أصل '+(data||[]).length+'. الإحصائية حسب بيانات العملاء الحالية.';
+  status.textContent='تم حساب '+known+' عميل بأحجام باقات واضحة من أصل '+allCustomers.length+'. اضغط على أي باقة لعرض عملائها.';\n  box.querySelectorAll('[data-size]').forEach(btn=>btn.addEventListener('click',()=>showCustomers(btn.dataset.size)));
  }catch(e){box.innerHTML='<div class="summary-card">تعذر تحميل الإحصائية.</div>';status.textContent=e.message||'حدث خطأ أثناء التحميل';}
 }
-document.getElementById('refresh').addEventListener('click',load);load();
+
+function showCustomers(size){
+ const panel=document.getElementById('customerResults');
+ const list=document.getElementById('resultList');
+ const rows=allCustomers.filter(c=>size==='unknown'?!getSize(c):String(getSize(c))===String(size));
+ document.getElementById('resultTitle').textContent=size==='unknown'?'عملاء بحجم باقة غير محدد':'عملاء باقة '+size+' جيجا';
+ document.getElementById('resultCount').textContent='عدد العملاء: '+rows.length;
+ list.innerHTML=rows.length?rows.map(c=>'<article style="border:1px solid #4b405f;border-radius:12px;padding:14px;background:#181621;display:grid;gap:7px"><strong>'+esc(c.subscriber_name||'بدون اسم')+'</strong><span class="muted">📞 '+esc(c.phone||'لا يوجد رقم')+'</span><span class="muted">📱 الرقم الأساسي: '+esc(c.primary_number||c.main_number||'غير مسجل')+'</span><span class="muted">📦 الباقة: '+esc(c.package_name||c.package_size||'غير محدد')+'</span></article>').join(''):'<div class="muted">لا يوجد عملاء في هذه الفئة.</div>';
+ panel.hidden=false;panel.scrollIntoView({behavior:'smooth',block:'start'});
+}
+document.getElementById('closeResults').addEventListener('click',()=>{document.getElementById('customerResults').hidden=true;});
+\ndocument.getElementById('refresh').addEventListener('click',load);load();
 </script></body></html>
