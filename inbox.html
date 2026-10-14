@@ -32,15 +32,16 @@
 <hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
 <h2>إرسال جماعي (تجهيز فقط)</h2>
 <p class="hint">حدد فلتر العملاء من القائمة ثم جهّز رسالة لكل عميل. هذه النسخة لا ترسل تلقائيًا ولا تسجل وصول الرسالة؛ الإرسال الآلي يحتاج ربط WhatsApp Business Platform رسمي.</p>
-<button class="btn primary" id="batch">تجهيز رسائل العملاء الظاهرين</button>
-<div id="batchResult" class="status"></div>
+<div class="toolbar"><button class="btn primary" id="startQueue">بدء الإرسال اليدوي للعملاء الظاهرين</button><button class="btn" id="nextQueue" disabled>فتح المحادثة التالية ←</button></div>
+<div id="batchResult" class="status">هتفتح محادثة واحدة في كل مرة؛ ابعت الرسالة من واتساب ثم ارجع واضغط «فتح المحادثة التالية».</div>
+<button class="btn" id="batch">تصدير قائمة الرسائل CSV</button>
 </aside></div></main>
 <nav><a href="customers.html">👥 العملاء</a><a href="numbers.html">📱 الأرقام</a><a href="admin-renew-v2.html">🔄 التجديدات</a><a href="inbox.html" class="active">💬 التواصل</a></nav>
 <script>
 const SUPABASE_URL='https://pgvbynefhqmyzjtccttl.supabase.co';
 const SUPABASE_KEY='sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY';
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let customers=[],activeFilter='all',crm={},savedTemplates=[];const STAGES={new:'جديد',contacted:'تم التواصل',confirmed:'حجز مؤكد',renewed:'تم التجديد',follow_up:'محتاج متابعة',inactive:'غير نشط'};
+let customers=[],activeFilter='all',crm={},savedTemplates=[],messageQueue=[],queueIndex=0;const STAGES={new:'جديد',contacted:'تم التواصل',confirmed:'حجز مؤكد',renewed:'تم التجديد',follow_up:'محتاج متابعة',inactive:'غير نشط'};
 const $=id=>document.getElementById(id);
 const templates={
 booking:'أهلًا {name} 👋\nتم استلام طلب حجز باقة {package}. من فضلك أكد الحجز قبل موعد التفعيل.\nCASH BACK',
@@ -65,6 +66,8 @@ $('search').addEventListener('input',render);$('sort').addEventListener('change'
 $('preset').onchange=()=>{$('template').value=templates[$('preset').value]||templates.custom};$('template').value=templates.booking;
 $('copy').onclick=async()=>{const c=customers[0];try{await navigator.clipboard.writeText(fill($('template').value,c));$('status').textContent='تم نسخ القالب.'}catch(e){prompt('انسخ الرسالة:',fill($('template').value,c))}};
 $('preview').onclick=()=>{const c=customers[0];if(!c){alert('حمّل العملاء أولًا');return}alert(fill($('template').value,c))};
+$('startQueue').onclick=()=>{messageQueue=[...document.querySelectorAll('[data-wa]')].map(b=>customers.find(c=>String(c.id)===b.dataset.wa)).filter(Boolean).filter(c=>cleanPhone(c.whatsapp_phone||c.whatsapp_number||c.whatsapp||c.phone));queueIndex=0;$('nextQueue').disabled=!messageQueue.length;$('batchResult').textContent=messageQueue.length?'تم تجهيز '+messageQueue.length+' محادثة. اضغط «فتح المحادثة التالية»، وبعد الإرسال ارجع واضغطه مرة أخرى.':'مفيش عملاء ظاهرين عندهم رقم واتساب محفوظ.';};
+$('nextQueue').onclick=()=>{if(queueIndex>=messageQueue.length){$('nextQueue').disabled=true;$('batchResult').textContent='خلصت قائمة المحادثات. إجمالي المحادثات المجهزة: '+messageQueue.length;return}const c=messageQueue[queueIndex++];const phone=cleanPhone(c.whatsapp_phone||c.whatsapp_number||c.whatsapp||c.phone);window.open('https://wa.me/'+phone+'?text='+encodeURIComponent(fill($('template').value,c)),'_blank','noopener');logActivity('message_opened',c,{template:$('preset').value,manual_queue:true});$('batchResult').textContent='المحادثة '+queueIndex+' من '+messageQueue.length+' — '+(c.subscriber_name||'العميل')+'. ابعت الرسالة من واتساب، ثم ارجع واضغط «فتح المحادثة التالية».';if(queueIndex>=messageQueue.length)$('nextQueue').textContent='تم فتح آخر محادثة';};
 $('batch').onclick=()=>{const visible=[...document.querySelectorAll('[data-copy]')].map(b=>customers.find(c=>String(c.id)===b.dataset.copy)).filter(Boolean);if(!visible.length){$('batchResult').textContent='لا يوجد عملاء في القائمة الحالية.';return}const csv=visible.map(c=>[c.subscriber_name||'',cleanPhone(c.whatsapp_phone||c.whatsapp_number||c.whatsapp||c.phone),fill($('template').value,c)].map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\r\n');const blob=new Blob(['\ufeffاسم العميل,رقم واتساب,نص الرسالة\r\n'+csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='CASH-BACK-messages.csv';a.click();URL.revokeObjectURL(url);$('batchResult').textContent='تم تجهيز ملف CSV لعدد '+visible.length+' عميل. لا يتم إرسال الرسائل تلقائيًا.';};
 load().then(()=>loadCRM()).catch(console.error);
 </script></body></html>
