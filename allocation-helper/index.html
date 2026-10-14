@@ -46,7 +46,7 @@
 
   function cleanPhone(value){ return String(value || "").replace(/\\D/g, "").replace(/^002/, ""); }
   function renewalGroup(n){
-    const match=String(n.notes || "").match(/\\[GROUP:(1|16)\\]/);
+    const match=String(n.notes || "").match(/\[GROUP:(1|16)\]/);
     return match ? match[1] : "";
   }
   function totalGB(n){
