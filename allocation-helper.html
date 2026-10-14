@@ -17,8 +17,8 @@
     <h1>مساعد توزيع الباقات</h1>
     <p>اختار حجم الباقة، والمساعد هيعرض أنسب رقم أساسي حسب الجيجابايت المتبقية وعدد العملاء المرتبطين به. الأداة للقراءة والاقتراح فقط؛ مش هتضيف عميل أو تعدّل أي بيانات.</p>
     <div class="formrow">
-      <div class="field"><label for="targetGb">حجم الباقة المطلوبة (جيجابايت)</label><input id="targetGb" type="number" min="1" step="1" value="50" inputmode="decimal"></div>
-      <div class="field"><label for="renewalDay">يوم التجديد</label><select id="renewalDay"><option value="1">تجديد يوم 1</option><option value="16">تجديد يوم 16</option></select></div>
+      <div class="field"><label for="targetGb">اختار سعة الباقة</label><select id="targetGb"><option value="">اختار سعة الباقة بالجيجا</option><option value="20">20 جيجا</option><option value="25">25 جيجا</option><option value="30">30 جيجا</option><option value="35">35 جيجا</option><option value="40">40 جيجا</option><option value="45">45 جيجا</option><option value="50">50 جيجا</option><option value="55">55 جيجا</option><option value="60">60 جيجا</option></select></div>
+      <div class="field"><label for="renewalDay">اختار يوم التجديد</label><select id="renewalDay"><option value="">اختار يوم التجديد</option><option value="1">تجديد يوم 1</option><option value="16">تجديد يوم 16</option></select></div>
       <button id="refreshBtn" type="button">اختيار الرقم المناسب</button>
     </div>
     <div id="status" class="status" role="status">جاري تحميل الأرقام والعملاء...</div>
@@ -73,9 +73,9 @@
     return {linked,used,total,remaining:total===null?null:Math.max(0,total-used),slots:Math.max(0,MAX_CUSTOMERS-linked.length)};
   }
   function render(){
-    const target=Number($("targetGb").value);
+    const target=$("targetGb").value===""?null:Number($("targetGb").value);
     const selectedDay=$("renewalDay").value;
-    const rows=numberRows.filter(n=>renewalGroup(n)===selectedDay).map(n=>({n,...capacity(n)}));
+    const rows=selectedDay?numberRows.filter(n=>renewalGroup(n)===selectedDay).map(n=>({n,...capacity(n)})):[];
     const viable=rows.filter(x=>x.total!==null && x.remaining!==null && x.remaining>=target && x.slots>0);
     viable.sort((a,b)=>{
       const aWaste=a.remaining-target, bWaste=b.remaining-target;
@@ -89,8 +89,8 @@
       [viable.length,"أرقام مناسبة للحجم"]
     ].map(([v,l])=>'<div class="stat"><b>'+fmt(v)+'</b><span>'+l+'</span></div>').join("");
     $("countLabel").textContent=rows.length+" رقم";
-    if(!Number.isFinite(target)||target<=0){
-      $("recommendation").className="empty";$("recommendation").textContent="اكتب حجم باقة صحيح أكبر من صفر."; 
+    if(target===null||!selectedDay){
+      $("recommendation").className="empty";$("recommendation").textContent="اختار سعة الباقة ويوم التجديد علشان أطلعلك أنسب رقم."; 
     } else if(best){
       $("recommendation").className="number best";
       $("recommendation").innerHTML='<div><div class="rec">⭐ أفضل اختيار مبدئي</div><h3>'+esc(best.n.phone||"رقم بدون بيانات")+'</h3><div class="chips"><span class="chip good">متبقي '+fmt(best.remaining)+' جيجا</span><span class="chip">'+best.linked.length+' / '+MAX_CUSTOMERS+' عملاء</span><span class="chip good">'+best.slots+' أماكن متاحة</span><span class="chip">بعد التخصيص: '+fmt(best.remaining-target)+' جيجا</span></div></div><div><button type="button" id="copyBest">نسخ الرقم</button></div>';
@@ -102,7 +102,7 @@
     }
     $("allNumbers").innerHTML=rows.length?rows.map(x=>{
       const full=x.linked.length>=MAX_CUSTOMERS;
-      const enough=x.remaining!==null&&x.remaining>=target;
+      const enough=target!==null&&x.remaining!==null&&x.remaining>=target;
       const state=x.total===null?"السعة غير محددة":full?"اكتمل العدد":enough?"مناسب للحجم":"السعة غير كافية";
       return '<article class="number"><div><h3>'+esc(x.n.phone||"رقم بدون بيانات")+'</h3><div class="chips"><span class="chip">'+(x.remaining===null?"إجمالي الباقة غير محدد":'متبقي '+fmt(x.remaining)+' جيجا')+'</span><span class="chip">'+x.linked.length+' / '+MAX_CUSTOMERS+' عملاء</span><span class="chip '+(x.slots>0?"good":"warn")+'">'+(x.slots>0?x.slots+" أماكن متاحة":"مكتمل — لا تضف عملاء")+'</span><span class="chip '+(enough&&x.slots>0?"good":"")+'">'+state+'</span></div></div></article>';
     }).join(""):'<div class="empty">مفيش أرقام أساسية متسجلة.</div>';
@@ -129,7 +129,7 @@
     }finally{$("refreshBtn").disabled=false;}
   }
   $("refreshBtn").addEventListener("click",load);
-  $("targetGb").addEventListener("input",()=>{if(numberRows.length)render();});
+  $("targetGb").addEventListener("change",()=>{if(numberRows.length)render();});
   $("renewalDay").addEventListener("change",()=>{if(numberRows.length)render();});
   load();
 })();
