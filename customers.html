@@ -3753,15 +3753,19 @@ async function login(){
 
 
 function showApp(){
+  $("loginScreen").style.display = "none";
+  $("app").style.display = "none";
+  $("moduleChooser").style.display = "flex";
+}
 
-  $("loginScreen").style.display =
-    "none";
-
-  $("app").style.display =
-    "block";
-
+function openPackagesModule(){
+  $("moduleChooser").style.display = "none";
+  $("app").style.display = "block";
   loadCustomers();
+}
 
+function openShopModule(){
+  window.location.href = "shop.html";
 }
 
 
