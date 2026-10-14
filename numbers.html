@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 
 <head>
-<script src="theme.js?v=20261014-3"></script>
+<script src="theme.js?v=20261014-4"></script>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -644,6 +644,23 @@ html.dark-mode .customer-count,.dark-mode .customer-gb{
 }
 html.dark-mode .edit-btn{background:#33284a!important;color:#d4c3ff!important;border:1px solid #6e5698!important}
 html.dark-mode .delete-btn{border:1px solid #78424a!important}
+
+
+/* Make edit and delete actions unmistakably different */
+.number-actions{grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.number-action{
+ min-height:48px;height:auto;padding:12px 16px;border:1px solid transparent!important;
+ border-radius:13px;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;
+ box-shadow:0 3px 9px rgba(0,0,0,.12);transition:transform .15s ease,filter .15s ease;
+}
+.number-action:hover{filter:brightness(1.05);transform:translateY(-1px)}
+.edit-btn{background:#e8ddff!important;color:#45208f!important;border-color:#a98ae8!important}
+.delete-btn{background:#ffe1e1!important;color:#9e1726!important;border-color:#e88b95!important}
+.edit-btn::before{content:"✏️";font-size:15px}
+.delete-btn::before{content:"🗑️";font-size:15px}
+html.dark-mode .edit-btn{background:#33284a!important;color:#ddcaff!important;border-color:#9c7bd3!important}
+html.dark-mode .delete-btn{background:#402126!important;color:#ffb6be!important;border-color:#c45a67!important}
+@media(max-width:480px){.number-actions{gap:8px}.number-action{font-size:13px;padding:10px 8px}}
 
 </style>
 </head>
