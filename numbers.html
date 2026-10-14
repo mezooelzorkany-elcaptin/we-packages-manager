@@ -10,37 +10,6 @@
 <title>الأرقام الأساسية | WE Packages</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-/* SMART PACKAGE ALLOCATION */
-function renderAllocationSuggestions(){
-  const target=Number(document.getElementById("allocationGB")?.value);
-  const group=document.getElementById("allocationGroup")?.value||"any";
-  const output=document.getElementById("allocationResults");
-  if(!output)return;
-  if(!Number.isFinite(target)||target<=0){output.innerHTML='<div class="allocation-empty">اكتب حجم باقة صحيح أكبر من صفر.</div>';return;}
-  const rows=numbers.filter(n=>n.is_active!==false&&(group==="any"||String(getGroup(n))===group)).map(n=>{
-    const linked=getLinkedCustomers(n.phone);
-    const total=getTotalGB(n);
-    const used=linked.reduce((sum,c)=>sum+(Number(c.allocated_gb)||0),0);
-    const remaining=Math.max(0,total-used);
-    return {n,linkedCount:linked.length,total,used,remaining,slots:Math.max(0,6-linked.length),fits:remaining>=target&&linked.length<6};
-  });
-  const suitable=rows.filter(x=>x.fits).sort((a,b)=>(a.remaining-target)-(b.remaining-target)||b.slots-a.slots);
-  const fullWithGB=rows.filter(x=>x.remaining>0&&x.linkedCount>=6).sort((a,b)=>b.remaining-a.remaining);
-  const nearly=rows.filter(x=>x.remaining>0&&x.linkedCount<6&&x.remaining<target).sort((a,b)=>b.remaining-a.remaining);
-  const card=(x,kind,label)=>'<article class="allocation-result '+(kind==="best"?"best":kind==="full"?"full":"")+'"><div class="allocation-result-head"><span class="allocation-result-phone">'+escapeHtml(x.n.phone||"-")+'</span><span class="allocation-pill">'+label+'</span></div><div class="allocation-metrics"><span>متبقي: <b>'+formatGB(x.remaining)+' GB</b></span><span>الإجمالي: '+formatGB(x.total)+' GB</span><span>موزع: '+formatGB(x.used)+' GB</span><span>العملاء: '+x.linkedCount+'/6</span><span>المتاح من الأماكن: '+x.slots+'</span><span>تجديد: يوم '+getGroup(x.n)+'</span></div><button type="button" class="allocation-copy" data-copy-number="'+escapeHtml(x.n.phone||"")+'">نسخ الرقم لاستخدامه</button></article>';
-  let html='<div class="allocation-empty">الباقة المطلوبة: <b>'+formatGB(target)+' جيجا</b> · الأرقام مرتبة من الأنسب للأقل هدرًا.</div>';
-  if(suitable.length)html+='<div style="font-weight:900;color:#08752d">✅ أرقام مناسبة وفيها مكان لعميل جديد ('+suitable.length+')</div>'+suitable.map((x,i)=>card(x,"best",i===0?"أفضل اختيار":"مناسب")).join("");
-  else html+='<div class="allocation-empty">مفيش رقم نشط عنده جيجات كفاية ومكان متاح لعميل جديد حسب البيانات الحالية.</div>';
-  if(fullWithGB.length)html+='<div style="font-weight:900;color:#965300;margin-top:8px">⚠️ أرقام فيها جيجات متبقية لكن وصلت 6 عملاء</div>'+fullWithGB.map(x=>card(x,"full","مكتمل العدد — لا يمكن إضافة عميل")).join("");
-  if(nearly.length)html+='<details><summary style="cursor:pointer;font-weight:bold;color:#5420b8;padding:8px 0">أرقام عندها جيجات أقل من المطلوب ('+nearly.length+')</summary>'+nearly.map(x=>card(x,"","متبقي أقل من المطلوب")).join("")+'</details>';
-  output.innerHTML=html;
-  output.querySelectorAll("[data-copy-number]").forEach(btn=>btn.addEventListener("click",async()=>{
-    const phone=btn.getAttribute("data-copy-number")||"";
-    try{await navigator.clipboard.writeText(phone);showToast("تم نسخ الرقم "+phone);}
-    catch(e){window.prompt("انسخ الرقم:",phone);}
-  }));
-}
-
 </script>
 
 <style>
@@ -2273,9 +2242,7 @@ async function saveNumber(){
         }
 
 
-        await document.getElementById("allocationGB")?.addEventListener("input",renderAllocationSuggestions);
-document.getElementById("allocationGroup")?.addEventListener("change",renderAllocationSuggestions);
-loadData();
+        loadData();
 
         closeModal();
 
@@ -2880,6 +2847,40 @@ body{
     });
 
 })();
+
+/* SMART PACKAGE ALLOCATION */
+function renderAllocationSuggestions(){
+  const target=Number(document.getElementById("allocationGB")?.value);
+  const group=document.getElementById("allocationGroup")?.value||"any";
+  const output=document.getElementById("allocationResults");
+  if(!output)return;
+  if(!Number.isFinite(target)||target<=0){output.innerHTML='<div class="allocation-empty">اكتب حجم باقة صحيح أكبر من صفر.</div>';return;}
+  const rows=numbers.filter(n=>n.is_active!==false&&(group==="any"||String(getGroup(n))===group)).map(n=>{
+    const linked=getLinkedCustomers(n.phone);
+    const total=getTotalGB(n);
+    const used=linked.reduce((sum,c)=>sum+(Number(c.allocated_gb)||0),0);
+    const remaining=Math.max(0,total-used);
+    return {n,linkedCount:linked.length,total,used,remaining,slots:Math.max(0,6-linked.length),fits:remaining>=target&&linked.length<6};
+  });
+  const suitable=rows.filter(x=>x.fits).sort((a,b)=>(a.remaining-target)-(b.remaining-target)||b.slots-a.slots);
+  const fullWithGB=rows.filter(x=>x.remaining>0&&x.linkedCount>=6).sort((a,b)=>b.remaining-a.remaining);
+  const nearly=rows.filter(x=>x.remaining>0&&x.linkedCount<6&&x.remaining<target).sort((a,b)=>b.remaining-a.remaining);
+  const card=(x,kind,label)=>'<article class="allocation-result '+(kind==="best"?"best":kind==="full"?"full":"")+'"><div class="allocation-result-head"><span class="allocation-result-phone">'+escapeHtml(x.n.phone||"-")+'</span><span class="allocation-pill">'+label+'</span></div><div class="allocation-metrics"><span>متبقي: <b>'+formatGB(x.remaining)+' GB</b></span><span>الإجمالي: '+formatGB(x.total)+' GB</span><span>موزع: '+formatGB(x.used)+' GB</span><span>العملاء: '+x.linkedCount+'/6</span><span>المتاح من الأماكن: '+x.slots+'</span><span>تجديد: يوم '+getGroup(x.n)+'</span></div><button type="button" class="allocation-copy" data-copy-number="'+escapeHtml(x.n.phone||"")+'">نسخ الرقم لاستخدامه</button></article>';
+  let html='<div class="allocation-empty">الباقة المطلوبة: <b>'+formatGB(target)+' جيجا</b> · الأرقام مرتبة من الأنسب للأقل هدرًا.</div>';
+  if(suitable.length)html+='<div style="font-weight:900;color:#08752d">✅ أرقام مناسبة وفيها مكان لعميل جديد ('+suitable.length+')</div>'+suitable.map((x,i)=>card(x,"best",i===0?"أفضل اختيار":"مناسب")).join("");
+  else html+='<div class="allocation-empty">مفيش رقم نشط عنده جيجات كفاية ومكان متاح لعميل جديد حسب البيانات الحالية.</div>';
+  if(fullWithGB.length)html+='<div style="font-weight:900;color:#965300;margin-top:8px">⚠️ أرقام فيها جيجات متبقية لكن وصلت 6 عملاء</div>'+fullWithGB.map(x=>card(x,"full","مكتمل العدد — لا يمكن إضافة عميل")).join("");
+  if(nearly.length)html+='<details><summary style="cursor:pointer;font-weight:bold;color:#5420b8;padding:8px 0">أرقام عندها جيجات أقل من المطلوب ('+nearly.length+')</summary>'+nearly.map(x=>card(x,"","متبقي أقل من المطلوب")).join("")+'</details>';
+  output.innerHTML=html;
+  output.querySelectorAll("[data-copy-number]").forEach(btn=>btn.addEventListener("click",async()=>{
+    const phone=btn.getAttribute("data-copy-number")||"";
+    try{await navigator.clipboard.writeText(phone);showToast("تم نسخ الرقم "+phone);}
+    catch(e){window.prompt("انسخ الرقم:",phone);}
+  }));
+}
+
+document.getElementById("allocationGB")?.addEventListener("input",renderAllocationSuggestions);
+document.getElementById("allocationGroup")?.addEventListener("change",renderAllocationSuggestions);
 
 </script>
 </body>
