@@ -21,7 +21,29 @@ const db=supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshTok
 let customers=[],accounts=[];
 const $=id=>document.getElementById(id), money=n=>(Number(n)||0).toLocaleString('ar-EG',{maximumFractionDigits:2})+' ج.م';
 function msg(s){$('message').textContent=s}
-async function init(){try{const {data,error}=await db.auth.getSession();if(error)throw error;if(!data.session){msg('جلسة الدخول مش موجودة هنا. ارجع للموقع الرئيسي وسجّل الدخول من جديد، وبعدها افتح CASH BACK محل.');$('message').insertAdjacentHTML('beforeend','<p><button onclick=\"location.href=\\\'customers.html\\\'\">الرجوع لتسجيل الدخول</button></p>');return}if(String(data.session.user.email||'').toLowerCase()!==ADMIN){msg('الحساب الحالي غير مصرح له بدخول نظام المحل. ارجع وسجّل بحساب الإدارة.');return}$('shop').classList.remove('hidden');msg('تم التحقق من الدخول. بيانات المحل محفوظة على قاعدة البيانات.');$('opDate').value=new Date().toISOString().slice(0,10);$('expenseDate').value=$('opDate').value;await refresh()}catch(e){msg('تعذر الاتصال بقاعدة البيانات: '+e.message)}}
+async function init(){
+ try{
+  const result=await db.auth.getSession();
+  if(result.error) throw result.error;
+  if(!result.data.session){
+   msg('جلسة الدخول غير موجودة. ارجع للموقع الرئيسي وسجّل الدخول ثم افتح المحل.');
+   return;
+  }
+  if(String(result.data.session.user.email||'').toLowerCase()!==ADMIN){
+   msg('الحساب الحالي غير مصرح له. ارجع وسجّل بحساب الإدارة.');
+   return;
+  }
+  $('shop').classList.remove('hidden');
+  msg('تم التحقق من الدخول. جاري تحميل بيانات المحل...');
+  $('opDate').value=new Date().toISOString().slice(0,10);
+  $('expenseDate').value=$('opDate').value;
+  await refresh();
+  msg('نظام المحل جاهز.');
+ }catch(e){
+  msg('حصل خطأ: '+(e && e.message ? e.message : String(e)));
+  console.error(e);
+ }
+}
 async function refresh(){await Promise.all([loadCustomers(),loadAccounts(),loadOperations(),loadExpenses()]);$('customerCount').textContent=customers.length;$('accountCount').textContent=accounts.length}
 async function loadCustomers(){const {data,error}=await db.from('cb_customers').select('*').order('created_at',{ascending:false});if(error)throw error;customers=data||[];$('customersTable').innerHTML=table(['الاسم','الهاتف','ملاحظات'],customers.map(x=>[esc(x.name),esc(x.phone||''),esc(x.notes||'')]));fillSelects()}
 async function loadAccounts(){const {data,error}=await db.from('cb_accounts').select('*').order('created_at',{ascending:false});if(error)throw error;accounts=data||[];$('accountsTable').innerHTML=table(['الحساب','الرصيد الافتتاحي'],accounts.map(x=>[esc(x.name),money(x.opening_balance)]));fillSelects()}
