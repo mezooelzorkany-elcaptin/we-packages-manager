@@ -12,7 +12,7 @@
 
 <title>العملاء | CASH BACK</title>
 
-<script src="theme.js?v=20261014-6"></script>
+<script src="theme.js?v=20261014-7"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -1926,18 +1926,6 @@ html.dark-mode #adminBottomNav a.active{color:#f0d27a!important}
 
 
 
-
-<!-- PACKAGE DISTRIBUTION STATISTICS -->
-<section class="panel" id="packageStatsPanel">
-  <div class="ph">
-    <div><div class="pt">📊 إحصائية الباقات</div><div class="ps">عدد العملاء المشتركين في كل حجم باقة</div></div>
-    <button class="action" type="button" id="packageStatsRefresh">↻ تحديث</button>
-  </div>
-  <div id="packageStats" class="stats" style="grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:12px;margin-bottom:0">
-    <div class="loading">جاري حساب الباقات...</div>
-  </div>
-  <div id="packageStatsNote" class="label" style="margin-top:12px"></div>
-</section>
 
 <!-- SEARCH -->
 
@@ -3856,7 +3844,6 @@ async function loadCustomers(){
 
 
     updateStats();
-    updatePackageStats();
 
     render();
 
@@ -3964,29 +3951,6 @@ function updateStats(){
 }
 
 
-
-function updatePackageStats(){
-  const counts=new Map();
-  let unknown=0;
-  customers.forEach(c=>{
-    let gb=Number(c.allocated_gb);
-    if(!Number.isFinite(gb)||gb<=0){
-      const source=String(c.package_name||'')+' '+String(c.package_size||'');
-      const m=source.match(/(?:^|\\D)(\\d+(?:\\.\\d+)?)\\s*(?:GB|جيجا|جيجابايت)|(?:باقة|حجم)\\s*(\\d+(?:\\.\\d+)?)/i);
-      gb=m?Number(m[1]||m[2]):NaN;
-    }
-    if(Number.isFinite(gb)&&gb>0){
-      const key=String(Number(gb));
-      counts.set(key,(counts.get(key)||0)+1);
-    }else unknown++;
-  });
-  const entries=[...counts.entries()].sort((a,b)=>Number(a[0])-Number(b[0]));
-  const el=document.getElementById('packageStats');
-  if(!el)return;
-  el.innerHTML=entries.length?entries.map(([gb,count])=>'<div class="stat" style="border:1px solid rgba(190,160,255,.32);padding:16px"><div class="st">باقة '+escapeHtml(gb)+' جيجا <span class="ico">📦</span></div><div class="num">'+count+'</div><div class="label">عميل</div></div>').join(''):'<div class="empty">مفيش بيانات باقات مسجلة.</div>';
-  const note=document.getElementById('packageStatsNote');
-  if(note)note.textContent='إجمالي العملاء: '+customers.length+' · أحجام باقات معروفة: '+entries.reduce((n,x)=>n+x[1],0)+' · بدون حجم واضح: '+unknown;
-}
 
 function render(){
 
