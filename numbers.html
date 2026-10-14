@@ -9,7 +9,39 @@
 
 <title>الأرقام الأساسية | WE Packages</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+/* SMART PACKAGE ALLOCATION */
+function renderAllocationSuggestions(){
+  const target=Number(document.getElementById("allocationGB")?.value);
+  const group=document.getElementById("allocationGroup")?.value||"any";
+  const output=document.getElementById("allocationResults");
+  if(!output)return;
+  if(!Number.isFinite(target)||target<=0){output.innerHTML='<div class="allocation-empty">اكتب حجم باقة صحيح أكبر من صفر.</div>';return;}
+  const rows=numbers.filter(n=>n.is_active!==false&&(group==="any"||String(getGroup(n))===group)).map(n=>{
+    const linked=getLinkedCustomers(n.phone);
+    const total=getTotalGB(n);
+    const used=linked.reduce((sum,c)=>sum+(Number(c.allocated_gb)||0),0);
+    const remaining=Math.max(0,total-used);
+    return {n,linkedCount:linked.length,total,used,remaining,slots:Math.max(0,6-linked.length),fits:remaining>=target&&linked.length<6};
+  });
+  const suitable=rows.filter(x=>x.fits).sort((a,b)=>(a.remaining-target)-(b.remaining-target)||b.slots-a.slots);
+  const fullWithGB=rows.filter(x=>x.remaining>0&&x.linkedCount>=6).sort((a,b)=>b.remaining-a.remaining);
+  const nearly=rows.filter(x=>x.remaining>0&&x.linkedCount<6&&x.remaining<target).sort((a,b)=>b.remaining-a.remaining);
+  const card=(x,kind,label)=>'<article class="allocation-result '+(kind==="best"?"best":kind==="full"?"full":"")+'"><div class="allocation-result-head"><span class="allocation-result-phone">'+escapeHtml(x.n.phone||"-")+'</span><span class="allocation-pill">'+label+'</span></div><div class="allocation-metrics"><span>متبقي: <b>'+formatGB(x.remaining)+' GB</b></span><span>الإجمالي: '+formatGB(x.total)+' GB</span><span>موزع: '+formatGB(x.used)+' GB</span><span>العملاء: '+x.linkedCount+'/6</span><span>المتاح من الأماكن: '+x.slots+'</span><span>تجديد: يوم '+getGroup(x.n)+'</span></div><button type="button" class="allocation-copy" data-copy-number="'+escapeHtml(x.n.phone||"")+'">نسخ الرقم لاستخدامه</button></article>';
+  let html='<div class="allocation-empty">الباقة المطلوبة: <b>'+formatGB(target)+' جيجا</b> · الأرقام مرتبة من الأنسب للأقل هدرًا.</div>';
+  if(suitable.length)html+='<div style="font-weight:900;color:#08752d">✅ أرقام مناسبة وفيها مكان لعميل جديد ('+suitable.length+')</div>'+suitable.map((x,i)=>card(x,"best",i===0?"أفضل اختيار":"مناسب")).join("");
+  else html+='<div class="allocation-empty">مفيش رقم نشط عنده جيجات كفاية ومكان متاح لعميل جديد حسب البيانات الحالية.</div>';
+  if(fullWithGB.length)html+='<div style="font-weight:900;color:#965300;margin-top:8px">⚠️ أرقام فيها جيجات متبقية لكن وصلت 6 عملاء</div>'+fullWithGB.map(x=>card(x,"full","مكتمل العدد — لا يمكن إضافة عميل")).join("");
+  if(nearly.length)html+='<details><summary style="cursor:pointer;font-weight:bold;color:#5420b8;padding:8px 0">أرقام عندها جيجات أقل من المطلوب ('+nearly.length+')</summary>'+nearly.map(x=>card(x,"","متبقي أقل من المطلوب")).join("")+'</details>';
+  output.innerHTML=html;
+  output.querySelectorAll("[data-copy-number]").forEach(btn=>btn.addEventListener("click",async()=>{
+    const phone=btn.getAttribute("data-copy-number")||"";
+    try{await navigator.clipboard.writeText(phone);showToast("تم نسخ الرقم "+phone);}
+    catch(e){window.prompt("انسخ الرقم:",phone);}
+  }));
+}
+
+</script>
 
 <style>
 
@@ -660,6 +692,29 @@ html.dark-mode .edit-btn{background:#33284a!important;color:#ddcaff!important;bo
 html.dark-mode .delete-btn{background:#402126!important;color:#ffb6be!important;border-color:#c45a67!important}
 @media(max-width:480px){.number-actions{gap:8px}.number-action{font-size:13px;padding:10px 8px}}
 
+ 
+/* SMART PACKAGE ALLOCATION */
+.allocation-helper{background:rgba(255,255,255,.88);border:1px solid #d8c9f3;border-radius:22px;padding:17px;margin:0 0 16px;box-shadow:0 10px 28px rgba(60,35,120,.09)}
+.allocation-helper h2{margin:0 0 7px;color:#5420b8;font-size:20px}
+.allocation-helper p{margin:0 0 14px;color:#71677f;line-height:1.7;font-size:13px}
+.allocation-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.allocation-controls label{display:grid;gap:6px;font-size:13px;font-weight:bold;color:#514765}
+.allocation-controls input,.allocation-controls select{width:100%;height:45px;border:1px solid #ddd1f0;border-radius:12px;background:white;padding:0 12px;font:inherit}
+.allocation-results{display:grid;gap:9px;margin-top:14px}
+.allocation-result{border:1px solid #ded3f1;border-radius:15px;padding:13px;background:#fff;display:grid;gap:8px}
+.allocation-result.best{border:2px solid #159447;background:#f4fff7}
+.allocation-result.full{border-color:#edc17d;background:#fffaf1}
+.allocation-result-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.allocation-result-phone{font-size:20px;font-weight:900;color:#5420b8;direction:ltr}
+.allocation-pill{font-size:12px;font-weight:bold;border-radius:20px;padding:6px 9px;background:#e8ddff;color:#5420b8}
+.allocation-result.best .allocation-pill{background:#d9f8e3;color:#08752d}
+.allocation-result.full .allocation-pill{background:#ffedcd;color:#965300}
+.allocation-metrics{display:flex;gap:7px;flex-wrap:wrap;color:#625970;font-size:13px}
+.allocation-metrics span{background:#f4f0fa;border-radius:9px;padding:7px 9px}
+.allocation-copy{border:0;border-radius:10px;background:#5420b8;color:#fff;font-weight:bold;padding:10px 12px;cursor:pointer}
+.allocation-empty{border:1px dashed #c9bbdf;border-radius:13px;padding:14px;text-align:center;color:#71677f;line-height:1.7}
+@media(max-width:520px){.allocation-controls{grid-template-columns:1fr}.allocation-helper{padding:13px}.allocation-result-phone{font-size:17px}}
+
 </style>
 </head>
 
@@ -717,6 +772,24 @@ html.dark-mode .delete-btn{background:#402126!important;color:#ffb6be!important;
 
     </div>
 
+
+    <section class="allocation-helper" aria-labelledby="allocationTitle">
+      <h2 id="allocationTitle">🧠 مساعد توزيع الباقات</h2>
+      <p>اكتب حجم الباقة المطلوبة، وهتظهر الأرقام النشطة الأنسب حسب الجيجا المتبقية وعدد العملاء. الحد الأقصى 6 عملاء لكل رقم.</p>
+      <div class="allocation-controls">
+        <label>حجم الباقة المطلوبة (جيجا)
+          <input id="allocationGB" type="number" min="1" step="1" value="50" inputmode="decimal">
+        </label>
+        <label>موعد التجديد
+          <select id="allocationGroup">
+            <option value="any">أي موعد</option>
+            <option value="1">تجديد يوم 1</option>
+            <option value="16">تجديد يوم 16</option>
+          </select>
+        </label>
+      </div>
+      <div id="allocationResults" class="allocation-results"><div class="allocation-empty">جاري تجهيز الأرقام المتاحة...</div></div>
+    </section>
 
     <!-- DAY 1 -->
 
@@ -2199,7 +2272,9 @@ async function saveNumber(){
         }
 
 
-        await loadData();
+        await document.getElementById("allocationGB")?.addEventListener("input",renderAllocationSuggestions);
+document.getElementById("allocationGroup")?.addEventListener("change",renderAllocationSuggestions);
+loadData();
 
         closeModal();
 
