@@ -660,6 +660,24 @@ html.dark-mode .edit-btn{background:#33284a!important;color:#ddcaff!important;bo
 html.dark-mode .delete-btn{background:#402126!important;color:#ffb6be!important;border-color:#c45a67!important}
 @media(max-width:480px){.number-actions{gap:8px}.number-action{font-size:13px;padding:10px 8px}}
 
+
+.allocation-helper{background:rgba(255,255,255,.88);border:1px solid #d8c9f3;border-radius:18px;padding:14px;margin-bottom:14px}
+.allocation-helper h2{margin:0 0 6px;color:#5420b8;font-size:19px}
+.allocation-helper p{margin:0 0 12px;color:#71677f;font-size:13px}
+.allocation-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.allocation-controls label{display:grid;gap:6px;font-size:13px;font-weight:bold}
+.allocation-controls input,.allocation-controls select{height:43px;border:1px solid #ddd1f0;border-radius:11px;background:white;padding:0 10px;font:inherit}
+.allocation-results{display:grid;gap:9px;margin-top:12px}
+.allocation-result{border:1px solid #ded3f1;border-radius:13px;padding:12px;background:#fff;display:grid;gap:8px}
+.allocation-result.best{border:2px solid #159447;background:#f4fff7}
+.allocation-result.full{border-color:#edc17d;background:#fffaf1}
+.allocation-result-head{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.allocation-result-phone{font-size:19px;font-weight:900;color:#5420b8;direction:ltr}
+.allocation-metrics{display:flex;gap:7px;flex-wrap:wrap;font-size:12px}
+.allocation-metrics span{background:#f4f0fa;border-radius:8px;padding:6px 8px}
+.allocation-copy{border:0;border-radius:9px;background:#5420b8;color:white;font-weight:bold;padding:10px}
+.allocation-empty{border:1px dashed #c9bbdf;border-radius:11px;padding:12px;text-align:center;line-height:1.7}
+@media(max-width:520px){.allocation-controls{grid-template-columns:1fr}}
 </style>
 </head>
 
@@ -718,6 +736,15 @@ html.dark-mode .delete-btn{background:#402126!important;color:#ffb6be!important;
     </div>
 
 
+    <section class="allocation-helper">
+      <h2>🧠 مساعد توزيع الباقات</h2>
+      <p>اكتب حجم الباقة وحدد التجديد، والنظام يرشح الأرقام المناسبة مع مراعاة حد 6 عملاء.</p>
+      <div class="allocation-controls">
+        <label>حجم الباقة (جيجا)<input id="allocationGB" type="number" min="1" value="50"></label>
+        <label>موعد التجديد<select id="allocationGroup"><option value="any">أي موعد</option><option value="1">يوم 1</option><option value="16">يوم 16</option></select></label>
+      </div>
+      <div id="allocationResults" class="allocation-results"><div class="allocation-empty">جاري تحميل الأرقام...</div></div>
+    </section>
     <!-- DAY 1 -->
 
     <div class="group open" id="group1">
@@ -1094,6 +1121,7 @@ async function loadData(){
 
 
         renderNumbers();
+        renderAllocationSuggestions();
 
     }
     catch(error){
@@ -2469,6 +2497,31 @@ document.addEventListener(
 ===================================================== */
 
 loadData();
+
+function renderAllocationSuggestions(){
+ const out=document.getElementById("allocationResults");
+ if(!out)return;
+ const target=Number(document.getElementById("allocationGB").value);
+ const group=document.getElementById("allocationGroup").value;
+ if(!(target>0)){out.innerHTML='<div class="allocation-empty">اكتب حجم باقة صحيح.</div>';return;}
+ const rows=numbers.filter(n=>group==="any"||String(getGroup(n))===group).map(n=>{
+  const linked=getLinkedCustomers(n.phone), total=getTotalGB(n);
+  const used=linked.reduce((sum,c)=>sum+(Number(c.allocated_gb)||0),0), remaining=Math.max(0,total-used);
+  return {n,linkedCount:linked.length,total,used,remaining,slots:Math.max(0,6-linked.length)};
+ });
+ const card=(x,kind)=>'<article class="allocation-result '+kind+'"><div class="allocation-result-head"><b>'+escapeHtml(x.n.phone||"-")+'</b><b>'+x.remaining+' GB متبقي</b></div><div class="allocation-metrics"><span>العملاء '+x.linkedCount+'/6</span><span>الموزع '+x.used+' GB</span><span>المتاح '+x.slots+' أماكن</span><span>تجديد يوم '+getGroup(x.n)+'</span></div><button class="allocation-copy" type="button" data-copy="'+escapeHtml(x.n.phone||"")+'">نسخ الرقم</button></article>';
+ const fits=rows.filter(x=>x.remaining>=target&&x.linkedCount<6).sort((a,b)=>(a.remaining-target)-(b.remaining-target));
+ const full=rows.filter(x=>x.remaining>0&&x.linkedCount>=6).sort((a,b)=>b.remaining-a.remaining);
+ const low=rows.filter(x=>x.remaining>0&&x.remaining<target&&x.linkedCount<6).sort((a,b)=>b.remaining-a.remaining);
+ let html='<div class="allocation-empty">الباقة المطلوبة '+target+' جيجا</div>';
+ html+=fits.length?'<b>أرقام مناسبة ('+fits.length+')</b>'+fits.map(x=>card(x,"best")).join(""):'<div class="allocation-empty">لا يوجد رقم مناسب بجيجات كافية ومكان متاح.</div>';
+ if(full.length)html+='<b>جيجات متبقية لكن العدد مكتمل</b>'+full.map(x=>card(x,"full")).join("");
+ if(low.length)html+='<details><summary>أرقام بجيجات أقل من المطلوب ('+low.length+')</summary>'+low.map(x=>card(x,"")).join("")+'</details>';
+ out.innerHTML=html;
+ out.querySelectorAll("[data-copy]").forEach(b=>b.onclick=()=>{const t=document.createElement("textarea");t.value=b.dataset.copy;document.body.appendChild(t);t.select();document.execCommand("copy");t.remove();showToast("تم نسخ الرقم");});
+}
+document.getElementById("allocationGB").addEventListener("input",renderAllocationSuggestions);
+document.getElementById("allocationGroup").addEventListener("change",renderAllocationSuggestions);
 
 </script>
 <!-- =====================================================
