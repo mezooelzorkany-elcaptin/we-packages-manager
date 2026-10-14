@@ -33,7 +33,8 @@ h1{font-size:25px;margin:0 0 8px}.muted{color:#b7b2c8;font-size:14px;line-height
 const SUPABASE_URL="https://pgvbynefhqmyzjtccttl.supabase.co";
 const SUPABASE_KEY="sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
-let allCustomers=[];\nfunction renewalBucket(c){const t=String(c.renewal_type||'').toLowerCase();const d=Number(c.renewal_day);if(t==='day_1'||d===1)return '1';if(t==='day_16'||d===16)return '16';return 'other';}
+let allCustomers=[];
+function renewalBucket(c){const t=String(c.renewal_type||'').toLowerCase();const d=Number(c.renewal_day);if(t==='day_1'||d===1)return '1';if(t==='day_16'||d===16)return '16';return 'other';}
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function getSize(c){
  const n=Number(c.allocated_gb);if(c.allocated_gb!==null&&c.allocated_gb!==undefined&&String(c.allocated_gb).trim()!==''&&Number.isFinite(n)&&n>0)return n;
