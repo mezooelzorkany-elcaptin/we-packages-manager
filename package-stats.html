@@ -24,7 +24,8 @@ h1{font-size:25px;margin:0 0 8px}.muted{color:#b7b2c8;font-size:14px;line-height
 const SUPABASE_URL="https://pgvbynefhqmyzjtccttl.supabase.co";
 const SUPABASE_KEY="sb_publishable_RMNG3j5xrijQx3HcbfEkbQ_wZkoJGrY";
 const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
-let allCustomers=[];\nconst esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let allCustomers=[];
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function getSize(c){
  const n=Number(c.allocated_gb);if(c.allocated_gb!==null&&c.allocated_gb!==undefined&&String(c.allocated_gb).trim()!==''&&Number.isFinite(n)&&n>0)return n;
  const source=[c.package_name,c.package_size,c.package,c.plan_name].filter(Boolean).join(' ');
@@ -38,6 +39,7 @@ async function load(){
   if(!session.data.session){box.innerHTML='<div class="summary-card">سجّل الدخول من لوحة العملاء أولًا، ثم افتح الإحصائية من جديد.</div>';return}
   const {data,error}=await db.from('customers').select('*').is('deleted_at',null).order('subscriber_name');
   if(error)throw error;
+  allCustomers=data||[];
   const counts=new Map();let unknown=0;
   (data||[]).forEach(c=>{const gb=getSize(c);if(gb&&Number.isFinite(gb))counts.set(String(gb),(counts.get(String(gb))||0)+1);else unknown++});
   const entries=[...counts.entries()].sort((a,b)=>Number(a[0])-Number(b[0]));
@@ -45,7 +47,8 @@ async function load(){
   box.innerHTML='<article class="tile"><h2>إجمالي العملاء</h2><div class="count">'+(data||[]).length+'</div><div class="unit">عميل مسجل</div></article>'+
    entries.map(([gb,count])=>'<button type="button" class="tile" data-size="'+esc(gb)+'"><h2>باقة '+esc(gb)+' جيجا</h2><div class="count">'+count+'</div><div class="unit">عميل مشترك · اضغط لعرضهم</div><div class="bar"><span style="width:'+((count/Math.max(known,1))*100)+'%"></span></div></button>').join('')+
    '<article class="tile"><h2>حجم غير محدد</h2><div class="count">'+unknown+'</div><div class="unit">عميل محتاج بيانات باقته تتراجع</div></article>';
-  status.textContent='تم حساب '+known+' عميل بأحجام باقات واضحة من أصل '+allCustomers.length+'. اضغط على أي باقة لعرض عملائها.';\n  box.querySelectorAll('[data-size]').forEach(btn=>btn.addEventListener('click',()=>showCustomers(btn.dataset.size)));
+  status.textContent='تم حساب '+known+' عميل بأحجام باقات واضحة من أصل '+allCustomers.length+'. اضغط على أي باقة لعرض عملائها.';
+  box.querySelectorAll('[data-size]').forEach(btn=>btn.addEventListener('click',()=>showCustomers(btn.dataset.size)));
  }catch(e){box.innerHTML='<div class="summary-card">تعذر تحميل الإحصائية.</div>';status.textContent=e.message||'حدث خطأ أثناء التحميل';}
 }
 
