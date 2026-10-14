@@ -17,8 +17,9 @@
     <h1>مساعد توزيع الباقات</h1>
     <p>اختار حجم الباقة، والمساعد هيعرض أنسب رقم أساسي حسب الجيجابايت المتبقية وعدد العملاء المرتبطين به. الأداة للقراءة والاقتراح فقط؛ مش هتضيف عميل أو تعدّل أي بيانات.</p>
     <div class="formrow">
-      <div class="field"><label for="targetGb">حجم الباقة المطلوب (جيجابايت)</label><input id="targetGb" type="number" min="1" step="1" value="50" inputmode="decimal"></div>
-      <button id="refreshBtn" type="button">تحديث البيانات والحساب</button>
+      <div class="field"><label for="targetGb">حجم الباقة المطلوبة (جيجابايت)</label><input id="targetGb" type="number" min="1" step="1" value="50" inputmode="decimal"></div>
+      <div class="field"><label for="renewalDay">يوم التجديد</label><select id="renewalDay"><option value="1">تجديد يوم 1</option><option value="16">تجديد يوم 16</option></select></div>
+      <button id="refreshBtn" type="button">اختيار الرقم المناسب</button>
     </div>
     <div id="status" class="status" role="status">جاري تحميل الأرقام والعملاء...</div>
   </section>
@@ -44,6 +45,10 @@
   let customerRows = [];
 
   function cleanPhone(value){ return String(value || "").replace(/\\D/g, "").replace(/^002/, ""); }
+  function renewalGroup(n){
+    const match=String(n.notes || "").match(/\\[GROUP:(1|16)\\]/);
+    return match ? match[1] : "";
+  }
   function totalGB(n){
     const match = String(n.notes || "").match(/\[TOTAL_GB:([0-9]+(?:\.[0-9]+)?)\]/);
     return match ? Number(match[1]) : null;
@@ -69,7 +74,8 @@
   }
   function render(){
     const target=Number($("targetGb").value);
-    const rows=numberRows.map(n=>({n,...capacity(n)}));
+    const selectedDay=$("renewalDay").value;
+    const rows=numberRows.filter(n=>renewalGroup(n)===selectedDay).map(n=>({n,...capacity(n)}));
     const viable=rows.filter(x=>x.total!==null && x.remaining!==null && x.remaining>=target && x.slots>0);
     viable.sort((a,b)=>{
       const aWaste=a.remaining-target, bWaste=b.remaining-target;
@@ -78,7 +84,7 @@
     const best=viable[0];
     $("summary").classList.remove("hidden");
     $("summary").innerHTML=[
-      [rows.length,"إجمالي الأرقام"],
+      [rows.length,"أرقام تجديد يوم "+selectedDay],
       [rows.filter(x=>x.slots>0).length,"أرقام بها أماكن"],
       [viable.length,"أرقام مناسبة للحجم"]
     ].map(([v,l])=>'<div class="stat"><b>'+fmt(v)+'</b><span>'+l+'</span></div>').join("");
@@ -124,6 +130,7 @@
   }
   $("refreshBtn").addEventListener("click",load);
   $("targetGb").addEventListener("input",()=>{if(numberRows.length)render();});
+  $("renewalDay").addEventListener("change",()=>{if(numberRows.length)render();});
   load();
 })();
 </script>
