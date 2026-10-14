@@ -3749,13 +3749,9 @@ async function login(){
 
 function showApp(){
 
-  const params = new URLSearchParams(window.location.search);
-
-  if(params.get("module") !== "packages"){
-    window.location.replace("modules.html");
-    return;
-  }
-
+  // After authentication, keep the user inside the packages system.
+  // The system chooser is a separate page and should not appear from
+  // the Customers navigation or when returning from another packages page.
   $("loginScreen").style.display = "none";
   $("app").style.display = "block";
   loadCustomers();
