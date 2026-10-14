@@ -1607,6 +1607,11 @@ html.dark-mode #adminBottomNav a.active{color:#f0d27a!important}
 @media(max-width:600px){#packageStatsPanel #packageStats{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}#packageStatsPanel #packageStats .stat{padding:12px!important;min-height:105px}#packageStatsPanel #packageStats .num{font-size:25px}}
 
 </style>
+<style>
+#moduleChooser{display:none;min-height:100vh;padding:28px 18px;background:radial-gradient(circle at top,#292114,#090909 65%);color:#f7e6ad;align-items:center;justify-content:center;font-family:Arial,Tahoma,sans-serif}#moduleChooser .module-inner{width:min(900px,100%);margin:auto;text-align:center}#moduleChooser h1{font-size:clamp(28px,5vw,44px);margin:10px 0;color:#e8c66a}#moduleChooser p{color:#c9c2ad;margin-bottom:28px}#moduleChooser .module-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}#moduleChooser .module-card{border:1px solid #9e7b2c;background:linear-gradient(145deg,#1b1a16,#101010);border-radius:22px;padding:32px 22px;color:#f5df9b;cursor:pointer;text-align:center;box-shadow:0 12px 35px #0008;transition:.2s}#moduleChooser .module-card:hover{transform:translateY(-4px);border-color:#f3d778}#moduleChooser .module-card .ico{font-size:42px;margin-bottom:14px}#moduleChooser .module-card h2{margin:0 0 10px;font-size:24px}#moduleChooser .module-card span{color:#c7bea5;font-size:14px}#moduleChooser .chooser-logout{margin-top:24px;background:transparent;color:#d4c8a4;border:1px solid #554a2e;border-radius:10px;padding:10px 20px;cursor:pointer}
+</style>
+<div id="moduleChooser"><div class="module-inner"><div style="font-size:18px;letter-spacing:3px;color:#d8b65d">CASH BACK</div><h1>اختار النظام اللي هتشتغل عليه</h1><p>تسجيل دخول واحد — ونظامين منفصلين</p><div class="module-cards"><button class="module-card" onclick="openPackagesModule()"><div class="ico">📶</div><h2>CASH BACK باقات</h2><span>إدارة الباقات والعملاء والتجديدات</span></button><button class="module-card" onclick="openShopModule()"><div class="ico">🏪</div><h2>CASH BACK محل</h2><span>إدارة المحل والحسابات والمصروفات</span></button></div><button class="chooser-logout" onclick="logout()">تسجيل الخروج</button></div></div>
+
 
 </head>
 
@@ -1681,7 +1686,7 @@ html.dark-mode #adminBottomNav a.active{color:#f0d27a!important}
      APP
 ===================================================== -->
 
-<div id="app">
+<div id="app" style="display:none">
 
 
 <!-- SIDE -->
