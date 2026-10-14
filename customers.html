@@ -12,7 +12,7 @@
 
 <title>العملاء | CASH BACK</title>
 
-<script src="theme.js?v=20261014-1"></script>
+<script src="theme.js?v=20261014-2"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -1693,7 +1693,7 @@ html.dark-mode #adminBottomNav a.active{color:#f0d27a!important}
       <span>العملاء</span>
     </a>
 
-    <a href="customers.html#communicationHub">
+    <a href="inbox.html">
       <i>💬</i>
       <span>التواصل والمتابعة</span>
     </a>
@@ -2005,47 +2005,6 @@ html.dark-mode #adminBottomNav a.active{color:#f0d27a!important}
 
 
 
-</section>
-
-<!-- INTEGRATED COMMUNICATION + CUSTOMER FOLLOW-UP -->
-<section class="panel" id="communicationHub" style="margin-top:24px;padding:0;overflow:hidden">
-  <button type="button" id="cbToggle" aria-expanded="false" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:right;border:0;background:transparent;color:inherit;padding:18px 20px;cursor:pointer">
-    <span><span class="pt" style="display:block">💬 مركز التواصل والمتابعة</span><span class="ps" style="display:block">اضغط لفتح أدوات المتابعة وقوالب واتساب والتقارير</span></span>
-    <span id="cbChevron" style="font-size:20px;color:#eac45e;white-space:nowrap">＋</span>
-  </button>
-  <div id="cbBody" hidden style="padding:0 20px 20px">
-  <div class="ph"><div><div class="ps">إدارة حالات العملاء ومواعيد المتابعة والرسائل</div></div><button class="btn purple" type="button" id="cbRefresh">↻ تحديث</button></div>
-  <div class="stats" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px">
-    <div class="stat"><div class="label">إجمالي العملاء</div><div class="num" id="cbTotal">—</div></div>
-    <div class="stat"><div class="label">تم التواصل</div><div class="num" id="cbContacted">—</div></div>
-    <div class="stat"><div class="label">حجز مؤكد / تجديد</div><div class="num" id="cbConfirmed">—</div></div>
-    <div class="stat"><div class="label">محتاج متابعة</div><div class="num" id="cbFollow">—</div></div>
-  </div>
-  <div class="toolbar" style="margin-bottom:12px">
-    <input class="search" id="cbSearch" placeholder="ابحث عن عميل بالاسم أو الرقم أو الباقة">
-    <select class="select" id="cbFilter">
-      <option value="all">كل العملاء</option><option value="new">جديد</option><option value="contacted">تم التواصل</option><option value="confirmed">حجز مؤكد</option><option value="renewed">تم التجديد</option><option value="follow_up">محتاج متابعة</option><option value="due">متابعة مستحقة</option><option value="missing">بدون واتساب</option>
-    </select>
-  </div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:16px">
-    <div class="box">
-      <strong>📝 قالب رسالة واتساب</strong>
-      <div class="toolbar" style="margin-top:10px"><select class="select" id="cbPreset" style="width:100%"><option value="booking">تأكيد الحجز</option><option value="renew">تذكير بالتجديد</option><option value="activated">تم التفعيل</option><option value="custom">رسالة مخصصة</option></select></div>
-      <textarea id="cbTemplate" class="search" style="width:100%;height:125px;padding:12px;resize:vertical;line-height:1.7" placeholder="نص الرسالة..."></textarea>
-      <div class="toolbar" style="margin-top:8px"><button class="action edit" id="cbSaveTemplate">حفظ القالب</button><button class="action" id="cbCopyTemplate">نسخ القالب</button></div>
-      <div id="cbSavedTemplates" class="toolbar" style="margin-top:8px"></div>
-      <small class="label">المتغيرات: {name} و{package} و{phone} و{renewal}</small>
-    </div>
-    <div class="box">
-      <strong>📤 تجهيز رسائل جماعية</strong>
-      <p class="label" style="line-height:1.8">جهّز ملف CSV برسالة مخصصة لكل عميل ظاهر في القائمة، أو افتح واتساب للعميل مباشرة. لا يتم إرسال رسائل تلقائيًا بدون ربط واتساب الرسمي.</p>
-      <button class="action edit" id="cbExport">تجهيز ملف الرسائل للعملاء الظاهرين</button>
-      <div id="cbMessage" class="label" style="margin-top:10px;line-height:1.7"></div>
-    </div>
-  </div>
-  <div id="cbList" class="list"><div class="loading">جاري تحميل بيانات المتابعة...</div></div>
-  <div class="label" style="margin-top:12px">حفظ حالة العميل والملاحظات وموعد المتابعة وسجل تغييرات الحالة متاح من نفس الصفحة.</div>
-  </div>
 </section>
 
 </main>
@@ -6721,46 +6680,7 @@ $("invoiceOverlay")
 checkSession();
 
 
-/* =====================================================
-   IN-PAGE CUSTOMER COMMUNICATION HUB
-===================================================== */
-(function(){
-const cbPresets={
- booking:'أهلًا {name} 👋\\nتم استلام طلب حجز باقة {package}. من فضلك أكد الحجز قبل موعد التفعيل.\\nCASH BACK',
- renew:'أهلًا {name} 👋\\nتذكير بموعد تجديد باقتك {package} يوم {renewal}. لو حابب تجدد، أكد حجزك معانا.\\nCASH BACK',
- activated:'أهلًا {name} ✅\\nتم تفعيل باقة {package} بنجاح. شكرًا لثقتك في CASH BACK.',
- custom:'أهلًا {name} 👋'
-};
-const stages={new:'جديد',contacted:'تم التواصل',confirmed:'حجز مؤكد',renewed:'تم التجديد',follow_up:'محتاج متابعة',inactive:'غير نشط'};
-let cbRows=[],cbCRM={},cbTemplates=[],cbFilter='all';
-const c$=id=>document.getElementById(id);
-const cEsc=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-const cPhone=c=>{let p=String(c.whatsapp_phone||c.whatsapp_number||c.whatsapp||c.phone||'').replace(/[^0-9]/g,'');if(p.startsWith('01')&&p.length===11)p='2'+p;return p};
-const cRenew=c=>{let v=String(c.renewal_type||c.renewal_day||c.renewal_group||'').toLowerCase();if(v.includes('16')||v.includes('day_16'))return 'يوم 16';if(v.includes('day_1')||v==='1')return 'يوم 1';if(c.next_renewal_date)return 'يوم '+new Date(c.next_renewal_date+'T12:00:00').getDate();return 'غير محدد'};
-const cStage=c=>cbCRM[String(c.id)]?.stage||'new';
-const cFill=(t,c)=>String(t||'').replaceAll('{name}',c?.subscriber_name||'عميلنا').replaceAll('{package}',c?.package_name||'باقتك').replaceAll('{phone}',c?.phone||'').replaceAll('{renewal}',cRenew(c));
-const cLog=async(type,c,details={})=>{try{await db.from('communication_activity').insert({customer_id:c?.id||null,activity_type:type,details})}catch(e){console.warn('communication log',e)}};
-function cVisible(){const q=c$('cbSearch').value.trim().toLowerCase();return cbRows.filter(c=>{const st=cStage(c),due=!!cbCRM[String(c.id)]?.next_follow_up&&cbCRM[String(c.id)].next_follow_up<=new Date().toISOString().slice(0,10);if(cbFilter==='missing'&&cPhone(c))return false;if(cbFilter==='due'&&!due&&st!=='follow_up')return false;if(stages[cbFilter]&&st!==cbFilter)return false;return !q||[c.subscriber_name,c.phone,c.whatsapp_phone,c.whatsapp_number,c.package_name,c.primary_number].join(' ').toLowerCase().includes(q)})}
-function cRenderTemplates(){c$('cbSavedTemplates').innerHTML=cbTemplates.map(t=>'<button type="button" class="action" data-cb-template="'+cEsc(t.id)+'">'+cEsc(t.title)+'</button>').join('');c$('cbSavedTemplates').querySelectorAll('[data-cb-template]').forEach(b=>b.onclick=()=>{const t=cbTemplates.find(x=>String(x.id)===b.dataset.cbTemplate);if(t){c$('cbTemplate').value=t.body;c$('cbPreset').value='custom'}})}
-function cRender(){if(!c$('cbList'))return;const arr=cVisible();c$('cbTotal').textContent=cbRows.length;c$('cbContacted').textContent=cbRows.filter(c=>cStage(c)==='contacted').length;c$('cbConfirmed').textContent=cbRows.filter(c=>['confirmed','renewed'].includes(cStage(c))).length;c$('cbFollow').textContent=cbRows.filter(c=>cStage(c)==='follow_up'||(cbCRM[String(c.id)]?.next_follow_up||'')<=new Date().toISOString().slice(0,10)&&!!cbCRM[String(c.id)]?.next_follow_up).length;
-c$('cbList').innerHTML=arr.length?arr.map(c=>{const id=cEsc(c.id),st=cStage(c),phone=cPhone(c),crm=cbCRM[String(c.id)]||{};return '<article class="card"><div class="ch"><div><div class="name">'+cEsc(c.subscriber_name||'بدون اسم')+'</div><div class="phone">📞 '+cEsc(c.phone||'—')+' · واتساب: '+cEsc(phone||'غير محفوظ')+'</div><div class="internal">📦 '+cEsc(c.package_name||'باقة غير محددة')+' · '+cEsc(cRenew(c))+'</div></div><span class="badge">'+cEsc(stages[st]||st)+'</span></div><div class="toolbar" style="margin-top:12px"><select class="select" data-cbstage="'+id+'">'+Object.entries(stages).map(([k,v])=>'<option value="'+k+'" '+(st===k?'selected':'')+'>'+v+'</option>').join('')+'</select><input class="select" type="date" data-cbfollow="'+id+'" value="'+cEsc(crm.next_follow_up||'')+'" title="موعد المتابعة"><textarea class="search" data-cbnotes="'+id+'" style="min-width:100%;height:65px;padding:10px" placeholder="ملاحظات العميل">'+cEsc(crm.notes||'')+'</textarea></div><div class="actions"><button class="action edit" data-cbsave="'+id+'">💾 حفظ المتابعة</button><button class="action" data-cbcopy="'+id+'">نسخ الرسالة</button><button class="action renew" data-cbwa="'+id+'">فتح واتساب</button></div></article>'}).join(''):'<div class="empty">مفيش عملاء مطابقين للبحث أو الفلتر.</div>';
-c$('cbList').querySelectorAll('[data-cbsave]').forEach(b=>b.onclick=async()=>{const id=b.dataset.cbsave,c=cbRows.find(x=>String(x.id)===id);if(!c)return;const old=cStage(c),stage=c$('cbList').querySelector('[data-cbstage="'+id+'"]').value,next_follow_up=c$('cbList').querySelector('[data-cbfollow="'+id+'"]').value||null,notes=c$('cbList').querySelector('[data-cbnotes="'+id+'"]').value;const row={customer_id:c.id,stage,next_follow_up,notes,updated_at:new Date().toISOString()};const {error}=await db.from('customer_contact_status').upsert(row,{onConflict:'customer_id'});if(error){c$('cbMessage').textContent='تعذر الحفظ: '+error.message;return}cbCRM[id]=row;if(old!==stage)await cLog('stage_changed',c,{from:old,to:stage});if(next_follow_up)await cLog('follow_up_set',c,{date:next_follow_up});c$('cbMessage').textContent='اتحفظت متابعة '+(c.subscriber_name||'العميل')+' بنجاح.';cRender()});
-c$('cbList').querySelectorAll('[data-cbcopy]').forEach(b=>b.onclick=async()=>{const c=cbRows.find(x=>String(x.id)===b.dataset.cbcopy);try{await navigator.clipboard.writeText(cFill(c$('cbTemplate').value,c));await cLog('message_copied',c,{template:c$('cbPreset').value});c$('cbMessage').textContent='تم نسخ رسالة '+c.subscriber_name}catch(e){prompt('انسخ الرسالة:',cFill(c$('cbTemplate').value,c))}});
-c$('cbList').querySelectorAll('[data-cbwa]').forEach(b=>b.onclick=()=>{const c=cbRows.find(x=>String(x.id)===b.dataset.cbwa),p=cPhone(c);if(!p){alert('لا يوجد رقم واتساب محفوظ لهذا العميل');return}window.open('https://wa.me/'+p+'?text='+encodeURIComponent(cFill(c$('cbTemplate').value,c)),'_blank','noopener');cLog('message_opened',c,{template:c$('cbPreset').value})});
-}
-async function cLoad(){if(!c$('cbList'))return;c$('cbMessage').textContent='جاري تحميل بيانات العملاء والمتابعة...';try{const {data,error}=await db.from('customers').select('*').is('deleted_at',null).order('subscriber_name');if(error)throw error;cbRows=data||[];const a=await db.from('customer_contact_status').select('*');if(a.error)throw a.error;cbCRM=Object.fromEntries((a.data||[]).map(x=>[String(x.customer_id),x]));const b=await db.from('communication_templates').select('*').order('created_at',{ascending:false});if(!b.error)cbTemplates=b.data||[];cRenderTemplates();cRender();c$('cbMessage').textContent='تم تحميل العملاء. احفظ تغييرات المتابعة من بطاقة العميل.'}catch(e){c$('cbList').innerHTML='<div class="error">تعذر تحميل مركز التواصل: '+cEsc(e.message||'خطأ')+'</div>';c$('cbMessage').textContent='تأكد من تسجيل الدخول وصلاحيات قاعدة البيانات.';console.error(e)}}
-c$('cbToggle').onclick=()=>{const body=c$('cbBody'),open=body.hidden;body.hidden=!open;c$('cbToggle').setAttribute('aria-expanded',String(open));c$('cbChevron').textContent=open?'−':'＋';if(open&&cbRows.length===0)cLoad();};
-if(location.hash==='#communicationHub'){c$('cbBody').hidden=false;c$('cbToggle').setAttribute('aria-expanded','true');c$('cbChevron').textContent='−';setTimeout(()=>c$('communicationHub').scrollIntoView({behavior:'smooth',block:'start'}),300);}
-c$('cbPreset').onchange=()=>c$('cbTemplate').value=cbPresets[c$('cbPreset').value]||cbPresets.custom;
-c$('cbTemplate').value=cbPresets.booking;
-c$('cbSearch').addEventListener('input',cRender);
-c$('cbFilter').onchange=()=>{cbFilter=c$('cbFilter').value;cRender()};
-c$('cbRefresh').onclick=cLoad;
-c$('cbSaveTemplate').onclick=async()=>{const title=prompt('اسم القالب المحفوظ:');if(!title?.trim())return;const {data,error}=await db.from('communication_templates').insert({title:title.trim(),body:c$('cbTemplate').value}).select().single();if(error){c$('cbMessage').textContent='تعذر حفظ القالب: '+error.message;return}cbTemplates.unshift(data);cRenderTemplates();c$('cbMessage').textContent='تم حفظ القالب.'};
-c$('cbCopyTemplate').onclick=async()=>{try{await navigator.clipboard.writeText(c$('cbTemplate').value);c$('cbMessage').textContent='تم نسخ القالب.'}catch(e){prompt('انسخ القالب:',c$('cbTemplate').value)}};
-c$('cbExport').onclick=()=>{const arr=cVisible();if(!arr.length){c$('cbMessage').textContent='لا يوجد عملاء ظاهرون للتجهيز.';return}const rows=arr.map(c=>[c.subscriber_name||'',cPhone(c),cFill(c$('cbTemplate').value,c)].map(v=>'"'+String(v).replaceAll('"','""')+'"').join(','));const blob=new Blob(['\ufeffاسم العميل,رقم واتساب,نص الرسالة\r\n'+rows.join('\r\n')],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='CASH-BACK-messages.csv';a.click();URL.revokeObjectURL(url);c$('cbMessage').textContent='تم تجهيز '+arr.length+' رسالة في ملف CSV. الإرسال التلقائي غير مفعّل.'};
-cLoad();
-})();
+;
 </script>
 
 </body>
