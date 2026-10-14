@@ -3882,8 +3882,9 @@ async function loadCustomers(){
 
 function updateStats(){
 
+  // إجمالي العملاء يشمل كل السجلات، حتى المستبعدين من التجديد لهذا الشهر.
   $("total").textContent =
-    customers.filter(c => !isSkippedThisMonth(c)).length;
+    customers.length;
 
 
   // "مش هيجدد الشهر ده" يفضل موجود كعميل في قاعدة البيانات،
