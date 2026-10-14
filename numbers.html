@@ -2,27 +2,663 @@
 <html lang="ar" dir="rtl">
 
 <head>
-<script src="theme.js?v=20261014-4">/* SMART PACKAGE ALLOCATION */
-.allocation-helper{background:rgba(255,255,255,.88);border:1px solid #d8c9f3;border-radius:22px;padding:17px;margin:0 0 16px;box-shadow:0 10px 28px rgba(60,35,120,.09)}
-.allocation-helper h2{margin:0 0 7px;color:#5420b8;font-size:20px}
-.allocation-helper p{margin:0 0 14px;color:#71677f;line-height:1.7;font-size:13px}
-.allocation-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.allocation-controls label{display:grid;gap:6px;font-size:13px;font-weight:bold;color:#514765}
-.allocation-controls input,.allocation-controls select{width:100%;height:45px;border:1px solid #ddd1f0;border-radius:12px;background:white;padding:0 12px;font:inherit}
-.allocation-results{display:grid;gap:9px;margin-top:14px}
-.allocation-result{border:1px solid #ded3f1;border-radius:15px;padding:13px;background:#fff;display:grid;gap:8px}
-.allocation-result.best{border:2px solid #159447;background:#f4fff7}
-.allocation-result.full{border-color:#edc17d;background:#fffaf1}
-.allocation-result-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
-.allocation-result-phone{font-size:20px;font-weight:900;color:#5420b8;direction:ltr}
-.allocation-pill{font-size:12px;font-weight:bold;border-radius:20px;padding:6px 9px;background:#e8ddff;color:#5420b8}
-.allocation-result.best .allocation-pill{background:#d9f8e3;color:#08752d}
-.allocation-result.full .allocation-pill{background:#ffedcd;color:#965300}
-.allocation-metrics{display:flex;gap:7px;flex-wrap:wrap;color:#625970;font-size:13px}
-.allocation-metrics span{background:#f4f0fa;border-radius:9px;padding:7px 9px}
-.allocation-copy{border:0;border-radius:10px;background:#5420b8;color:#fff;font-weight:bold;padding:10px 12px;cursor:pointer}
-.allocation-empty{border:1px dashed #c9bbdf;border-radius:13px;padding:14px;text-align:center;color:#71677f;line-height:1.7}
-@media(max-width:520px){.allocation-controls{grid-template-columns:1fr}.allocation-helper{padding:13px}.allocation-result-phone{font-size:17px}}
+<script src="theme.js?v=20261014-4"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>الأرقام الأساسية | WE Packages</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Tahoma,sans-serif;
+    background:
+        radial-gradient(circle at 100% 0%,#9b63ed 0%,transparent 38%),
+        linear-gradient(135deg,#f1eef9,#ded5f0,#d2c6e8);
+    min-height:100vh;
+    color:#19182d;
+}
+
+button,input{
+    font-family:inherit;
+}
+
+.container{
+    width:94%;
+    max-width:1050px;
+    margin:auto;
+    padding:18px 0 60px;
+}
+
+/* HEADER */
+
+.navigation{
+    margin-bottom:12px;
+}
+
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:11px 17px;
+    border-radius:15px;
+    background:#e8ddff;
+    color:#5420b8;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.header{
+    text-align:center;
+    padding:24px 18px;
+    margin-bottom:15px;
+    background:rgba(255,255,255,.8);
+    border-radius:25px;
+    box-shadow:0 12px 35px rgba(60,35,120,.1);
+}
+
+.header h1{
+    margin:0 0 7px;
+    color:#5420b8;
+    font-size:29px;
+}
+
+.header p{
+    margin:0;
+    color:#777;
+}
+
+/* TOP */
+
+.top-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:15px;
+}
+
+.top-action{
+    height:55px;
+    border:0;
+    border-radius:17px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.add-number-btn{
+    background:linear-gradient(135deg,#5420b8,#9747ff);
+    color:white;
+}
+
+.refresh-btn{
+    background:white;
+    color:#5420b8;
+    border:2px solid #e5dcf7;
+}
+
+/* SEARCH */
+
+.search-box{
+    background:rgba(255,255,255,.8);
+    border-radius:20px;
+    padding:13px;
+    margin-bottom:15px;
+}
+
+.search{
+    width:100%;
+    height:50px;
+    border:2px solid #e4dff0;
+    border-radius:15px;
+    padding:0 16px;
+    font-size:16px;
+    outline:none;
+}
+
+/* GROUP */
+
+.group{
+    margin-bottom:14px;
+    border-radius:23px;
+    overflow:hidden;
+    background:rgba(255,255,255,.8);
+    box-shadow:0 10px 30px rgba(60,35,120,.1);
+}
+
+.group-header{
+    width:100%;
+    border:0;
+    background:white;
+    min-height:72px;
+    padding:15px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:right;
+}
+
+.group-info{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.group-icon{
+    width:45px;
+    height:45px;
+    border-radius:14px;
+    background:#eee4ff;
+    color:#5420b8;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+}
+
+.group-title{
+    font-size:19px;
+    font-weight:900;
+}
+
+.group-count{
+    color:#888;
+    font-size:13px;
+    margin-top:3px;
+}
+
+.arrow{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    background:#f1ecfa;
+    color:#5420b8;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    transition:.25s;
+}
+
+.group.open .arrow{
+    transform:rotate(180deg);
+}
+
+.group-content{
+    display:none;
+    padding:0 12px 12px;
+}
+
+.group.open .group-content{
+    display:block;
+}
+
+/* NUMBER CARD */
+
+.number-card{
+    background:#fdfcff;
+    border:1px solid #eee8f7;
+    border-radius:20px;
+    padding:17px;
+    margin-top:10px;
+}
+
+.number-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.number{
+    color:#5420b8;
+    font-size:22px;
+    font-weight:900;
+    direction:ltr;
+}
+
+.status{
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.status.active{
+    background:#dff8e8;
+    color:#08752d;
+}
+
+.status.inactive{
+    background:#ffe3e3;
+    color:#a00000;
+}
+
+/* PACKAGE SUMMARY */
+
+.package-summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:15px;
+}
+
+.package-box{
+    background:#f5f1fc;
+    border-radius:17px;
+    padding:15px;
+    text-align:center;
+}
+
+.package-box small{
+    display:block;
+    color:#777;
+    font-size:12px;
+    margin-bottom:7px;
+}
+
+.package-box strong{
+    font-size:20px;
+    color:#5420b8;
+}
+
+.package-box.remaining strong{
+    color:#08752d;
+}
+
+.package-box.used strong{
+    color:#d97706;
+}
+
+/* CUSTOMERS */
+
+.customer-summary{
+    margin-top:14px;
+    background:#f5f1fc;
+    border-radius:17px;
+    padding:14px;
+}
+
+.customer-summary-title{
+    font-size:14px;
+    color:#777;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.customer-count{
+    display:inline-flex;
+    background:#e8ddff;
+    color:#5420b8;
+    border-radius:12px;
+    padding:8px 11px;
+    font-weight:900;
+    margin-bottom:10px;
+}
+
+.customers-list{
+    display:grid;
+    gap:8px;
+}
+
+.customer-row{
+    background:white;
+    border-radius:13px;
+    padding:12px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.customer-name{
+    font-weight:bold;
+}
+
+.customer-phone{
+    color:#777;
+    font-size:13px;
+    margin-top:5px;
+    direction:ltr;
+    text-align:right;
+}
+
+.customer-gb{
+    background:#eee4ff;
+    color:#5420b8;
+    padding:8px 10px;
+    border-radius:10px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.no-customers{
+    color:#999;
+    padding:8px 0;
+}
+
+/* DETAILS */
+
+.number-details{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:13px;
+}
+
+.detail{
+    background:#f7f6fa;
+    border-radius:13px;
+    padding:11px;
+}
+
+.detail-title{
+    font-size:11px;
+    color:#888;
+    margin-bottom:5px;
+}
+
+.detail-value{
+    font-weight:bold;
+}
+
+/* BUTTONS */
+
+.number-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    margin-top:13px;
+}
+
+.number-action{
+    height:45px;
+    border:0;
+    border-radius:13px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.edit-btn{
+    background:#e8ddff;
+    color:#5420b8;
+}
+
+.delete-btn{
+    background:#ffe1e1;
+    color:#a00000;
+}
+
+/* EMPTY */
+
+.empty{
+    text-align:center;
+    padding:28px 15px;
+    color:#777;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(5,6,9,.82);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:16px 16px 112px;
+    z-index:10010;
+    overflow-y:auto;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:500px;
+    max-height:calc(100dvh - 140px);
+    overflow:auto;
+    background:#17181c;
+    color:#f3f0e8;
+    border:1px solid #4b402b;
+    border-radius:22px;
+    padding:22px;
+    margin:auto;
+    position:relative;
+    z-index:10011;
+}
+
+.modal-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.modal-head h2{
+    margin:0;
+    color:#e9bd55;
+}
+
+.close{
+    width:40px;
+    height:40px;
+    border:1px solid #45403a;
+    border-radius:12px;
+    background:#25262b;
+    color:#f3f0e8;
+    cursor:pointer;
+}
+
+.field{
+    margin-bottom:15px;
+}
+
+.field label{
+    display:block;
+    font-weight:bold;
+    font-size:13px;
+    color:#d8d1c2;
+    margin-bottom:7px;
+}
+
+.field input{
+    width:100%;
+    height:50px;
+    border:1px solid #45403a;
+    border-radius:14px;
+    padding:0 14px;
+    font-size:16px;
+    color:#f4f0e8;
+    background:#101115;
+    outline:none;
+}
+
+.hint{
+    color:#aaa69b;
+    font-size:12px;
+    margin-top:6px;
+}
+
+.quick-options,
+.status-options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+}
+
+.quick-option,
+.status-option{
+    min-height:50px;
+    border:1px solid #45403a;
+    background:#202126;
+    color:#f3f0e8;
+    border-radius:14px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.quick-option.selected{
+    border-color:#5420b8;
+    background:#eee4ff;
+    color:#5420b8;
+}
+
+.status-option.selected.active-option{
+    border-color:#1a9b4a;
+    background:#e4f8ec;
+    color:#08752d;
+}
+
+.status-option.selected.inactive-option{
+    border-color:#c73542;
+    background:#fde8ea;
+    color:#a00000;
+}
+
+.modal-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:20px;
+}
+
+.save,
+.cancel{
+    height:50px;
+    border:0;
+    border-radius:14px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.save{
+    background:linear-gradient(135deg,#f0c35b,#b77a1b);
+    color:#17120a;
+}
+
+.cancel{
+    background:#292a30;
+    color:#f3f0e8;
+    border:1px solid #45403a;
+}
+
+.message{
+    text-align:center;
+    font-weight:bold;
+    margin-top:12px;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%) translateY(100px);
+    background:#24203a;
+    color:white;
+    padding:13px 20px;
+    border-radius:15px;
+    z-index:10020;
+    opacity:0;
+    transition:.3s;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .top-actions{
+        grid-template-columns:1fr;
+    }
+
+    .package-summary{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .customer-row{
+        align-items:flex-start;
+    }
+
+    .number-details{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .modal-actions{
+        grid-template-columns:1fr;
+    }
+
+}
+
+
+/* Clear separation between number cards and their inner information tiles */
+.number-card{
+ border:1px solid rgba(190,160,255,.42)!important;
+ box-shadow:0 4px 18px rgba(0,0,0,.12),inset 0 0 0 1px rgba(255,255,255,.025)!important;
+ margin-bottom:18px!important;
+}
+.package-box,.customer-summary,.detail,.customer-row{
+ border:1px solid rgba(190,160,255,.26)!important;
+}
+.package-summary,.number-details,.customers-list{gap:12px!important}
+.package-box,.detail{box-shadow:inset 0 0 0 1px rgba(255,255,255,.025)}
+html.dark-mode .number-card{
+ background:#191a22!important;
+ border-color:#66538a!important;
+}
+html.dark-mode .package-box,
+html.dark-mode .customer-summary{
+ background:#22212d!important;
+ border-color:#594876!important;
+}
+html.dark-mode .customer-row,
+html.dark-mode .detail{
+ background:#191a22!important;
+ border-color:#494154!important;
+}
+html.dark-mode .package-box small,
+html.dark-mode .customer-summary-title,
+html.dark-mode .detail-title,
+html.dark-mode .customer-phone{color:#c2bdcf!important}
+html.dark-mode .number{color:#bba0ff!important}
+html.dark-mode .package-box strong{color:#c6adff!important}
+html.dark-mode .customer-count,.dark-mode .customer-gb{
+ background:#33284a!important;color:#d4c3ff!important;border:1px solid #6e5698!important
+}
+html.dark-mode .edit-btn{background:#33284a!important;color:#d4c3ff!important;border:1px solid #6e5698!important}
+html.dark-mode .delete-btn{border:1px solid #78424a!important}
+
+
+/* Make edit and delete actions unmistakably different */
+.number-actions{grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.number-action{
+ min-height:48px;height:auto;padding:12px 16px;border:1px solid transparent!important;
+ border-radius:13px;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;
+ box-shadow:0 3px 9px rgba(0,0,0,.12);transition:transform .15s ease,filter .15s ease;
+}
+.number-action:hover{filter:brightness(1.05);transform:translateY(-1px)}
+.edit-btn{background:#e8ddff!important;color:#45208f!important;border-color:#a98ae8!important}
+.delete-btn{background:#ffe1e1!important;color:#9e1726!important;border-color:#e88b95!important}
+html.dark-mode .edit-btn{background:#33284a!important;color:#ddcaff!important;border-color:#9c7bd3!important}
+html.dark-mode .delete-btn{background:#402126!important;color:#ffb6be!important;border-color:#c45a67!important}
+@media(max-width:480px){.number-actions{gap:8px}.number-action{font-size:13px;padding:10px 8px}}
 
 </style>
 </head>
@@ -81,24 +717,6 @@
 
     </div>
 
-
-    <section class="allocation-helper" aria-labelledby="allocationTitle">
-      <h2 id="allocationTitle">🧠 مساعد توزيع الباقات</h2>
-      <p>اكتب حجم الباقة المطلوبة، وهتظهر الأرقام النشطة الأنسب حسب الجيجا المتبقية وعدد العملاء. الحد الأقصى 6 عملاء لكل رقم.</p>
-      <div class="allocation-controls">
-        <label>حجم الباقة المطلوبة (جيجا)
-          <input id="allocationGB" type="number" min="1" step="1" value="50" inputmode="decimal">
-        </label>
-        <label>موعد التجديد
-          <select id="allocationGroup">
-            <option value="any">أي موعد</option>
-            <option value="1">تجديد يوم 1</option>
-            <option value="16">تجديد يوم 16</option>
-          </select>
-        </label>
-      </div>
-      <div id="allocationResults" class="allocation-results"><div class="allocation-empty">جاري تجهيز الأرقام المتاحة...</div></div>
-    </section>
 
     <!-- DAY 1 -->
 
@@ -476,7 +1094,6 @@ async function loadData(){
 
 
         renderNumbers();
-        renderAllocationSuggestions();
 
     }
     catch(error){
@@ -1582,7 +2199,7 @@ async function saveNumber(){
         }
 
 
-        loadData();
+        await loadData();
 
         closeModal();
 
@@ -1851,671 +2468,8 @@ document.addEventListener(
    START
 ===================================================== */
 
-document.getElementById("allocationGB")?.addEventListener("input",renderAllocationSuggestions);
-document.getElementById("allocationGroup")?.addEventListener("change",renderAllocationSuggestions);
-
 loadData();
 
-</script>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<title>الأرقام الأساسية | WE Packages</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-</script>
-
-<style>
-
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    font-family:Arial,Tahoma,sans-serif;
-    background:
-        radial-gradient(circle at 100% 0%,#9b63ed 0%,transparent 38%),
-        linear-gradient(135deg,#f1eef9,#ded5f0,#d2c6e8);
-    min-height:100vh;
-    color:#19182d;
-}
-
-button,input{
-    font-family:inherit;
-}
-
-.container{
-    width:94%;
-    max-width:1050px;
-    margin:auto;
-    padding:18px 0 60px;
-}
-
-/* HEADER */
-
-.navigation{
-    margin-bottom:12px;
-}
-
-.back-btn{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:11px 17px;
-    border-radius:15px;
-    background:#e8ddff;
-    color:#5420b8;
-    text-decoration:none;
-    font-weight:bold;
-}
-
-.header{
-    text-align:center;
-    padding:24px 18px;
-    margin-bottom:15px;
-    background:rgba(255,255,255,.8);
-    border-radius:25px;
-    box-shadow:0 12px 35px rgba(60,35,120,.1);
-}
-
-.header h1{
-    margin:0 0 7px;
-    color:#5420b8;
-    font-size:29px;
-}
-
-.header p{
-    margin:0;
-    color:#777;
-}
-
-/* TOP */
-
-.top-actions{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    margin-bottom:15px;
-}
-
-.top-action{
-    height:55px;
-    border:0;
-    border-radius:17px;
-    font-size:16px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.add-number-btn{
-    background:linear-gradient(135deg,#5420b8,#9747ff);
-    color:white;
-}
-
-.refresh-btn{
-    background:white;
-    color:#5420b8;
-    border:2px solid #e5dcf7;
-}
-
-/* SEARCH */
-
-.search-box{
-    background:rgba(255,255,255,.8);
-    border-radius:20px;
-    padding:13px;
-    margin-bottom:15px;
-}
-
-.search{
-    width:100%;
-    height:50px;
-    border:2px solid #e4dff0;
-    border-radius:15px;
-    padding:0 16px;
-    font-size:16px;
-    outline:none;
-}
-
-/* GROUP */
-
-.group{
-    margin-bottom:14px;
-    border-radius:23px;
-    overflow:hidden;
-    background:rgba(255,255,255,.8);
-    box-shadow:0 10px 30px rgba(60,35,120,.1);
-}
-
-.group-header{
-    width:100%;
-    border:0;
-    background:white;
-    min-height:72px;
-    padding:15px 18px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    cursor:pointer;
-    text-align:right;
-}
-
-.group-info{
-    display:flex;
-    align-items:center;
-    gap:13px;
-}
-
-.group-icon{
-    width:45px;
-    height:45px;
-    border-radius:14px;
-    background:#eee4ff;
-    color:#5420b8;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:22px;
-}
-
-.group-title{
-    font-size:19px;
-    font-weight:900;
-}
-
-.group-count{
-    color:#888;
-    font-size:13px;
-    margin-top:3px;
-}
-
-.arrow{
-    width:38px;
-    height:38px;
-    border-radius:12px;
-    background:#f1ecfa;
-    color:#5420b8;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:20px;
-    transition:.25s;
-}
-
-.group.open .arrow{
-    transform:rotate(180deg);
-}
-
-.group-content{
-    display:none;
-    padding:0 12px 12px;
-}
-
-.group.open .group-content{
-    display:block;
-}
-
-/* NUMBER CARD */
-
-.number-card{
-    background:#fdfcff;
-    border:1px solid #eee8f7;
-    border-radius:20px;
-    padding:17px;
-    margin-top:10px;
-}
-
-.number-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-}
-
-.number{
-    color:#5420b8;
-    font-size:22px;
-    font-weight:900;
-    direction:ltr;
-}
-
-.status{
-    padding:7px 12px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:bold;
-}
-
-.status.active{
-    background:#dff8e8;
-    color:#08752d;
-}
-
-.status.inactive{
-    background:#ffe3e3;
-    color:#a00000;
-}
-
-/* PACKAGE SUMMARY */
-
-.package-summary{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    margin-top:15px;
-}
-
-.package-box{
-    background:#f5f1fc;
-    border-radius:17px;
-    padding:15px;
-    text-align:center;
-}
-
-.package-box small{
-    display:block;
-    color:#777;
-    font-size:12px;
-    margin-bottom:7px;
-}
-
-.package-box strong{
-    font-size:20px;
-    color:#5420b8;
-}
-
-.package-box.remaining strong{
-    color:#08752d;
-}
-
-.package-box.used strong{
-    color:#d97706;
-}
-
-/* CUSTOMERS */
-
-.customer-summary{
-    margin-top:14px;
-    background:#f5f1fc;
-    border-radius:17px;
-    padding:14px;
-}
-
-.customer-summary-title{
-    font-size:14px;
-    color:#777;
-    font-weight:bold;
-    margin-bottom:10px;
-}
-
-.customer-count{
-    display:inline-flex;
-    background:#e8ddff;
-    color:#5420b8;
-    border-radius:12px;
-    padding:8px 11px;
-    font-weight:900;
-    margin-bottom:10px;
-}
-
-.customers-list{
-    display:grid;
-    gap:8px;
-}
-
-.customer-row{
-    background:white;
-    border-radius:13px;
-    padding:12px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-}
-
-.customer-name{
-    font-weight:bold;
-}
-
-.customer-phone{
-    color:#777;
-    font-size:13px;
-    margin-top:5px;
-    direction:ltr;
-    text-align:right;
-}
-
-.customer-gb{
-    background:#eee4ff;
-    color:#5420b8;
-    padding:8px 10px;
-    border-radius:10px;
-    font-weight:bold;
-    white-space:nowrap;
-}
-
-.no-customers{
-    color:#999;
-    padding:8px 0;
-}
-
-/* DETAILS */
-
-.number-details{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin-top:13px;
-}
-
-.detail{
-    background:#f7f6fa;
-    border-radius:13px;
-    padding:11px;
-}
-
-.detail-title{
-    font-size:11px;
-    color:#888;
-    margin-bottom:5px;
-}
-
-.detail-value{
-    font-weight:bold;
-}
-
-/* BUTTONS */
-
-.number-actions{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-    margin-top:13px;
-}
-
-.number-action{
-    height:45px;
-    border:0;
-    border-radius:13px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.edit-btn{
-    background:#e8ddff;
-    color:#5420b8;
-}
-
-.delete-btn{
-    background:#ffe1e1;
-    color:#a00000;
-}
-
-/* EMPTY */
-
-.empty{
-    text-align:center;
-    padding:28px 15px;
-    color:#777;
-}
-
-/* MODAL */
-
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(5,6,9,.82);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:16px 16px 112px;
-    z-index:10010;
-    overflow-y:auto;
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-box{
-    width:100%;
-    max-width:500px;
-    max-height:calc(100dvh - 140px);
-    overflow:auto;
-    background:#17181c;
-    color:#f3f0e8;
-    border:1px solid #4b402b;
-    border-radius:22px;
-    padding:22px;
-    margin:auto;
-    position:relative;
-    z-index:10011;
-}
-
-.modal-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:20px;
-}
-
-.modal-head h2{
-    margin:0;
-    color:#e9bd55;
-}
-
-.close{
-    width:40px;
-    height:40px;
-    border:1px solid #45403a;
-    border-radius:12px;
-    background:#25262b;
-    color:#f3f0e8;
-    cursor:pointer;
-}
-
-.field{
-    margin-bottom:15px;
-}
-
-.field label{
-    display:block;
-    font-weight:bold;
-    font-size:13px;
-    color:#d8d1c2;
-    margin-bottom:7px;
-}
-
-.field input{
-    width:100%;
-    height:50px;
-    border:1px solid #45403a;
-    border-radius:14px;
-    padding:0 14px;
-    font-size:16px;
-    color:#f4f0e8;
-    background:#101115;
-    outline:none;
-}
-
-.hint{
-    color:#aaa69b;
-    font-size:12px;
-    margin-top:6px;
-}
-
-.quick-options,
-.status-options{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-}
-
-.quick-option,
-.status-option{
-    min-height:50px;
-    border:1px solid #45403a;
-    background:#202126;
-    color:#f3f0e8;
-    border-radius:14px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.quick-option.selected{
-    border-color:#5420b8;
-    background:#eee4ff;
-    color:#5420b8;
-}
-
-.status-option.selected.active-option{
-    border-color:#1a9b4a;
-    background:#e4f8ec;
-    color:#08752d;
-}
-
-.status-option.selected.inactive-option{
-    border-color:#c73542;
-    background:#fde8ea;
-    color:#a00000;
-}
-
-.modal-actions{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin-top:20px;
-}
-
-.save,
-.cancel{
-    height:50px;
-    border:0;
-    border-radius:14px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.save{
-    background:linear-gradient(135deg,#f0c35b,#b77a1b);
-    color:#17120a;
-}
-
-.cancel{
-    background:#292a30;
-    color:#f3f0e8;
-    border:1px solid #45403a;
-}
-
-.message{
-    text-align:center;
-    font-weight:bold;
-    margin-top:12px;
-}
-
-/* TOAST */
-
-.toast{
-    position:fixed;
-    bottom:20px;
-    left:50%;
-    transform:translateX(-50%) translateY(100px);
-    background:#24203a;
-    color:white;
-    padding:13px 20px;
-    border-radius:15px;
-    z-index:10020;
-    opacity:0;
-    transition:.3s;
-}
-
-.toast.show{
-    opacity:1;
-    transform:translateX(-50%) translateY(0);
-}
-
-/* MOBILE */
-
-@media(max-width:600px){
-
-    .top-actions{
-        grid-template-columns:1fr;
-    }
-
-    .package-summary{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .customer-row{
-        align-items:flex-start;
-    }
-
-    .number-details{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .modal-actions{
-        grid-template-columns:1fr;
-    }
-
-}
-
-
-/* Clear separation between number cards and their inner information tiles */
-.number-card{
- border:1px solid rgba(190,160,255,.42)!important;
- box-shadow:0 4px 18px rgba(0,0,0,.12),inset 0 0 0 1px rgba(255,255,255,.025)!important;
- margin-bottom:18px!important;
-}
-.package-box,.customer-summary,.detail,.customer-row{
- border:1px solid rgba(190,160,255,.26)!important;
-}
-.package-summary,.number-details,.customers-list{gap:12px!important}
-.package-box,.detail{box-shadow:inset 0 0 0 1px rgba(255,255,255,.025)}
-html.dark-mode .number-card{
- background:#191a22!important;
- border-color:#66538a!important;
-}
-html.dark-mode .package-box,
-html.dark-mode .customer-summary{
- background:#22212d!important;
- border-color:#594876!important;
-}
-html.dark-mode .customer-row,
-html.dark-mode .detail{
- background:#191a22!important;
- border-color:#494154!important;
-}
-html.dark-mode .package-box small,
-html.dark-mode .customer-summary-title,
-html.dark-mode .detail-title,
-html.dark-mode .customer-phone{color:#c2bdcf!important}
-html.dark-mode .number{color:#bba0ff!important}
-html.dark-mode .package-box strong{color:#c6adff!important}
-html.dark-mode .customer-count,.dark-mode .customer-gb{
- background:#33284a!important;color:#d4c3ff!important;border:1px solid #6e5698!important
-}
-html.dark-mode .edit-btn{background:#33284a!important;color:#d4c3ff!important;border:1px solid #6e5698!important}
-html.dark-mode .delete-btn{border:1px solid #78424a!important}
-
-
-/* Make edit and delete actions unmistakably different */
-.number-actions{grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
-.number-action{
- min-height:48px;height:auto;padding:12px 16px;border:1px solid transparent!important;
- border-radius:13px;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;
- box-shadow:0 3px 9px rgba(0,0,0,.12);transition:transform .15s ease,filter .15s ease;
-}
-.number-action:hover{filter:brightness(1.05);transform:translateY(-1px)}
-.edit-btn{background:#e8ddff!important;color:#45208f!important;border-color:#a98ae8!important}
-.delete-btn{background:#ffe1e1!important;color:#9e1726!important;border-color:#e88b95!important}
-html.dark-mode .edit-btn{background:#33284a!important;color:#ddcaff!important;border-color:#9c7bd3!important}
-html.dark-mode .delete-btn{background:#402126!important;color:#ffb6be!important;border-color:#c45a67!important}
-@media(max-width:480px){.number-actions{gap:8px}.number-action{font-size:13px;padding:10px 8px}}
-
- 
 </script>
 <!-- =====================================================
      CASH BACK — ADMIN BOTTOM NAV
@@ -2847,37 +2801,6 @@ body{
     });
 
 })();
-
-/* SMART PACKAGE ALLOCATION */
-function renderAllocationSuggestions(){
-  const target=Number(document.getElementById("allocationGB")?.value);
-  const group=document.getElementById("allocationGroup")?.value||"any";
-  const output=document.getElementById("allocationResults");
-  if(!output)return;
-  if(!Number.isFinite(target)||target<=0){output.innerHTML='<div class="allocation-empty">اكتب حجم باقة صحيح أكبر من صفر.</div>';return;}
-  const rows=numbers.filter(n=>n.is_active!==false&&(group==="any"||String(getGroup(n))===group)).map(n=>{
-    const linked=getLinkedCustomers(n.phone);
-    const total=getTotalGB(n);
-    const used=linked.reduce((sum,c)=>sum+(Number(c.allocated_gb)||0),0);
-    const remaining=Math.max(0,total-used);
-    return {n,linkedCount:linked.length,total,used,remaining,slots:Math.max(0,6-linked.length),fits:remaining>=target&&linked.length<6};
-  });
-  const suitable=rows.filter(x=>x.fits).sort((a,b)=>(a.remaining-target)-(b.remaining-target)||b.slots-a.slots);
-  const fullWithGB=rows.filter(x=>x.remaining>0&&x.linkedCount>=6).sort((a,b)=>b.remaining-a.remaining);
-  const nearly=rows.filter(x=>x.remaining>0&&x.linkedCount<6&&x.remaining<target).sort((a,b)=>b.remaining-a.remaining);
-  const card=(x,kind,label)=>'<article class="allocation-result '+(kind==="best"?"best":kind==="full"?"full":"")+'"><div class="allocation-result-head"><span class="allocation-result-phone">'+escapeHtml(x.n.phone||"-")+'</span><span class="allocation-pill">'+label+'</span></div><div class="allocation-metrics"><span>متبقي: <b>'+formatGB(x.remaining)+' GB</b></span><span>الإجمالي: '+formatGB(x.total)+' GB</span><span>موزع: '+formatGB(x.used)+' GB</span><span>العملاء: '+x.linkedCount+'/6</span><span>المتاح من الأماكن: '+x.slots+'</span><span>تجديد: يوم '+getGroup(x.n)+'</span></div><button type="button" class="allocation-copy" data-copy-number="'+escapeHtml(x.n.phone||"")+'">نسخ الرقم لاستخدامه</button></article>';
-  let html='<div class="allocation-empty">الباقة المطلوبة: <b>'+formatGB(target)+' جيجا</b> · الأرقام مرتبة من الأنسب للأقل هدرًا.</div>';
-  if(suitable.length)html+='<div style="font-weight:900;color:#08752d">✅ أرقام مناسبة وفيها مكان لعميل جديد ('+suitable.length+')</div>'+suitable.map((x,i)=>card(x,"best",i===0?"أفضل اختيار":"مناسب")).join("");
-  else html+='<div class="allocation-empty">مفيش رقم نشط عنده جيجات كفاية ومكان متاح لعميل جديد حسب البيانات الحالية.</div>';
-  if(fullWithGB.length)html+='<div style="font-weight:900;color:#965300;margin-top:8px">⚠️ أرقام فيها جيجات متبقية لكن وصلت 6 عملاء</div>'+fullWithGB.map(x=>card(x,"full","مكتمل العدد — لا يمكن إضافة عميل")).join("");
-  if(nearly.length)html+='<details><summary style="cursor:pointer;font-weight:bold;color:#5420b8;padding:8px 0">أرقام عندها جيجات أقل من المطلوب ('+nearly.length+')</summary>'+nearly.map(x=>card(x,"","متبقي أقل من المطلوب")).join("")+'</details>';
-  output.innerHTML=html;
-  output.querySelectorAll("[data-copy-number]").forEach(btn=>btn.addEventListener("click",async()=>{
-    const phone=btn.getAttribute("data-copy-number")||"";
-    try{await navigator.clipboard.writeText(phone);showToast("تم نسخ الرقم "+phone);}
-    catch(e){window.prompt("انسخ الرقم:",phone);}
-  }));
-}
 
 </script>
 </body>
