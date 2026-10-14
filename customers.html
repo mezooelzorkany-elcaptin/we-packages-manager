@@ -1943,8 +1943,13 @@ html.dark-mode .invoice-modal small{color:#b6b8c2!important}
 </section>
 
 <!-- INTEGRATED COMMUNICATION + CUSTOMER FOLLOW-UP -->
-<section class="panel" id="communicationHub" style="margin-top:24px">
-  <div class="ph"><div><div class="pt">💬 مركز التواصل والمتابعة</div><div class="ps">كل الأدوات داخل لوحة الإدارة نفسها — من غير صفحة منفصلة</div></div><button class="btn purple" type="button" id="cbRefresh">↻ تحديث</button></div>
+<section class="panel" id="communicationHub" style="margin-top:24px;padding:0;overflow:hidden">
+  <button type="button" id="cbToggle" aria-expanded="false" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:right;border:0;background:transparent;color:inherit;padding:18px 20px;cursor:pointer">
+    <span><span class="pt" style="display:block">💬 مركز التواصل والمتابعة</span><span class="ps" style="display:block">اضغط لفتح أدوات المتابعة وقوالب واتساب والتقارير</span></span>
+    <span id="cbChevron" style="font-size:20px;color:#eac45e;white-space:nowrap">＋</span>
+  </button>
+  <div id="cbBody" hidden style="padding:0 20px 20px">
+  <div class="ph"><div><div class="ps">إدارة حالات العملاء ومواعيد المتابعة والرسائل</div></div><button class="btn purple" type="button" id="cbRefresh">↻ تحديث</button></div>
   <div class="stats" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px">
     <div class="stat"><div class="label">إجمالي العملاء</div><div class="num" id="cbTotal">—</div></div>
     <div class="stat"><div class="label">تم التواصل</div><div class="num" id="cbContacted">—</div></div>
@@ -1975,6 +1980,7 @@ html.dark-mode .invoice-modal small{color:#b6b8c2!important}
   </div>
   <div id="cbList" class="list"><div class="loading">جاري تحميل بيانات المتابعة...</div></div>
   <div class="label" style="margin-top:12px">حفظ حالة العميل والملاحظات وموعد المتابعة وسجل تغييرات الحالة متاح من نفس الصفحة.</div>
+  </div>
 </section>
 
 </main>
@@ -6678,6 +6684,7 @@ c$('cbList').querySelectorAll('[data-cbcopy]').forEach(b=>b.onclick=async()=>{co
 c$('cbList').querySelectorAll('[data-cbwa]').forEach(b=>b.onclick=()=>{const c=cbRows.find(x=>String(x.id)===b.dataset.cbwa),p=cPhone(c);if(!p){alert('لا يوجد رقم واتساب محفوظ لهذا العميل');return}window.open('https://wa.me/'+p+'?text='+encodeURIComponent(cFill(c$('cbTemplate').value,c)),'_blank','noopener');cLog('message_opened',c,{template:c$('cbPreset').value})});
 }
 async function cLoad(){if(!c$('cbList'))return;c$('cbMessage').textContent='جاري تحميل بيانات العملاء والمتابعة...';try{const {data,error}=await db.from('customers').select('*').is('deleted_at',null).order('subscriber_name');if(error)throw error;cbRows=data||[];const a=await db.from('customer_contact_status').select('*');if(a.error)throw a.error;cbCRM=Object.fromEntries((a.data||[]).map(x=>[String(x.customer_id),x]));const b=await db.from('communication_templates').select('*').order('created_at',{ascending:false});if(!b.error)cbTemplates=b.data||[];cRenderTemplates();cRender();c$('cbMessage').textContent='تم تحميل العملاء. احفظ تغييرات المتابعة من بطاقة العميل.'}catch(e){c$('cbList').innerHTML='<div class="error">تعذر تحميل مركز التواصل: '+cEsc(e.message||'خطأ')+'</div>';c$('cbMessage').textContent='تأكد من تسجيل الدخول وصلاحيات قاعدة البيانات.';console.error(e)}}
+c$('cbToggle').onclick=()=>{const body=c$('cbBody'),open=body.hidden;body.hidden=!open;c$('cbToggle').setAttribute('aria-expanded',String(open));c$('cbChevron').textContent=open?'−':'＋';if(open&&cbRows.length===0)cLoad();};
 c$('cbPreset').onchange=()=>c$('cbTemplate').value=cbPresets[c$('cbPreset').value]||cbPresets.custom;
 c$('cbTemplate').value=cbPresets.booking;
 c$('cbSearch').addEventListener('input',cRender);
