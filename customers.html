@@ -12,7 +12,7 @@
 
 <title>العملاء | CASH BACK</title>
 
-<script src="theme.js?v=20261014-5"></script>
+<script src="theme.js?v=20261014-6"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -1583,6 +1583,28 @@ html.dark-mode input:focus,
 html.dark-mode textarea:focus{outline:1px solid #c89c38!important;border-color:#c89c38!important}
 html.dark-mode #adminBottomNav .navIcon{background:#292318!important;color:#f0d27a!important}
 html.dark-mode #adminBottomNav a.active{color:#f0d27a!important}
+
+
+/* Package statistics: spacious responsive cards, never a narrow column */
+#packageStatsPanel{display:block!important;width:100%;min-width:0;box-sizing:border-box;overflow:hidden}
+#packageStatsPanel .ph{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+#packageStatsPanel #packageStats{
+ display:grid!important;
+ grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr))!important;
+ gap:14px!important;width:100%!important;min-width:0!important;
+}
+#packageStatsPanel #packageStats .stat{
+ min-width:0!important;width:auto!important;box-sizing:border-box!important;
+ min-height:125px;padding:18px!important;border-radius:16px!important;
+ display:flex;flex-direction:column;justify-content:space-between;
+ background:var(--bg-card,#22212d)!important;
+ border:1px solid rgba(190,160,255,.35)!important;
+}
+#packageStatsPanel #packageStats .st{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px;white-space:normal}
+#packageStatsPanel #packageStats .num{font-size:30px;line-height:1.2;margin-top:12px}
+#packageStatsPanel #packageStats .label{margin-top:6px}
+#packageStatsPanel #packageStatsNote{line-height:1.8;overflow-wrap:anywhere}
+@media(max-width:600px){#packageStatsPanel #packageStats{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}#packageStatsPanel #packageStats .stat{padding:12px!important;min-height:105px}#packageStatsPanel #packageStats .num{font-size:25px}}
 
 </style>
 
