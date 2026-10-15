@@ -260,7 +260,7 @@ async function save(){
       skip_renewal_month:null
     });
     $('success').style.display='block';
-    $('success').innerHTML='✅ تم تجديد <b>'+esc(customer.subscriber_name||'العميل')+'</b> بنجاح'+($('unpaid').checked?'<br>⚠️ المبلغ اتسجل في دفتر الديون':'')+'<br>رقم العملية: <b>'+esc(order)+'</b>';
+    $('success').innerHTML='✅ تم تجديد <b>'+esc(customer.subscriber_name||'العميل')+'</b> بنجاح'+($('unpaid').checked?'<br>⚠️ المبلغ اتسجل في دفتر الديون<br><a href="package-debts.html" style="display:inline-block;margin-top:10px;color:#5420b8;font-weight:900">📒 فتح دفتر الديون</a>':'')+'<br>رقم العملية: <b>'+esc(order)+'</b>';
     b.textContent='تم التجديد بنجاح';
     // Keep the admin on this renewal page after saving; do not redirect to customers.
     $('currentRenewal').textContent='📅 التجديد القادم: '+next;
