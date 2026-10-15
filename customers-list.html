@@ -97,19 +97,23 @@ async function bulkRenew(){
       try{
         const now=new Date().toISOString();
         const amount=Math.max(0,Number(c.last_price||0)-Number(c.discount_amount||0));
-        const next=nextRenewalDate(c);
+        const renewalType=String(c.renewal_type||'day_1').toLowerCase();
+        const storedDay=Number(c.renewal_day);
+        const renewalDay=(storedDay===1||storedDay===16)?storedDay:(renewalType==='day_1'?1:renewalType==='day_16'?16:null);
+        const next=nextRenewalDate({...c,renewal_type:renewalType,renewal_day:renewalDay});
         if(!next)throw new Error('تاريخ التجديد غير محدد');
         const order='REN-'+Date.now().toString(36).toUpperCase()+'-'+String(c.id);
-        const orderBody={order_number:order,customer_id:c.id,subscriber_name:c.subscriber_name,phone:c.phone,package_name:c.package_name,package_gb:c.allocated_gb,original_price:amount,final_price:amount,payment_method:'الدفع النقدي',payment_screenshot:null,renewal_type:c.renewal_type||'day_1',renewal_day:Number(c.renewal_day)||null,status:'completed'};
+        const orderBody={order_number:order,customer_id:c.id,subscriber_name:c.subscriber_name,phone:c.phone,package_name:c.package_name,package_gb:c.allocated_gb,original_price:amount,final_price:amount,payment_method:'الدفع النقدي',payment_screenshot:null,renewal_type:renewalType,renewal_day:renewalDay,status:'completed'};
         const invBody={order_number:order,customer_id:c.id,customer_name:c.subscriber_name,phone:c.phone,package_name:c.package_name,package_gb:c.allocated_gb,original_price:amount,discount_code:null,discount_amount:0,amount:amount,notes:'تجديد جماعي — الدفع النقدي'};
         let rr=await fetch(U+'/rest/v1/orders',{method:'POST',headers,body:JSON.stringify(orderBody)});
         if(!rr.ok)throw new Error('تعذر تسجيل الطلب');
         rr=await fetch(U+'/rest/v1/invoices',{method:'POST',headers,body:JSON.stringify(invBody)});
         if(!rr.ok)throw new Error('تعذر تسجيل الفاتورة');
-        rr=await fetch(U+'/rest/v1/customers?id=eq.'+encodeURIComponent(c.id),{method:'PATCH',headers,body:JSON.stringify({payment_method:'الدفع النقدي',next_renewal_date:next,renewal_type:c.renewal_type||'day_1',renewal_day:Number(c.renewal_day)||null,last_renewed_at:now,last_order_at:now,total_orders:Number(c.total_orders||0)+1,updated_at:now,status:'active',skip_renewal_month:null})});
+        rr=await fetch(U+'/rest/v1/customers?id=eq.'+encodeURIComponent(c.id),{method:'PATCH',headers,body:JSON.stringify({payment_method:'الدفع النقدي',next_renewal_date:next,renewal_type:renewalType,renewal_day:renewalDay,last_renewed_at:now,last_order_at:now,total_orders:Number(c.total_orders||0)+1,updated_at:now,status:'active',skip_renewal_month:null})});
         const updatedRows=await rr.json().catch(()=>[]);
         if(!rr.ok)throw new Error('تعذر تحديث العميل: '+(updatedRows?.message||updatedRows?.details||rr.status));
         if(!Array.isArray(updatedRows)||updatedRows.length===0)throw new Error('لم يتغير سجل العميل في قاعدة البيانات؛ راجع صلاحيات التحديث (RLS) أو معرّف العميل');
+        if(String(updatedRows[0].next_renewal_date||'').slice(0,10)!==next)throw new Error('قاعدة البيانات لم تحفظ موعد التجديد الجديد كما أُرسل');
         ok++;
       }catch(e){failed.push((c.subscriber_name||c.phone||c.id)+': '+e.message)}
     }
