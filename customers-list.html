@@ -55,20 +55,29 @@ function toggleSelectAll(){
   updateSelectionUI();
 }
 function nextRenewalDate(c){
-  // Resolve the renewal cycle from either the explicit day or the saved cycle type.
   const type=String(c.renewal_type||'').toLowerCase();
   const rawDay=Number(c.renewal_day);
   const day=(rawDay===1||rawDay===16)?rawDay:(type==='day_1'?1:type==='day_16'?16:0);
+  const now=new Date();now.setHours(0,0,0,0);
   if(day===1||day===16){
-    const now=new Date();now.setHours(0,0,0,0);
     let target=new Date(now.getFullYear(),now.getMonth(),day);
     if(target.getTime()<=now.getTime())target=new Date(now.getFullYear(),now.getMonth()+1,day);
     return target.getFullYear()+'-'+String(target.getMonth()+1).padStart(2,'0')+'-'+String(target.getDate()).padStart(2,'0');
   }
-  // Never report a successful renewal while leaving the old due date in place.
+  // For custom-date customers, renewing must advance the due date by one month,
+  // not keep the old date that caused them to appear in "renewals soon".
   const existing=String(c.next_renewal_date||'').slice(0,10);
-  if(existing && existing>new Date().toLocaleDateString('en-CA'))return existing;
-  throw new Error('نظام التجديد غير محدد: اختر يوم 1 أو يوم 16 من بيانات العميل قبل التجديد');
+  if(existing){
+    const parts=existing.split('-').map(Number);
+    if(parts.length===3&&parts.every(Number.isFinite)){
+      const originalDay=parts[2];
+      const target=new Date(parts[0],parts[1],1);
+      const lastDay=new Date(target.getFullYear(),target.getMonth()+1,0).getDate();
+      target.setDate(Math.min(originalDay,lastDay));
+      return target.getFullYear()+'-'+String(target.getMonth()+1).padStart(2,'0')+'-'+String(target.getDate()).padStart(2,'0');
+    }
+  }
+  throw new Error('تاريخ التجديد غير محدد؛ حدّد نظام التجديد وموعده قبل تسجيل العملية');
 }
 async function bulkRenew(){
   const ids=[...selectedIds];
