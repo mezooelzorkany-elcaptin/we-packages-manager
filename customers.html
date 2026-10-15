@@ -6735,6 +6735,27 @@ checkSession();
 })();
 </script>
 
+
+<script>
+/* Remove only the top dashboard tile labelled "طلبات جديدة". */
+(function(){
+  function removeNewRequestsTile(){
+    var candidates=Array.from(document.querySelectorAll('body *')).filter(function(el){
+      if(el.children.length>4) return false;
+      var t=(el.innerText||el.textContent||'').replace(/\s+/g,' ').trim();
+      return t==='طلبات جديدة' || t==='طلبات جديده';
+    });
+    candidates.forEach(function(el){
+      var tile=el.closest('.stat-card, .stat, .dashboard-card, .box, .card, .summary-card, .metric-card');
+      if(tile && tile.parentElement) tile.remove();
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',removeNewRequestsTile);
+  else removeNewRequestsTile();
+  new MutationObserver(removeNewRequestsTile).observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
+
 </body>
 
 </html>
