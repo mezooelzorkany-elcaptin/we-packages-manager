@@ -233,7 +233,12 @@ async function save(){
     $('success').style.display='block';
     $('success').innerHTML='✅ تم تجديد <b>'+esc(customer.subscriber_name||'العميل')+'</b> بنجاح<br>رقم العملية: <b>'+esc(order)+'</b>';
     b.textContent='تم التجديد بنجاح';
-    setTimeout(function(){location.href='customers.html';},900);
+    // Keep the admin on this renewal page after saving; do not redirect to customers.
+    $('currentRenewal').textContent='📅 التجديد القادم: '+next;
+    $('next').value=next;
+    $('msg').style.color='#166534';
+    $('msg').textContent='تم حفظ التجديد بنجاح. يمكنك البقاء هنا ومراجعة بيانات العميل.';
+    // Keep the button disabled to prevent accidentally recording the same renewal twice.
   }catch(e){
     $('msg').style.color='#b00020';
     $('msg').textContent='❌ لم يتم التجديد: '+(e.message||e);
