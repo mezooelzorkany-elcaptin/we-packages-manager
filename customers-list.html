@@ -115,7 +115,15 @@ async function bulkRenew(){
         const updatedRows=await rr.json().catch(()=>[]);
         if(!rr.ok)throw new Error('تعذر تحديث العميل: '+(updatedRows?.message||updatedRows?.details||rr.status));
         if(!Array.isArray(updatedRows)||updatedRows.length===0)throw new Error('لم يتغير سجل العميل في قاعدة البيانات؛ راجع صلاحيات التحديث (RLS) أو معرّف العميل');
-        if(String(updatedRows[0].next_renewal_date||'').slice(0,10)!==next)throw new Error('قاعدة البيانات لم تحفظ موعد التجديد الجديد كما أُرسل');
+        const savedNext=String(updatedRows[0].next_renewal_date||'').slice(0,10);
+        if(savedNext!==next){
+          // PostgREST can return a stale row when a database trigger rewrites the date.
+          // Re-read the customer before deciding whether the update actually failed.
+          const verify=await fetch(U+'/rest/v1/customers?select=id,next_renewal_date,renewal_type,renewal_day&id=eq.'+encodeURIComponent(c.id),{headers:{apikey:K,Authorization:'Bearer '+token}});
+          const verifyRows=await verify.json().catch(()=>[]);
+          const actual=Array.isArray(verifyRows)&&verifyRows.length?String(verifyRows[0].next_renewal_date||'').slice(0,10):'';
+          if(!verify.ok||actual!==next)throw new Error('موعد التجديد المطلوب '+next+'، المحفوظ فعليًا '+(actual||'غير متاح')+'؛ لم يتم تأكيد التحديث');
+        }
         ok++;
       }catch(e){failed.push((c.subscriber_name||c.phone||c.id)+': '+e.message)}
     }
