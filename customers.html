@@ -6198,6 +6198,28 @@ window.close();
 
 <\/script>
 
+
+<script>
+/* Add the package debt book to the actual fixed bottom navigation bar. */
+(function(){
+  function addDebtLink(){
+    var nav=document.getElementById('adminBottomNav');
+    if(!nav || nav.querySelector('[data-debt-book-link]')) return;
+    var link=document.createElement('a');
+    link.href='package-debts.html';
+    link.setAttribute('data-page','package-debts.html');
+    link.setAttribute('data-debt-book-link','1');
+    link.innerHTML='<span class="navIcon">📒</span><span class="navText">دفتر الديون</span>';
+    link.style.order='-1';
+    nav.insertBefore(link,nav.firstChild);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',addDebtLink);
+  else addDebtLink();
+  var observer=new MutationObserver(addDebtLink);
+  observer.observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
+
 </body>
 
 </html>
