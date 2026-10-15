@@ -152,6 +152,11 @@ th{color:#687e90!important}
 .mobile button{color:#415d73!important}
 .mobile button.active{background:#c8e8dc!important;border-color:#69b99a!important;color:#176d50!important}
 .desk-bottom{color:#5d7487!important}
+
+/* Fix: keep the selected shop page and its content visible */
+main.main > section:not(.hidden){display:block!important;visibility:visible!important;opacity:1!important;min-height:55vh}
+main.main > section:not(.hidden) > *{visibility:visible!important;opacity:1!important}
+main.main > section.hidden{display:none!important}
 </style></head><body><div id="authMessage" class="auth-message">جاري التحقق من تسجيل الدخول...</div><div class="app"><aside class="side">
 <div class="brand"><span>CB</span><div><b>CASH BACK</b><small>إدارة المحل</small></div></div>
 <div class="desk-heading"><span class="live-dot"></span><b>إجراء معاملة جديدة</b></div>
