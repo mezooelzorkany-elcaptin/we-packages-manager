@@ -57,7 +57,7 @@ function toggleSelectAll(){
 function nextRenewalDate(c){
   const type=String(c.renewal_type||'').toLowerCase();
   const rawDay=Number(c.renewal_day);
-  const day=(rawDay===1||rawDay===16)?rawDay:(type==='day_1'?1:type==='day_16'?16:0);
+  const day=type==='day_1'?1:type==='day_16'?16:((rawDay===1||rawDay===16)?rawDay:0);
   const now=new Date();now.setHours(0,0,0,0);
   if(day===1||day===16){
     let target=new Date(now.getFullYear(),now.getMonth(),day);
