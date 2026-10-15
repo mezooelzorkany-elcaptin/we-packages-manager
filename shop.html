@@ -99,6 +99,53 @@ th{color:#62788c}
 .capital-editor{margin-bottom:10px}.capital-form{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap}.capital-form .field{flex:1;min-width:190px}.capital-form button{min-width:130px}@media(max-width:850px){.capital-form{display:grid;grid-template-columns:1fr}.capital-form .field{min-width:0}}
 /* Phase 2 transaction detail view */
 .detail-row{cursor:pointer}.detail-row:hover{background:#dce7f0}#txDetails{position:fixed;inset:0;background:#18324a99;display:none;align-items:center;justify-content:center;padding:16px;z-index:30}#txDetails.visible{display:flex}#txDetails .detail-box{background:#eaf1f7;border:1px solid #b5c8d9;border-radius:14px;padding:18px;width:min(520px,100%);max-height:85vh;overflow:auto;color:#203b55}#txDetails .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}#txDetails .detail-item{background:#f7f9fb;border:1px solid #ccd9e5;border-radius:8px;padding:10px}#txDetails .detail-item small{display:block;color:#667d91;margin-bottom:5px}@media(max-width:520px){#txDetails .detail-grid{grid-template-columns:1fr}}
+
+/* Video-matched palette: cool blue-gray workspace, green success, orange primary actions */
+:root{--bg:#cbd5df;--p:#d9e1e9;--g:#277b68;--mut:#586a7a;--line:#b6c3cf}
+body{background:#cbd5df;color:#263847}
+.side{background:#c4cfda;border-color:#aebbc7}
+.brand{color:#304c62}
+.brand span{background:linear-gradient(135deg,#e4ebf1,#aab9c8);color:#30475b}
+.desk-heading{background:#e2e8ee;border-color:#bac7d2;color:#314c61}
+.desk-tools .tool-btn{background:#dce4eb;border-color:#b5c2ce;color:#40596d}
+.desk-tools .tool-btn.active{background:#c8e4d8;border-color:#56a98a;color:#17694f}
+.main{background:#dfe6ed}
+.top{background:#d1dbe5;border-color:#b8c5d1}
+.top h1{color:#314b60}
+.gold{color:#277b68}
+.pill{border-color:#b3c4d0;color:#237b64;background:#d8e9e0}
+.notice{background:#e5ebf0;border-color:#c0ccd6;color:#53697b}
+.card,.panel{background:#d3dde6;border-color:#b6c4d0;box-shadow:0 1px 2px #2638470c}
+.card:nth-child(1){background:#d9e4ed}.card:nth-child(2){background:#e0e0ec}.card:nth-child(3){background:#d3e5dc}.card:nth-child(4){background:#eee1cd}
+.metric{color:#2f4a60}
+.field input,.field select,.search{background:#edf1f5;color:#2c4051;border-color:#b7c4cf}
+button,.btn{background:#e68b37;color:#fff;border-color:#d77b28}
+button:hover,.btn:hover{filter:brightness(.97)}
+.secondary{background:#d7e0e8;color:#3d566b;border-color:#b5c3cf}
+th,td{border-color:#b7c4cf;color:#3a5062}
+th{color:#667a8a}
+.tag{background:#e5ebf0;color:#536a7c}
+.ok{color:#16875c}
+.ref-metric{background:#d4dfe8;border-color:#b4c2ce}
+.ref-metric>div:first-child{color:#3c586c}
+.ref-metric>div:first-child span{background:#e7edf2}
+.ref-split{color:#607585}
+.ref-split span{background:#e3eaf0}
+.ref-split b{color:#304d62}
+.monthly{background:#d8e1eb}
+.ref-balance{border-color:#b4c2ce;background:#d5e0e9;color:#3a566c}
+.ref-balance.capital{background:#e9dec8}.ref-balance.wallet-total{background:#dfdeef}.ref-balance.wallet-all{background:#d5e1eb}.ref-balance.cash{background:#d1e7dc}
+.filter-chip{background:#e1e8ee;border-color:#b5c4d0;color:#435e72}
+.filter-chip.active{background:#39876f;color:#fff;border-color:#39876f}
+#deskFormMount .panel{background:#e0e7ed;border-color:#b8c6d1}
+#deskFormMount h2{color:#2d665d}
+#deskFormMount .field input,#deskFormMount .field select{background:#f0f3f6;color:#2b4052;border-color:#bac7d2}
+#deskFormMount button:not(.secondary){background:#e68b37;color:#fff;border-color:#d77b28}
+#deskFormMount .secondary{background:#d4dee7;color:#405a6f;border-color:#b5c3cf}
+.mobile{background:#c4cfda;border-color:#aebbc7}
+.mobile button{color:#40596d}
+.mobile button.active{background:#c8e4d8;border-color:#56a98a;color:#17694f}
+.desk-bottom{color:#5c7385}
 </style></head><body><div id="authMessage" class="auth-message">جاري التحقق من تسجيل الدخول...</div><div class="app"><aside class="side">
 <div class="brand"><span>CB</span><div><b>CASH BACK</b><small>إدارة المحل</small></div></div>
 <div class="desk-heading"><span class="live-dot"></span><b>إجراء معاملة جديدة</b></div>
