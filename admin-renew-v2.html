@@ -195,7 +195,7 @@ async function save(){
     var renewalDay=renewalType==='day_1'?1:renewalType==='day_16'?16:(Number($('renewalDay').value)||null);
     if(!(amount>=0)) throw new Error('اكتب مبلغ التجديد');
     if(!next) throw new Error('حدد تاريخ التجديد القادم');
-    if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(next)) throw new Error('صيغة تاريخ التجديد غير صحيحة');
+    if(next.length!==10||next.charAt(4)!=='-'||next.charAt(7)!=='-') throw new Error('صيغة تاريخ التجديد غير صحيحة');
     var parsedNext=new Date(next+'T00:00:00');
     if(Number.isNaN(parsedNext.getTime())||dateText(parsedNext)!==next) throw new Error('تاريخ التجديد غير صحيح');
     var now=new Date().toISOString();
