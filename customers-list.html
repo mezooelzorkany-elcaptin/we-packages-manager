@@ -61,7 +61,9 @@ function nextRenewalDate(c){
   const now=new Date();now.setHours(0,0,0,0);
   if(day===1||day===16){
     let target=new Date(now.getFullYear(),now.getMonth(),day);
-    if(target.getTime()<=now.getTime())target=new Date(now.getFullYear(),now.getMonth()+1,day);
+    // Day-16 renewals start on the night of the 15th, so renewing then
+    // must set the next due date to the following month.
+    if(target.getTime()<=now.getTime()||(day===16&&now.getDate()===15))target=new Date(now.getFullYear(),now.getMonth()+1,day);
     return target.getFullYear()+'-'+String(target.getMonth()+1).padStart(2,'0')+'-'+String(target.getDate()).padStart(2,'0');
   }
   // For custom-date customers, renewing must advance the due date by one month,
@@ -99,7 +101,7 @@ async function bulkRenew(){
         const amount=Math.max(0,Number(c.last_price||0)-Number(c.discount_amount||0));
         const renewalType=String(c.renewal_type||'day_1').toLowerCase();
         const storedDay=Number(c.renewal_day);
-        const renewalDay=(storedDay===1||storedDay===16)?storedDay:(renewalType==='day_1'?1:renewalType==='day_16'?16:null);
+        const renewalDay=renewalType==='day_1'?1:renewalType==='day_16'?16:((storedDay===1||storedDay===16)?storedDay:null);
         const next=nextRenewalDate({...c,renewal_type:renewalType,renewal_day:renewalDay});
         if(!next)throw new Error('تاريخ التجديد غير محدد');
         const order='REN-'+Date.now().toString(36).toUpperCase()+'-'+String(c.id);
