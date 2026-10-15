@@ -92,7 +92,9 @@ async function bulkRenew(){
         rr=await fetch(U+'/rest/v1/invoices',{method:'POST',headers,body:JSON.stringify(invBody)});
         if(!rr.ok)throw new Error('تعذر تسجيل الفاتورة');
         rr=await fetch(U+'/rest/v1/customers?id=eq.'+encodeURIComponent(c.id),{method:'PATCH',headers,body:JSON.stringify({payment_method:'الدفع النقدي',next_renewal_date:next,renewal_type:c.renewal_type||'day_1',renewal_day:Number(c.renewal_day)||null,last_renewed_at:now,last_order_at:now,total_orders:Number(c.total_orders||0)+1,updated_at:now,status:'active',skip_renewal_month:null})});
-        if(!rr.ok)throw new Error('تعذر تحديث العميل');
+        const updatedRows=await rr.json().catch(()=>[]);
+        if(!rr.ok)throw new Error('تعذر تحديث العميل: '+(updatedRows?.message||updatedRows?.details||rr.status));
+        if(!Array.isArray(updatedRows)||updatedRows.length===0)throw new Error('لم يتغير سجل العميل في قاعدة البيانات؛ راجع صلاحيات التحديث (RLS) أو معرّف العميل');
         ok++;
       }catch(e){failed.push((c.subscriber_name||c.phone||c.id)+': '+e.message)}
     }
