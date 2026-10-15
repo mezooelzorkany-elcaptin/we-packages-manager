@@ -128,9 +128,17 @@ async function dbInsert(table,row){
 }
 async function dbUpdateCustomer(row){
   await requireAdmin();
-  var result=await db.from('customers').update(row).eq('id',customerId).is('deleted_at',null).select().maybeSingle();
+  var result=await db.from('customers').update(row).eq('id',customerId).is('deleted_at',null).select('*').maybeSingle();
   if(result.error) throw new Error('تعذر تحديث العميل: '+result.error.message);
   if(!result.data) throw new Error('لم يتم تحديث العميل رقم '+customerId+'.');
+  // Do not show success based only on the form field. Confirm the date returned by Supabase.
+  if(row.next_renewal_date){
+    var saved=String(result.data.next_renewal_date||'').slice(0,10);
+    if(saved!==String(row.next_renewal_date).slice(0,10)){
+      throw new Error('قاعدة البيانات لم تحفظ الموعد المطلوب. المطلوب: '+row.next_renewal_date+'، المحفوظ: '+(saved||'فارغ'));
+    }
+  }
+  customer=result.data;
   return result.data;
 }
 async function load(){
