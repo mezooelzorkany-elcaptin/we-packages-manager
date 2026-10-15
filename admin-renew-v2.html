@@ -144,10 +144,11 @@ async function load(){
     $('currentRenewal').textContent='📅 التجديد الحالي: '+(customer.next_renewal_date||'-');
     $('amount').value=Math.max(0,Number(customer.last_price||0)-Number(customer.discount_amount||0));
     var rt=customer.renewal_type||'day_1';
+    var savedDay=Number(customer.renewal_day)||(rt==='day_1'?1:rt==='day_16'?16:0);
     $('renewalType').value=rt;
-    $('renewalDay').value=customer.renewal_day||'';
-    if(Number(customer.renewal_day)===1) $('next').value=dateText(nextDate(1));
-    else if(Number(customer.renewal_day)===16) $('next').value=dateText(nextDate(16));
+    $('renewalDay').value=savedDay||'';
+    if(savedDay===1) $('next').value=dateText(nextDate(1));
+    else if(savedDay===16) $('next').value=dateText(nextDate(16));
     else $('next').value=customer.next_renewal_date||dateText(nextDate(1));
     $('msg').textContent='✅ الصفحة جاهزة — '+(customer.subscriber_name||'العميل');
   }catch(e){
@@ -184,6 +185,8 @@ async function save(){
   try{
     var amount=Number($('amount').value);
     var next=$('next').value;
+    var renewalType=$('renewalType').value;
+    var renewalDay=Number($('renewalDay').value)||(renewalType==='day_1'?1:renewalType==='day_16'?16:null);
     if(!(amount>=0)) throw new Error('اكتب مبلغ التجديد');
     if(!next) throw new Error('حدد تاريخ التجديد القادم');
     var now=new Date().toISOString();
@@ -213,7 +216,7 @@ async function save(){
       order_number:order,customer_id:customer.id,subscriber_name:customer.subscriber_name,
       phone:customer.phone,package_name:customer.package_name,package_gb:customer.allocated_gb,
       original_price:amount,final_price:amount,payment_method:payment,payment_screenshot:shot,
-      renewal_type:$('renewalType').value,renewal_day:Number($('renewalDay').value)||null,status:'completed'
+      renewal_type:renewalType,renewal_day:renewalDay,status:'completed'
     });
     await dbInsert('invoices',{
       order_number:order,customer_id:customer.id,customer_name:customer.subscriber_name,
@@ -222,8 +225,8 @@ async function save(){
       notes:'تجديد يدوي — '+payment+($('notes').value.trim()?' — '+$('notes').value.trim():'')
     });
     await dbUpdateCustomer({
-      payment_method:payment,next_renewal_date:next,renewal_type:$('renewalType').value,
-      renewal_day:Number($('renewalDay').value)||null,last_renewed_at:now,last_order_at:now,
+      payment_method:payment,next_renewal_date:next,renewal_type:renewalType,
+      renewal_day:renewalDay,last_renewed_at:now,last_order_at:now,
       total_orders:Number(customer.total_orders||0)+1,updated_at:now,status:'active',
       skip_renewal_month:null
     });
