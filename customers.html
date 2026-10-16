@@ -4666,6 +4666,78 @@ function renewalData(){
 
 
 /* =====================================================
+   PRIMARY NUMBER MOVE DECISION
+===================================================== */
+
+function askPrimaryNumberMove(details){
+  return new Promise(resolve=>{
+    const existing=document.getElementById("primaryMoveDecisionOverlay");
+    if(existing) existing.remove();
+
+    const overlay=document.createElement("div");
+    overlay.id="primaryMoveDecisionOverlay";
+    overlay.style.cssText="position:fixed;inset:0;z-index:99999;background:rgba(8,12,25,.72);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:16px";
+    overlay.innerHTML=`
+      <div style="width:min(100%,460px);background:var(--card,#fff);color:var(--text,#171717);border-radius:22px;padding:22px;box-shadow:0 25px 80px #0004;border:1px solid #ffffff30">
+        <div style="font-size:28px;margin-bottom:8px">🔄</div>
+        <h2 style="margin:0 0 8px;font-size:21px">تأكيد نقل الرقم الأساسي</h2>
+        <p style="margin:0 0 16px;line-height:1.8;color:var(--muted,#666)">أنت بتنقل العميل <b>${escapeHtml(details.name)}</b> من رقم لرقم تاني. هل الجيجا المخصصة له على الرقم القديم اتستهلكت فعلًا؟</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+          <div style="padding:12px;border-radius:13px;background:#f3f4f6;color:#222"><small style="display:block;color:#666;margin-bottom:5px">الرقم القديم</small><b dir="ltr">${escapeHtml(details.oldNumber)}</b></div>
+          <div style="padding:12px;border-radius:13px;background:#eef2ff;color:#222"><small style="display:block;color:#555;margin-bottom:5px">الرقم الجديد</small><b dir="ltr">${escapeHtml(details.newNumber)}</b></div>
+        </div>
+        <div style="padding:13px;border-radius:13px;background:#fff7ed;color:#9a3412;margin-bottom:18px;line-height:1.7">📦 الجيجا المخصصة للعميل: <b>${escapeHtml(String(details.gb))} GB</b><br><small>لو اخترت «استهلكها» هيتخصم المقدار ده من إجمالي الرقم القديم حتى لا يرجع للمتبقي.</small></div>
+        <div style="display:grid;gap:9px">
+          <button type="button" data-choice="yes" style="border:0;border-radius:12px;padding:13px;background:#b91c1c;color:white;font-weight:800;font-size:15px;cursor:pointer">✅ أيوه، استهلك الباقة — اخصم الجيجا</button>
+          <button type="button" data-choice="no" style="border:0;border-radius:12px;padding:13px;background:#15803d;color:white;font-weight:800;font-size:15px;cursor:pointer">↩️ لأ، مكنش استهلكها — رجّع الجيجا</button>
+          <button type="button" data-choice="cancel" style="border:1px solid #d1d5db;border-radius:12px;padding:11px;background:transparent;color:inherit;font-weight:700;cursor:pointer">إلغاء النقل</button>
+        </div>
+      </div>`;
+    const finish=value=>{overlay.remove();resolve(value);};
+    overlay.addEventListener("click",event=>{
+      const button=event.target.closest("[data-choice]");
+      if(button) finish(button.dataset.choice);
+      else if(event.target===overlay) finish("cancel");
+    });
+    document.addEventListener("keydown",function esc(event){
+      if(event.key==="Escape"&&document.getElementById("primaryMoveDecisionOverlay")){
+        document.removeEventListener("keydown",esc);
+        finish("cancel");
+      }
+    });
+    document.body.appendChild(overlay);
+  });
+}
+
+async function preserveOldNumberGB(oldNumber, allocatedGB){
+  const phone=cleanPhone(oldNumber);
+  const amount=Math.max(0,Number(allocatedGB)||0);
+  if(!phone || amount<=0) return {changed:false,reason:"no_amount"};
+
+  const rows=await api("primary_numbers?select=id,phone,notes&phone=eq."+encodeURIComponent(phone)+"&limit=1");
+  if(!Array.isArray(rows)||!rows.length)
+    throw new Error("لم أجد الرقم القديم في صفحة الأرقام؛ تم إيقاف النقل لحماية حساب الجيجا.");
+
+  const number=rows[0];
+  const notes=String(number.notes||"");
+  const match=notes.match(/\[TOTAL_GB:([0-9]+(?:\.[0-9]+)?)\]/);
+  if(!match)
+    throw new Error("إجمالي جيجات الرقم القديم غير مسجل بشكل واضح؛ لم يتم تعديل الأرقام لتجنب خطأ في المتبقي.");
+
+  const total=Number(match[1]);
+  if(!Number.isFinite(total)||total<amount)
+    throw new Error("إجمالي جيجات الرقم القديم أقل من الجيجا المخصصة للعميل؛ راجع إجمالي الباقة قبل النقل.");
+
+  const newTotal=Math.max(0,Math.round((total-amount)*1000)/1000);
+  const newNotes=notes.replace(/\[TOTAL_GB:[0-9]+(?:\.[0-9]+)?\]/,"[TOTAL_GB:"+newTotal+"]");
+  await api("primary_numbers?id=eq."+encodeURIComponent(number.id),{
+    method:"PATCH",
+    body:JSON.stringify({notes:newNotes})
+  });
+  return {changed:true,numberId:number.id,oldNotes:notes,phone,amount};
+}
+
+/* =====================================================
    SAVE CUSTOMER
 ===================================================== */
 
@@ -5032,6 +5104,17 @@ async function saveCustomer(){
 
   }
 
+  let primaryMoveDecision = null;
+  if(editMode && oldCustomer &&
+     cleanPhone(oldCustomer.primary_number) !== cleanPhone(primary)){
+    primaryMoveDecision = await askPrimaryNumberMove({
+      name: name,
+      oldNumber: oldCustomer.primary_number || "-",
+      newNumber: primary || "-",
+      gb: Number(oldCustomer.allocated_gb ?? getGB(oldCustomer.package_name) ?? 0) || 0
+    });
+    if(primaryMoveDecision === "cancel") return;
+  }
 
   const oldPromoCode =
     String(
@@ -5116,6 +5199,18 @@ async function saveCustomer(){
           body:JSON.stringify(data)
         }
       );
+
+      if(primaryMoveDecision === "yes" && oldCustomer){
+        const oldGB = Number(oldCustomer.allocated_gb ?? getGB(oldCustomer.package_name) ?? 0) || 0;
+        if(oldGB > 0){
+          try{
+            await preserveOldNumberGB(oldCustomer.primary_number, oldGB);
+          }catch(moveError){
+            // The customer was already saved. Stop the success path and report clearly.
+            throw new Error("تم تغيير الرقم الأساسي، لكن لم أستطع خصم الجيجا من الرقم القديم. راجع صفحة الأرقام فورًا. السبب: " + moveError.message);
+          }
+        }
+      }
 
     }else{
 
