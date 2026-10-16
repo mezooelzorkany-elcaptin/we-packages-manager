@@ -5106,6 +5106,7 @@ async function saveCustomer(){
 
   let primaryMoveDecision = null;
   if(editMode && oldCustomer &&
+     cleanPhone(oldCustomer.primary_number) &&
      cleanPhone(oldCustomer.primary_number) !== cleanPhone(primary)){
     primaryMoveDecision = await askPrimaryNumberMove({
       name: name,
