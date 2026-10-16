@@ -5138,6 +5138,8 @@ async function saveCustomer(){
 
   let oldPromoDecremented =
     false;
+  let oldNumberGBAdjustment = null;
+  let customerSaved = false;
 
 
   try{
@@ -5189,6 +5191,14 @@ async function saveCustomer(){
 
     if(editMode){
 
+      // خصم الجيجا من إجمالي الرقم القديم أولًا، مع حفظ نسخة لاسترجاعها لو فشل حفظ العميل.
+      if(primaryMoveDecision === "yes" && oldCustomer){
+        const oldGB = Number(oldCustomer.allocated_gb ?? getGB(oldCustomer.package_name) ?? 0) || 0;
+        if(oldGB > 0){
+          oldNumberGBAdjustment = await preserveOldNumberGB(oldCustomer.primary_number, oldGB);
+        }
+      }
+
       await api(
         "customers?id=eq." +
         encodeURIComponent(
@@ -5199,18 +5209,7 @@ async function saveCustomer(){
           body:JSON.stringify(data)
         }
       );
-
-      if(primaryMoveDecision === "yes" && oldCustomer){
-        const oldGB = Number(oldCustomer.allocated_gb ?? getGB(oldCustomer.package_name) ?? 0) || 0;
-        if(oldGB > 0){
-          try{
-            await preserveOldNumberGB(oldCustomer.primary_number, oldGB);
-          }catch(moveError){
-            // The customer was already saved. Stop the success path and report clearly.
-            throw new Error("تم تغيير الرقم الأساسي، لكن لم أستطع خصم الجيجا من الرقم القديم. راجع صفحة الأرقام فورًا. السبب: " + moveError.message);
-          }
-        }
-      }
+      customerSaved = true;
 
     }else{
 
@@ -5245,6 +5244,7 @@ async function saveCustomer(){
           body:JSON.stringify(data)
         }
       );
+      customerSaved = true;
 
     }
 
@@ -5301,6 +5301,19 @@ async function saveCustomer(){
   }catch(error){
 
     console.error(error);
+
+    // لو فشل حفظ العميل بعد خصم الجيجا، ارجع إجمالي الرقم القديم كما كان.
+    if(oldNumberGBAdjustment && !customerSaved && oldNumberGBAdjustment.changed){
+      try{
+        await api("primary_numbers?id=eq."+encodeURIComponent(oldNumberGBAdjustment.numberId),{
+          method:"PATCH",
+          body:JSON.stringify({notes:oldNumberGBAdjustment.oldNotes})
+        });
+      }catch(rollbackNumberError){
+        console.error("Old number GB rollback failed:",rollbackNumberError);
+        alert("تنبيه مهم: فشل حفظ العميل وفشل كذلك إرجاع إجمالي الرقم القديم تلقائيًا. راجع صفحة الأرقام قبل أي توزيع جديد.");
+      }
+    }
 
 
     /*
