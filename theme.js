@@ -198,12 +198,9 @@ let nav=document.getElementById('adminBottomNav');
 if(!nav){nav=document.createElement('nav');nav.id='adminBottomNav';nav.setAttribute('aria-label','التنقل الإداري');document.body.appendChild(nav)}
 const items=[
 ['customers.html','👥','العملاء'],
+['numbers.html','📱','الأرقام الأساسية'],
 ['package-stats.html','📊','إحصائية الباقات'],
 ['inbox.html','💬','التواصل والمتابعة'],
-['renewal-whatsapp.html','📲','تجديدات واتساب'],
-['whatsapp-import.html','📥','استيراد أرقام واتساب'],
-['numbers.html','📱','الأرقام الأساسية'],
-['allocation-helper/','🧮','مساعد التوزيع'],
 ['invoices.html','🧾','الفواتير'],
 ['finances.html','💰','الماليات'],
 ['admin.html','🔢','الأكواد'],
