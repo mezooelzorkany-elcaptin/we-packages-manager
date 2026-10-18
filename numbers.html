@@ -2310,12 +2310,18 @@ async function saveReassignment(){
  if(target.is_active===false||getGroup(target)!==getGroup(old)||linked.length>=6||remaining<gb){msg.textContent="الرقم الجديد لم يعد مناسبًا. حدّث البيانات واختر رقمًا آخر.";return;}
  msg.textContent="⏳ جاري حفظ النقل...";
  try{
+  const moved=await supabaseClient.from("customers").update({primary_number:target.phone}).eq("id",id);
+  if(moved.error)throw moved.error;
   if(consumed){
    const nextUsed=getUsedGB(old)+gb,clean=String(old.notes||"").replace(/\[USED_GB:[0-9]+(?:\.[0-9]+)?\]\s*/g,"").trim();
    const updated=buildNotes(clean,getGroup(old),getTotalGB(old)).replace(/\[USED_GB:[0-9]+(?:\.[0-9]+)?\]/,"[USED_GB:"+nextUsed+"]");
-   const saved=await supabaseClient.from("primary_numbers").update({notes:updated}).eq("id",old.id);if(saved.error)throw saved.error;
+   const saved=await supabaseClient.from("primary_numbers").update({notes:updated}).eq("id",old.id);
+   if(saved.error){
+    const rollback=await supabaseClient.from("customers").update({primary_number:old.phone}).eq("id",id);
+    if(rollback.error)throw new Error("فشل تسجيل الاستهلاك وفشل التراجع عن النقل أيضًا. راجع العميل "+id+" يدويًا. التفاصيل: "+saved.error.message+" / "+rollback.error.message);
+    throw saved.error;
+   }
   }
-  const moved=await supabaseClient.from("customers").update({primary_number:target.phone}).eq("id",id);if(moved.error)throw moved.error;
   showToast(consumed?"تم النقل وتثبيت الجيجا المستهلكة":"تم النقل وإرجاع الجيجا غير المستهلكة للمتاح");closeReassignModal();await loadData();
  }catch(e){console.error("REASSIGN ERROR",e);msg.textContent="تعذر إتمام النقل: "+(e.message||"خطأ غير معروف");}
 }
