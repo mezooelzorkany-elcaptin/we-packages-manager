@@ -1606,6 +1606,15 @@ html.dark-mode #adminBottomNav a.active{color:#f0d27a!important}
 #packageStatsPanel #packageStatsNote{line-height:1.8;overflow-wrap:anywhere}
 @media(max-width:600px){#packageStatsPanel #packageStats{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}#packageStatsPanel #packageStats .stat{padding:12px!important;min-height:105px}#packageStatsPanel #packageStats .num{font-size:25px}}
 
+
+.primary-number-change{background:#f1eaff!important;color:#5420b8!important;border:1px solid #d9c8fb!important}
+.primary-move-modal{display:none;position:fixed;inset:0;z-index:10020;background:rgba(8,10,20,.68);padding:16px;align-items:center;justify-content:center;overflow:auto}
+.primary-move-modal.show{display:flex}
+.primary-move-box{width:100%;max-width:520px;max-height:92vh;overflow:auto;background:var(--bg-card,#fff);color:var(--text-main,#222);border:1px solid var(--border,#eee);border-radius:20px;padding:20px;box-shadow:0 24px 70px #0003}
+.primary-move-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.primary-move-head h2{font-size:20px;margin:0}
+.primary-move-info{background:var(--soft,#f8f8fb);border:1px solid var(--border,#eee);border-radius:13px;padding:12px;line-height:1.9;margin-bottom:14px;overflow-wrap:anywhere}
+.primary-move-label{display:flex;flex-direction:column;gap:8px;font-weight:700;margin-top:10px}.primary-move-label select{height:46px;border:1px solid var(--border,#ddd);border-radius:11px;padding:0 12px;background:var(--input,#fff);color:var(--text-main,#222);width:100%}
+.primary-move-question{display:grid;gap:11px;padding:14px;margin-top:14px;border:1px solid var(--border,#e7def4);border-radius:13px;background:var(--soft,#faf8ff);line-height:1.7}.primary-move-question p{font-size:13px;color:var(--text-muted,#777);margin:0}.primary-move-question label{display:flex;align-items:flex-start;gap:8px;font-weight:400}.primary-move-actions{display:flex;gap:10px;margin-top:16px}.primary-move-actions button{flex:1;min-height:44px;border:0;border-radius:11px;font-weight:800}.primary-move-save{background:#5420b8;color:#fff}.primary-move-cancel{background:var(--soft,#eee);color:var(--text-main,#333)}
 </style>
 
 </head>
@@ -4407,6 +4416,13 @@ function card(c){
         </button>
 
         <button
+          class="action primary-number-change"
+          onclick="openCustomerPrimaryMove(${Number(c.id)})"
+        >
+          📲 تغيير رقم التجديد
+        </button>
+
+        <button
           class="action"
           style="${skippedThisMonth ? "background:#ede9fe;color:#6d28d9;" : "background:#fff7ed;color:#c2410c;"}"
           onclick="toggleSkipRenewal(${Number(c.id)})"
@@ -5434,6 +5450,53 @@ async function removeCustomer(id){
 }
 
 
+
+/* =====================================================
+   CUSTOMER PRIMARY NUMBER CHANGE
+===================================================== */
+let customerPrimaryMoveNumbers = [];
+function customerMoveCleanPhone(value){return String(value||"").replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/\D/g,"");}
+function customerMoveGroup(number){const m=String(number?.notes||"").match(/\[GROUP:(1|16)\]/);return m?Number(m[1]):1;}
+function customerMoveTotal(number){const m=String(number?.notes||"").match(/\[TOTAL_GB:([0-9]+(?:\.[0-9]+)?)\]/);return m?Math.max(0,Number(m[1])||0):0;}
+function customerMoveUsed(number){const m=String(number?.notes||"").match(/\[USED_GB:([0-9]+(?:\.[0-9]+)?)\]/);return m?Math.max(0,Number(m[1])||0):0;}
+function customerMoveIsSkipped(customer){if(!customer?.skip_renewal_month)return false;const now=new Date(),month=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-01";return String(customer.skip_renewal_month).slice(0,10)===month;}
+function customerMoveLinked(phone){const p=customerMoveCleanPhone(phone);return customers.filter(x=>!customerMoveIsSkipped(x)&&customerMoveCleanPhone(x.primary_number)===p);}
+function customerMoveGB(value){const n=Number(value);return Number.isFinite(n)?Math.max(0,n):0;}
+function customerMoveGroupForCustomer(customer,oldNumber){if(oldNumber)return customerMoveGroup(oldNumber);const day=Number(customer?.renewal_day);return day===16?16:1;}
+async function openCustomerPrimaryMove(customerId){
+ const customer=customers.find(x=>Number(x.id)===Number(customerId));if(!customer){alert("العميل غير موجود. حدّث قائمة العملاء وحاول مرة أخرى.");return;}
+ const modal=$("customerPrimaryMoveModal"),select=$("customerPrimaryMoveNew"),msg=$("customerPrimaryMoveMessage"),oldPhone=customerMoveCleanPhone(customer.primary_number);
+ $("customerPrimaryMoveId").value=customer.id;$("customerPrimaryMoveOld").value=oldPhone;msg.textContent="";$("customerPrimaryMoveInfo").innerHTML="العميل: <strong>"+escapeHtml(customer.subscriber_name||customer.internal_name||"بدون اسم")+"</strong><br>رقم العميل: "+escapeHtml(customer.phone||"-")+"<br>الرقم الأساسي الحالي: <strong dir='ltr'>"+escapeHtml(customer.primary_number||"غير محدد")+"</strong><br>الجيجات المخصصة: <strong>"+customerMoveGB(customer.allocated_gb)+" GB</strong>";select.innerHTML='<option value="">جاري تحميل الأرقام...</option>';modal.classList.add("show");
+ try{
+  const data=await api("primary_numbers?select=*&order=id.desc");customerPrimaryMoveNumbers=Array.isArray(data)?data:[];
+  const old=customerPrimaryMoveNumbers.find(n=>customerMoveCleanPhone(n.phone)===oldPhone),group=customerMoveGroupForCustomer(customer,old),gb=customerMoveGB(customer.allocated_gb);
+  const options=customerPrimaryMoveNumbers.map(n=>{const linked=customerMoveLinked(n.phone),distributed=linked.reduce((sum,x)=>sum+customerMoveGB(x.allocated_gb),0),remaining=Math.max(0,customerMoveTotal(n)-distributed-customerMoveUsed(n));return {n,linked,remaining};}).filter(x=>customerMoveCleanPhone(x.n.phone)!==oldPhone&&x.n.is_active!==false&&customerMoveGroup(x.n)===group&&x.linked.length<6&&customerMoveTotal(x.n)>0&&x.remaining>=gb).sort((a,b)=>a.remaining-b.remaining);
+  select.innerHTML=options.length?options.map(x=>'<option value="'+escapeHtml(x.n.phone)+'">'+escapeHtml(x.n.phone)+' — متبقي '+x.remaining+' GB — '+x.linked.length+'/6 عملاء</option>').join(''):'<option value="">لا يوجد رقم مناسب في جروب يوم '+group+'</option>';
+  if(!options.length)msg.textContent="مفيش رقم نشط مناسب بنفس جروب التجديد وسعته تكفي العميل.";
+  const choice=document.querySelector('input[name="customerPrimaryMoveConsumed"][value="no"]');if(choice)choice.checked=true;
+ }catch(error){select.innerHTML='<option value="">تعذر تحميل الأرقام</option>';msg.textContent="حصل خطأ في تحميل الأرقام: "+(error.message||"خطأ غير معروف");}
+}
+function closeCustomerPrimaryMove(){$("customerPrimaryMoveModal").classList.remove("show");}
+async function saveCustomerPrimaryMove(){
+ const id=Number($("customerPrimaryMoveId").value),oldPhone=customerMoveCleanPhone($("customerPrimaryMoveOld").value),newPhone=customerMoveCleanPhone($("customerPrimaryMoveNew").value),consumed=document.querySelector('input[name="customerPrimaryMoveConsumed"]:checked')?.value==="yes",msg=$("customerPrimaryMoveMessage"),customer=customers.find(x=>Number(x.id)===id),old=customerPrimaryMoveNumbers.find(n=>customerMoveCleanPhone(n.phone)===oldPhone),target=customerPrimaryMoveNumbers.find(n=>customerMoveCleanPhone(n.phone)===newPhone);
+ if(!customer||!target||!newPhone||newPhone===oldPhone){msg.textContent="اختار رقم أساسي جديد وصالح.";return;}
+ const gb=customerMoveGB(customer.allocated_gb),group=customerMoveGroupForCustomer(customer,old),linked=customerMoveLinked(target.phone),distributed=linked.reduce((sum,x)=>sum+customerMoveGB(x.allocated_gb),0),remaining=Math.max(0,customerMoveTotal(target)-distributed-customerMoveUsed(target));
+ if(target.is_active===false||customerMoveGroup(target)!==group||linked.length>=6||remaining<gb){msg.textContent="الرقم المختار لم يعد مناسبًا. افتح النافذة من جديد واختار رقمًا آخر.";return;}
+ if(consumed&&!old){msg.textContent="الرقم الأساسي القديم غير موجود في سجل الأرقام، لذلك لا يمكن تثبيت الاستهلاك بأمان.";return;}
+ msg.textContent="⏳ جاري حفظ تغيير الرقم...";
+ try{
+  await api("customers?id=eq."+encodeURIComponent(id),{method:"PATCH",body:JSON.stringify({primary_number:target.phone})});
+  if(consumed&&old){
+   const used=customerMoveUsed(old)+gb,clean=String(old.notes||"").replace(/\[USED_GB:[0-9]+(?:\.[0-9]+)?\]\s*/g,"").trim();
+   const notes="[GROUP:"+customerMoveGroup(old)+"] [TOTAL_GB:"+customerMoveTotal(old)+"] [USED_GB:"+used+"]"+(clean?" "+clean:"");
+   try{await api("primary_numbers?id=eq."+encodeURIComponent(old.id),{method:"PATCH",body:JSON.stringify({notes})});}
+   catch(ledgerError){try{await api("customers?id=eq."+encodeURIComponent(id),{method:"PATCH",body:JSON.stringify({primary_number:old.phone})});}catch(rollbackError){throw new Error("فشل تثبيت الاستهلاك وفشل التراجع عن النقل. راجع العميل "+id+" يدويًا. "+ledgerError.message+" / "+rollbackError.message);}throw ledgerError;}
+  }
+  customer.primary_number=target.phone;render();closeCustomerPrimaryMove();alert(consumed?"تم تغيير الرقم وتثبيت الجيجا المستهلكة على الرقم القديم.":"تم تغيير الرقم الأساسي. الجيجا المخصصة لم تُسجّل كمستهلكة.");
+ }catch(error){console.error("CUSTOMER PRIMARY MOVE ERROR",error);msg.textContent="تعذر تغيير الرقم: "+(error.message||"خطأ غير معروف");}
+}
+$("customerPrimaryMoveModal")?.addEventListener("click",event=>{if(event.target===$("customerPrimaryMoveModal"))closeCustomerPrimaryMove();});
+
 /* =====================================================
    RENEW
 ===================================================== */
@@ -6310,6 +6373,18 @@ window.close();
 
 
 
+
+<div id="customerPrimaryMoveModal" class="primary-move-modal" role="dialog" aria-modal="true" aria-labelledby="primaryMoveTitle">
+ <div class="primary-move-box">
+  <div class="primary-move-head"><h2 id="primaryMoveTitle">📲 تغيير الرقم الأساسي للتجديد</h2><button class="close" type="button" onclick="closeCustomerPrimaryMove()">✕</button></div>
+  <div id="customerPrimaryMoveInfo" class="primary-move-info"></div>
+  <input type="hidden" id="customerPrimaryMoveId"><input type="hidden" id="customerPrimaryMoveOld">
+  <label class="primary-move-label">اختار الرقم الأساسي اللي هتجدد عليه<select id="customerPrimaryMoveNew"><option value="">جاري تحميل الأرقام...</option></select></label>
+  <div class="primary-move-question"><strong>هل العميل استهلك الجيجا المخصصة له على الرقم القديم؟</strong><p>لو استهلكها، هنثبت الجيجا كاستهلاك على الرقم القديم عشان ما ترجعش للمخزون المتاح.</p><label><input type="radio" name="customerPrimaryMoveConsumed" value="yes"> أيوه، استهلكها — ثبّت الخصم</label><label><input type="radio" name="customerPrimaryMoveConsumed" value="no" checked> لأ، لسه ما استهلكهاش — رجّعها للمتاح</label></div>
+  <div id="customerPrimaryMoveMessage" class="message" role="status"></div>
+  <div class="primary-move-actions"><button class="primary-move-save" type="button" onclick="saveCustomerPrimaryMove()">تأكيد تغيير الرقم</button><button class="primary-move-cancel" type="button" onclick="closeCustomerPrimaryMove()">إلغاء</button></div>
+ </div>
+</div>
 </body>
 
 </html>
