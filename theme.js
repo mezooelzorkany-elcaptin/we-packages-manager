@@ -214,7 +214,9 @@ if(!document.getElementById('cashback-toolbar-outlines')){const o=document.creat
 if(!document.getElementById('cashback-admin-bottom-nav-base-style')){const s=document.createElement('style');s.id='cashback-admin-bottom-nav-base-style';s.textContent='#adminBottomNav{position:fixed;z-index:9999;inset:auto 0 0 0;display:flex;align-items:center;justify-content:space-around;min-height:82px;height:auto;background:var(--card,#fff);border-top:1px solid var(--border,#ddd);box-shadow:0 -5px 22px #00000010;padding:7px 8px calc(7px + env(safe-area-inset-bottom));direction:rtl}#adminBottomNav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-decoration:none;color:var(--text,#222);border-radius:12px;min-height:60px}#adminBottomNav a.active{background:#dbeafe;color:#1d4ed8;font-weight:700}#adminBottomNav .navIcon{font-size:24px;line-height:1}#adminBottomNav .navText{font-size:11px}body{padding-bottom:100px!important}@media(max-width:650px){#adminBottomNav{min-height:70px;padding-bottom:calc(5px + env(safe-area-inset-bottom))}#adminBottomNav a{flex-basis:84px;flex-shrink:0;min-height:54px}body{padding-bottom:90px!important}}@media print{#adminBottomNav{display:none!important}body{padding-bottom:0!important}}';document.head.appendChild(s)}
 }
 function ensureRegistrationNav(){
-/* Registration belongs in the side navigation only; never inject a ninth tile into the shared bottom bar. */
+/* Keep registration in the shared bottom navigation on every supported page. */
+const bottom=document.getElementById('adminBottomNav');
+if(bottom&&!bottom.querySelector('a[href="client.html"]')){const a=document.createElement('a');a.href='client.html';a.setAttribute('data-page','client.html');a.innerHTML='<span class="navIcon">📝</span><span class="navText">تسجيل عميل جديد</span>';bottom.insertBefore(a,bottom.children[1]||null)}
 const side=document.querySelector('.side .nav');
 if(side){
  let a=side.querySelector('a[data-page="client.html"],a[href^="client.html"]');
