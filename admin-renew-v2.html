@@ -78,6 +78,18 @@ html.dark-mode .success,body.dark-mode .success{background:#1e3528!important;col
 html.dark-mode .msg,body.dark-mode .msg{color:#f4f1e8!important}
 html:not(.dark-mode) .customer{background:linear-gradient(135deg,#25211a,#45381e)!important;color:#fffaf0!important}
 html:not(.dark-mode) .title,html:not(.dark-mode) .section-title{color:#775a19!important}
+
+/* Final fix: renewal page stays dark even if the global theme flag is missing */
+html,body{color-scheme:dark}
+.primary-number-panel{background:#17181c!important;color:#f4f1e8!important;border:1px solid #4b4028!important;box-shadow:0 8px 24px #0004!important}
+.primary-number-panel label{color:#e2c477!important}
+.primary-number-panel select,.primary-number-panel select:focus{background:#222329!important;color:#f8f6ef!important;border:1px solid #555056!important;color-scheme:dark}
+.primary-number-panel select option{background:#222329!important;color:#f8f6ef!important}
+.primary-number-question,.primary-number-question.show{background:#17181c!important;color:#f4f1e8!important;border:1px solid #45464d!important}
+.primary-number-question strong,.primary-number-question p,.primary-number-question label{color:#f4f1e8!important}
+.primary-number-note{color:#b8b6b0!important}
+.field.full[style]{background:#202127!important;color:#f4f1e8!important;border:1px solid #4b4028!important}
+.field.full[style] label,.field.full[style] small{color:#e2d6b7!important}
 </style>
 </head>
 <body>
