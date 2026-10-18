@@ -223,16 +223,71 @@ function hideCustomerList(){if(!/customers\.html$/i.test(location.pathname))retu
 function setupCustomerEditRoute(){if(!/customers\.html$/i.test(location.pathname))return;const id=new URLSearchParams(location.search).get('edit');if(!id)return;let tries=0;const timer=setInterval(()=>{tries++;const modal=document.getElementById('modal');const listReady=Array.isArray(window.customers)&&window.customers.some(x=>Number(x.id)===Number(id));if(typeof window.openEdit==='function'&&modal&&listReady){window.openEdit(Number(id));if(modal.classList.contains('show')){clearInterval(timer);return}}if(tries>150)clearInterval(timer)},200)}
 function setupCustomers(){if(!/customers\.html$/i.test(location.pathname))return;styleStats();hideCustomerList();hidePackagesOnCustomersPage();ensureAdminBottomNav();ensureRegistrationNav();setTimeout(ensureRegistrationNav,300);setTimeout(ensureRegistrationNav,1200);setupCustomerEditRoute();const stats=document.querySelector('.stats');if(!stats)return;const cards=Array.from(stats.querySelectorAll('.stat'));const find=t=>cards.find(c=>new RegExp(t).test(c.textContent||''));const total=find('إجمالي\\s*العملاء')||cards[0],soonCard=find('تجديد\\s*قريب'),skipCard=find('مش\\s*هيجدد'),day1=addStat('cbDay1Stat','تجديد يوم 1','1️⃣'),day16=addStat('cbDay16Stat','تجديد يوم 16','1️⃣6️⃣'),newOrders=addStat('cbNewOrdersStat','طلبات جديدة','🆕');const go=f=>{location.href='customers-list.html'+(f?'?filter='+encodeURIComponent(f):'')};if(total&&!total.dataset.cbBound){total.dataset.cbBound='1';total.classList.add('cb-nav-stat');total.addEventListener('click',()=>go('all'))}if(soonCard&&!soonCard.dataset.cbBound){soonCard.dataset.cbBound='1';soonCard.classList.add('cb-nav-stat');soonCard.addEventListener('click',()=>go('soon'))}if(skipCard&&!skipCard.dataset.cbBound){skipCard.dataset.cbBound='1';skipCard.classList.add('cb-nav-stat');skipCard.addEventListener('click',()=>go('skip_month'))}if(day1&&!day1.dataset.cbBound){day1.dataset.cbBound='1';day1.addEventListener('click',()=>go('1'))}if(day16&&!day16.dataset.cbBound){day16.dataset.cbBound='1';day16.addEventListener('click',()=>go('16'))}if(newOrders&&!newOrders.dataset.cbBound){newOrders.dataset.cbBound='1';newOrders.addEventListener('click',()=>location.href='new-orders.html')}refreshCustomerCounts();refreshCounts();setTimeout(refreshCustomerCounts,1000);setInterval(refreshCounts,15000);setInterval(refreshCustomerCounts,15000)}
 async function setupNewOrdersReset(){if(!/new-orders\.html$/i.test(location.pathname))return;styleStats();let resetAt=localStorage.getItem(ordersResetKey);if(!resetAt){resetAt=new Date().toISOString();localStorage.setItem(ordersResetKey,resetAt)}const c=await getAdminClient();if(!c)return;async function apply(){try{const s=await c.auth.getSession(),u=s.data.session?.user;if(!u||String(u.email||'').toLowerCase()!==ADMIN.toLowerCase())return;const {data,error}=await c.from('orders').select('order_number,created_at,status').in('status',['pending','payment_submitted']);if(error)return;const fresh=(data||[]).filter(x=>x.created_at&&new Date(x.created_at)>=new Date(resetAt));const allowed=new Set(fresh.map(x=>String(x.order_number)));document.querySelectorAll('.order').forEach(card=>card.classList.toggle('cb-old-order-hidden',!allowed.has(String(card.dataset.order||''))));const visible=[...document.querySelectorAll('.order')].filter(x=>!x.classList.contains('cb-old-order-hidden')).length;const count=document.getElementById('count');if(count)count.textContent=visible+' طلب جديد';if(!visible&&document.getElementById('list')){const any=[...document.querySelectorAll('.order')].length;if(any)document.getElementById('list').insertAdjacentHTML('beforeend','<div class="empty cb-reset-empty">لا توجد طلبات جديدة حاليًا ✅</div>')}document.querySelectorAll('.cb-reset-empty').forEach(x=>x.style.display=visible?'none':'')}catch(e){}}await apply();setInterval(apply,15000)}
-function setupUnifiedBottomNav(){if(document.getElementById('cashback-unified-bottom-nav-style'))return;const s=document.createElement('style');s.id='cashback-unified-bottom-nav-style';s.textContent=`
-/* One consistent bottom navigation layout across all admin pages */
-#adminBottomNav{box-sizing:border-box!important;display:grid!important;grid-template-columns:repeat(8,minmax(0,1fr))!important;align-items:stretch!important;justify-content:initial!important;gap:8px!important;width:100%!important;min-height:86px!important;height:auto!important;padding:8px 12px calc(8px + env(safe-area-inset-bottom))!important;overflow:visible!important;direction:rtl!important}
-#adminBottomNav a{box-sizing:border-box!important;display:flex!important;flex:initial!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:7px!important;width:100%!important;min-width:0!important;max-width:none!important;height:70px!important;min-height:70px!important;margin:0!important;padding:6px 4px!important;border-radius:14px!important;overflow:hidden!important}
-#adminBottomNav .navIcon{display:grid!important;place-items:center!important;width:30px!important;height:30px!important;min-width:30px!important;font-size:22px!important;line-height:1!important;flex:0 0 30px!important}
-#adminBottomNav .navText{display:block!important;width:100%!important;max-width:100%!important;margin:0!important;font-size:clamp(9px,.82vw,12px)!important;line-height:1.2!important;text-align:center!important;white-space:normal!important;overflow-wrap:anywhere!important;word-break:normal!important}
-@media(min-width:651px) and (max-width:1100px){#adminBottomNav{gap:5px!important;padding-left:7px!important;padding-right:7px!important}#adminBottomNav a{height:70px!important;min-height:70px!important;padding:5px 2px!important}#adminBottomNav .navIcon{width:28px!important;height:28px!important;min-width:28px!important;flex-basis:28px!important;font-size:21px!important}#adminBottomNav .navText{font-size:10px!important}}
-@media(max-width:650px){#adminBottomNav{display:flex!important;justify-content:flex-start!important;gap:6px!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:thin!important;min-height:76px!important;padding:6px 7px calc(6px + env(safe-area-inset-bottom))!important}#adminBottomNav a{flex:0 0 84px!important;width:84px!important;min-width:84px!important;max-width:84px!important;height:62px!important;min-height:62px!important;padding:4px 3px!important}#adminBottomNav .navIcon{width:26px!important;height:26px!important;min-width:26px!important;flex-basis:26px!important;font-size:20px!important}#adminBottomNav .navText{font-size:10px!important;line-height:1.15!important}}
-@media print{#adminBottomNav{display:none!important}}
-`;document.head.appendChild(s)}
+function setupUnifiedBottomNav(){
+if(document.getElementById('cashback-unified-bottom-nav-style'))return;
+const s=document.createElement('style');s.id='cashback-unified-bottom-nav-style';
+s.textContent=`
+/* CASH BACK — one canonical bottom-navigation layout on every admin page */
+#adminBottomNav{
+  box-sizing:border-box!important;position:fixed!important;z-index:99999!important;
+  inset:auto 0 0 0!important;display:grid!important;
+  grid-template-columns:repeat(8,minmax(0,1fr))!important;
+  align-items:stretch!important;justify-content:initial!important;
+  gap:8px!important;width:100%!important;height:88px!important;min-height:88px!important;
+  margin:0!important;padding:8px 12px calc(8px + env(safe-area-inset-bottom))!important;
+  overflow:hidden!important;direction:rtl!important;
+  background:#101114!important;border-top:1px solid rgba(219,173,69,.42)!important;
+  box-shadow:0 -6px 24px rgba(0,0,0,.28)!important;
+}
+#adminBottomNav>a{
+  box-sizing:border-box!important;display:flex!important;flex:initial!important;
+  flex-direction:column!important;align-items:center!important;justify-content:center!important;
+  width:100%!important;min-width:0!important;max-width:none!important;
+  height:70px!important;min-height:70px!important;max-height:70px!important;
+  margin:0!important;padding:5px 3px!important;gap:5px!important;
+  overflow:hidden!important;border-radius:12px!important;
+  background:#191a1e!important;color:#d8d3c8!important;
+  border:1px solid #343238!important;text-decoration:none!important;
+}
+#adminBottomNav>a.active{
+  background:linear-gradient(135deg,#f0d27a,#b88627)!important;
+  color:#17130a!important;border-color:#eac45e!important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.15)!important;
+}
+#adminBottomNav .navIcon{
+  display:grid!important;place-items:center!important;flex:0 0 28px!important;
+  width:28px!important;height:28px!important;min-width:28px!important;
+  margin:0!important;padding:0!important;font-size:21px!important;line-height:1!important;
+  background:transparent!important;color:inherit!important;
+}
+#adminBottomNav .navText{
+  display:block!important;flex:0 0 auto!important;width:100%!important;
+  max-width:100%!important;margin:0!important;padding:0!important;
+  font-size:clamp(9px,.78vw,11px)!important;line-height:1.15!important;
+  text-align:center!important;white-space:normal!important;
+  overflow-wrap:anywhere!important;word-break:normal!important;color:inherit!important;
+}
+body{padding-bottom:104px!important}
+@media(min-width:651px) and (max-width:1100px){
+ #adminBottomNav{gap:5px!important;padding-left:7px!important;padding-right:7px!important}
+ #adminBottomNav>a{padding:4px 2px!important}
+ #adminBottomNav .navIcon{flex-basis:26px!important;width:26px!important;height:26px!important;min-width:26px!important;font-size:20px!important}
+ #adminBottomNav .navText{font-size:10px!important}
+}
+@media(max-width:650px){
+ #adminBottomNav{display:flex!important;justify-content:flex-start!important;gap:6px!important;
+   height:76px!important;min-height:76px!important;overflow-x:auto!important;overflow-y:hidden!important;
+   scrollbar-width:thin!important;padding:6px 7px calc(6px + env(safe-area-inset-bottom))!important}
+ #adminBottomNav>a{flex:0 0 84px!important;width:84px!important;min-width:84px!important;max-width:84px!important;
+   height:62px!important;min-height:62px!important;max-height:62px!important;padding:4px 3px!important}
+ #adminBottomNav .navIcon{flex-basis:25px!important;width:25px!important;height:25px!important;min-width:25px!important;font-size:19px!important}
+ #adminBottomNav .navText{font-size:10px!important;line-height:1.12!important}
+ body{padding-bottom:92px!important}
+}
+@media print{#adminBottomNav{display:none!important}body{padding-bottom:0!important}}
+`;
+(document.head||document.documentElement).appendChild(s);
+}
 function init(){setupTheme();setupNavigation();styleAdminNavigation();setupCashbackPalette();setupFinalDashboardStyle();setupConsistentInnerPages();ensureAdminBottomNav();setupUnifiedBottomNav();setupPrint();setupCustomers();setupNewOrdersReset()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
