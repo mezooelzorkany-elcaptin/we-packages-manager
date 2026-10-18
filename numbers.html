@@ -1558,7 +1558,7 @@ function renderNumberCard(
 
 
     const isOver =
-        distributedGB > totalGB &&
+        distributedGB + usedGB > totalGB &&
         totalGB > 0;
 
 
@@ -2156,7 +2156,7 @@ async function saveNumber(){
             );
         const existingNumber = editId ? numbers.find(n => Number(n.id) === Number(editId)) : null;
         const preservedUsedGB = existingNumber ? getUsedGB(existingNumber) : 0;
-        const finalSavedNotes = savedNotes.replace(/\\[USED_GB:[0-9]+(?:\\.[0-9]+)?\\]/, "[USED_GB:" + preservedUsedGB + "]");
+        const finalSavedNotes = savedNotes.replace(/\[USED_GB:[0-9]+(?:\.[0-9]+)?\]/, "[USED_GB:" + preservedUsedGB + "]");
 
 
         const payload = {
