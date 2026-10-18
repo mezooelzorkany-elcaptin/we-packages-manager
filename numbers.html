@@ -660,6 +660,20 @@ html.dark-mode .edit-btn{background:#33284a!important;color:#ddcaff!important;bo
 html.dark-mode .delete-btn{background:#402126!important;color:#ffb6be!important;border-color:#c45a67!important}
 @media(max-width:480px){.number-actions{gap:8px}.number-action{font-size:13px;padding:10px 8px}}
 
+.overview-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 15px}
+.overview-card{border:1px solid #e8e0f5;border-radius:18px;background:rgba(255,255,255,.9);padding:14px;text-align:right;display:flex;flex-direction:column;gap:7px;color:#28213b;min-width:0}.overview-card span{font-size:13px;color:#756a89;font-weight:bold}.overview-card strong{font-size:25px;color:#5420b8;overflow-wrap:anywhere}
+button.overview-card{cursor:pointer;font:inherit}
+.smart-box{background:rgba(255,255,255,.9);border:1px solid #e6ddf4;border-radius:22px;padding:17px;margin-bottom:15px}.smart-box h2{font-size:19px;margin:0 0 5px;color:#5420b8}.smart-box p{margin:0 0 14px;color:#777;font-size:13px}
+.smart-controls{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end}.smart-controls label{display:flex;flex-direction:column;gap:7px;font-weight:bold;font-size:13px;color:#655878}.smart-controls input,.smart-controls select{height:44px;border:1px solid #ded4ef;border-radius:12px;padding:0 11px;background:white;font:inherit;min-width:0}.smart-btn{height:44px;padding:0 15px;border:0;border-radius:12px;background:#5420b8;color:white;font-weight:bold;cursor:pointer}
+.smart-results{display:grid;gap:8px;margin-top:12px;color:#777;font-size:13px}.smart-result{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #e8e1f3;border-radius:13px;padding:11px;background:#faf8ff}.smart-result strong{color:#5420b8;direction:ltr}.smart-result small{display:block;color:#777;margin-top:4px}.smart-result button{border:0;border-radius:10px;background:#eee5ff;color:#5420b8;padding:8px 10px;font-weight:bold}
+@media(max-width:700px){.overview-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.smart-controls{grid-template-columns:1fr}.smart-btn{width:100%}.overview-card strong{font-size:22px}}
+html.dark-mode .overview-card,html.dark-mode .smart-box{background:#201b2b!important;border-color:#40344f!important;color:#eee!important}html.dark-mode .overview-card span,html.dark-mode .smart-box p{color:#bdb2ce!important}html.dark-mode .smart-controls input,html.dark-mode .smart-controls select{background:#17131f!important;color:#eee!important;border-color:#4a3b5d!important}
+.reassign-btn{margin-top:8px;width:100%;border:1px solid #d9c8fb;border-radius:10px;background:#f1eaff;color:#5420b8;font-weight:bold;padding:10px;cursor:pointer}
+.reassign-info{padding:12px;border-radius:13px;background:#f5f1fc;margin-bottom:14px;line-height:1.8}
+.consumed-question{margin-top:15px;padding:14px;border:1px solid #e7def4;border-radius:14px;background:#faf8ff;display:grid;gap:11px}
+.consumed-question p{font-size:13px;color:#777;line-height:1.7;margin:0}.consumed-question label{display:flex;align-items:center;gap:8px;font-size:14px}
+.reassign-label{display:flex;flex-direction:column;gap:7px;font-weight:bold;font-size:13px;margin-top:10px}.reassign-label select{height:44px;border:1px solid #ded4ef;border-radius:12px;padding:0 11px;width:100%;background:white;font:inherit}
+html.dark-mode .reassign-info,html.dark-mode .consumed-question{background:#292235!important;border-color:#493a5d!important;color:#eee!important}
 </style>
 </head>
 
@@ -687,6 +701,12 @@ html.dark-mode .delete-btn{background:#402126!important;color:#ffb6be!important;
     </div>
 
 
+    <section class="overview-grid">
+      <button class="overview-card" onclick="setDashboardFilter('all')"><span>📱 إجمالي الأرقام</span><strong id="statTotal">—</strong></button>
+      <button class="overview-card" onclick="setDashboardFilter('available')"><span>🟢 متاحة للتوزيع</span><strong id="statAvailable">—</strong></button>
+      <button class="overview-card" onclick="setDashboardFilter('full')"><span>👥 مكتملة (6 عملاء)</span><strong id="statFull">—</strong></button>
+      <div class="overview-card"><span>📦 إجمالي المتبقي</span><strong id="statRemaining">—</strong></div>
+    </section>
     <div class="top-actions">
 
         <button
@@ -718,6 +738,14 @@ html.dark-mode .delete-btn{background:#402126!important;color:#ffb6be!important;
     </div>
 
 
+    <section class="smart-box">
+      <h2>🧠 مساعد توزيع الباقات</h2><p>اختار سعة الباقة وموعد التجديد لمعرفة الأرقام الأنسب.</p>
+      <div class="smart-controls">
+        <label>سعة الباقة (GB)<input id="smartGB" type="number" min="0.01" step="0.01" placeholder="مثال: 30"></label>
+        <label>موعد التجديد<select id="smartGroup"><option value="1">تفعيل يوم 1</option><option value="16">تفعيل يوم 16</option></select></label>
+        <button class="smart-btn" onclick="recommendNumbers()">🔎 اقترح الأرقام</button>
+      </div><div id="smartResults" class="smart-results">اكتب السعة واضغط اقترح الأرقام.</div>
+    </section>
     <!-- DAY 1 -->
 
     <div class="group open" id="group1">
@@ -996,6 +1024,7 @@ html.dark-mode .delete-btn{background:#402126!important;color:#ffb6be!important;
 
 
 <div id="toast" class="toast"></div>
+<div id="reassignModal" class="modal"><div class="modal-box"><div class="modal-head"><h2>🔁 تغيير الرقم الأساسي للعميل</h2><button class="close" onclick="closeReassignModal()">✕</button></div><div id="reassignCustomerInfo" class="reassign-info"></div><input type="hidden" id="reassignCustomerId"><input type="hidden" id="reassignOldNumber"><label class="reassign-label">الرقم الأساسي الجديد<select id="reassignNewNumber"></select></label><div class="consumed-question"><strong>هل العميل استهلك الباقة المخصصة له على الرقم القديم؟</strong><p>لو استهلكها، هنسجل الجيجا كاستهلاك على الرقم القديم حتى لا ترجع للمخزون بعد النقل.</p><label><input type="radio" name="consumedChoice" value="yes"> أيوه، استهلكها — ثبّت الخصم</label><label><input type="radio" name="consumedChoice" value="no" checked> لأ، لم يستهلكها — رجّعها للمتاح</label></div><div id="reassignMessage" class="message"></div><div class="modal-actions"><button class="save" onclick="saveReassignment()">تأكيد النقل</button><button class="cancel" onclick="closeReassignModal()">إلغاء</button></div></div></div>
 
 
 <script>
@@ -1066,7 +1095,7 @@ async function loadData(){
             await supabaseClient
                 .from("customers")
                 .select(
-    "subscriber_name,internal_name,phone,primary_number,allocated_gb,deleted_at,skip_renewal_month"
+    "id,subscriber_name,internal_name,phone,primary_number,allocated_gb,deleted_at,skip_renewal_month"
 )
                 .is("deleted_at",null);
 
@@ -1200,6 +1229,11 @@ function getTotalGB(number){
    CLEAN NOTES
 ===================================================== */
 
+function getUsedGB(number){
+    const match = String(number.notes || "").match(/\[USED_GB:([0-9]+(?:\.[0-9]+)?)\]/);
+    return match ? Math.max(0, Number(match[1]) || 0) : 0;
+}
+
 function getCleanNotes(number){
 
     return String(
@@ -1213,6 +1247,7 @@ function getCleanNotes(number){
         /\[TOTAL_GB:[0-9]+(?:\.[0-9]+)?\]\s*/g,
         ""
     )
+    .replace(/\[USED_GB:[0-9]+(?:\.[0-9]+)?\]\s*/g,"")
     .trim();
 
 }
@@ -1241,8 +1276,10 @@ function buildNotes(
         .trim();
 
 
+    const usedMatch = String(notes || "").match(/\[USED_GB:([0-9]+(?:\.[0-9]+)?)\]/);
+    const used = usedMatch ? Number(usedMatch[1]) || 0 : 0;
     let result =
-        `[GROUP:${group}] [TOTAL_GB:${totalGB}]`;
+        `[GROUP:${group}] [TOTAL_GB:${totalGB}] [USED_GB:${used}]`;
 
 
     if(clean)
@@ -1404,10 +1441,36 @@ function renderNumbers(){
         "content16",
         day16
     );
+    renderDashboard();
+    if(document.getElementById("smartGB").value) recommendNumbers();
 
 }
 
 
+function renderDashboard(){
+ const rows=numbers.map(n=>{const linked=getLinkedCustomers(n.phone),total=getTotalGB(n),dist=linked.reduce((a,c)=>a+(Number(c.allocated_gb)||0),0);return {n,count:linked.length,total,remaining:Math.max(0,total-dist-getUsedGB(n)),active:n.is_active!==false};});
+ document.getElementById("statTotal").textContent=numbers.length;
+ document.getElementById("statAvailable").textContent=rows.filter(x=>x.active&&x.count<6&&x.total>0&&x.remaining>0).length;
+ document.getElementById("statFull").textContent=rows.filter(x=>x.count>=6).length;
+ document.getElementById("statRemaining").textContent=formatGB(rows.reduce((a,x)=>a+x.remaining,0))+" GB";
+}
+function setDashboardFilter(filter){
+ if(filter==="all"){renderNumbers();return;}
+ const list=numbers.filter(n=>{const linked=getLinkedCustomers(n.phone),total=getTotalGB(n),dist=linked.reduce((a,c)=>a+(Number(c.allocated_gb)||0),0),remaining=Math.max(0,total-dist-getUsedGB(n));return filter==="available"?n.is_active!==false&&linked.length<6&&total>0&&remaining>0:linked.length>=6;});
+ document.getElementById("content1").innerHTML=list.filter(n=>getGroup(n)===1).map(renderNumberCard).join("")||'<div class="empty">لا توجد أرقام مطابقة</div>';
+ document.getElementById("content16").innerHTML=list.filter(n=>getGroup(n)===16).map(renderNumberCard).join("")||'<div class="empty">لا توجد أرقام مطابقة</div>';
+ document.getElementById("count1").textContent=list.filter(n=>getGroup(n)===1).length+" رقم";document.getElementById("count16").textContent=list.filter(n=>getGroup(n)===16).length+" رقم";
+ document.getElementById("group1").classList.add("open");document.getElementById("group16").classList.add("open");
+}
+function recommendNumbers(){
+ const gb=Number(document.getElementById("smartGB").value),group=Number(document.getElementById("smartGroup").value),box=document.getElementById("smartResults");
+ if(!Number.isFinite(gb)||gb<=0){box.textContent="اكتب سعة صحيحة أكبر من صفر.";return;}
+ const list=numbers.map(n=>{const linked=getLinkedCustomers(n.phone),dist=linked.reduce((a,c)=>a+(Number(c.allocated_gb)||0),0);return {n,linked,remaining:Math.max(0,getTotalGB(n)-dist-getUsedGB(n))};})
+ .filter(x=>getGroup(x.n)===group&&x.n.is_active!==false&&x.linked.length<6&&getTotalGB(x.n)>0&&x.remaining>=gb).sort((a,b)=>(a.remaining-gb)-(b.remaining-gb)||a.linked.length-b.linked.length);
+ if(!list.length){box.textContent="لا يوجد رقم نشط في الجروب المختار بسعة كافية وأقل من 6 عملاء.";return;}
+ box.innerHTML=list.slice(0,8).map(x=>'<div class="smart-result"><div><strong dir="ltr">'+escapeHtml(x.n.phone)+'</strong><small>متبقي '+formatGB(x.remaining)+' GB · '+x.linked.length+'/6 عملاء · بعد التوزيع '+formatGB(x.remaining-gb)+' GB</small></div><button onclick="copyRecommendedNumber(\''+escapeHtml(x.n.phone)+'\')">نسخ الرقم</button></div>').join("");
+}
+function copyRecommendedNumber(phone){if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(phone).then(()=>showToast("تم نسخ الرقم"));else{const el=document.createElement("textarea");el.value=phone;document.body.appendChild(el);el.select();document.execCommand("copy");el.remove();showToast("تم نسخ الرقم");}}
 /* =====================================================
    RENDER GROUP
 ===================================================== */
@@ -1486,15 +1549,16 @@ function renderNumberCard(
         );
 
 
+    const usedGB = getUsedGB(number);
     const remainingGB =
         Math.max(
             0,
-            totalGB - distributedGB
+            totalGB - distributedGB - usedGB
         );
 
 
     const isOver =
-        distributedGB > totalGB &&
+        distributedGB + usedGB > totalGB &&
         totalGB > 0;
 
 
@@ -1580,6 +1644,8 @@ function renderNumberCard(
                 </strong>
 
             </div>
+
+            <div class="package-box used" style="grid-column:1/-1"><small>⛔ استهلاك مثبت من عملاء تم نقلهم</small><strong>${formatGB(usedGB)} GB</strong></div>
 
         </div>
 
@@ -1692,12 +1758,8 @@ ${
                                     </div>
 
 
-                                    <div class="customer-gb">
-
-                                        ${formatGB(gb)}
-                                        GB
-
-                                    </div>
+                                    <div class="customer-gb">${formatGB(gb)} GB<div style="font-size:11px;color:#888;margin-top:4px">مخصص للعميل</div></div>
+                                    <button class="reassign-btn" onclick="openReassignModal(${Number(customer.id)})">🔁 تغيير الرقم الأساسي</button>
 
                                 </div>
 
@@ -2092,13 +2154,16 @@ async function saveNumber(){
                 selectedGroup,
                 totalGB
             );
+        const existingNumber = editId ? numbers.find(n => Number(n.id) === Number(editId)) : null;
+        const preservedUsedGB = existingNumber ? getUsedGB(existingNumber) : 0;
+        const finalSavedNotes = savedNotes.replace(/\[USED_GB:[0-9]+(?:\.[0-9]+)?\]/, "[USED_GB:" + preservedUsedGB + "]");
 
 
         const payload = {
 
             phone:phone,
 
-            notes:savedNotes,
+            notes:finalSavedNotes,
 
             is_active:
                 selectedStatus === "active"
@@ -2224,6 +2289,36 @@ async function saveNumber(){
 
 }
 
+
+function openReassignModal(customerId){
+ const c=customers.find(x=>Number(x.id)===Number(customerId));
+ if(!c){showToast("العميل غير موجود؛ حدّث البيانات وحاول مرة أخرى");return;}
+ const oldPhone=cleanPhone(c.primary_number),old=numbers.find(n=>cleanPhone(n.phone)===oldPhone),gb=Number(c.allocated_gb)||0,group=old?getGroup(old):1;
+ const opts=numbers.map(n=>{const linked=getLinkedCustomers(n.phone),dist=linked.reduce((a,x)=>a+(Number(x.allocated_gb)||0),0);return {n,linked,remaining:Math.max(0,getTotalGB(n)-dist-getUsedGB(n))};}).filter(x=>cleanPhone(x.n.phone)!==oldPhone&&getGroup(x.n)===group&&x.n.is_active!==false&&x.linked.length<6&&getTotalGB(x.n)>0&&x.remaining>=gb).sort((a,b)=>a.remaining-b.remaining);
+ document.getElementById("reassignCustomerId").value=c.id;document.getElementById("reassignOldNumber").value=oldPhone;
+ document.getElementById("reassignCustomerInfo").innerHTML="العميل: <strong>"+escapeHtml(c.subscriber_name||c.internal_name||"بدون اسم")+"</strong><br>رقم العميل: "+escapeHtml(c.phone||"-")+"<br>الرقم الحالي: <strong dir='ltr'>"+escapeHtml(oldPhone||"-")+"</strong><br>السعة المخصصة: <strong>"+formatGB(gb)+" GB</strong>";
+ const select=document.getElementById("reassignNewNumber");select.innerHTML=opts.map(x=>"<option value='"+escapeHtml(x.n.phone)+"'>"+escapeHtml(x.n.phone)+" — متبقي "+formatGB(x.remaining)+" GB — "+x.linked.length+"/6 عملاء</option>").join("");
+ if(!opts.length)select.innerHTML='<option value="">لا يوجد رقم مناسب في نفس جروب التجديد</option>';
+ document.getElementById("reassignMessage").textContent="";document.querySelector('input[name="consumedChoice"][value="no"]').checked=true;document.getElementById("reassignModal").classList.add("show");
+}
+function closeReassignModal(){document.getElementById("reassignModal").classList.remove("show");}
+async function saveReassignment(){
+ const msg=document.getElementById("reassignMessage"),id=Number(document.getElementById("reassignCustomerId").value),oldPhone=cleanPhone(document.getElementById("reassignOldNumber").value),newPhone=cleanPhone(document.getElementById("reassignNewNumber").value),consumed=document.querySelector('input[name="consumedChoice"]:checked')?.value==="yes";
+ const c=customers.find(x=>Number(x.id)===id),old=numbers.find(n=>cleanPhone(n.phone)===oldPhone),target=numbers.find(n=>cleanPhone(n.phone)===newPhone);
+ if(!c||!old||!target||!newPhone||newPhone===oldPhone){msg.textContent="اختار رقمًا جديدًا صالحًا.";return;}
+ const gb=Math.max(0,Number(c.allocated_gb)||0),linked=getLinkedCustomers(target.phone),dist=linked.reduce((a,x)=>a+(Number(x.allocated_gb)||0),0),remaining=Math.max(0,getTotalGB(target)-dist-getUsedGB(target));
+ if(target.is_active===false||getGroup(target)!==getGroup(old)||linked.length>=6||remaining<gb){msg.textContent="الرقم الجديد لم يعد مناسبًا. حدّث البيانات واختر رقمًا آخر.";return;}
+ msg.textContent="⏳ جاري حفظ النقل...";
+ try{
+  if(consumed){
+   const nextUsed=getUsedGB(old)+gb,clean=String(old.notes||"").replace(/\[USED_GB:[0-9]+(?:\.[0-9]+)?\]\s*/g,"").trim();
+   const updated=buildNotes(clean,getGroup(old),getTotalGB(old)).replace(/\[USED_GB:[0-9]+(?:\.[0-9]+)?\]/,"[USED_GB:"+nextUsed+"]");
+   const saved=await supabaseClient.from("primary_numbers").update({notes:updated}).eq("id",old.id);if(saved.error)throw saved.error;
+  }
+  const moved=await supabaseClient.from("customers").update({primary_number:target.phone}).eq("id",id);if(moved.error)throw moved.error;
+  showToast(consumed?"تم النقل وتثبيت الجيجا المستهلكة":"تم النقل وإرجاع الجيجا غير المستهلكة للمتاح");closeReassignModal();await loadData();
+ }catch(e){console.error("REASSIGN ERROR",e);msg.textContent="تعذر إتمام النقل: "+(e.message||"خطأ غير معروف");}
+}
 
 /* =====================================================
    DELETE
