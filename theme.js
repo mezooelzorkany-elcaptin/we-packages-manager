@@ -191,7 +191,7 @@ if(logo){const wrap=document.createElement('div');wrap.id='cashbackCenteredBrand
 }
 function hidePackagesOnCustomersPage(){if(!/customers\.html$/i.test(location.pathname))return;document.querySelectorAll('a[href]').forEach(a=>{const href=(a.getAttribute('href')||'').split('?')[0].split('#')[0].toLowerCase();if(href==='packages.html')a.style.display='none'})}
 function ensureAdminBottomNav(){
-const allowed=/^(customers|inbox|renewal-whatsapp|whatsapp-import|numbers|invoices|finances|admin|package-stats)\.html$/i;
+const allowed=/^(customers|customers-list|inbox|renewal-whatsapp|whatsapp-import|numbers|invoices|finances|admin|package-stats|package-debts|packages|admin-renew-v2)\.html$/i;
 const page=(location.pathname.split('/').pop()||'').toLowerCase();
 if(!allowed.test(page))return;
 let nav=document.getElementById('adminBottomNav');
@@ -200,11 +200,11 @@ const items=[
 ['customers.html','👥','العملاء'],
 ['numbers.html','📱','الأرقام الأساسية'],
 ['package-stats.html','📊','إحصائية الباقات'],
-['inbox.html','💬','التواصل والمتابعة'],
 ['invoices.html','🧾','الفواتير'],
 ['finances.html','💰','الماليات'],
+['package-debts.html','📒','ديون الباقات'],
 ['admin.html','🔢','الأكواد'],
-['client.html','📝','تسجيل عميل']
+['inbox.html','💬','التواصل والمتابعة']
 ];
 nav.innerHTML='';
 items.forEach(([href,icon,label])=>{const a=document.createElement('a');a.href=href;a.setAttribute('data-page',href);a.innerHTML='<span class="navIcon">'+icon+'</span><span class="navText">'+label+'</span>';if(page===href)a.classList.add('active');nav.appendChild(a)});
