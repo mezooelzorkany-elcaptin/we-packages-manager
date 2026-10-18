@@ -191,13 +191,14 @@ if(logo){const wrap=document.createElement('div');wrap.id='cashbackCenteredBrand
 }
 function hidePackagesOnCustomersPage(){if(!/customers\.html$/i.test(location.pathname))return;document.querySelectorAll('a[href]').forEach(a=>{const href=(a.getAttribute('href')||'').split('?')[0].split('#')[0].toLowerCase();if(href==='packages.html')a.style.display='none'})}
 function ensureAdminBottomNav(){
-const allowed=/^(customers|customers-list|inbox|renewal-whatsapp|whatsapp-import|numbers|invoices|finances|admin|package-stats|package-debts|packages|admin-renew-v2)\.html$/i;
+const allowed=/^(customers|customers-list|client|inbox|renewal-whatsapp|whatsapp-import|numbers|invoices|finances|admin|package-stats|package-debts|packages|admin-renew-v2)\.html$/i;
 const page=(location.pathname.split('/').pop()||'').toLowerCase();
 if(!allowed.test(page))return;
 let nav=document.getElementById('adminBottomNav');
 if(!nav){nav=document.createElement('nav');nav.id='adminBottomNav';nav.setAttribute('aria-label','التنقل الإداري');document.body.appendChild(nav)}
 const items=[
 ['customers.html','👥','العملاء'],
+['client.html','📝','تسجيل عميل جديد'],
 ['numbers.html','📱','الأرقام الأساسية'],
 ['package-stats.html','📊','إحصائية الباقات'],
 ['invoices.html','🧾','الفواتير'],
@@ -245,9 +246,9 @@ s.textContent=`
 #adminBottomNav{
   box-sizing:border-box!important;position:fixed!important;z-index:99999!important;
   inset:auto 0 0 0!important;display:grid!important;
-  grid-template-columns:repeat(8,minmax(0,1fr))!important;
+  grid-template-columns:repeat(9,minmax(0,1fr))!important;
   align-items:stretch!important;justify-content:initial!important;
-  gap:8px!important;width:100%!important;height:88px!important;min-height:88px!important;
+  gap:8px!important;width:100%!important;height:92px!important;min-height:92px!important;
   margin:0!important;padding:8px 12px calc(8px + env(safe-area-inset-bottom))!important;
   overflow:hidden!important;direction:rtl!important;
   background:#101114!important;border-top:1px solid rgba(219,173,69,.42)!important;
@@ -257,7 +258,7 @@ s.textContent=`
   box-sizing:border-box!important;display:flex!important;flex:initial!important;
   flex-direction:column!important;align-items:center!important;justify-content:center!important;
   width:100%!important;min-width:0!important;max-width:none!important;
-  height:70px!important;min-height:70px!important;max-height:70px!important;
+  height:74px!important;min-height:74px!important;max-height:74px!important;
   margin:0!important;padding:5px 3px!important;gap:5px!important;
   overflow:hidden!important;border-radius:12px!important;
   background:#191a1e!important;color:#d8d3c8!important;
@@ -277,16 +278,16 @@ s.textContent=`
 #adminBottomNav .navText{
   display:block!important;flex:0 0 auto!important;width:100%!important;
   max-width:100%!important;margin:0!important;padding:0!important;
-  font-size:clamp(9px,.78vw,11px)!important;line-height:1.15!important;
+  font-size:clamp(8px,.72vw,10px)!important;line-height:1.12!important;
   text-align:center!important;white-space:normal!important;
   overflow-wrap:anywhere!important;word-break:normal!important;color:inherit!important;
 }
 body{padding-bottom:104px!important}
 @media(min-width:651px) and (max-width:1100px){
- #adminBottomNav{gap:5px!important;padding-left:7px!important;padding-right:7px!important}
+ #adminBottomNav{gap:4px!important;padding-left:5px!important;padding-right:5px!important}
  #adminBottomNav>a{padding:4px 2px!important}
  #adminBottomNav .navIcon{flex-basis:26px!important;width:26px!important;height:26px!important;min-width:26px!important;font-size:20px!important}
- #adminBottomNav .navText{font-size:10px!important}
+ #adminBottomNav .navText{font-size:9px!important}
 }
 @media(max-width:650px){
  #adminBottomNav{display:flex!important;justify-content:flex-start!important;gap:6px!important;
