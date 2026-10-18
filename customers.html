@@ -6902,32 +6902,29 @@ checkSession();
 
 
 <script>
-/* Remove the "طلبات جديدة" dashboard tile reliably, including late-rendered cards. */
+/* Hide the exact dashboard card for new requests, even when rendered asynchronously. */
 (function(){
   function removeNewRequestsTile(){
-    var nodes=Array.from(document.querySelectorAll('body *')).filter(function(el){
-      if(el.children.length>2) return false;
-      var t=(el.innerText||el.textContent||'').replace(/\\s+/g,' ').trim();
-      return t==='طلبات جديدة' || t==='طلبات جديده';
-    });
-    nodes.forEach(function(el){
-      var tile=el.closest('.stat-card, .stat, .dashboard-card, .box, .card, .summary-card, .metric-card');
-      if(!tile){
-        tile=el.parentElement;
-        while(tile && tile!==document.body && tile.children.length<=5 && tile.getBoundingClientRect().height<260){
-          if(tile.querySelector('strong, b, .value, .number')) break;
-          tile=tile.parentElement;
-        }
+    document.querySelectorAll('body *').forEach(function(el){
+      if(el.children.length > 2) return;
+      var label=(el.innerText || el.textContent || '').replace(/\s+/g,' ').trim();
+      if(label !== 'طلبات جديدة' && label !== 'طلبات جديده') return;
+      var tile=el;
+      for(var depth=0; depth<5 && tile.parentElement && tile.parentElement!==document.body; depth++){
+        var parent=tile.parentElement;
+        if(parent.children.length <= 6 && parent.getBoundingClientRect().height < 320) tile=parent;
+        else break;
       }
-      if(tile && tile!==document.body && tile.parentElement) tile.remove();
+      tile.style.setProperty('display','none','important');
+      tile.setAttribute('aria-hidden','true');
     });
   }
   removeNewRequestsTile();
-  document.addEventListener('DOMContentLoaded',removeNewRequestsTile);
+  new MutationObserver(removeNewRequestsTile).observe(document.documentElement,{childList:true,subtree:true,characterData:true});
   window.addEventListener('load',removeNewRequestsTile);
-  new MutationObserver(removeNewRequestsTile).observe(document.documentElement,{childList:true,subtree:true});
-  setTimeout(removeNewRequestsTile,500);
-  setTimeout(removeNewRequestsTile,1500);
+  setTimeout(removeNewRequestsTile,300);
+  setTimeout(removeNewRequestsTile,1000);
+  setTimeout(removeNewRequestsTile,2500);
 })();
 </script>
 
