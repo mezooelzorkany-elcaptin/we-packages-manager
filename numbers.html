@@ -690,6 +690,14 @@ html.dark-mode .overview-card,html.dark-mode .smart-box{background:#201b2b!impor
 @media(max-width:900px){.group-content{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.group-content{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:8px}.number-tile{padding:11px;border-radius:15px;gap:9px}.number-tile-phone{font-size:15px}.number-tile-meta{grid-template-columns:1fr;gap:6px}.number-tile-stat{padding:8px}.number-tile-stat strong{font-size:13px}.number-tile-open{font-size:12px;padding:7px 9px}#numberDetailsModal .modal-box{padding:15px}}
 @media(max-width:360px){.number-tile-phone{font-size:13px}.number-tile{padding:8px}}
+
+/* Keep renewal groups permanently expanded; no collapse arrow */
+.group-content{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:12px!important}
+.group-header{cursor:default!important}
+.group-header .arrow{display:none!important}
+.group.open .group-content{display:grid!important}
+@media(max-width:900px){.group-content{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:560px){.group-content{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;padding:8px!important}}
 </style>
 </head>
 
