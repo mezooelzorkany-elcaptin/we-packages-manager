@@ -1448,7 +1448,7 @@ function renderNumbers(){
 
 
 function renderDashboard(){
- const rows=numbers.map(n=>{const linked=getLinkedCustomers(n.phone),total=getTotalGB(n),dist=linked.reduce((a,c)=>a+(Number(c.allocated_gb)||0),0);return {n,count:linked.length,total,remaining:Math.max(0,total-dist),active:n.is_active!==false};});
+ const rows=numbers.map(n=>{const linked=getLinkedCustomers(n.phone),total=getTotalGB(n),dist=linked.reduce((a,c)=>a+(Number(c.allocated_gb)||0),0);return {n,count:linked.length,total,remaining:Math.max(0,total-dist-getUsedGB(n)),active:n.is_active!==false};});
  document.getElementById("statTotal").textContent=numbers.length;
  document.getElementById("statAvailable").textContent=rows.filter(x=>x.active&&x.count<6&&x.total>0&&x.remaining>0).length;
  document.getElementById("statFull").textContent=rows.filter(x=>x.count>=6).length;
@@ -1456,7 +1456,7 @@ function renderDashboard(){
 }
 function setDashboardFilter(filter){
  if(filter==="all"){renderNumbers();return;}
- const list=numbers.filter(n=>{const linked=getLinkedCustomers(n.phone),total=getTotalGB(n),dist=linked.reduce((a,c)=>a+(Number(c.allocated_gb)||0),0),remaining=Math.max(0,total-dist);return filter==="available"?n.is_active!==false&&linked.length<6&&total>0&&remaining>0:linked.length>=6;});
+ const list=numbers.filter(n=>{const linked=getLinkedCustomers(n.phone),total=getTotalGB(n),dist=linked.reduce((a,c)=>a+(Number(c.allocated_gb)||0),0),remaining=Math.max(0,total-dist-getUsedGB(n));return filter==="available"?n.is_active!==false&&linked.length<6&&total>0&&remaining>0:linked.length>=6;});
  document.getElementById("content1").innerHTML=list.filter(n=>getGroup(n)===1).map(renderNumberCard).join("")||'<div class="empty">لا توجد أرقام مطابقة</div>';
  document.getElementById("content16").innerHTML=list.filter(n=>getGroup(n)===16).map(renderNumberCard).join("")||'<div class="empty">لا توجد أرقام مطابقة</div>';
  document.getElementById("count1").textContent=list.filter(n=>getGroup(n)===1).length+" رقم";document.getElementById("count16").textContent=list.filter(n=>getGroup(n)===16).length+" رقم";
@@ -1465,7 +1465,7 @@ function setDashboardFilter(filter){
 function recommendNumbers(){
  const gb=Number(document.getElementById("smartGB").value),group=Number(document.getElementById("smartGroup").value),box=document.getElementById("smartResults");
  if(!Number.isFinite(gb)||gb<=0){box.textContent="اكتب سعة صحيحة أكبر من صفر.";return;}
- const list=numbers.map(n=>{const linked=getLinkedCustomers(n.phone),dist=linked.reduce((a,c)=>a+(Number(c.allocated_gb)||0),0);return {n,linked,remaining:Math.max(0,getTotalGB(n)-dist)};})
+ const list=numbers.map(n=>{const linked=getLinkedCustomers(n.phone),dist=linked.reduce((a,c)=>a+(Number(c.allocated_gb)||0),0);return {n,linked,remaining:Math.max(0,getTotalGB(n)-dist-getUsedGB(n))};})
  .filter(x=>getGroup(x.n)===group&&x.n.is_active!==false&&x.linked.length<6&&getTotalGB(x.n)>0&&x.remaining>=gb).sort((a,b)=>(a.remaining-gb)-(b.remaining-gb)||a.linked.length-b.linked.length);
  if(!list.length){box.textContent="لا يوجد رقم نشط في الجروب المختار بسعة كافية وأقل من 6 عملاء.";return;}
  box.innerHTML=list.slice(0,8).map(x=>'<div class="smart-result"><div><strong dir="ltr">'+escapeHtml(x.n.phone)+'</strong><small>متبقي '+formatGB(x.remaining)+' GB · '+x.linked.length+'/6 عملاء · بعد التوزيع '+formatGB(x.remaining-gb)+' GB</small></div><button onclick="copyRecommendedNumber(\''+escapeHtml(x.n.phone)+'\')">نسخ الرقم</button></div>').join("");
@@ -2154,13 +2154,16 @@ async function saveNumber(){
                 selectedGroup,
                 totalGB
             );
+        const existingNumber = editId ? numbers.find(n => Number(n.id) === Number(editId)) : null;
+        const preservedUsedGB = existingNumber ? getUsedGB(existingNumber) : 0;
+        const finalSavedNotes = savedNotes.replace(/\\[USED_GB:[0-9]+(?:\\.[0-9]+)?\\]/, "[USED_GB:" + preservedUsedGB + "]");
 
 
         const payload = {
 
             phone:phone,
 
-            notes:savedNotes,
+            notes:finalSavedNotes,
 
             is_active:
                 selectedStatus === "active"
