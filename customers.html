@@ -6902,22 +6902,32 @@ checkSession();
 
 
 <script>
-/* Remove only the top dashboard tile labelled "طلبات جديدة". */
+/* Remove the "طلبات جديدة" dashboard tile reliably, including late-rendered cards. */
 (function(){
   function removeNewRequestsTile(){
-    var candidates=Array.from(document.querySelectorAll('body *')).filter(function(el){
-      if(el.children.length>4) return false;
-      var t=(el.innerText||el.textContent||'').replace(/\s+/g,' ').trim();
+    var nodes=Array.from(document.querySelectorAll('body *')).filter(function(el){
+      if(el.children.length>2) return false;
+      var t=(el.innerText||el.textContent||'').replace(/\\s+/g,' ').trim();
       return t==='طلبات جديدة' || t==='طلبات جديده';
     });
-    candidates.forEach(function(el){
+    nodes.forEach(function(el){
       var tile=el.closest('.stat-card, .stat, .dashboard-card, .box, .card, .summary-card, .metric-card');
-      if(tile && tile.parentElement) tile.remove();
+      if(!tile){
+        tile=el.parentElement;
+        while(tile && tile!==document.body && tile.children.length<=5 && tile.getBoundingClientRect().height<260){
+          if(tile.querySelector('strong, b, .value, .number')) break;
+          tile=tile.parentElement;
+        }
+      }
+      if(tile && tile!==document.body && tile.parentElement) tile.remove();
     });
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',removeNewRequestsTile);
-  else removeNewRequestsTile();
+  removeNewRequestsTile();
+  document.addEventListener('DOMContentLoaded',removeNewRequestsTile);
+  window.addEventListener('load',removeNewRequestsTile);
   new MutationObserver(removeNewRequestsTile).observe(document.documentElement,{childList:true,subtree:true});
+  setTimeout(removeNewRequestsTile,500);
+  setTimeout(removeNewRequestsTile,1500);
 })();
 </script>
 
