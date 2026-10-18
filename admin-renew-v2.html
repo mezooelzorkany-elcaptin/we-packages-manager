@@ -43,13 +43,15 @@ html.dark-mode .pay{background:#334155;color:#fff;border-color:#475569}
 html.dark-mode .pay.active{background:#14532d;color:#bbf7d0;border-color:#166534}
 @media(max-width:700px){.payment{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}.full{grid-column:auto}.wrap{padding:16px 12px 45px}.card{padding:18px;border-radius:20px}.customer{padding:20px}.title{font-size:22px}.top{align-items:center}.field input,.field select{height:50px}}
 @media(max-width:430px){.top{flex-direction:column;align-items:stretch}.back{width:100%}.payment{grid-template-columns:1fr 1fr}.pay{font-size:13px}}html.dark-mode body{background:#0f172a!important;color:#f8fafc!important}html.dark-mode .card{background:#1e293b!important;border-color:#334155!important}html.dark-mode .field input,html.dark-mode .field select,html.dark-mode .field textarea{background:#334155!important;color:#fff!important;border-color:#475569!important}html.dark-mode .pay{background:#334155;color:#fff;border-color:#475569}html.dark-mode .pay.active{background:#14532d;color:#bbf7d0;border-color:#166534}@media(max-width:600px){.grid,.payment{grid-template-columns:1fr}.full{grid-column:auto}.top{align-items:flex-start}.title{font-size:21px}}
+
+.primary-number-panel{background:#f4efff;border:1px solid #d8c8ff;border-radius:15px;padding:15px;margin:14px 0}.primary-number-panel label{display:block;font-weight:900;margin-bottom:8px}.primary-number-panel select{width:100%;height:48px;border:1px solid #cfc0ee;border-radius:11px;padding:0 12px;background:#fff;color:#222;font-size:15px}.primary-number-question{display:none;gap:10px;margin-top:13px;padding:12px;background:#fff;border-radius:11px;line-height:1.7}.primary-number-question.show{display:grid}.primary-number-question label{display:flex;align-items:center;gap:8px;font-weight:500;margin:0}.primary-number-note{font-size:12px;color:#6b5a85;line-height:1.7;margin-top:8px}html.dark-mode .primary-number-panel{background:#292235!important;border-color:#493a5d!important}html.dark-mode .primary-number-panel select{background:#334155!important;color:#fff!important;border-color:#475569!important}html.dark-mode .primary-number-question{background:#1e293b!important}
 </style>
 </head>
 <body>
 <main class="wrap">
 <div class="top"><div class="title">🔄 تجديد العميل</div><button class="back" onclick="location.href='customers.html'">↩️ رجوع للعملاء</button></div>
 <section id="customerCard" class="card customer"><h2 id="name">جاري تحميل العميل...</h2><p id="phone"></p><p id="package"></p><p id="currentRenewal"></p></section>
-<section id="formCard" class="card"><div class="section-title">📋 بيانات التجديد</div><div class="grid">
+<section id="formCard" class="card"><div class="section-title">📋 بيانات التجديد</div><div class="primary-number-panel"><label for="renewPrimaryNumber">📲 الرقم الأساسي اللي هتجدد عليه</label><select id="renewPrimaryNumber"><option value="">جاري تحميل الأرقام...</option></select><div class="primary-number-note" id="primaryNumberHint">تقدر تختار رقمًا أساسيًا مختلفًا أثناء التجديد. تغيير الرقم لن يتم إلا بعد تأكيد العملية.</div><div class="primary-number-question" id="primaryNumberQuestion"><strong>هل العميل استهلك الجيجات المخصصة له على الرقم القديم؟</strong><p style="margin:0;font-size:13px">لو استهلكها، هنسجلها كاستهلاك على الرقم القديم عشان ما ترجعش للمخزون المتاح.</p><label><input type="radio" name="primaryConsumed" value="yes"> أيوه، استهلكها — ثبّت الخصم</label><label><input type="radio" name="primaryConsumed" value="no" checked> لأ، لسه ما استهلكهاش</label></div></div><div class="grid">
 <div class="field"><label>💰 مبلغ التجديد</label><input id="amount" type="number" min="0" step="0.01"></div>
 <div class="field"><label>📅 التجديد القادم</label><input id="next" type="date"></div>
 <div class="field"><label>📌 نظام التجديد</label><select id="renewalType"><option value="day_1">يوم 1</option><option value="day_16">يوم 16</option><option value="custom">تاريخ مخصص</option></select></div>
@@ -85,6 +87,8 @@ var $=function(id){return document.getElementById(id);};
 var params=new URLSearchParams(window.location.search);
 var customerId=params.get('customer_id') || params.get('id') || sessionStorage.getItem('renew_customer_id');
 var customer=null;
+var primaryNumbers=[];
+var primaryOriginal='';
 var payment='الدفع النقدي';
 var db=supabase.createClient(U,K,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
 
@@ -145,11 +149,30 @@ async function dbUpdateCustomer(row){
   customer=result.data;
   return result.data;
 }
+
+function cleanPhone(value){return String(value||'').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/\D/g,'');}
+function primaryGroup(n){var m=String(n&&n.notes||'').match(/\[GROUP:(1|16)\]/);return m?Number(m[1]):1;}
+function primaryTotal(n){var m=String(n&&n.notes||'').match(/\[TOTAL_GB:([0-9]+(?:\.[0-9]+)?)\]/);return m?Math.max(0,Number(m[1])||0):0;}
+function primaryUsed(n){var m=String(n&&n.notes||'').match(/\[USED_GB:([0-9]+(?:\.[0-9]+)?)\]/);return m?Math.max(0,Number(m[1])||0):0;}
+function customerGroup(){var t=String(customer&&customer.renewal_type||'').toLowerCase();if(t==='day_16')return 16;if(t==='day_1')return 1;return Number(customer&&customer.renewal_day)===16?16:1;}
+async function loadPrimaryNumbers(){
+ var select=$('renewPrimaryNumber');
+ try{
+  var result=await db.from('primary_numbers').select('*').order('id',{ascending:false});if(result.error)throw result.error;primaryNumbers=Array.isArray(result.data)?result.data:[];
+  var all=await db.from('customers').select('id,primary_number,allocated_gb,deleted_at');if(all.error)throw all.error;var active=(all.data||[]).filter(x=>!x.deleted_at);
+  primaryOriginal=cleanPhone(customer&&customer.primary_number);var group=customerGroup(),need=Math.max(0,Number(customer&&customer.allocated_gb)||0);
+  var options=primaryNumbers.map(n=>{var linked=active.filter(x=>cleanPhone(x.primary_number)===cleanPhone(n.phone));var assigned=linked.reduce((sum,x)=>sum+Math.max(0,Number(x.allocated_gb)||0),0);return {n:n,linked:linked,remaining:Math.max(0,primaryTotal(n)-assigned-primaryUsed(n))};}).filter(x=>{var current=cleanPhone(x.n.phone)===primaryOriginal;return current||(x.n.is_active!==false&&primaryGroup(x.n)===group&&x.linked.length<6&&primaryTotal(x.n)>0&&x.remaining>=need);}).sort((a,b)=>cleanPhone(a.n.phone)===primaryOriginal?-1:cleanPhone(b.n.phone)===primaryOriginal?1:a.remaining-b.remaining);
+  select.innerHTML=options.length?options.map(x=>'<option value="'+esc(x.n.phone)+'" '+(cleanPhone(x.n.phone)===primaryOriginal?'selected':'')+'>'+esc(x.n.phone)+(cleanPhone(x.n.phone)===primaryOriginal?' — الرقم الحالي':' — متبقي '+x.remaining+' GB')+'</option>').join(''):'<option value="">لا توجد أرقام أساسية مناسبة</option>';
+  select.onchange=function(){$('primaryNumberQuestion').classList.toggle('show',cleanPhone(select.value)!==primaryOriginal);};
+ }catch(e){select.innerHTML='<option value="">تعذر تحميل الأرقام الأساسية</option>';$('primaryNumberHint').textContent='تعذر تحميل قائمة الأرقام: '+(e.message||e);}
+}
+
 async function load(){
   try{
     if(!customerId) throw new Error('لم يتم تمرير رقم العميل. ارجع لصفحة العملاء واضغط «تجديد الآن» من نفس العميل.');
     await requireAdmin();
     customer=await dbSelectCustomer();
+    await loadPrimaryNumbers();
     sessionStorage.removeItem('renew_customer_id');
     sessionStorage.removeItem('renew_customer_snapshot');
     $('name').textContent='👤 '+(customer.subscriber_name||'بدون اسم');
@@ -210,6 +233,7 @@ async function save(){
     if(next.length!==10||next.charAt(4)!=='-'||next.charAt(7)!=='-') throw new Error('صيغة تاريخ التجديد غير صحيحة');
     var parsedNext=new Date(next+'T00:00:00');
     if(Number.isNaN(parsedNext.getTime())||dateText(parsedNext)!==next) throw new Error('تاريخ التجديد غير صحيح');
+    var chosenPrimary=cleanPhone($('renewPrimaryNumber').value);var oldPrimary=cleanPhone(customer.primary_number);var changingPrimary=!!chosenPrimary&&chosenPrimary!==oldPrimary;var consumed=document.querySelector('input[name="primaryConsumed"]:checked')?.value==='yes';if(changingPrimary&&!primaryNumbers.some(function(n){return cleanPhone(n.phone)===chosenPrimary;}))throw new Error('اختار رقمًا أساسيًا صحيحًا');if(changingPrimary&&consumed&&!primaryNumbers.some(function(n){return cleanPhone(n.phone)===oldPrimary;}))throw new Error('الرقم القديم غير موجود في سجل الأرقام؛ لا يمكن تثبيت الاستهلاك بأمان');
     var now=new Date().toISOString();
     var order='REN-'+Date.now().toString(36).toUpperCase();
     var shot=null;
@@ -235,13 +259,13 @@ async function save(){
     }
     await dbInsert('orders',{
       order_number:order,customer_id:customer.id,subscriber_name:customer.subscriber_name,
-      phone:customer.phone,package_name:customer.package_name,package_gb:customer.allocated_gb,
+      phone:customer.phone,primary_number:chosenPrimary||customer.primary_number||null,package_name:customer.package_name,package_gb:customer.allocated_gb,
       original_price:amount,final_price:amount,payment_method:$('unpaid').checked?'آجل':payment,payment_screenshot:shot,
       renewal_type:renewalType,renewal_day:renewalDay,status:$('unpaid').checked?'payment_due':'completed'
     });
     await dbInsert('invoices',{
       order_number:order,customer_id:customer.id,customer_name:customer.subscriber_name,
-      phone:customer.phone,package_name:customer.package_name,package_gb:customer.allocated_gb,
+      phone:customer.phone,primary_number:chosenPrimary||customer.primary_number||null,package_name:customer.package_name,package_gb:customer.allocated_gb,
       original_price:amount,discount_code:null,discount_amount:0,amount:amount,
       notes:($('unpaid').checked?'تجديد آجل — مسجل في دفتر الديون':'تجديد يدوي — '+payment)+($('notes').value.trim()?' — '+$('notes').value.trim():'')
     });
@@ -253,7 +277,8 @@ async function save(){
         notes:$('notes').value.trim()||null
       });
     }
-    await dbUpdateCustomer({
+    if(changingPrimary&&consumed){var oldRecord=primaryNumbers.find(function(n){return cleanPhone(n.phone)===oldPrimary;});var used=primaryUsed(oldRecord)+Math.max(0,Number(customer.allocated_gb)||0);var cleanNotes=String(oldRecord.notes||'').replace(/\\[USED_GB:[0-9]+(?:\\.[0-9]+)?\\]\\s*/g,'').trim();var updatedNotes='[GROUP:'+primaryGroup(oldRecord)+'] [TOTAL_GB:'+primaryTotal(oldRecord)+'] [USED_GB:'+used+']'+(cleanNotes?' '+cleanNotes:'');var ledger=await db.from('primary_numbers').update({notes:updatedNotes}).eq('id',oldRecord.id).select('id').maybeSingle();if(ledger.error||!ledger.data)throw new Error('تعذر تثبيت الجيجات المستهلكة على الرقم القديم: '+(ledger.error&&ledger.error.message||'لم يتم تأكيد الحفظ'));}
+    await dbUpdateCustomer({primary_number:chosenPrimary||customer.primary_number||null,
       payment_method:$('unpaid').checked?'آجل':payment,next_renewal_date:next,renewal_type:renewalType,
       renewal_day:renewalDay,last_renewed_at:now,last_order_at:now,
       total_orders:Number(customer.total_orders||0)+1,updated_at:now,status:'active',
@@ -276,6 +301,7 @@ async function save(){
   }
 }
 document.addEventListener('DOMContentLoaded',function(){
+  $('renewPrimaryNumber').addEventListener('change',function(){$('primaryNumberQuestion').classList.toggle('show',cleanPhone($('renewPrimaryNumber').value)!==primaryOriginal);});
   document.querySelectorAll('.pay').forEach(function(b){
     b.addEventListener('click',function(){
       document.querySelectorAll('.pay').forEach(function(x){x.classList.remove('active');});
