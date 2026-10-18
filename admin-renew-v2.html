@@ -4,6 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>تجديد العميل | CASH BACK V3</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="theme.js?v=20261019-1"></script>
 
 <style>
 *{box-sizing:border-box;font-family:Arial,Tahoma,sans-serif}
@@ -45,6 +46,7 @@ html.dark-mode .pay.active{background:#14532d;color:#bbf7d0;border-color:#166534
 @media(max-width:430px){.top{flex-direction:column;align-items:stretch}.back{width:100%}.payment{grid-template-columns:1fr 1fr}.pay{font-size:13px}}html.dark-mode body{background:#0f172a!important;color:#f8fafc!important}html.dark-mode .card{background:#1e293b!important;border-color:#334155!important}html.dark-mode .field input,html.dark-mode .field select,html.dark-mode .field textarea{background:#334155!important;color:#fff!important;border-color:#475569!important}html.dark-mode .pay{background:#334155;color:#fff;border-color:#475569}html.dark-mode .pay.active{background:#14532d;color:#bbf7d0;border-color:#166534}@media(max-width:600px){.grid,.payment{grid-template-columns:1fr}.full{grid-column:auto}.top{align-items:flex-start}.title{font-size:21px}}
 
 .primary-number-panel{background:#f4efff;border:1px solid #d8c8ff;border-radius:15px;padding:15px;margin:14px 0}.primary-number-panel label{display:block;font-weight:900;margin-bottom:8px}.primary-number-panel select{width:100%;height:48px;border:1px solid #cfc0ee;border-radius:11px;padding:0 12px;background:#fff;color:#222;font-size:15px}.primary-number-question{display:none;gap:10px;margin-top:13px;padding:12px;background:#fff;border-radius:11px;line-height:1.7}.primary-number-question.show{display:grid}.primary-number-question label{display:flex;align-items:center;gap:8px;font-weight:500;margin:0}.primary-number-note{font-size:12px;color:#6b5a85;line-height:1.7;margin-top:8px}html.dark-mode .primary-number-panel{background:#292235!important;border-color:#493a5d!important}html.dark-mode .primary-number-panel select{background:#334155!important;color:#fff!important;border-color:#475569!important}html.dark-mode .primary-number-question{background:#1e293b!important}
+html.dark-mode .primary-number-panel{color:#f8fafc!important}html.dark-mode .primary-number-panel label,html.dark-mode .primary-number-note{color:#e2d9f5!important}html.dark-mode .primary-number-question p{color:#cbd5e1!important}html.dark-mode .primary-number-question strong{color:#f8fafc!important}html.dark-mode .primary-number-panel select option{background:#1e293b!important;color:#f8fafc!important}html.dark-mode .field label{color:#e2e8f0!important}html.dark-mode .hint{color:#cbd5e1!important}html.dark-mode .skip{background:#422006!important;color:#fde68a!important;border-color:#92400e!important}html.dark-mode .success{background:#14532d!important;color:#bbf7d0!important}
 </style>
 </head>
 <body>
@@ -158,13 +160,38 @@ function customerGroup(){var t=String(customer&&customer.renewal_type||'').toLow
 async function loadPrimaryNumbers(){
  var select=$('renewPrimaryNumber');
  try{
-  var result=await db.from('primary_numbers').select('*').order('id',{ascending:false});if(result.error)throw result.error;primaryNumbers=Array.isArray(result.data)?result.data:[];
-  var all=await db.from('customers').select('id,primary_number,allocated_gb,deleted_at');if(all.error)throw all.error;var active=(all.data||[]).filter(x=>!x.deleted_at);
-  primaryOriginal=cleanPhone(customer&&customer.primary_number);var group=customerGroup(),need=Math.max(0,Number(customer&&customer.allocated_gb)||0);
-  var options=primaryNumbers.map(n=>{var linked=active.filter(x=>cleanPhone(x.primary_number)===cleanPhone(n.phone));var assigned=linked.reduce((sum,x)=>sum+Math.max(0,Number(x.allocated_gb)||0),0);return {n:n,linked:linked,remaining:Math.max(0,primaryTotal(n)-assigned-primaryUsed(n))};}).filter(x=>{var current=cleanPhone(x.n.phone)===primaryOriginal;return current||(x.n.is_active!==false&&primaryGroup(x.n)===group&&x.linked.length<6&&primaryTotal(x.n)>0&&x.remaining>=need);}).sort((a,b)=>cleanPhone(a.n.phone)===primaryOriginal?-1:cleanPhone(b.n.phone)===primaryOriginal?1:a.remaining-b.remaining);
-  select.innerHTML=options.length?options.map(x=>'<option value="'+esc(x.n.phone)+'" '+(cleanPhone(x.n.phone)===primaryOriginal?'selected':'')+'>'+esc(x.n.phone)+(cleanPhone(x.n.phone)===primaryOriginal?' — الرقم الحالي':' — متبقي '+x.remaining+' GB')+'</option>').join(''):'<option value="">لا توجد أرقام أساسية مناسبة</option>';
+  var result=await db.from('primary_numbers').select('*').order('id',{ascending:false});
+  if(result.error)throw result.error;
+  primaryNumbers=Array.isArray(result.data)?result.data:[];
+  var all=await db.from('customers').select('id,primary_number,allocated_gb,deleted_at,skip_renewal_month');
+  if(all.error)throw all.error;
+  var active=(all.data||[]).filter(x=>!x.deleted_at);
+  primaryOriginal=cleanPhone(customer&&customer.primary_number);
+  var group=customerGroup(),need=Math.max(0,Number(customer&&customer.allocated_gb)||0);
+  var options=primaryNumbers.map(n=>{
+   var linked=active.filter(x=>cleanPhone(x.primary_number)===cleanPhone(n.phone));
+   var assigned=linked.reduce((sum,x)=>sum+Math.max(0,Number(x.allocated_gb)||0),0);
+   var total=primaryTotal(n),used=primaryUsed(n),remaining=Math.max(0,total-assigned-used);
+   var current=cleanPhone(n.phone)===primaryOriginal;
+   var correctGroup=primaryGroup(n)===group;
+   var activeNumber=n.is_active!==false && String(n.is_active).toLowerCase()!=='false';
+   var enough=total>0&&remaining>=need;
+   var underLimit=linked.length<6;
+   var eligible=current||(activeNumber&&correctGroup&&enough&&underLimit);
+   var reason=!activeNumber?'غير نشط':!correctGroup?'تفعيل يوم '+primaryGroup(n)+' فقط':total<=0?'سعة الباقة غير مسجلة':!underLimit?'الرقم مكتمل (6 عملاء)':!enough?'المتبقي '+remaining+' GB فقط':'متاح للتجديد';
+   return {n:n,linked:linked,remaining:remaining,current:current,eligible:eligible,reason:reason};
+  }).sort((a,b)=>a.current?-1:b.current?1:Number(b.eligible)-Number(a.eligible)||a.remaining-b.remaining);
+  select.innerHTML=options.length?options.map(x=>{
+   var label=String(x.n.phone||'رقم بدون بيانات')+(x.current?' — الرقم الحالي':' — '+x.reason+(x.eligible?' ('+x.remaining+' GB متبقي)':''));
+   return '<option value="'+esc(x.n.phone)+'" '+(x.current?'selected':'')+(!x.eligible?' disabled':'')+'>'+esc(label)+'</option>';
+  }).join(''):'<option value="">لا توجد أرقام أساسية مسجلة</option>';
+  var eligibleCount=options.filter(x=>x.eligible&&!x.current).length;
+  $('primaryNumberHint').textContent=eligibleCount?'تم تحميل '+options.length+' رقمًا؛ المتاح للنقل لهذا العميل: '+eligibleCount+' رقم. الأرقام غير المناسبة ظاهرة ومعها سبب عدم إتاحتها.':'تم تحميل '+options.length+' رقمًا، لكن لا يوجد رقم آخر مؤهل حاليًا. راجع مجموعة التفعيل والسعة المتبقية وحالة الرقم.';
   select.onchange=function(){$('primaryNumberQuestion').classList.toggle('show',cleanPhone(select.value)!==primaryOriginal);};
- }catch(e){select.innerHTML='<option value="">تعذر تحميل الأرقام الأساسية</option>';$('primaryNumberHint').textContent='تعذر تحميل قائمة الأرقام: '+(e.message||e);}
+ }catch(e){
+  select.innerHTML='<option value="">تعذر تحميل الأرقام الأساسية</option>';
+  $('primaryNumberHint').textContent='تعذر تحميل قائمة الأرقام: '+(e.message||e);
+ }
 }
 
 async function load(){
