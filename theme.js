@@ -203,7 +203,6 @@ const items=[
 ['package-stats.html','📊','إحصائية الباقات'],
 ['invoices.html','🧾','الفواتير'],
 ['finances.html','💰','الماليات'],
-['package-debts.html','📒','ديون الباقات'],
 ['admin.html','🔢','الأكواد'],
 ['inbox.html','💬','التواصل والمتابعة']
 ];
@@ -248,7 +247,7 @@ s.textContent=`
 #adminBottomNav{
   box-sizing:border-box!important;position:fixed!important;z-index:99999!important;
   inset:auto 0 0 0!important;display:grid!important;
-  grid-template-columns:repeat(9,minmax(0,1fr))!important;
+  grid-template-columns:repeat(8,minmax(0,1fr))!important;
   align-items:stretch!important;justify-content:initial!important;
   gap:8px!important;width:100%!important;height:92px!important;min-height:92px!important;
   margin:0!important;padding:8px 12px calc(8px + env(safe-area-inset-bottom))!important;
