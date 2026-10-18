@@ -208,16 +208,19 @@ async function loadPrimaryNumbers(){
    var activeNumber=n.is_active!==false && String(n.is_active).toLowerCase()!=='false';
    var enough=total>0&&remaining>=need;
    var underLimit=linked.length<6;
-   var eligible=current||(activeNumber&&correctGroup&&enough&&underLimit);
-   var reason=!activeNumber?'غير نشط':!correctGroup?'تفعيل يوم '+primaryGroup(n)+' فقط':total<=0?'سعة الباقة غير مسجلة':!underLimit?'الرقم مكتمل (6 عملاء)':!enough?'المتبقي '+remaining+' GB فقط':'متاح للتجديد';
-   return {n:n,linked:linked,remaining:remaining,current:current,eligible:eligible,reason:reason};
-  }).sort((a,b)=>a.current?-1:b.current?1:Number(b.eligible)-Number(a.eligible)||a.remaining-b.remaining);
-  select.innerHTML=options.length?options.map(x=>{
-   var label=String(x.n.phone||'رقم بدون بيانات')+(x.current?' — الرقم الحالي':' — '+x.reason+(x.eligible?' ('+x.remaining+' GB متبقي)':''));
-   return '<option value="'+esc(x.n.phone)+'" '+(x.current?'selected':'')+(!x.eligible?' disabled':'')+'>'+esc(label)+'</option>';
-  }).join(''):'<option value="">لا توجد أرقام أساسية مسجلة</option>';
-  var eligibleCount=options.filter(x=>x.eligible&&!x.current).length;
-  $('primaryNumberHint').textContent=eligibleCount?'تم تحميل '+options.length+' رقمًا؛ المتاح للنقل لهذا العميل: '+eligibleCount+' رقم. الأرقام غير المناسبة ظاهرة ومعها سبب عدم إتاحتها.':'تم تحميل '+options.length+' رقمًا، لكن لا يوجد رقم آخر مؤهل حاليًا. راجع مجموعة التفعيل والسعة المتبقية وحالة الرقم.';
+   var details=[];
+   if(current)details.push('الرقم الحالي');
+   if(!activeNumber)details.push('غير نشط');
+   details.push('تفعيل يوم '+primaryGroup(n));
+   details.push('المتبقي '+remaining+' GB');
+   if(!underLimit)details.push('عدد العملاء '+linked.length+' (مكتمل)');
+   else details.push('عدد العملاء '+linked.length);
+   if(!correctGroup)details.push('يوم التفعيل مختلف');
+   if(!enough)details.push('المتبقي أقل من سعة العميل');
+   return {n:n,current:current,label:String(n.phone||'رقم بدون بيانات')+' — '+details.join(' | ')};
+  }).sort((a,b)=>a.current?-1:b.current?1:String(a.n.phone||'').localeCompare(String(b.n.phone||'')));
+  select.innerHTML=options.length?options.map(x=>'<option value="'+esc(x.n.phone)+'" '+(x.current?'selected':'')+'>'+esc(x.label)+'</option>').join(''):'<option value="">لا توجد أرقام أساسية مسجلة</option>';
+  $('primaryNumberHint').textContent=options.length?'تم عرض كل الأرقام الأساسية المسجلة بدون منع الاختيار. تفاصيل كل رقم موضحة بجواره؛ اختر الرقم الذي تريده.':'لا توجد أرقام أساسية مسجلة في قاعدة البيانات.';
   select.onchange=function(){$('primaryNumberQuestion').classList.toggle('show',cleanPhone(select.value)!==primaryOriginal);};
  }catch(e){
   select.innerHTML='<option value="">تعذر تحميل الأرقام الأساسية</option>';
