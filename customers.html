@@ -3741,27 +3741,22 @@ async function login(){
       throw result.error;
 
 
-    const userEmail =
-      String(
-        result.data.user?.email ||
-        ""
-      )
-      .trim()
-      .toLowerCase();
+    const signedInUser = result.data.user;
+    const roleResult = await db
+      .from("cb_app_roles")
+      .select("role,active")
+      .eq("user_id", signedInUser.id)
+      .maybeSingle();
 
+    if(roleResult.error) throw roleResult.error;
+    const appRole = roleResult.data;
 
-    if(
-      userEmail !==
-      ADMIN_EMAIL.toLowerCase()
-    ){
-
+    if(!appRole || !appRole.active || !["owner","partner"].includes(appRole.role)){
       await db.auth.signOut();
-
-      throw new Error(
-        "هذا الحساب غير مسموح له بالدخول"
-      );
-
+      throw new Error("هذا الحساب غير مفعّل للوحة الإدارة. تواصل مع المالك.");
     }
+
+    sessionStorage.setItem("cashback-app-role", appRole.role);
 
 
     message.style.color =
@@ -3798,6 +3793,11 @@ async function login(){
 
 function showApp(){
 
+  const appRole = sessionStorage.getItem("cashback-app-role") || "owner";
+  document.querySelectorAll('a[href="finances.html"], a[href="package-debts.html"]').forEach(link => {
+    if(appRole !== "owner") link.style.display = "none";
+  });
+
   // After authentication, keep the user inside the packages system.
   // The system chooser is a separate page and should not appear from
   // the Customers navigation or when returning from another packages page.
@@ -3822,25 +3822,22 @@ async function checkSession(){
       return;
 
 
-    const email =
-      String(
-        session.user?.email ||
-        ""
-      ).toLowerCase();
+    const roleResult = await db
+      .from("cb_app_roles")
+      .select("role,active")
+      .eq("user_id", session.user.id)
+      .maybeSingle();
 
+    if(roleResult.error) throw roleResult.error;
+    const appRole = roleResult.data;
 
-    if(
-      email !==
-      ADMIN_EMAIL.toLowerCase()
-    ){
-
+    if(!appRole || !appRole.active || !["owner","partner"].includes(appRole.role)){
       await db.auth.signOut();
-
+      sessionStorage.removeItem("cashback-app-role");
       return;
-
     }
 
-
+    sessionStorage.setItem("cashback-app-role", appRole.role);
     showApp();
 
 
@@ -3861,6 +3858,7 @@ async function logout(){
 
   }catch(e){}
 
+  sessionStorage.removeItem("cashback-app-role");
   location.reload();
 
 }
