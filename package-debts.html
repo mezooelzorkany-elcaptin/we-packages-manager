@@ -122,7 +122,7 @@ const $=id=>document.getElementById(id);
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 const money=v=>Number(v||0).toLocaleString('ar-EG',{maximumFractionDigits:2})+' ج.م';
 function message(text,error){$('msg').style.display='block';$('msg').className='msg '+(error?'err':'ok');$('msg').textContent=text;}
-async function auth(){const {data,error}=await db.auth.getSession();if(error||!data.session||String(data.session.user?.email||'').toLowerCase()!==ADMIN){location.replace('customers.html');throw new Error('يجب تسجيل الدخول بحساب الإدارة');}document.body.style.visibility='visible';}
+async function auth(){const {data,error}=await db.auth.getSession();if(error||!data.session){location.replace('customers.html');throw new Error('سجّل الدخول أولاً من صفحة الإدارة');}const rr=await db.from('cb_app_roles').select('role,active').eq('user_id',data.session.user.id).maybeSingle();if(rr.error)throw new Error('تعذر التحقق من الصلاحية: '+rr.error.message);if(!rr.data||!rr.data.active||!['owner','partner'].includes(rr.data.role)){location.replace('customers.html');throw new Error('الحساب غير مفعّل لدفتر الديون');}document.body.style.visibility='visible';}
 window.packageDebtDb=db;window.packageDebtAuth=auth;
 async function load(){try{await auth();const {data,error}=await db.from('package_debts').select('*').order('created_at',{ascending:false});if(error)throw error;rows=data||[];render();}catch(e){message('تعذر تحميل دفتر الديون: '+(e.message||e),true);$('list').innerHTML='<div class="empty">تعذر تحميل الديون. تأكد من نشر إعدادات قاعدة البيانات ثم حدّث الصفحة.</div>';}}
 window.packageDebtLoad=load;
