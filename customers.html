@@ -3832,8 +3832,11 @@ async function login(){
 function showApp(){
 
   const appRole = sessionStorage.getItem("cashback-app-role") || "owner";
-  document.querySelectorAll('a[href="finances.html"], a[href="package-debts.html"]').forEach(link => {
+  document.querySelectorAll('a[href="finances.html"]').forEach(link => {
     if(appRole !== "owner") link.style.display = "none";
+  });
+  document.querySelectorAll('a[href="package-debts.html"]').forEach(link => {
+    link.style.display = "";
   });
 
   // After authentication, keep the user inside the packages system.
