@@ -23,8 +23,10 @@
   </section>
 </div>
 <style>
-.picker-overlay{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(8,9,22,.76);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+.picker-overlay{position:fixed;inset:0;z-index:1000000;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(8,9,22,.76);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
 .picker-overlay.open{display:flex;animation:pickerFade .18s ease-out}
+/* اخفاء شريط التنقل السفلي أثناء نافذة اختيار العميل */
+body.picker-open #adminBottomNav{display:none!important;visibility:hidden!important;pointer-events:none!important}
 .picker-modal{width:min(900px,96vw);max-height:min(850px,92vh);display:flex;flex-direction:column;overflow:hidden;border-radius:26px;border:1px solid #bca8ff66;background:linear-gradient(145deg,#292747 0%,#1b2039 55%,#171a30 100%);box-shadow:0 32px 100px #0009,0 0 0 1px #ffffff08;animation:pickerRise .22s ease-out}
 .picker-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:25px 28px 20px;background:radial-gradient(ellipse at top right,#5a438b66,transparent 70%);border-bottom:1px solid #ffffff16}
 .picker-kicker{font-size:11px;font-weight:900;letter-spacing:1.2px;color:#c6b2ff;margin-bottom:8px}
@@ -80,8 +82,8 @@ function selectPickerCustomer(id){
  byId('pickerSelected').textContent='✓ العميل المختار: '+pickerState.selected.subscriber_name+' · '+(pickerState.selected.phone||'بدون رقم')+' · '+(pickerState.selected.package_name||'بدون باقة');
  renderPickerCustomers();byId('pickerAmount').focus();
 }
-function closePicker(){byId('customerPicker').classList.remove('open');byId('customerPicker').setAttribute('aria-hidden','true');document.body.style.overflow='';}
-function openPicker(){byId('customerPicker').classList.add('open');byId('customerPicker').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';byId('pickerSearch').value='';byId('pickerSelected').hidden=true;byId('pickerForm').hidden=true;byId('pickerAmount').value='';byId('pickerNotes').value='تجديد مسجل بدون تسجيل الدين';pickerState.selected=null;renderPickerCustomers();byId('pickerSearch').focus();}
+function closePicker(){byId('customerPicker').classList.remove('open');byId('customerPicker').setAttribute('aria-hidden','true');document.body.classList.remove('picker-open');document.body.style.overflow='';}
+function openPicker(){document.body.classList.add('picker-open');byId('customerPicker').classList.add('open');byId('customerPicker').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';byId('pickerSearch').value='';byId('pickerSelected').hidden=true;byId('pickerForm').hidden=true;byId('pickerAmount').value='';byId('pickerNotes').value='تجديد مسجل بدون تسجيل الدين';pickerState.selected=null;renderPickerCustomers();byId('pickerSearch').focus();}
 function notifyPicker(text,error){const m=byId('msg');m.style.display='block';m.className='msg '+(error?'err':'ok');m.textContent=text;window.scrollTo({top:0,behavior:'smooth'});}
 byId('addDebt').addEventListener('click',async()=>{
  openPicker();
