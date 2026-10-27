@@ -1656,6 +1656,33 @@ body:has(#loginScreen:not([style*="display: none"])) #adminBottomNavPlaceholder 
 #loginScreen .logo-fallback .cash,#loginScreen .logo-fallback .back{color:#f0d27a!important}
 </style>
 
+<style id="cashback-password-visibility">
+.password-field{position:relative;width:100%;margin:6px 0}
+#loginScreen .password-field input{width:100%;margin:0;padding-left:54px!important;box-sizing:border-box}
+#loginScreen .password-toggle{
+  position:absolute!important;left:8px!important;top:50%!important;transform:translateY(-50%)!important;
+  width:38px!important;height:38px!important;min-width:38px!important;padding:0!important;margin:0!important;
+  display:grid!important;place-items:center!important;border-radius:10px!important;
+  background:transparent!important;color:#f0d27a!important;border:1px solid transparent!important;
+  box-shadow:none!important;font-size:19px!important;line-height:1!important;cursor:pointer!important
+}
+#loginScreen .password-toggle:hover{background:rgba(240,210,122,.12)!important;border-color:rgba(240,210,122,.3)!important}
+</style>
+<script>
+function togglePasswordVisibility(){
+  const input=document.getElementById("password");
+  const button=document.getElementById("togglePassword");
+  if(!input||!button)return;
+  const show=input.type==="password";
+  input.type=show?"text":"password";
+  button.textContent=show?"🙈":"👁";
+  button.setAttribute("aria-pressed",String(show));
+  button.setAttribute("aria-label",show?"إخفاء كلمة المرور":"إظهار كلمة المرور");
+  button.title=show?"إخفاء كلمة المرور":"إظهار كلمة المرور";
+  input.focus();
+}
+</script>
+
 </head>
 
 
@@ -1703,12 +1730,23 @@ body:has(#loginScreen:not([style*="display: none"])) #adminBottomNavPlaceholder 
       placeholder="البريد الإلكتروني"
     >
 
-    <input
-      id="password"
-      type="password"
-      autocomplete="current-password"
-      placeholder="كلمة المرور"
-    >
+    <div class="password-field">
+      <input
+        id="password"
+        type="password"
+        autocomplete="current-password"
+        placeholder="كلمة المرور"
+      >
+      <button
+        id="togglePassword"
+        class="password-toggle"
+        type="button"
+        aria-label="إظهار كلمة المرور"
+        aria-pressed="false"
+        title="إظهار كلمة المرور"
+        onclick="togglePasswordVisibility()"
+      >👁</button>
+    </div>
 
     <button
       id="loginButton"
