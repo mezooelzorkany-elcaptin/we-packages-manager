@@ -1617,6 +1617,45 @@ html.dark-mode #adminBottomNav a.active{color:#f0d27a!important}
 .primary-move-question{display:grid;gap:11px;padding:14px;margin-top:14px;border:1px solid var(--border,#e7def4);border-radius:13px;background:var(--soft,#faf8ff);line-height:1.7}.primary-move-question p{font-size:13px;color:var(--text-muted,#777);margin:0}.primary-move-question label{display:flex;align-items:flex-start;gap:8px;font-weight:400}.primary-move-actions{display:flex;gap:10px;margin-top:16px}.primary-move-actions button{flex:1;min-height:44px;border:0;border-radius:11px;font-weight:800}.primary-move-save{background:#5420b8;color:#fff}.primary-move-cancel{background:var(--soft,#eee);color:var(--text-main,#333)}
 </style>
 
+
+<style id="cashback-login-cleanup">
+/* Login screen: hide app navigation until authentication succeeds */
+body:has(#loginScreen:not([style*="display: none"])) #adminBottomNav,
+body:has(#loginScreen:not([style*="display: none"])) #adminBottomNavPlaceholder {
+  display:none!important;
+}
+/* CASH BACK brand palette: deep navy, violet and gold; no glaring white card */
+#loginScreen{
+  background:
+    radial-gradient(ellipse at 50% 0%,rgba(117,64,205,.28),transparent 55%),
+    linear-gradient(145deg,#0b1020 0%,#17152d 55%,#241347 100%)!important;
+}
+#loginScreen .loginbox{
+  background:linear-gradient(160deg,#20243a 0%,#171b2d 100%)!important;
+  color:#f8fafc!important;
+  border:1px solid rgba(240,210,122,.34)!important;
+  border-radius:26px!important;
+  box-shadow:0 24px 75px rgba(0,0,0,.42),0 0 0 1px rgba(255,255,255,.025) inset!important;
+}
+#loginScreen .loginbox h2{color:#f0d27a!important;letter-spacing:.3px}
+#loginScreen .loginbox p{color:#c4c8d7!important}
+#loginScreen .loginbox input{
+  background:#0f1425!important;color:#f8fafc!important;
+  border:1px solid #3a4058!important;
+}
+#loginScreen .loginbox input::placeholder{color:#a7aec2!important;opacity:1}
+#loginScreen .loginbox input:focus{
+  border-color:#a78bfa!important;box-shadow:0 0 0 3px rgba(167,139,250,.16)!important;
+}
+#loginScreen .loginbox button{
+  background:linear-gradient(135deg,#f0d27a,#b88627)!important;
+  color:#17130a!important;border:1px solid #f4d98d!important;
+  box-shadow:0 8px 22px rgba(184,134,39,.2)!important;
+}
+#loginScreen .login-logo-wrap{filter:drop-shadow(0 8px 16px rgba(0,0,0,.22))}
+#loginScreen .logo-fallback .cash,#loginScreen .logo-fallback .back{color:#f0d27a!important}
+</style>
+
 </head>
 
 
