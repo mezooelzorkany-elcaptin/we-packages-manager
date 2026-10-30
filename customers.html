@@ -3960,21 +3960,6 @@ async function loadCustomers(){
 }
 
 
-function showActiveCustomers(){
-
-  $("search").value = "";
-  $("renewalFilter").value = "all";
-  $("statusFilter").value = "active";
-  render();
-
-  $("list").scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
-
-}
-
-
 function updateStats(){
 
   // إجمالي العملاء يشمل كل السجلات، حتى المستبعدين من التجديد لهذا الشهر.
