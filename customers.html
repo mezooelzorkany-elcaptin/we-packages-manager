@@ -1951,7 +1951,7 @@ function togglePasswordVisibility(){
   </div>
 
 
-  <div class="stat">
+  <div class="stat" role="button" tabindex="0" title="عرض العملاء النشطين فقط" style="cursor:pointer" onclick="showActiveCustomers()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showActiveCustomers()}">
 
     <div class="st">
       العملاء النشطين
@@ -1961,7 +1961,7 @@ function togglePasswordVisibility(){
     <div class="num" id="active">0</div>
 
     <div class="label">
-      عميل نشط
+      اضغط لعرض العملاء النشطين فقط
     </div>
 
   </div>
@@ -3956,6 +3956,21 @@ async function loadCustomers(){
     `;
 
   }
+
+}
+
+
+function showActiveCustomers(){
+
+  $("search").value = "";
+  $("renewalFilter").value = "all";
+  $("statusFilter").value = "active";
+  render();
+
+  $("list").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
 
 }
 
