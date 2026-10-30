@@ -3979,26 +3979,13 @@ function updateStats(){
 
   // العميل الذي تم وضعه "مش هيجدد الشهر ده" يخرج من أرقام التجديد
   // ومنتهي الصلاحية، ويظهر فقط في عداد "مش هيجدد — الشهر ده".
+  // قبل موعد دورة يوم 1، عداد "تجديد قريب" يطابق قائمة عملاء يوم 1.
+  // نستخدم نفس معيار فلتر يوم 1: renewal_day = 1، مع استبعاد غير المجددين.
   $("soon").textContent =
     customers.filter(
-      c => {
-
-        if(isSkippedThisMonth(c)){
-          return false;
-        }
-
-        const d =
-          daysUntil(
-            c.next_renewal_date
-          );
-
-        return(
-          d !== null &&
-          d >= 0 &&
-          d <= 7
-        );
-
-      }
+      c =>
+        !isSkippedThisMonth(c) &&
+        Number(c.renewal_day) === 1
     ).length;
 
 
