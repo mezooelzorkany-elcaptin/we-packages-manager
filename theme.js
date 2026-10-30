@@ -305,6 +305,6 @@ body{padding-bottom:104px!important}
 `;
 (document.head||document.documentElement).appendChild(s);
 }
-function init(){setupTheme();setupNavigation();setupAccountBadge();styleAdminNavigation();setupCashbackPalette();setupFinalDashboardStyle();setupConsistentInnerPages();ensureAdminBottomNav();setupUnifiedBottomNav();setupPrint();setupCustomers();setupNewOrdersReset()}
+function init(){document.getElementById('adminBottomNav')?.remove();const noBottom=document.createElement('style');noBottom.id='cashback-disable-bottom-nav';noBottom.textContent='#adminBottomNav{display:none!important}body{padding-bottom:0!important}@media(max-width:650px){body{padding-bottom:0!important}}';document.head.appendChild(noBottom);setupTheme();setupNavigation();setupAccountBadge();styleAdminNavigation();setupCashbackPalette();setupFinalDashboardStyle();setupConsistentInnerPages();ensureAdminBottomNav();setupUnifiedBottomNav();setupPrint();setupCustomers();setupNewOrdersReset()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
