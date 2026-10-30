@@ -4331,12 +4331,16 @@ function card(c){
           class="badge ${
             c.status === "inactive"
             ? "bad"
+            : skippedThisMonth
+            ? "bad"
             : "ok"
           }"
         >
           ${
             c.status === "inactive"
             ? "🔴 موقوف"
+            : skippedThisMonth
+            ? "⏸️ مش هيجدد الشهر ده"
             : "🟢 نشط"
           }
         </span>
@@ -4381,7 +4385,7 @@ function card(c){
         <div class="box">
           <small>موعد التجديد</small>
           <strong>
-            ${escapeHtml(c.next_renewal_date || "-")}
+            ${skippedThisMonth ? "مستبعد من تجديد الشهر ده" : escapeHtml(c.next_renewal_date || "-")}
           </strong>
         </div>
 
