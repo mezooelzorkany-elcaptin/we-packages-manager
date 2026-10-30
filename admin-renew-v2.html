@@ -4,7 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>تجديد العميل | CASH BACK V3</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="theme.js?v=20261030-roles2"></script>
+<script src="theme.js?v=20261030-roles4"></script>
 
 <style>
 *{box-sizing:border-box;font-family:Arial,Tahoma,sans-serif}
@@ -161,9 +161,11 @@ function showError(message){
 async function requireAdmin(){
   var sessionResult=await db.auth.getSession();
   var session=sessionResult.data&&sessionResult.data.session;
-  var email=String(session&&session.user&&session.user.email||'').toLowerCase();
   if(!session) throw new Error('جلسة الإدارة غير موجودة. ارجع لصفحة الإدارة وسجل الدخول من جديد.');
-  if(email!=='mezooelzorkany@gmail.com') throw new Error('الحساب الحالي غير مصرح له بإدارة العملاء.');
+  var roleResult=await db.from('cb_app_roles').select('role,active').eq('user_id',session.user.id).maybeSingle();
+  if(roleResult.error) throw new Error('تعذر التحقق من صلاحية الحساب: '+roleResult.error.message);
+  var appRole=roleResult.data;
+  if(!appRole||!appRole.active||['owner','partner'].indexOf(appRole.role)===-1) throw new Error('الحساب الحالي غير مصرح له بإدارة العملاء.');
   return session;
 }
 async function dbSelectCustomer(){
