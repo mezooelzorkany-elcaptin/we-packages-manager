@@ -12,7 +12,7 @@
 
 <title>العملاء | CASH BACK</title>
 
-<script src="theme.js?v=20261019-nav8"></script>
+<script src="theme.js?v=20261030-active-customers"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -1683,7 +1683,7 @@ function togglePasswordVisibility(){
 }
 </script>
 
-</head>
+<style id="cb-active-customers-tile-style">.cb-active-customers-tile{position:relative;cursor:pointer}.cb-active-customers-tile:after{content:"‹";position:absolute;left:17px;top:50%;transform:translateY(-50%);font-size:30px;font-weight:900;color:#8b5cf6}.cb-active-customers-tile:focus-visible{outline:3px solid #8b5cf6;outline-offset:3px}</style></head>
 
 
 <body>
@@ -1951,7 +1951,7 @@ function togglePasswordVisibility(){
   </div>
 
 
-  <div class="stat" role="button" tabindex="0" title="عرض العملاء النشطين فقط" style="cursor:pointer" onclick="showActiveCustomers()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showActiveCustomers()}">
+  <div class="stat cb-active-customers-tile" role="link" tabindex="0" title="فتح قائمة العملاء النشطين فقط" style="cursor:pointer" onclick="location.href='customers-list.html?filter=active'" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='customers-list.html?filter=active'}">
 
     <div class="st">
       العملاء النشطين
