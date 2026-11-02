@@ -4,7 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>تجديد العميل | CASH BACK V3</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="theme.js?v=20261102-orders-primary"></script>
+<script src="theme.js?v=20261102-renew-fix2"></script>
 
 <style>
 *{box-sizing:border-box;font-family:Arial,Tahoma,sans-serif}
@@ -334,13 +334,13 @@ async function save(){
     }
     await dbInsert('orders',{
       order_number:order,customer_id:customer.id,subscriber_name:customer.subscriber_name,
-      phone:customer.phone,primary_number:chosenPrimary||customer.primary_number||null,package_name:customer.package_name,package_gb:customer.allocated_gb,
+      phone:customer.phone,package_name:customer.package_name,package_gb:customer.allocated_gb,
       original_price:amount,final_price:amount,payment_method:$('unpaid').checked?'آجل':payment,payment_screenshot:shot,
       renewal_type:renewalType,renewal_day:renewalDay,status:$('unpaid').checked?'payment_due':'completed'
     });
     await dbInsert('invoices',{
       order_number:order,customer_id:customer.id,customer_name:customer.subscriber_name,
-      phone:customer.phone,primary_number:chosenPrimary||customer.primary_number||null,package_name:customer.package_name,package_gb:customer.allocated_gb,
+      phone:customer.phone,package_name:customer.package_name,package_gb:customer.allocated_gb,
       original_price:amount,discount_code:null,discount_amount:0,amount:amount,
       notes:($('unpaid').checked?'تجديد آجل — مسجل في دفتر الديون':'تجديد يدوي — '+payment)+($('notes').value.trim()?' — '+$('notes').value.trim():'')
     });
